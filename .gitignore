@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+# 論文・ソースは just fetch-refs で再取得できるので追跡しない（ノートと変換スクリプトのみ追跡）
+refined_cables/refs/*/
+!refined_cables/refs/1703.05408/
+refined_cables/refs/1703.05408/*
+!refined_cables/refs/1703.05408/nb-*.txt
+# 長時間計算のキャッシュ
+refined_cables/data/cache/

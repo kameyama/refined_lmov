@@ -1,0 +1,36 @@
+# LOG.md — 作業ログ
+
+## 2026-10-05 環境
+
+- Sage なし、SymPy は venv に導入（`just setup`）。Wolfram Engine は未アクティベートで使えない。
+- python-flint 0.9（`nmod`, `nmod_mat`, `nmod_poly`, `fmpz_mpoly`）を数値計算の基盤にする。
+- 論文は `just fetch-refs` で arXiv の PDF と TeX ソースを `refs/<id>/` に取得した。
+  1703.05408v3 の ancillary（`refined-LMOV-torus.nb`, `refined-LMOV-non-torus.nb`）は `refs/1703.05408/src/anc/`。
+  Mathematica で開けないので `refs/nb2txt.py` で Box 構造を線形テキストに変換した（`refs/1703.05408/nb-*.txt`）。
+
+## Stage 0：規約表（1703.05408 v3 より）
+
+| 項目 | 1703.05408 の規約 | 出典 |
+|---|---|---|
+| 変数 | refined CS は (a,q,t)。Ω 背景 q=e^{iε₁}, t=e^{iε₂}。a=t^N で SU(N) に戻る | §2, 式 (2.x) `refined-integrality.tex:462-465` |
+| unreduced / reduced | 不変量は unreduced \bar{rCS}_λ を使う。reduced は \bar{rCS}_λ = \bar{rCS}_λ(unknot)·rCS_λ | 脚注 `:477-480` |
+| 結び目なしの値 | \bar{rCS}_λ(unknot) = ∏_{x∈λ} (t^{l'(x)} − a q^{a'(x)})/(1 − q^{a(x)} t^{l(x)+1}) = P_λ(1,t,…,t^{N−1}) | 式 (unknot) `:468-475` |
+| ノートブックの unknot 正規化 | `torusknotsym[n,…]` は a^{−n/2} t^{n/2} (a;q)_n/(t;q)_n で始まる。すなわち対称な主特殊化 P_λ(t^ρ) = (t/a)^{|λ|/2}·上式 | `nb-non-torus.txt` 冒頭 |
+| U(N) と SU(N) | 区別しない（U(1) 部分は framing と linking number の補正のみ） | 脚注 `:462` |
+| framing | 論文は明示しない。トーラス結び目は Gorsky–Negut 型の安定極限を使用。**ノートブックの値で較正する（Stage 2）** | — |
+| 生成関数（q-brane） | Σ_λ \bar{rCS}_λ g_λ(q,t) P_λ(x;q,t) = Exp( Σ_μ f^q_μ(a,q,t)/(q^{1/2}−q^{−1/2}) s_μ(x) ) | 式 (refined-GT1) `:847` |
+| 生成関数（\bar t-brane） | Σ_λ \bar{rCS}_λ P_{λ^T}(−x;t,q) = Exp( Σ_μ f^{\bar t}_μ/(t^{−1/2}−t^{1/2}) s_μ(x) ) | 式 (refined-GT2) `:848` |
+| Macdonald ノルム | (q/t)^{|λ|}/g_λ = ⟨P_λ,P_λ⟩_{q,t} = ∏_s (1−q^{a+1}t^{l})/(1−q^{a}t^{l+1}) | 付録 A `:1206` |
+| f^q の一般式 | 付録 B (fq-general)。|μ|≤3 の明示式あり | `:1313-1393` |
+| B_σ(t) | hook σ（第1行 h−d 箱）で (−t)^d t^{−(|σ|−1)/2}、他は 0 | `:763-769` |
+| M 行列 | M_{μρ}(t) = Σ_σ C_{μσρ} B_σ(t)、f^q_μ = Σ_ρ M_{μρ}(t) \hat f_ρ、f^{\bar t}_μ = Σ_ρ M_{μρ}(q^{−1}) \hat f_ρ | `:822-832` |
+| ノートブックの M | Mq2 = {{1/√t, −√t},{−√t, 1/√t}}、Mq3 = {{1/t, −1, t},{−1, −1+1/t+t, −1},{t, −1, 1/t}}（順序 [2],[1,1] と [3],[2,1],[1,1,1]） | `nb-non-torus.txt` Preparation |
+| \hat f の形 | \hat f_ρ = Σ (−1)^{2J_r} \hat N_{ρ,g,β,J_r} (q^{1/2}−q^{−1/2})^g (t^{−1/2}−t^{1/2})^g (q/t)^{J_r−β/2} a^β （a 次数の ±1/2 シフト込み） | 式 (hat-f-2) `:884` |
+| 変数変換 | a = −**a**²**t**、q^{1/2} = −**q** **t**、t^{1/2} = **q** | 式 (cov) `:861` |
+| BPS 抽出（ノートブック） | (1) \hat f = M^{−1} f^q。(2) |ρ|=1 は a^{−1/2}、|ρ|=3 は a^{+1/2} を掛ける（a 次数シフト）。(3) q→q², t→t² としてから a→−A²T, q→−QT, t→Q（すなわち √q=−QT, √t=Q）。(4) `gfactor`: A^{2β} の係数を G=(Q−Q^{−1})(QT−Q^{−1}T^{−1}) の冪で上から貪欲に展開し、T^F G^g の係数を \hat N_{ρ,g,β,2J_r=F} と読む | `nb-non-torus.txt` Others/Results |
+
+検算：\hat f_{[1]}(T_{2,3}) = A²Q⁻²(A²T+1)(A²Q²T³+Q⁴T²+1) から上の手順で Table（\hat N_{[1]}(T_{2,3})）の
+β=1: (g,2J_r)=(0,0),(0,2),(1,1) が各 1、β=2: (0,1)=1,(0,3)=2,(1,2)=1 が手計算で再現できた。
+
+ノートブックには T(2,2p+1) の [n]・[1^n] 彩色の閉公式（`torusknotsym`, `torusknotanti`）と
+[2,1] 彩色の明示式（`torusknot21[p]`, p=0..4）、T(3,4) の値があり、Stage 2 の参照値に使う。
