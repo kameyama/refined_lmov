@@ -34,7 +34,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 
 # 環境
 - Python：.venv（Python 3.14.8、rcsknots は editable インストール）。テストは `.venv/bin/pytest` で実行する。
-- 環境の再構築は `just setup`、論文の取得は `just fetch-refs`（どちらもネットワークが要るのでサンドボックス外で動く just レシピ）。`just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
+- 環境の再構築は `just setup`、論文の取得は `just fetch-refs`、Wolfram スクリプトの実行は `just wolfram <file.wls>`（どちらもネットワークが要るのでサンドボックス外で動く just レシピ）。`just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
 - SageMath 10.9：conda 環境 `sage`。`/opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage` で実行する（`DOT_SAGE=$TMPDIR/dotsage` を付ける）。サンドボックス内で動く。
 - Wolfram Engine 15.0.0：`wolframscript` で使える。ただしサンドボックス内ではライセンスを読めず失敗するので、サンドボックス外で実行する。1703.05408 のノートブックは `NotebookImport[file, "Input" -> "HeldExpression"]` で入力セルを取り出して実行できる。読むだけなら `scripts/nb2txt.py` でテキスト化してもよい。
 - サンドボックスは `.git` への書き込みを拒否するので、git の書き込み操作はサンドボックス外で行う（`git -C <repo> ...`）。リモートは設定しない。

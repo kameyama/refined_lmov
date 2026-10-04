@@ -3,7 +3,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 # サンドボックス外で実行するのは、このファイルのレシピだけ。
 # 作業ディレクトリはこの justfile のあるディレクトリ（リポジトリのルート）。
 
-papers := "1105.5117 1202.2489 1703.05408v3 1106.4305 1201.3339 1304.3328 1408.4348 1509.08351 2410.14703 1410.0859 1605.00978 1211.4596"
+papers := "1105.5117 1202.2489 1703.05408v3 1106.4305 1201.3339 1304.3328 1408.4348 1509.08351 2410.14703 1410.0859 1605.00978 1211.4596 math/0505662"
 
 # レシピ一覧
 default:
@@ -18,7 +18,7 @@ setup:
 # arXiv から論文の PDF と TeX ソース（ancillary ファイルを含む）を references/<id>/ に取得して展開する
 fetch-refs:
     for id in {{papers}}; do \
-      base="${id%v*}"; dir="references/$base"; mkdir -p "$dir"; \
+      base="${id%v*}"; base="${base//\//_}"; dir="references/$base"; mkdir -p "$dir"; \
       [ -s "$dir/$base.pdf" ] || { curl -sSfL -A "refined-cs-research" -o "$dir/$base.pdf" "https://arxiv.org/pdf/$id"; sleep 3; }; \
       [ -s "$dir/src.tar" ] || { curl -sSfL -A "refined-cs-research" -o "$dir/src.tar" "https://arxiv.org/e-print/$id"; sleep 3; }; \
       if [ ! -d "$dir/src" ]; then \
@@ -29,3 +29,7 @@ fetch-refs:
         esac; \
       fi; \
     done
+
+# Wolfram Language スクリプトを実行する（ライセンス読み込みのためサンドボックス外で動かす）
+wolfram file:
+    wolframscript -file {{file}}
