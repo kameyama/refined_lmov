@@ -16,7 +16,7 @@ from rcsknots.modified import solve_in_basis, multiply_p, phi_factor
 from rcsknots.partitions import partitions
 
 ROOT = Path(__file__).resolve().parent.parent
-REF = load_table(ROOT / "data/reference/notebook_torus.txt")
+REF = {k: v for k, v in load_table(ROOT / "data/reference/notebook_torus.txt").items() if k[0].startswith("T")}
 COLORS = {"1": (1,), "2": (2,), "11": (1, 1), "3": (3,), "111": (1, 1, 1), "21": (2, 1)}
 KNOTS = {"T2_3": (2, 3), "T2_5": (2, 5), "T2_7": (2, 7), "T2_9": (2, 9), "T3_4": (3, 4)}
 

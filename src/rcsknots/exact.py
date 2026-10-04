@@ -17,16 +17,18 @@ from .interp import newton_to_monomial, symmetric_lift
 BATCH = 4096
 
 
-def _evaluate(func, qs, ts, p):
-    """Values (len(qs), D+1) of func at the points (qs[i], ts[i])."""
-    out = []
-    for s in range(0, len(qs), BATCH):
-        qv, tv = qs[s:s + BATCH], ts[s:s + BATCH]
+def gn_evaluator(func):
+    """Wrap func(GN) -> list of a-coefficients into an evaluator(xs, ys, p) -> array (n, D)."""
+    def ev(qv, tv, p):
         n = len(qv)
-        conv = make_conv(p, n)
-        G = GN(V(qv, p), V(tv, p), V(np.full(n, 3), p), conv)
-        coeffs = func(G)
-        out.append(np.stack([c.a for c in coeffs], axis=1))
+        G = GN(V(qv, p), V(tv, p), V(np.full(n, 3), p), make_conv(p, n))
+        return np.stack([c.a for c in func(G)], axis=1)
+    return ev
+
+
+def _evaluate(evaluator, qs, ts, p):
+    """Values (len(qs), D) of the evaluator at the points (qs[i], ts[i]), in batches."""
+    out = [evaluator(qs[s:s + BATCH], ts[s:s + BATCH], p) for s in range(0, len(qs), BATCH)]
     D = max(x.shape[1] for x in out)
     return np.concatenate([np.pad(x, ((0, 0), (0, D - x.shape[1]))) for x in out])
 
@@ -75,6 +77,12 @@ def _probe_range(func, axis, rng, p, log):
 
 
 def reconstruct(func, seed=0, log=print):
+    """Exact polynomial of a GN function func(G) -> a-coefficients; keys (e_a, e_q, e_t)."""
+    return reconstruct_points(gn_evaluator(func), seed, log)
+
+
+def reconstruct_points(func, seed=0, log=print):
+    """Exact polynomial from evaluator func(xs, ys, p) -> (n, D); keys (index d, e_x, e_y)."""
     rng = np.random.default_rng(seed)
     t0 = time.time()
     qlo, qhi = _probe_range(func, 0, rng, P31, log)

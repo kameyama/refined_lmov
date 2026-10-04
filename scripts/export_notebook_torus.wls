@@ -1,4 +1,4 @@
-(* 1703.05408 の ancillary ノートブックから、トーラス結び目の refined CS 不変量（reduced）を書き出す。
+(* 1703.05408 の ancillary ノートブックから、トーラス結び目と 4_1 の refined CS 不変量（reduced）を書き出す。
    出力：data/reference/notebook_torus.txt
    各行：knot<TAB>color<TAB>式（a = A^2, q = Q^2, t = T^2 と置いた Laurent 多項式、InputForm）
    reduced 値 = ノートブックの unreduced 値 / 同じ彩色の unknot（torusknot*[.., 0, ..]）。
@@ -7,6 +7,7 @@
 nb = FileNameJoin[{Directory[], "references", "1703.05408", "src", "anc", "refined-LMOV-non-torus.nb"}];
 cells = NotebookImport[nb, "Input" -> "HeldExpression"];
 ReleaseHold[cells[[3]]];   (* データの定義セル（torusknotsym, torusknotanti, torusknot21, tripletcT34 など） *)
+ReleaseHold[cells[[4]]];   (* 非トーラス結び目のデータ（4_1：singboxfig, horizontal2fig, ...） *)
 
 toLaurent[expr_] := Module[{e},
   e = FunctionExpand[expr] /. {a -> A^2, q -> Q^2, t -> T^2};
@@ -33,6 +34,14 @@ Do[
 add["T3_4", "1", tripletcT34[1, a, q, t]/unknotSym[1]];
 add["T3_4", "2", tripletcT34[2, a, q, t]/unknotSym[2]];
 add["T3_4", "11", tripletcT34anti2[a, q, t]/unknotAnti[2]];
+
+(* 4_1（figure-eight）：§6 の入力。[2,1] は KN が構成した候補（式 (fig8-21)） *)
+add["4_1", "1", singboxfig[a, q, t]/unknotSym[1]];
+add["4_1", "2", horizontal2fig[a, q, t]/unknotSym[2]];
+add["4_1", "11", vertical2fig[a, q, t]/unknotAnti[2]];
+add["4_1", "3", horizontal3fig[a, q, t]/unknotSym[3]];
+add["4_1", "111", vertical3fig[a, q, t]/unknotAnti[3]];
+add["4_1", "21", figeight21fig[a, q, t]/unknot21];
 
 out = FileNameJoin[{Directory[], "data", "reference", "notebook_torus.txt"}];
 Quiet[CreateDirectory[DirectoryName[out]]];
