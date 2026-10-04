@@ -2,7 +2,7 @@
 
 ## 現在のステージ
 
-ステージ 3 完了。ステージ 4（非 refined ケーブル公式の検証）に着手。
+ステージ 4 完了。ステージ 5（refined ケーブル公式と DAHA の照合）に着手。
 
 ## 完了した作業
 
@@ -75,6 +75,17 @@
   - 実行時間：T(2,3) の全 6 表で約 6 秒。
   - `.venv/bin/pytest`：142 件パス、2 件スキップ。
 
+### 2026-10-05 ステージ 4：非 refined ケーブル公式の検証
+
+- やったこと：Sage でケーブルのブレイド（companion の各ストランドを p 本の平行線にし、(σ₁⋯σ_{p−1})^{q−p·w} を追加）から HOMFLY-PT を計算した
+  （`scripts/braid_homfly.sage` → `data/reference/braid_homfly.txt`）。ケーブル公式は sympy 版（`homfly.py`）と mod p 数値版（`homfly_num.py`、補間で厳密化）を用意した。
+- 結果（計算機で確認、`tests/test_stage4_cable_homfly.py` 39 件）
+  - framing 補正の向き：writhe 1 で描いた自明な結び目の (2,q₂)-ケーブル = T(2,q₂)（q₂ = 1,3,5,−3）。p=1 で companion に戻る。
+  - Sage の変数対応 L = i𝐚, M = −i(𝐪−𝐪^{−1}) と鏡像（正のブレイド ↔ DGR の負の結び目）で、三葉結び目が DGR の式になる。
+  - ケーブル公式（θ_λ = q^{κ_λ}a^{|λ|/2}、framing 補正 θ_λ^{−pq}、DGR の向き）の [1] が K1〜K6 の 9 結び目すべてでブレイドの HOMFLY-PT に一致。
+  - |λ|≤3 の全彩色で、9 結び目すべてについて H_{λ^T}(a,q) = H_λ(a,q^{−1}) と H_λ(a,q=1) = H_□(a,1)^{|λ|} が厳密に成立。
+  - sympy での厳密計算は |λ|=3 で遅すぎたので数値版に切り替えた（K1 の [3] で約 3 秒）。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
@@ -82,7 +93,7 @@
 2. （済）ステージ 0。ユーザーの確認を待つ。
 3. （済）ステージ 2。ユーザーの確認を待つ。
 4. （済）ステージ 3：BPS 抽出コード（M 行列、f^q、\hat f、g 展開）を実装し、T(2,3) の表と 4_1 の表を再現する。ノートブックの \hat f の出力も Wolfram で書き出して照合に使う。
-5. ステージ 4：非 refined ケーブル公式（`homfly.py` の `cable_unreduced`）を、Sage のブレイド HOMFLY と照合する。
+5. （済）ステージ 4：非 refined ケーブル公式（`homfly.py` の `cable_unreduced`）を、Sage のブレイド HOMFLY と照合する。
 
 ## 未解決の問題
 
