@@ -33,7 +33,8 @@
 
 ## 次にやること
 
-1. docs/research_plan.md と docs/novelty_report.md を配置してもらう（未配置）。
+1. docs/novelty_report.md を配置してもらう（未配置）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
+   研究計画 §3 のディレクトリ構成（refined_cables/…、REPORT.md、LOG.md）は現在の構成（docs/、src/rcsknots/、references/ など）と違う。現在の構成に読み替える。
 2. ステージ 0：規約表を docs/conventions.md に確定する。停止点なので、確定後に報告して確認を求める。
 
 ## 未解決の問題
