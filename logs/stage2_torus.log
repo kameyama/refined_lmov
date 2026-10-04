@@ -1,0 +1,105 @@
+  axis q: exponents -3..-1 (probe N=64)
+  axis t: exponents 1..3 (probe N=64)
+  grid 3 x 3 = 9 points
+  5 terms, 0s
+T2_5 1 match notebook: True {'sign': -1, 'a': '2', 'q': '2', 't': '-2'} 0.2 s
+  axis q: exponents -16..-7 (probe N=64)
+  axis t: exponents 2..6 (probe N=64)
+  grid 10 x 5 = 50 points
+  23 terms, 0s
+T2_5 2 match notebook: True {'sign': 1, 'a': '4', 'q': '14', 't': '-4'} 0.3 s
+  axis q: exponents -6..-2 (probe N=64)
+  axis t: exponents 7..16 (probe N=64)
+  grid 5 x 10 = 50 points
+  23 terms, 0s
+T2_5 11 match notebook: True {'sign': 1, 'a': '4', 'q': '4', 't': '-14'} 0.3 s
+  axis q: exponents -39..-18 (probe N=128)
+  axis t: exponents 3..9 (probe N=64)
+  grid 22 x 7 = 154 points
+  80 terms, 1s
+T2_5 3 match notebook: True {'sign': -1, 'a': '6', 'q': '36', 't': '-6'} 1.3 s
+  axis q: exponents -9..-3 (probe N=64)
+  axis t: exponents 18..39 (probe N=128)
+  grid 7 x 22 = 154 points
+  80 terms, 1s
+T2_5 111 match notebook: True {'sign': -1, 'a': '6', 'q': '6', 't': '-36'} 1.2 s
+  axis q: exponents -19..-8 (probe N=64)
+  axis t: exponents 8..19 (probe N=64)
+  grid 12 x 12 = 144 points
+  92 terms, 0s
+T2_5 21 match notebook: True {'sign': -1, 'a': '6', 'q': '16', 't': '-16'} 1.1 s
+  axis q: exponents -4..-1 (probe N=64)
+  axis t: exponents 1..4 (probe N=64)
+  grid 4 x 4 = 16 points
+  7 terms, 0s
+T2_7 1 match notebook: True {'sign': -1, 'a': '3', 'q': '5/2', 't': '-5/2'} 0.1 s
+  axis q: exponents -22..-9 (probe N=64)
+  axis t: exponents 2..8 (probe N=64)
+  grid 14 x 7 = 98 points
+  43 terms, 0s
+T2_7 2 match notebook: True {'sign': 1, 'a': '6', 'q': '19', 't': '-5'} 0.3 s
+  axis q: exponents -8..-2 (probe N=64)
+  axis t: exponents 9..22 (probe N=64)
+  grid 7 x 14 = 98 points
+  43 terms, 0s
+T2_7 11 match notebook: True {'sign': 1, 'a': '6', 'q': '5', 't': '-19'} 0.3 s
+  axis q: exponents -54..-24 (probe N=128)
+  axis t: exponents 3..12 (probe N=64)
+  grid 31 x 10 = 310 points
+  167 terms, 1s
+T2_7 3 match notebook: True {'sign': -1, 'a': '9', 'q': '99/2', 't': '-15/2'} 1.6 s
+  axis q: exponents -12..-3 (probe N=64)
+  axis t: exponents 24..54 (probe N=128)
+  grid 10 x 31 = 310 points
+  167 terms, 1s
+T2_7 111 match notebook: True {'sign': -1, 'a': '9', 'q': '15/2', 't': '-99/2'} 1.4 s
+  axis q: exponents -26..-10 (probe N=64)
+  axis t: exponents 10..26 (probe N=64)
+  grid 17 x 17 = 289 points
+  173 terms, 1s
+T2_7 21 match notebook: True {'sign': -1, 'a': '9', 'q': '43/2', 't': '-43/2'} 1.5 s
+  axis q: exponents -5..-1 (probe N=64)
+  axis t: exponents 1..5 (probe N=64)
+  grid 5 x 5 = 25 points
+  9 terms, 0s
+T2_9 1 match notebook: True {'sign': -1, 'a': '4', 'q': '3', 't': '-3'} 0.1 s
+  axis q: exponents -28..-11 (probe N=64)
+  axis t: exponents 2..10 (probe N=64)
+  grid 18 x 9 = 162 points
+  69 terms, 0s
+T2_9 2 match notebook: True {'sign': 1, 'a': '8', 'q': '24', 't': '-6'} 0.4 s
+  axis q: exponents -10..-2 (probe N=64)
+  axis t: exponents 11..28 (probe N=64)
+  grid 9 x 18 = 162 points
+  69 terms, 0s
+T2_9 11 match notebook: True {'sign': 1, 'a': '8', 'q': '6', 't': '-24'} 0.4 s
+  axis q: exponents -69..-30 (probe N=256)
+  axis t: exponents 3..15 (probe N=64)
+  grid 40 x 13 = 520 points
+  286 terms, 1s
+T2_9 3 match notebook: True {'sign': -1, 'a': '12', 'q': '63', 't': '-9'} 2.5 s
+  axis q: exponents -15..-3 (probe N=64)
+  axis t: exponents 30..69 (probe N=256)
+  grid 13 x 40 = 520 points
+  286 terms, 1s
+T2_9 111 match notebook: True {'sign': -1, 'a': '12', 'q': '9', 't': '-63'} 2.1 s
+  axis q: exponents -33..-12 (probe N=128)
+  axis t: exponents 12..33 (probe N=128)
+  grid 22 x 22 = 484 points
+  278 terms, 1s
+T2_9 21 match notebook: True {'sign': -1, 'a': '12', 'q': '27', 't': '-27'} 2.2 s
+  axis q: exponents -5..-2 (probe N=64)
+  axis t: exponents 2..5 (probe N=64)
+  grid 4 x 4 = 16 points
+  11 terms, 0s
+T3_4 1 match notebook: True {'sign': 1, 'a': '3', 'q': '7/2', 't': '-7/2'} 0.1 s
+  axis q: exponents -22..-8 (probe N=64)
+  axis t: exponents 4..10 (probe N=64)
+  grid 15 x 7 = 105 points
+  80 terms, 0s
+T3_4 2 match notebook: True {'sign': 1, 'a': '6', 'q': '19', 't': '-7'} 1.2 s
+  axis q: exponents -10..-4 (probe N=64)
+  axis t: exponents 8..22 (probe N=64)
+  grid 7 x 15 = 105 points
+  80 terms, 0s
+T3_4 11 match notebook: True {'sign': 1, 'a': '6', 'q': '7', 't': '-19'} 1.1 s
