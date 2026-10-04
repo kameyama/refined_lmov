@@ -7,6 +7,7 @@
 import json
 import sys
 import time
+from pathlib import Path
 
 from rcsknots.extract import hat_f_exact, bps_numbers, A_SHIFT
 from rcsknots.laurent import load_table
@@ -23,6 +24,14 @@ def run(knot, reduced, convention, out_dir="data/bps", paper=None):
         t0 = time.time()
         H = hat_f_exact(reduced, n, log=lambda s: None)
         for rho, hf in H.items():
+            if hf is None:
+                stem = f"{out_dir}/{knot}_{''.join(map(str, rho))}"
+                Path(stem + ".json").write_text(json.dumps({"knot": knot, "rho": list(rho), "status": "hat_f_not_polynomial",
+                                                            "note": "\\hat f_rho is not a Laurent polynomial (denominators); refined LMOV form fails"}, indent=1))
+                Path(stem + ".txt").write_text(f"{knot} rho={list(rho)}: \\hat f is not a Laurent polynomial (refined LMOV form fails)\n")
+                print(f"{knot} {rho}: hat f NOT polynomial", flush=True)
+                results[rho] = None
+                continue
             raw = bps_numbers(hf, rho, convention)
             sigma, N = normalize_sign(raw)
             meta = {"knot": knot, "a_shift_convention": convention, "a_shift_A_units": A_SHIFT[convention][n],

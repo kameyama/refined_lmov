@@ -9,6 +9,7 @@ import numpy as np
 
 P31 = 2**31 - 1          # primes below 2^31 keep products inside int64
 P31B = 2**31 - 19
+P31C = 2147483587          # third prime, used only for verification
 
 
 class V:

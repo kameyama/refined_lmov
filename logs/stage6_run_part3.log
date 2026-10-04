@@ -1,0 +1,38 @@
+K6a 1: rCS 180 terms (0.3 s)
+K6a 2: rCS 2381 terms (8.9 s)
+K6a 11: rCS 2381 terms (8.9 s)
+K6a 3: rCS 11452 terms (245.2 s)
+K6a 111: rCS 11452 terms (242.2 s)
+K6a 21: rCS 10570 terms (225.4 s)
+K6a 1 change (q/t)^ 0
+K6a 2 change (q/t)^ 0
+K6a 11 change (q/t)^ 0
+K6a 3 change (q/t)^ 0
+K6a 111 change (q/t)^ 0
+K6a 21 change (q/t)^ 0
+K6a (1,): 468 terms, nonneg=True
+K6a (2,): 12971 terms, nonneg=True
+K6a (1, 1): 13458 terms, nonneg=True
+K6a (3,): 97469 terms, nonneg=True
+K6a (2, 1): 100678 terms, nonneg=True
+K6a (1, 1, 1): 102302 terms, nonneg=True
+K6a: rCS 0 s, BPS 4621 s, max RSS 1104 MB
+K6b 1: rCS 78 terms (0.2 s)
+K6b 2: rCS 1164 terms (6.0 s)
+K6b 11: rCS 1164 terms (6.0 s)
+K6b 3: rCS 5717 terms (177.7 s)
+K6b 111: rCS 5717 terms (176.9 s)
+K6b 21: rCS 5563 terms (156.2 s)
+K6b 1 change (q/t)^ 0
+K6b 2 change (q/t)^ 0
+K6b 11 change (q/t)^ 0
+K6b 3 change (q/t)^ 0
+K6b 111 change (q/t)^ 0
+K6b 21 change (q/t)^ 0
+K6b (1,): 178 terms, nonneg=False
+K6b (2,): 4367 terms, nonneg=False
+K6b (1, 1): 4656 terms, nonneg=False
+K6b (3,): 32175 terms, nonneg=False
+K6b (2, 1): 34032 terms, nonneg=False
+K6b (1, 1, 1): 34980 terms, nonneg=False
+K6b: rCS 523 s, BPS 1046 s, max RSS 1104 MB

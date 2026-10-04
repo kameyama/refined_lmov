@@ -8,6 +8,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の r
 - 新規性の確認：[docs/novelty_report.md](docs/novelty_report.md)
 - 規約：[docs/conventions.md](docs/conventions.md)
 - 進捗：[docs/progress.md](docs/progress.md)
+- 結果のレポート：[docs/REPORT.md](docs/REPORT.md)
 
 ## 構成
 

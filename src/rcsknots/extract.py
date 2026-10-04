@@ -38,7 +38,12 @@ def hat_f_exact(reduced, n, log=print, check_ft=True):
 
     for rho in parts:
         log(f" hat f_{rho}:")
-        raw = reconstruct_points(evaluator_for(rho), seed=hash(rho) % 1000, log=log)
+        try:
+            raw = reconstruct_points(evaluator_for(rho), seed=hash(rho) % 1000, log=log)
+        except RuntimeError:
+            # no Laurent polynomial of the probed size fits: \hat f_ρ has denominators (refined LMOV form fails)
+            out[rho] = None
+            continue
         out[rho] = {(d - A_OFFSET, eq, et): c for (d, eq, et), c in raw.items()}
     return out
 

@@ -10,7 +10,7 @@ import time
 
 import numpy as np
 
-from .field import V, P31, P31B, make_conv
+from .field import V, P31, P31B, P31C, make_conv
 from .gn import GN
 from .interp import newton_to_monomial, symmetric_lift
 
@@ -88,20 +88,31 @@ def reconstruct_points(func, seed=0, log=print):
     qlo, qhi = _probe_range(func, 0, rng, P31, log)
     tlo, thi = _probe_range(func, 1, rng, P31, log)
     Nq, Nt = qhi - qlo + 1, thi - tlo + 1
-    qs, ts = _distinct(rng, Nq, P31), _distinct(rng, Nt, P31)
-    Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
-    log(f"  grid {Nq} x {Nt} = {Nq * Nt} points")
-    vals = _evaluate(func, Qg.ravel(), Tg.ravel(), P31).reshape(Nq, Nt, -1)
-    # remove the Laurent shifts, then interpolate in q and in t
-    wq = np.array([pow(int(x), (-qlo) % (P31 - 1), P31) for x in qs], dtype=np.int64)
-    wt = np.array([pow(int(x), (-tlo) % (P31 - 1), P31) for x in ts], dtype=np.int64)
-    vals = vals * wq[:, None, None] % P31 * wt[None, :, None] % P31
-    cq = newton_to_monomial(qs, vals, P31)                              # (Nq, Nt, D)
-    ct = newton_to_monomial(ts, np.transpose(cq, (1, 0, 2)), P31)       # (Nt, Nq, D)
-    ct = symmetric_lift(ct, P31)
+    log(f"  grid {Nq} x {Nt} = {Nq * Nt} points, 2 primes")
+    coeffs = []
+    for p in (P31, P31B):
+        qs, ts = _distinct(rng, Nq, p), _distinct(rng, Nt, p)
+        Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
+        vals = _evaluate(func, Qg.ravel(), Tg.ravel(), p).reshape(Nq, Nt, -1)
+        # remove the Laurent shifts, then interpolate in q and in t
+        wq = np.array([pow(int(x), (-qlo) % (p - 1), p) for x in qs], dtype=np.int64)
+        wt = np.array([pow(int(x), (-tlo) % (p - 1), p) for x in ts], dtype=np.int64)
+        vals = vals * wq[:, None, None] % p * wt[None, :, None] % p
+        cq = newton_to_monomial(qs, vals, p)                              # (Nq, Nt, D)
+        coeffs.append(newton_to_monomial(ts, np.transpose(cq, (1, 0, 2)), p))   # (Nt, Nq, D)
+    D = max(c.shape[2] for c in coeffs)
+    c1, c2 = (np.pad(c, ((0, 0), (0, 0), (0, D - c.shape[2]))) for c in coeffs)
+    # Chinese remainder theorem: symmetric representative modulo P31·P31B (≈ 4.6e18)
+    inv = pow(P31, P31B - 2, P31B)
     poly = {}
-    for it, iq, d in zip(*np.nonzero(ct)):
-        poly[(int(d), int(iq) + qlo, int(it) + tlo)] = int(ct[it, iq, d])
+    for it, iq, d in zip(*np.nonzero((c1 != 0) | (c2 != 0))):
+        a1, a2 = int(c1[it, iq, d]), int(c2[it, iq, d])
+        x = a1 + P31 * (((a2 - a1) * inv) % P31B)
+        M = P31 * P31B
+        if x > M // 2:
+            x -= M
+        if x:
+            poly[(int(d), int(iq) + qlo, int(it) + tlo)] = x
     log(f"  {len(poly)} terms, {time.time() - t0:.0f}s")
     verify(func, poly, seed + 1000)
     return poly
@@ -119,11 +130,11 @@ def evaluate_poly(poly, qv, tv, p):
 
 
 def verify(func, poly, seed, npts=8):
-    """Check the integer polynomial at random points mod the second prime (not used for interpolation)."""
+    """Check the integer polynomial at random points mod a third prime (not used for interpolation)."""
     rng = np.random.default_rng(seed)
-    qv, tv = _distinct(rng, npts, P31B), _distinct(rng, npts, P31B)
-    got = _evaluate(func, qv, tv, P31B)
-    pred = evaluate_poly(poly, qv, tv, P31B)
+    qv, tv = _distinct(rng, npts, P31C), _distinct(rng, npts, P31C)
+    got = _evaluate(func, qv, tv, P31C)
+    pred = evaluate_poly(poly, qv, tv, P31C)
     D = max(got.shape[1], pred.shape[1])
     got = np.pad(got, ((0, 0), (0, D - got.shape[1])))
     pred = np.pad(pred, ((0, 0), (0, D - pred.shape[1])))

@@ -1,0 +1,102 @@
+K1 1: rCS 62 terms (0.3 s)
+K1 2: rCS 720 terms (5.1 s)
+K1 11: rCS 720 terms (5.2 s)
+K1 3: rCS 3373 terms (148.7 s)
+K1 111: rCS 3373 terms (145.3 s)
+K1 21: rCS 3360 terms (117.9 s)
+K1 (1,): 153 terms, nonneg=True
+K1 (2,): 3983 terms, nonneg=True
+K1 (1, 1): 4254 terms, nonneg=True
+K1 (3,): 30482 terms, nonneg=True
+K1 (2, 1): 32287 terms, nonneg=True
+K1 (1, 1, 1): 33209 terms, nonneg=True
+K1: rCS 0 s, BPS 375 s, max RSS 502 MB
+K2 1: rCS 25 terms (0.3 s)
+K2 2: rCS 282 terms (3.5 s)
+K2 11: rCS 282 terms (4.3 s)
+K2 3: rCS 1318 terms (65.7 s)
+K2 111: rCS 1318 terms (62.9 s)
+K2 21: rCS 1403 terms (62.5 s)
+K2 (1,): 48 terms, nonneg=False
+K2 (2,): 1045 terms, nonneg=False
+K2 (1, 1): 1190 terms, nonneg=False
+K2 (3,): 7852 terms, nonneg=False
+K2 (2, 1): 8774 terms, nonneg=False
+K2 (1, 1, 1): 9254 terms, nonneg=False
+K2: rCS 0 s, BPS 87 s, max RSS 502 MB
+K3 1: rCS 73 terms (0.2 s)
+K3 2: rCS 890 terms (5.1 s)
+K3 11: rCS 890 terms (5.6 s)
+K3 3: rCS 4218 terms (151.8 s)
+K3 111: rCS 4218 terms (149.3 s)
+K3 21: rCS 4111 terms (162.8 s)
+K3 (1,): 193 terms, nonneg=True
+K3 (2,): 5121 terms, nonneg=True
+K3 (1, 1): 5428 terms, nonneg=True
+K3 (3,): 39014 terms, nonneg=True
+K3 (2, 1): 41053 terms, nonneg=True
+K3 (1, 1, 1): 42092 terms, nonneg=True
+K3: rCS 475 s, BPS 519 s, max RSS 634 MB
+K4 1: rCS 25 terms (0.2 s)
+K4 2: rCS 230 terms (2.9 s)
+K4 11: rCS 230 terms (3.0 s)
+K4 3: rCS 1040 terms (72.2 s)
+K4 111: rCS 1040 terms (72.7 s)
+K4 21: rCS 1203 terms (58.3 s)
+K4 (1,): 43 terms, nonneg=False
+K4 (2,): 952 terms, nonneg=False
+K4 (1, 1): 1090 terms, nonneg=False
+K4 (3,): 7420 terms, nonneg=False
+K4 (2, 1): 8325 terms, nonneg=False
+K4 (1, 1, 1): 8795 terms, nonneg=False
+K4: rCS 209 s, BPS 70 s, max RSS 634 MB
+K5a 1: rCS 20 terms (0.2 s)
+K5a 2: rCS 219 terms (3.0 s)
+K5a 11: rCS 219 terms (3.0 s)
+K5a 3: rCS 1012 terms (72.8 s)
+K5a 111: rCS 1012 terms (72.6 s)
+K5a 21: rCS 1121 terms (73.8 s)
+K5a (1,): 47 terms, nonneg=False
+K5a (2,): 1066 terms, nonneg=False
+K5a (1, 1): 1210 terms, nonneg=False
+K5a (3,): 8278 terms, nonneg=False
+K5a (2, 1): 9235 terms, nonneg=False
+K5a (1, 1, 1): 9733 terms, nonneg=False
+K5a: rCS 225 s, BPS 70 s, max RSS 634 MB
+K5b 1: rCS 28 terms (0.2 s)
+K5b 2: rCS 258 terms (3.1 s)
+K5b 11: rCS 258 terms (3.3 s)
+K5b 3: rCS 1189 terms (90.0 s)
+K5b 111: rCS 1189 terms (89.4 s)
+K5b 21: rCS 1199 terms (85.4 s)
+K5b (1,): 63 terms, nonneg=True
+K5b (2,): 1305 terms, nonneg=False
+K5b (1, 1): 1452 terms, nonneg=False
+K5b (3,): 9612 terms, nonneg=False
+K5b (2, 1): 10553 terms, nonneg=False
+K5b (1, 1, 1): 11040 terms, nonneg=False
+K5b: rCS 271 s, BPS 78 s, max RSS 634 MB
+K5c 1: rCS 33 terms (0.2 s)
+K5c 2: rCS 373 terms (3.1 s)
+K5c 11: rCS 373 terms (3.2 s)
+K5c 3: rCS 1764 terms (74.9 s)
+K5c 111: rCS 1764 terms (74.2 s)
+K5c 21: rCS 1759 terms (60.2 s)
+K5c (1,): 69 terms, nonneg=True
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage6_run.py", line 32, in <module>
+    main(sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage6_run.py", line 26, in main
+    run_bps(name, reduced, "nontorus")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage3_bps.py", line 24, in run
+    H = hat_f_exact(reduced, n, log=lambda s: None)
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/extract.py", line 41, in hat_f_exact
+    raw = reconstruct_points(evaluator_for(rho), seed=hash(rho) % 1000, log=log)
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/exact.py", line 88, in reconstruct_points
+    qlo, qhi = _probe_range(func, 0, rng, P31, log)
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/exact.py", line 76, in _probe_range
+    raise RuntimeError("exponent range too large")
+RuntimeError: exponent range too large

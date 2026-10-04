@@ -1,0 +1,51 @@
+K5c 1: rCS 33 terms (0.2 s)
+K5c 2: rCS 373 terms (3.1 s)
+K5c 11: rCS 373 terms (3.2 s)
+K5c 3: rCS 1764 terms (74.9 s)
+K5c 111: rCS 1764 terms (74.2 s)
+K5c 21: rCS 1759 terms (60.2 s)
+K5c 1 change (q/t)^ 0
+K5c 2 change (q/t)^ -1
+K5c 11 change (q/t)^ 0
+K5c 3 change (q/t)^ -3
+K5c 111 change (q/t)^ 0
+K5c 21 change (q/t)^ -1
+K5c (1,): 69 terms, nonneg=True
+K5c (2,): 1299 terms, nonneg=True
+K5c (1, 1): 1433 terms, nonneg=True
+K5c (3,): 9123 terms, nonneg=False
+K5c (2, 1): 10053 terms, nonneg=False
+K5c (1, 1, 1): 10444 terms, nonneg=True
+K5c: rCS 0 s, BPS 96 s, max RSS 310 MB
+K6a 1: rCS 180 terms (0.3 s)
+K6a 2: rCS 2381 terms (8.9 s)
+K6a 11: rCS 2381 terms (8.9 s)
+K6a 3: rCS 11452 terms (245.2 s)
+K6a 111: rCS 11452 terms (242.2 s)
+K6a 21: rCS 10570 terms (225.4 s)
+K6a 1 change (q/t)^ 0
+K6a 2 change (q/t)^ 0
+K6a 11 change (q/t)^ 0
+K6a 3 change (q/t)^ 0
+K6a 111 change (q/t)^ 0
+K6a 21 change (q/t)^ 0
+K6a (1,): 468 terms, nonneg=True
+K6a (2,): 12971 terms, nonneg=True
+K6a (1, 1): 13458 terms, nonneg=True
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage6_run.py", line 37, in <module>
+    main(sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage6_run.py", line 31, in main
+    run_bps(name, reduced, "nontorus")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/scripts/stage3_bps.py", line 25, in run
+    H = hat_f_exact(reduced, n, log=lambda s: None)
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/extract.py", line 42, in hat_f_exact
+    raw = reconstruct_points(evaluator_for(rho), seed=hash(rho) % 1000, log=log)
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/exact.py", line 106, in reconstruct_points
+    verify(func, poly, seed + 1000)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/src/rcsknots/exact.py", line 131, in verify
+    raise ArithmeticError("verification at independent points failed")
+ArithmeticError: verification at independent points failed

@@ -29,7 +29,7 @@ def test_matches_daha_example(name, knot, color, expr):
     assert monomial_ratio(stored(knot, color), theirs) is not None
 
 
-@pytest.mark.parametrize("knot", ["K1", "K2"])
+@pytest.mark.parametrize("knot", ["K1", "K2", "K3", "K4", "K5a", "K5b", "K5c", "K6a", "K6b"])
 @pytest.mark.parametrize("pair", [("2", "11"), ("3", "111"), ("1", "1"), ("21", "21")])
 def test_mirror_transposition(knot, pair):
     """rCS_{λ^T}(a,q,t) = rCS_λ(a,t^{-1},q^{-1}) exactly, with (N1)(N2) imposed separately on λ and λ^T."""
@@ -37,8 +37,8 @@ def test_mirror_transposition(knot, pair):
     assert {(ea, -et, -eq): c for (ea, eq, et), c in lam.items()} == lamT
 
 
-@pytest.mark.parametrize("knot", ["K1", "K2", "K4"])
-@pytest.mark.parametrize("color,lam", [("1", (1,)), ("2", (2,))])
+@pytest.mark.parametrize("knot", ["K1", "K2", "K4", "K5c"])
+@pytest.mark.parametrize("color,lam", [("1", (1,)), ("2", (2,)), ("21", (2, 1))])
 def test_t_equals_q_is_homfly(knot, color, lam):
     """t = q limit = framing-0 colored HOMFLY-PT from the cabling formula (independent of the normalization step)."""
     poly = stored(knot, color)
@@ -56,3 +56,37 @@ def test_min_bold_t_degree_zero(knot):
     """(N2) holds: minimal 𝐭-degree 0 in the bold variables (e_𝐭 = e_a + 2 e_q, here in half units)."""
     poly = stored(knot, "1")
     assert min((ea + 2 * eq) // 2 for (ea, eq, et) in poly) == 0
+
+
+@pytest.mark.parametrize("knot", ["K1", "K2", "K3", "K4", "K5a", "K5b", "K5c", "K6a", "K6b"])
+def test_normalization_N2prime(knot):
+    """(N2'): M_λ = M_□^{|λ|} T_λ^{p₂q₂} for every color (docs/conventions.md §5)."""
+    from fractions import Fraction
+    from rcsknots.partitions import n_stat, conjugate
+    p1, q1, p2, q2 = KNOTS[knot]
+    path1 = ROOT / f"data/cables/{knot}_1.json"
+    if not path1.exists():
+        pytest.skip("not computed")
+    m1 = json.loads(path1.read_text())["monomial_applied"]
+    for cname, lam in {"2": (2,), "11": (1, 1), "3": (3,), "21": (2, 1), "111": (1, 1, 1)}.items():
+        path = ROOT / f"data/cables/{knot}_{cname}.json"
+        if not path.exists():
+            continue
+        m = json.loads(path.read_text())["monomial_applied"]
+        k = sum(lam)
+        assert Fraction(m["q"]) == Fraction(m1["q"]) * k + p2 * q2 * n_stat(conjugate(lam))
+        assert Fraction(m["t"]) == Fraction(m1["t"]) * k - p2 * q2 * n_stat(lam)
+        assert Fraction(m["a"]) == Fraction(m1["a"]) * k and m["sign"] == m1["sign"] ** k
+
+
+@pytest.mark.parametrize("knot", ["K1", "K2"])
+def test_bps_recompute_matches_saved(knot):
+    """Stage 6 pipeline: \\hat N_{[1]} recomputed from the stored refined CS invariant equals the saved table."""
+    from rcsknots.extract import hat_f_exact, bps_numbers
+    from rcsknots.tables import normalize_sign
+    path = ROOT / f"data/bps/{knot}_1.json"
+    if not path.exists():
+        pytest.skip("run scripts/stage6_run.py first")
+    hf = hat_f_exact({(1,): stored(knot, "1")}, 1, log=lambda s: None)[(1,)]
+    _, N = normalize_sign(bps_numbers(hf, (1,), "nontorus"))
+    assert {f"{g},{b},{F}": v for (g, b, F), v in N.items()} == json.loads(path.read_text())["N"]
