@@ -1,0 +1,48 @@
+K1 1 62 terms 0.3 s 84.0 MB
+K1 2 720 terms 5.1 s 86.5 MB
+  axis q: exponents -22..-6 (probe N=64)
+  axis t: exponents 13..48 (probe N=128)
+  grid 17 x 36 = 612 points
+  720 terms, 4s
+K1 11 720 terms 5.2 s 86.8 MB
+  axis q: exponents -111..-30 (probe N=256)
+  axis t: exponents 9..33 (probe N=128)
+  grid 82 x 25 = 2050 points
+  3373 terms, 135s
+K1 3 3373 terms 148.7 s 259.2 MB
+  axis q: exponents -33..-9 (probe N=128)
+  axis t: exponents 30..111 (probe N=256)
+  grid 25 x 82 = 2050 points
+  3373 terms, 131s
+K1 111 3373 terms 145.3 s 259.9 MB
+  axis q: exponents -59..-16 (probe N=128)
+  axis t: exponents 16..59 (probe N=128)
+  grid 44 x 44 = 1936 points
+  3360 terms, 106s
+K1 21 3360 terms 117.9 s 259.9 MB
+K2 1 25 terms 0.3 s 84.9 MB
+  axis q: exponents -12..10 (probe N=64)
+  axis t: exponents 0..10 (probe N=64)
+  grid 23 x 11 = 253 points
+  282 terms, 2s
+K2 2 282 terms 3.5 s 83.3 MB
+  axis q: exponents -10..0 (probe N=64)
+  axis t: exponents -10..12 (probe N=64)
+  grid 11 x 23 = 253 points
+  282 terms, 3s
+K2 11 282 terms 4.3 s 83.3 MB
+  axis q: exponents -21..30 (probe N=64)
+  axis t: exponents 0..15 (probe N=64)
+  grid 52 x 16 = 832 points
+  1318 terms, 55s
+K2 3 1318 terms 65.7 s 108.5 MB
+  axis q: exponents -15..0 (probe N=64)
+  axis t: exponents -30..21 (probe N=64)
+  grid 16 x 52 = 832 points
+  1318 terms, 52s
+K2 111 1318 terms 62.9 s 108.6 MB
+  axis q: exponents -17..10 (probe N=64)
+  axis t: exponents -10..17 (probe N=64)
+  grid 28 x 28 = 784 points
+  1403 terms, 52s
+K2 21 1403 terms 62.5 s 108.7 MB

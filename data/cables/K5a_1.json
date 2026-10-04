@@ -1,0 +1,72 @@
+{
+ "knot": "K5a",
+ "cable": {
+  "companion": [
+   2,
+   3
+  ],
+  "pattern": [
+   2,
+   5
+  ]
+ },
+ "daha_newton_pairs": {
+  "r": [
+   2,
+   2
+  ],
+  "s": [
+   3,
+   -7
+  ]
+ },
+ "algebraic": false,
+ "gn_slopes": {
+  "pattern": [
+   2,
+   7
+  ],
+  "companion": [
+   2,
+   -3
+  ]
+ },
+ "color": [
+  1
+ ],
+ "reduced": true,
+ "variables": "exponents of (A=a^(1/2), Q=q^(1/2), T=t^(1/2)) of 1703.05408",
+ "framing": "0; normalization (N1)+(N2) of docs/conventions.md \u00a75 (hypothesis for cables)",
+ "monomial_applied": {
+  "sign": -1,
+  "a": "4",
+  "q": "5",
+  "t": "-5"
+ },
+ "seconds_refined": 0.2,
+ "seconds_total": 0.2,
+ "max_rss_MB": 86.4,
+ "n_terms": 20,
+ "poly": {
+  "8,-4,-4": 1,
+  "8,-2,-2": 1,
+  "8,0,-2": 1,
+  "8,0,0": 1,
+  "8,2,0": 1,
+  "8,2,2": 1,
+  "8,4,4": 1,
+  "10,-2,-4": -1,
+  "10,0,-4": -1,
+  "10,0,-2": -1,
+  "10,2,-2": -2,
+  "10,2,0": -1,
+  "10,4,-4": 1,
+  "10,4,0": -1,
+  "10,4,2": -1,
+  "12,2,-4": 1,
+  "12,4,-6": -1,
+  "12,4,-2": 1,
+  "12,6,-4": -1,
+  "14,6,-6": 1
+ }
+}

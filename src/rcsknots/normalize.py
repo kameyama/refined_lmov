@@ -39,3 +39,29 @@ def normalize(raw, homfly_reduced):
         assert all(k.denominator == 1 for k in key)
         out[tuple(int(k) for k in key)] = int(coeff) * c
     return out, (int(coeff), alpha, beta, gamma)
+
+
+def normalize_exact(raw, hom):
+    """Same as `normalize`, with the HOMFLY-PT given exactly as {(e_A, e_Q): c} (A = a^{1/2}, Q = q^{1/2})."""
+    lim = {}
+    for (ea, eq, et), c in raw.items():
+        key = (2 * ea, 2 * (eq + et))
+        lim[key] = lim.get(key, 0) + c
+    lim = {k: v for k, v in lim.items() if v}
+    top_l, top_h = max(lim), max(hom)
+    shift = (top_h[0] - top_l[0], top_h[1] - top_l[1])
+    sign = 1 if lim[top_l] * hom[top_h] > 0 else -1
+    if abs(lim[top_l]) != abs(hom[top_h]) or \
+            {(k[0] + shift[0], k[1] + shift[1]): sign * v for k, v in lim.items()} != hom:
+        raise ValueError("t = q limit is not a monomial multiple of the HOMFLY-PT polynomial")
+    alpha = Fraction(shift[0], 2)            # power of a
+    beta_plus_gamma = Fraction(shift[1], 2)  # power of q at t = q
+    tmin = min(Fraction(ea) + alpha + 2 * eq for (ea, eq, et) in raw)
+    beta = -tmin / 2
+    gamma = beta_plus_gamma - beta
+    out = {}
+    for (ea, eq, et), c in raw.items():
+        key = (2 * (ea + alpha), 2 * (eq + beta), 2 * (et + gamma))
+        assert all(k.denominator == 1 for k in key)
+        out[tuple(int(k) for k in key)] = sign * c
+    return out, (sign, alpha, beta, gamma)
