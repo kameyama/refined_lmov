@@ -33,11 +33,11 @@
 
 ## 次にやること
 
-1. docs/novelty_report.md を配置してもらう（未配置）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
+1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
    研究計画 §3 のディレクトリ構成（refined_cables/…、REPORT.md、LOG.md）は現在の構成（docs/、src/rcsknots/、references/ など）と違う。現在の構成に読み替える。
 2. ステージ 0：規約表を docs/conventions.md に確定する。停止点なので、確定後に報告して確認を求める。
 
 ## 未解決の問題
 
 - 素朴なプレシズムでトーラス結び目が再現できない件（上記）。原因は未特定（γ 補正の要否をステージ 2 で調べる）。
-- Wolfram Engine のアクティベート（ユーザー本人の操作が必要）。
+- （解決）Wolfram Engine はユーザーがアクティベートした（2026-10-05）。サンドボックス外でのみ動く。

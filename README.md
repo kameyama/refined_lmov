@@ -47,7 +47,7 @@ just fetch-refs
 | python-flint | 使える | 0.9.0 | .venv（`nmod`, `nmod_mat`, `nmod_poly`, `fmpz_mpoly` など） |
 | pytest | 使える | 9.1.1 | `.venv/bin/pytest` |
 | SageMath | 使える | 10.9（conda-forge、環境 `sage`、Python 3.14.7） | `DOT_SAGE=$TMPDIR/dotsage /opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage file.sage` |
-| Wolfram Engine | 未アクティベートで使えない | `/Applications/Wolfram Engine.app` | — |
+| Wolfram Engine | 使える（サンドボックス外のみ） | 15.0.0 for Mac OS X ARM (64-bit) | `wolframscript -code ...` / `wolframscript -file x.wls` |
 
 SageMath の最小例での動作確認（すべて動作した。実行時間は合計約 12 秒）：
 
@@ -56,6 +56,8 @@ SageMath の最小例での動作確認（すべて動作した。実行時間�
 - プレシズム：`p(P[2]).plethysm(p[2])` を P 基底に展開できた。
 - `Link(BraidGroup(2)([1,1,1])).homfly_polynomial()`：L^-2 M^2 − 2L^-2 − L^-4（三葉結び目）。
 
-Wolfram Engine：`wolframscript` は "not activated" を返す。使うには、ユーザー本人が `wolframscript -activate` を実行して
-Wolfram ID でアクティベートする必要がある（無料の Wolfram Engine for Developers ライセンスで可）。
-使えない間は、ノートブックを `scripts/nb2txt.py` でテキストに変換して読み、式を Python に移植する。
+Wolfram Engine（2026-10-05 にユーザーがアクティベート）：
+- サンドボックス内では設定とライセンスを読めず "A WolframKernel location could not be determined" で失敗する。サンドボックス外で実行する。
+- 1703.05408 のノートブックは `NotebookImport[file, "Input" -> "HeldExpression"]` で入力セルを取り出して実行できる。
+  例：non-torus ノートブックの定義セルを評価し、`FunctionExpand[torusknotsym[1,1,a,q,t]/torusknotsym[1,0,a,q,t]]` が
+  a(1 + qt − aq)/√(qt)（三葉結び目の reduced 値）になることを確認した。Python に移植した式（`src/rcsknots/notebook_ref.py`）とも一致する。
