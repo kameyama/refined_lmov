@@ -1,36 +1,42 @@
-# CLAUDE.md
+# プロジェクト概要
+Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は、主にトーラス結び目・トーラス絡み目について refined Chern–Simons（CS）不変量を resolved conifold 上の refined BPS 不変量 N̂_{R,g,β,J_r} に書き換え、正値性予想を検証した。本研究では、これをトーラス結び目以外の結び目クラスへ拡張する。
+現在の対象：iterated torus 結び目（トーラス結び目のケーブル）。最優先は [(2,3),(2,13)]（代数的）と [(2,3),(2,1)]（非代数的）。
+必要な彩色：|λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
+主眼：(1) 1703.05408 の結果の再現による規約の固定、(2) refined ケーブル公式（Rosso–Jones 型の Schur→Macdonald 持ち上げ）と DAHA（Cherednik–Danilenko）の照合、(3) 新しい結び目の refined BPS 不変量の正値性・整数性の判定（代数的 vs 非代数的、長方形 vs [2,1]）。
 
-iterated torus（ケーブル）結び目の refined Chern–Simons 不変量と refined BPS 不変量を計算する研究プロジェクト。
-タスクの仕様は `CLAUDE_TASK_refined_cable_knots.md`（以下「指示書」）にある。作業前に必ず読むこと。
+# セッション開始時に必ず行うこと
+1. docs/progress.md を読み、現在のステージと未完了の作業を把握する。
+2. 作業内容に応じて docs/research_plan.md（ステージ 0〜7 の計算計画）と docs/novelty_report.md（既知の結果と新規性の範囲）を参照する。
+3. 計算に入る前に docs/conventions.md の規約を確認する。
 
-## 構成
+# 規約
+- 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/conventions.md に従う。
+- 規約を変更する場合は、conventions.md に変更内容と理由を記録し、影響を受けるコードとテストを更新する。
 
-```
-justfile               # サンドボックス外で動かすレシピ（setup / fetch-refs）
-requirements.txt       # Python 依存（sympy, python-flint, pytest）
-.venv/                 # just setup で作る（コミット対象外）
-refined_cables/
-  refs/<arXiv id>/     # 論文 PDF・TeX ソース（src/）。1703.05408 の ancillary は src/anc/*.nb
-  src/                 # 実装（Python パッケージ）
-  tests/               # pytest
-  data/                # 計算結果 JSON と人が読む表
-  REPORT.md            # 最終レポート
-  LOG.md               # 作業ログ（規約表・不一致・未解決点・実行時間）
-```
+# 研究上のルール
+- 報告とコメントは日本語で書く。
+- 主張はすべて「解析的に導出」「計算機で確認（範囲を明記）」「予想」のいずれかに分類して書く。文献から直接取れなかった式（特に refined ケーブル公式）には「仮説」と明記し、どの検証で裏付けたかを書く。
+- 文献情報（arXiv 番号、DOI、巻・頁）は原典で確認したものだけを書き、確認できないものは「未確認」と明記する。
+- novelty_report.md で既知とされた結果（トーラス結び目の refined 不変量、4_1 の [1]/[2]/[1,1] の BPS 不変量、DAHA による iterated torus の定義など）を、本研究の成果として書かない。
+- 既知の結果と合わせるために係数や符号を場当たり的に調整しない。不一致は原因を特定して conventions.md と progress.md に記録し、特定できない場合は「未解決」と明記する。
+- 照合は tests/ の自動テストにする。対象は、1703.05408 の値の再現、t=q での colored HOMFLY との一致、ブレイドから計算した HOMFLY との一致、DAHA の明示例との一致、R↔Rᵀ の対称性。多項式は全係数を厳密に比較し、数値補間で得たものは補間に使っていない点で検証する。
+- 長時間の計算は途中結果を data/ に保存して再開できるようにし、実行時間とメモリを logs/ に記録する。
+- 作業の区切りごとに docs/progress.md を更新する（日付、やったこと、結果、次にやること、未解決の問題）。
+- 停止点では、必ず作業を止めて報告し、確認を求める。停止点は次のとおり。
+  - ステージ 0 の後（規約表の確定）
+  - ステージ 2 の後（トーラス結び目での 1703.05408 の再現）
+  - ステージ 5 の後（refined ケーブル公式と DAHA の照合。本計算に入る前）
+  - research_plan.md の停止条件に当たったとき
 
-## コマンド
+# 外部への送信
+- 計算結果、コード、文書を外部サービス（GitHub などへの push、メール、Slack、共有ドキュメントなど）に送信・公開する場合は、事前に意図と内容を説明して明示的な許可を得る。論文と補助ファイルのダウンロードは許可なしで行ってよい。
+- ローカルでの git commit は許可なしで行ってよい。意味のある単位でこまめに commit する。
 
-- 環境構築（ネットワーク・`.pem` 書き込みが要るのでサンドボックス外）: `just setup`
-- 論文取得（arXiv へ接続）: `just fetch-refs`
-- テスト（サンドボックス内で可）: `.venv/bin/python -m pytest refined_cables/tests -q`
-- `just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動き、失敗する。
-
-Wolfram Engine はインストール済みだが未アクティベート。ノートブック（`.nb`）はテキストとして読む。
-
-## 研究上のルール（指示書 §5 の要約）
-
-- 規約を場当たり的に調整しない。不一致は原因を特定し、`LOG.md` の規約表を更新する。
-- 文献から直接取れない式には「仮説」と明記し、裏付けた検証を書く。
-- 各ステージで pytest を先に書き、全部通してから次へ進む。
-- 長時間計算は途中結果を `data/` に保存し、再開できるようにする。
-- 論文の取得以外で、計算結果やコードを外部に送信しない（git push 等も含む）。
+# 環境
+- Python：.venv（Python 3.14.8、rcsknots は editable インストール）。テストは `.venv/bin/pytest` で実行する。
+- 環境の再構築は `just setup`、論文の取得は `just fetch-refs`（どちらもネットワークが要るのでサンドボックス外で動く just レシピ）。`just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
+- SageMath 10.9：conda 環境 `sage`。`/opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage` で実行する（`DOT_SAGE=$TMPDIR/dotsage` を付ける）。サンドボックス内で動く。
+- Wolfram Engine：インストール済みだが未アクティベートで使えない。1703.05408 のノートブックは `scripts/nb2txt.py` でテキストに変換して読み、式を移植する。
+- サンドボックスは `.git` への書き込みを拒否するので、git の書き込み操作はサンドボックス外で行う（`git -C <repo> ...`）。リモートは設定しない。
+- リポジトリ直下に `refs/`（git の内部ディレクトリと同名）を作ると、サンドボックスの保護機能に作成を拒否され、後で削除される。文献は `references/` に置く。
+- ツールのバージョンと確認内容の詳細は README.md の「環境」節を参照。

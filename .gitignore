@@ -1,12 +1,19 @@
+# 仮想環境・キャッシュ
 .venv/
 __pycache__/
-.pytest_cache/
 *.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
 .DS_Store
-# 論文・ソースは just fetch-refs で再取得できるので追跡しない（ノートと変換スクリプトのみ追跡）
-refined_cables/refs/*/
-!refined_cables/refs/1703.05408/
-refined_cables/refs/1703.05408/*
-!refined_cables/refs/1703.05408/nb-*.txt
-# 長時間計算のキャッシュ
-refined_cables/data/cache/
+
+# 計算のキャッシュと大きな中間データ
+data/cache/
+data/samples/
+*.npy
+*.npz
+
+# 論文 PDF と補助ファイル（just fetch-refs で再取得する）。references/README.md だけを追跡する
+references/*
+!references/README.md
+

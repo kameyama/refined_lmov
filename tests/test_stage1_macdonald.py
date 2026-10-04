@@ -6,9 +6,9 @@ import pytest
 import sympy as sp
 from flint import nmod
 
-from partitions import partitions, z, dominates
-from characters import chi
-from macdonald import macdonald_P, macdonald_norm, principal_specialization, pairing_weight, _p_in_m
+from rcsknots.partitions import partitions, z, dominates
+from rcsknots.characters import chi
+from rcsknots.macdonald import macdonald_P, macdonald_norm, principal_specialization, pairing_weight, _p_in_m
 
 PR = 2**61 - 1
 q, t = sp.symbols("q t")

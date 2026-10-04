@@ -12,7 +12,7 @@ P_λ is obtained by Gram–Schmidt along any linear extension of dominance (here
 from fractions import Fraction
 from functools import lru_cache
 
-from partitions import partitions, z, boxes, arm, leg, conjugate, n_stat
+from .partitions import partitions, z, boxes, arm, leg, conjugate, n_stat
 
 
 @lru_cache(maxsize=None)
