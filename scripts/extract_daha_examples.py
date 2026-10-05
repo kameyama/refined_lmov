@@ -9,6 +9,8 @@ import sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application
 
 SRC = Path("references/1408.4348/src/cable.tex")
+if not SRC.exists():                              # worktree では references/ が空なので、メインチェックアウトのものを読む
+    SRC = Path(__file__).resolve().parents[4] / "references/1408.4348/src/cable.tex"
 OUT = Path("data/reference/daha_examples.txt")
 # label in the TeX source -> (our name, knot, color)
 EXAMPLES = {r"(\mathbf 1)": ("CD14_1", "K1", "1"),
@@ -18,7 +20,9 @@ EXAMPLES = {r"(\mathbf 1)": ("CD14_1", "K1", "1"),
             r"({\bf b})": ("CD14_b", "K5a", "1"),
             r"({\bf a})": ("CD14_a", "K5b", "1"),
             r"({\bf e})": ("CD14_e", "K5c", "1"),
-            r"(\mathbf 2)": ("CD14_2", "K3", "1")}
+            r"(\mathbf 2)": ("CD14_2", "K3", "1"),
+            r"(\mathbf 3)": ("CD14_3", "K7", "1"),      # 第 3 期 U4
+            r"(\mathbf 4)": ("CD14_4", "K8", "1")}
 q, t, a = sp.symbols("q t a")
 
 

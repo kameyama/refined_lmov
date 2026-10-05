@@ -1,0 +1,172 @@
+  axis q: exponents -6..-2 (probe N=64)
+  axis t: exponents 2..6 (probe N=64)
+  grid 5 x 5 = 25 points, 2 primes
+  16 terms, 0s
+  T3_5 [1] rCS 16 項 0.4 s
+  axis q: exponents -27..-9 (probe N=64)
+  axis t: exponents 4..12 (probe N=64)
+  grid 19 x 9 = 171 points, 2 primes
+  132 terms, 1s
+  T3_5 [2] rCS 132 項 1.7 s
+  axis q: exponents -12..-4 (probe N=64)
+  axis t: exponents 9..27 (probe N=64)
+  grid 9 x 19 = 171 points, 2 primes
+  132 terms, 1s
+  T3_5 [11] rCS 132 項 1.5 s
+  axis q: exponents -63..-21 (probe N=128)
+  axis t: exponents 6..18 (probe N=64)
+  grid 43 x 13 = 559 points, 2 primes
+  568 terms, 8s
+  T3_5 [3] rCS 568 項 17.8 s
+  axis q: exponents -18..-6 (probe N=64)
+  axis t: exponents 21..63 (probe N=256)
+  grid 13 x 43 = 559 points, 2 primes
+  568 terms, 11s
+  T3_5 [111] rCS 568 項 19.5 s
+  axis q: exponents -33..-11 (probe N=128)
+  axis t: exponents 11..33 (probe N=128)
+  grid 23 x 23 = 529 points, 2 primes
+  599 terms, 11s
+  T3_5 [21] rCS 599 項 22.3 s
+  T3_5 [1] (N2') − (N2) の q 指数の差 0
+  T3_5 [2] (N2') − (N2) の q 指数の差 0
+  T3_5 [11] (N2') − (N2) の q 指数の差 0
+  T3_5 [3] (N2') − (N2) の q 指数の差 0
+  T3_5 [111] (N2') − (N2) の q 指数の差 0
+  T3_5 [21] (N2') − (N2) の q 指数の差 0
+T3_5 ρ=[1]: 前 0/30 負、後 0/43 負
+T3_5 ρ=[1, 1]: 前 0/867 負、後 0/877 負
+T3_5 ρ=[2]: 前 0/766 負、後 0/770 負
+T3_5 ρ=[1, 1, 1]: 前 0/6890 負、後 0/6524 負
+T3_5 ρ=[2, 1]: 前 0/6559 負、後 0/6168 負
+T3_5 ρ=[3]: 前 0/5831 負、後 0/5486 負
+T3_5: 104 s, 最大 RSS 241 MB
+  axis q: exponents -6..-1 (probe N=64)
+  axis t: exponents 1..6 (probe N=64)
+  grid 6 x 6 = 36 points, 2 primes
+  11 terms, 0s
+  T2_11 [1] rCS 11 項 0.6 s
+  axis q: exponents -34..-13 (probe N=128)
+  axis t: exponents 2..12 (probe N=64)
+  grid 22 x 11 = 242 points, 2 primes
+  101 terms, 0s
+  T2_11 [2] rCS 101 項 0.9 s
+  axis q: exponents -12..-2 (probe N=64)
+  axis t: exponents 13..34 (probe N=128)
+  grid 11 x 22 = 242 points, 2 primes
+  101 terms, 0s
+  T2_11 [11] rCS 101 項 0.7 s
+  axis q: exponents -84..-36 (probe N=256)
+  axis t: exponents 3..18 (probe N=64)
+  grid 49 x 16 = 784 points, 2 primes
+  437 terms, 2s
+  T2_11 [3] rCS 437 項 4.0 s
+  axis q: exponents -18..-3 (probe N=64)
+  axis t: exponents 36..84 (probe N=256)
+  grid 16 x 49 = 784 points, 2 primes
+  437 terms, 2s
+  T2_11 [111] rCS 437 項 3.0 s
+  axis q: exponents -40..-14 (probe N=128)
+  axis t: exponents 14..40 (probe N=128)
+  grid 27 x 27 = 729 points, 2 primes
+  401 terms, 1s
+  T2_11 [21] rCS 401 項 3.1 s
+  T2_11 [1] (N2') − (N2) の q 指数の差 0
+  T2_11 [2] (N2') − (N2) の q 指数の差 0
+  T2_11 [11] (N2') − (N2) の q 指数の差 0
+  T2_11 [3] (N2') − (N2) の q 指数の差 0
+  T2_11 [111] (N2') − (N2) の q 指数の差 0
+  T2_11 [21] (N2') − (N2) の q 指数の差 0
+T2_11 ρ=[1]: 前 0/22 負、後 0/57 負
+T2_11 ρ=[1, 1]: 前 0/813 負、後 0/1030 負
+T2_11 ρ=[2]: 前 0/733 負、後 0/931 負
+T2_11 ρ=[1, 1, 1]: 前 0/6519 負、後 0/7025 負
+T2_11 ρ=[2, 1]: 前 0/6260 負、後 0/6715 負
+T2_11 ρ=[3]: 前 0/5667 負、後 0/6116 負
+T2_11: 54 s, 最大 RSS 346 MB
+  axis q: exponents -8..-2 (probe N=64)
+  axis t: exponents 2..8 (probe N=64)
+  grid 7 x 7 = 49 points, 2 primes
+  30 terms, 0s
+  T3_7 [1] rCS 30 項 0.3 s
+  axis q: exponents -37..-11 (probe N=128)
+  axis t: exponents 4..16 (probe N=64)
+  grid 27 x 13 = 351 points, 2 primes
+  303 terms, 1s
+  T3_7 [2] rCS 303 項 3.1 s
+  axis q: exponents -16..-4 (probe N=64)
+  axis t: exponents 11..37 (probe N=128)
+  grid 13 x 27 = 351 points, 2 primes
+  303 terms, 1s
+  T3_7 [11] rCS 303 項 2.5 s
+  axis q: exponents -87..-27 (probe N=256)
+  axis t: exponents 6..24 (probe N=64)
+  grid 61 x 19 = 1159 points, 2 primes
+  1365 terms, 12s
+  T3_7 [3] rCS 1365 項 26.7 s
+  axis q: exponents -24..-6 (probe N=64)
+  axis t: exponents 27..87 (probe N=256)
+  grid 19 x 61 = 1159 points, 2 primes
+  1365 terms, 13s
+  T3_7 [111] rCS 1365 項 24.1 s
+  axis q: exponents -45..-13 (probe N=128)
+  axis t: exponents 13..45 (probe N=128)
+  grid 33 x 33 = 1089 points, 2 primes
+  1332 terms, 12s
+  T3_7 [21] rCS 1332 項 23.9 s
+  T3_7 [1] (N2') − (N2) の q 指数の差 0
+  T3_7 [2] (N2') − (N2) の q 指数の差 0
+  T3_7 [11] (N2') − (N2) の q 指数の差 0
+  T3_7 [3] (N2') − (N2) の q 指数の差 0
+  T3_7 [111] (N2') − (N2) の q 指数の差 0
+  T3_7 [21] (N2') − (N2) の q 指数の差 0
+T3_7 ρ=[1]: 前 0/53 負、後 0/87 負
+T3_7 ρ=[1, 1]: 前 0/1953 負、後 0/1985 負
+T3_7 ρ=[2]: 前 0/1797 負、後 0/1822 負
+T3_7 ρ=[1, 1, 1]: 前 0/15199 負、後 0/14642 負
+T3_7 ρ=[2, 1]: 前 0/14696 負、後 0/14106 負
+T3_7 ρ=[3]: 前 0/13600 負、後 0/13064 負
+T3_7: 180 s, 最大 RSS 476 MB
+  axis q: exponents -9..-3 (probe N=64)
+  axis t: exponents 3..9 (probe N=64)
+  grid 7 x 7 = 49 points, 2 primes
+  40 terms, 0s
+  T4_5 [1] rCS 40 項 0.4 s
+  axis q: exponents -38..-11 (probe N=128)
+  axis t: exponents 6..18 (probe N=64)
+  grid 28 x 13 = 364 points, 2 primes
+  422 terms, 3s
+  T4_5 [2] rCS 422 項 7.3 s
+  axis q: exponents -18..-6 (probe N=64)
+  axis t: exponents 11..38 (probe N=128)
+  grid 13 x 28 = 364 points, 2 primes
+  422 terms, 3s
+  T4_5 [11] rCS 422 項 6.7 s
+  axis q: exponents -87..-24 (probe N=256)
+  axis t: exponents 9..27 (probe N=64)
+  grid 64 x 19 = 1216 points, 2 primes
+  1923 terms, 85s
+  T4_5 [3] rCS 1923 項 179.5 s
+  axis q: exponents -27..-9 (probe N=64)
+  axis t: exponents 24..87 (probe N=256)
+  grid 19 x 64 = 1216 points, 2 primes
+  1923 terms, 81s
+  T4_5 [111] rCS 1923 項 161.2 s
+  axis q: exponents -47..-14 (probe N=128)
+  axis t: exponents 14..47 (probe N=128)
+  grid 34 x 34 = 1156 points, 2 primes
+  2002 terms, 82s
+  T4_5 [21] rCS 2002 項 106.8 s
+  T4_5 [1] (N2') − (N2) の q 指数の差 0
+  T4_5 [2] (N2') − (N2) の q 指数の差 0
+  T4_5 [11] (N2') − (N2) の q 指数の差 0
+  T4_5 [3] (N2') − (N2) の q 指数の差 0
+  T4_5 [111] (N2') − (N2) の q 指数の差 0
+  T4_5 [21] (N2') − (N2) の q 指数の差 0
+T4_5 ρ=[1]: 前 0/68 負、後 0/88 負
+T4_5 ρ=[1, 1]: 前 0/2558 負、後 0/2338 負
+T4_5 ρ=[2]: 前 0/2356 負、後 0/2139 負
+T4_5 ρ=[1, 1, 1]: 前 0/20883 負、後 0/18602 負
+T4_5 ρ=[2, 1]: 前 0/20195 負、後 0/17914 負
+T4_5 ρ=[3]: 前 0/18729 負、後 0/16577 負
+T4_5: 594 s, 最大 RSS 543 MB

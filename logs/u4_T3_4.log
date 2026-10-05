@@ -1,0 +1,31 @@
+  T3_4 [1] rCS 11 項 0.1 s
+  T3_4 [2] rCS 80 項 1.2 s
+  T3_4 [11] rCS 80 項 1.1 s
+  axis q: exponents -51..-18 (probe N=128)
+  axis t: exponents 6..15 (probe N=64)
+  grid 34 x 10 = 340 points, 2 primes
+  329 terms, 7s
+  T3_4 [3] rCS 329 項 15.1 s
+  axis q: exponents -15..-6 (probe N=64)
+  axis t: exponents 18..51 (probe N=128)
+  grid 10 x 34 = 340 points, 2 primes
+  329 terms, 7s
+  T3_4 [111] rCS 329 項 14.0 s
+  axis q: exponents -27..-10 (probe N=64)
+  axis t: exponents 10..27 (probe N=64)
+  grid 18 x 18 = 324 points, 2 primes
+  362 terms, 5s
+  T3_4 [21] rCS 362 項 9.0 s
+  T3_4 [1] (N2') − (N2) の q 指数の差 0
+  T3_4 [2] (N2') − (N2) の q 指数の差 0
+  T3_4 [11] (N2') − (N2) の q 指数の差 0
+  T3_4 [3] (N2') − (N2) の q 指数の差 0
+  T3_4 [111] (N2') − (N2) の q 指数の差 0
+  T3_4 [21] (N2') − (N2) の q 指数の差 0
+T3_4 ρ=[1]: 前 0/21 負、後 0/27 負
+T3_4 ρ=[1, 1]: 前 0/504 負、後 0/491 負
+T3_4 ρ=[2]: 前 0/429 負、後 0/412 負
+T3_4 ρ=[1, 1, 1]: 前 0/4053 負、後 0/3680 負
+T3_4 ρ=[2, 1]: 前 0/3802 負、後 0/3414 負
+T3_4 ρ=[3]: 前 0/3249 負、後 0/2912 負
+T3_4: 56 s, 最大 RSS 215 MB
