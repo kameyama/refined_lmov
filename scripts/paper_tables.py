@@ -23,20 +23,23 @@ def minority(N):
     return s, sorted((k, s * v) for k, v in N.items() if s * v < 0)
 
 
-def bps_table(which):
-    """which = 'before_G' or 'after_G'."""
-    from rcsknots.positivity import judge
+_JUDGED = {}
+
+
+def lmov_table(which):
+    """which ∈ {'fq', 'ft', 'hat', 'hatN'}: N^q, N^{\\bar t}, \\hat N before G, \\hat N after G (from data/lmov)."""
+    from rcsknots.lmov import judge
     rows = []
     for k, label, kind in KNOTS:
+        if k not in _JUDGED:
+            _JUDGED[k] = judge(k)
         cells = []
-        for r in RHOS:
-            j = judge(f"data/bps/{k}_{r}.json")
-            m, n = j[which]["min_negative"], j[which]["terms"]
-            c = "\\checkmark" if m == 0 else f"{m}/{n}"
-            if which == "after_G":
-                _, d = load_bps(k, r)
-                if d["positivity"]["mixed_parity_g_beta"]:
-                    c += "$^\\dagger$"
+        for rho in [(1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1)]:
+            r = _JUDGED[k][rho][which]
+            assert r["integral"]
+            c = "\\checkmark" if r["min_negative"] == 0 else f"{r['min_negative']}/{r['terms']}"
+            if which == "hatN" and not r["parity_aligned"]:
+                c += "$^\\dagger$"
             cells.append(c)
         rows.append(f"{label} & " + " & ".join(cells) + " \\\\")
     return "\n".join(rows)
@@ -103,8 +106,8 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     head = "\\begin{tabular}{lcccccc}\n\\toprule\n & $[1]$ & $[2]$ & $[1,1]$ & $[3]$ & $[2,1]$ & $[1,1,1]$ \\\\\n\\midrule\n"
     tail = "\\bottomrule\n\\end{tabular}\n"
-    (OUT / "bps_table.tex").write_text(head + bps_table("after_G") + "\n" + tail)
-    (OUT / "bps_before_table.tex").write_text(head + bps_table("before_G") + "\n" + tail)
+    for which, fname in [("fq", "N_q_table.tex"), ("ft", "N_t_table.tex"), ("hat", "bps_before_table.tex"), ("hatN", "bps_table.tex")]:
+        (OUT / fname).write_text(head + lmov_table(which) + "\n" + tail)
     stale = OUT / "superpoly_table.tex"
     if stale.exists():
         stale.unlink()

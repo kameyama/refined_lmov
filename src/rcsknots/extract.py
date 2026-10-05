@@ -57,3 +57,52 @@ A_SHIFT = {"torus": {1: 1, 2: 0, 3: -1}, "nontorus": {1: -1, 2: 0, 3: 1}}
 def bps_numbers(hat_f_rho, rho, convention="torus"):
     """{(g, β, F=2J_r): c} from the g-expansion of the shifted \\hat f_ρ in bold variables."""
     return g_expand(to_bold(hat_f_rho, A_SHIFT[convention][sum(rho)]))
+
+
+def reformulated_exact(reduced, n, log=print):
+    """All reformulated invariants of size n, exactly, in KN's lowercase half-variables (A, Q, T).
+
+    Returns {("fq", μ): poly, ("ft", μ): poly, ("hat", ρ): poly} (no a-shift, no change to bold variables).
+    The check f^t = M(q^{-1}) \\hat f is done at every evaluation point.
+    """
+    parts = partitions(n)
+    keys = [("fq", m) for m in parts] + [("ft", m) for m in parts] + [("hat", r) for r in parts]
+    span = {}
+
+    def raw_values(xs, ys, p):
+        k = len(xs)
+        R = Reformulated(reduced, V(xs, p), V(ys, p), make_conv(p, k))
+        hat, resid = R.hat_f(n)
+        for r in resid.values():
+            if any(np.any(_arr(c, k, p) != 0) for c in r.terms.values()):
+                raise ArithmeticError("f^t ≠ M(q^{-1}) \\hat f at some point")
+        vals = {}
+        for m in parts:
+            fq, ft = R.f(m)
+            vals[("fq", m)], vals[("ft", m)] = fq, ft
+        for r in parts:
+            vals[("hat", r)] = hat[r]
+        return vals, k
+
+    # A-exponent window from one small evaluation
+    rng = np.random.default_rng(7)
+    xs, ys = rng.integers(2, 10**6, 4), rng.integers(2, 10**6, 4)
+    vals, _ = raw_values(xs, ys, 2**31 - 1)
+    lo = min(min(v.terms) for v in vals.values()) - 2
+    hi = max(max(v.terms) for v in vals.values()) + 2
+    width = hi - lo + 1
+
+    def ev(xs, ys, p):
+        vals, k = raw_values(xs, ys, p)
+        arr = np.zeros((k, width * len(keys)), dtype=np.int64)
+        for i, key in enumerate(keys):
+            for e, c in vals[key].terms.items():
+                arr[:, i * width + e - lo] = (arr[:, i * width + e - lo] + _arr(c, k, p)) % p
+        return arr
+
+    raw = reconstruct_points(ev, seed=11 + n, log=log)
+    out = {key: {} for key in keys}
+    for (d, eq, et), c in raw.items():
+        i, e = divmod(d, width)
+        out[keys[i]][(e + lo, eq, et)] = c
+    return out
