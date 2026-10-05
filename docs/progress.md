@@ -239,6 +239,20 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
   - `tests/test_knot_table.py`：19 件パス。
 - 計画への影響：P1 は解析的に解決し、T2（thin の判定条件）は不要になった。非自明な問いは 2 箱以上（T3〜T5）と偶奇の解釈。方針はユーザーと相談する。
 
+## ステージ T4：9_42 の 2 箱（2026-10-06）
+
+- やったこと
+  - Gukov–Stošić arXiv:1112.0030 の TeX を取得し、付録 B の 8_19, 9_42 の S² ホモロジー（t_r）を書き写した（`data/reference/gs_1112.0030/s2_thick.py`）。
+  - [2], [1,1] 彩色 HOMFLY-PT を 2 本ケーブルのブレイドから計算する方法を作った（`scripts/two_cable_homfly.sage`、`scripts/colored_from_cables.py`）。
+  - t_r → t_c の変換を三葉結び目と 8_19 で較正した（`scripts/t4_colored.py`）。δ' の割り当ての整数計画（`scripts/t4_egp.py`, `scripts/t4_ilp.py`、ログ `logs/t4_ilp_first.log`）。
+- 結果（conventions.md §12）
+  - GS の 9_42 の S² の式は 2 行目が誤植（Euler 標数が [2] 彩色 HOMFLY-PT と合わない。除くと一致し、GS の微分の条件も満たす）【計算】。
+  - thick な結び目では t_c 次数は t_r のデータから決まらない。8_19 で素朴な δ' = −S 一定にすると、正解は正なのに \hat f が Laurent 多項式にならない【計算】。
+  - 命題 2：2 箱の \hat f が Laurent なら refined 指数増大性が従い、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要【導出】。
+    9_42 は 81 が必要なのに GS のホモロジーは 401（433）なので、t_c の選び方によらず KN の形に乗らない。KN の観察の原因を特定した。
+  - `tests/test_t4_colored.py`：4 件パス。
+- 計画への影響：thick な結び目で「ホモロジーを入力とする 2 箱」が形に乗らないのは構造的（命題 2）。ここから先は方針の判断が要る（ユーザーと相談）。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
@@ -256,7 +270,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
    次はステージ 8（非代数的なケーブルの走査、[1] から）とステージ 9（代数的な iterated torus への拡張、[1] から）。ユーザーの承認を待つ。
 10. （2026-10-05）ユーザーの依頼で、ケーブル以外の方針の計画を docs/research_plan_knot_table.md に作成した
     （Nakagane–Sano の 11 交点以下の HOMFLY-PT ホモロジーを入力に、結び目表の [1] の refined LMOV を判定する。ステージ T0〜T6）。
-    ユーザーの指示でこの案を進める。T0, T1 は済み。T1 で [1] の正値性が一般に従うことが分かったので、以降の方針をユーザーと相談する。
+    ユーザーの指示でこの案を進める。T0, T1 は済み。T1 の後、ユーザーの選択で T4 → T3 の順に 2 箱へ進んだ。T4 は済み（命題 2）。次の方針はユーザーと相談する。
 
 ## 未解決の問題
 

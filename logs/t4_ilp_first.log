@@ -1,0 +1,30 @@
+  ρ=(2,): num 項 185, h 箱 605, 列 1367
+  ρ=(1, 1): num 項 218, h 箱 845, 列 3172
+  行 8829, 列 3172
+  Optimization terminated successfully. (HiGHS Status 7: Optimal)
+3_1 δ' used: Counter({-1: 7, -1.5: 1, -0.5: 1})
+  ρ=(2,): num 項 1244, h 箱 7623, 列 15117
+  ρ=(1, 1): num 項 1311, h 箱 8575, 列 31539
+  行 76877, 列 31539
+  Optimization terminated successfully. (HiGHS Status 7: Optimal)
+8_19: Counter({-2: 42, -2.5: 32, -3.5: 19, -4: 12, -3: 11, -1.5: 5})
+  ρ=(2,): num 項 2212, h 箱 8192, 列 16666
+  ρ=(1, 1): num 項 2245, h 箱 8192, 列 32338
+  行 76990, 列 32338
+  The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)
+9_42 fixed sigma -1 None
+  ρ=(2,): num 項 2212, h 箱 8192, 列 16666
+  ρ=(1, 1): num 項 2245, h 箱 8192, 列 32338
+  行 76990, 列 32338
+  The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)
+9_42 fixed sigma 1 None
+  ρ=(2,): num 項 2212, h 箱 8192, 列 16666
+  ρ=(1, 1): num 項 2245, h 箱 8192, 列 32338
+  行 76990, 列 32338
+  The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)
+9_42 printed sigma -1 None
+  ρ=(2,): num 項 2212, h 箱 8192, 列 16666
+  ρ=(1, 1): num 項 2245, h 箱 8192, 列 32338
+  行 76990, 列 32338
+  The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)
+9_42 printed sigma 1 None
