@@ -209,6 +209,22 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
     ただし 2J_r の偶奇はそろわない（KN の 4_1 と同じ型）。型 I（K4, K5a）で予想した「偶奇がそろわない」と整合。
   - 結論：[1] で「DAHA（ケーブルの refined 不変量）の計算と同じ結果になるか」→ ならない。DGR 型の superpolynomial では [1] の正値性は G 展開の前後とも成り立ち、負は DAHA の構成に固有【計算＋DGR の仮定】。
 
+## ステージ T0：結び目表のデータと規約（2026-10-05、docs/research_plan_knot_table.md）
+
+- やったこと
+  - yui-kr（Nakagane–Sano arXiv:2111.00388）のコミット 0a07fbf の計算結果を取得した（GitHub の tarball、MIT ライセンス）。
+    801 結び目（11 交点以下の全素結び目）の reduced HOMFLY-PT ホモロジーで、未決定の成分は無い。`data/reference/yui_kr/`（出典は SOURCE.md）。
+    Rust とプログラム本体は入れていない（ソースは次数の規約を確認するために読んだだけ）。
+  - 読み込みと [1] の判定：`src/rcsknots/knot_table.py`。ブレイドの HOMFLY-PT：`scripts/knot_table_homfly.sage`（801 結び目で 9 秒）。
+  - 規約を conventions.md §11 に記録した。
+- 結果（計算機で確認、`tests/test_knot_table.py` 16 件）
+  - 次数の対応：DGR の太字で (e_𝐚, e_𝐪, e_𝐭) = (j, i, (j−k)/2)。一意に決まり、正のブレイドの三葉結び目が DGR の式になる。
+  - 801 結び目すべてで、Euler 標数 = ブレイドから計算した HOMFLY-PT、DGR の対称性が成立。
+  - トーラス結び目 5 個が第 1 期の rCS_□ に一致。KN 付録 C の [1] の表 5 個を全項で再現（6_1 は鏡像。T(2,3) は既知の a 次数シフトのずれ）。
+  - [1] の判定は鏡像で変わらない（導出し、801 結び目で確認）。
+  - `pytest`：全体で 410 件パス、2 件スキップ。
+- メモ：worktree には `.venv` が無いので、`PYTHONPATH=src` を付けてメインチェックアウトの `.venv/bin/pytest` で実行した。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
@@ -226,7 +242,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
    次はステージ 8（非代数的なケーブルの走査、[1] から）とステージ 9（代数的な iterated torus への拡張、[1] から）。ユーザーの承認を待つ。
 10. （2026-10-05）ユーザーの依頼で、ケーブル以外の方針の計画を docs/research_plan_knot_table.md に作成した
     （Nakagane–Sano の 11 交点以下の HOMFLY-PT ホモロジーを入力に、結び目表の [1] の refined LMOV を判定する。ステージ T0〜T6）。
-    どちらの計画を進めるか、ユーザーの判断を待つ。
+    ユーザーの指示でこの案を進める。T0 は済み（停止点 1）。次は T1（結び目表の [1] の判定）。ユーザーの確認を待つ。
 
 ## 未解決の問題
 
