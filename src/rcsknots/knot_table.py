@@ -66,3 +66,17 @@ def judge1(P):
     res.update(closes=True, after=N, after_neg=sum(v < 0 for v in N.values()),
                parity_aligned=all(len(s) == 1 for s in par.values()))
     return res
+
+
+def parity_uniform(P):
+    """[1] の (g, β) ごとの 2J_r の偶奇がそろう条件：𝐚 の次数が連続する範囲（2 ずつ）ごとに、e_𝐭 + e_𝐚/2 の偶奇が一定。
+
+    \\hat f の 𝐚^{2β} の行には P の隣り合う 2 行しか入らず、G^g 𝐭^F の F は e_𝐭 − g と同じ偶奇（conventions.md §11）。
+    """
+    parity = {}
+    for a, q, t in P:
+        parity.setdefault(a, set()).add((t + a // 2) % 2)
+    if any(len(v) > 1 for v in parity.values()):
+        return False
+    degs = sorted(parity)
+    return all(parity[x] == parity[y] for x, y in zip(degs, degs[1:]) if y - x == 2)

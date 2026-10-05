@@ -6,7 +6,7 @@ import pytest
 import sympy as sp
 
 from rcsknots.bps import to_bold
-from rcsknots.knot_table import DATA, homfly, judge1, load_homology, mirror, superpoly
+from rcsknots.knot_table import DATA, homfly, judge1, load_homology, mirror, parity_uniform, superpoly
 from rcsknots.laurent import load_table
 from rcsknots.tables import normalize_sign
 
@@ -104,3 +104,38 @@ def test_mirror_invariance():
                 or r["parity_aligned"] != s["parity_aligned"])):
             bad.append(name)
     assert bad == []
+
+
+# ---- ステージ T1：[1] の正値性は「P ≥ 0 と DGR の対称性」から従う ---------------------------------
+def test_lemma_chebyshev_expansion_is_positive():
+    """y^k + y^{−k} を G = y + y^{−1} − s − s^{−1} の多項式に展開すると、係数は s の非負係数ローラン多項式（k ≤ 20）。"""
+    y, s, G, w = sp.symbols("y s G w")
+    for k in range(1, 21):
+        e = sp.expand(sp.expand(2 * sp.chebyshevt(k, w / 2)).subs(w, G + s + 1 / s))
+        for g in range(k + 1):
+            c = sp.Poly(sp.expand(e.coeff(G, g) * s ** k), s)
+            assert all(x >= 0 for x in c.coeffs())
+            assert all((m[0] - k - (k - g)) % 2 == 0 for m in c.monoms())   # 𝐭 の指数 ≡ k − g（偶奇の条件の根拠）
+
+
+def test_positive_symmetric_polynomials_give_positive_bps():
+    """非負係数・偶数の 𝐪 指数・DGR の対称性をもつ任意の P で、G 展開は閉じて \\hat N ≥ 0（乱数で 300 例）。"""
+    import random
+    rng = random.Random(0)
+    for _ in range(300):
+        P = {}
+        for _ in range(rng.randint(1, 8)):
+            a, q, t = 2 * rng.randint(-3, 3), 2 * rng.randint(-4, 4), rng.randint(-6, 6)
+            c = rng.randint(1, 3)
+            for e in {(a, q, t), (a, -q, t - q)}:
+                P[e] = P.get(e, 0) + c
+        r = judge1(P)
+        assert r["closes"] and r["after_neg"] == 0 and r["before_neg"] == 0
+        assert r["parity_aligned"] == parity_uniform(P)
+
+
+def test_knot_table_all_positive_and_parity_criterion():
+    for name, p in P.items():
+        r = judge1(p)
+        assert r["closes"] and r["before_neg"] == 0 and r["after_neg"] == 0, name
+        assert r["parity_aligned"] == parity_uniform(p), name
