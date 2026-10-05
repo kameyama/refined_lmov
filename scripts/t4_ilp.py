@@ -58,10 +58,10 @@ def mul(p, m):
     return {tuple(x + y for x, y in zip(k, m)): c for k, c in p.items()}
 
 
-def solve(P1, gens, choices, sigma=1, struct=None, log=print, positive=True):
+def solve(P1, gens, choices, sigma=1, struct=None, log=print, positive=True, cost=None):
     """P1：[1] の太字、gens：GS の {(i,j,k): 重複度}。実行可能なら {(x, d): 個数}、不能なら None。
 
-    positive=False なら正値性を課さない（Laurent 性と G 展開が閉じることだけ）。
+    positive=False なら正値性を課さない（Laurent 性と G 展開が閉じることだけ）。cost は目的関数（最小化）。
     """
     struct, den = struct or structure()
     r1p = bold_to_small(P1)
@@ -160,7 +160,10 @@ def solve(P1, gens, choices, sigma=1, struct=None, log=print, positive=True):
     Amat = sps.csr_matrix((data, (ri, ci)), shape=(len(rows_eq), ncols))
     b = np.array(rhs_eq, dtype=float)
     log(f"  行 {len(rows_eq)}, 列 {ncols}")
-    res = milp(np.zeros(ncols), constraints=LinearConstraint(Amat, b, b), integrality=np.ones(ncols),
+    c = np.zeros(ncols)
+    if cost is not None:                # cost(x, d)：δ' の選択に付ける重み
+        c[:nz] = [cost(x, d) for x, d in var]
+    res = milp(c, constraints=LinearConstraint(Amat, b, b), integrality=np.ones(ncols),
                bounds=Bounds(np.array(bounds_lo), np.array(bounds_hi)), options={"time_limit": 3600})
     log(f"  {res.message}")
     if res.x is None:
