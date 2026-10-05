@@ -43,6 +43,24 @@ def colored(name, data=None):
     return {mu: sp.factor(sp.simplify(sol[w] / unknot(mu))) for mu, w in zip(mus, W)}
 
 
+def colored_p(name, p, path=None):
+    """p 本ケーブル（data/reference/cable_homfly_p{p}.txt の全ての s）から |λ| = p の彩色 HOMFLY-PT（reduced、framing 0）。"""
+    from rcsknots.partitions import partitions
+    data = load(path or f"data/reference/cable_homfly_p{p}.txt")
+    slopes = sorted(s for (n, s) in data if n == name)
+    c = adams_coeffs((1,), p)
+    mus = [mu for mu in partitions(p) if mu in c]
+    W = sp.symbols(" ".join(f"W{i}" for i in range(len(mus))))
+    W = W if isinstance(W, tuple) else (W,)
+    eqs = []
+    for s in slopes:
+        lhs = data[(name, s)] * unknot((1,))
+        rhs = theta((1,), p * s) * sum(c[mu] * theta(mu, sp.Rational(-s, p)) * w for mu, w in zip(mus, W))
+        eqs.append(sp.Eq(lhs, rhs))
+    sol = sp.solve(eqs, W, dict=True)[0]
+    return {mu: sp.factor(sp.simplify(sol[w] / unknot(mu))) for mu, w in zip(mus, W)}
+
+
 if __name__ == "__main__":
     data = load()
     for name in sys.argv[1:]:
