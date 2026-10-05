@@ -17,3 +17,11 @@ data/samples/
 references/*
 !references/README.md
 
+
+# LaTeX の中間ファイル（docs/paper）
+docs/paper/*.aux
+docs/paper/*.log
+docs/paper/*.out
+docs/paper/*.toc
+docs/paper/*.fls
+docs/paper/*.fdb_latexmk

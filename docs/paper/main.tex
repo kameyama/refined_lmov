@@ -1,0 +1,494 @@
+% iterated torus 結び目の refined BPS 不変量と正値性
+% コンパイル：cd docs/paper && latexmk -lualatex main.tex
+\documentclass[11pt,a4paper]{ltjsarticle}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,longtable}
+\usepackage{pdflscape}
+\usepackage[margin=25mm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{proposition}{命題}[section]
+\newtheorem{conjecture}[proposition]{予想}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{定義}
+\newtheorem{hypothesis}[proposition]{仮説}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{注意}
+
+\newcommand{\rCS}{\overline{\mathrm{rCS}}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bt}{\mathbf{t}}
+\newcommand{\hN}{\widehat{N}}
+\newcommand{\hf}{\widehat{f}}
+
+\title{iterated torus 結び目の refined BPS 不変量と正値性\\
+\large --- 代数的ケーブルと非代数的ケーブルの比較 ---}
+\author{（著者名）}
+\date{2026年10月5日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Kameyama--Nawata \cite{KN} は，トーラス結び目・トーラス絡み目の refined Chern--Simons（CS）不変量を
+resolved conifold 上の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ に書き換え，
+それらが非負整数になるという正値性予想を提出した．
+本論文では，この枠組みをトーラス結び目のケーブル（iterated torus 結び目）に適用する．
+ケーブルの refined 不変量は Cherednik--Danilenko \cite{CD14} の DAHA 構成で定義されている．
+我々はその定義を companion の段で線形に分解し，Gorsky--Neguţ \cite{GN} の楕円 Hall 代数の公式で計算した．
+対象は三葉結び目 $T(2,3)$ と $T(2,5)$ の 9 個の 2 本ケーブル，彩色は $|\lambda|\le 3$ の全 6 つのヤング図形である．
+計算法は二つの方向で検証した．
+一つは \cite{KN} の補助ファイルにあるトーラス結び目の値 27 件と表 13 個の完全な再現，
+もう一つは \cite{CD14} の DAHA superpolynomial の明示例 8 件との全係数での一致である．
+主な結果は次のとおりである．
+代数的なケーブル 3 個では，非長方形の $[2,1]$ を含む全彩色で $\hN$ が非負整数になった．
+superpolynomial 自体は $[2,1]$ で負の係数をもつので，これはトーラス結び目と同じ構図である．
+一方，非代数的なケーブル 6 個ではいずれも正値性が破れた．
+破れ方は結び目によって大きく異なり，負の項は多くの場合，表の境界に局在する．
+整数性と，$(\rho,g,\beta)$ ごとの $2J_r$ の偶奇の一致は，すべての場合に成り立った．
+あわせて，ケーブルの refined 不変量の単項式正規化について，構造的な規則を提案し，検証した．
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{序論}
+
+\subsection{背景}
+
+$S^3$ 上の refined CS 理論 \cite{AS,AS2} は，トーラス結び目に対して
+Macdonald 多項式を用いた $S,T$ 行列で定義され，その安定極限は DAHA superpolynomial \cite{Ch} と一致する \cite{GN}．
+\cite{KN} は large $N$ 双対の refined 版を定式化し，refined CS 不変量 $\rCS_\lambda$ を，
+resolved conifold 上の M2--M5 束縛状態の数え上げ $\hN_{\rho,g,\beta,J_r}$ に書き換えた．
+そして，トーラス結び目・トーラス絡み目の全ての例で $\hN_{\rho,g,\beta,J_r}\in\mathbb{Z}_{\ge0}$ となることを観察した（正値性予想）．
+注目すべきことに，$\rCS_\lambda$ 自体は非長方形の $\lambda$ では負の係数をもつ（\cite{KN} とその引用文献を参照）にもかかわらず，
+$\hN$ に書き直すと正になる．
+
+非トーラス結び目については，\cite{KN} は彩色 HOMFLY-PT ホモロジーの Poincaré 多項式を入力として，
+homologically thin な結び目（$\mathbf{4_1}$ など）を調べた．
+しかし，refined 不変量を任意のヤング図形で計算できる非トーラス結び目のクラスは，
+現在のところ iterated torus 結び目だけである．
+その定義は，Cherednik--Danilenko による DAHA の反復構成 \cite{CD14,CD15} と，
+楕円 Hall 代数を用いた Morton--Samuelson の構成 \cite{MS} で与えられている．
+
+\subsection{本論文の内容}
+
+本論文の目的は，\cite{KN} の枠組みを iterated torus 結び目に適用し，
+refined BPS 不変量を $|\lambda|\le3$ の全彩色で求め，正値性・整数性を判定することである．
+ケーブルの refined 不変量の定義そのものは既知である \cite{CD14}．
+本論文で新しく報告するのは，次の (i)--(iv) である．
+\begin{enumerate}
+\item ケーブル結び目の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ の計算．
+  対象は $T(2,3)$ の $(2,q_2)$-ケーブル（$q_2=13,15,1,3,5,7,-1$）と $T(2,5)$ の $(2,21)$, $(2,1)$-ケーブル，彩色は $[1],[2],[1,1],[3],[2,1],[1,1,1]$．
+\item 正値性の判定．代数的なケーブルでは全彩色で成り立ち，非代数的なケーブルでは破れる（\S\ref{sec:results}）．
+\item ケーブルの refined 不変量の単項式（framing）正規化の規則の提案と検証（\S\ref{sec:normalization}）．
+\item 計算の過程で見つけた，既存文献の式・規約の不整合の指摘（付録 \ref{app:issues}）．
+\end{enumerate}
+
+主張の確からしさを区別するため，計算機で確認したことには「（計算）」と明記し，
+文献から直接得られない規則は「仮説」，一般化した主張は「予想」と書く．
+
+\subsection{記法}
+
+ヤング図形 $\lambda$ の箱 $s=(i,j)$（$i$ 行 $j$ 列，1 始まり）に対し，
+腕長 $a(s)=\lambda_i-j$，脚長 $l(s)=\lambda^T_j-i$，co-arm $a'(s)=j-1$，co-leg $l'(s)=i-1$ とする．
+$n(\lambda)=\sum_i(i-1)\lambda_i$ と書く．
+
+%======================================================================
+\section{準備}
+
+\subsection{変数}
+
+\cite{KN} に従い，$\Omega$ 背景のパラメータ $q=e^{i\epsilon_1}$, $t=e^{i\epsilon_2}$ を用い，$a=t^N$ で $\mathrm{SU}(N)$ 不変量に戻る．
+太字の変数（Dunfield--Gukov--Rasmussen \cite{DGR} の $(\ba,\bq,\bt)$）への変換は
+\begin{equation}\label{eq:cov}
+a=-\ba^2\bt,\qquad q^{1/2}=-\bq\bt,\qquad t^{1/2}=\bq
+\end{equation}
+である \cite[\S4, 式 (cov)]{KN}．
+DAHA の変数 \cite{CD14} とは $(q,t)$ が一致し，$a_{\mathrm{DAHA}}=-a$ である．
+例えば三葉結び目の reduced 不変量は $a(1+qt-aq)/\sqrt{qt}$ で，
+\eqref{eq:cov} により $\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$ \cite{DGR} になり，
+DAHA の $1+qt+a_{\mathrm{DAHA}}q$ \cite{CD15} と単項式倍を除いて一致する（計算）．
+\cite{DGR} では $T_{2,3}$ は負の交差をもつ三葉結び目であり，本論文もこの向きに従う．
+
+\subsection{Macdonald 多項式と unknot}
+
+$P_\lambda(x;q,t)$ は monic な Macdonald 多項式で，内積は
+$\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}z_\lambda\prod_i(1-q^{\lambda_i})/(1-t^{\lambda_i})$ とする．
+$g_\lambda=(q/t)^{|\lambda|}/\langle P_\lambda,P_\lambda\rangle_{q,t}$ と置く．
+unknot の不変量（unreduced）は
+\begin{equation}\label{eq:unknot}
+\rCS_\lambda(\bigcirc)=\Big(\frac{t}{a}\Big)^{|\lambda|/2}\prod_{s\in\lambda}\frac{t^{l'(s)}-a\,q^{a'(s)}}{1-q^{a(s)}t^{l(s)+1}}
+\end{equation}
+で，これは対称な主特殊化 $P_\lambda(t^{\rho})$ である．
+\cite{KN} の本文は因子 $(t/a)^{|\lambda|/2}$ のない形を書くが，補助ファイルは \eqref{eq:unknot} を用いており，
+\S\ref{sec:bps} の表を再現するにはこちらに合わせる必要がある．
+reduced 不変量 $\mathrm{rCS}_\lambda=\rCS_\lambda/\rCS_\lambda(\bigcirc)$ を主に扱う．
+
+\subsection{ケーブルと DAHA の Newton 対}
+
+結び目 $K$ の $(p,q)$-ケーブル $C_{p,q}(K)$ とは，$K$ の管状近傍の境界上の $(p,q)$ 曲線である．
+$p$ は $K$ に沿う回数，$q$ は経線方向の回数で，$q$ は $K$ の Seifert framing で測る．
+$T(p_1,q_1)$ の $(p_2,q_2)$-ケーブルは，\cite{CD14} の記法では Newton 対
+\begin{equation}
+\vec r=(p_1,p_2),\qquad \vec s=(q_1,\ q_2-p_1q_1p_2)
+\end{equation}
+に対応する \cite[\S2.1]{CD14}．
+すべての $r_i,s_i>0$ のとき，すなわち $q_2>p_1q_1p_2$ のとき代数的結び目になる．
+本論文で扱う結び目を表 \ref{tab:knots} に示す．
+
+\begin{table}[h]
+\centering
+\caption{扱う結び目．$s_2=q_2-p_1q_1p_2$．}\label{tab:knots}
+\begin{tabular}{llccc}
+\toprule
+ID & 結び目 & $(\vec r,\vec s)$ & 代数的 & \cite{CD14} の明示例 \\
+\midrule
+K1 & $T(2,3)$ の $(2,13)$-ケーブル & $(2,2),(3,1)$ & ○ & $[1],[2]$ \\
+K3 & $T(2,3)$ の $(2,15)$-ケーブル & $(2,2),(3,3)$ & ○ & $[1]$ \\
+K6a & $T(2,5)$ の $(2,21)$-ケーブル & $(2,2),(5,1)$ & ○ & --- \\
+K2 & $T(2,3)$ の $(2,1)$-ケーブル & $(2,2),(3,-11)$ & × & $[1]$ \\
+K4 & $T(2,3)$ の $(2,3)$-ケーブル & $(2,2),(3,-9)$ & × & $[1]$ \\
+K5a & $T(2,3)$ の $(2,5)$-ケーブル & $(2,2),(3,-7)$ & × & $[1]$ \\
+K5b & $T(2,3)$ の $(2,7)$-ケーブル & $(2,2),(3,-5)$ & × & $[1]$ \\
+K5c & $T(2,3)$ の $(2,-1)$-ケーブル & $(2,2),(3,-13)$ & × & $[1]$ \\
+K6b & $T(2,5)$ の $(2,1)$-ケーブル & $(2,2),(5,-19)$ & × & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section{計算法}\label{sec:method}
+
+\subsection{楕円 Hall 代数による torus 結び目}
+
+Gorsky--Neguţ \cite{GN} は，安定化した球面 DAHA（楕円 Hall 代数）の元 $P_{kn,km}$ を用いて，
+トーラス結び目の DAHA superpolynomial を
+\begin{equation}\label{eq:GN}
+\mathcal{P}^\lambda_{n,m}=\varepsilon\big(P_\lambda[p_k\mapsto P_{kn,km}]\cdot1\big)
+\end{equation}
+と表した．
+ここで $P_{k,0}$ は $p_k$ の掛け算，$\varepsilon(f)=f[p_k\mapsto(1-a^k)/(1-t^k)]$ である．
+彼らは Hilbert スキームの固定点基底で，$P_{kn,km}$ の行列要素を標準ヤング盤の和として明示的に与えた \cite[\S4]{GN}．
+我々はこの式を，各評価点で動的計画法により計算した．
+
+その際，次の二点は \cite{GN} の本文から直接は読み取れず，数値計算で決めた（計算）．
+\begin{itemize}
+\item \cite[\S4]{GN} の右辺を固定点基底 $I_\mu=\widetilde H_\mu/\nabla_\mu$ の係数と読むと，
+  $c_k P_{kn,km}$ に等しくなる．ここで $c_k=(-1)^{k-1}(1-t_w^{-k})/[k]_{q,t_w}$，$t_w=t^{-1}$ である．
+  このとき $P_{k,0}$ はちょうど $\varphi(p_k)$ の掛け算になる（$k=1,2,3$ で確認）．
+\item この正規化の下で，擬空三角形に対する交換関係 $[P_x,P_y]=\kappa P_{x+y}$ は，
+  三つの異なる三角形で同じ定数 $\kappa=(1-q)/t$ をもって成り立つ．
+  傾きによらない $\kappa$ は，$SL(2,\mathbb{Z})$ 共変性と整合する．
+\end{itemize}
+傾きの向きについては，\cite{DGR} の向きの $T(2,2p+1)$ が傾き $(2,-(2p+1))$ に，$T(3,4)$ が $(3,-4)$ に対応する．
+
+\subsection{ケーブルへの拡張}
+
+\cite[(2.12)]{CD14} は，iterated torus 結び目の DAHA-Jones 多項式を次の反復で定義した．
+\[
+JD_{\vec r,\vec s}(b)=\Big\{\hat\gamma_1\Big(\cdots\big(\hat\gamma_\ell(P_b)/P_b(q^{-\rho_k})\big)\Downarrow\cdots\Big)\Big\}_{ev}
+\]
+二段の場合，内側の $F_b=\big(\hat\gamma_2(P_b)/P_b(q^{-\rho_k})\big)\Downarrow$ は対称多項式である．
+これを $F_b=\sum_\mu d_{b\mu}P_\mu$ と展開すると，$\hat\gamma_1$ は代数の自己同型なので
+\begin{equation}\label{eq:cablesum}
+JD_{\vec r,\vec s}(b)=\sum_\mu d_{b\mu}\,\big\{\hat\gamma_1(P_\mu)\Downarrow\big\}_{ev}
+\end{equation}
+が従う（導出）．
+すなわち，ケーブルの不変量は，パターン部分の係数 $d_{b\mu}$ と companion の $\mu$ 彩色 unreduced 不変量の和である．
+
+\eqref{eq:GN} の言葉では，次の手順になる．
+\begin{enumerate}
+\item パターン $F_\lambda=P_\lambda[p_k\mapsto P_{k\cdot(p_2,-s_2)}]\cdot1$ を求める．
+\item その冪和表示に $p_k\mapsto P_{k\cdot(p_1,-q_1)}$ を代入して $1$ に作用させる．
+\item $\varepsilon$ を取る．
+\end{enumerate}
+
+\begin{remark}
+研究計画の当初は，非 refined の Rosso--Jones 型ケーブル公式
+$W_\lambda(C_{p,q}K)=\theta_\lambda^{-pq}\sum_\mu c^{(p)}_{\lambda\mu}\theta_\mu^{q/p}W_\mu(K)$ を，
+$c^{(p)}$ を Macdonald 版プレシズム係数（$q,t$ は変えない）に置き換えて refined 化する方針だった．
+しかしこの素朴な持ち上げは，トーラス結び目の段階で既に \cite{KN} の値を再現しない（計算）．
+これは，\cite{DMMSS,MMSS} の $\gamma$ 因子や \cite{Dan,Mo18} の報告と整合する．
+\eqref{eq:cablesum} の $d_{\lambda\mu}$ は，素朴なプレシズム係数と $T$ 固有値の積ではない．
+\end{remark}
+
+\subsection{単項式の正規化}\label{sec:normalization}
+
+DAHA の不変量は $q^\bullet t^\bullet$ 倍を除いてしか定義されない \cite{CD14}．
+一方，\cite{KN} の BPS 抽出の結果は，不変量に単項式を掛けると変わってしまう．
+そこでケーブルの正規化を次で定める．
+
+\begin{hypothesis}[正規化]\label{hyp:norm}
+reduced refined 不変量 $\mathrm{rCS}_\lambda(K)$ は次の二条件で一意に定まる．
+\begin{description}
+\item[(N1)] $t=q$ での極限が，framing 0 の reduced 彩色 HOMFLY-PT 多項式（\cite{DGR} の規約）に等しい．
+\item[(N2$'$)] 単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ の形をもつ．
+  ここで $T_\lambda=q^{n(\lambda^T)}t^{-n(\lambda)}$，$F=p_2q_2$ である（トーラス結び目 $T(m,n)$ では $F=mn$）．
+  $M_\square$ は，太字の変数で最低 $\bt$ 次数が $0$ になるように選ぶ（条件 (N2)）．
+\end{description}
+\end{hypothesis}
+
+(N2$'$) の形は次の考察から来る．
+\cite{KN} の生成関数 $\sum_\lambda\rCS_\lambda g_\lambda P_\lambda(x)$ の plethystic な構造を保つ正規化の自由度は，
+$x$ の尺度変換（$c^{|\lambda|}$）と framing の変化（$T_\lambda^k$）だけである．
+framing $k$ は $t=q$ で $q^{\kappa_\lambda k}$ として見えるので (N1) で決まり，$c$ は $\square$ で決まる．
+
+仮説 \ref{hyp:norm} は次の (a)--(d) で支持される（いずれも計算）．
+\begin{enumerate}
+\item[(a)] トーラス結び目 27 件で，GN の値に仮説 \ref{hyp:norm} を課すと，\cite{KN} の補助ファイルの値に全係数で一致する．
+\item[(b)] 全ケーブルの全彩色で，ミラー・転置対称性 $\mathrm{rCS}_{\lambda^T}(a,q,t)=\mathrm{rCS}_\lambda(a,t^{-1},q^{-1})$ が単項式まで厳密に成り立つ．
+\item[(c)] 全ケーブルで $\hf_\rho$ が Laurent 多項式になる．
+\item[(d)] 当初は，各 $\lambda$ に (N1) と (N2)（最低 $\bt$ 次数 $0$）を独立に課していた．
+  これはトーラス結び目と K1--K5b では (N2$'$) と同じ結果を与えるが，K5c では $[2]$ で $(q/t)^1$ ずれる．
+  そのずれのため，(b) が破れ，$\hf_{[2]}$ に分母 $(1-q^2)(1-qt)$ が残った．
+  $[2]$ を $(q/t)^u$ 倍する一パラメータ族の中で，(b) と (c) を同時に満たすのは (N2$'$) の $u$ だけだった．
+\end{enumerate}
+
+\subsection{数値計算と厳密化}
+
+すべての量を，有限体 $\mathbb{F}_p$（$p<2^{31}$）上で多数の評価点 $(q,t)$ をまとめて計算した．
+$a$ は多項式のまま保つ．
+その後，$(q,t)$ について二次元の Newton 補間を行い，二つの素数の中国剰余定理で整数係数を復元した．
+復元した多項式は，補間に使っていない点で，三つ目の素数を用いて毎回検証した．
+最大の計算（K6a の BPS 不変量，全 6 表）は約 77 分，メモリ 1.1 GB だった．
+
+%======================================================================
+\section{refined BPS 不変量の抽出}\label{sec:bps}
+
+\cite{KN} に従い，reformulated invariant $f^q_\mu$, $f^{\bar t}_\mu$ を次で定める．
+\begin{align}
+\sum_\lambda\rCS_\lambda\,g_\lambda P_\lambda(x;q,t)&=\mathrm{Exp}\Big(\sum_\mu\frac{f^q_\mu}{q^{1/2}-q^{-1/2}}s_\mu(x)\Big),\\
+\sum_\lambda\rCS_\lambda\,P_{\lambda^T}(-x;t,q)&=\mathrm{Exp}\Big(\sum_\mu\frac{f^{\bar t}_\mu}{t^{-1/2}-t^{1/2}}s_\mu(x)\Big).
+\end{align}
+我々はこれを $|\mu|\le3$ で plethystic 対数から一般に導き，\cite[付録 B]{KN} の明示式と照合した．
+その際の注意を二つ挙げる．
+\begin{itemize}
+\item \cite[付録 B]{KN} と補助ファイルの $f^q_\mu$ は，本文の定義から得られる値の $(t/q)^{|\mu|/2}$ 倍である．
+  表を作ったのは前者なので，前者に従う．
+\item $f^{\bar t}_{[1,1,1]}$ の印刷された式は誤植である（付録 \ref{app:issues}）．
+\end{itemize}
+$M_{\mu\rho}(t)=\sum_\sigma C_{\mu\sigma\rho}B_\sigma(t)$ を用いて $\hf_\rho=\sum_\mu M^{-1}_{\rho\mu}(t)f^q_\mu$ と定める．
+これは
+\begin{equation}
+\hf_\rho=\sum_{g,\beta,J_r}(-1)^{2J_r}\hN_{\rho,g,\beta,J_r}\,(q^{1/2}-q^{-1/2})^g(t^{-1/2}-t^{1/2})^g\Big(\frac{q}{t}\Big)^{J_r-\beta/2}a^\beta
+\end{equation}
+の形をもつと予想されている \cite[\S4]{KN}．
+抽出は補助ファイルの手順に従う．
+\begin{enumerate}
+\item $|\rho|$ が奇数のとき，$\hf_\rho$ に $a^{\mp1/2}$ を掛ける（$a$ 次数のシフト）．
+\item \eqref{eq:cov} で太字の変数に移る．
+\item $\ba^{2\beta}$ の係数を $G=(\bq-\bq^{-1})(\bq\bt-\bq^{-1}\bt^{-1})$ の冪で上から順に展開し，
+  $\bt^{2J_r}G^g\ba^{2\beta}$ の係数を $\hN_{\rho,g,\beta,J_r}$ と読む．
+\end{enumerate}
+全体の符号は，$a^{\pm1/2}=(-\ba^2\bt)^{\pm1/2}$ の分枝に由来する規約である．
+したがって，正値性は「全体の符号を適当に選べば全項が非負」で判定し，
+破れの大きさは「全体の符号を選んだときの負の項の最小数」で測る．
+$a$ 次数のシフトの向き（$|\rho|=1$ で $a^{+1/2}$ か $a^{-1/2}$ か）は \cite{KN} の表の中で統一されていない（付録 \ref{app:issues}）．
+本論文は $\mathbf{4_1}$ と $T(2,5)$ の表の向き（$|\rho|=1$ で $a^{-1/2}$）に統一する．
+この選び方は $\beta$ を一様に付け替えるだけで，正値性の判定には影響しない．
+
+%======================================================================
+\section{検証}\label{sec:checks}
+
+計算法と抽出の手順を，次の (1)--(8) で検証した（すべて計算，自動テストとして実装）．
+\begin{enumerate}
+\item Macdonald 多項式の基本性質を確かめた（Schur 極限，直交性とノルム，三角性，主特殊化の閉公式）．
+\item トーラス結び目 $T(2,3),T(2,5),T(2,7),T(2,9)$ の $|\lambda|\le3$ 全彩色と $T(3,4)$ の $[1],[2],[1,1]$ の計 27 件で，
+  \cite{KN} の補助ファイルの値と全係数で一致した．
+  これらの $t=q$ 極限は，Rosso--Jones 公式による彩色 HOMFLY-PT と一致した．
+\item \cite[付録 C]{KN} の表 13 個（$T(2,3)$ の 6 個，$\mathbf{4_1}$ の 6 個，$T(2,5)$ の $[1]$）を全項で再現した．
+\item 非 refined のケーブル公式（$\theta_\lambda=q^{\kappa_\lambda}a^{|\lambda|/2}$，framing 補正 $\theta_\lambda^{-pq}$）を，
+  ケーブルのブレイドから SageMath で計算した HOMFLY-PT と比べ，9 結び目で一致した．
+  blackboard framing の補正の向きは，writhe 1 で描いた自明な結び目のケーブルが $T(2,q)$ になることで確かめた．
+\item 彩色 HOMFLY-PT について，$H_{\lambda^T}(a,q)=H_\lambda(a,q^{-1})$ と
+  $H_\lambda(a,q{=}1)=H_\square(a,1)^{|\lambda|}$ が，9 結び目 $\times$ $|\lambda|\le3$ で成り立った．
+\item \cite{CD14} の明示例 8 件と，全係数で一致した（単項式倍を除く）．
+  内訳は K1 の $[1],[2]$ と，K2, K3, K4, K5a, K5b, K5c の $[1]$ である．K1 の $[2]$ は 720 項ある．
+\item 全評価点で $f^{\bar t}_\mu=\sum_\rho M_{\mu\rho}(q^{-1})\hf_\rho$ が成り立った．
+  対象は $T(2,3)$, $T(2,5)$, $\mathbf{4_1}$ と全ケーブルである．
+\item An.~Morozov の一次ずれ公式 \cite{AnMo} が，正規化の自由度を除いて成り立った．
+  対象は $T(2,3)$, $T(2,5)$, K1, K2 の全彩色である．
+\end{enumerate}
+
+%======================================================================
+\section{結果}\label{sec:results}
+
+\subsection{正値性・整数性}
+
+表 \ref{tab:bps} に判定結果をまとめる．
+すべての場合で $\hf_\rho$ は Laurent 多項式であり，$\hN$ は整数だった（計算）．
+
+\begin{table}[h]
+\centering
+\caption{refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ の正値性．
+\checkmark は全体の符号を選べば全項が非負であることを表す．
+$m/N$ は，全 $N$ 項のうち，全体の符号を選び直しても $m$ 項が負であることを表す．
+$\dagger$ は，$(g,\beta)$ を固定したとき $2J_r$ の偶奇がそろわない組があることを表す．
+上の 3 行は \cite{KN} の再現である．}\label{tab:bps}
+\input{generated/bps_table.tex}
+\end{table}
+
+\subsection{superpolynomial 自体の符号}
+
+比較のため，太字の変数での $\mathrm{rCS}_\lambda$ 自体の符号を表 \ref{tab:superpoly} に示す．
+
+\begin{table}[h]
+\centering
+\caption{太字の変数での reduced refined CS 不変量の符号．
+$+$ は全係数が同符号であることを表す．$m/N$ は，全 $N$ 項のうち，全体の符号を選んでも $m$ 項が逆符号であることを表す．}\label{tab:superpoly}
+\input{generated/superpoly_table.tex}
+\end{table}
+
+\subsection{例}
+
+非代数的な K2 の $[1]$ の $\hN$ を，各 $(\beta,g)$ について $\sum_{2J_r}\hN\,\bt^{2J_r}$ の形で表 \ref{tab:K2} に示す．
+全体の符号は，負の項が少なくなる向きに選んだ．
+K1 の $[1]$ は付録 \ref{app:K1} に示す．
+
+\begin{table}[h]
+\centering
+\caption{K2（$T(2,3)$ の $(2,1)$-ケーブル），$\rho=[1]$ の $\sum_{2J_r}\hN_{[1],g,\beta,J_r}\bt^{2J_r}$．}\label{tab:K2}
+\small
+\input{generated/K2_1_poly.tex}
+\end{table}
+
+\subsection{負の項の位置}
+
+負の項が少ない場合について，少数派の符号の項の位置 $(g,\beta,2J_r)$ と値を表 \ref{tab:minority} に示す．
+
+\begin{table}[h]
+\centering
+\caption{少数派の符号の項（$(g,\beta,2J_r)\!:\hN$）と，それらの $2J_r-\beta-g$ の値．}\label{tab:minority}
+\footnotesize
+\input{generated/minority.tex}
+\end{table}
+
+%======================================================================
+\section{考察}\label{sec:discussion}
+
+\subsection{代数的と非代数的}
+
+代数的なケーブル K1, K3, K6a では，$|\lambda|\le3$ の全彩色で $\hN\ge0$ だった（計算）．
+$T(2,3)$, $T(2,5)$ と合わせて，次を予想する．
+
+\begin{conjecture}
+代数的な iterated torus 結び目 $K$ と任意のヤング図形 $\rho$ に対し，
+仮説 \ref{hyp:norm} で正規化した refined CS 不変量から得られる $\hN_{\rho,g,\beta,J_r}(K)$ は非負整数である．
+さらに，$(\rho,g,\beta)$ を固定すると，非零の $\hN$ の $2J_r$ の偶奇はそろう．
+\end{conjecture}
+
+非代数的なケーブル 6 個は，いずれも少なくとも一つの彩色で正値性が破れた．
+破れ方には次の三つの型が見られた．
+\begin{itemize}
+\item K2, K4, K5a, K6b：$[1]$ から破れ，彩色が大きくなるにつれて負の項が増える．
+\item K5b（$(2,7)$-ケーブル）：$[1]$ では非負で，彩色付きで破れる．
+  K5b は \cite{CD14} の意味で pseudo-algebraic である（非彩色の superpolynomial が正値）．
+\item K5c（$(2,-1)$-ケーブル）：superpolynomial は $[1]$ から正値でない（表 \ref{tab:superpoly}）．
+  それでも $\hN$ は $[1],[2],[1,1],[1,1,1]$ で非負であり，$[3]$ と $[2,1]$ でも負の項は 6 個と 7 個だけである．
+\end{itemize}
+したがって，非代数的な結び目では，superpolynomial の正値性と $\hN$ の正値性は一致しない．
+
+\subsection{長方形と非長方形}
+
+トーラス結び目と代数的なケーブルでは，superpolynomial 自体は長方形の彩色で正値，$[2,1]$ で負の係数をもつ（表 \ref{tab:superpoly}）．
+これは Cherednik--Philipp \cite{CP} の「正値性について長方形のヤング図形は例外的である」という指摘と整合する．
+しかし $\hN$ に書き直すと，$[2,1]$ も非負になる（表 \ref{tab:bps}）．
+つまり BPS 不変量の言葉では，長方形の特殊性は消える．
+これは \cite{KN} がトーラス結び目で見出した現象が，代数的な iterated torus 結び目でも成り立つことを示している．
+
+\subsection{偶奇と $U(1)_R$}
+
+\cite{KN} は，$(\rho,g,\beta)$ ごとに $2J_r$ の偶奇がそろうことを，
+$U(1)_R$ の電荷 $S_R$ が M2--M5 の BPS 状態に自明に作用する証拠とした．
+本論文の全ケーブルでも偶奇はそろった（計算）．一方，$\mathbf{4_1}$ ではそろわない \cite{KN}．
+非代数的なケーブルの負の項は，偶奇がそろったまま現れる．
+$\hN$ が BPS 状態の空間の次元であるという解釈とは両立しないので，
+非代数的なケーブルでは \cite{KN} の幾何的な解釈の前提（$\hN=\dim A$）が成り立たないと考えられる．
+
+\subsection{負の項の局在}
+
+表 \ref{tab:minority} の例では，少数派の符号の項は表の端に局在している．
+\begin{itemize}
+\item K2, K6b, K5c：すべて一本の対角線 $2J_r-\beta-g=\mathrm{const}$ 上にある．
+  これは太字の変数で最低 $\bt$ 次数の辺に当たる．
+\item K5a：最大の $\beta$ の側にある．
+\end{itemize}
+破れが「内部」ではなく「境界」に現れることは，負の寄与が少数の余分な状態に由来する可能性を示唆する．
+その解釈は今後の課題である．
+
+\subsection{正規化への依存}
+
+表の中の相対的な符号は，全項に共通の単項式によらないので，正規化に依存しない．
+一方，$G$ 展開そのものは $q$ の冪の正規化に依存する．
+本論文では (N1) によって HOMFLY-PT からそれを固定した．
+仮説 \ref{hyp:norm} を DAHA または楕円 Hall 代数の側から導くことは，未解決である．
+
+%======================================================================
+\section{結論と今後の課題}
+
+ケーブル結び目の refined BPS 不変量を $|\lambda|\le3$ の全彩色で計算した．
+その結果，代数的なケーブルでは正値性が非長方形の彩色まで含めて成り立ち，非代数的なケーブルでは破れることを見出した．
+今後の課題を挙げる．
+\begin{itemize}
+\item 3 本ケーブル（$T(2,3)$ の $(3,19)$-ケーブルなど）と，3 段以上の反復．
+\item 単項式の正規化の理論的な導出．
+\item 非代数的な結び目で $\hN$ が負になることの物理的解釈．
+\item monotone link・Coxeter link \cite{GL} への拡張．
+\end{itemize}
+
+%======================================================================
+\appendix
+\section{既存文献で見つけた不整合}\label{app:issues}
+
+\begin{enumerate}
+\item \cite[付録 B]{KN} の $f^{\bar t}_{[1,1,1]}$ の印刷された式は，補助ファイルの式（\texttt{ft111}）および我々の導出と一致しない．後者二つは一致する．
+\item \cite{KN} の本文の $g_\lambda$ による定義と，付録 B の $f^q_\mu$ は，尺度 $(q/t)^{|\mu|/2}$ だけ異なる．
+\item \cite[付録 C]{KN} の表の $a$ 次数シフトは統一されていない．
+  $T(2,3)$ の表は $|\rho|=1$ で $a^{+1/2}$，$|\rho|=3$ で $a^{-1/2}$ を用い，$T(2,5)$ と $\mathbf{4_1}$ の表は逆を用いる（補助ファイルで確認）．
+\item \cite{KN} の本文は $q^{1/2}=-\bq\bt$ だが，トーラス用の補助ファイルの関数 \texttt{knotparam} は $q^{1/2}=+\bq\bt$ である．
+  $T(2,3)$ の表は，どちらでも絶対値が一致する．
+\item \cite[\S4]{GN} の行列要素の公式を楕円 Hall 代数の元として使うための正規化（\S\ref{sec:method}）．
+\end{enumerate}
+
+\begin{landscape}
+\section{K1 の $\rho=[1]$}\label{app:K1}
+\begin{center}
+\tiny
+\input{generated/K1_1_poly.tex}
+\end{center}
+各 $(g,\beta)$ について $\sum_{2J_r}\hN_{[1],g,\beta,J_r}(\mathrm{K1})\,\bt^{2J_r}$．$g$ の最大値 8 は K1 の種数と一致する．
+\end{landscape}
+
+\section{データと再現性}
+
+計算に用いたコード，結果（係数辞書と表），自動テストは，研究用リポジトリ（ローカル）にある．
+\begin{itemize}
+\item コード：\texttt{src/rcsknots/}
+\item refined CS 不変量：\texttt{data/cables/}
+\item BPS 不変量：\texttt{data/bps/}
+\item 規約の詳細：\texttt{docs/conventions.md}
+\end{itemize}
+
+%======================================================================
+\begin{thebibliography}{99}
+\bibitem{KN} S.~Kameyama and S.~Nawata, \emph{Refined large N duality for knots}, J.~Knot Theory Ramifications \textbf{32} (2023) 2041001, arXiv:1703.05408.
+\bibitem{AS} M.~Aganagic and S.~Shakirov, \emph{Knot homology from refined Chern--Simons theory}, Commun.~Math.~Phys.\ \textbf{333} (2015) 187, arXiv:1105.5117.
+\bibitem{AS2} M.~Aganagic and S.~Shakirov, \emph{Refined Chern--Simons theory and knot homology}, Proc.~Symp.~Pure Math.\ \textbf{85} (2012) 3, arXiv:1202.2489.
+\bibitem{Ch} I.~Cherednik, \emph{Jones polynomials of torus knots via DAHA}, arXiv:1111.6195.
+\bibitem{GN} E.~Gorsky and A.~Neguţ, \emph{Refined knot invariants and Hilbert schemes}, J.~Math.~Pures Appl.\ \textbf{104} (2015) 403, arXiv:1304.3328.
+\bibitem{CD14} I.~Cherednik and I.~Danilenko, \emph{DAHA and iterated torus knots}, Algebr.~Geom.~Topol.\ \textbf{16} (2016) 843, arXiv:1408.4348.
+\bibitem{CD15} I.~Cherednik and I.~Danilenko, \emph{DAHA approach to iterated torus links}, arXiv:1509.08351.
+\bibitem{CP} I.~Cherednik and I.~Philipp, \emph{DAHA and plane curve singularities}, Algebr.~Geom.~Topol.\ \textbf{18} (2018) 333, arXiv:1605.00978.
+\bibitem{MS} H.~Morton and P.~Samuelson, \emph{The HOMFLYPT skein algebra of the torus and the elliptic Hall algebra}, Duke Math.~J.\ \textbf{166} (2017) 801, arXiv:1410.0859.
+\bibitem{DGR} N.~Dunfield, S.~Gukov and J.~Rasmussen, \emph{The superpolynomial for knot homologies}, Experiment.~Math.\ \textbf{15} (2006) 129, arXiv:math/0505662.
+\bibitem{DMMSS} P.~Dunin-Barkowski, A.~Mironov, A.~Morozov, A.~Sleptsov and A.~Smirnov, \emph{Superpolynomials for toric knots from evolution induced by cut-and-join operators}, JHEP \textbf{03} (2013) 021, arXiv:1106.4305.
+\bibitem{MMSS} A.~Mironov, A.~Morozov, Sh.~Shakirov and A.~Sleptsov, \emph{Interplay between MacDonald and Hall--Littlewood expansions of extended torus superpolynomials}, JHEP \textbf{05} (2012) 070, arXiv:1201.3339.
+\bibitem{Dan} I.~Danilenko, arXiv:1405.0884（題名未確認）.
+\bibitem{Mo18} A.~Morozov, Phys.~Lett.~B \textbf{782} (2018), arXiv:1801.02407（題名未確認）.
+\bibitem{AnMo} An.~Morozov, \emph{The first-order deviation of superpolynomial in an arbitrary representation from the special polynomial}, JETP Lett.\ \textbf{97} (2013) 171, arXiv:1211.4596.
+\bibitem{GL} P.~Galashin and T.~Lam, \emph{Monotone links in DAHA and EHA}, arXiv:2307.16794.
+\end{thebibliography}
+
+\end{document}

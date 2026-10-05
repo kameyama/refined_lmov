@@ -120,6 +120,13 @@
 - docs/REPORT.md を作成（規約、検証結果、計算結果、判定表、代数的 vs 非代数的、長方形 vs [2,1]、未解決点）。
 - `.venv/bin/pytest`：257 件パス、2 件スキップ。
 
+### 2026-10-05 論文の作成（ユーザーの依頼）
+
+- これまでの内容を日本語の論文にまとめた：`docs/paper/main.tex`（LuaLaTeX、ltjsarticle）、`docs/paper/main.pdf`（14 ページ）。
+- 表は data/ から `scripts/paper_tables.py` で自動生成（`docs/paper/generated/`）。
+- コンパイル：`cd docs/paper && TEXMFVAR=$TMPDIR/texmf-var TEXMFCACHE=$TMPDIR/texmf-var latexmk -lualatex main.tex`（サンドボックス内ではフォントキャッシュの場所を変える必要がある）。
+- 文献情報は stage0_bibliography.md で確認したものだけを使い、式番号は確認できたもの以外は節番号にした。題名未確認の 2 件はその旨を明記。著者名は空欄。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
