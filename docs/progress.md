@@ -127,6 +127,17 @@
 - コンパイル：`cd docs/paper && TEXMFVAR=$TMPDIR/texmf-var TEXMFCACHE=$TMPDIR/texmf-var latexmk -lualatex main.tex`（サンドボックス内ではフォントキャッシュの場所を変える必要がある）。
 - 文献情報は stage0_bibliography.md で確認したものだけを使い、式番号は確認できたもの以外は節番号にした。題名未確認の 2 件はその旨を明記。著者名は空欄。
 
+### 2026-10-05 ユーザーの指摘による修正
+
+- 指摘：(1) rCS 自体が負の符号をもつことは三葉結び目で既知、(2) よって rCS の符号の表（論文の旧表 3）は無意味、
+  (3) superpolynomial は Gukov らの原典の意味（組み合わせ的に構成した正整数係数の多項式）に限る、
+  (4) refined LMOV 不変量は G 展開の前と後の両方で正の整数係数かを確かめる。
+- 対応：rCS の符号の表を論文・REPORT・判定表から削除。用語を修正（本研究の量は「refined CS 不変量」「DAHA の不変量」）。
+  G 展開の前の正値性を全データで判定した（`src/rcsknots/positivity.py`）。上の「ステージ 6」の記録中の superpolynomial の記述は、この用語の修正前のもの。
+- 結果（計算機で確認）：
+  - トーラス結び目、4_1、K1・K3・K6a：全彩色で、展開の前と後の両方が同じ全体の符号で非負整数。
+  - 非代数的なケーブル：展開の前も破れる。K5c は、展開の後では [1],[2],[1,1],[1,1,1] が非負なのに、展開の前は [1] から負（57 項中 5 項）。K5b の [1] は前後とも非負。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。

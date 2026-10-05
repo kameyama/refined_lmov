@@ -21,19 +21,6 @@ def cell(d):
     return s
 
 
-def superpoly_cell(knot, r):
-    """Sign pattern of the refined CS invariant itself in bold variables (min #negative over the overall sign)."""
-    from rcsknots.bps import to_bold
-    src = Path(f"data/cables/{knot}_{r}.json") if knot.startswith("K") else Path(f"data/torus/{knot}_{r}.json")
-    if not src.exists():
-        return "—"
-    poly = {tuple(map(int, k.split(","))): v for k, v in json.loads(src.read_text())["poly"].items()}
-    b = to_bold(poly, 0)
-    neg = sum(1 for v in b.values() if v < 0)
-    m = min(neg, len(b) - neg)
-    return "+" if m == 0 else f"±({m}/{len(b)})"
-
-
 def main():
     lines = ["| 結び目 | " + " | ".join(f"[{','.join(r)}]" for r in RHOS) + " |",
              "|---|" + "---|" * len(RHOS)]
@@ -54,17 +41,22 @@ def main():
             if "positivity" not in d:
                 continue
         lines.append(f"| {label} | " + " | ".join(row) + " |")
-    lines += ["", "✓：全体の符号を適当に選べば全項が非負。✗(n/N, 最小 m)：規約の符号で N 項中 n 項が負、全体の符号を選び直しても m 項が負。偶奇混在 m：(g,β) を固定して 2J_r の偶奇がそろわない組が m 個。",
+    lines += ["", "（上の表は G 展開の後の \\hat N_{ρ,g,β,J_r}。）✓：全体の符号を適当に選べば全項が非負。✗(n/N, 最小 m)：規約の符号で N 項中 n 項が負、全体の符号を選び直しても m 項が負。偶奇混在 m：(g,β) を固定して 2J_r の偶奇がそろわない組が m 個。",
               "全体の符号は最低次の項（g=0、最小 β、最小 2J_r）を正にする規約（docs/conventions.md §8）。", "",
               "## 負の係数（結び目, ρ, g, β, 2J_r, 値）", ""]
     # list only the minority-sign entries of small tables; the full lists are in data/bps/*.json
     lines += ["（各表の負の項は data/bps/{結び目}_{ρ}.json の positivity.negative に全件ある）"]
-    lines += ["", "## refined CS 不変量（superpolynomial）自体の符号（太字変数、全体の符号を選んだときの負の項の最小数）", "",
+    from rcsknots.positivity import judge
+    lines += ["", "## G 展開の前（\\hat f_ρ の太字変数での係数、KN の素朴な変数変換）", "",
               "| 結び目 | " + " | ".join(f"[{','.join(r)}]" for r in RHOS) + " |", "|---|" + "---|" * len(RHOS)]
     for k, label in KNOTS.items():
-        if k == "4_1":
-            continue
-        lines.append(f"| {label} | " + " | ".join(superpoly_cell(k, r) for r in RHOS) + " |")
+        cells = []
+        for r in RHOS:
+            j = judge(f"data/bps/{k}_{r}.json")
+            m, n = j["before_G"]["min_negative"], j["before_G"]["terms"]
+            cells.append("✓" if m == 0 else f"✗(最小 {m}/{n})")
+        lines.append(f"| {label} | " + " | ".join(cells) + " |")
+    lines += ["", "両方の表で ✓ の場合（トーラス結び目、4_1、K1、K3、K6a）は、同じ全体の符号の下で両方が非負。"]
     Path("data/bps_summary.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines[:20]))
 

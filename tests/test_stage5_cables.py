@@ -90,3 +90,26 @@ def test_bps_recompute_matches_saved(knot):
     hf = hat_f_exact({(1,): stored(knot, "1")}, 1, log=lambda s: None)[(1,)]
     _, N = normalize_sign(bps_numbers(hf, (1,), "nontorus"))
     assert {f"{g},{b},{F}": v for (g, b, F), v in N.items()} == json.loads(path.read_text())["N"]
+
+
+@pytest.mark.parametrize("knot", ["T2_3", "T2_5", "4_1", "K1", "K3", "K6a"])
+def test_positive_before_and_after_G(knot):
+    """Torus knots, 4_1 (KN) and the algebraic cables: \\hat f (before G) and \\hat N (after G) are non-negative
+    with one common overall sign, for every |ρ| ≤ 3."""
+    from rcsknots.positivity import judge
+    for r in ["1", "2", "11", "3", "21", "111"]:
+        path = ROOT / f"data/bps/{knot}_{r}.json"
+        if not path.exists():
+            pytest.skip("not computed")
+        j = judge(path)
+        assert j["both_positive_same_sign"] and j["integral"]
+
+
+def test_K5c_before_and_after_G_differ():
+    """K5c [1]: \\hat N (after G) is non-negative, while the coefficients before G are not."""
+    from rcsknots.positivity import judge
+    path = ROOT / "data/bps/K5c_1.json"
+    if not path.exists():
+        pytest.skip("not computed")
+    j = judge(path)
+    assert j["after_G"]["min_negative"] == 0 and j["before_G"]["min_negative"] == 5

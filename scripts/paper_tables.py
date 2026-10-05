@@ -2,7 +2,6 @@
 import json
 from pathlib import Path
 
-from rcsknots.bps import to_bold
 
 OUT = Path("docs/paper/generated")
 RHOS = ["1", "2", "11", "3", "21", "111"]
@@ -24,35 +23,21 @@ def minority(N):
     return s, sorted((k, s * v) for k, v in N.items() if s * v < 0)
 
 
-def bps_table():
+def bps_table(which):
+    """which = 'before_G' or 'after_G'."""
+    from rcsknots.positivity import judge
     rows = []
     for k, label, kind in KNOTS:
         cells = []
         for r in RHOS:
-            N, d = load_bps(k, r)
-            _, mino = minority(N)
-            c = "\\checkmark" if not mino else f"{len(mino)}/{len(N)}"
-            if d["positivity"]["mixed_parity_g_beta"]:
-                c += "$^\\dagger$"
+            j = judge(f"data/bps/{k}_{r}.json")
+            m, n = j[which]["min_negative"], j[which]["terms"]
+            c = "\\checkmark" if m == 0 else f"{m}/{n}"
+            if which == "after_G":
+                _, d = load_bps(k, r)
+                if d["positivity"]["mixed_parity_g_beta"]:
+                    c += "$^\\dagger$"
             cells.append(c)
-        rows.append(f"{label} & " + " & ".join(cells) + " \\\\")
-    return "\n".join(rows)
-
-
-def superpoly_table():
-    rows = []
-    for k, label, kind in KNOTS:
-        if k == "4_1":
-            continue
-        src = Path(f"data/cables/{k}_1.json") if k.startswith("K") else Path(f"data/torus/{k}_1.json")
-        cells = []
-        for r in RHOS:
-            src = Path(f"data/cables/{k}_{r}.json") if k.startswith("K") else Path(f"data/torus/{k}_{r}.json")
-            poly = {tuple(map(int, x.split(","))): v for x, v in json.loads(src.read_text())["poly"].items()}
-            b = to_bold(poly, 0)
-            neg = sum(1 for v in b.values() if v < 0)
-            m = min(neg, len(b) - neg)
-            cells.append("$+$" if m == 0 else f"{m}/{len(b)}")
         rows.append(f"{label} & " + " & ".join(cells) + " \\\\")
     return "\n".join(rows)
 
@@ -118,8 +103,11 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     head = "\\begin{tabular}{lcccccc}\n\\toprule\n & $[1]$ & $[2]$ & $[1,1]$ & $[3]$ & $[2,1]$ & $[1,1,1]$ \\\\\n\\midrule\n"
     tail = "\\bottomrule\n\\end{tabular}\n"
-    (OUT / "bps_table.tex").write_text(head + bps_table() + "\n" + tail)
-    (OUT / "superpoly_table.tex").write_text(head + superpoly_table() + "\n" + tail)
+    (OUT / "bps_table.tex").write_text(head + bps_table("after_G") + "\n" + tail)
+    (OUT / "bps_before_table.tex").write_text(head + bps_table("before_G") + "\n" + tail)
+    stale = OUT / "superpoly_table.tex"
+    if stale.exists():
+        stale.unlink()
     for k, fn, col in [("K1", polytable_by_g, ">{\\raggedright\\arraybackslash}p{4.0cm}"), ("K2", polytable, "l")]:
         h, body, n = fn(k, "1")
         (OUT / f"{k}_1_poly.tex").write_text(

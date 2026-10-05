@@ -40,12 +40,15 @@ resolved conifold 上の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ に書�
 対象は三葉結び目 $T(2,3)$ と $T(2,5)$ の 9 個の 2 本ケーブル，彩色は $|\lambda|\le 3$ の全 6 つのヤング図形である．
 計算法は二つの方向で検証した．
 一つは \cite{KN} の補助ファイルにあるトーラス結び目の値 27 件と表 13 個の完全な再現，
-もう一つは \cite{CD14} の DAHA superpolynomial の明示例 8 件との全係数での一致である．
+もう一つは \cite{CD14} の DAHA 不変量の明示例 8 件との全係数での一致である．
 主な結果は次のとおりである．
-代数的なケーブル 3 個では，非長方形の $[2,1]$ を含む全彩色で $\hN$ が非負整数になった．
-superpolynomial 自体は $[2,1]$ で負の係数をもつので，これはトーラス結び目と同じ構図である．
-一方，非代数的なケーブル 6 個ではいずれも正値性が破れた．
-破れ方は結び目によって大きく異なり，負の項は多くの場合，表の境界に局在する．
+refined BPS（refined LMOV）不変量の正値性は，$G$ 展開の前と後の両方で判定した．
+展開の前とは \cite{KN} の変数変換で得られる $\hf_\rho$ の係数，展開の後とは $\hN_{\rho,g,\beta,J_r}$ である．
+代数的なケーブル 3 個では，非長方形の $[2,1]$ を含む全彩色で，両方が同じ符号の下で非負整数になった．
+一方，非代数的なケーブル 6 個では，いずれも正値性が破れた．
+破れ方は結び目によって大きく異なる．
+特に $T(2,3)$ の $(2,-1)$-ケーブルでは，$G$ 展開の後では 4 つの彩色で非負なのに，展開の前では $[1]$ から負の係数が現れる．
+展開の後の負の項は，多くの場合，表の境界に局在する．
 整数性と，$(\rho,g,\beta)$ ごとの $2J_r$ の偶奇の一致は，すべての場合に成り立った．
 あわせて，ケーブルの refined 不変量の単項式正規化について，構造的な規則を提案し，検証した．
 \end{abstract}
@@ -58,12 +61,13 @@ superpolynomial 自体は $[2,1]$ で負の係数をもつので，これはト�
 \subsection{背景}
 
 $S^3$ 上の refined CS 理論 \cite{AS,AS2} は，トーラス結び目に対して
-Macdonald 多項式を用いた $S,T$ 行列で定義され，その安定極限は DAHA superpolynomial \cite{Ch} と一致する \cite{GN}．
+Macdonald 多項式を用いた $S,T$ 行列で定義され，その安定極限は Cherednik の DAHA による不変量 \cite{Ch} と一致する \cite{GN}．
 \cite{KN} は large $N$ 双対の refined 版を定式化し，refined CS 不変量 $\rCS_\lambda$ を，
 resolved conifold 上の M2--M5 束縛状態の数え上げ $\hN_{\rho,g,\beta,J_r}$ に書き換えた．
 そして，トーラス結び目・トーラス絡み目の全ての例で $\hN_{\rho,g,\beta,J_r}\in\mathbb{Z}_{\ge0}$ となることを観察した（正値性予想）．
-注目すべきことに，$\rCS_\lambda$ 自体は非長方形の $\lambda$ では負の係数をもつ（\cite{KN} とその引用文献を参照）にもかかわらず，
-$\hN$ に書き直すと正になる．
+$\rCS_\lambda$ 自体は，三葉結び目の $[2,1]$ のように非長方形の $\lambda$ で負の係数をもつことが知られている（\cite{KN} とその引用文献を参照）．
+にもかかわらず，$\hN$ に書き直すと正になる．
+さらに \cite{KN} は，$G$ 展開をする前の $\hf_\rho$ に素朴な変数変換を施した多項式の係数も，非負整数になることを観察した．
 
 非トーラス結び目については，\cite{KN} は彩色 HOMFLY-PT ホモロジーの Poincaré 多項式を入力として，
 homologically thin な結び目（$\mathbf{4_1}$ など）を調べた．
@@ -89,7 +93,13 @@ refined BPS 不変量を $|\lambda|\le3$ の全彩色で求め，正値性・整
 主張の確からしさを区別するため，計算機で確認したことには「（計算）」と明記し，
 文献から直接得られない規則は「仮説」，一般化した主張は「予想」と書く．
 
-\subsection{記法}
+\subsection{用語と記法}
+
+本論文では，superpolynomial という語を Gukov らの原典 \cite{DGR,GS} の意味に限って使う．
+すなわち，彩色 HOMFLY-PT ホモロジーの Poincaré 多項式として，
+微分などの構造的な性質から組み合わせ的に構成される，正の整数係数をもつ多項式である．
+本論文で計算する refined CS 不変量 $\rCS_\lambda$（およびそれと一致する DAHA の不変量）はこれとは区別し，
+superpolynomial とは呼ばない．
 
 ヤング図形 $\lambda$ の箱 $s=(i,j)$（$i$ 行 $j$ 列，1 始まり）に対し，
 腕長 $a(s)=\lambda_i-j$，脚長 $l(s)=\lambda^T_j-i$，co-arm $a'(s)=j-1$，co-leg $l'(s)=i-1$ とする．
@@ -164,7 +174,7 @@ K6b & $T(2,5)$ の $(2,1)$-ケーブル & $(2,2),(5,-19)$ & × & --- \\
 \subsection{楕円 Hall 代数による torus 結び目}
 
 Gorsky--Neguţ \cite{GN} は，安定化した球面 DAHA（楕円 Hall 代数）の元 $P_{kn,km}$ を用いて，
-トーラス結び目の DAHA superpolynomial を
+トーラス結び目の DAHA 不変量を
 \begin{equation}\label{eq:GN}
 \mathcal{P}^\lambda_{n,m}=\varepsilon\big(P_\lambda[p_k\mapsto P_{kn,km}]\cdot1\big)
 \end{equation}
@@ -317,28 +327,29 @@ $a$ 次数のシフトの向き（$|\rho|=1$ で $a^{+1/2}$ か $a^{-1/2}$ か�
 
 \subsection{正値性・整数性}
 
-表 \ref{tab:bps} に判定結果をまとめる．
-すべての場合で $\hf_\rho$ は Laurent 多項式であり，$\hN$ は整数だった（計算）．
+refined BPS 不変量の正値性を，$G$ 展開の前と後の両方で判定した．
+\begin{itemize}
+\item 展開の前：$a$ 次数をシフトした $\hf_\rho$ に \eqref{eq:cov} の変数変換を施した，$\ba,\bq,\bt$ の Laurent 多項式の係数（\cite{KN} の $\hN_{\mu;i,j,k}$ に当たる）．
+\item 展開の後：$\hN_{\rho,g,\beta,J_r}$．
+\end{itemize}
+結果を表 \ref{tab:before}（展開の前）と表 \ref{tab:bps}（展開の後）に示す．
+すべての場合で $\hf_\rho$ は Laurent 多項式であり，どちらの係数も整数だった（計算）．
+両方の表で \checkmark となる場合（トーラス結び目，$\mathbf{4_1}$，K1, K3, K6a）は，すべて同じ全体の符号の下で両方が非負になる（計算）．
 
 \begin{table}[h]
 \centering
-\caption{refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ の正値性．
+\caption{$G$ 展開の前の正値性：太字の変数での $\hf_\rho$ の係数．記号は表 \ref{tab:bps} と同じ．}\label{tab:before}
+\input{generated/bps_before_table.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{$G$ 展開の後の正値性：refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$．
 \checkmark は全体の符号を選べば全項が非負であることを表す．
 $m/N$ は，全 $N$ 項のうち，全体の符号を選び直しても $m$ 項が負であることを表す．
 $\dagger$ は，$(g,\beta)$ を固定したとき $2J_r$ の偶奇がそろわない組があることを表す．
 上の 3 行は \cite{KN} の再現である．}\label{tab:bps}
 \input{generated/bps_table.tex}
-\end{table}
-
-\subsection{superpolynomial 自体の符号}
-
-比較のため，太字の変数での $\mathrm{rCS}_\lambda$ 自体の符号を表 \ref{tab:superpoly} に示す．
-
-\begin{table}[h]
-\centering
-\caption{太字の変数での reduced refined CS 不変量の符号．
-$+$ は全係数が同符号であることを表す．$m/N$ は，全 $N$ 項のうち，全体の符号を選んでも $m$ 項が逆符号であることを表す．}\label{tab:superpoly}
-\input{generated/superpoly_table.tex}
 \end{table}
 
 \subsection{例}
@@ -370,31 +381,34 @@ K1 の $[1]$ は付録 \ref{app:K1} に示す．
 
 \subsection{代数的と非代数的}
 
-代数的なケーブル K1, K3, K6a では，$|\lambda|\le3$ の全彩色で $\hN\ge0$ だった（計算）．
+代数的なケーブル K1, K3, K6a では，$|\lambda|\le3$ の全彩色で，$G$ 展開の前の係数と $\hN$ の両方が非負だった（計算）．
 $T(2,3)$, $T(2,5)$ と合わせて，次を予想する．
 
 \begin{conjecture}
 代数的な iterated torus 結び目 $K$ と任意のヤング図形 $\rho$ に対し，
-仮説 \ref{hyp:norm} で正規化した refined CS 不変量から得られる $\hN_{\rho,g,\beta,J_r}(K)$ は非負整数である．
+仮説 \ref{hyp:norm} で正規化した refined CS 不変量から得られる refined BPS 不変量は，
+$G$ 展開の前（$\hf_\rho$ の太字の変数での係数）と後（$\hN_{\rho,g,\beta,J_r}(K)$）の両方で非負整数である．
 さらに，$(\rho,g,\beta)$ を固定すると，非零の $\hN$ の $2J_r$ の偶奇はそろう．
 \end{conjecture}
 
 非代数的なケーブル 6 個は，いずれも少なくとも一つの彩色で正値性が破れた．
 破れ方には次の三つの型が見られた．
 \begin{itemize}
-\item K2, K4, K5a, K6b：$[1]$ から破れ，彩色が大きくなるにつれて負の項が増える．
-\item K5b（$(2,7)$-ケーブル）：$[1]$ では非負で，彩色付きで破れる．
-  K5b は \cite{CD14} の意味で pseudo-algebraic である（非彩色の superpolynomial が正値）．
-\item K5c（$(2,-1)$-ケーブル）：superpolynomial は $[1]$ から正値でない（表 \ref{tab:superpoly}）．
-  それでも $\hN$ は $[1],[2],[1,1],[1,1,1]$ で非負であり，$[3]$ と $[2,1]$ でも負の項は 6 個と 7 個だけである．
+\item K2, K4, K5a, K6b：$G$ 展開の前も後も $[1]$ から破れ，彩色が大きくなるにつれて負の項が増える．
+\item K5b（$(2,7)$-ケーブル）：$[1]$ では展開の前も後も非負で，彩色付きでは両方とも破れる．
+  K5b は \cite{CD14} の意味で pseudo-algebraic である（非彩色の DAHA 不変量の係数が正）．
+\item K5c（$(2,-1)$-ケーブル）：展開の後の $\hN$ は $[1],[2],[1,1],[1,1,1]$ で非負であり，
+  $[3]$ と $[2,1]$ でも負の項は 6 個と 7 個だけである．
+  ところが展開の前の係数は，$[1]$ から負の項をもつ（57 項中 5 項）．
 \end{itemize}
-したがって，非代数的な結び目では，superpolynomial の正値性と $\hN$ の正値性は一致しない．
+K5c の例が示すように，非代数的な結び目では，$G$ 展開の前と後で正値性の判定が一致しない．
+\cite{KN} の正値性予想を調べるには，両方を確かめる必要がある．
 
 \subsection{長方形と非長方形}
 
-トーラス結び目と代数的なケーブルでは，superpolynomial 自体は長方形の彩色で正値，$[2,1]$ で負の係数をもつ（表 \ref{tab:superpoly}）．
-これは Cherednik--Philipp \cite{CP} の「正値性について長方形のヤング図形は例外的である」という指摘と整合する．
-しかし $\hN$ に書き直すと，$[2,1]$ も非負になる（表 \ref{tab:bps}）．
+refined CS 不変量 $\rCS_\lambda$ 自体が非長方形の彩色で負の係数をもつことは，三葉結び目で既に知られている．
+また Cherednik--Philipp \cite{CP} は，DAHA の不変量の正値性について，長方形のヤング図形が例外的であると述べている．
+本論文の結果では，代数的なケーブルの refined BPS 不変量は，$[2,1]$ でも $G$ 展開の前と後の両方で非負になった（表 \ref{tab:before}, \ref{tab:bps}）．
 つまり BPS 不変量の言葉では，長方形の特殊性は消える．
 これは \cite{KN} がトーラス結び目で見出した現象が，代数的な iterated torus 結び目でも成り立つことを示している．
 
@@ -482,6 +496,7 @@ $\hN$ が BPS 状態の空間の次元であるという解釈とは両立しな
 \bibitem{CD15} I.~Cherednik and I.~Danilenko, \emph{DAHA approach to iterated torus links}, arXiv:1509.08351.
 \bibitem{CP} I.~Cherednik and I.~Philipp, \emph{DAHA and plane curve singularities}, Algebr.~Geom.~Topol.\ \textbf{18} (2018) 333, arXiv:1605.00978.
 \bibitem{MS} H.~Morton and P.~Samuelson, \emph{The HOMFLYPT skein algebra of the torus and the elliptic Hall algebra}, Duke Math.~J.\ \textbf{166} (2017) 801, arXiv:1410.0859.
+\bibitem{GS} S.~Gukov and M.~Stošić, arXiv:1112.0030（題名・掲載誌未確認）.
 \bibitem{DGR} N.~Dunfield, S.~Gukov and J.~Rasmussen, \emph{The superpolynomial for knot homologies}, Experiment.~Math.\ \textbf{15} (2006) 129, arXiv:math/0505662.
 \bibitem{DMMSS} P.~Dunin-Barkowski, A.~Mironov, A.~Morozov, A.~Sleptsov and A.~Smirnov, \emph{Superpolynomials for toric knots from evolution induced by cut-and-join operators}, JHEP \textbf{03} (2013) 021, arXiv:1106.4305.
 \bibitem{MMSS} A.~Mironov, A.~Morozov, Sh.~Shakirov and A.~Sleptsov, \emph{Interplay between MacDonald and Hall--Littlewood expansions of extended torus superpolynomials}, JHEP \textbf{05} (2012) 070, arXiv:1201.3339.

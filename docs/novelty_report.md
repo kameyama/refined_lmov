@@ -162,7 +162,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
    - refined のケーブル不変量は DAHA の反復（CD14, CD15）で定義済みで、EHA 側（Morton–Samuelson 1410.0859）との一致も示されている。
    - 非 refined の cabling 公式は確立している（Anokhina–Morozov 1307.2216 など）。
    - Rosso–Jones の素朴な t 変形が失敗するという報告がある（Danilenko 1405.0884、Morozov 1801.02407、DMMSS 1106.4305 の γ 因子）。本研究の試算でも、素朴なプレシズムはトーラス結び目で失敗した（conventions.md §6）。
-   - 「companion の彩色 superpolynomial だけを入力とする Rosso–Jones 型の明示公式」は見つからなかった。
+   - 「companion の彩色 refined 不変量だけを入力とする Rosso–Jones 型の明示公式」は見つからなかった。
    - **→ §3 (N4)**：素朴な形の公式は誤り（既知の失敗）。正しい形は DAHA の定義を companion の段で線形に分解したもの（conventions.md §7）で、定義から直ちに従う。
      したがって、これを本研究の新しい結果として強く主張するのは難しい。「計算法として明示し、検証した」程度の位置づけにとどめる。
 5. **【調査報告】の文献情報**【確認：arXiv API】
