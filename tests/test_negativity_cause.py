@@ -29,3 +29,21 @@ def test_uncolored_obstruction_from_braid_homfly(name, obstructed):
     deg = sp.Poly(sp.expand((1 - a) * p0), a).all_coeffs()
     signs = {(1 if c > 0 else -1) * (-1) ** i for i, c in enumerate(deg) if c != 0}
     assert (len(signs) > 1) == obstructed, coeffs
+
+
+@pytest.mark.parametrize("name", ["T2_3", "K1", "K5b", "K5a", "K4", "K2", "K5c", "K6b"])
+def test_constructed_superpolynomial_constraints(name):
+    """data/superpoly の候補（scripts/construct_superpolynomial.py）：非負、𝐭 = −1 で HOMFLY-PT、DGR の対称性。"""
+    import json
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from construct_superpolynomial import daha_bold, homfly
+    path = ROOT / f"data/superpoly/{name}.json"
+    if not path.exists():
+        pytest.skip("not constructed")
+    P = {tuple(map(int, k.split(","))): v for k, v in json.loads(path.read_text())["solution"].items()}
+    assert all(v > 0 for v in P.values())
+    assert homfly(P) == homfly(daha_bold(name))
+    assert all(P.get((a, -q, t - q), 0) == v for (a, q, t), v in P.items())
+    if name == "T2_3":
+        assert P == {(2, -2, 0): 1, (2, 2, 2): 1, (4, 0, 3): 1}

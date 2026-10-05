@@ -1,0 +1,1 @@
+{"knot": "T2_3", "solution": {"2,-2,0": 1, "2,2,2": 1, "4,0,3": 1}, "rank": 3, "equals_daha": true, "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"}

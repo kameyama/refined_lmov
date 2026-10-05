@@ -1,0 +1,30 @@
+{
+ "knot": "T2_3",
+ "crossings": 3,
+ "kh": {
+  "2,0": 1,
+  "6,2": 1,
+  "8,3": 1
+ },
+ "kh_total_rank": 3,
+ "kh_deltas": [
+  2
+ ],
+ "hfk": {
+  "-1,-2": 1,
+  "0,-1": 1,
+  "1,0": 1
+ },
+ "hfk_total_rank": 3,
+ "hfk_deltas": [
+  1
+ ],
+ "seifert_genus": 1,
+ "tau": 1,
+ "L_space_knot": true,
+ "fibered": true,
+ "seconds": {
+  "khoca": 0.1,
+  "hfk": 7.7
+ }
+}

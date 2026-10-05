@@ -187,6 +187,28 @@
    - K5c：展開の後は n=2 で δ ≥ 0、n=3 で δ ≥ 2 で正。展開の前は [1] の負を引き継ぎ、どの δ でも負。
    - K2, K4, K5a, K6b：δ ∈ [−24, 24] のどれでも負。
 
+## [1] での他の構成との比較：Khovanov・knot Floer・DGR 型の superpolynomial（2026-10-05）
+
+道具（.venv に導入）：khoca 1.5（Sage の conda 環境の pari を参照してビルド、`py` が必要）、snappy 3.3.2（knot_floer_homology）、scipy 1.18.1（整数計画）。
+khoca の sl(N), N ≥ 3 は自明な結び目（σ1σ1^{-1}）にも自明でない値を返したので使わない（N = 2 は三葉結び目・8 の字で正しい）。
+yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接計算）は Rust が無いので未導入（導入にはユーザーの許可が要る）。
+
+- `scripts/homology_invariants.py` → `data/homology/{K}.json`：reduced Khovanov（F_101）と HFK。全ケーブルで Kh は thick【計算】。
+  L-space 結び目：K1, K3, K4, K5a, K5b, K6a（K2, K5c, K6b は違う）【計算、snappy】。
+- `scripts/compare_khovanov.py`：DAHA の rCS_□ の 𝐚 = 𝐪² 特殊化 P_2 と Kh。HOMFLY → sl(2) のスペクトル系列の必要条件 P_2 − Kh = (1+t)Q, Q ≥ 0 は、
+  T(2,3), K1, K3, K6a, K5b で t のずれ 0 のまま成立、K2, K4, K5a, K5c, K6b では不成立【計算】。
+- `scripts/construct_superpolynomial.py` → `data/superpoly/{K}.json`：Gukov らの原典（DGR）の手法による [1] の superpolynomial の候補（整数計画、総階数最小）。
+  条件：𝐭 = −1 で HOMFLY-PT、d_{±1} で 1 項が残る、d_2 → Kh、d_0 → HFK、DGR の対称性 (e_a,e_q,e_t) ↔ (e_a,−e_q,e_t−e_q)。
+  対称性は Gorsky–Hogancamp–Mellit（arXiv:2103.01212、Duke Math. J. 173 (2024)、arXiv の概要で確認）が証明。d_2, d_0 が単独でホモロジーを与えることは DGR の予想（仮定）。
+  - HOMFLY-PT の絶対的な符号は Jones 多項式との一致で決める。−𝐭P は P と同じ HOMFLY-PT を与えるので、全体の符号の自由度は 𝐭 の 1 だけのずれと同じ。
+    絶対的な符号で見ると、K4, K2, K5c, K6b の DAHA の rCS_□ は負の項の方が多い。
+  - 検証：T(2,3), K1, K3, K5b では候補が DAHA の不変量と全項で一致する【計算】。DAHA の不変量は全結び目で DGR の対称性をずれなしで満たす。
+  - 非代数的な 5 結び目：正の候補が存在し、DAHA とは一致しない。K4 の候補は DAHA の負の項 −c·m を +c·m·𝐭^{−1} に置き換えたもの（CD14 の「−1 ↦ 1/t」）。K5c も大部分がこの型。
+    候補の総階数：K4 27, K2 41, K5c 47, K5a 77, K6b 289（K6b は狭い格子）。乱数の目的関数 5 通りで、K4, K2, K5c は同じ解、K5a は別の解が 5 個。
+  - `scripts/superpoly_lmov.py`：候補から \hat f_{[1]} = (1+𝐚²𝐭)/(𝐚²𝐭)·P を作ると、5 結び目すべて（K5a の別解 5 個も）で G 展開の前後とも正整数係数【計算】。
+    ただし 2J_r の偶奇はそろわない（KN の 4_1 と同じ型）。型 I（K4, K5a）で予想した「偶奇がそろわない」と整合。
+  - 結論：[1] で「DAHA（ケーブルの refined 不変量）の計算と同じ結果になるか」→ ならない。DGR 型の superpolynomial では [1] の正値性は G 展開の前後とも成り立ち、負は DAHA の構成に固有【計算＋DGR の仮定】。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
