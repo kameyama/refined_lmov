@@ -53,6 +53,10 @@ $\hbN$ と $\hN$ の両方が同じ符号の下で非負整数になった．
 (II) $T(2,3)$ と $T(2,5)$ の $(2,1)$-ケーブル，$T(2,3)$ の $(2,-1)$-ケーブルでは，HOMFLY-PT は正値性と両立するが，DAHA の不変量 $\rCS_\square$ 自体が負の係数をもつ．
 (III) $T(2,3)$ の $(2,7)$-ケーブルの彩色付きの破れは framing に依存し，framing を十分負にずらすと $|\lambda|\le3$ の全彩色で正になる．
 トーラス結び目と代数的なケーブルの正値性は，調べた範囲の framing の変化で崩れなかった．
+$[1]$ では $\hf_{[1]}$ が rCS と同一なので，ホモロジーとして解釈される不変量は正の整数係数でなければならない．
+そこで非代数的なケーブルの $[1]$ について，Khovanov ホモロジーと knot Floer ホモロジーを計算し，Dunfield--Gukov--Rasmussen の手法で superpolynomial の候補を構成した．
+DAHA の値はスペクトル系列の必要条件を満たさず，HOMFLY-PT ホモロジーの Poincaré 多項式ではない．
+一方，superpolynomial の候補からは，5 結び目すべてで $G$ 展開の前後とも正の refined LMOV 不変量が得られた（$2J_r$ の偶奇は $\mathbf{4_1}$ と同様にそろわない）．
 整数性はすべての場合に成り立った．
 $(\rho,g,\beta)$ ごとの $2J_r$ の偶奇の一致は，rCS の指数の偶奇の一様性から自動的に従うことを示した．
 あわせて，ケーブルの refined 不変量の単項式正規化について，構造的な規則を提案し，検証した．
@@ -93,6 +97,7 @@ refined BPS 不変量を $|\lambda|\le3$ の全彩色で求め，正値性・整
 \item 正値性の判定．代数的なケーブルでは全彩色で成り立ち，非代数的なケーブルでは破れる（\S\ref{sec:results}）．
   破れの原因を，HOMFLY-PT による障害，DAHA の不変量自体の負，framing への依存の三つに切り分けた（\S\ref{sec:cause}）．
 \item ケーブルの refined 不変量の単項式（framing）正規化の規則の提案と検証（\S\ref{sec:normalization}）．
+\item 非代数的なケーブルの $[1]$ での，Khovanov・knot Floer ホモロジーおよび superpolynomial の候補との比較（\S\ref{sec:categorification}）．
 \item 計算の過程で見つけた，既存文献の式・規約の不整合の指摘（付録 \ref{app:issues}）．
 \end{enumerate}
 
@@ -421,6 +426,146 @@ K1 の $[1]$ は付録 \ref{app:K1} に示す．
 \end{table}
 
 %======================================================================
+\section{$[1]$ での圏化との比較}\label{sec:categorification}
+
+$\hf_{[1]}=(a^{1/2}-a^{-1/2})\,\mathrm{rCS}_{[1]}$（\S\ref{sec:cause}）なので，$[1]$ の refined LMOV 不変量は原理的に rCS そのものである．
+したがって $[1]$ では，ホモロジーの Poincaré 多項式として解釈される不変量は，すべて正の整数係数でなければならない．
+また \cite{KN} の立場に立つなら，$G$ 展開が閉じて正整数係数になることも，$[1]$ で確かめられなければならない．
+本節では，非代数的なケーブル K2, K4, K5a, K5c, K6b の $[1]$ について，本論文の計算（DAHA/楕円 Hall 代数）を，ホモロジーを作る他の構成と比べる．
+対照として $T(2,3)$ と代数的なケーブル K1, K3, K6a，および K5b を用いる．
+
+\subsection{圏化の方向性}
+
+非彩色の HOMFLY-PT 多項式の圏化には，次の方向がある．
+\begin{enumerate}
+\item[(A)] HOMFLY-PT ホモロジー：行列因子化 \cite{KR2} や Soergel 双加群 \cite{Kh07} で定義された三重次数のホモロジー．
+\item[(B)] sl$(N)$ ホモロジー（$N=2$ は Khovanov ホモロジー）と knot Floer ホモロジー：二重次数のホモロジー．
+  (A) から sl$(N)$ ホモロジーへのスペクトル系列がある \cite{Ras}．
+\item[(C)] superpolynomial \cite{DGR}：(A) の Poincaré 多項式を，微分 $d_N$ と対称性などの構造から組み合わせ的に決める構成（予想に基づく）．
+\item[(D)] refined CS 不変量・DAHA・楕円 Hall 代数：ホモロジーではない代数的な構成．本論文の計算はこれである．
+\item[(E)] 平面曲線特異点の Hilbert スキーム \cite{ORS}：代数的な結び目に限った幾何的な予想．非代数的な結び目には適用できない．
+\end{enumerate}
+(A) は正のトーラス絡み目について計算されており \cite{HM}，直接計算は 11 交点以下の素な結び目について行われている \cite{NS}．
+今回のケーブルのブレイド表示は 13--29 交点であり，その範囲に含まれない．
+対象の 5 結び目について，(A) と (C) の計算例は文献に見つからなかった．
+
+\subsection{Khovanov ホモロジーと knot Floer ホモロジー}
+
+ケーブルのブレイド（\S\ref{sec:checks} の (4) で用いたもの）から，
+reduced Khovanov ホモロジーを khoca \cite{khoca}（係数 $\mathbb{F}_{101}$）で，knot Floer ホモロジーを SnapPy \cite{snappy} で計算した（計算）．
+三葉結び目では，\cite{DGR} の $\mathcal{P}=\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$ の $\ba=\bq^2$ 特殊化が Khovanov ホモロジーに一致する．
+また $(A,M)=(e_\bq/2,\,e_\bt-e_\ba)$ への移し替えが，knot Floer ホモロジーに一致する．
+全ケーブルで，Khovanov ホモロジーは thick だった（表 \ref{tab:homology}）．
+
+\begin{table}[h]
+\centering
+\caption{reduced Khovanov ホモロジーと knot Floer ホモロジーの総階数．交点数はブレイド表示のもの．L：L-space 結び目．}\label{tab:homology}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+ & 交点数 & Kh & $\delta$ の個数 & HFK & L & DAHA の $\rCS_\square$ \\
+\midrule
+K1 & 19 & 17 & 3 & 13 & ○ & 正 \\
+K5b & 13 & 11 & 3 & 7 & ○ & 正 \\
+K2 & 17 & 15 & 3 & 7 & × & 負あり \\
+K4 & 15 & 13 & 3 & 5 & ○ & 負あり \\
+K5a & 13 & 11 & 3 & 5 & ○ & 負あり \\
+K5c & 19 & 17 & 3 & 9 & × & 負あり \\
+K6b & 29 & 39 & 5 & 15 & × & 負あり \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Rasmussen のスペクトル系列 \cite{Ras} の微分は，$\ba=\bq^2$ 特殊化の下で $q$ 次数を保ち，$t$ 次数を 1 だけ変える．
+したがって，$\mathcal{P}$ が (A) の Poincaré 多項式なら，
+\begin{equation}\label{eq:sscond}
+\mathcal{P}(\ba=\bq^2)-\mathrm{Kh}=(1+t)\,Q,\qquad Q\ge0
+\end{equation}
+が成り立つ（必要条件）．
+DAHA の $\rCS_\square$ はこの条件を，$T(2,3)$, K1, K3, K6a, K5b では正規化を変えずに満たし，K2, K4, K5a, K5c, K6b では満たさない（計算）．
+
+\subsection{Gukov らの手法による superpolynomial の構成}
+
+\cite{DGR} の手法で，$[1]$ の superpolynomial の候補 $\mathcal{P}(\ba,\bq,\bt)$（正の整数係数）を整数計画で構成した．
+総階数を最小にし，次の条件を課した．
+\begin{enumerate}
+\item[(H)] $\bt=-1$ で HOMFLY-PT 多項式になる．HOMFLY-PT の符号は，Jones 多項式との一致で決める．
+\item[($d_{\pm1}$)] 次数 $(-2,2,-1)$, $(-2,-2,-3)$ の微分で 1 項だけ残る．残る項の次数は $(\Sigma,-\Sigma,0)$, $(\Sigma,\Sigma,\Sigma)$ である（$\Sigma$ は S 不変量 \cite{DGR,GGS}）．
+\item[($d_2$)] 次数 $(-2,4,-1)$ の微分のホモロジーを $\ba=\bq^2$ に特殊化すると，Khovanov ホモロジーになる．
+\item[($d_0$)] 次数 $(-2,0,-3)$ の微分のホモロジーが，knot Floer ホモロジーになる．
+\item[(S)] 対称性 $(e_\ba,e_\bq,e_\bt)\leftrightarrow(e_\ba,-e_\bq,e_\bt-e_\bq)$．これは \cite{GHM} が証明した \cite{DGR} の対称性で，\cite{KN} の $q\leftrightarrow t^{-1}$ の対称性の $[1]$ の場合に当たる．
+\end{enumerate}
+($d_2$), ($d_0$) で各微分が単独でホモロジーを与えることは \cite{DGR} の予想であり，得られるのは候補である．
+本論文の rCS は，全結び目で (H) と (S) をずれなしで満たす（計算）．
+
+\begin{table}[h]
+\centering
+\caption{$[1]$ の superpolynomial の候補と，そこから得た refined LMOV 不変量．前／後は $G$ 展開の前後の負の項の数／項数．$\dagger$：$2J_r$ の偶奇がそろわない．}\label{tab:superpoly}
+\small
+\begin{tabular}{lcccc}
+\toprule
+ & 総階数 & DAHA の値との関係 & 前 & 後 \\
+\midrule
+$T(2,3)$, K1, K5b & 3, 85, 31 & 一致 & 0 & 0 \\
+K4 & 27 & 負の項 $-c\,m$ を $+c\,m\,\bt^{-1}$ に置換 & 0/47 & 0/54$^\dagger$ \\
+K2 & 41 & 一致しない & 0/59 & 0/63$^\dagger$ \\
+K5c & 47 & 大部分が K4 と同じ型 & 0/59 & 0/77$^\dagger$ \\
+K5a & 77 & 一致しない（解は 5 個以上） & 0/107 & 0/109$^\dagger$ \\
+K6b & 289 & 一致しない & 0/250 & 0/301$^\dagger$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+結果を表 \ref{tab:superpoly} に示す（計算）．
+\begin{itemize}
+\item 対照の $T(2,3)$, K1, K3, K5b では，候補が DAHA の値と全項で一致した．
+\item 非代数的な 5 結び目すべてで，正の候補が存在する．
+  そこから得た $\hf_{[1]}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}\mathcal{P}$ は，$G$ 展開の前後とも正の整数係数である．
+  $2J_r$ の偶奇はそろわず，\cite{KN} の $\mathbf{4_1}$ と同じ型になる．
+  これは \S\ref{sec:cause} (2) の「K4, K5a に正の refinement があるなら偶奇はそろわない」と整合する．
+\item 一意性：目的関数を乱数の重みに変えて 5 通り解き直すと，K4, K2, K5c では同じ解，K5a では別の解が 5 個得られた（どれも前後とも正）．
+  K6b は一意性を調べておらず，探索の格子も狭い．
+\item K4 の候補は，DAHA の負の項 $-c\,m$ を $+c\,m\,\bt^{-1}$ に置き換えたものである．
+  これは \cite{CD14} が Cab$(5,2)T(3,2)$ の Khovanov 多項式で観察した「$-1\mapsto1/t$」と同じ型である．
+\end{itemize}
+
+\subsection{四重次数の色付きホモロジーとの関係}
+
+Gorsky--Gukov--Stošić \cite{GGS} は，長方形の彩色の HOMFLY-PT ホモロジーが四つの次数 $(a,q,t_r,t_c)$ をもつと予想した．
+$t_c$ は \cite{AS,DGR} の規約で，refined CS 不変量はこれに対応する．
+予想は全ての結び目が対象だが，ケーブルの計算例・言及はない．
+$[1]$ では $t_r=t_c$ となり，\cite{DGR} の三重次数に戻る．
+したがって，$[1]$ の DAHA の負の係数を $t_r$ と $t_c$ の規約の違いで説明することはできない．
+\cite{GGS} が $[1]$ に加える要請のうち，S 不変量の位置は上の ($d_{\pm1}$) に含めた．
+新しい微分 $d_{2|1}$, $d_{1|2}$ などは，十分大きな結び目では非彩色でも非自明になりうる．
+しかしそのホモロジーの値が未知なので，条件にはしていない．
+
+\subsection{整合性のまとめ}
+
+\begin{table}[h]
+\centering
+\caption{$[1]$ での DAHA の値（本論文の計算）と他の構成の整合性．}\label{tab:consistency}
+\small
+\begin{tabular}{lcc}
+\toprule
+検査 & 代数的なケーブル・K5b & K2, K4, K5a, K5c, K6b \\
+\midrule
+HOMFLY-PT・Jones・Alexander（Euler 標数） & 整合 & 整合 \\
+\cite{DGR} の対称性 & 整合 & 整合 \\
+正の整数係数 & 整合 & 不整合 \\
+スペクトル系列の必要条件 \eqref{eq:sscond} & 整合 & 不整合 \\
+(C) の候補との一致 & 一致 & 不一致 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+表 \ref{tab:consistency} のとおり，非代数的な 5 結び目の $[1]$ では，DAHA の値は Euler 標数と対称性のレベルでは他の構成と整合する．
+しかし，正値性とスペクトル系列のレベルでは整合しない．
+したがってこれらの結び目では，DAHA の値は HOMFLY-PT ホモロジーの Poincaré 多項式ではない（計算と \cite{Ras} の定理）．
+一方，(C) の候補では $[1]$ の refined LMOV 不変量は $G$ 展開の前後とも正である．
+\cite{KN} が非トーラス結び目で superpolynomial を用いたのと同じ枠組みに入れれば，負になるのは (D) を用いた場合に限られる．
+
+%======================================================================
 \section{考察}\label{sec:discussion}
 
 \subsection{代数的と非代数的}
@@ -557,13 +702,17 @@ K5b では，framing を負にずらすと正値性が回復する．
 これはトーラス結び目と同じである．
 非代数的なケーブルでは，(N2$'$) の正規化の下で正値性が破れる．
 その原因は結び目によって異なり，HOMFLY-PT の段階の障害（K4, K5a），DAHA の不変量自体の負（K2, K5c, K6b），framing への依存（K5b）に分かれる．
+$[1]$ で他の構成と比べると，DAHA の値は Euler 標数と対称性では整合するが，HOMFLY-PT ホモロジーの Poincaré 多項式ではない．
+Dunfield--Gukov--Rasmussen の手法による superpolynomial の候補では，非代数的な 5 結び目でも $[1]$ の refined LMOV 不変量が $G$ 展開の前後とも正になる．
 今後の課題を挙げる．
 \begin{itemize}
 \item 3 本ケーブル（$T(2,3)$ の $(3,19)$-ケーブルなど）と，3 段以上の反復．
 \item 単項式の正規化の理論的な導出．
 \item 非代数的な結び目で $\hN$ が負になることの物理的解釈．
 \item 非代数的な結び目での framing の選び方（K5b で正値性を回復する framing の意味）．
-\item K4, K5a の彩色 HOMFLY-PT ホモロジー（偶奇がそろわないはず）との比較．
+\item HOMFLY-PT ホモロジーの直接計算（\cite{NS} のプログラム）による superpolynomial の候補の確認．
+\item 候補の一意性（K5a, K6b）と，\cite{GGS} の新しい微分 $d_{n|m}$ の影響．
+\item DAHA の値を superpolynomial から得る規則（\cite{CD14} の「$-1\mapsto1/t$」の一般化）．
 \item monotone link・Coxeter link \cite{GL} への拡張．
 \end{itemize}
 
@@ -622,6 +771,7 @@ $\mathbf{N}^q$ と $\mathbf{N}^{\bar t}$ の負の項の数は全ての場合で
 \item BPS 不変量：\texttt{data/bps/}
 \item 規約の詳細：\texttt{docs/conventions.md}
 \item 負の係数の原因の切り分け（\S\ref{sec:cause}）：\\ \texttt{scripts/negativity\_cause.py}，\texttt{scripts/framing\_scan.py}，\\ 結果は \texttt{data/negativity\_cause.md}
+\item 圏化との比較（\S\ref{sec:categorification}）：\\ \texttt{scripts/homology\_invariants.py}，\texttt{scripts/compare\_khovanov.py}，\\ \texttt{scripts/construct\_superpolynomial.py}，\texttt{scripts/superpoly\_lmov.py}，\\ 結果は \texttt{data/homology/}，\texttt{data/superpoly/}
 \end{itemize}
 
 %======================================================================
@@ -642,6 +792,16 @@ $\mathbf{N}^q$ と $\mathbf{N}^{\bar t}$ の負の項の数は全ての場合で
 \bibitem{Dan} I.~Danilenko, arXiv:1405.0884（題名未確認）.
 \bibitem{Mo18} A.~Morozov, Phys.~Lett.~B \textbf{782} (2018), arXiv:1801.02407（題名未確認）.
 \bibitem{AnMo} An.~Morozov, \emph{The first-order deviation of superpolynomial in an arbitrary representation from the special polynomial}, JETP Lett.\ \textbf{97} (2013) 171, arXiv:1211.4596.
+\bibitem{KR2} M.~Khovanov and L.~Rozansky, \emph{Matrix factorizations and link homology II}, arXiv:math/0505056.
+\bibitem{Kh07} M.~Khovanov, \emph{Triply-graded link homology and Hochschild homology of Soergel bimodules}, arXiv:math/0510265.
+\bibitem{Ras} J.~Rasmussen, \emph{Some differentials on Khovanov--Rozansky homology}, arXiv:math/0607544.
+\bibitem{ORS} A.~Oblomkov, J.~Rasmussen and V.~Shende, \emph{The Hilbert scheme of a plane curve singularity and the HOMFLY homology of its link}, arXiv:1201.2115.
+\bibitem{HM} M.~Hogancamp and A.~Mellit, \emph{Torus link homology}, arXiv:1909.00418.
+\bibitem{NS} K.~Nakagane and T.~Sano, \emph{Computations of HOMFLY homology}, arXiv:2111.00388.
+\bibitem{GHM} E.~Gorsky, M.~Hogancamp and A.~Mellit, \emph{Tautological classes and symmetry in Khovanov--Rozansky homology}, Duke Math.~J.\ \textbf{173} (2024) 2481, arXiv:2103.01212.
+\bibitem{GGS} E.~Gorsky, S.~Gukov and M.~Stošić, \emph{Quadruply-graded colored homology of knots}, arXiv:1304.3481.
+\bibitem{khoca} L.~Lewark, \texttt{khoca}（Python パッケージ，版 1.5 を使用）．
+\bibitem{snappy} SnapPy（Python パッケージ，版 3.3.2 を使用．knot Floer ホモロジーは \texttt{knot\_floer\_homology} 1.2.2）．
 \bibitem{GL} P.~Galashin and T.~Lam, \emph{Monotone links in DAHA and EHA}, arXiv:2307.16794.
 \end{thebibliography}
 

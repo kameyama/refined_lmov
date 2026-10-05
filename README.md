@@ -47,6 +47,9 @@ just fetch-refs
 | sympy / numpy / mpmath | 使える | 1.14.0 / 2.5.3 / 1.3.0 | .venv |
 | python-flint | 使える | 0.9.0 | .venv（`nmod`, `nmod_mat`, `nmod_poly`, `fmpz_mpoly` など） |
 | pytest | 使える | 9.1.1 | `.venv/bin/pytest` |
+| khoca | 使える（sl(2) のみ。N ≥ 3 は自明な結び目で誤った値を返すので使わない） | 1.5 | .venv。Sage の conda 環境の pari を参照してビルド：`CFLAGS=-I$S/include LDFLAGS="-L$S/lib -Wl,-rpath,$S/lib" pip install khoca`（`S` は conda 環境 `sage` のパス）。`py` パッケージが必要 |
+| SnapPy | 使える | 3.3.2（knot_floer_homology 1.2.2） | .venv |
+| scipy | 使える | 1.18.1 | .venv（`milp`、整数計画） |
 | SageMath | 使える | 10.9（conda-forge、環境 `sage`、Python 3.14.7） | `DOT_SAGE=$TMPDIR/dotsage /opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage file.sage` |
 | Wolfram Engine | 使える（サンドボックス外のみ） | 15.0.0 for Mac OS X ARM (64-bit) | `wolframscript -code ...` / `wolframscript -file x.wls` |
 
