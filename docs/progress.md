@@ -281,6 +281,14 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
   - thick なトーラス結び目は指数増大性を満たすので、命題 2 で破れるのは非トーラスの thick な結び目に限る（記述を修正）。
   - [1] の偶奇の条件は Chandler–Gorsky 2209.13058 の parity knot と同じと考えられる（規約の照合は未確認）。
 
+## 未解決の問題の整理と第 3 期の計画（2026-10-06）
+
+- 未解決の問題を背景とともに docs/open_problems.md にまとめた（A：3 箱、B：2 箱、C：[1] と偶奇、D：ケーブル、E：その他）。
+- ユーザーの指示：本来の目的は、KN を超えた 3 箱の refined LMOV の正整数性の検証。3 箱には |λ| ≤ 3 の全ての rCS、特に [2,1] が要る。
+- 第 3 期の計画を docs/research_plan_phase3.md に作成した（ステージ U0〜U6、停止点 2 つ）。
+  [2,1] の候補：トーラス結び目（較正）、代数的な iterated torus、thin な双曲結び目（[2,1] を t = q の [2,1] 彩色 HOMFLY-PT・ミラー対称性・EGP・Laurent 性から決める。[2,1] 彩色 HOMFLY-PT は 3 本ケーブルから）、文献の refined [2,1]。
+  ユーザーの承認を待つ。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
