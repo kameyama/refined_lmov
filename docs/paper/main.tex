@@ -21,6 +21,7 @@
 \newcommand{\bt}{\mathbf{t}}
 \newcommand{\hN}{\widehat{N}}
 \newcommand{\hf}{\widehat{f}}
+\newcommand{\hbN}{\widehat{\mathbf{N}}}
 
 \title{iterated torus 結び目の refined BPS 不変量と正値性\\
 \large --- 代数的ケーブルと非代数的ケーブルの比較 ---}
@@ -42,12 +43,10 @@ resolved conifold 上の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ に書�
 一つは \cite{KN} の補助ファイルにあるトーラス結び目の値 27 件と表 13 個の完全な再現，
 もう一つは \cite{CD14} の DAHA 不変量の明示例 8 件との全係数での一致である．
 主な結果は次のとおりである．
-refined LMOV 不変量は，小文字の変数 $(a,q,t)$ で求めた $f^q_\mu$, $f^{\bar t}_\mu$, $\hf_\rho$ を，読み取る直前に太字の変数へ変換して得た．
-判定した係数は次の二つである．
-一つは $\mathbf{N}^q$, $\mathbf{N}^{\bar t}$（$f^q_\mu$, $f^{\bar t}_\mu$ の係数）．
-もう一つは $\hN$（$\hf_\rho$ の係数で，$G$ 展開の前と後の両方）．
-代数的なケーブル 3 個では，トーラス結び目と同じく，$\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ は対称表現 $[1],[2],[3]$ で非負整数になった．
-$\hN$ は，非長方形の $[2,1]$ を含む全彩色で，$G$ 展開の前と後の両方が同じ符号の下で非負整数になった．
+refined LMOV 不変量は，小文字の変数 $(a,q,t)$ で求めた $\hf_\rho$ を，読み取る直前に太字の変数へ変換して得た．
+判定したのは，$G$ 展開の前の係数 $\hbN_{\rho;i,j,k}$ と，展開の後の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ の両方である．
+代数的なケーブル 3 個では，トーラス結び目と同じく，非長方形の $[2,1]$ を含む全彩色で，
+$\hbN$ と $\hN$ の両方が同じ符号の下で非負整数になった．
 一方，非代数的なケーブル 6 個では，いずれも正値性が破れた．
 破れ方は結び目によって大きく異なる．
 特に $T(2,3)$ の $(2,-1)$-ケーブルでは，$G$ 展開の後では 4 つの彩色で非負なのに，展開の前では $[1]$ から負の係数が現れる．
@@ -359,36 +358,27 @@ $q^{1/2}$ の符号にも注意が要る．\cite{KN} の本文の \eqref{eq:cov}
 
 \subsection{正値性・整数性}
 
-\cite{KN} に従い，refined LMOV 不変量として次の 4 種類の係数を調べた．
-いずれも，小文字の変数で求めた量に $a$ 次数のシフトと \eqref{eq:cov} を施した $\ba,\bq,\bt$ の Laurent 多項式の係数である．
+refined LMOV 不変量（refined BPS 不変量）は $\hf_\rho$ から読み取る．\cite[\S4]{KN} に従い，次の二つの段階で正の整数係数性を調べた．
+いずれも，小文字の変数で求めた $\hf_\rho$ に $a$ 次数のシフトと \eqref{eq:cov} を施した $\ba,\bq,\bt$ の Laurent 多項式から読む．
 \begin{itemize}
-\item $\mathbf{N}^q_{\mu;i,j,k}$, $\mathbf{N}^{\bar t}_{\mu;i,j,k}$：$f^q_\mu$, $f^{\bar t}_\mu$ の係数．
-  \cite{KN} は，トーラス結び目の対称表現 $\mu=[r]$ で，全体の $\pm\bq^\bullet$ を除いて非負整数になることを観察した．
-\item $\hN_{\mu;i,j,k}$：$G$ 展開の前の $\hf_\rho$ の係数．
-\item $\hN_{\rho,g,\beta,J_r}$：$G$ 展開の後の係数．
+\item $G$ 展開の前：$\hf_\rho=\sum_{i,j,k}\hbN_{\rho;i,j,k}\,\ba^{2i}\bq^{2j}\bt^k$ の係数 $\hbN_{\rho;i,j,k}$．
+  \cite{KN} は，トーラス結び目で全ての $\rho$ について非負整数になることを観察した．
+\item $G$ 展開の後：refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$．
+  \cite{KN} の正値性予想の対象であり，トーラス結び目では全ての $\rho$ で非負整数である．
 \end{itemize}
-結果を表 \ref{tab:Nq}--\ref{tab:bps} に示す．
-すべての場合で $f^q_\mu$, $f^{\bar t}_\mu$, $\hf_\rho$ は Laurent 多項式であり，4 種類の係数はすべて整数だった（計算）．
+結果を表 \ref{tab:before}, \ref{tab:bps} に示す．
+すべての場合で $\hf_\rho$ は Laurent 多項式であり，$\hbN$ と $\hN$ はすべて整数だった（計算）．
 表 \ref{tab:before} と表 \ref{tab:bps} の両方で \checkmark となる場合（トーラス結び目，$\mathbf{4_1}$，K1, K3, K6a）は，
 同じ全体の符号の下で両方が非負になる（計算）．
-$\mathbf{N}^q$ と $\mathbf{N}^{\bar t}$ の負の項の数は全ての場合で一致した．
-これは自由エネルギーの関係 $F^{\bar t}(a,q,t)=F^q(a,t^{-1},q^{-1})$ \cite{KN} を反映している．
+
+$f^q_\mu$, $f^{\bar t}_\mu$ そのものの係数は refined LMOV 不変量ではない．
+$f^q_\mu=\sum_\rho M_{\mu\rho}(t)\hf_\rho$ は，正の $\hf_\rho$ に符号の混ざった行列 $M(t)$ を掛けたものなので，一般には正にならない．
+実際，\cite{KN} の補助ファイルでも $T(2,3)$ の $f^q_{[1,1]}$ は負の係数をもつ．
+\cite{KN} が述べた $f^q$, $f^{\bar t}$ の正値性は対称表現 $[r]$ に限った副次的な観察であり，その比較は付録 \ref{app:fqft} にまとめた．
 
 \begin{table}[h]
 \centering
-\caption{$\mathbf{N}^q_{\mu;i,j,k}$（$f^q_\mu$ の係数）の正値性．記号は表 \ref{tab:bps} と同じ．}\label{tab:Nq}
-\input{generated/N_q_table.tex}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{$\mathbf{N}^{\bar t}_{\mu;i,j,k}$（$f^{\bar t}_\mu$ の係数）の正値性．}\label{tab:Nt}
-\input{generated/N_t_table.tex}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{$G$ 展開の前の正値性：$\hN_{\mu;i,j,k}$（太字の変数での $\hf_\rho$ の係数）．記号は表 \ref{tab:bps} と同じ．}\label{tab:before}
+\caption{$G$ 展開の前の正値性：$\hbN_{\rho;i,j,k}$（太字の変数での $\hf_\rho$ の係数）．記号は表 \ref{tab:bps} と同じ．}\label{tab:before}
 \input{generated/bps_before_table.tex}
 \end{table}
 
@@ -432,45 +422,38 @@ K1 の $[1]$ は付録 \ref{app:K1} に示す．
 \subsection{代数的と非代数的}
 
 代数的なケーブル K1, K3, K6a の refined LMOV 不変量は，トーラス結び目 $T(2,3)$, $T(2,5)$ と同じ振る舞いをした（計算）．
-\begin{itemize}
-\item $\hN$：$|\lambda|\le3$ の全彩色で，$G$ 展開の前と後の両方が非負．
-\item $\mathbf{N}^q$, $\mathbf{N}^{\bar t}$：対称表現 $[1],[2],[3]$ で非負．
-  $[1,1],[2,1],[1,1,1]$ では負の項をもつが，これはトーラス結び目でも同じである（表 \ref{tab:Nq}, \ref{tab:Nt}）．
-\end{itemize}
+すなわち，$|\lambda|\le3$ の全彩色で，$G$ 展開の前の $\hbN_{\rho;i,j,k}$ と後の $\hN_{\rho,g,\beta,J_r}$ の両方が，同じ符号の下で非負整数になった．
 そこで次を予想する．
 
 \begin{conjecture}
 代数的な iterated torus 結び目 $K$ と任意のヤング図形 $\rho$ に対し，
 仮説 \ref{hyp:norm} で正規化した refined CS 不変量から得られる refined LMOV 不変量について，次が成り立つ．
 \begin{enumerate}
-\item[(i)] $\hN$ は，$G$ 展開の前（$\hN_{\rho;i,j,k}$）と後（$\hN_{\rho,g,\beta,J_r}$）の両方で非負整数である．
-\item[(ii)] 対称表現 $\mu=[r]$ の $\mathbf{N}^q_{[r];i,j,k}$, $\mathbf{N}^{\bar t}_{[r];i,j,k}$ は，全体の $\pm\bq^\bullet$ を除いて非負整数である．
-\item[(iii)] $(\rho,g,\beta)$ を固定すると，非零の $\hN_{\rho,g,\beta,J_r}$ の $2J_r$ の偶奇はそろう．
+\item[(i)] $G$ 展開の前の $\hbN_{\rho;i,j,k}$ と後の $\hN_{\rho,g,\beta,J_r}$ は，同じ全体の符号の下でともに非負整数である．
+\item[(ii)] $(\rho,g,\beta)$ を固定すると，非零の $\hN_{\rho,g,\beta,J_r}$ の $2J_r$ の偶奇はそろう．
 \end{enumerate}
 \end{conjecture}
 
 非代数的なケーブル 6 個は，いずれも少なくとも一つの彩色で正値性が破れた．
 破れ方には次の三つの型が見られた．
 \begin{itemize}
-\item K2, K4, K5a, K6b：$\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ も，$G$ 展開の前と後の $\hN$ も，$[1]$ から破れ，彩色が大きくなるにつれて負の項が増える．
-\item K5b（$(2,7)$-ケーブル）：$[1]$ では 4 種類の係数がすべて非負で，彩色付きでは，対称表現 $[2],[3]$ の $\mathbf{N}^q$ を含めてすべて破れる．
+\item K2, K4, K5a, K6b：$\hbN$ も $\hN$ も $[1]$ から破れ，彩色が大きくなるにつれて負の項が増える．
+\item K5b（$(2,7)$-ケーブル）：$[1]$ では $\hbN$, $\hN$ とも非負で，彩色付きの $[2],\dots,[1,1,1]$ ではすべて破れる．
   K5b は \cite{CD14} の意味で pseudo-algebraic である（非彩色の DAHA 不変量の係数が正）．
 \item K5c（$(2,-1)$-ケーブル）：展開の後の $\hN$ は $[1],[2],[1,1],[1,1,1]$ で非負であり，
   $[3]$ と $[2,1]$ でも負の項は 6 個と 7 個だけである．
-  ところが展開の前の係数と $\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ は，$[1]$ から負の項をもつ（$[1]$ ではどれも 57 項中 5 項）．
+  ところが展開の前の $\hbN$ は，$[1]$ から負の項をもつ（57 項中 5 項）．
 \end{itemize}
 K5c の例が示すように，非代数的な結び目では，$G$ 展開の前と後で正値性の判定が一致しない．
-\cite{KN} の正値性予想を調べるには，両方を確かめる必要がある．
+\cite{KN} の正値性予想を調べるには，$\hbN$ と $\hN$ の両方を確かめる必要がある．
 
 \subsection{長方形と非長方形}
 
 refined CS 不変量 $\rCS_\lambda$ 自体が非長方形の彩色で負の係数をもつことは，三葉結び目で既に知られている．
 また Cherednik--Philipp \cite{CP} は，DAHA の不変量の正値性について，長方形のヤング図形が例外的であると述べている．
-本論文の結果では，代数的なケーブルの $\hN$ は，$[2,1]$ でも $G$ 展開の前と後の両方で非負になった（表 \ref{tab:before}, \ref{tab:bps}）．
-つまり $\hN$ の言葉では，長方形の特殊性は消える．
+本論文の結果では，代数的なケーブルの $\hbN$ と $\hN$ は，$[2,1]$ でも非負になった（表 \ref{tab:before}, \ref{tab:bps}）．
+つまり refined LMOV 不変量の言葉では，長方形の特殊性は消える．
 これは \cite{KN} がトーラス結び目で見出した現象が，代数的な iterated torus 結び目でも成り立つことを示している．
-一方，$\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ の正値性は対称表現 $[r]$ に限られ，長方形の $[1,1]$, $[1,1,1]$ でも破れる（トーラス結び目と代数的なケーブルの両方で）．
-したがって $\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ で特別なのは，長方形ではなく対称表現である．
 
 \subsection{偶奇と $U(1)_R$}
 
@@ -503,8 +486,7 @@ $\hN$ が BPS 状態の空間の次元であるという解釈とは両立しな
 \section{結論と今後の課題}
 
 ケーブル結び目の refined BPS 不変量を $|\lambda|\le3$ の全彩色で計算した．
-代数的なケーブルでは，$\hN$ の正値性が非長方形の彩色まで含めて $G$ 展開の前後とも成り立ち，
-$\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ の正値性は対称表現で成り立つ．
+代数的なケーブルでは，refined LMOV 不変量の正値性が，非長方形の彩色まで含めて $G$ 展開の前（$\hbN$）と後（$\hN$）の両方で成り立つ．
 これはトーラス結び目と同じである．
 非代数的なケーブルでは，これらの正値性が破れることを見出した．
 今後の課題を挙げる．
@@ -528,6 +510,29 @@ $\mathbf{N}^q$, $\mathbf{N}^{\bar t}$ の正値性は対称表現で成り立つ
   $T(2,3)$ の表は，どちらでも絶対値が一致する．
 \item \cite[\S4]{GN} の行列要素の公式を楕円 Hall 代数の元として使うための正規化（\S\ref{sec:method}）．
 \end{enumerate}
+
+\section{補足：$f^q_\mu$, $f^{\bar t}_\mu$ の係数}\label{app:fqft}
+
+\cite[\S4]{KN} は副次的な観察として，トーラス結び目の対称表現 $\mu=[r]$ では
+$f^q_{[r]}$, $f^{\bar t}_{[r]}$ を \eqref{eq:cov} で太字の変数に移すと，全体の $\pm\bq^\bullet$ を除いて非負整数係数 $\mathbf{N}^q_{[r];i,j,k}$, $\mathbf{N}^{\bar t}_{[r];i,j,k}$ になると述べた．
+これらは refined LMOV 不変量ではなく，$[r]$ 以外では正になるとは主張されていない．
+比較のため，表 \ref{tab:Nq}, \ref{tab:Nt} に全彩色の結果を示す．
+$T(2,3)$ の $[1,1],[2,1],[1,1,1]$ の負の項の数は，\cite{KN} の補助ファイルで同じ式を評価した結果と一致する（計算）．
+代数的なケーブル K1, K3, K6a でも，対称表現 $[1],[2],[3]$ では非負になった（計算）．
+$\mathbf{N}^q$ と $\mathbf{N}^{\bar t}$ の負の項の数は全ての場合で一致した．
+これは自由エネルギーの関係 $F^{\bar t}(a,q,t)=F^q(a,t^{-1},q^{-1})$ \cite{KN} を反映している．
+
+\begin{table}[h]
+\centering
+\caption{$\mathbf{N}^q_{\mu;i,j,k}$（$f^q_\mu$ の係数）．refined LMOV 不変量ではない．記号は表 \ref{tab:bps} と同じ．}\label{tab:Nq}
+\input{generated/N_q_table.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{$\mathbf{N}^{\bar t}_{\mu;i,j,k}$（$f^{\bar t}_\mu$ の係数）．refined LMOV 不変量ではない．}\label{tab:Nt}
+\input{generated/N_t_table.tex}
+\end{table}
 
 \begin{landscape}
 \section{K1 の $\rho=[1]$}\label{app:K1}

@@ -11,13 +11,15 @@ KNOTS = {"T2_3": "T(2,3)", "T2_5": "T(2,5)", "4_1": "4_1",
          "K2": "K2 (2,1)-cable 非代数的", "K4": "K4 (2,3)-cable 非代数的", "K5a": "K5a (2,5)-cable 非代数的",
          "K5b": "K5b (2,7)-cable 非代数的", "K5c": "K5c (2,−1)-cable 非代数的", "K6b": "K6b T(2,5) の (2,1)-cable 非代数的"}
 RHOS = [(1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1)]
-TITLES = {"fq": "N^q（f^q_μ の係数）", "ft": "N^{\\bar t}（f^{\\bar t}_μ の係数）",
-          "hat": "\\hat N（G 展開の前：\\hat f_ρ の係数）", "hatN": "\\hat N_{ρ,g,β,J_r}（G 展開の後）"}
+TITLES = {"hat": "refined LMOV（G 展開の前）：\\hat{𝐍}_{ρ;i,j,k}（太字の変数での \\hat f_ρ の係数）",
+          "hatN": "refined LMOV（G 展開の後）：\\hat N_{ρ,g,β,J_r}",
+          "fq": "補足（refined LMOV ではない）：𝐍^q（f^q_μ の係数。KN は [r] でのみ正と観察）",
+          "ft": "補足（refined LMOV ではない）：𝐍^{\\bar t}（f^{\\bar t}_μ の係数。KN は [r] でのみ正と観察）"}
 
 
 def main():
     J = {k: judge(k) for k in KNOTS}
-    lines = ["小文字の (a,q,t) で求めた f^q, f^{\\bar t}, \\hat f を、読み取る直前に太字へ変換して判定した（a 次数シフトは nontorus 規約、√q = −𝐪𝐭）。",
+    lines = ["refined LMOV 不変量は \\hat f_ρ から読む。小文字の (a,q,t) で求めた \\hat f（と補足の f^q, f^{\\bar t}）を、読み取る直前に太字へ変換して判定した（a 次数シフトは nontorus 規約、√q = −𝐪𝐭）。",
              "✓：全体の符号を選べば全項が非負。m/N：N 項中、全体の符号を選んでも m 項が負。†：(g,β) ごとの 2J_r の偶奇がそろわない。",
              "全ての係数は整数（確認済み）。", ""]
     for which, title in TITLES.items():
