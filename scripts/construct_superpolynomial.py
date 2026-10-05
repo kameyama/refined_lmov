@@ -6,6 +6,7 @@
   (d−1) 次数 (−2, −2, −3)：同様にちょうど 1 項が残る
   (d2) 次数 (−2, 4, −1)：残り K ≥ 0 を 𝐚 = 𝐪^2 に特殊化すると reduced Khovanov ホモロジー（data/homology、khoca）
   (d0) 次数 (−2, 0, −3)：残り F ≥ 0 を (A, M) = (e_q/2, e_t − e_a) に移すと knot Floer ホモロジー（snappy）
+  (Σ)  d_1 の残りは (Σ, −Σ, 0)、d_{−1} の残りは (Σ, Σ, Σ)（S 不変量 Σ。DGR、Gorsky–Gukov–Stošić 1304.3481 §3.6）
   (S)  DGR の対称性 (e_a, e_q, e_t) ↔ (e_a, −e_q, e_t − e_q)（三葉結び目で成立。KN の q ↔ t^{-1} の対称性の [1] の場合）
 目的：総階数 Σc の最小化。三葉結び目では DGR の P = 𝐚²𝐪⁻² + 𝐚²𝐪²𝐭² + 𝐚⁴𝐭³ を再現する。
 これは DGR の構造的な仮定（各微分が単独でホモロジーを与える）に基づく候補であり、HOMFLY-PT ホモロジーの直接計算ではない。
@@ -60,7 +61,7 @@ def homfly(bold):
     return {k: v for k, v in H.items() if v}
 
 
-def construct(name, margin_t=10, margin_a=4, diffs=("d1", "d-1", "d2", "d0"), symmetric=True, time_limit=600, fix_rank=None, seed=None):
+def construct(name, margin_t=10, margin_a=4, diffs=("d1", "d-1", "d2", "d0"), symmetric=True, time_limit=600, fix_rank=None, seed=None, sigma=True):
     hom = json.loads(Path(f"data/homology/{name}.json").read_text())
     kh = {tuple(map(int, k.split(","))): v for k, v in hom["kh"].items()}
     hfk = {tuple(map(int, k.split(","))): v for k, v in hom["hfk"].items()}
@@ -122,6 +123,12 @@ def construct(name, margin_t=10, margin_a=4, diffs=("d1", "d-1", "d2", "d0"), sy
         if d not in diffs:
             continue
         add({var((d + "_rest", e)): 1 for e in grid}, 1, 1)
+        # (Σ) GGS（1304.3481 §3.6）・DGR：d_1 の残りは (Σ, −Σ, 0)、対称性により d_{−1} の残りは (Σ, Σ, Σ)
+        if sigma:
+            for e in grid:
+                ok = (e[1] == -e[0] and e[2] == 0) if d == "d1" else (e[1] == e[0] and e[2] == e[0])
+                if not ok:
+                    add({var((d + "_rest", e)): 1}, 0, 0)
     # (d2) → Khovanov
     spec = {} if "d2" in diffs else None
     for e in grid if spec is not None else []:
