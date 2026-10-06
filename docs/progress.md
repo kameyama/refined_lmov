@@ -31,7 +31,7 @@
 | V2 [2,1] の原理 | 完了・停止点 1 で報告済み。現在の条件では [2,1] は決まらない（解の差の因数分解）。V2-4, V2-5 はユーザーの判断で省略 |
 | V3 導出 | U(2) の恒等式は既知と判明（CD14, AMMM）。(N1)(N2') の導出（open_problems D1）は未着手 |
 | V4 2 箱の証明 | 部分的：ツイスト結び目の \hat f は p について次数 5 の漸化式（特性根を決定）。証明は未解決。拡張（\|p\| ≤ 30、p < 0）は未実施 |
-| **V5 双曲結び目の 3 箱（弱い判定）** | **実行中**。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）、σ = −1 は解なし。6_1：判定中 |
+| **V5 双曲結び目の 3 箱（弱い判定）** | 最初の 3 結び目が済み（停止点 2 で報告）。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）。6_1：σ = +1 で正値性を満たす整数解あり（813 項、独立に再計算して確認）。σ = −1 は 3 結び目とも解なし |
 | V6 まとめ | 下書き（docs/REPORT_phase4.md）。V5・K8・K7 の結果待ち |
 | B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
 
@@ -39,17 +39,15 @@
 | 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
 |---|---|---|---|---|
 | K8 → K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/u4_run.py --workers 3 K8 K7 > logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
-| V5 の判定（4_1 → 5_2 → 6_1） | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/v5_weak.py 4_1 5_2 6_1 > logs/v5_weak_run.log 2>&1 &` | `logs/v5_weak.log` | 「6_1 σ=-1: …」の行 | 済んだ結び目を除いて再実行（D·K は data/cache/v5_{結び目}.pkl から再利用） |
 
 - K8 の状況：[1], [2], [1,1], [3], [1,1,1] の rCS まで済み（data/cables/K8_*.json）。[2,1] の rCS と 3 箱の \hat f が残り。K7（3 本ケーブル）はまだ見積もっていない。K8 の後に [1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
 - プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
 
 ### 完了したときにやること
 - K8・K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §8 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
-- V5：docs/REPORT_phase4.md §6 を更新。**停止点 2**（V5 の最初の結果）としてユーザーに報告する。
 
 ### 判断待ち・次の候補
-1. 5_2 の未決（σ = +1）を詰める方法：整数計画の制限時間を延ばす、実行可能解を見つけやすい目的関数（LP 解の近くを探す）、x の箱を広げる、など。6_1 の結果を見て決める。
+1. V5 の続き（停止点 2 の後、ユーザーの判断）：5_2 の未決（σ = +1）を詰める（整数計画の制限時間の延長、LP 解の近くを探す目的関数、x の箱の拡大）、7_2, 8_1 などへの拡大。
 2. V4 の拡張（閉じた形で \|p\| ≤ 30、p < 0）。
 3. open_problems D1（ケーブルの単項式正規化の導出）、B4（thick な結び目の t_c 次数）。
 

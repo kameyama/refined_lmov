@@ -8,3 +8,23 @@
 5_2 σ=-1: LP 緩和が実行不能 → 正値性を満たす [2,1] は（x の箱の中に）存在しない
 6_1: dim H^[1] = 9, dim H^[3] = 729, 三乗？ True
 6_1: [3] の t = q が 3 本ケーブルの値と一致（鏡像 True）
+6_1 σ=+1: 正値性を満たす整数解あり（[2,1] の項数 813）
+6_1 σ=-1: LP 緩和が実行不能 → 正値性を満たす [2,1] は（x の箱の中に）存在しない
+     2614.22 real      2441.90 user        63.23 sys
+          1072414720  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             6904421  page reclaims
+                4922  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+               53947  voluntary context switches
+             6151728  involuntary context switches
+      22764250882643  instructions retired
+       7048537779319  cycles elapsed
+          2600821056  peak memory footprint
