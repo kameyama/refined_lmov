@@ -1,0 +1,29 @@
+      axis q: exponents -42..42 (probe N=128)
+      axis t: exponents -42..42 (probe N=128)
+      grid 85 x 85 = 7225 points, 2 primes
+      12357 terms, 31s
+K10 ρ=[1]: 前 0/4119 負、後 0/5658 負
+      axis q: exponents -84..266 (probe N=1024)
+      axis t: exponents -266..84 (probe N=1024)
+      grid 351 x 351 = 123201 points, 2 primes
+      1098357 terms, 3097s
+K10 ρ=[1, 1]: 前 0/230642 負、後 0/206976 負
+K10 ρ=[2]: 前 0/227727 負、後 0/204345 負
+     4091.87 real      2006.22 user       960.23 sys
+          1300381696  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+           207403473  page reclaims
+                1705  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              300191  voluntary context switches
+            22060919  involuntary context switches
+      12162784987890  instructions retired
+       6865117326193  cycles elapsed
+         12123004800  peak memory footprint

@@ -384,6 +384,10 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
     S, T 行列（DAHA/EHA）で書かれる不変量（トーラス・iterated torus）では、a = t^N で W_{λ+(1^N)}/W_λ は単項式。N = 2 で rCS_{[2,1]}/rCS_{[1]} と rCS_{[1,1]}/1 はともに det の因子。
   - 単項式まで含めた一致 rCS_{[2,1]} = rCS_{[1]}·rCS_{[1,1]}（a = t²）は正規化 (N1)(N2') に依存し、10 結び目で計算機で確認した段階。非トーラス結び目では【仮説】のまま。
 
+## 第 4 期 V0：K10 の 2 箱（2026-10-06）
+
+- K10 の [1], [2], [1,1] の \hat f が G 展開の前後とも非負（`logs/v0_K10_lmov.log`）【計算】。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
