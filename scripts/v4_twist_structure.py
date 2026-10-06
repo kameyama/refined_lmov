@@ -31,8 +31,14 @@ def hat_bold(p):
 
 
 def main(sign=1):
-    ps = [sign * k for k in range(1, 11)]
-    F = {p: hat_bold(p) for p in ps}
+    ps = [sign * k for k in range(1, 13)]
+    import pickle
+    cache = Path(f"data/cache/v4_hat_sign{sign}.pkl")
+    F = pickle.load(open(cache, "rb")) if cache.exists() else {}
+    for p in ps:
+        if p not in F:
+            F[p] = hat_bold(p)
+            pickle.dump(F, open(cache, "wb"))          # p ごとに保存（再開用）
     # 候補の比 m（太字の単項式）：連続する p の \\hat f の「最高次」の比から推定する代わりに、小さい単項式の集合を総当たり
     cands = [a ** i * q ** j * t ** k for i in range(0, 9, 2) for j in range(-6, 7, 2) for k in range(-4, 13)]
     for rho in [(2,), (1, 1)]:
@@ -43,7 +49,7 @@ def main(sign=1):
         vals = {a: sp.Rational(rnd.randint(2, 9), rnd.randint(2, 9)), q: sp.Rational(rnd.randint(2, 9), rnd.randint(2, 9)),
                 t: sp.Rational(rnd.randint(2, 9), rnd.randint(2, 9))}
         s = [x.subs(vals) for x in seq]
-        for order in range(1, 5):
+        for order in range(1, 7):
             if 2 * order >= len(s):
                 break
             Hm = sp.Matrix([[s[i + j] for j in range(order + 1)] for i in range(order + 1)])
