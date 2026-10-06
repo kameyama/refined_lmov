@@ -40,7 +40,7 @@
 |---|---|---|---|---|
 | K8 → K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/u4_run.py --workers 3 K8 K7 > logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
-- K8 の状況：[1], [2], [1,1], [3], [1,1,1] の rCS まで済み（data/cables/K8_*.json）。[2,1] の rCS と 3 箱の \hat f が残り。K7（3 本ケーブル）はまだ見積もっていない。K8 の後に [1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
+- K8 は完了（2026-10-06）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負。K7（3 本ケーブル）を計算中。[1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
 - プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
 
 ### 完了したときにやること

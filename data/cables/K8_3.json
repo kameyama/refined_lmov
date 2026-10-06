@@ -36,7 +36,7 @@
  ],
  "reduced": true,
  "variables": "exponents of (A=a^(1/2), Q=q^(1/2), T=t^(1/2)) of 1703.05408",
- "framing": "0; normalization (N1)+(N2) of docs/conventions.md \u00a75 (hypothesis for cables)",
+ "framing": "0; normalization (N1) + (N2') of docs/conventions.md \u00a75 (hypothesis for cables)",
  "monomial_applied": {
   "sign": -1,
   "a": "54",
@@ -29543,5 +29543,12 @@
   "138,296,-38": -1,
   "138,298,-38": -1,
   "138,300,-36": -1
- }
+ },
+ "monomial_N1N2": {
+  "sign": -1,
+  "a": "54",
+  "q": "192",
+  "t": "-42"
+ },
+ "N2_differs_by_q_over_t_power": "0"
 }
