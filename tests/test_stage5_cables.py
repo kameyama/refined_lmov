@@ -113,3 +113,20 @@ def test_K5c_before_and_after_G_differ():
         pytest.skip("not computed")
     j = judge(path)
     assert j["after_G"]["min_negative"] == 0 and j["before_G"]["min_negative"] == 5
+
+
+@pytest.mark.parametrize("knot", ["K1", "K5c"])
+def test_transpose_construction_matches_saved(knot):
+    """[1,1,1] を [3] から転置対称性で作る経路（scripts/stage5_cables.from_transpose、GN の 16 点で照合）が保存値と全係数で一致する。"""
+    import sys
+    from fractions import Fraction
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import stage5_cables as S
+    S.OUT = Path(__file__).resolve().parent.parent / "data/cables"
+    inner, outer = S.slopes(*S.KNOTS[knot])
+    raw = S.from_transpose(knot, "111", lambda G: G.cable_reduced_apoly((1, 1, 1), inner, outer))
+    ref = json.loads((S.OUT / f"{knot}_111.json").read_text())
+    m = {k: Fraction(v) for k, v in ref["monomial_applied"].items()}
+    norm = {",".join(str(int(x)) for x in (2 * (ea + m["a"]), 2 * (eq + m["q"]), 2 * (et + m["t"]))): int(m["sign"]) * c
+            for (ea, eq, et), c in raw.items()}
+    assert norm == ref["poly"]
