@@ -1,0 +1,15 @@
+    axis q: exponents -204..-29 (probe N=512)
+    axis t: exponents 14..98 (probe N=256)
+    grid 176 x 85 = 14960 points, 2 primes
+    48762 terms, 2357s
+K10 [2] 48762 項 2423.6 s
+    axis q: exponents -98..-14 (probe N=256)
+    axis t: exponents 29..204 (probe N=512)
+    grid 85 x 176 = 14960 points, 2 primes
+    48762 terms, 2845s
+K10 [11] 48762 項 2933.8 s
+K10 [1] (N2') − (N2) の q 指数の差 0
+K10 [2] (N2') − (N2) の q 指数の差 0
+K10 [11] (N2') − (N2) の q 指数の差 0
+     5358.33 real      6605.18 user      1251.82 sys
+time: sysctl kern.clockrate: Operation not permitted

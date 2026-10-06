@@ -352,6 +352,13 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
   - 再開：rCS は data/cache/rcs/{K}_{彩色}/、\hat f は data/cache/lmov/{K}_{n}/ にまとまりごとに保存。完了の目印は `logs/u4_cables3.log` の「K8: … 最大 RSS」の行。
   - 実行：`nohup python scripts/u4_run.py --workers 3 K8 K7`（3 並列。メモリ 8 GB のため 3 が上限）。
 
+## 第 4 期 V0（続き）：2 段の反復ケーブル K10（2026-10-06）
+
+- K10 = T(2,3) の (2,13)-ケーブルの (2,53)-ケーブル（代数的、DAHA [r, s] = [(3,2,2), (2,1,1)]）。`GN.iterated_reduced_apoly`（任意の段数の反復、1 段で既存の計算と一致を確認）と `scripts/v0_iterated.py`。
+- rCS：[1] は 3240 項・2.5 s、[2] は 48762 項・2424 s、[1,1] は 48762 項・2934 s（2 並列、K8 と同時実行）。(N2) と (N2') は一致。ログ `logs/v0_K10_2.log`。
+- 見積もり：[1] → [2] で約 1000 倍。[3] は控えめに見ても約 29 時間以上（K9 の [3]/[2] の比 43 から）、[1,1,1], [2,1] も同程度、その後の 3 箱の \hat f は入力が 100 万項規模でメモリ 8 GB を超える恐れ。
+  CLAUDE.md の規則（24 時間超）により実行せず、ユーザーの判断を待つ。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。

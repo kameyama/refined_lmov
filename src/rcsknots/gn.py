@@ -155,6 +155,18 @@ class GN:
         vec = self.apply_symmetric(self.P(sum(lam))[lam], n, m, {(): self.one})
         return self.reduce_apoly(lam, self.evaluate_apoly(vec))
 
+    def iterated_reduced_apoly(self, lam, slopes):
+        """Reduced invariant of an iterated cable; slopes = [outermost pattern, ..., innermost pattern, companion].
+
+        F = P_λ[p_k ↦ P_{k·slopes[0]}]·1, then F ↦ F[p_k ↦ P_{k·slope}]·1 for the middle slopes, then ε at the companion
+        (DAHA iteration, CD14 (2.12)). With two slopes this is cable_reduced_apoly.
+        """
+        F = self.pattern(lam, *slopes[0])
+        for sl in slopes[1:-1]:
+            F = self.untilde(self.to_p(self.apply_symmetric(F, *sl, {(): self.one})))
+        vec = self.apply_symmetric(F, *slopes[-1], {(): self.one})
+        return self.reduce_apoly(lam, self.evaluate_apoly(vec))
+
     def cable_reduced_apoly(self, lam, inner, outer):
         F = self.pattern(lam, *inner)
         vec = self.apply_symmetric(F, *outer, {(): self.one})
