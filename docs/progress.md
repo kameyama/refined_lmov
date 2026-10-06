@@ -1,8 +1,57 @@
 # 進捗記録
 
-## 現在のステージ
+## 現在の状況（再開用、2026-10-06 更新）
 
-ステージ 7 完了（本計算とレポート作成。docs/REPORT.md）。
+別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。
+
+### 作業環境
+- 作業場所：git worktree `/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`（ブランチ `claude/rename-literature-survey-doc-9cc5fc`、リモートなし）。
+- worktree には `.venv` と `references/` の中身が無い。Python はメインチェックアウトのものを使う：
+  `PYTHONPATH=src:scripts /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python ...`、テストは `PYTHONPATH=src /Users/masaya/projects/ai_research/refined_cs/.venv/bin/pytest -q`。
+  論文の TeX は `/Users/masaya/projects/ai_research/refined_cs/references/`（メインチェックアウト）と worktree の `references/`（第 2 期以降に取得した 1112.0030, 1209.1409, 1512.07883）。
+- git の書き込み（commit）と `ps` はサンドボックス外で行う。`data/cache/` は git 管理外（途中結果・キャッシュ）。
+- 計算機：8 コア（性能 4、効率 4）、メモリ 8 GB。重い計算の並列数は 3 まで。長時間の計算は CLAUDE.md の規則（見積もり・高速化・再開・分割と並列・nohup）に従う。
+
+### 各期の状態
+| 期 | 内容 | 状態 | 文書 |
+|---|---|---|---|
+| 第 1 期 | ケーブル結び目（DAHA/EHA を入力）、ステージ 0〜7 | 完了 | docs/REPORT.md、docs/paper/ |
+| 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/REPORT_knot_table.md、docs/research_plan_knot_table.md |
+| 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 は計算中、残りの項目は第 4 期へ） | docs/REPORT_phase3.md、docs/research_plan_phase3.md |
+| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | **進行中** | docs/REPORT_phase4.md（下書き）、docs/research_plan_phase4.md |
+
+未解決の問題は docs/open_problems.md、新規性の範囲は docs/novelty_report.md §5〜§8、規約は docs/conventions.md §11, §12。
+非代数的なケーブルの DAHA の値による計算はしない（CLAUDE.md、open_problems.md D5）。
+
+### 第 4 期の各ステージ
+| ステージ | 状態 |
+|---|---|
+| V0 高速化・再開性 | 完了（`tests/test_speedup.py`）。2 段の反復ケーブル K10 は 2 箱まで正。[3] 以降は見積もり 29 時間以上で見送り（ユーザーの判断） |
+| V1 | 削除（非代数的なケーブル） |
+| V2 [2,1] の原理 | 完了・停止点 1 で報告済み。現在の条件では [2,1] は決まらない（解の差の因数分解）。V2-4, V2-5 はユーザーの判断で省略 |
+| V3 導出 | U(2) の恒等式は既知と判明（CD14, AMMM）。(N1)(N2') の導出（open_problems D1）は未着手 |
+| V4 2 箱の証明 | 部分的：ツイスト結び目の \hat f は p について次数 5 の漸化式（特性根を決定）。証明は未解決。拡張（\|p\| ≤ 30、p < 0）は未実施 |
+| **V5 双曲結び目の 3 箱（弱い判定）** | **実行中**。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）、σ = −1 は解なし。6_1：判定中 |
+| V6 まとめ | 下書き（docs/REPORT_phase4.md）。V5・K8・K7 の結果待ち |
+| B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
+
+### 実行中のプロセス（nohup、2026-10-06 時点）
+| 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
+|---|---|---|---|---|
+| K8 → K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/u4_run.py --workers 3 K8 K7 > logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
+| V5 の判定（4_1 → 5_2 → 6_1） | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/v5_weak.py 4_1 5_2 6_1 > logs/v5_weak_run.log 2>&1 &` | `logs/v5_weak.log` | 「6_1 σ=-1: …」の行 | 済んだ結び目を除いて再実行（D·K は data/cache/v5_{結び目}.pkl から再利用） |
+
+- K8 の状況：[1], [2], [1,1], [3], [1,1,1] の rCS まで済み（data/cables/K8_*.json）。[2,1] の rCS と 3 箱の \hat f が残り。K7（3 本ケーブル）はまだ見積もっていない。K8 の後に [1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
+- プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
+
+### 完了したときにやること
+- K8・K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §8 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
+- V5：docs/REPORT_phase4.md §6 を更新。**停止点 2**（V5 の最初の結果）としてユーザーに報告する。
+
+### 判断待ち・次の候補
+1. 5_2 の未決（σ = +1）を詰める方法：整数計画の制限時間を延ばす、実行可能解を見つけやすい目的関数（LP 解の近くを探す）、x の箱を広げる、など。6_1 の結果を見て決める。
+2. V4 の拡張（閉じた形で \|p\| ≤ 30、p < 0）。
+3. open_problems D1（ケーブルの単項式正規化の導出）、B4（thick な結び目の t_c 次数）。
 
 ## 完了した作業
 
@@ -400,7 +449,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
   候補の条件の比較：e_𝐭 + e_𝐪/2 が一定の結び目は 705 個（thin と一致、δ 次数の偶奇）、e_𝐭 だけ・e_𝐭 + e_𝐚/2 + e_𝐪/2 は 0 個。
 - 新規性：U(2) の恒等式は既知（CD14 の安定化定理、AMMM の要請 (D)）で、V3 の導出は成果から外した。K10 の 2 箱、[2,1] の解の空間の構造、\hat f の p についての構造、parity knot の一覧と 2J_r との関係は新規と思われる。novelty_report.md §8。
 
-## 次にやること
+## 次にやること（第 1・2 期の履歴。現在の予定は冒頭の「現在の状況」）
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
    研究計画 §3 のディレクトリ構成（refined_cables/…、REPORT.md、LOG.md）は現在の構成（docs/、src/rcsknots/、references/ など）と違う。現在の構成に読み替える。
@@ -419,7 +468,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
     （Nakagane–Sano の 11 交点以下の HOMFLY-PT ホモロジーを入力に、結び目表の [1] の refined LMOV を判定する。ステージ T0〜T6）。
     ユーザーの指示でこの案を進める。T0, T1 は済み。T1 の後、ユーザーの選択で T4 → T3 の順に 2 箱へ進んだ。T4 は済み（命題 2）。次の方針はユーザーと相談する。
 
-## 未解決の問題
+## 未解決の問題（第 1 期の履歴。現在は docs/open_problems.md）
 
 - （原因判明）素朴なプレシズムでトーラス結び目が再現できない件：素朴な持ち上げ自体が誤り（文献で既知）。GN/DAHA の構成に切り替える。
 - ケーブルの単項式正規化 (N1)(N2') は仮説のまま（裏付けはあるが文献から導いていない、conventions.md §5）。
