@@ -33,3 +33,91 @@ K8: 22853 s, 最大 RSS 1756 MB
   K7 [2] rCS 8448 項 42.8 s
   K7 [11] rCS 8448 項 41.4 s
   K7 [3] rCS 41369 項 7597.7 s
+time: command terminated abnormally
+    34793.04 real     47220.43 user      9421.69 sys
+          1841692672  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+          1544535618  page reclaims
+               12827  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+             8018267  voluntary context switches
+           339247031  involuntary context switches
+      57683399620226  instructions retired
+      16178605005132  cycles elapsed
+         13858238400  peak memory footprint
+--- 2026-10-07 高速化版で再開（[1,1,1] は転置対称性、補間は素数 1 つ＋検証）
+  K8 [1] rCS 433 項 1.1 s
+  K8 [2] rCS 6039 項 174.5 s
+  K8 [11] rCS 6039 項 175.5 s
+  K8 [3] rCS 29495 項 9532.5 s
+  K8 [111] rCS 29495 項 6393.6 s
+  K8 [21] rCS 28780 項 4478.9 s
+K8 1 change (q/t)^ 0
+K8 2 change (q/t)^ 0
+K8 11 change (q/t)^ 0
+K8 3 change (q/t)^ 0
+K8 111 change (q/t)^ 0
+K8 21 change (q/t)^ 0
+K8 ρ=[1]: 前 0/617 負、後 0/833 負
+K8 ρ=[1, 1]: 前 0/32427 負、後 0/28966 負
+K8 ρ=[2]: 前 0/31499 負、後 0/28111 負
+K8 ρ=[1, 1, 1]: 前 0/261098 負、後 0/235223 負
+K8 ρ=[2, 1]: 前 0/258022 負、後 0/232248 負
+--- K7 のみで再起動（K8 の判定の読み直しを省く）
+  K7 [1] rCS 597 項 0.5 s
+  K7 [2] rCS 8448 項 42.8 s
+  K7 [11] rCS 8448 項 41.4 s
+  K7 [3] rCS 41369 項 7597.7 s
+  K7 [111] rCS 41369 項 214.8 s
+  K7 [21] rCS 39503 項 6217.1 s
+K7 1 change (q/t)^ 0
+K7 2 change (q/t)^ 0
+K7 11 change (q/t)^ 0
+K7 3 change (q/t)^ 0
+K7 111 change (q/t)^ 0
+K7 21 change (q/t)^ 0
+      axis q: exponents -21..21 (probe N=64)
+      axis t: exponents -21..21 (probe N=64)
+      grid 43 x 43 = 1849 points
+      2502 terms, 1 prime, 6s
+K7 ρ=[1]: 前 0/834 負、後 0/1169 負
+      axis q: exponents -42..136 (probe N=512)
+      axis t: exponents -136..42 (probe N=512)
+      grid 179 x 179 = 32041 points
+      212084 terms, 1 prime, 52s
+K7 ρ=[1, 1]: 前 0/44631 負、後 0/40240 負
+K7 ρ=[2]: 前 0/43533 負、後 0/39229 負
+      axis q: exponents -63..345 (probe N=1024)
+      axis t: exponents -345..63 (probe N=1024)
+      grid 409 x 409 = 167281 points
+      1 prime not enough; using a second prime
+      2373207 terms, 2 primes, 3582s
+K7 ρ=[1, 1, 1]: 前 0/354818 負、後 0/322730 負
+K7 ρ=[2, 1]: 前 0/351218 負、後 0/319242 負
+K7 ρ=[3]: 前 0/343739 負、後 0/312323 負
+K7: 12275 s, 最大 RSS 1879 MB
+    12273.82 real     12958.49 user      3014.50 sys
+          1970438144  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+           656811037  page reclaims
+                3924  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+             2297264  voluntary context switches
+            98540666  involuntary context switches
+      43445875436633  instructions retired
+      16418029963553  cycles elapsed
+         20860888192  peak memory footprint

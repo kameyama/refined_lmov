@@ -1,0 +1,43 @@
+........................................................................ [ 13%]
+........................................................................ [ 27%]
+........................................................................ [ 41%]
+..........................s............................................. [ 54%]
+...............................................................s........ [ 68%]
+.s...................................................................... [ 82%]
+........................................................................ [ 95%]
+......................                                                   [100%]
+============================= slowest 15 durations =============================
+2563.51s call     tests/test_phase3.py::test_u4_three_box_positivity[K9]
+1280.61s call     tests/test_phase3.py::test_u4_three_box_positivity[K8]
+231.99s call     tests/test_lowercase_consistency.py::test_exponential_growth[cables/K6a]
+60.78s call     tests/test_lowercase_consistency.py::test_exponential_growth[cables/K3]
+54.32s call     tests/test_phase3.py::test_three_cable_inversion[4_1-4_1]
+52.44s call     tests/test_stage1_macdonald.py::test_explicit_low_degree
+50.18s call     tests/test_lowercase_consistency.py::test_exponential_growth[cables/K6b]
+43.52s call     tests/test_lowercase_consistency.py::test_N_q_t_symmetric_positive[K3]
+40.19s call     tests/test_lowercase_consistency.py::test_exponential_growth[cables/K1]
+28.58s call     tests/test_lowercase_consistency.py::test_N_q_t_symmetric_positive[K1]
+24.36s setup    tests/test_v4_twist.py::test_closed_form_matches_direct[1]
+20.34s call     tests/test_knot_table.py::test_euler_characteristic_is_braid_homfly
+13.14s call     tests/test_lowercase_consistency.py::test_exponential_growth[cables/K5c]
+10.06s call     tests/test_phase3.py::test_u4_three_box_positivity[T4_5]
+9.06s call     tests/test_phase3.py::test_three_cable_inversion[3_1-T2_3]
+523 passed, 3 skipped in 4641.65s (1:17:21)
+     4644.29 real      3855.32 user       138.66 sys
+           676511744  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+            12889808  page reclaims
+                3718  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              224379  voluntary context switches
+            15318104  involuntary context switches
+      33797966732767  instructions retired
+      11051467735933  cycles elapsed
+           951012544  peak memory footprint
