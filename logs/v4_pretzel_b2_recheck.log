@@ -1,0 +1,2 @@
+scripts/b2_special_poly.py と同じ検査（t_r 次数の Euler 標数、q = 1）を、浮動小数点を除いた t3_pretzel.quadruple で 55 点に適用。破れる点: []
+       36.26 real        34.92 user         0.47 sys

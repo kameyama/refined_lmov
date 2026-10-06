@@ -161,6 +161,53 @@ def to_bold(poly, a_shift2=0):
 
 
 def g_expand(bold):
+    """Same result as `g_expand_direct`, computed with polynomials in 𝐭 (python-flint).
+
+    With w = 𝐪²𝐭 and s = 𝐭 + 𝐭^{−1}, G = w + w^{−1} − s.  The 𝐚^{2β} row closes iff its 𝐪-exponents are even and it is
+    symmetric under w ↔ w^{−1}; then it is a polynomial in y = w + w^{−1} (peel off y^k = Σ_j C(k,j) w^{k−2j}),
+    and Horner's rule in y = G + s gives the coefficients of G^g.  Raises if the expansion does not close.
+    """
+    from math import comb
+    from flint import fmpz_poly
+
+    rows = {}
+    for (ea, eq, et), c in bold.items():
+        if eq % 2:
+            raise ValueError(f"g-expansion does not close: odd power of q in {(ea, eq, et)}")
+        rows.setdefault(ea // 2, {})[(eq // 2, et - eq // 2)] = c      # 𝐪^{2k} 𝐭^{e} = w^k 𝐭^{e−k}
+    tpoly = fmpz_poly([0, 1])
+    result = {}
+    for beta, X in rows.items():
+        if any(X.get((-k, f)) != c for (k, f), c in X.items()):
+            raise ValueError(f"g-expansion does not close at beta={beta}: not symmetric under w <-> 1/w")
+        K = max(k for k, _ in X)
+        tmin = min(f for _, f in X)
+        d = [[0] * (max(f for _, f in X) - tmin + 1) for _ in range(K + 1)]
+        for (k, f), c in X.items():
+            if k >= 0:
+                d[k][f - tmin] = c
+        d = [fmpz_poly(v) for v in d]
+        e = [None] * (K + 1)                     # X = Σ_k e_k(𝐭) y^k
+        for k in range(K, -1, -1):
+            e[k] = d[k]
+            for j in range(1, k // 2 + 1):
+                d[k - 2 * j] -= comb(k, j) * e[k]
+        # Q_k = 𝐭^{K−k} P_k with P_K = e_K, P_k = P_{k+1}(G + s) + e_k; (G + s)𝐭 = G𝐭 + 𝐭² + 1
+        Qs = [e[K]]                              # Qs[g]: coefficient of G^g (polynomial in 𝐭, offset tmin)
+        for k in range(K - 1, -1, -1):
+            new = [x * (tpoly * tpoly + 1) for x in Qs] + [fmpz_poly(0)]
+            for g in range(len(Qs)):
+                new[g + 1] += Qs[g] * tpoly
+            new[0] += e[k] * tpoly ** (K - k)
+            Qs = new
+        for g, x in enumerate(Qs):                # P_0 = Q_0 / 𝐭^K
+            for i, c in enumerate(x.coeffs()):
+                if c:
+                    result[(g, beta, i + tmin - K)] = int(c)
+    return result
+
+
+def g_expand_direct(bold):
     """Notebook `gfactor`: write the coefficient of 𝐚^{2β} as Σ_g c_g(𝐭) G^g with G = (𝐪−𝐪^{−1})(𝐪𝐭−𝐪^{−1}𝐭^{−1}).
 
     Returns {(g, β, F): N} with N the coefficient of 𝐭^F G^g 𝐚^{2β}.  Raises if the expansion does not close.

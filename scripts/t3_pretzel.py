@@ -18,7 +18,7 @@ a, Q, tr, tc, q, t = sp.symbols("a Q t_r t_c q t")
 
 
 def qp(x, k, base):
-    out = 1
+    out = sp.Integer(1)             # Python の int 1 だと qbinom(0, 0) が 1/1 = 1.0（浮動小数点）になり、以後の約分が数値誤差で壊れる（2026-10-07 修正）
     for i in range(k):
         out *= 1 - x * base ** i
     return out
