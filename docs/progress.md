@@ -1,6 +1,6 @@
 # 進捗記録
 
-## 現在の状況（再開用、2026-10-06 更新）
+## 現在の状況（再開用、2026-10-07 更新）
 
 別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。
 
@@ -17,8 +17,8 @@
 |---|---|---|---|
 | 第 1 期 | ケーブル結び目（DAHA/EHA を入力）、ステージ 0〜7 | 完了 | docs/REPORT.md、docs/paper/ |
 | 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/REPORT_knot_table.md、docs/research_plan_knot_table.md |
-| 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 は計算中、残りの項目は第 4 期へ） | docs/REPORT_phase3.md、docs/research_plan_phase3.md |
-| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 は計算中） | docs/REPORT_phase4.md、docs/research_plan_phase4.md |
+| 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 も 2026-10-07 に完了。残りの項目は第 4 期へ） | docs/REPORT_phase3.md、docs/research_plan_phase3.md |
+| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 も完了） | docs/REPORT_phase4.md、docs/research_plan_phase4.md |
 
 未解決の問題は docs/open_problems.md、新規性の範囲は docs/novelty_report.md §5〜§8、規約は docs/conventions.md §11, §12。
 非代数的なケーブルの DAHA の値による計算はしない（CLAUDE.md、open_problems.md D5）。
@@ -30,21 +30,32 @@
 | V1 | 削除（非代数的なケーブル） |
 | V2 [2,1] の原理 | 完了・停止点 1 で報告済み。現在の条件では [2,1] は決まらない（解の差の因数分解）。V2-4, V2-5 はユーザーの判断で省略 |
 | V3 導出 | U(2) の恒等式は既知と判明（CD14, AMMM）。(N1)(N2') の導出（open_problems D1）は未着手 |
-| V4 2 箱の証明 | 部分的：ツイスト結び目の \hat f は p について次数 5 の漸化式（特性根を決定）。証明は未解決。拡張（\|p\| ≤ 30、p < 0）は未実施 |
+| V4 2 箱の証明 | 完了（2026-10-07）：ツイスト結び目の 2 箱の正値性を全ての p ≠ 0 で G 展開の前後とも示した（GNSSS の予想式の下、ニュートン形と G 展開の補題、REPORT_phase4.md §5.1）。|p| ≤ 30 でも確認。残りは pretzel への拡張 |
 | V5 双曲結び目の 3 箱（弱い判定） | 完了（停止点 2 で報告、5_2 は追加の探索でも未決のまま打ち切り）。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）。6_1：σ = +1 で正値性を満たす整数解あり（813 項、独立に再計算して確認）。σ = −1 は 3 結び目とも解なし |
-| V6 まとめ | 完了（2026-10-07、docs/REPORT_phase4.md）。K7 の結果は完了後に追記 |
+| V6 まとめ | 完了（2026-10-07、docs/REPORT_phase4.md）。K7 の結果も追記済み |
 | B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
 
-### 実行中のプロセス（nohup、2026-10-06 時点）
+### 実行中のプロセス（2026-10-07 時点：なし。以下は K7 の記録）
 | 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
 |---|---|---|---|---|
-| K8 → K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/u4_run.py --workers 3 K8 K7 > logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
+| K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts /usr/bin/time -l .venv/bin/python scripts/u4_run.py --workers 3 K7 >> logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
-- K8 は完了（2026-10-06）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負。K7（3 本ケーブル）を計算中。[1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
+- K8 は完了（2026-10-06、22853 秒、最大 RSS 1756 MB）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負（REPORT_phase3.md に反映済み）。
+- K7（3 本ケーブル）の途中経過（2026-10-07 01:00 時点）：rCS の [1], [2], [1,1], [3]（41369 項、7598 秒）は完了、[1,1,1] は評価のまとまり 24 個中 6 個を保存済み。残りは [1,1,1]、[2,1]、3 箱の \hat f で約 10 時間の見込み。
+- **K7 の高速化と置き換え（2026-10-07 01:30 頃、ユーザーの指示）**：
+  - 見直し：(i) 補間を常に 2 素数で行っていたが、K7 の係数は最大 3.1×10⁷ で素数 1 つ（P31/2 ≈ 10⁹）に収まる → 素数 1 つで復元し独立な素数 P31C の点で検証、失敗したときだけ 2 つ目の素数（CRT）に切り替える（`src/rcsknots/exact.py`、テスト `tests/test_speedup.py::test_single_prime_then_crt_fallback`）。
+    (ii) [1,1,1] は [3] から転置対称性 rCS_{λ^T}(a,q,t) = rCS_λ(a,1/t,1/q) と (N2') の単項式で作り、独立な素数の 16 点で GN の値と照合する（`scripts/stage5_cables.py` の from_transpose、テスト `tests/test_stage5_cables.py -k transpose`。K1, K5c で保存値と全係数一致、係数を 1 つ変えた式は検出される）。対称性は K1, K5c, K7 [2]/[1,1], K8 の保存値で厳密に成立。
+  - 見積もり：残り（[1,1,1] の 18/24 まとまり、[2,1]、3 箱の \hat f）が約 3.5 時間 → 約 1〜1.5 時間。
+  - 置き換え：旧プロセスを止め、同じコマンドを `>> logs/u4_cables3.log` で再実行する。[2,1] と \hat f の評価のまとまりは data/cache/ に保存され、止まっても同じコマンドで再開できる（[1,1,1] の旧まとまり 6 個は使わない）。
+  - 実施（2026-10-07）：旧プロセスを止め、K7 だけを対象に `nohup env PYTHONPATH=src:scripts /usr/bin/time -l .venv/bin/python scripts/u4_run.py --workers 3 K7 >> logs/u4_cables3.log 2>&1 &` で再起動
+    （最初は K8 K7 で起動したが、K8 の保存済みの 3 箱の判定の読み直しに 20 分以上かかったので K7 だけにした）。
+    [1,1,1] は 215 秒で完了（旧方式の残りの見込み約 1.5 時間）。[2,1] は 6217 秒（並行して動いたテスト・V4 と CPU を分け合った）。
+    3 箱の \hat f は素数 1 つでは検証に失敗し、自動で 2 つ目の素数に切り替わった（3582 秒）。再起動からの合計 12275 秒、最大 RSS 1879 MB。
+  - **結果（2026-10-07）**：K7 は |ρ| ≤ 3 の全 6 つの ρ で G 展開の前後とも非負（3 箱は各約 34 万項）。CD14 (3) との照合、`tests/test_phase3.py::test_u4_three_box_positivity[K7]` を実行。
 - プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
 
-### 完了したときにやること
-- K8・K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §8 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
+### 完了したときにやること（2026-10-07 実施済み）
+- K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §9 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
 
 ### 並行調査（2026-10-07、ユーザーの指示：D1・B2・A1）
 - **B2 解決**：GNSSS の式は 19 個の K_{s,t}（次元が二乗でない 16 個と K_{±4,±4} の 3 個）で special polynomial の性質を破る（式の不備）。GGS の予想への反例ではない。
@@ -53,10 +64,15 @@
   Markov 跡の正規化の refined 版と解釈できる。EHA/DAHA からの導出は未完。
 - **A1 文献調査完了**（docs/literature/a1_21_constructions.md）：双曲結び目の [2,1] の refined 不変量を定義に基づいて与える枠組みは無い。
   [2,1] の定義があるのはホモロジー側（Cautis、Elias–Hogancamp）のみで計算例なし。現実的な道は kr-calc（Rust、許可が要る）で 4_1 の [2,1] 彩色ホモロジーを計算すること。
-- K7：rCS の [1], [2], [1,1], [3] まで済み、[1,1,1] を計算中（あと [2,1] と 3 箱の \hat f、合わせて約 10 時間の見込み）。
+- K7：完了（上記）。
 
+### D1 と V4（2026-10-07、ユーザーの指示：D1 を主軸に V4 を並行）
+- D1：(N1)(N2') の閉じた式を「refined 衛星公式 H_sat ＋ トーラス結び目の事実 (I)〜(IV)」から導いた（conventions.md §13.1）。
+  ケーブルの漸化式は framing 演算子の恒等式（厳密に確認）から、トーラス結び目は正規化前の最低 a 係数 = (−t/q)^{m−1} C_{m,n}(1/q,t)（有理 Catalan、11 例）から。残りは規約の書き下しと文献確認。
+- V4：上の表のとおり完了。
 ### 判断待ち・次の候補
-1. V5 は終了（2026-10-07）：5_2 の σ = +1 は、LP の解の丸めの近くを探す試み（30 分）でも整数解が見つからず、「有理数解は存在、整数解は未決」として打ち切った（ユーザーの判断）。7_2, 8_1 などへの拡大は行わない（弱い判定のため）。次は V6 のまとめ。
+0. 保存済みの 3 箱の判定（`tests/test_phase3.py::test_u4_three_box_positivity` の K8・K9 で 21 分・43 分）が遅い。判定（G 展開）の高速化か、テストで判定結果を保存して読む方式が候補。
+1. 第 4 期は V6 まで完了し、K7 も完了（2026-10-07）。V5 の 5_2 は「有理数解は存在、整数解は未決」で打ち切り、7_2, 8_1 などへの拡大はしない（ユーザーの判断）。
 2. V4 の拡張（閉じた形で \|p\| ≤ 30、p < 0）。
 3. open_problems D1 の残り（M_□ の式を EHA/DAHA の正規化から導く）、B4（thick な結び目の t_c 次数）。
 4. A1 を進めるなら：kr-calc（Rust の導入にユーザーの許可が要る）で 4_1 の [2,1] 彩色ホモロジー（Elias–Hogancamp の射影子）を計算できるかの見積もり。

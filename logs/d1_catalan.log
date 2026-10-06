@@ -1,0 +1,11 @@
+T(2,3)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (-1, Fraction(1, 1), Fraction(3, 2), Fraction(-3, 2)) が b = m の式に一致 True
+T(3,2)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(1, 1), Fraction(5, 2), Fraction(-5, 2)) が b = m の式に一致 True
+T(2,5)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (-1, Fraction(2, 1), Fraction(2, 1), Fraction(-2, 1)) が b = m の式に一致 True
+T(5,2)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(2, 1), Fraction(5, 1), Fraction(-5, 1)) が b = m の式に一致 True
+T(3,4)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(3, 1), Fraction(7, 2), Fraction(-7, 2)) が b = m の式に一致 True
+T(4,3)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (-1, Fraction(3, 1), Fraction(9, 2), Fraction(-9, 2)) が b = m の式に一致 True
+T(3,5)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(4, 1), Fraction(4, 1), Fraction(-4, 1)) が b = m の式に一致 True
+T(5,3)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(4, 1), Fraction(6, 1), Fraction(-6, 1)) が b = m の式に一致 True
+T(2,7)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (-1, Fraction(3, 1), Fraction(5, 2), Fraction(-5, 2)) が b = m の式に一致 True
+T(4,5)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (-1, Fraction(6, 1), Fraction(6, 1), Fraction(-6, 1)) が b = m の式に一致 True
+T(5,4)：C の q,t 対称性 True、a⁰ の係数 = (−t/q)^(m−1) C(1/q,t) True、単項式 (1, Fraction(6, 1), Fraction(7, 1), Fraction(-7, 1)) が b = m の式に一致 True

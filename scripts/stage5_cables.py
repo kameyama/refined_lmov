@@ -6,9 +6,10 @@ import json
 import resource
 import sys
 import time
+from fractions import Fraction
 from pathlib import Path
 
-from rcsknots.exact import reconstruct, reconstruct_points
+from rcsknots.exact import gn_evaluator, reconstruct, reconstruct_points, verify
 from rcsknots.homfly_num import homfly_evaluator
 from rcsknots.normalize import normalize_exact
 
@@ -27,6 +28,29 @@ def slopes(p1, q1, p2, q2):
     return (p2, -(q2 - p1 * q1 * p2)), (p1, -q1)
 
 
+TRANSPOSE = {"111": "3"}     # 転置の彩色から作る（転置対称性、補間に使っていない点で GN と照合）
+
+
+def from_transpose(name, cname, func):
+    """rCS_{λ^T}(a, q, t) = rCS_λ(a, 1/t, 1/q)（正規化済み、docs/conventions.md §7）から λ^T の reduced 値（正規化前）を作る。
+
+    正規化の単項式は (N2') の予測 M_λ = M_□^{|λ|} T_λ^{p₂q₂}。得た式は独立な素数の 16 点で GN の値と照合する（全係数の検証）。
+    """
+    from renormalize_cables import predicted
+    src = json.loads((OUT / f"{name}_{TRANSPOSE[cname]}.json").read_text())
+    m1 = json.loads((OUT / f"{name}_1.json").read_text())["monomial_applied"]
+    p1, q1, p2, q2 = KNOTS[name]
+    m = predicted(m1, COLORS[cname], p2 * q2)
+    raw = {}
+    for k, v in src["poly"].items():
+        ea, eq, et = map(int, k.split(","))
+        key = (Fraction(ea, 2) - m["a"], Fraction(-et, 2) - m["q"], Fraction(-eq, 2) - m["t"])   # (a, q, t) ↦ (a, 1/t, 1/q)、単項式を外す
+        assert all(x.denominator == 1 for x in key)
+        raw[tuple(int(x) for x in key)] = m["sign"] * v
+    verify(gn_evaluator(func), raw, seed=2000, npts=16)
+    return raw
+
+
 def compute(name, cname, log=print):
     path = OUT / f"{name}_{cname}.json"
     if path.exists():
@@ -35,8 +59,14 @@ def compute(name, cname, log=print):
     lam = COLORS[cname]
     inner, outer = slopes(p1, q1, p2, q2)
     t0 = time.time()
-    cache = Path(f"data/cache/rcs/{name}_{cname}") if WORKERS > 1 else None     # まとまりごとの保存（再開用）
-    raw = reconstruct(lambda G: G.cable_reduced_apoly(lam, inner, outer), log=log, workers=WORKERS, cache=cache)
+    func = lambda G: G.cable_reduced_apoly(lam, inner, outer)      # noqa: E731
+    method = "GN の値の補間"
+    if cname in TRANSPOSE and (OUT / f"{name}_{TRANSPOSE[cname]}.json").exists():
+        raw = from_transpose(name, cname, func)
+        method = f"[{TRANSPOSE[cname]}] から転置対称性で作り、独立な素数の 16 点で GN の値と照合"
+    else:
+        cache = Path(f"data/cache/rcs/{name}_{cname}") if WORKERS > 1 else None     # まとまりごとの保存（再開用）
+        raw = reconstruct(func, log=log, workers=WORKERS, cache=cache)
     t1 = time.time()
     hraw = reconstruct_points(homfly_evaluator(lam, [(p1, q1), (p2, q2)]), log=lambda s: None)
     hom = {(ea, eq): c for (_, ea, eq), c in hraw.items()}
@@ -44,7 +74,7 @@ def compute(name, cname, log=print):
     data = {"knot": name, "cable": {"companion": [p1, q1], "pattern": [p2, q2]},
             "daha_newton_pairs": {"r": [p1, p2], "s": [q1, q2 - p1 * q1 * p2]},
             "algebraic": q2 > p1 * q1 * p2, "gn_slopes": {"pattern": list(inner), "companion": list(outer)},
-            "color": list(lam), "reduced": True,
+            "color": list(lam), "reduced": True, "method": method,
             "variables": "exponents of (A=a^(1/2), Q=q^(1/2), T=t^(1/2)) of 1703.05408",
             "framing": "0; normalization (N1)+(N2) of docs/conventions.md §5 (hypothesis for cables)",
             "monomial_applied": {"sign": mono[0], "a": str(mono[1]), "q": str(mono[2]), "t": str(mono[3])},

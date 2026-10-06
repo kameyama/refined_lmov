@@ -2,8 +2,9 @@
 
 `func(G)` receives a `GN` object whose q, t are vectors of evaluation points and returns the
 value as a list of coefficients of a^0, a^1, ... (each a `field.V`).  The result is
-{(e_a, e_q, e_t): integer}.  Interpolation uses prime P31; the lifted integer polynomial is then
-checked at random points mod a second prime that were not used for interpolation.
+{(e_a, e_q, e_t): integer}.  Interpolation uses prime P31 (and P31B with the Chinese remainder theorem only
+when the single-prime lift fails); the lifted integer polynomial is checked at random points mod a third
+prime P31C that were not used for interpolation.
 """
 from fractions import Fraction
 import time
@@ -129,9 +130,20 @@ def reconstruct_points(func, seed=0, log=print, workers=1, cache=None):
     qlo, qhi = _probe_range(func, 0, rng, P31, log, workers)
     tlo, thi = _probe_range(func, 1, rng, P31, log, workers)
     Nq, Nt = qhi - qlo + 1, thi - tlo + 1
-    log(f"  grid {Nq} x {Nt} = {Nq * Nt} points, 2 primes")
+    log(f"  grid {Nq} x {Nt} = {Nq * Nt} points")
     coeffs = []
     for p in (P31, P31B):
+        if p == P31B:
+            # 係数が P31/2 未満なら素数 1 つで足りる：対称な代表で持ち上げ、独立な点で検証できれば終わり
+            c1 = coeffs[0]
+            poly = {(int(d), int(iq) + qlo, int(it) + tlo): (int(c1[it, iq, d]) if c1[it, iq, d] <= P31 // 2 else int(c1[it, iq, d]) - P31)
+                    for it, iq, d in zip(*np.nonzero(c1))}
+            try:
+                verify(func, poly, seed + 1000)
+                log(f"  {len(poly)} terms, 1 prime, {time.time() - t0:.0f}s")
+                return poly
+            except ArithmeticError:
+                log("  1 prime not enough; using a second prime")
         qs, ts = _distinct(rng, Nq, p), _distinct(rng, Nt, p)
         Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
         vals = _evaluate(func, Qg.ravel(), Tg.ravel(), p, workers, cache,
@@ -155,7 +167,7 @@ def reconstruct_points(func, seed=0, log=print, workers=1, cache=None):
             x -= M
         if x:
             poly[(int(d), int(iq) + qlo, int(it) + tlo)] = x
-    log(f"  {len(poly)} terms, {time.time() - t0:.0f}s")
+    log(f"  {len(poly)} terms, 2 primes, {time.time() - t0:.0f}s")
     verify(func, poly, seed + 1000)
     return poly
 
