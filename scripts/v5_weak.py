@@ -4,6 +4,7 @@
 [1,1], [1,1,1]（ミラー (e_a, e_q, e_t) ↦ (e_a, −e_q, e_t − e_q)）、[2,1] は未知数（scripts/u3_21.py の整数計画）。
 [2,1] の t = q の値は 3 本ケーブルから（colored_from_cables.colored_p）。カイラリティは [3] の t = q で決める。
 使い方：python scripts/v5_weak.py 名前 ...（4_1, 5_2, 6_1, 7_2, 8_1）。結果は logs/v5_weak.log に追記。
+判定：4_1 は KN の候補を代入した LP。他は LP 緩和（不能なら解なし確定）→ 制限時間付きの整数計画（見つからなければ未決）。
 """
 import pickle
 import sys
@@ -72,14 +73,42 @@ def main(names):
             dk = U.dK(red)
             pickle.dump(dk, open(cache, "wb"))
         amph = name in AMPHICHIRAL
-        for positive in (False, True):
-            res = []
-            for sigma in (1, -1):
-                sol = U.solve(red, H21, structure=(au, dk), positive=positive, sigma=sigma, amphichiral=amph, log=lambda s: None)
-                res.append(sol is not None)
-                if sol is not None and positive:
-                    pickle.dump(sol, open(f"data/cache/v5_{name}_sol_sigma{sigma}.pkl", "wb"))
-            out(f"{name}: 正値性{'あり' if positive else 'なし'}（両手型性 {amph}）：σ=+1 {'解あり' if res[0] else '解なし'}、σ=−1 {'解あり' if res[1] else '解なし'}")
+        for sigma in (1, -1):
+            out(f"{name} σ={sigma:+d}: {judge(red, H21, au, dk, amph, sigma, name)}")
+
+
+def judge(red, H21, au, dk, amph, sigma, name):
+    """正値性を課した系の判定。KN の候補があれば代入して LP、無ければ LP 緩和 → 制限時間付きの整数計画。"""
+    import numpy as np
+    from scipy.optimize import Bounds, LinearConstraint, linprog, milp
+    xs, A, b, lb, ub = U.build(red, H21, structure=(au, dk), positive=True, sigma=sigma, amphichiral=amph, log=lambda s: None)
+    nx = len(xs)
+    if name in KN_CANDIDATE:
+        from rcsknots.laurent import load_table
+        cand = load_table("data/reference/notebook_torus.txt")[KN_CANDIDATE[name]]
+        if any(e not in set(xs) for e in cand):
+            return "KN の候補が x の箱の外"
+        lb, ub = lb.copy(), ub.copy()
+        for n, e in enumerate(xs):
+            lb[n] = ub[n] = cand.get(e, 0)
+        res = linprog(np.zeros(A.shape[1]), A_eq=A, b_eq=b, bounds=list(zip(lb, ub)), method="highs")
+        return "KN の候補で全条件（正値性を含む）を満たす" if res.status == 0 else f"KN の候補は条件を満たさない（{res.message[:60]}）"
+    res = linprog(np.zeros(A.shape[1]), A_eq=A, b_eq=b, bounds=list(zip(lb, ub)), method="highs")
+    if res.status == 2:
+        return "LP 緩和が実行不能 → 正値性を満たす [2,1] は（x の箱の中に）存在しない"
+    if res.status != 0:
+        return f"LP 緩和が終わらない（{res.message[:60]}）"
+    r = milp(np.zeros(A.shape[1]), constraints=LinearConstraint(A, b, b), integrality=np.ones(A.shape[1]),
+             bounds=Bounds(lb, ub), options={"time_limit": MILP_SECONDS})
+    if r.x is not None:
+        sol = {e: int(round(v)) for e, v in zip(xs, r.x[:nx]) if round(v)}
+        pickle.dump(sol, open(f"data/cache/v5_{name}_sol_sigma{sigma}.pkl", "wb"))
+        return f"正値性を満たす整数解あり（[2,1] の項数 {len(sol)}）"
+    return f"LP 緩和は実行可能、整数解は {MILP_SECONDS} 秒で見つからず（未決：{r.message[:50]}）"
+
+
+KN_CANDIDATE = {"4_1": ("4_1", "21")}      # KN が構成した [2,1]（ノートブック）
+MILP_SECONDS = 1800
 
 
 if __name__ == "__main__":

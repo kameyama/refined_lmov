@@ -1,0 +1,10 @@
+4_1: dim H^[1] = 5, dim H^[3] = 125, 三乗？ True
+4_1: [3] の t = q が 3 本ケーブルの値と一致（鏡像 False）
+4_1: dim H^[1] = 5, dim H^[3] = 125, 三乗？ True
+4_1: [3] の t = q が 3 本ケーブルの値と一致（鏡像 False）
+4_1: dim H^[1] = 5, dim H^[3] = 125, 三乗？ True
+4_1: [3] の t = q が 3 本ケーブルの値と一致（鏡像 False）
+4_1 σ=+1: KN の候補で全条件（正値性を含む）を満たす
+4_1 σ=-1: KN の候補は条件を満たさない（The problem is infeasible. (HiGHS Status 8: model_status is ）
+5_2: dim H^[1] = 7, dim H^[3] = 343, 三乗？ True
+5_2: [3] の t = q が 3 本ケーブルの値と一致（鏡像 False）
