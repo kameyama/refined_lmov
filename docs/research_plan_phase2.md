@@ -1,5 +1,7 @@
 # 研究計画（第 2 期）：ケーブルの refined BPS 正値性の境界と、[1] でのホモロジーとの照合
 
+> **注（2026-10-06）**：この案は採用しなかった。特にステージ 8（非代数的なケーブルの走査）は行わない（CLAUDE.md、open_problems.md D5）。
+
 作成：2026-10-05。第 1 期（ステージ 0〜7）の計画は docs/research_plan.md、結果は docs/REPORT.md、作業記録は docs/progress.md。
 文献の状況は docs/categorification_literature_map.md（以下「文献地図」）と docs/categorification_status.md、DAHA の明示例は docs/literature/notes_DAHA.md。
 規約は docs/conventions.md に従う。ステージ番号は第 1 期から続けて 8 から振る。
