@@ -45,3 +45,34 @@ def test_single_prime_then_crt_fallback():
                                                              for x, y in zip(xs, ys)], dtype=np.int64)) % p
             return out
         assert reconstruct_points(ev, log=lambda s: None) == poly
+
+
+def test_g_expand_fast_equals_direct():
+    """G 展開（python-flint の多項式で計算）が、旧来の実装 g_expand_direct と全係数で一致し、ランダムな Σ c_g(𝐭) G^g を復元する。"""
+    import random
+    import pytest
+    from rcsknots.bps import g_expand, g_expand_direct
+    G = {(2, 1): 1, (0, 1): -1, (0, -1): -1, (-2, -1): 1}
+    rng = random.Random(1)
+    for _ in range(20):
+        coeffs = {(rng.randint(0, 6), rng.randint(0, 2), rng.randint(-4, 4)): rng.randint(-5, 5) for _ in range(12)}
+        coeffs = {k: v for k, v in coeffs.items() if v}
+        bold = {}
+        for (g, beta, F), c in coeffs.items():
+            P = {(0, 0): 1}
+            for _ in range(g):
+                Q = {}
+                for (a1, b1), x in P.items():
+                    for (a2, b2), y in G.items():
+                        Q[(a1 + a2, b1 + b2)] = Q.get((a1 + a2, b1 + b2), 0) + x * y
+                P = Q
+            for (eq, et), x in P.items():
+                k = (2 * beta, eq, et + F)
+                bold[k] = bold.get(k, 0) + c * x
+        bold = {k: v for k, v in bold.items() if v}
+        assert g_expand(bold) == coeffs == g_expand_direct(bold)
+    for bad in ({(0, 1, 0): 1}, {(0, 2, 1): 1}):        # 𝐪 の奇数冪、w ↔ 1/w で非対称
+        with pytest.raises(ValueError):
+            g_expand(bad)
+        with pytest.raises(ValueError):
+            g_expand_direct(bad)
