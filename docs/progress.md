@@ -47,13 +47,19 @@
 - K8・K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §8 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
 
 ### 並行調査（2026-10-07、ユーザーの指示：D1・B2・A1）
-- B2 解決：GNSSS の式は 19 個の K_{s,t} で special polynomial の性質を破る（式の不備）。第 2 期 T3 の正の数を 39 → 36（有効な入力）に訂正。
-- D1（ケーブルの正規化の導出）：進行中。A1（[2,1] の構成の文献調査）：サブエージェントで進行中。
+- **B2 解決**：GNSSS の式は 19 個の K_{s,t}（次元が二乗でない 16 個と K_{±4,±4} の 3 個）で special polynomial の性質を破る（式の不備）。GGS の予想への反例ではない。
+  第 2 期 T3 の正の数を 39 → 36（有効な入力）に訂正（`scripts/b2_special_poly.py`、REPORT_knot_table.md、REPORT_phase4.md §8）。
+- **D1 前進**：正規化の単項式 M_□ = (−q/t)^{b−1}·(a(q/t)^{1/2})^{δ}（b はブレイドの本数、δ は種数型の量）が全 22 結び目で成立（`tests/test_normalization_formula.py`、conventions.md §13）。
+  Markov 跡の正規化の refined 版と解釈できる。EHA/DAHA からの導出は未完。
+- **A1 文献調査完了**（docs/literature/a1_21_constructions.md）：双曲結び目の [2,1] の refined 不変量を定義に基づいて与える枠組みは無い。
+  [2,1] の定義があるのはホモロジー側（Cautis、Elias–Hogancamp）のみで計算例なし。現実的な道は kr-calc（Rust、許可が要る）で 4_1 の [2,1] 彩色ホモロジーを計算すること。
+- K7：rCS の [1], [2], [1,1], [3] まで済み、[1,1,1] を計算中（あと [2,1] と 3 箱の \hat f、合わせて約 10 時間の見込み）。
 
 ### 判断待ち・次の候補
 1. V5 は終了（2026-10-07）：5_2 の σ = +1 は、LP の解の丸めの近くを探す試み（30 分）でも整数解が見つからず、「有理数解は存在、整数解は未決」として打ち切った（ユーザーの判断）。7_2, 8_1 などへの拡大は行わない（弱い判定のため）。次は V6 のまとめ。
 2. V4 の拡張（閉じた形で \|p\| ≤ 30、p < 0）。
-3. open_problems D1（ケーブルの単項式正規化の導出）、B4（thick な結び目の t_c 次数）。
+3. open_problems D1 の残り（M_□ の式を EHA/DAHA の正規化から導く）、B4（thick な結び目の t_c 次数）。
+4. A1 を進めるなら：kr-calc（Rust の導入にユーザーの許可が要る）で 4_1 の [2,1] 彩色ホモロジー（Elias–Hogancamp の射影子）を計算できるかの見積もり。
 
 ## 完了した作業
 
