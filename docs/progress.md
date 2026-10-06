@@ -317,6 +317,11 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
     nohup の独立プロセスで実行中（`logs/u4_cables2.log`）。途中の rCS は data/cables/ に保存され、再実行時に再利用される。
 - テスト：`tests/test_phase3.py`（3 本ケーブルの逆解き、[2,1] の構造的な恒等式、U4 の 3 箱の正値性）。
 
+## 第 3 期のまとめ（U6、2026-10-06）
+
+- ユーザーの指示で、K8・K7 の完了を待たずに docs/REPORT_phase3.md にまとめた。novelty_report.md §7、open_problems.md（A1〜A3）を更新。
+- K8・K7 は nohup の独立プロセスで計算を続けている（`logs/u4_cables2.log`）。終わったら REPORT_phase3.md §3 の表と tests/test_phase3.py の結果に反映する。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
