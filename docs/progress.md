@@ -322,6 +322,12 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 - ユーザーの指示で、K8・K7 の完了を待たずに docs/REPORT_phase3.md にまとめた。novelty_report.md §7、open_problems.md（A1〜A3）を更新。
 - K8・K7 は nohup の独立プロセスで計算を続けている（`logs/u4_cables2.log`）。終わったら REPORT_phase3.md §3 の表と tests/test_phase3.py の結果に反映する。
 
+## 第 4 期の計画（2026-10-06）
+
+- ユーザーの指示：K8・K7 は計算を続け、次の計画へ進む。長時間の計算の事前準備（見積もり、高速化、再開、分割と並列、独立プロセス）を CLAUDE.md に追記した。
+- 第 4 期の計画を docs/research_plan_phase4.md に作成（V0 高速化、V1 非代数的なケーブルの 3 箱、V2 [2,1] を決める原理、V3 導出、V4 2 箱の証明、V5 双曲結び目の 3 箱、V6 まとめ）。
+- 計算機：8 コア（性能 4、効率 4）、メモリ 8 GB。ユーザーの承認を待つ。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
