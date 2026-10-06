@@ -16,11 +16,19 @@ def h(lam, q, t):
     return out
 
 
+_PHI = {}
+
+
 def phi_factor(nu, t):
-    """φ(p_ν) = p_ν · Π 1/(1 − t^{−ν_i})."""
+    """φ(p_ν) = p_ν · Π 1/(1 − t^{−ν_i})。1/(1 − t^{−k}) は t のオブジェクトと k ごとにキャッシュする。"""
     out = 1
     for k in nu:
-        out = out / (1 - t ** (-k))
+        key = (id(t), k)
+        if key not in _PHI or _PHI[key][0] is not t:
+            if len(_PHI) > 256:
+                _PHI.clear()
+            _PHI[key] = (t, 1 / (1 - t ** (-k)))
+        out = out * _PHI[key][1]
     return out
 
 

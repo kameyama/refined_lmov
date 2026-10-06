@@ -19,6 +19,7 @@ KNOTS = {"T2_3": ((2, 3), (2, -3)), "T2_5": ((2, 5), (2, -5)), "T2_7": ((2, 7), 
          # 第 3 期 U4（KN の表に無いもの）
          "T3_5": ((3, 5), (3, -5)), "T4_5": ((4, 5), (4, -5)), "T3_7": ((3, 7), (3, -7)), "T2_11": ((2, 11), (2, -11))}
 OUT = Path("data/torus")
+WORKERS = 1        # 格子点の評価の並列数（scripts/u4_run.py が設定する）
 
 
 def compute(knot, cname):
@@ -29,7 +30,8 @@ def compute(knot, cname):
     (m, n), slope = KNOTS[knot]
     lam = COLORS[cname]
     t0 = time.time()
-    raw = reconstruct(lambda G: G.torus_reduced_apoly(lam, *slope), log=lambda s: print(s, flush=True))
+    cache = Path(f"data/cache/rcs/{knot}_{cname}") if WORKERS > 1 else None
+    raw = reconstruct(lambda G: G.torus_reduced_apoly(lam, *slope), log=lambda s: print(s, flush=True), workers=WORKERS, cache=cache)
     norm, mono = normalize(raw, torus_reduced(lam, m, n, sign=-1))
     meta = {"knot": knot, "torus": [m, n], "gn_slope": list(slope), "color": list(lam),
             "variables": "A=a^(1/2), Q=q^(1/2), T=t^(1/2) of 1703.05408; exponents of (A,Q,T)",

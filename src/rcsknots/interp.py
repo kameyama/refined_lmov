@@ -6,16 +6,28 @@ def _inv(x, p):
     return pow(int(x) % p, p - 2, p)
 
 
-def newton_to_monomial(xs, vals, p):
+def _powmod_vec(a, e, p):
+    result = np.ones_like(a)
+    base = a % p
+    while e:
+        if e & 1:
+            result = result * base % p
+        base = base * base % p
+        e >>= 1
+    return result
+
+
+def newton_to_monomial_direct(xs, vals, p):
     """Coefficients c (shape (N, ...)) with Σ_k c_k x^k = vals at xs (vals shape (N, ...))."""
     xs = [int(v) % p for v in xs]
     N = len(xs)
     d = np.array(vals, dtype=np.int64) % p
-    # divided differences, in place
+    # divided differences: level j uses the level j−1 values d[i], d[i−1] (vectorized over i)
+    xa = np.array(xs, dtype=np.int64)
+    shape = (-1,) + (1,) * (d.ndim - 1)
     for j in range(1, N):
-        for i in range(N - 1, j - 1, -1):
-            inv = _inv(xs[i] - xs[i - j], p)
-            d[i] = (d[i] - d[i - 1]) % p * inv % p
+        invs = _powmod_vec((xa[j:] - xa[:N - j]) % p, p - 2, p).reshape(shape)
+        d[j:] = (d[j:] - d[j - 1:N - 1]) % p * invs % p
     # Newton form -> monomial form (Horner)
     c = np.zeros_like(d)
     for k in range(N - 1, -1, -1):
@@ -30,3 +42,28 @@ def newton_to_monomial(xs, vals, p):
 def symmetric_lift(c, p):
     c = np.asarray(c, dtype=np.int64) % p
     return np.where(c > p // 2, c - p, c)
+
+
+_VINV = {}
+
+
+def _matmul_mod(A, B, p):
+    """A @ B mod p for int64 arrays with entries in [0, p), p < 2^31 (B split into 16-bit halves; needs A.shape[1] < 2^16)."""
+    lo, hi = B & 0xFFFF, B >> 16
+    return ((A @ lo) % p + (A @ hi) % p * 65536 % p) % p
+
+
+def newton_to_monomial(xs, vals, p):
+    """Coefficients c (shape (N, ...)) with Σ_k c_k x^k = vals at xs, as (inverse Vandermonde) @ vals mod p.
+
+    The inverse Vandermonde matrix is computed once per point set with newton_to_monomial_direct and cached.
+    """
+    xs = [int(v) % p for v in xs]
+    N = len(xs)
+    key = (p, tuple(xs))
+    if key not in _VINV:
+        if len(_VINV) > 8:
+            _VINV.clear()
+        _VINV[key] = newton_to_monomial_direct(xs, np.eye(N, dtype=np.int64), p)
+    d = np.array(vals, dtype=np.int64) % p
+    return _matmul_mod(_VINV[key], d.reshape(N, -1), p).reshape(d.shape)

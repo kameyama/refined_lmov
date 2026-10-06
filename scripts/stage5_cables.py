@@ -19,6 +19,7 @@ KNOTS = {"K1": (2, 3, 2, 13), "K2": (2, 3, 2, 1), "K3": (2, 3, 2, 15), "K4": (2,
          # 第 3 期 U4：代数的なケーブル（CD14・CP16 で代数的と確認済み、notes_DAHA.md の辞書表）
          "K7": (2, 3, 3, 19), "K8": (3, 4, 2, 25), "K9": (2, 7, 2, 31)}
 OUT = Path("data/cables")
+WORKERS = 1        # 格子点の評価の並列数（scripts/u4_run.py が設定する）
 
 
 def slopes(p1, q1, p2, q2):
@@ -34,7 +35,8 @@ def compute(name, cname, log=print):
     lam = COLORS[cname]
     inner, outer = slopes(p1, q1, p2, q2)
     t0 = time.time()
-    raw = reconstruct(lambda G: G.cable_reduced_apoly(lam, inner, outer), log=log)
+    cache = Path(f"data/cache/rcs/{name}_{cname}") if WORKERS > 1 else None     # まとまりごとの保存（再開用）
+    raw = reconstruct(lambda G: G.cable_reduced_apoly(lam, inner, outer), log=log, workers=WORKERS, cache=cache)
     t1 = time.time()
     hraw = reconstruct_points(homfly_evaluator(lam, [(p1, q1), (p2, q2)]), log=lambda s: None)
     hom = {(ea, eq): c for (_, ea, eq), c in hraw.items()}

@@ -59,11 +59,12 @@ def bps_numbers(hat_f_rho, rho, convention="torus"):
     return g_expand(to_bold(hat_f_rho, A_SHIFT[convention][sum(rho)]))
 
 
-def reformulated_exact(reduced, n, log=print):
+def reformulated_exact(reduced, n, log=print, workers=1, cache=None):
     """All reformulated invariants of size n, exactly, in KN's lowercase half-variables (A, Q, T).
 
     Returns {("fq", μ): poly, ("ft", μ): poly, ("hat", ρ): poly} (no a-shift, no change to bold variables).
     The check f^t = M(q^{-1}) \\hat f is done at every evaluation point.
+    workers, cache：格子点での評価の並列数と保存先（rcsknots.exact.reconstruct_points）。
     """
     parts = partitions(n)
     keys = [("fq", m) for m in parts] + [("ft", m) for m in parts] + [("hat", r) for r in parts]
@@ -100,7 +101,7 @@ def reformulated_exact(reduced, n, log=print):
                 arr[:, i * width + e - lo] = (arr[:, i * width + e - lo] + _arr(c, k, p)) % p
         return arr
 
-    raw = reconstruct_points(ev, seed=11 + n, log=log)
+    raw = reconstruct_points(ev, seed=11 + n, log=log, workers=workers, cache=cache)
     out = {key: {} for key in keys}
     for (d, eq, et), c in raw.items():
         i, e = divmod(d, width)

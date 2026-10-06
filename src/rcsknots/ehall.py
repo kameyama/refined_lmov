@@ -46,6 +46,7 @@ class EHA:
         self.qt = q * t
         self.gamma = (q - 1) * (t - 1) / (self.qt * (self.qt - 1))
         self._chi, self._g, self._omega_inv = {}, {}, {}
+        self._pair, self._ratio, self._chipow, self._ginv = {}, {}, {}, {}   # 値が箱の組だけで決まる量のキャッシュ
 
     def chi(self, box):
         if box not in self._chi:
@@ -71,6 +72,31 @@ class EHA:
             self._omega_inv[key] = (x - q) * (x - t) / ((x - 1) * (x - qt))
         return self._omega_inv[key]
 
+    def ratio(self, last, box):
+        """χ(last)/χ(box)"""
+        key = (last, box)
+        if key not in self._ratio:
+            self._ratio[key] = self.chi(last) / self.chi(box)
+        return self._ratio[key]
+
+    def pair(self, last, box):
+        """1/(1 − qt χ(last)/χ(box))"""
+        key = (last, box)
+        if key not in self._pair:
+            self._pair[key] = 1 / (1 - self.qt * self.ratio(last, box))
+        return self._pair[key]
+
+    def chi_pow(self, box, e):
+        key = (box, e)
+        if key not in self._chipow:
+            self._chipow[key] = self.chi(box) ** e
+        return self._chipow[key]
+
+    def g_inv(self, lam):
+        if lam not in self._ginv:
+            self._ginv[lam] = 1 / self.g(lam)
+        return self._ginv[lam]
+
     def bracket_k(self, k):
         return (self.q ** k - 1) * (self.t ** k - 1) / ((self.q - 1) * (self.t - 1))
 
@@ -89,13 +115,13 @@ class EHA:
                 for (shape, last), (A, B) in states.items():
                     for box in addable(shape):
                         chi_b = self.chi(box)
-                        w = chi_b ** S[label] * (self.qt * chi_b - 1)
+                        w = self.chi_pow(box, S[label]) * (self.qt * chi_b - 1)
                         for old in boxes_of(shape):
                             w = w * self.omega_inv(old, box)
                         if last is not None:            # pair (label, label+1): 1/(1 − qt χ_{label+1}/χ_label)
-                            w = w / (1 - self.qt * self.chi(last) / chi_b)
+                            w = w * self.pair(last, box)
                         if label in r_steps:
-                            Bn = w * self.qt * (self.chi(last) / chi_b) * B
+                            Bn = w * self.qt * self.ratio(last, box) * B
                             An = w * A + Bn
                         else:
                             An, Bn = w * A, w * B
@@ -107,7 +133,7 @@ class EHA:
                             new_states[key] = [An, Bn]
                 states = new_states
             for (mu, _), (A, _) in states.items():
-                term = coeff * pref * self.g(lam) / self.g(mu) * A
+                term = coeff * pref * self.g(lam) * self.g_inv(mu) * A
                 out[mu] = out[mu] + term if mu in out else term
         return out
 

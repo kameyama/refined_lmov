@@ -1,6 +1,7 @@
 """第 3 期 U4：トーラス結び目・代数的なケーブルの全 6 彩色の rCS と、|ρ| ≤ 3 の refined LMOV 不変量の判定。
 
-使い方：python scripts/u4_run.py T3_5 K7 ...
+使い方：python scripts/u4_run.py [--workers N] T3_5 K7 ...
+  --workers N：格子点の評価の並列数（既定 1）。N > 1 のとき、まとまりごとの結果を data/cache/ に保存し、再実行時は再利用する。
   rCS：data/torus/ または data/cables/（stage2_torus.compute、stage5_cables.compute + 正規化 (N2')）
   \\hat f：data/lmov/{K}_{n}.json（小文字 (A, Q, T)、a 次数シフトなし）
   判定は太字（a 次数シフトは nontorus 規約）で、G 展開の前と後。全体の符号は良い方。
@@ -73,7 +74,8 @@ def main(names):
                      for k, d in json.loads(path.read_text())["f"].items()}
             else:
                 t1 = time.time()
-                F = reformulated_exact(reduced, n, log=lambda s: None)
+                cache = Path(f"data/cache/lmov/{name}_{n}") if WORKERS > 1 else None
+                F = reformulated_exact(reduced, n, log=lambda s: print(f"    {s}", flush=True), workers=WORKERS, cache=cache)
                 path.write_text(json.dumps({"knot": name, "n": n, "seconds": round(time.time() - t1, 1),
                                             "variables": "lowercase (A, Q, T); no a-shift",
                                             "f": {f"{k[0]}_{''.join(map(str, k[1]))}": {",".join(map(str, e)): c for e, c in sorted(v.items())}
@@ -85,5 +87,12 @@ def main(names):
         print(f"{name}: {time.time() - t0:.0f} s, 最大 RSS {rss:.0f} MB", flush=True)
 
 
+WORKERS = 1
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    args = sys.argv[1:]
+    if args[:1] == ["--workers"]:
+        WORKERS = int(args[1])
+        args = args[2:]
+    stage2_torus.WORKERS = stage5_cables.WORKERS = WORKERS
+    main(args)

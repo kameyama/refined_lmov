@@ -13,12 +13,13 @@ P31C = 2147483587          # third prime, used only for verification
 
 
 class V:
-    __slots__ = ("a", "p")
+    __slots__ = ("a", "p", "_iv")      # _iv：逆元のキャッシュ（同じオブジェクトの負のべき・割り算で再利用）
     __array_priority__ = 1000
 
     def __init__(self, a, p):
         self.a = np.asarray(a, dtype=np.int64) % p
         self.p = p
+        self._iv = None
 
     # -- helpers ------------------------------------------------------------
     def _coerce(self, other):
@@ -30,7 +31,7 @@ class V:
 
     def _new(self, a):
         out = V.__new__(V)
-        out.a, out.p = a, self.p
+        out.a, out.p, out._iv = a, self.p, None
         return out
 
     # -- arithmetic -----------------------------------------------------------
@@ -54,9 +55,12 @@ class V:
     __rmul__ = __mul__
 
     def inv(self):
-        if np.any(self.a == 0):
-            raise ZeroDivisionError("division by zero at some evaluation point")
-        return self._new(_powmod(self.a, self.p - 2, self.p))
+        if self._iv is None:
+            if np.any(self.a == 0):
+                raise ZeroDivisionError("division by zero at some evaluation point")
+            self._iv = self._new(_powmod(self.a, self.p - 2, self.p))
+            self._iv._iv = self
+        return self._iv
 
     def __truediv__(self, o):
         o = o if isinstance(o, V) else self._new(np.broadcast_to(self._coerce(o), self.a.shape))

@@ -91,11 +91,29 @@ def eval_expr(expr, env):
     raise ValueError(f"unsupported expression {expr}")
 
 
+def _power_table(x, exps):
+    """{e: x^e} for the exponents in exps, by successive multiplication (one inverse for negative e)."""
+    lo, hi = min(exps + [0]), max(exps + [0])
+    tab = {0: x ** 0}
+    cur = tab[0]
+    for e in range(1, hi + 1):
+        cur = cur * x
+        tab[e] = cur
+    if lo < 0:
+        xi, cur = x.inv(), tab[0]
+        for e in range(-1, lo - 1, -1):
+            cur = cur * xi
+            tab[e] = cur
+    return tab
+
+
 def laurent_at(poly, Qv, Tv, d=1):
     """{(eA,eQ,eT): c} evaluated at Q^d, T^d with A ↦ A^d, as an APoly."""
+    qt = _power_table(Qv, [d * eq for _, eq, _ in poly])
+    tt = _power_table(Tv, [d * et for _, _, et in poly])
     out = {}
     for (ea, eq, et), c in poly.items():
-        val = c * Qv ** (d * eq) * Tv ** (d * et)
+        val = c * qt[d * eq] * tt[d * et]
         e = d * ea
         out[e] = out[e] + val if e in out else val
     return APoly(out)
