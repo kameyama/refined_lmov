@@ -18,7 +18,7 @@
 | 第 1 期 | ケーブル結び目（DAHA/EHA を入力）、ステージ 0〜7 | 完了 | docs/REPORT.md、docs/paper/ |
 | 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/REPORT_knot_table.md、docs/research_plan_knot_table.md |
 | 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 は計算中、残りの項目は第 4 期へ） | docs/REPORT_phase3.md、docs/research_plan_phase3.md |
-| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | **進行中** | docs/REPORT_phase4.md（下書き）、docs/research_plan_phase4.md |
+| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 は計算中） | docs/REPORT_phase4.md、docs/research_plan_phase4.md |
 
 未解決の問題は docs/open_problems.md、新規性の範囲は docs/novelty_report.md §5〜§8、規約は docs/conventions.md §11, §12。
 非代数的なケーブルの DAHA の値による計算はしない（CLAUDE.md、open_problems.md D5）。
@@ -31,8 +31,8 @@
 | V2 [2,1] の原理 | 完了・停止点 1 で報告済み。現在の条件では [2,1] は決まらない（解の差の因数分解）。V2-4, V2-5 はユーザーの判断で省略 |
 | V3 導出 | U(2) の恒等式は既知と判明（CD14, AMMM）。(N1)(N2') の導出（open_problems D1）は未着手 |
 | V4 2 箱の証明 | 部分的：ツイスト結び目の \hat f は p について次数 5 の漸化式（特性根を決定）。証明は未解決。拡張（\|p\| ≤ 30、p < 0）は未実施 |
-| **V5 双曲結び目の 3 箱（弱い判定）** | 最初の 3 結び目が済み（停止点 2 で報告）。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）。6_1：σ = +1 で正値性を満たす整数解あり（813 項、独立に再計算して確認）。σ = −1 は 3 結び目とも解なし |
-| V6 まとめ | 下書き（docs/REPORT_phase4.md）。V5・K8・K7 の結果待ち |
+| V5 双曲結び目の 3 箱（弱い判定） | 完了（停止点 2 で報告、5_2 は追加の探索でも未決のまま打ち切り）。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）。6_1：σ = +1 で正値性を満たす整数解あり（813 項、独立に再計算して確認）。σ = −1 は 3 結び目とも解なし |
+| V6 まとめ | 完了（2026-10-07、docs/REPORT_phase4.md）。K7 の結果は完了後に追記 |
 | B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
 
 ### 実行中のプロセス（nohup、2026-10-06 時点）
@@ -40,14 +40,14 @@
 |---|---|---|---|---|
 | K8 → K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts .venv/bin/python scripts/u4_run.py --workers 3 K8 K7 > logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
-- K8 の状況：[1], [2], [1,1], [3], [1,1,1] の rCS まで済み（data/cables/K8_*.json）。[2,1] の rCS と 3 箱の \hat f が残り。K7（3 本ケーブル）はまだ見積もっていない。K8 の後に [1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
+- K8 は完了（2026-10-06）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負。K7（3 本ケーブル）を計算中。[1], [2] の時間を測って見積もり、24 時間を超えるなら報告する。
 - プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
 
 ### 完了したときにやること
 - K8・K7：docs/REPORT_phase3.md §3 の表、docs/REPORT_phase4.md §8 を更新。`tests/test_phase3.py`（u4 の 3 箱の正値性）と `tests/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/cables/K7_*, K8_*, data/lmov/K7_*, K8_*）を commit。
 
 ### 判断待ち・次の候補
-1. V5 の続き（停止点 2 の後、ユーザーの判断）：5_2 の未決（σ = +1）を詰める（整数計画の制限時間の延長、LP 解の近くを探す目的関数、x の箱の拡大）、7_2, 8_1 などへの拡大。
+1. V5 は終了（2026-10-07）：5_2 の σ = +1 は、LP の解の丸めの近くを探す試み（30 分）でも整数解が見つからず、「有理数解は存在、整数解は未決」として打ち切った（ユーザーの判断）。7_2, 8_1 などへの拡大は行わない（弱い判定のため）。次は V6 のまとめ。
 2. V4 の拡張（閉じた形で \|p\| ≤ 30、p < 0）。
 3. open_problems D1（ケーブルの単項式正規化の導出）、B4（thick な結び目の t_c 次数）。
 

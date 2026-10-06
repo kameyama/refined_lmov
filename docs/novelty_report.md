@@ -227,5 +227,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 | 2 段の反復ケーブル K10 の [2], [1,1] の refined 不変量と 2 箱の refined BPS の正値性 | 新規と思われる（CD14 は無彩色の DAHA-Betti 多項式のみ） |
 | ツイスト結び目の \hat f の p についての漸化式と特性根 | superpolynomial の段階では実質的に既知（NRZS 1209.1409、Mironov–Morozov–Morozov 1306.3197）。\hat f の段階は新規と思われる |
 | [1] の 2J_r の偶奇 ⇔ parity knot（Chandler–Gorsky 2209.13058）、11 交点以下の parity knot の一覧（非トーラスは 10_125, 10_140） | 条件の同値性と一覧は新規と思われる（原典に一覧は無い） |
+| K8（T(3,4) の (2,25)-ケーブル）の 3 箱の正値性 | 新規と思われる（第 3 期の K9 に続く。CD14 は K8 の [1] のみ） |
+| thin な双曲結び目の 3 箱で正値性を満たす [2,1] が存在すること（6_1 の整数解、5_2 の有理数解） | 新規と思われる。ただし [2,1] は一意でなく、予想の検証ではなく「矛盾しない」ことの確認 |
 
 書いてはいけないこと（追加）：U(2) への簡約の恒等式そのもの、parity knot の定義、superpolynomial の p についての漸化式（evolution）。

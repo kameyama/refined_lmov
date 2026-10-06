@@ -3,3 +3,33 @@
   K8 [11] rCS 6039 項 175.5 s
   K8 [3] rCS 29495 項 9532.5 s
   K8 [111] rCS 29495 項 6393.6 s
+  K8 [21] rCS 28780 項 4478.9 s
+K8 1 change (q/t)^ 0
+K8 2 change (q/t)^ 0
+K8 11 change (q/t)^ 0
+K8 3 change (q/t)^ 0
+K8 111 change (q/t)^ 0
+K8 21 change (q/t)^ 0
+      axis q: exponents -18..18 (probe N=64)
+      axis t: exponents -18..18 (probe N=64)
+      grid 37 x 37 = 1369 points, 2 primes
+      1851 terms, 4s
+K8 ρ=[1]: 前 0/617 負、後 0/833 負
+      axis q: exponents -36..118 (probe N=256)
+      axis t: exponents -118..36 (probe N=256)
+      grid 155 x 155 = 24025 points, 2 primes
+      153270 terms, 37s
+K8 ρ=[1, 1]: 前 0/32427 負、後 0/28966 負
+K8 ρ=[2]: 前 0/31499 負、後 0/28111 負
+      axis q: exponents -54..300 (probe N=1024)
+      axis t: exponents -300..54 (probe N=1024)
+      grid 355 x 355 = 126025 points, 2 primes
+      1742117 terms, 1452s
+K8 ρ=[1, 1, 1]: 前 0/261098 負、後 0/235223 負
+K8 ρ=[2, 1]: 前 0/258022 負、後 0/232248 負
+K8 ρ=[3]: 前 0/251627 負、後 0/226355 負
+K8: 22853 s, 最大 RSS 1756 MB
+  K7 [1] rCS 597 項 0.5 s
+  K7 [2] rCS 8448 項 42.8 s
+  K7 [11] rCS 8448 項 41.4 s
+  K7 [3] rCS 41369 項 7597.7 s
