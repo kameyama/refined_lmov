@@ -215,3 +215,17 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 | a = t² での [2,1] の U(2) への簡約の恒等式（refined） | 文献での扱いは未確認 |
 
 書いてはいけないこと（追加）：4_1 の [2,1] の候補（KN、AMMM）、[2,1] 彩色 HOMFLY-PT の個別の値（Morozov ら）、Cherednik 2607.25666 の Coxeter 結び目の superpolynomial。
+
+---
+
+## 8. 第 4 期の新規性（2026-10-06 追記、文献確認はサブエージェントによる）
+
+| 項目 | 判断 |
+|---|---|
+| U(2) への簡約の恒等式（a = t² で rCS_{[2,1]} = rCS_{[1]}·rCS_{[1,1]}） | **既知**（Cherednik–Danilenko 1408.4348 の安定化定理、AMMM 1211.6375 の要請 (D)）。成果として書かない |
+| 非トーラス結び目の [2,1] が構造的な条件で一意に決まらないこと、解の差の因数分解 | 部分的に既知（AMMM が曖昧さを認める）。解の空間の構造の明示は新規と思われる |
+| 2 段の反復ケーブル K10 の [2], [1,1] の refined 不変量と 2 箱の refined BPS の正値性 | 新規と思われる（CD14 は無彩色の DAHA-Betti 多項式のみ） |
+| ツイスト結び目の \hat f の p についての漸化式と特性根 | superpolynomial の段階では実質的に既知（NRZS 1209.1409、Mironov–Morozov–Morozov 1306.3197）。\hat f の段階は新規と思われる |
+| [1] の 2J_r の偶奇 ⇔ parity knot（Chandler–Gorsky 2209.13058）、11 交点以下の parity knot の一覧（非トーラスは 10_125, 10_140） | 条件の同値性と一覧は新規と思われる（原典に一覧は無い） |
+
+書いてはいけないこと（追加）：U(2) への簡約の恒等式そのもの、parity knot の定義、superpolynomial の p についての漸化式（evolution）。

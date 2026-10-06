@@ -394,6 +394,12 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
   分解 Σ A_j m_j^p の A_j は個々には Laurent でなく、ブロックごとの正値性による証明はそのままでは成立しない。証明は未解決（REPORT_phase4.md §5）。
 - 途中の誤り：最初の分解の検証で、有理関数の差を `sp.expand` で 0 と比べていたため誤って「不成立」と出た。厳密な点での評価に直した。
 
+## 第 4 期 C2・新規性の文献確認（2026-10-06）
+
+- C2：Chandler–Gorsky の parity knot は DGR の太字で「deg_𝐚/2 + deg_𝐭 の偶奇が一定」で、本研究の [1] の 2J_r の条件と同じ。原典に一覧は無く、11 交点以下の非トーラスの parity knot は 10_125, 10_140（本研究のデータ）。
+  候補の条件の比較：e_𝐭 + e_𝐪/2 が一定の結び目は 705 個（thin と一致、δ 次数の偶奇）、e_𝐭 だけ・e_𝐭 + e_𝐚/2 + e_𝐪/2 は 0 個。
+- 新規性：U(2) の恒等式は既知（CD14 の安定化定理、AMMM の要請 (D)）で、V3 の導出は成果から外した。K10 の 2 箱、[2,1] の解の空間の構造、\hat f の p についての構造、parity knot の一覧と 2J_r との関係は新規と思われる。novelty_report.md §8。
+
 ## 次にやること
 
 1. （済）docs/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
