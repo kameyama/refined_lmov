@@ -15,7 +15,7 @@
 
 使い方：
   python scripts/v4_pretzel_np2.py struct              （d_l の符号（u ≤ 20）、K での割り算、根の集合、鏡像型の恒等式）
-  python scripts/v4_pretzel_np2.py cert L RHO [SMIN PER_ROUND]   （e_L(u)（ρ = 2 または 11）の証明書を列生成 LP で探し、data/cache に保存。
+  python scripts/v4_pretzel_np2.py cert L RHO [SMIN PER_ROUND [METHOD]]   （METHOD は linprog の method、e_L(u)（ρ = 2 または 11）の証明書を列生成 LP で探し、data/cache に保存。
                                                    SMIN：使う部分集合の最小の大きさ、PER_ROUND：1 回に加える部分集合の数）
   python scripts/v4_pretzel_np2.py verify              （保存した証明書を厳密に検証し、u = 1..40 で表示と直接の値を照合）
   python scripts/v4_pretzel_np2.py check NMIN NMAX [UMIN UMAX]   （NMIN ≤ t ≤ NMAX、UMIN ≤ |s| ≤ UMAX（省略時は NMIN..NMAX）の np の点を閉じた形で判定）
@@ -143,7 +143,7 @@ def cert_eval(cert, u):
 
 # ---- 列生成 LP（部分集合を単位に追加する。P_S の台は N の台の和集合に制限） --------------------------
 
-def colgen(N, R, M=None, per_round=10, max_rounds=200, tol=1e-7, method="highs-ipm", smin=1, save=None):
+def colgen(N, R, M=None, per_round=10, max_rounds=500, tol=1e-7, method="highs-ipm", smin=1, save=None, prune=True):
     from scipy.optimize import linprog
     from scipy.sparse import csc_matrix
     red = lambda e: (e[0] // 2, e[1] // 2, e[2])                      # noqa: E731（𝐚, 𝐪 の指数は偶数）
@@ -182,23 +182,29 @@ def colgen(N, R, M=None, per_round=10, max_rounds=200, tol=1e-7, method="highs-i
                 ci.append(c)
                 data.append(v)
         nr, nc = len(rows), len(cols)
-        for i in range(nr):                                           # 人工変数（Phase I）
+        tgt = [rows[key] for key in b]                                # 人工変数（Phase I）は N の台の行だけ（他の行は x = 0 で満たされる）
+        for i2, i in enumerate(tgt):
             ri += [i, i]
-            ci += [nc + 2 * i, nc + 2 * i + 1]
+            ci += [nc + 2 * i2, nc + 2 * i2 + 1]
             data += [1.0, -1.0]
-        A = csc_matrix((data, (ri, ci)), shape=(nr, nc + 2 * nr))
+        A = csc_matrix((data, (ri, ci)), shape=(nr, nc + 2 * len(tgt)))
         bv = np.zeros(nr)
         for key, v in b.items():
             bv[rows[key]] = v
         t0 = time.time()
-        res = linprog(np.concatenate([np.zeros(nc), np.ones(2 * nr)]), A_eq=A, b_eq=bv, bounds=(0, None), method=method)
-        print(f"  round {rnd}: 部分集合 {len(chosen)}、列 {nc}、行 {nr}、残差 {res.fun:.5g}（{time.time() - t0:.1f} 秒）", flush=True)
+        res = linprog(np.concatenate([np.zeros(nc), np.ones(2 * len(tgt))]), A_eq=A, b_eq=bv, bounds=(0, None), method=method)
+        import resource
+        mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 2 ** 30                 # macOS はバイト
+        print(f"  round {rnd}: 部分集合 {len(chosen)}、列 {nc}、行 {nr}、残差 {res.fun:.5g}（{time.time() - t0:.1f} 秒、最大メモリ {mem:.2f} GB）", flush=True)
         if res.fun < tol:
             back = lambda e: (2 * (e[0] + int(lo[0])), 2 * (e[1] + int(lo[1])), e[2] + int(lo[2]))  # noqa: E731
             return {(tuple(R[i] for i in S), k, back(tuple(Mi[j]))): res.x[c] for c, (S, k, j) in enumerate(cols) if res.x[c] > 1e-12}
         y = np.zeros(shape)
         for key, i in rows.items():
             y[key] = res.eqlin.marginals[i]
+        if prune:                                                     # 解で使われていない部分集合を外す（必要なら価格付けで戻る）
+            used = {cols[c][0] for c in range(nc) if res.x[c] > 1e-12}
+            chosen = [S for S in chosen if S in used]
         scores, cset = [], set(chosen)
 
         def rec(i, Z, T):
@@ -277,14 +283,14 @@ def struct():
     print(f"鏡像型の恒等式 F_ρ(−u, t) = τ F_ρ'(−t, u)（u, t = 1..5 の 25 点、両 ρ）: {ok}", flush=True)
 
 
-def cert(l, rho, smin=1, per_round=10):
+def cert(l, rho, smin=1, per_round=10, method="highs-ipm"):
     R = roots_l(l)
     N = numerator(e_seq(rho, l, len(R) + 2), R)
     print(f"l={l} ρ={rho}: 根 {len(R)} 個、N の項数 {[len(x) for x in N]}", flush=True)
     t0 = time.time()
     M = {e for x in N for e in x}
     for grow in range(3):                                             # P_S の台：N の台、だめなら根の ±1 個分ずつ広げる
-        sol = colgen(N, R, M, per_round=per_round, smin=smin, save=ROOT / f"data/cache/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
+        sol = colgen(N, R, M, per_round=per_round, smin=smin, method=method, save=ROOT / f"data/cache/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
         if sol is not None:
             break
         print(f"  P_S の台 {len(M)} 点では LP が不能。広げる", flush=True)
@@ -335,7 +341,7 @@ if __name__ == "__main__":
     if mode == "struct":
         struct()
     elif mode == "cert":
-        cert(int(sys.argv[2]), (2,) if sys.argv[3] == "2" else (1, 1), *map(int, sys.argv[4:6]))
+        cert(int(sys.argv[2]), (2,) if sys.argv[3] == "2" else (1, 1), *map(int, sys.argv[4:6]), *sys.argv[6:7])
     elif mode == "verify":
         verify()
     elif mode == "check":

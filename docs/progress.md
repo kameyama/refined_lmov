@@ -4,6 +4,23 @@
 
 別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。
 
+### 別の PC で再開する手順（2026-10-07、ユーザーの指示で作業を移す）
+- 取得：`git clone https://github.com/kameyama/refined_lmov`（main ブランチ。push 済みであることが前提）。
+- 環境：Python 3.11 以上（この PC は 3.14.8）で `just setup`（.venv を作り rcsknots を editable インストール。依存は pyproject.toml：sympy, numpy, mpmath, python-flint, scipy, pytest）。
+  機能テスト `.venv/bin/pytest -q`（約 4 分）で環境を確かめる。SageMath（conda 環境 sage）は、ケーブルの HOMFLY-PT をブレイドから計算するときだけ要る。
+- 文献：references/ は git の管理外。`just fetch-refs` は一部しか取らないので、references/README.md の表の論文は必要に応じて arXiv から取得する。
+- git の管理外の途中結果（data/cache/、8.8 GB）は移さない。全てスクリプトで再生成できる。例外として、pretzel の d_1 の列生成の途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl（小さい）だけは git に入れてある。
+- **K10 の 3 箱の残り**（この PC では [3] の rCS の完成まで計算し、data/cables/K10_3.json を commit する）：
+  1. [2,1] の rCS は [3] に依存しないので、すぐに始められる：`PYTHONPATH=src:scripts nohup .venv/bin/python scripts/v0_iterated.py --workers N 21 > logs/v0_K10_21.log 2>&1 &`
+     （N は性能コアの数とメモリで決める。評価のまとまり 2048 点で 1 プロセス約 1.2 GB。係数が大きいので 2 つ目の素数での評価も自動で行われる。格子は [3] と同程度の約 5 万点の見込み）。
+  2. data/cables/K10_3.json を取り込んだ後（git pull）：`scripts/v0_iterated.py --workers N 111`（[3] から転置対称性で作り、16 点で照合。数分）。
+  3. 全ての彩色がそろったら：`scripts/v0_K10_lmov.py --workers N`（3 箱の \hat f と判定。1・2 箱は計算済みなので飛ばす）。
+  4. 結果を RESULTS.md §1 と REPORT_phase4.md §9 に記録し、tests/test_phase3.py の U4 に K10 を results の印付きで加える。
+- **pretzel の d_1 の LP**（一時停止中）：`PYTHONPATH=src:scripts .venv/bin/python -u scripts/v4_pretzel_np2.py cert 1 2 [SMIN PER_ROUND [METHOD]]`。
+  途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/v4_pretzel_np2_cert_1_2_smin1.log）。
+  ρ = [1,1] と、対角線（e_0）も同じ方法で。証明書は data/v4/ に保存し、`verify` で検証する。
+- メモリ 8 GB の PC では、K10 の 3 並列とほかの計算を同時に動かすとスワップで大きく遅れた（2026-10-07）。並列の数はメモリで決める。
+
 ### 作業環境
 - 作業場所：git worktree `/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`（ブランチ `claude/rename-literature-survey-doc-9cc5fc`、リモートなし）。
 - worktree には `.venv` と `references/` の中身が無い。Python はメインチェックアウトのものを使う：
@@ -35,9 +52,10 @@
 | V6 まとめ | 完了（2026-10-07、docs/REPORT_phase4.md）。K7 の結果も追記済み |
 | B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
 
-### 実行中のプロセス（2026-10-07 時点：なし。以下は K7 の記録）
+### 実行中のプロセス（2026-10-07 18:45 から：K10 の 3 箱。以下は K10 と、以前の K7 の記録）
 | 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
 |---|---|---|---|---|
+| K10 の [3], [2,1], [1,1,1] の rCS と 3 箱の \hat f | `nohup scripts/run_k10_3box.sh > logs/v0_K10_3.log 2>&1 &` | `logs/v0_K10_3.log` | 「K10 の 3 箱：完了」の行 | 同じコマンドを再実行（rCS は data/cables/K10_*、評価のまとまりは data/cache/rcs/K10_*・data/cache/lmov/K10_3 から再利用。ログは別名にする） |
 | K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts /usr/bin/time -l .venv/bin/python scripts/u4_run.py --workers 3 K7 >> logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
 - K8 は完了（2026-10-06、22853 秒、最大 RSS 1756 MB）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負（REPORT_phase3.md に反映済み）。
@@ -71,6 +89,13 @@
   ケーブルの漸化式は framing 演算子の恒等式（厳密に確認）から、トーラス結び目は正規化前の最低 a 係数 = (−t/q)^{m−1} C_{m,n}(1/q,t)（有理 Catalan、11 例）から。残りは規約の書き下しと文献確認。
 - V4：上の表のとおり完了。
 ### 判断待ち・次の候補
+- **pretzel の d_1 の LP を一時停止（2026-10-07 19:50 頃、ユーザーの判断）**：K10 の評価がメモリ不足（スワップ 8 GB 中 7.1 GB）で遅れたため。列生成は第 7 ラウンドで残差 2136（logs/v4_pretzel_np2_cert_1_2_smin1.log）、選んだ部分集合は data/cache/v4_pretzel_np2_cg_1_2_0.pkl。K10 の後に再開する（scripts/v4_pretzel_np2.py の cert）。対角線は未着手。
+- **保留（2026-10-07、ユーザーの判断）**：V4 の理論の 2 つ（c_2 の正値性の構造的な説明、2 箱の単峰性の理由）は、具体的な方法が無いので保留。K10 の 3 箱と pretzel の d_1・対角線の LP の結果を待つ。
+- **K10 の 3 箱の見積もり（2026-10-07、実行前の準備）**：
+  - 高速化（commit 646422a）：(i) ε の評価を閉じた式 H̃_μ[1−a] = Π(1 − a q^c t_w^r) に（最終の次数の Macdonald 基底のグラム・シュミットが不要に）、(ii) EHA の演算子を全ての λ をまとめた 1 回の動的計画法と ω^{-1} の積のキャッシュに。旧来の実装と一致（tests/test_speedup.py に 2 件追加）。
+    K10 の評価：[2] の 256 点 58.8 → 4.4 秒、[3] の 8 点 1400 → 98 秒。[3] は 256 点で 157 秒、1024 点で 293 秒（固定約 111 秒 ＋ 1 点約 0.18 秒）、1024 点で最大 RSS 620 MB。
+  - 見積もり：[3]・[2,1] の rCS は各約 5 万点（K7 の [2]→[3] の比 3.4 倍から推定）× 約 0.23 秒 ÷ 3 並列で各約 1 時間、範囲の探索 約 10 分、[1,1,1] は転置対称性、正規化 30 分以内、3 箱の \hat f 1.5〜2 時間。合計約 4〜5 時間（格子が 2 倍でも約 10 時間）。
+  - 実行方法：まとまりを 2048 点に抑えて 3 並列（約 1.2 GB × 3）。まとまりごとに data/cache/ に保存し、同じコマンドで再開。nohup の独立プロセスで実行し、ログは logs/v0_K10_3.log。ユーザーの確認待ち。
 - **B4（2026-10-07、ユーザーの指示）**：文献調査で、S² が知られた thick な非トーラス結び目は 9_42, 10_132 のみ（KN の形に乗らない）。Stošić の quiver と KRSS の予想式で t_c 次数を作る方法が 8_19 で EHA と全項一致し、10_139, 10_152 の 2 箱が G 展開の前後とも正（予想式に基づく）。open_problems B4、RESULTS.md §3。
 - **D1・B3（2026-10-07、ユーザーの判断）**：D1 は Mellit の Cor (daha) の正規化の原典での確定を残して止める。B3（9_42 の S² ホモロジー）は KN の形に乗らないので打ち切り（open_problems.md B3）。
 - **テストの整理（2026-10-07、ユーザーの指示）**：tests/ は機能テスト（小さな入力）とし、保存済みの大きな結果の再検証 18 件に `results` の印を付けて既定の実行から外した（pyproject.toml、CLAUDE.md）。既定の実行は 521 件で 3 分 41 秒（以前は全体で 8〜77 分）。主要な結果は docs/RESULTS.md に、データ・ログ・コード・機能テストとあわせて整理した。

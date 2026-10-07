@@ -35,6 +35,10 @@
   - ホモロジー：Cautis の clasp、Elias–Hogancamp の Young 冪等元、sl(N) の foam（sl(3) の随伴表現 = [2,1]）。
   - 物理・表現論：evolution 法（Mironov–Morozov–Morozov 1306.3197 など）の固有値と、その refined 版。knots–quivers の非対称表現への拡張の有無。Aganagic らのミラー対称性による構成。
   - 計算ソフト：彩色付きの sl(N) / HOMFLY-PT ホモロジーを計算できるもの（例えば khoca、foam の計算プログラム）の有無と、[2,1] に対応するか。
+  - **ホモロジーを作らない構成**（2026-10-07 追加、ユーザーの指示）：本研究の主結果は、ホモロジーではない DAHA/EHA の [2,1] で BPS 不変量の段の正値性が成り立つことなので、双曲結び目でも同じ型の構成を探す。
+    - 3d–3d 対応・Ẑ（F_K）の refined 版：Gukov–Manolescu 系の F_K、Ekholm–Gruen–Gukov–Kucharski–Park–Sułkowski 2005.13349（a 変形と t 変形）、Kucharski 2005.13394。双曲結び目で、彩色（特に [2,1]、高い階数）と t の精密化がどこまで定義・計算されているか。KN が引く GPV16・GPPV17 の正値性の現象との関係。
+    - Cherednik の motivic superpolynomial（2607.25666「Instanton slices and their superpolynomials」）：双曲結び目（K12n242, K12n725 など）を含む非代数的な結び目に motivic な解釈を与える。彩色が minuscule に限られるかどうか、非 minuscule（[2,1]）への拡張の見通しを本文で確かめる。
+    - 各構成について、(i) 双曲結び目での定義と計算例、(ii) 彩色と a 依存性、(iii) 本研究の rCS（index）の規約との対応、(iv) 正値性の主張（入力の段か BPS 不変量の段か）を表にする。
 - 成果物：docs/literature/w0_21_survey.md。
 - **停止点 0**：調査結果を報告し、W1〜W3 のどれを主軸にするかを決める。
 

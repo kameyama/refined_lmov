@@ -113,7 +113,27 @@ class GN:
 
     # -- a kept symbolic: values are lists of coefficients of a^0, a^1, ... -----------------
     def evaluate_apoly(self, vec):
-        """ε as a polynomial in a: f̃[p_k ↦ 1 − a^k] (list of coefficients)."""
+        """ε as a polynomial in a, from the H̃-basis vector directly: H̃_μ[1 − a] = Π_{(r,c)∈μ} (1 − a q^c t_w^r).
+
+        Same result as `evaluate_apoly_via_p`, without building the Macdonald basis in the final degree.
+        """
+        out = []
+        for mu, c in vec.items():
+            poly = [self.one]
+            for r, col in boxes_of(mu):             # multiply by (1 − a q^col t_w^row)
+                x = self.q ** col * self.tw ** r * self.one
+                new = poly + [self.zero]
+                for i, y in enumerate(poly):
+                    new[i + 1] = new[i + 1] - y * x
+                poly = new
+            while len(out) < len(poly):
+                out.append(self.zero)
+            for i, y in enumerate(poly):
+                out[i] = out[i] + c * y
+        return out
+
+    def evaluate_apoly_via_p(self, vec):
+        """ε as a polynomial in a: f̃[p_k ↦ 1 − a^k] (list of coefficients), through the p-basis."""
         out = []
         for rho, c in self.to_p(vec).items():
             poly = [1]

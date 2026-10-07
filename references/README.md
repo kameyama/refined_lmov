@@ -31,6 +31,7 @@
 | FranksWilliams1987/ | — | Franks–Williams, Trans. AMS 303 (1987) 97–108（AMS の PDF とテキスト抽出 fw.txt） | — |
 | 0905.2555 | 最新版 | Schiffmann–Vasserot（楕円 Hall 代数の定義と中心元） | — |
 | math_0505148 | 最新版 | Burban–Schiffmann（取得のみ、未使用） | — |
+| 2103.01212 | v2 | Gorsky–Hogancamp–Mellit, Tautological classes and symmetry in Khovanov–Rozansky homology（hard Lefschetz と sl_2 の作用） | — |
 | 1704.07630 | v1 | Mellit, Homology of torus knots（Geom. Topol. 26 (2022) 47–70、arXiv のメタデータで確認） | — |
 | 1203.5878, 1403.1845, 1105.1151, 1204.5448, 1403.0303 | v1 など | D1 の調査で取得（Hikita、Armstrong–Loehr–Warrington、Gorsky–Mazin I・II、Gorsky–Mazin–Vazirani） | — |
 | 1304.3481, 2402.03066, 1707.04017, 1602.02769, 1811.03110, 2108.12645, 1512.07906, 1209.1416, 2012.12008, 2007.00579, 1205.1515, 1303.3709, 2407.20010, 2601.22922, 1308.3838 | 最新版 | B3・B4 の調査で取得（GGS、Stošić、KRSS、Wedrich、EKL ほか。題名は arXiv API と TeX で確認） | — |

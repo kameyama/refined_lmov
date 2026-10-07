@@ -12,6 +12,7 @@ dependencies = [
     "numpy",
     "mpmath",
     "python-flint",
+    "scipy",
 ]
 
 [project.optional-dependencies]
