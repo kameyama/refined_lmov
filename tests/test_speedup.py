@@ -76,3 +76,33 @@ def test_g_expand_fast_equals_direct():
             g_expand(bad)
         with pytest.raises(ValueError):
             g_expand_direct(bad)
+
+
+def test_evaluate_closed_form_equals_via_p():
+    """ε の評価：H̃_μ[1 − a] = Π(1 − a q^c t_w^r) による直接の評価が、p 基底を経由する旧来の評価と一致する（mod p、乱数の点）。"""
+    from rcsknots.field import V, P31, make_conv
+    from rcsknots.gn import GN
+    n = 4
+    rng = np.random.default_rng(3)
+    G = GN(V(rng.integers(2, P31, n), P31), V(rng.integers(2, P31, n), P31), V(np.full(n, 3), P31), make_conv(P31, n))
+    for lam, slope in [((1,), (2, -3)), ((2,), (2, -1)), ((1, 1), (3, -2)), ((2, 1), (2, -1)), ((3,), (2, -3))]:
+        vec = G.apply_symmetric(G.P(sum(lam))[lam], *slope, {(): G.one})
+        A, B = G.evaluate_apoly(vec), G.evaluate_apoly_via_p(vec)
+        m = max(len(A), len(B))
+        A, B = A + [G.zero] * (m - len(A)), B + [G.zero] * (m - len(B))
+        assert all(np.array_equal(x.a % P31, y.a % P31) for x, y in zip(A, B))
+
+
+def test_eha_apply_merged_equals_direct():
+    """EHA の演算子：全ての λ をまとめた動的計画法（apply）が、λ ごとに回す旧来の実装（apply_direct）と一致する（mod p、乱数のベクトル）。"""
+    from rcsknots.field import V, P31, make_conv
+    from rcsknots.gn import GN
+    from rcsknots.partitions import partitions
+    n = 4
+    rng = np.random.default_rng(5)
+    E = GN(V(rng.integers(2, P31, n), P31), V(rng.integers(2, P31, n), P31), V(np.full(n, 3), P31), make_conv(P31, n)).eha
+    for d in (3, 5):
+        vec = {mu: V(rng.integers(1, P31, n), P31) for mu in partitions(d)}
+        for k, nn, m in [(1, 2, -3), (2, 2, -3), (1, 3, 2), (3, 1, 0), (2, 1, -1)]:
+            A, B = E.apply(k, nn, m, vec), E.apply_direct(k, nn, m, vec)
+            assert set(A) == set(B) and all(np.array_equal(A[x].a % P31, B[x].a % P31) for x in A)

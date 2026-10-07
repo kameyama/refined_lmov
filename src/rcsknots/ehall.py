@@ -46,7 +46,7 @@ class EHA:
         self.qt = q * t
         self.gamma = (q - 1) * (t - 1) / (self.qt * (self.qt - 1))
         self._chi, self._g, self._omega_inv = {}, {}, {}
-        self._pair, self._ratio, self._chipow, self._ginv = {}, {}, {}, {}   # 値が箱の組だけで決まる量のキャッシュ
+        self._pair, self._ratio, self._chipow, self._ginv, self._omega_prod = {}, {}, {}, {}, {}   # 値が箱の組だけで決まる量のキャッシュ
 
     def chi(self, box):
         if box not in self._chi:
@@ -100,8 +100,58 @@ class EHA:
     def bracket_k(self, k):
         return (self.q ** k - 1) * (self.t ** k - 1) / ((self.q - 1) * (self.t - 1))
 
+    def omega_prod(self, shape, box):
+        """Π_{old ∈ shape} ω^{-1}(χ(old)/χ(box))：形と箱だけで決まるのでキャッシュする。"""
+        key = (shape, box)
+        if key not in self._omega_prod:
+            w = self.one
+            for old in boxes_of(shape):
+                w = w * self.omega_inv(old, box)
+            self._omega_prod[key] = w
+        return self._omega_prod[key]
+
     def apply(self, k, n, m, vec):
-        """P̃_{kn,km} applied to vec = {λ: coefficient of I_λ}. Returns {μ: coefficient of I_μ}."""
+        """P̃_{kn,km} applied to vec = {λ: coefficient of I_λ}. Returns {μ: coefficient of I_μ}.
+
+        遷移の重みは (形, 箱, 直前の箱, ラベル) だけで決まり出発点の λ によらないので、全ての λ をまとめて 1 回の動的計画法で計算する
+        （初期値に coeff·g(λ) を入れる）。結果は λ ごとに計算する `apply_direct` と同じ。
+        """
+        L = k * n
+        S = [None] + [(i * m) // n - ((i - 1) * m) // n for i in range(1, L + 1)]
+        r_steps = {n * (k - l): l for l in range(1, k)}      # label i at which r_l = χ_{i+1}/χ_i is completed
+        pref = self.gamma ** L / self.bracket_k(k)
+        # states: (shape, last box) -> [A, B];  labels are assigned from L down to 1
+        states = {}
+        for lam, coeff in vec.items():
+            c = coeff * self.g(lam)
+            states[(lam, None)] = [c, c]
+        for label in range(L, 0, -1):
+            new_states = {}
+            for (shape, last), (A, B) in states.items():
+                for box in addable(shape):
+                    w = self.chi_pow(box, S[label]) * (self.qt * self.chi(box) - 1) * self.omega_prod(shape, box)
+                    if last is not None:            # pair (label, label+1): 1/(1 − qt χ_{label+1}/χ_label)
+                        w = w * self.pair(last, box)
+                    if label in r_steps:
+                        Bn = w * self.qt * self.ratio(last, box) * B
+                        An = w * A + Bn
+                    else:
+                        An, Bn = w * A, w * B
+                    key = (add_box(shape, box), box)
+                    if key in new_states:
+                        new_states[key][0] = new_states[key][0] + An
+                        new_states[key][1] = new_states[key][1] + Bn
+                    else:
+                        new_states[key] = [An, Bn]
+            states = new_states
+        out = {}
+        for (mu, _), (A, _) in states.items():
+            term = pref * self.g_inv(mu) * A
+            out[mu] = out[mu] + term if mu in out else term
+        return out
+
+    def apply_direct(self, k, n, m, vec):
+        """`apply` と同じ（λ ごとに動的計画法を回す旧来の実装。照合用）。"""
         L = k * n
         S = [None] + [(i * m) // n - ((i - 1) * m) // n for i in range(1, L + 1)]
         r_steps = {n * (k - l): l for l in range(1, k)}      # label i at which r_l = χ_{i+1}/χ_i is completed
