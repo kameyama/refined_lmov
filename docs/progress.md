@@ -4,6 +4,23 @@
 
 別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。
 
+### 別の PC で再開する手順（2026-10-07、ユーザーの指示で作業を移す）
+- 取得：`git clone https://github.com/kameyama/refined_lmov`（main ブランチ。push 済みであることが前提）。
+- 環境：Python 3.11 以上（この PC は 3.14.8）で `just setup`（.venv を作り rcsknots を editable インストール。依存は pyproject.toml：sympy, numpy, mpmath, python-flint, scipy, pytest）。
+  機能テスト `.venv/bin/pytest -q`（約 4 分）で環境を確かめる。SageMath（conda 環境 sage）は、ケーブルの HOMFLY-PT をブレイドから計算するときだけ要る。
+- 文献：references/ は git の管理外。`just fetch-refs` は一部しか取らないので、references/README.md の表の論文は必要に応じて arXiv から取得する。
+- git の管理外の途中結果（data/cache/、8.8 GB）は移さない。全てスクリプトで再生成できる。例外として、pretzel の d_1 の列生成の途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl（小さい）だけは git に入れてある。
+- **K10 の 3 箱の残り**（この PC では [3] の rCS の完成まで計算し、data/cables/K10_3.json を commit する）：
+  1. [2,1] の rCS は [3] に依存しないので、すぐに始められる：`PYTHONPATH=src:scripts nohup .venv/bin/python scripts/v0_iterated.py --workers N 21 > logs/v0_K10_21.log 2>&1 &`
+     （N は性能コアの数とメモリで決める。評価のまとまり 2048 点で 1 プロセス約 1.2 GB。係数が大きいので 2 つ目の素数での評価も自動で行われる。格子は [3] と同程度の約 5 万点の見込み）。
+  2. data/cables/K10_3.json を取り込んだ後（git pull）：`scripts/v0_iterated.py --workers N 111`（[3] から転置対称性で作り、16 点で照合。数分）。
+  3. 全ての彩色がそろったら：`scripts/v0_K10_lmov.py --workers N`（3 箱の \hat f と判定。1・2 箱は計算済みなので飛ばす）。
+  4. 結果を RESULTS.md §1 と REPORT_phase4.md §9 に記録し、tests/test_phase3.py の U4 に K10 を results の印付きで加える。
+- **pretzel の d_1 の LP**（一時停止中）：`PYTHONPATH=src:scripts .venv/bin/python -u scripts/v4_pretzel_np2.py cert 1 2 [SMIN PER_ROUND [METHOD]]`。
+  途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/v4_pretzel_np2_cert_1_2_smin1.log）。
+  ρ = [1,1] と、対角線（e_0）も同じ方法で。証明書は data/v4/ に保存し、`verify` で検証する。
+- メモリ 8 GB の PC では、K10 の 3 並列とほかの計算を同時に動かすとスワップで大きく遅れた（2026-10-07）。並列の数はメモリで決める。
+
 ### 作業環境
 - 作業場所：git worktree `/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`（ブランチ `claude/rename-literature-survey-doc-9cc5fc`、リモートなし）。
 - worktree には `.venv` と `references/` の中身が無い。Python はメインチェックアウトのものを使う：
