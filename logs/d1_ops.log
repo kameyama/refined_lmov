@@ -1,0 +1,4 @@
+P1：O_(1,0) = e_1 の掛け算 True、F_(1,0) = e_1 の掛け算 False
+P2：∇ O_(n,m) ∇^(-1) = O_(n,m+n)：True
+P3：[O_x, O_y] = −M O_(x+y)：(1, 1),(1, 0) True、(1, 2),(1, 1) True、(2, 1),(1, 0) True、(1, 0),(1, -1) True、(1, 1),(2, 1) True、(2, 3),(1, 1) True、(1, -1),(2, -3) True、(1, 2),(2, 3) True
+P4：Q_(m,n) = (−1)^n O_(n,m)：(0, 1) True、(1, 1) True、(2, 1) True、(3, 1) True、(1, 2) True、(3, 2) True、(1, 3) True、(2, 3) True、(4, 3) True、(3, 4) True
