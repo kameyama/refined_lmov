@@ -1,0 +1,4 @@
+=== Wed Oct  7 18:45:31 JST 2026 K10 の 3 箱の開始（高速化の後、commit 646422a 以降）
+    axis q: exponents -465..-66 (probe N=1024)
+    axis t: exponents 21..147 (probe N=512)
+    grid 400 x 127 = 50800 points
