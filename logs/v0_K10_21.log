@@ -1,0 +1,11 @@
+    axis q: exponents -253..-36 (probe N=512)
+    axis t: exponents 36..253 (probe N=512)
+    grid 218 x 218 = 47524 points
+    1 prime not enough; using a second prime
+    228401 terms, 2 primes, 6956s
+K10 [21] 228401 項 7386.9 s
+K10 [1] (N2') − (N2) の q 指数の差 0
+K10 [2] (N2') − (N2) の q 指数の差 0
+K10 [11] (N2') − (N2) の q 指数の差 0
+K10 [3] (N2') − (N2) の q 指数の差 0
+K10 [21] (N2') − (N2) の q 指数の差 0
