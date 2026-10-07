@@ -1,0 +1,10 @@
+BGLX Q_(3,2)(−1)^2 vs GN P̃_(2,3)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(2,3)(−1)^3 vs GN P̃_(3,2)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(5,2)(−1)^2 vs GN P̃_(2,5)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(2,5)(−1)^5 vs GN P̃_(5,2)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(4,3)(−1)^3 vs GN P̃_(3,4)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(3,4)(−1)^4 vs GN P̃_(4,3)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(5,3)(−1)^3 vs GN P̃_(3,5)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(3,5)(−1)^5 vs GN P̃_(5,3)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(5,4)(−1)^4 vs GN P̃_(4,5)·1: B1 False  star_e False  hall_h False  hall_e True
+BGLX Q_(4,5)(−1)^5 vs GN P̃_(5,4)·1: B1 False  star_e False  hall_h False  hall_e True

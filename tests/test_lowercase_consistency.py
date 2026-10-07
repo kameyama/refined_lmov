@@ -38,7 +38,7 @@ def value(P, q1=False, t1=False):
     return sp.expand(sum(c * A ** ea * (1 if q1 else Q ** eq) * (1 if t1 else T ** et) for (ea, eq, et), c in P.items()))
 
 
-@pytest.mark.parametrize("prefix", [f"torus/{k}" for k in TORUS] + [f"cables/{k}" for k in CABLES])
+@pytest.mark.parametrize("prefix", [f"torus/{k}" for k in TORUS] + [pytest.param(f"cables/{k}", marks=pytest.mark.results) for k in CABLES])
 def test_exponential_growth(prefix):
     """KN eq. (EGP) and its transpose, in lowercase:
     rCS_{Σ b_i ω_i}(q=1) = Π rCS_{ω_i}(q=1)^{b_i}  and  rCS_λ(t=1) = Π over columns (transposed statement)."""
@@ -123,7 +123,7 @@ def test_lmov_hat_f_matches_stage6(name):
         assert json.loads(path.read_text())["hat_f_matches_stage6"] is True
 
 
-@pytest.mark.parametrize("name", ["T2_3", "T2_5", "K1", "K3"])
+@pytest.mark.parametrize("name", ["T2_3", "T2_5"] + [pytest.param(k, marks=pytest.mark.results) for k in ("K1", "K3")])
 def test_N_q_t_symmetric_positive(name):
     """N^q, N^{\\bar t}: non-negative integers for symmetric [r] (KN §4 for torus knots; also the algebraic cables),
     negative coefficients for [1,1] (also for torus knots).  \\hat N: non-negative before and after G."""

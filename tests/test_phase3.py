@@ -23,7 +23,7 @@ def ex(P):
     return sum(c * A ** i * Q ** j * T ** k for (i, j, k), c in P.items())
 
 
-@pytest.mark.parametrize("name,knot", [("3_1", "T2_3"), ("4_1", "4_1")])
+@pytest.mark.parametrize("name,knot", [("3_1", "T2_3"), pytest.param("4_1", "4_1", marks=pytest.mark.results)])
 def test_three_cable_inversion(name, knot):
     """(3, s)-ケーブル（s = 1, 2, 4）の HOMFLY-PT から [3], [2,1], [1,1,1] が KN の rCS の t = q 極限と一致。"""
     C = colored_p(name, 3, ROOT / "data/reference/cable_homfly_p3.txt")
@@ -43,7 +43,8 @@ def test_21_structural_identities(knot):
         assert sp.expand((r["21"] - r["1"] * r["11"]).subs(A, s * T ** 2)) == 0
 
 
-U4 = ["T3_4", "T3_5", "T2_11", "T3_7", "T4_5", "K9", "K8", "K7"]
+# トーラス結び目は判定のコードの機能テスト（1 秒以下）。ケーブル（各 23〜35 万項）は結果の再検証
+U4 = ["T3_4", "T3_5", "T2_11", "T3_7", "T4_5"] + [pytest.param(k, marks=pytest.mark.results) for k in ("K9", "K8", "K7")]
 
 
 @pytest.mark.parametrize("knot", U4)

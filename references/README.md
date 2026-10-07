@@ -24,7 +24,20 @@
 | 1605.00978 | 最新版 | Cherednik–Philipp | — |
 | 1211.4596 | 最新版 | An. Morozov | — |
 
-DOI・巻・頁は未確認。
+| 1604.07456 | v1 | Mellit, Toric braids and (m,n)-parking functions（Duke Math. J. 170 (2021) 4123–4169、arXiv のメタデータで確認） | — |
+| 1909.00418 | v1 | Hogancamp–Mellit, Torus link homology | — |
+| 1404.4616 | 最新版 | Bergeron–Garsia–Leven–Xin（compositional (km,kn)-shuffle 予想） | — |
+| 1405.0316 | 最新版 | Bergeron–Garsia–Leven–Xin, Some remarkable new plethystic operators in the theory of Macdonald polynomials（TeX で確認） | — |
+| FranksWilliams1987/ | — | Franks–Williams, Trans. AMS 303 (1987) 97–108（AMS の PDF とテキスト抽出 fw.txt） | — |
+| 0905.2555 | 最新版 | Schiffmann–Vasserot（楕円 Hall 代数の定義と中心元） | — |
+| math_0505148 | 最新版 | Burban–Schiffmann（取得のみ、未使用） | — |
+| 1704.07630 | v1 | Mellit, Homology of torus knots（Geom. Topol. 26 (2022) 47–70、arXiv のメタデータで確認） | — |
+| 1203.5878, 1403.1845, 1105.1151, 1204.5448, 1403.0303 | v1 など | D1 の調査で取得（Hikita、Armstrong–Loehr–Warrington、Gorsky–Mazin I・II、Gorsky–Mazin–Vazirani） | — |
+| 1304.3481, 2402.03066, 1707.04017, 1602.02769, 1811.03110, 2108.12645, 1512.07906, 1209.1416, 2012.12008, 2007.00579, 1205.1515, 1303.3709, 2407.20010, 2601.22922, 1308.3838 | 最新版 | B3・B4 の調査で取得（GGS、Stošić、KRSS、Wedrich、EKL ほか。題名は arXiv API と TeX で確認） | — |
+| 2505.02059, 2505.05668, 2408.01832, 2508.18417, 2405.10161, 2105.11806, 2312.14905 | 最新版 | B4 の新規性の確認で取得 | — |
+| 1112.0030, 1209.1409, 1512.07883 | 最新版 | 第 2 期以降に取得（GS、NRZS、GNSSS） | — |
+
+DOI・巻・頁は未確認（上の表で確認したと書いたものを除く）。
 
 派生ファイル：`1703.05408/nb-torus.txt`, `1703.05408/nb-non-torus.txt` は ancillary ノートブックを
 `scripts/nb2txt.py` でテキスト化したもの。再生成するには次を実行する：

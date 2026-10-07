@@ -92,7 +92,7 @@ def test_bps_recompute_matches_saved(knot):
     assert {f"{g},{b},{F}": v for (g, b, F), v in N.items()} == json.loads(path.read_text())["N"]
 
 
-@pytest.mark.parametrize("knot", ["T2_3", "T2_5", "4_1", "K1", "K3", "K6a"])
+@pytest.mark.parametrize("knot", ["T2_3", "T2_5", "4_1"] + [pytest.param(k, marks=pytest.mark.results) for k in ("K1", "K3", "K6a")])
 def test_positive_before_and_after_G(knot):
     """Torus knots, 4_1 (KN) and the algebraic cables: \\hat f (before G) and \\hat N (after G) are non-negative
     with one common overall sign, for every |ρ| ≤ 3."""
