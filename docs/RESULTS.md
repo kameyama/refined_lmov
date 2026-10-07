@@ -51,7 +51,7 @@
 ## 4. ケーブルの正規化の閉じた式
 
 - 正規化 (N1)(N2') の単項式は M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^{δ}（b はブレイドの本数、δ は種数型の量）。保存済みの全 22 結び目で成立【計算】。
-- refined 衛星公式（仮説）とトーラス結び目の性質（最低 a 係数が有理 q,t-Catalan 数）から導出【導出、仮説の下】（docs/conventions.md §13, §13.1）。
+- refined 衛星公式（仮説 H_sat）と、トーラス結び目についての定理（Mellit の rational shuffle と torus knot homology、Franks–Williams）から導出【導出、H_sat と演算子の正規化の対応（計算で確認）の下で】（docs/conventions.md §13, §13.1）。
 
 ## 5. [2,1]（本研究では打ち切り、別研究へ）
 

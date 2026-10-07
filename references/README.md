@@ -29,6 +29,8 @@
 | 1404.4616 | 最新版 | Bergeron–Garsia–Leven–Xin（compositional (km,kn)-shuffle 予想） | — |
 | 1405.0316 | 最新版 | Bergeron–Garsia–Leven–Xin, Some remarkable new plethystic operators in the theory of Macdonald polynomials（TeX で確認） | — |
 | FranksWilliams1987/ | — | Franks–Williams, Trans. AMS 303 (1987) 97–108（AMS の PDF とテキスト抽出 fw.txt） | — |
+| 1704.07630 | v1 | Mellit, Homology of torus knots（Geom. Topol. 26 (2022) 47–70、arXiv のメタデータで確認） | — |
+| 1203.5878, 1403.1845, 1105.1151, 1204.5448, 1403.0303 | v1 など | D1 の調査で取得（Hikita、Armstrong–Loehr–Warrington、Gorsky–Mazin I・II、Gorsky–Mazin–Vazirani） | — |
 | 1112.0030, 1209.1409, 1512.07883 | 最新版 | 第 2 期以降に取得（GS、NRZS、GNSSS） | — |
 
 DOI・巻・頁は未確認（上の表で確認したと書いたものを除く）。
