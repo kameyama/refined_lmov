@@ -15,7 +15,7 @@
 
 使い方：
   python scripts/v4_pretzel_np2.py struct              （d_l の符号（u ≤ 20）、K での割り算、根の集合、鏡像型の恒等式）
-  python scripts/v4_pretzel_np2.py cert L RHO [SMIN PER_ROUND]   （e_L(u)（ρ = 2 または 11）の証明書を列生成 LP で探し、data/cache に保存。
+  python scripts/v4_pretzel_np2.py cert L RHO [SMIN PER_ROUND [METHOD]]   （METHOD は linprog の method、e_L(u)（ρ = 2 または 11）の証明書を列生成 LP で探し、data/cache に保存。
                                                    SMIN：使う部分集合の最小の大きさ、PER_ROUND：1 回に加える部分集合の数）
   python scripts/v4_pretzel_np2.py verify              （保存した証明書を厳密に検証し、u = 1..40 で表示と直接の値を照合）
   python scripts/v4_pretzel_np2.py check NMIN NMAX [UMIN UMAX]   （NMIN ≤ t ≤ NMAX、UMIN ≤ |s| ≤ UMAX（省略時は NMIN..NMAX）の np の点を閉じた形で判定）
@@ -283,14 +283,14 @@ def struct():
     print(f"鏡像型の恒等式 F_ρ(−u, t) = τ F_ρ'(−t, u)（u, t = 1..5 の 25 点、両 ρ）: {ok}", flush=True)
 
 
-def cert(l, rho, smin=1, per_round=10):
+def cert(l, rho, smin=1, per_round=10, method="highs-ipm"):
     R = roots_l(l)
     N = numerator(e_seq(rho, l, len(R) + 2), R)
     print(f"l={l} ρ={rho}: 根 {len(R)} 個、N の項数 {[len(x) for x in N]}", flush=True)
     t0 = time.time()
     M = {e for x in N for e in x}
     for grow in range(3):                                             # P_S の台：N の台、だめなら根の ±1 個分ずつ広げる
-        sol = colgen(N, R, M, per_round=per_round, smin=smin, save=ROOT / f"data/cache/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
+        sol = colgen(N, R, M, per_round=per_round, smin=smin, method=method, save=ROOT / f"data/cache/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
         if sol is not None:
             break
         print(f"  P_S の台 {len(M)} 点では LP が不能。広げる", flush=True)
@@ -341,7 +341,7 @@ if __name__ == "__main__":
     if mode == "struct":
         struct()
     elif mode == "cert":
-        cert(int(sys.argv[2]), (2,) if sys.argv[3] == "2" else (1, 1), *map(int, sys.argv[4:6]))
+        cert(int(sys.argv[2]), (2,) if sys.argv[3] == "2" else (1, 1), *map(int, sys.argv[4:6]), *sys.argv[6:7])
     elif mode == "verify":
         verify()
     elif mode == "check":
