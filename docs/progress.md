@@ -38,9 +38,7 @@
 ### 実行中のプロセス（2026-10-07 18:45 から：K10 の 3 箱。以下は K10 と、以前の K7 の記録）
 | 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
 |---|---|---|---|---|
-| K10 の [3], [2,1], [1,1,1] の rCS と 3 箱の \\hat f | `nohup scripts/run_k10_3box.sh > logs/v0_K10_3.log 2>&1 &` | `logs/v0_K10_3.log` | 「K10 の 3 箱：完了」の行 | 同じコマンドを再実行（rCS は data/cables/K10_*、評価のまとまりは data/cache/rcs/K10_*・data/cache/lmov/K10_3 から再利用。ログは別名にする） |
-| 計算 | コマンド | ログ | 完了の目印 | 止まったときの再開 |
-|---|---|---|---|---|
+| K10 の [3], [2,1], [1,1,1] の rCS と 3 箱の \hat f | `nohup scripts/run_k10_3box.sh > logs/v0_K10_3.log 2>&1 &` | `logs/v0_K10_3.log` | 「K10 の 3 箱：完了」の行 | 同じコマンドを再実行（rCS は data/cables/K10_*、評価のまとまりは data/cache/rcs/K10_*・data/cache/lmov/K10_3 から再利用。ログは別名にする） |
 | K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts /usr/bin/time -l .venv/bin/python scripts/u4_run.py --workers 3 K7 >> logs/u4_cables3.log 2>&1 &` | `logs/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
 - K8 は完了（2026-10-06、22853 秒、最大 RSS 1756 MB）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負（REPORT_phase3.md に反映済み）。
