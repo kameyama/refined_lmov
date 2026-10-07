@@ -19,6 +19,9 @@
 - **pretzel の d_1 の LP**（一時停止中）：`PYTHONPATH=src:scripts .venv/bin/python -u scripts/v4_pretzel_np2.py cert 1 2 [SMIN PER_ROUND [METHOD]]`。
   途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/v4_pretzel_np2_cert_1_2_smin1.log）。
   ρ = [1,1] と、対角線（e_0）も同じ方法で。証明書は data/v4/ に保存し、`verify` で検証する。
+- **別の PC での実行（2026-10-07）**：Apple M3 Pro（11 コア：性能 5・効率 6）、メモリ 36 GB。`just setup` と機能テスト（523 passed, 2 skipped, 3 分 8 秒）を確認。
+  [2,1] の rCS を `PYTHONPATH=src:scripts nohup .venv/bin/python scripts/v0_iterated.py --workers 8 21 > logs/v0_K10_21.log 2>&1 &` で起動
+  （見積もり：約 5 万点 × 2 素数 × 約 0.2 秒 ÷ 8 並列 ≈ 1〜1.5 時間、メモリ約 10 GB。完了の目印は「K10 [21] … 項」の行。再開は同じコマンド、まとまりは data/cache/rcs/K10_21）。
 - メモリ 8 GB の PC では、K10 の 3 並列とほかの計算を同時に動かすとスワップで大きく遅れた（2026-10-07）。並列の数はメモリで決める。
 
 ### 作業環境
