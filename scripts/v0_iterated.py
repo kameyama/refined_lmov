@@ -2,6 +2,8 @@
 
 rCS を楕円 Hall 代数の反復で計算し、(N1)（t = q で framing 0 の HOMFLY-PT）と (N2')（M_λ = M_□^{|λ|}·T_λ^{p₃q₃}）で正規化して data/cables/K10_{彩色}.json に保存する。
 使い方：python scripts/v0_iterated.py [--workers N] 彩色 ...（例：1 2）
+[1,1,1] は [3] があれば転置対称性で作り、計算に使っていない素数の 16 点で GN の値と照合する（scripts/stage5_cables.py の from_transpose と同じ方法）。
+並列のときは評価のまとまりを 2048 点に抑える（[3] で 1 プロセス約 1.2 GB）。
 """
 import json
 import sys
@@ -11,7 +13,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from renormalize_cables import predicted  # noqa: E402
-from rcsknots.exact import reconstruct, reconstruct_points  # noqa: E402
+from rcsknots import exact  # noqa: E402
+from rcsknots.exact import gn_evaluator, reconstruct, reconstruct_points, verify  # noqa: E402
 from rcsknots.homfly_num import homfly_evaluator  # noqa: E402
 from rcsknots.normalize import normalize_exact  # noqa: E402
 
@@ -27,10 +30,27 @@ def gn_slopes(steps):
     return out[::-1]
 
 
+def from_transpose(lam, slopes):
+    """[1,1,1] の正規化前の値を [3] の正規化済みの値から作る：rCS_{λ^T}(a,q,t) = rCS_λ(a,1/t,1/q)、単項式は (N2') の予測。GN の 16 点で照合。"""
+    src = json.loads(Path("data/cables/K10_3.json").read_text())
+    m1 = json.loads(Path("data/cables/K10_1.json").read_text())["monomial_applied"]
+    p3, q3 = STEPS[-1]
+    m = predicted(m1, lam, p3 * q3)
+    raw = {}
+    for k, v in src["poly"].items():
+        ea, eq, et = map(int, k.split(","))
+        key = (Fraction(ea, 2) - m["a"], Fraction(-et, 2) - m["q"], Fraction(-eq, 2) - m["t"])
+        assert all(x.denominator == 1 for x in key)
+        raw[tuple(int(x) for x in key)] = m["sign"] * v
+    verify(gn_evaluator(lambda G: G.iterated_reduced_apoly(lam, slopes)), raw, seed=2000, npts=16)
+    return raw
+
+
 def main(args):
     workers = 1
     if args[:1] == ["--workers"]:
         workers, args = int(args[1]), args[2:]
+    exact.BATCH = 2048
     slopes = gn_slopes(STEPS)
     for cname in args:
         lam = COLORS[cname]
@@ -39,8 +59,12 @@ def main(args):
             continue
         t0 = time.time()
         cache = Path(f"data/cache/rcs/K10_{cname}") if workers > 1 else None
-        raw = reconstruct(lambda G: G.iterated_reduced_apoly(lam, slopes), log=lambda s: print(f"  {s}", flush=True),
-                          workers=workers, cache=cache)
+        if cname == "111" and Path("data/cables/K10_3.json").exists():
+            raw = from_transpose(lam, slopes)
+            print("  [1,1,1] は [3] から転置対称性で作り、GN の 16 点で照合した", flush=True)
+        else:
+            raw = reconstruct(lambda G: G.iterated_reduced_apoly(lam, slopes), log=lambda s: print(f"  {s}", flush=True),
+                              workers=workers, cache=cache)
         hraw = reconstruct_points(homfly_evaluator(lam, STEPS), log=lambda s: None)
         hom = {(ea, eq): c for (_, ea, eq), c in hraw.items()}
         norm, mono = normalize_exact(raw, hom)
