@@ -1,0 +1,10 @@
+T(2,3): S1 True  S2 True  S3 True  S4 True  all True
+T(2,5): S1 True  S2 True  S3 True  S4 True  all True
+T(3,2): S1 True  S2 True  S3 True  S4 True  all True
+T(3,4): S1 True  S2 True  S3 True  S4 True  all True
+T(3,5): S1 True  S2 True  S3 True  S4 True  all True
+T(4,3): S1 True  S2 True  S3 True  S4 True  all True
+T(4,5): S1 True  S2 True  S3 True  S4 True  all True
+T(5,2): S1 True  S2 True  S3 True  S4 True  all True
+T(5,3): S1 True  S2 True  S3 True  S4 True  all True
+T(5,4): S1 True  S2 True  S3 True  S4 True  all True

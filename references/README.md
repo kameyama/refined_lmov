@@ -24,7 +24,14 @@
 | 1605.00978 | 最新版 | Cherednik–Philipp | — |
 | 1211.4596 | 最新版 | An. Morozov | — |
 
-DOI・巻・頁は未確認。
+| 1604.07456 | v1 | Mellit, Toric braids and (m,n)-parking functions（Duke Math. J. 170 (2021) 4123–4169、arXiv のメタデータで確認） | — |
+| 1909.00418 | v1 | Hogancamp–Mellit, Torus link homology | — |
+| 1404.4616 | 最新版 | Bergeron–Garsia–Leven–Xin（compositional (km,kn)-shuffle 予想） | — |
+| 1405.0316 | 最新版 | Bergeron–Garsia–Leven–Xin, Some remarkable new plethystic operators in the theory of Macdonald polynomials（TeX で確認） | — |
+| FranksWilliams1987/ | — | Franks–Williams, Trans. AMS 303 (1987) 97–108（AMS の PDF とテキスト抽出 fw.txt） | — |
+| 1112.0030, 1209.1409, 1512.07883 | 最新版 | 第 2 期以降に取得（GS、NRZS、GNSSS） | — |
+
+DOI・巻・頁は未確認（上の表で確認したと書いたものを除く）。
 
 派生ファイル：`1703.05408/nb-torus.txt`, `1703.05408/nb-non-torus.txt` は ancillary ノートブックを
 `scripts/nb2txt.py` でテキスト化したもの。再生成するには次を実行する：
