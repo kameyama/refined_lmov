@@ -22,3 +22,6 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# 既定は機能テストだけ。保存済みの大きな計算結果の再検証は results の印を付け、内容や理論に問題が出たときだけ -m results で実行する
+addopts = "-m 'not results'"
+markers = ["results: 保存済みの大きな計算結果の再検証（既定では実行しない）"]
