@@ -3,3 +3,6 @@
     axis t: exponents 21..147 (probe N=512)
     grid 400 x 127 = 50800 points
     1 prime not enough; using a second prime
+    242425 terms, 2 primes, 13871s
+K10 [3] 242425 項 14439.8 s
+=== Wed Oct  7 22:46:22 JST 2026 K10：[3] の完了後に停止（別の PC で再開するため）
