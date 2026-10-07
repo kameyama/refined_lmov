@@ -10,7 +10,7 @@
   機能テスト `.venv/bin/pytest -q`（約 4 分）で環境を確かめる。SageMath（conda 環境 sage）は、ケーブルの HOMFLY-PT をブレイドから計算するときだけ要る。
 - 文献：references/ は git の管理外。`just fetch-refs` は一部しか取らないので、references/README.md の表の論文は必要に応じて arXiv から取得する。
 - git の管理外の途中結果（data/cache/、8.8 GB）は移さない。全てスクリプトで再生成できる。例外として、pretzel の d_1 の列生成の途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl（小さい）だけは git に入れてある。
-- **K10 の 3 箱の残り**（この PC では [3] の rCS の完成まで計算し、data/cables/K10_3.json を commit する）：
+- **K10 の 3 箱の分担**（ユーザーの指示）：元の PC（Mac mini M1）は [3] の rCS だけを計算し、完成したら data/cables/K10_3.json を commit・push する（完成すると計算は自動で止まる）。[2,1] と [1,1,1]、3 箱の \hat f は別の PC で計算する：
   1. [2,1] の rCS は [3] に依存しないので、すぐに始められる：`PYTHONPATH=src:scripts nohup .venv/bin/python scripts/v0_iterated.py --workers N 21 > logs/v0_K10_21.log 2>&1 &`
      （N は性能コアの数とメモリで決める。評価のまとまり 2048 点で 1 プロセス約 1.2 GB。係数が大きいので 2 つ目の素数での評価も自動で行われる。格子は [3] と同程度の約 5 万点の見込み）。
   2. data/cables/K10_3.json を取り込んだ後（git pull）：`scripts/v0_iterated.py --workers N 111`（[3] から転置対称性で作り、16 点で照合。数分）。
