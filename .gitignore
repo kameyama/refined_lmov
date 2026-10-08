@@ -36,3 +36,11 @@ data/bps/K[789]_111.json
 data/bps/K[789]_3.txt
 data/bps/K[789]_21.txt
 data/bps/K[789]_111.txt
+# K10 の \hat N（2 箱は各 18 MB、3 箱は各 260 MB、.txt は最大 1.1 GB）。2 箱は .json.xz だけを git に入れる。3 箱の .json.xz（各 87〜90 MB）を入れるかは未定（2026-10-09）
+data/bps/K10_2.json
+data/bps/K10_11.json
+data/bps/K10_3.json
+data/bps/K10_21.json
+data/bps/K10_111.json
+data/bps/K10_*.txt
+!data/bps/K10_1.txt

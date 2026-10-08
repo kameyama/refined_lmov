@@ -73,7 +73,7 @@ def test_u4_three_box_positivity(knot):
             assert all(v >= 0 for v in vals) or all(v <= 0 for v in vals), (knot, key)
 
 
-@pytest.mark.parametrize("knot", [k for k in U4 if k != "K10" and getattr(k, "values", [None])[0] != "K10"])
+@pytest.mark.parametrize("knot", U4)
 def test_u4_bps_saved(knot):
     """data/bps の \\hat N（scripts/export_bps.py）が data/lmov の \\hat f の G 展開と全係数で一致し、非負。"""
     from rcsknots.extract import bps_numbers
