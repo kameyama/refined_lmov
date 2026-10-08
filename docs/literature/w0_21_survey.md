@@ -6,6 +6,7 @@
 - A：ホモロジー側と計算ソフト → docs/literature/w0_21_A_homology.md
 - B：物理・表現論側（evolution 法、knots–quivers、Aganagic ら） → docs/literature/w0_21_B_physics.md
 - C：ホモロジーを作らない構成（3d–3d・Ẑ、Cherednik の motivic superpolynomial ほか） → docs/literature/w0_21_C_nonhomological.md
+- D：別の AI による調査（ユーザーが提供） → docs/literature/w0_21_D_external_survey.md（Beliakova–Gorsky の円分展開、sl_3 の F_K 2508.15171 など）
 
 文献情報：arXiv 番号は arXiv のメタデータか TeX 本文で確認したもの。DOI・巻・頁は全て未確認。
 
