@@ -83,6 +83,7 @@
 - AMMM 1211.6375 の 4_1 だけ（正値性で選択、上の表）。KN 1703.05408 の 4_1 の [2,1] の候補も条件からの推定。
 - web 検索（2 回、2026-10-08）で、2019 年以降に [2,1] のツイスト結び目の refined 式（1903.00259 の Macdonald 変形）を実行した文献は見つからなかった。
   検索結果の抜粋に「非長方形では hyperpolynomial は正でないようだ」と述べる "Knot polynomials for twist satellites"（PLB）が出たが、arXiv 番号・本文は**未確認**。
+  （2026-10-08 追記：arXiv:1801.02407、A. Morozov、Phys. Lett. B 782 (2018) 104-111 と arXiv のメタデータで確認。要旨には正値性の記述は無い。本文は未確認。docs/literature/f2_genus2_daha.md）
 
 ## 3. 本研究のデータとの照合可能性
 

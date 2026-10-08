@@ -8,23 +8,23 @@
 ## 1. 中心の 3 本【原典】
 
 ### Arthamonov–Shakirov, "Refined Chern-Simons Theory in Genus Two"（arXiv:1504.02620、J. Knot Theory Ramifications 29 (2020) 2050044）
-- 内容：rank 1（U_q(sl_2)）の refined TQFT の写像類群の表現を種数 2 に拡張（highergenus.tex :53-55）。q-6j 記号そのものは Macdonald 変形を持たないように見えるが、その 2 乗は変形を持つ（:75-82）。
+- 内容：rank 1（U_q(sl_2)）の refined TQFT の写像類群の表現を種数 2 に拡張（highergenus.tex :53）。q-6j 記号そのものは Macdonald 変形を持たないように見えるが、その 2 乗は変形を持つ（:74-82）。
 - 結び目：種数 2 の曲面上の結び目（3 指数の pretzel 結び目、4_1, 6_1, 6_2, 8_1, 8_4, 8_2, … を含む）の refined Jones 多項式を計算（:528-）。
-- 不変性：振幅 Z そのものは結び目の不変量ではない（4_1 と鏡像で値が違う、:520-525）。|Z|² = Z(q,t)Z(1/q,1/t) が不変量であると予想（Conjecture II、:441）。
-- HOMFLY-PT ホモロジーの Poincaré 多項式とは一致しない（要旨、:66-68）。著者は refined の値を index と解釈する。
-- **高ランクへの障害**（Discussion「Higher rank」、:739-758）：種数 2 以上では状態の基底が 3 価のグラフになり、A_n 型では頂点に**テンソル積の多重度**の装飾が要る。多重度の扱いは技術的に非常に難しく、対称・反対称表現に限る通常の手も写像類群の方法では使えない。
+- 不変性：振幅 Z そのものは結び目の不変量ではない（4_1 と鏡像で値が違う、「4_1 and its mirror」の段落、:445 も参照）。|Z|² = Z(q,t)Z(1/q,1/t) が不変量であると予想（Conjecture II、:443）。
+- HOMFLY-PT ホモロジーの Poincaré 多項式とは一致しない（要旨 :53、導入 :66-68）。著者は refined の値を index と解釈する。
+- **高ランクへの障害**（Discussion「Higher rank」、:747）：種数 2 以上では状態の基底が 3 価のグラフになり、A_n 型では頂点に**テンソル積の多重度**の装飾が要る。多重度の扱いは技術的に非常に難しく、対称・反対称表現に限る通常の手も写像類群の方法では使えない。
   → 本研究の X2 で一意性を妨げたもの（[2,1] ⊗ [2,1]̄ の多重度 2 と gauge の自由度）と同じ壁。
 
 ### Arthamonov–Shakirov, "Genus Two Generalization of A_1 spherical DAHA"（arXiv:1704.02947、DOI 10.1007/s00029-019-0447-1）
 - 3 変数の差分作用素と x_{ij} + x_{ij}^{-1} の積で生成される代数を作り、種数 2 の閉曲面の写像類群の全ての関係を外部自己同型として満たすことを証明（paper-v3.tex の要旨）。A_1 spherical DAHA の種数 2 版。
-- 未解決として明記（Conclusion :643-692）：種数 g > 2、**高ランク N > 2**、非 spherical 版、種数 2 の結び目の q,t 不変量の系統的な計算（続編の予定）。
+- 未解決として明記（Conclusion :643-692、高ランクは :689）：種数 g > 2、**高ランク N > 2**、非 spherical 版、種数 2 の結び目の q,t 不変量の系統的な計算（続編の予定）。
 
 ### Hikami, "DAHA and skein algebra of surfaces: double-torus knots"（arXiv:1901.02743、DOI 10.1007/s11005-019-01189-5）
 - A_1 型と C^∨C_1 型の rank 1 の DAHA を「貼り合わせ」、種数 2 の曲面の Kauffman bracket skein 代数の表現を作る（glueDAHAnew02.tex の要旨）。
 - double-torus 結び目（種数 2 の Heegaard 曲面上の単純閉曲線、ツイスト結び目・ダブルツイスト結び目を含む）に DAHA 多項式を提案し、主にダブルツイスト結び目で計算（:8264-8290）。
 - パラメータ x_u = x_d = q_u で彩色 Jones 多項式に一致すると予想（Conjecture、:7366-7372）。C^∨C_1 の 4 つのパラメータは特定の値 𝐭_⋆ に固定される（:6155-6180、穴の貼り合わせ）。
-- 導入（:355-372）：Cherednik の DAHA 多項式はトーラス結び目とその子孫（全て非双曲）に限られ、Arthamonov–Shakirov の種数 2 の試みは既知の量子不変量との関係が不明、と述べる。
-- 将来の課題として、非 reduced の DAHA 多項式・高ランク・高い種数を挙げる（:8291-8296）。
+- 導入（:355-372、「limited only to」は :366）：Cherednik の DAHA 多項式はトーラス結び目とその子孫（全て非双曲）に限られ、Arthamonov–Shakirov の種数 2 の試みは既知の量子不変量との関係が不明、と述べる。
+- 将来の課題として、非 reduced の DAHA 多項式・高ランク・高い種数を挙げる（:8298 付近）。
 
 ## 2. 関連論文（上の 3 本を引用するもの、Semantic Scholar の引用一覧から選んだ）【要旨】
 | arXiv | 著者 | 内容 | 本研究との関係 |
@@ -41,7 +41,7 @@
 | 1801.02407 | A. Morozov（Phys. Lett. B 782 (2018) 104-111） | twist satellite の彩色 HOMFLY-PT の分解。superpolynomial への持ち上げは正と負のねじれで規則が違うように見える | W0 の調査 E で「arXiv 番号・本文未確認」とした論文。番号と掲載誌はここで確認。E が引いた「非長方形の hyperpolynomial は正でない」という記述は要旨には無い（本文は未確認） |
 
 ## 3. 本研究の値との比較【計算】
-- Arthamonov–Shakirov の 4_1, 6_1, 8_1 の refined Jones 多項式（j = 1、1504.02620 の表、:540-570）と、本研究の rCS_{[1]}（KNTZ の refined 式を KN の変数に読み替えたもの、conventions.md §16）を a = t²（sl_2）に特殊化したものを比べた。
+- Arthamonov–Shakirov の 4_1, 6_1, 8_1 の refined Jones 多項式（j = 1、1504.02620 の表、:541-555）と、本研究の rCS_{[1]}（KNTZ の refined 式を KN の変数に読み替えたもの、conventions.md §16）を a = t²（sl_2）に特殊化したものを比べた。
   4_1 はどちらも 5 項で係数の符号の並び（+, −, +, −, +）も同じだが、指数の並び方が違う。単純な変数の対応（q, t の ±1, ±2 乗、qt, q/t など 13 種の組）で単項式倍の一致は無かった（6_1, 8_1 も同じ）【計算、探した対応の範囲で】。
 - 原典の「種数 2 の refined Jones は HOMFLY-PT ホモロジーの Poincaré 多項式と合わない」（要旨）と整合する。本研究の rCS_{[1]} は DGR 型（ホモロジー由来）の値なので、種数 2 の refined は別の変形である可能性が高い【見通し】。
   ただし Arthamonov–Shakirov の振幅は |Z|² だけが不変量（予想）なので、比べるなら |Z|² どうしで、正規化の自由度も含めて調べる必要がある（未実施）。
