@@ -57,7 +57,7 @@ def _evaluate(evaluator, qs, ts, p, workers=1, cache=None, tag=""):
         for i in range(nb):
             f = cache / f"{tag}_{i}.npy"
             if f.exists():
-                out[i] = np.load(f)
+                out[i] = np.load(f, mmap_mode="r")      # 読むのは下の詰め直しのときだけ（全体を 2 重に持たない）
     todo = [i for i in range(nb) if out[i] is None]
     if workers > 1 and len(todo) > 1:
         import multiprocessing as mp
@@ -68,7 +68,47 @@ def _evaluate(evaluator, qs, ts, p, workers=1, cache=None, tag=""):
         for i in todo:
             out[i] = _batch(i)
     D = max(x.shape[1] for x in out)
-    return np.concatenate([np.pad(x, ((0, 0), (0, D - x.shape[1]))) for x in out])
+    res = np.zeros((len(qs), D), dtype=np.int64)
+    for i, x in enumerate(out):
+        res[i * bs:i * bs + len(x), :x.shape[1]] = x
+    return res
+
+
+INTERP_BLOCK = 16      # 補間を a の係数の列 16 本ずつに分ける（並列の単位。1 まとまりの作業メモリは格子 × 16 × 8 バイトの数倍）
+_GRID_STATE = {}       # 補間する値と点（fork したワーカーと共有、読むだけ）
+
+
+def _interp_block(d0):
+    """列 d0..d0+INTERP_BLOCK の 2 変数補間。0 でない係数を (it, iq, d, 値 mod p) の配列で返す。"""
+    st = _GRID_STATE
+    p = st["p"]
+    v = st["vals"][:, :, d0:d0 + INTERP_BLOCK] * st["wq"][:, None, None] % p * st["wt"][None, :, None] % p
+    cq = newton_to_monomial(st["qs"], v, p)                                 # (Nq, Nt, b)
+    c = newton_to_monomial(st["ts"], np.transpose(cq, (1, 0, 2)), p)       # (Nt, Nq, b)
+    it, iq, d = np.nonzero(c)
+    return it, iq, d + d0, c[it, iq, d]
+
+
+def _interp_grid(vals, qs, ts, qlo, tlo, p, workers=1):
+    """格子 (Nq, Nt, D) の値から、x^{qlo}·y^{tlo} のずれを戻した係数 {(d, e_q, e_t): c mod p}（0 でないものだけ）。
+
+    列（a の係数）ごとに独立なので、INTERP_BLOCK 本ずつに分けて fork のプロセスプールで並列に計算する。
+    """
+    wq = np.array([pow(int(x), (-qlo) % (p - 1), p) for x in qs], dtype=np.int64)
+    wt = np.array([pow(int(x), (-tlo) % (p - 1), p) for x in ts], dtype=np.int64)
+    for xs in (qs, ts):                    # 逆 Vandermonde 行列を先に作り、ワーカーに引き継ぐ
+        newton_to_monomial(xs, np.zeros((len(xs), 1), dtype=np.int64), p)
+    _GRID_STATE.update(vals=vals, qs=qs, ts=ts, wq=wq, wt=wt, p=p)
+    starts = list(range(0, vals.shape[2], INTERP_BLOCK))
+    if workers > 1 and len(starts) > 1:
+        import multiprocessing as mp
+        with mp.get_context("fork").Pool(min(workers, len(starts))) as pool:
+            parts = pool.map(_interp_block, starts)
+    else:
+        parts = [_interp_block(d0) for d0 in starts]
+    _GRID_STATE.clear()
+    return {(int(d), int(iq) + qlo, int(it) + tlo): int(c)
+            for it_, iq_, d_, c_ in parts for it, iq, d, c in zip(it_, iq_, d_, c_)}
 
 
 def _distinct(rng, n, p):
@@ -135,9 +175,7 @@ def reconstruct_points(func, seed=0, log=print, workers=1, cache=None):
     for p in (P31, P31B):
         if p == P31B:
             # 係数が P31/2 未満なら素数 1 つで足りる：対称な代表で持ち上げ、独立な点で検証できれば終わり
-            c1 = coeffs[0]
-            poly = {(int(d), int(iq) + qlo, int(it) + tlo): (int(c1[it, iq, d]) if c1[it, iq, d] <= P31 // 2 else int(c1[it, iq, d]) - P31)
-                    for it, iq, d in zip(*np.nonzero(c1))}
+            poly = {k: (c if c <= P31 // 2 else c - P31) for k, c in coeffs[0].items()}
             try:
                 verify(func, poly, seed + 1000)
                 log(f"  {len(poly)} terms, 1 prime, {time.time() - t0:.0f}s")
@@ -148,25 +186,20 @@ def reconstruct_points(func, seed=0, log=print, workers=1, cache=None):
         Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
         vals = _evaluate(func, Qg.ravel(), Tg.ravel(), p, workers, cache,
                          f"grid_{p}_{qlo}_{qhi}_{tlo}_{thi}_s{seed}").reshape(Nq, Nt, -1)
-        # remove the Laurent shifts, then interpolate in q and in t
-        wq = np.array([pow(int(x), (-qlo) % (p - 1), p) for x in qs], dtype=np.int64)
-        wt = np.array([pow(int(x), (-tlo) % (p - 1), p) for x in ts], dtype=np.int64)
-        vals = vals * wq[:, None, None] % p * wt[None, :, None] % p
-        cq = newton_to_monomial(qs, vals, p)                              # (Nq, Nt, D)
-        coeffs.append(newton_to_monomial(ts, np.transpose(cq, (1, 0, 2)), p))   # (Nt, Nq, D)
-    D = max(c.shape[2] for c in coeffs)
-    c1, c2 = (np.pad(c, ((0, 0), (0, 0), (0, D - c.shape[2]))) for c in coeffs)
+        coeffs.append(_interp_grid(vals, qs, ts, qlo, tlo, p, workers))
+        del vals
     # Chinese remainder theorem: symmetric representative modulo P31·P31B (≈ 4.6e18)
+    c1, c2 = coeffs
     inv = pow(P31, P31B - 2, P31B)
+    M = P31 * P31B
     poly = {}
-    for it, iq, d in zip(*np.nonzero((c1 != 0) | (c2 != 0))):
-        a1, a2 = int(c1[it, iq, d]), int(c2[it, iq, d])
+    for k in c1.keys() | c2.keys():
+        a1, a2 = c1.get(k, 0), c2.get(k, 0)
         x = a1 + P31 * (((a2 - a1) * inv) % P31B)
-        M = P31 * P31B
         if x > M // 2:
             x -= M
         if x:
-            poly[(int(d), int(iq) + qlo, int(it) + tlo)] = x
+            poly[k] = x
     log(f"  {len(poly)} terms, 2 primes, {time.time() - t0:.0f}s")
     verify(func, poly, seed + 1000)
     return poly

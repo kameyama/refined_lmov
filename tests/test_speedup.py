@@ -47,6 +47,23 @@ def test_single_prime_then_crt_fallback():
         assert reconstruct_points(ev, log=lambda s: None) == poly
 
 
+def test_blocked_parallel_interpolation(monkeypatch, tmp_path):
+    """補間を a の係数の列のまとまりに分けて並列にしても、素数 1 つ・2 つ（CRT）のどちらでも同じ多項式を復元する。"""
+    from rcsknots import exact
+    monkeypatch.setattr(exact, "INTERP_BLOCK", 2)
+    for poly in ({(0, -2, 1): 7, (3, 3, -1): -5, (4, 0, 0): 1, (2, 1, 2): 11},
+                 {(0, -2, 1): 3_000_000_000, (3, 3, -1): -5_000_000_000, (4, 0, 0): 1, (2, 1, 2): 11}):
+        def ev(xs, ys, p, poly=poly):
+            out = np.zeros((len(xs), 5), dtype=np.int64)
+            for (d, i, j), c in poly.items():
+                out[:, d] = (out[:, d] + c % p * np.array([pow(int(x), i % (p - 1), p) * pow(int(y), j % (p - 1), p) % p
+                                                             for x, y in zip(xs, ys)], dtype=np.int64)) % p
+            return out
+        cache = tmp_path / str(len(str(max(poly.values()))))
+        assert exact.reconstruct_points(ev, log=lambda s: None, workers=3, cache=cache) == poly
+        assert exact.reconstruct_points(ev, log=lambda s: None, workers=3, cache=cache) == poly    # 保存した評価から再開
+
+
 def test_g_expand_fast_equals_direct():
     """G 展開（python-flint の多項式で計算）が、旧来の実装 g_expand_direct と全係数で一致し、ランダムな Σ c_g(𝐭) G^g を復元する。"""
     import random
