@@ -1,0 +1,33 @@
+=== Thu Oct  8 00:15:04 JST 2026 [2,1] の終了を確認、[1,1,1] を開始
+  [1,1,1] は [3] から転置対称性で作り、GN の 16 点で照合した
+K10 [111] 242425 項 380.6 s
+K10 [1] (N2') − (N2) の q 指数の差 0
+K10 [2] (N2') − (N2) の q 指数の差 0
+K10 [11] (N2') − (N2) の q 指数の差 0
+K10 [3] (N2') − (N2) の q 指数の差 0
+K10 [111] (N2') − (N2) の q 指数の差 0
+K10 [21] (N2') − (N2) の q 指数の差 0
+      381.41 real       378.56 user         2.08 sys
+           614645760  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               64706  page reclaims
+                  47  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 959  voluntary context switches
+               95156  involuntary context switches
+       7395721958518  instructions retired
+       1306601907993  cycles elapsed
+           526910328  peak memory footprint
+=== Thu Oct  8 00:21:25 JST 2026 3 箱の \hat f を開始
+      axis q: exponents -126..672 (probe N=2048)
+      axis t: exponents -672..126 (probe N=2048)
+      grid 799 x 799 = 638401 points
+      1 prime not enough; using a second prime
+=== Thu Oct  8 11:58:35 JST 2026 ユーザーの判断で停止（補間がメモリの圧縮で遅れたため、補間を改良して再実行する）
