@@ -27,9 +27,9 @@
 | K9 = T(2,7) の (2,31)-ケーブル | 代数的 | 約 23 万 | data/cables/K9_*, data/lmov/K9_* | logs/u4_cables*.log |
 | K8 = T(3,4) の (2,25)-ケーブル | 代数的 | 約 26 万 | data/cables/K8_*, data/lmov/K8_* | logs/u4_cables3.log |
 | K7 = T(2,3) の (3,19)-ケーブル | 代数的（3 本ケーブル） | 約 35 万 | data/cables/K7_*, data/lmov/K7_* | logs/u4_cables3.log |
-| K10 = K1 の (2,53)-ケーブル | 代数的（2 段の反復） | 2 箱まで（約 23 万） | data/cables/K10_*, data/lmov/K10_* | logs/v0_K10_*.log |
+| K10 = K1 の (2,53)-ケーブル | 代数的（2 段の反復） | 約 183 万 | data/cables/K10_*, data/lmov/K10_*（3 箱は K10_3.json.xz） | logs/v0_K10_*.log |
 
-- 代数的な iterated torus 結び目への KN の正値性予想の拡張を支持する【予想】。K10 の 3 箱は未計算（後回し）。
+- 代数的な iterated torus 結び目への KN の正値性予想の拡張を支持する【予想】。K10 も |ρ| ≤ 3 の全 6 つの ρ で G 展開の前後とも非負【計算】（2026-10-08、REPORT_phase4.md §1.1）。
 - 4_1（KN が [2,1] の候補を構成、付録 C）の 3 箱までの表は全項で再現した（既知の結果の再現で、本研究の成果ではない。data/bps/4_1_*）。
 - 非代数的なケーブル（DAHA の値を入力）では [1] またはそれ以降で破れる。破れ方は 3 つの型に分かれる（docs/REPORT.md §5.2）。
   DAHA の値は非代数的なケーブルではホモロジーではないので、これ以上は扱わない（CLAUDE.md、open_problems.md D5）。

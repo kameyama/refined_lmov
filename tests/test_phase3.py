@@ -1,5 +1,6 @@
 """第 3 期：3 本ケーブルによる |λ| = 3 の彩色 HOMFLY-PT、[2,1] の構造的な性質、U4 の 3 箱の結果。"""
 import json
+import lzma
 import sys
 from pathlib import Path
 
@@ -43,18 +44,26 @@ def test_21_structural_identities(knot):
         assert sp.expand((r["21"] - r["1"] * r["11"]).subs(A, s * T ** 2)) == 0
 
 
-# トーラス結び目は判定のコードの機能テスト（1 秒以下）。ケーブル（各 23〜35 万項）は結果の再検証
-U4 = ["T3_4", "T3_5", "T2_11", "T3_7", "T4_5"] + [pytest.param(k, marks=pytest.mark.results) for k in ("K9", "K8", "K7")]
+# トーラス結び目は判定のコードの機能テスト（1 秒以下）。ケーブル（各 23〜35 万項、K10 は各約 180 万項）は結果の再検証
+U4 = ["T3_4", "T3_5", "T2_11", "T3_7", "T4_5"] + [pytest.param(k, marks=pytest.mark.results) for k in ("K9", "K8", "K7", "K10")]
+
+
+def _read(p):
+    """data/lmov の JSON。大きいもの（K10 の 3 箱、363 MB）は xz で圧縮した .json.xz だけを git に入れてある。"""
+    if not p.exists() and p.with_suffix(".json.xz").exists():
+        with lzma.open(p.with_suffix(".json.xz"), "rt") as f:
+            return json.load(f)
+    return json.loads(p.read_text())
 
 
 @pytest.mark.parametrize("knot", U4)
 def test_u4_three_box_positivity(knot):
     """U4：|ρ| ≤ 3 の \\hat f が、G 展開の前後とも（同じ全体の符号で）非負整数。"""
     paths = [ROOT / f"data/lmov/{knot}_{n}.json" for n in (1, 2, 3)]
-    if not all(p.exists() for p in paths):
+    if not all(p.exists() or p.with_suffix(".json.xz").exists() for p in paths):
         pytest.skip("run scripts/u4_run.py first")
     for n, p in zip((1, 2, 3), paths):
-        for key, poly in json.loads(p.read_text())["f"].items():
+        for key, poly in _read(p)["f"].items():
             if not key.startswith("hat"):
                 continue
             hat = {tuple(map(int, e.split(","))): c for e, c in poly.items()}

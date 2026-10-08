@@ -1,0 +1,29 @@
+=== Thu Oct  8 14:29:40 JST 2026 3 箱の \hat f を再開（3 つ目の素数・BLAS の補間）
+      axis q: exponents -126..672 (probe N=2048)
+      axis t: exponents -672..126 (probe N=2048)
+      grid 799 x 799 = 638401 points
+      1 prime not enough; using prime 2
+      2 primes not enough; using prime 3
+      12315885 terms, 3 primes, 3612s
+K10 ρ=[1, 1, 1]: 前 0/1834640 負、後 0/1667711 負
+K10 ρ=[2, 1]: 前 0/1825082 負、後 0/1658605 負
+K10 ρ=[3]: 前 0/1805429 負、後 0/1640468 負
+     4049.91 real     14024.90 user      3211.56 sys
+         17587175424  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+           353277015  page reclaims
+             1692373  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              403174  voluntary context switches
+            58935166  involuntary context switches
+       6525346766842  instructions retired
+       2332488162183  cycles elapsed
+         41174120664  peak memory footprint
+=== Thu Oct  8 15:37:10 JST 2026 K10 の 3 箱：完了
