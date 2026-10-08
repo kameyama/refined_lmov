@@ -47,6 +47,8 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 # 外部への送信
 - 計算結果、コード、文書を外部サービス（GitHub などへの push、メール、Slack、共有ドキュメントなど）に送信・公開する場合は、事前に意図と内容を説明して明示的な許可を得る。論文と補助ファイルのダウンロードは許可なしで行ってよい。
 - ローカルでの git commit は許可なしで行ってよい。意味のある単位でこまめに commit する。
+- **main ブランチへの直接の commit とローカルでのマージは禁止する。main は GitHub の PR を経由してのみ変更する**（2026-10-08、ユーザーの指示）。
+  作業は main 以外のブランチで行い、ブランチを push して PR を作る。PR のマージはユーザーが行うか、ユーザーの指示を受けてから行う。ブランチの push と PR の作成も外部への送信なので、事前に許可を得る。
 
 # 環境
 - Python：.venv（Python 3.14.8、rcsknots は editable インストール）。テストは `.venv/bin/pytest` で実行する。
