@@ -10,6 +10,7 @@ import numpy as np
 P31 = 2**31 - 1          # primes below 2^31 keep products inside int64
 P31B = 2**31 - 19
 P31C = 2147483587          # third prime, used only for verification
+P31D = 2147483579          # 補間の 3 つ目の素数（2 素数の CRT で足りないときだけ）
 
 
 class V:

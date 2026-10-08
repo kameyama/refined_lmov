@@ -48,11 +48,12 @@ def test_single_prime_then_crt_fallback():
 
 
 def test_blocked_parallel_interpolation(monkeypatch, tmp_path):
-    """補間を a の係数の列のまとまりに分けて並列にしても、素数 1 つ・2 つ（CRT）のどちらでも同じ多項式を復元する。"""
+    """補間を a の係数の列のまとまりに分けて並列にしても、素数 1 つ・2 つ・3 つ（CRT）のどれでも同じ多項式を復元する。"""
     from rcsknots import exact
     monkeypatch.setattr(exact, "INTERP_BLOCK", 2)
     for poly in ({(0, -2, 1): 7, (3, 3, -1): -5, (4, 0, 0): 1, (2, 1, 2): 11},
-                 {(0, -2, 1): 3_000_000_000, (3, 3, -1): -5_000_000_000, (4, 0, 0): 1, (2, 1, 2): 11}):
+                 {(0, -2, 1): 3_000_000_000, (3, 3, -1): -5_000_000_000, (4, 0, 0): 1, (2, 1, 2): 11},
+                 {(0, -2, 1): 3 * 10**20, (3, 3, -1): -5 * 10**19, (4, 0, 0): 1, (2, 1, 2): 11}):    # 3 つ目の素数が要る
         def ev(xs, ys, p, poly=poly):
             out = np.zeros((len(xs), 5), dtype=np.int64)
             for (d, i, j), c in poly.items():
@@ -61,7 +62,8 @@ def test_blocked_parallel_interpolation(monkeypatch, tmp_path):
             return out
         cache = tmp_path / str(len(str(max(poly.values()))))
         assert exact.reconstruct_points(ev, log=lambda s: None, workers=3, cache=cache) == poly
-        assert exact.reconstruct_points(ev, log=lambda s: None, workers=3, cache=cache) == poly    # 保存した評価から再開
+        assert exact.reconstruct_points(ev, log=lambda s: None, workers=3, cache=cache) == poly    # 保存した評価・補間から再開
+        assert any(cache.glob("coef_*.npz"))
 
 
 def test_g_expand_fast_equals_direct():

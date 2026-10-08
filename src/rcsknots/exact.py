@@ -11,7 +11,7 @@ import time
 
 import numpy as np
 
-from .field import V, P31, P31B, P31C, make_conv
+from .field import V, P31, P31B, P31C, P31D, make_conv
 from .gn import GN
 from .interp import newton_to_monomial, symmetric_lift
 
@@ -171,38 +171,42 @@ def reconstruct_points(func, seed=0, log=print, workers=1, cache=None):
     tlo, thi = _probe_range(func, 1, rng, P31, log, workers)
     Nq, Nt = qhi - qlo + 1, thi - tlo + 1
     log(f"  grid {Nq} x {Nt} = {Nq * Nt} points")
-    coeffs = []
-    for p in (P31, P31B):
-        if p == P31B:
-            # 係数が P31/2 未満なら素数 1 つで足りる：対称な代表で持ち上げ、独立な点で検証できれば終わり
-            poly = {k: (c if c <= P31 // 2 else c - P31) for k, c in coeffs[0].items()}
-            try:
-                verify(func, poly, seed + 1000)
-                log(f"  {len(poly)} terms, 1 prime, {time.time() - t0:.0f}s")
-                return poly
-            except ArithmeticError:
-                log("  1 prime not enough; using a second prime")
+    primes, coeffs = (P31, P31B, P31D), []
+    for i, p in enumerate(primes):
         qs, ts = _distinct(rng, Nq, p), _distinct(rng, Nt, p)
-        Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
-        vals = _evaluate(func, Qg.ravel(), Tg.ravel(), p, workers, cache,
-                         f"grid_{p}_{qlo}_{qhi}_{tlo}_{thi}_s{seed}").reshape(Nq, Nt, -1)
-        coeffs.append(_interp_grid(vals, qs, ts, qlo, tlo, p, workers))
-        del vals
-    # Chinese remainder theorem: symmetric representative modulo P31·P31B (≈ 4.6e18)
-    c1, c2 = coeffs
-    inv = pow(P31, P31B - 2, P31B)
-    M = P31 * P31B
-    poly = {}
-    for k in c1.keys() | c2.keys():
-        a1, a2 = c1.get(k, 0), c2.get(k, 0)
-        x = a1 + P31 * (((a2 - a1) * inv) % P31B)
-        if x > M // 2:
-            x -= M
-        if x:
-            poly[k] = x
-    log(f"  {len(poly)} terms, 2 primes, {time.time() - t0:.0f}s")
-    verify(func, poly, seed + 1000)
-    return poly
+        tag = f"grid_{p}_{qlo}_{qhi}_{tlo}_{thi}_s{seed}"
+        coeffs.append(_interp_cached(func, qs, ts, qlo, tlo, p, workers, cache, tag))
+        # CRT（Garner）：対称な代表を法 Π p で取る。係数が小さければ素数 1 つで足り、独立な点で検証できれば終わり
+        M, lifted = primes[0], dict(coeffs[0])
+        for pj, cj in zip(primes[1:i + 1], coeffs[1:]):
+            inv = pow(M, pj - 2, pj)
+            lifted = {k: x + M * (((cj.get(k, 0) - x) * inv) % pj) for k in lifted.keys() | cj.keys()
+                      for x in (lifted.get(k, 0),)}
+            M *= pj
+        poly = {k: (x - M if x > M // 2 else x) for k, x in lifted.items() if x}
+        try:
+            verify(func, poly, seed + 1000)
+            log(f"  {len(poly)} terms, {i + 1} prime{'s' if i else ''}, {time.time() - t0:.0f}s")
+            return poly
+        except ArithmeticError:
+            if i + 1 == len(primes):
+                raise
+            log(f"  {i + 1} prime{'s' if i else ''} not enough; using prime {i + 2}")
+
+
+def _interp_cached(func, qs, ts, qlo, tlo, p, workers, cache, tag):
+    """格子点で評価して補間した係数 {(d, e_q, e_t): c mod p}。cache があれば補間の結果も保存し、再開のときは読み込む。"""
+    f = cache / f"coef_{tag}.npz" if cache is not None else None
+    if f is not None and f.exists():
+        z = np.load(f)
+        return {(int(d), int(eq), int(et)): int(c) for d, eq, et, c in zip(z["d"], z["eq"], z["et"], z["c"])}
+    Qg, Tg = np.meshgrid(qs, ts, indexing="ij")
+    vals = _evaluate(func, Qg.ravel(), Tg.ravel(), p, workers, cache, tag).reshape(len(qs), len(ts), -1)
+    out = _interp_grid(vals, qs, ts, qlo, tlo, p, workers)
+    if f is not None:
+        k = np.array(list(out), dtype=np.int64).reshape(-1, 3)
+        np.savez(f, d=k[:, 0], eq=k[:, 1], et=k[:, 2], c=np.array(list(out.values()), dtype=np.int64))
+    return out
 
 
 def evaluate_poly(poly, qv, tv, p):

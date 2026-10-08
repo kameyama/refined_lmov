@@ -48,9 +48,20 @@ _VINV = {}
 
 
 def _matmul_mod(A, B, p):
-    """A @ B mod p for int64 arrays with entries in [0, p), p < 2^31 (B split into 16-bit halves; needs A.shape[1] < 2^16)."""
-    lo, hi = B & 0xFFFF, B >> 16
-    return ((A @ lo) % p + (A @ hi) % p * 65536 % p) % p
+    """A @ B mod p for int64 arrays with entries in [0, p), p < 2^31.
+
+    16 ビットずつに分けた 4 つの積を float64 の行列積（BLAS）で計算する。各積の成分は < 2^32·K（K = A.shape[1]）で、
+    K < 2^21 なら 2^53 未満に収まり float64 で厳密。
+    """
+    assert A.shape[1] < 2**21
+    a0, a1 = (A & 0xFFFF).astype(np.float64), (A >> 16).astype(np.float64)
+    b0, b1 = (B & 0xFFFF).astype(np.float64), (B >> 16).astype(np.float64)
+
+    def mm(x, y):
+        return (x @ y).astype(np.int64) % p
+
+    mid = (mm(a0, b1) + mm(a1, b0)) % p
+    return (mm(a0, b0) + mid * 65536 % p + mm(a1, b1) * (65536 * 65536 % p) % p) % p
 
 
 def newton_to_monomial(xs, vals, p):

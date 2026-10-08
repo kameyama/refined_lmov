@@ -1,0 +1,35 @@
+=== Thu Oct  8 12:02:58 JST 2026 3 箱の \hat f を再開（補間を列のまとまりで並列化した版）
+      axis q: exponents -126..672 (probe N=2048)
+      axis t: exponents -672..126 (probe N=2048)
+      grid 799 x 799 = 638401 points
+      1 prime not enough; using a second prime
+      12315885 terms, 2 primes, 8454s
+Traceback (most recent call last):
+  File "/Users/m_kameyama/projects/refined_lmov/.claude/worktrees/setup-calculation-continue-7539e5/scripts/v0_K10_lmov.py", line 22, in <module>
+    F = reformulated_exact(reduced, n, log=lambda s: print(f"    {s}", flush=True), workers=workers, cache=cache)
+  File "/Users/m_kameyama/projects/refined_lmov/.claude/worktrees/setup-calculation-continue-7539e5/src/rcsknots/extract.py", line 104, in reformulated_exact
+    raw = reconstruct_points(ev, seed=11 + n, log=log, workers=workers, cache=cache)
+  File "/Users/m_kameyama/projects/refined_lmov/.claude/worktrees/setup-calculation-continue-7539e5/src/rcsknots/exact.py", line 204, in reconstruct_points
+    verify(func, poly, seed + 1000)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/m_kameyama/projects/refined_lmov/.claude/worktrees/setup-calculation-continue-7539e5/src/rcsknots/exact.py", line 242, in verify
+    raise ArithmeticError("verification at independent points failed")
+ArithmeticError: verification at independent points failed
+     8473.55 real     43862.32 user      2716.21 sys
+         15813050368  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+           237011521  page reclaims
+             1692367  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+               22712  voluntary context switches
+           130072585  involuntary context switches
+       2725256710330  instructions retired
+        834730001036  cycles elapsed
+         22665298408  peak memory footprint
