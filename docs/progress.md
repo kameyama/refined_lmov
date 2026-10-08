@@ -59,6 +59,7 @@
 | 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/REPORT_knot_table.md、docs/research_plan_knot_table.md |
 | 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 も 2026-10-07 に完了。残りの項目は第 4 期へ） | docs/REPORT_phase3.md、docs/research_plan_phase3.md |
 | 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 も完了） | docs/REPORT_phase4.md、docs/research_plan_phase4.md |
+| 第 5 期 | 2 箱の証明、thick な結び目、K7・K10 の 3 箱、正規化の導出（計画なし、項目ごと） | 完了（2026-10-08。d_1 の LP は打ち切り） | docs/REPORT_phase5.md、docs/RESULTS.md |
 
 未解決の問題は docs/open_problems.md、新規性の範囲は docs/novelty_report.md §5〜§8、規約は docs/conventions.md §11, §12。
 非代数的なケーブルの DAHA の値による計算はしない（CLAUDE.md、open_problems.md D5）。
@@ -112,6 +113,7 @@
   ケーブルの漸化式は framing 演算子の恒等式（厳密に確認）から、トーラス結び目は正規化前の最低 a 係数 = (−t/q)^{m−1} C_{m,n}(1/q,t)（有理 Catalan、11 例）から。残りは規約の書き下しと文献確認。
 - V4：上の表のとおり完了。
 ### 判断待ち・次の候補
+- **第 5 期のまとめ（2026-10-08、ユーザーの指示）**：d_1 の LP は打ち切り、docs/REPORT_phase5.md にまとめた。本研究はこれで区切り。次は別研究 docs/research_plan_21.md（[2,1]、W0 から）に移るかの判断待ち。
 - **d_1 の LP を停止（2026-10-08 13 時頃、ユーザーの指示）**：再開から約 14 時間、第 19 ラウンドで残差 2414 → 60.291（logs/v4_pretzel_np2_cert_1_2_resume.log）。選んだ部分集合 361 個は data/cache/v4_pretzel_np2_cg_1_2_0.pkl（git に入れてある）。同じコマンドで再開できる。証明書は未取得。
 - **方針（2026-10-08、ユーザーの判断）**：d_1 の LP は、別の PC で K10 の [2,1] と 3 箱の \hat f を計算し終えるまで継続する。その時点で収束していなければ、扱いを改めて判断する（打ち切る場合のまとめ方：同符号は全て、異符号は min(|s|, t) ≤ 20 で証明、|s|, t ≤ 40 で確認）。
 - **pretzel の d_1 の LP を再開（2026-10-07 23:10 頃、この PC、ユーザーの指示）**：`nohup env PYTHONPATH=src:scripts .venv/bin/python -u scripts/v4_pretzel_np2.py cert 1 2 1 20 > logs/v4_pretzel_np2_cert_1_2_resume.log 2>&1 &`。選んだ部分集合（69 個）を data/cache/v4_pretzel_np2_cg_1_2_0.pkl から読み、各ラウンドの後に保存する（止めても同じコマンドで再開）。1 プロセス約 0.5 GB、1 ラウンド数分。収束までの時間は見積もれない（停止時の残差 2136）。
