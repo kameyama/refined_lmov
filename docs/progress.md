@@ -148,6 +148,12 @@
 
 ## 完了した作業
 
+### 2026-10-09 G 展開の後の \hat N の保存（ユーザーの指示）
+- やったこと：T(3,4), T(3,5), T(2,11), T(3,7), T(4,5), K7, K8, K9 の |ρ| ≤ 3 の全 ρ について、保存済みの \hat f（data/lmov/）から \hat N を data/bps/{K}_{ρ}.json（.txt の表つき）に書き出した。`scripts/export_bps.py`（stage3_bps.py と同じ形式、nontorus 規約、全体の符号は normalize_sign）。
+- 確認：同じスクリプトで K1, K6a, 4_1, T(2,5) の既存の data/bps を \hat f・\hat N とも全係数で再現（`--check`）。新しい 48 件は全て負の項 0 で、計算時のログ（logs/u4_*.log）の項数（前・後）と一致。tests/test_phase3.py::test_u4_bps_saved（トーラスは既定、K7〜K9 は results）。44 秒。ログ logs/export_bps.log。
+- 保存の形：K7〜K9 の 3 箱（各 21〜32 MB、.txt は 64〜106 MB）は .json.xz だけを git に入れ、.json と .txt は .gitignore。
+- 未保存：K10 の \hat N（同じスクリプトで作れるが重い）、6_1 の [2,1] の解（data/cache/ に保存する作りで、失われている）。
+
 ### 2026-10-05 リポジトリと環境のセットアップ
 
 - git を初期化した（リモートなし）。ディレクトリ構成、.gitignore、pyproject.toml、justfile を作った。

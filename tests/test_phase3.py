@@ -71,3 +71,21 @@ def test_u4_three_box_positivity(knot):
             N = g_expand(bold)
             vals = list(bold.values()) + list(N.values())
             assert all(v >= 0 for v in vals) or all(v <= 0 for v in vals), (knot, key)
+
+
+@pytest.mark.parametrize("knot", [k for k in U4 if k != "K10" and getattr(k, "values", [None])[0] != "K10"])
+def test_u4_bps_saved(knot):
+    """data/bps の \\hat N（scripts/export_bps.py）が data/lmov の \\hat f の G 展開と全係数で一致し、非負。"""
+    from rcsknots.extract import bps_numbers
+    from rcsknots.tables import normalize_sign
+
+    for n in (1, 2, 3):
+        for key, poly in _read(ROOT / f"data/lmov/{knot}_{n}.json")["f"].items():
+            if not key.startswith("hat"):
+                continue
+            rho = tuple(int(c) for c in key.split("_")[1])
+            hat = {tuple(map(int, e.split(","))): c for e, c in poly.items()}
+            saved = _read(ROOT / f"data/bps/{knot}_{''.join(map(str, rho))}.json")
+            _, N = normalize_sign(bps_numbers(hat, rho, "nontorus"))
+            assert saved["N"] == {",".join(map(str, k)): v for k, v in sorted(N.items())}, (knot, rho)
+            assert saved["positivity"]["all_nonnegative"], (knot, rho)
