@@ -115,3 +115,40 @@ def test_trefoil_two_box_all_framings_newton():
     for key, found in res.items():
         assert found and found[1] is not None and found[3], key
         assert all(g[0] == found[2] and g[1] is True for x, g in found[4]), key
+
+
+# ---------------------------------------------------------------- t = q での Mariño–Vafa との整合性
+def test_t_eq_q_limit_is_marino_vafa_framing():
+    """t = q で framing[λ]^x = (−1)^{ℓx} q^{xκ_λ/2}：Mariño–Vafa（hep-th/0108064、式 \\framefin と \\kapar）の
+    W^{(p)}_R = (−1)^{ℓp} q^{pκ_R/2} W_R、κ_R = ℓ + Σ_i (l_i² − 2i l_i)（i は 1 から）と p = x で一致する。
+    (A, Q, T) = (a, q, t)^{1/2} なので t = q は T = Q、q^{κ/2} = Q^κ。"""
+    for lam in [(1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1), (3, 2, 2, 1)]:
+        ell = sum(lam)
+        kappa = ell + sum(l * l - 2 * i * l for i, l in enumerate(lam, start=1))
+        for x in (-3, -1, 1, 2):
+            s, (ea, eq, et) = framing_monomial(lam, x)
+            assert (s, ea, eq + et) == ((-1) ** (ell * x), 0, x * kappa)
+
+
+def test_t_eq_q_unknot_matches_marino_vafa_variables():
+    """変数の向き：t = q の本研究の unknot（主特殊化）は MV の量子次元 Π (λ^{1/2}q^{c/2} − λ^{−1/2}q^{−c/2})/(q^{h/2} − q^{−h/2})
+    と a = λ、q = q_MV で単項式倍を除いて一致する（q ↔ 1/q では [2] と [1,1] が入れ替わり一致しない）。
+    したがって framing の向き x = p も含めて MV と同じ規約。a = A²、q = Q² として整数冪で比べる。"""
+    from rcsknots.macdonald import principal_specialization
+    from rcsknots.partitions import conjugate
+    Asym, Q = sp.symbols("A Q")
+
+    def is_monomial(e):
+        num, den = sp.fraction(sp.cancel(sp.together(e)))
+        return all(len(sp.Poly(sp.expand(z), Asym, Q).terms()) == 1 for z in (num, den))
+
+    for lam in [(2,), (1, 1), (2, 1), (3,), (3, 1)]:
+        lamT = conjugate(lam)
+        mv = sp.Integer(1)
+        for i, row in enumerate(lam):
+            for j in range(row):
+                h = (row - j - 1) + (lamT[j] - i - 1) + 1
+                mv *= (Asym * Q ** (j - i) - Q ** (i - j) / Asym) / (Q ** h - Q ** -h)
+        assert is_monomial(principal_specialization(lam, Asym**2, Q**2, Q**2) / mv)
+        if lamT != lam:                                    # 自己共役な [2,1] は q ↔ 1/q で区別できない
+            assert not is_monomial(principal_specialization(lam, Asym**2, Q**-2, Q**-2) / mv)
