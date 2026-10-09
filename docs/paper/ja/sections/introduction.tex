@@ -7,7 +7,7 @@ $U(N)$ Chern--Simons 理論の large $N$ 極限は resolved conifold $X=\mathcal
 Kameyama--Nawata~\cite{Kameyama17} は，この描像を refined Chern--Simons 理論~\cite{Aganagic11} に広げた．
 M 理論の refined index と Schwinger の計算から自由エネルギーの形を定め，refined CS 不変量 $\overline{\rCS}_\lambda(K;a,q,t)$ から
 refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ と $\hf_\rho$ を作る式を与えた．
-そのうえで，$\hf_\rho$ を太字の変数 $(\ba,\bq,\bt)$ で書いたときの係数 $\hbN_{\rho;i,j,k}$（$G$ 展開の前）と，
+そのうえで，$\hf_\rho$ を太字の変数 $(\ba,\bq,\bt)$ で書いたときの係数 $\hbN_{\rho;i,j,k}$（genus 展開の前）と，
 $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ の冪に展開した後の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ が，非負整数になることを予想した．
 物理的には，この正値性は追加の $U(1)_R$ 対称性が BPS 状態に自明に作用することから期待される．
 
@@ -34,7 +34,7 @@ framing はホモロジーの次数のずらしとして働く．
 主な構造的な結果は次のとおりである．
 \begin{itemize}
 \item $\bt^{-|\rho|x}\hf^{(x)}_\rho$ は $x$ の指数和である（命題~\ref{prop:expsum}）．
-\item 転置対称性，Laurent 性，$G$ 展開が閉じる条件は $x$ によらない（命題~\ref{prop:x-indep}）．
+\item 転置対称性，Laurent 性，genus 展開が閉じる条件は $x$ によらない（命題~\ref{prop:x-indep}）．
 \item Mariño--Vafa の符号 $(-1)^{|\lambda|x}$ を外すと，奇数の $x$ で 2 箱の $\hf$ が Laurent でなくなる（命題~\ref{prop:sign}）．
 \item KN の単項式の正規化のうち彩色によって変わる部分は，ちょうど Seifert framing の分の framing である（命題~\ref{prop:N2-framing}）．
 \end{itemize}
@@ -42,12 +42,12 @@ framing はホモロジーの次数のずらしとして働く．
 \paragraph{検証（\S\ref{sec:one}--\S\ref{sec:three}）．}
 入力の確からしさは結び目のクラスによって異なる（表~\ref{tab:overview}）．
 \begin{itemize}
-\item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，$G$ 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
+\item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，genus 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
 DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\yng(1)$ は正である．
 \item 2 箱：$\hf_{\yng(2)}$ が Laurent であるためには $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である（命題~\ref{prop:two-necessary}）．
 KNTZ~\cite{Kameyama19} の refined の式（GNSSS~\cite{Gukov15} の予想式と一致する）を入力として，ツイスト結び目の全ての撚りの数で 2 箱が正であることを示す（定理~\ref{thm:twist}）．
 また，8 個の結び目では全ての整数の framing で 2 箱が正である（定理~\ref{thm:two-all-x}）．
-\item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，$|\rho|\le3$ の全ての $\rho$ について $G$ 展開の前後とも正である（計算結果~\ref{cr:three}）．
+\item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，$|\rho|\le3$ の全ての $\rho$ について genus 展開の前後とも正である（計算結果~\ref{cr:three}）．
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
 3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む．
 入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが，BPS の段では正になる．
@@ -58,7 +58,7 @@ KNTZ~\cite{Kameyama19} の refined の式（GNSSS~\cite{Gukov15} の予想式と
 
 \begin{table}[t]
 \centering
-\caption{検証の全体像．○ は $G$ 展開の前後とも正，— は未実施，× は入力が無い．}\label{tab:overview}
+\caption{検証の全体像．○ は genus 展開の前後とも正，— は未実施，× は入力が無い．}\label{tab:overview}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccc}
 \toprule
@@ -92,7 +92,7 @@ refined の open BPS 不変量の非負性は，単一のブレーン・対称�
 Banerjee--Ishtiaque--Jeong~\cite{Banerjee26} が論じている．
 knots--quivers 対応~\cite{Kucharski17,Kucharski17b,Ekholm18} では，framing の変化は quiver 行列のずらし $C\mapsto C+f$ として現れ，
 対称表現の refined LMOV 不変量の整数性が quiver の構造から従う．
-本論文の調べた範囲では，KN の $\hf_\rho$ を framing をつけて作り，非対称な $\rho$（$\yng(2,1)$ を含む）まで $G$ 展開の前後の正整数性を調べた研究は見当たらない．
+本論文の調べた範囲では，KN の $\hf_\rho$ を framing をつけて作り，非対称な $\rho$（$\yng(2,1)$ を含む）まで genus 展開の前後の正整数性を調べた研究は見当たらない．
 ケーブルの refined 不変量の定義は Cherednik--Danilenko~\cite{Cherednik14,Cherednik15} による．
 その明示例は $K1$ の $\yng(1),\yng(2)$ などに限られ，$|\lambda|=3$ の値と refined BPS 不変量は文献に見当たらない．
 

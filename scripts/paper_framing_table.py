@@ -1,6 +1,6 @@
 """論文の framing の表の素材：framing を振った判定を集計する。計算はしない。
 入力：logs/framing_batch.log（scripts/framing_batch.sh、framing_check.py）と data/framed/（scripts/framing_big.py）。
-出力：docs/paper/generated/framing_table.tex。結び目ごとに framing の範囲・最大の箱数・判定件数・G 展開の前後の負の項の合計・\\hat f = 0 の件数。
+出力：docs/paper/generated/framing_table.tex。結び目ごとに framing の範囲・最大の箱数・判定件数・genus 展開の前後の負の項の合計・\\hat f = 0 の件数。
 同じ (結び目, x, ρ) が両方にあるときは 1 件と数える（data/framed/ の K1 の x = −2 は framing_batch.log と重なる）。
 使い方：python scripts/paper_framing_table.py
 """

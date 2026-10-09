@@ -1,6 +1,6 @@
-"""論文の表の素材：data/bps/ の保存値（framing 0）から、結び目・ρ ごとの G 展開の前後の項数と負の項の数を集める。
+"""論文の表の素材：data/bps/ の保存値（framing 0）から、結び目・ρ ごとの genus 展開の前後の項数と負の項の数を集める。
 
-計算はしない（保存済みの \\hat f と \\hat N を読むだけ）。G 展開の前は太字の変数（a 次数のずらしは nontorus 規約）、
+計算はしない（保存済みの \\hat f と \\hat N を読むだけ）。genus 展開の前は太字の変数（a 次数のずらしは nontorus 規約）、
 全体の符号は保存時に適用済みのもの（overall_sign_applied）。
 出力：data/paper_summary.json、docs/paper/generated/summary_table{,_main,_nonalg}.tex（全体、本文用、付録用）。
 使い方：PYTHONPATH=src python scripts/paper_summary.py
@@ -79,7 +79,7 @@ def write_table(summary, suffix, kinds):
                 cells.append(f"{s['before_neg']}/{s['before_terms']}; {s['after_neg']}/{s['after_terms']}")
         rows.append(f"{label} & {kind} & " + " & ".join(cells) + " \\\\")
     head = " & ".join(f"${RHO_TEX[r]}$" for r in RHOS)
-    tex = ("% scripts/paper_summary.py が生成。\\checkmark(n) は G 展開の前後とも負の項 0（n は前の項数）。"
+    tex = ("% scripts/paper_summary.py が生成。\\checkmark(n) は genus 展開の前後とも負の項 0（n は前の項数）。"
            "それ以外は 前の負/前の項数; 後の負/後の項数（前後それぞれで全体の符号は良い方）。framing 0。\n"
            "\\begin{tabular}{ll" + "c" * len(RHOS) + "}\n\\hline\n結び目 & 分類 & " + head + " \\\\\n\\hline\n"
            + "\n".join(rows) + "\n\\hline\n\\end{tabular}\n")
