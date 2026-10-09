@@ -1,0 +1,643 @@
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -10 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -10 n=1：2 秒、最大 RSS 95 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -9 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -9 n=1：1 秒、最大 RSS 100 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -8 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -8 n=1：1 秒、最大 RSS 100 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -7 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -7 n=1：1 秒、最大 RSS 100 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -6 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -6 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -5 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -5 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -4 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -4 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -3 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -3 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -2 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -2 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing -1 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing -1 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +0 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +0 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +1 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +1 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +2 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +2 n=1：1 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +3 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +3 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +4 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +4 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +5 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +5 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +6 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +6 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +7 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +7 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +8 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +8 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +9 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +9 n=1：2 秒、最大 RSS 101 MB
+      grid 11 x 11 = 121 points
+      22 terms, 1 prime, 0s
+T2_11 framing +10 ρ=[1]：前 0/22 負、後 0/57 負
+--- T2_11 framing +10 n=1：2 秒、最大 RSS 101 MB
+       34.15 real        32.03 user         0.30 sys
+time: sysctl kern.clockrate: Operation not permitted
+      grid 41 x 41 = 1681 points
+      1271 terms, 1 prime, 0s
+T2_11 framing -10 ρ=[2]：前 0/660 負、後 0/868 負
+T2_11 framing -10 ρ=[1, 1]：前 0/611 負、後 0/807 負
+--- T2_11 framing -10 n=2：2 秒、最大 RSS 103 MB
+      grid 41 x 41 = 1681 points
+      1194 terms, 1 prime, 0s
+T2_11 framing -9 ρ=[2]：前 0/611 負、後 0/807 負
+T2_11 framing -9 ρ=[1, 1]：前 0/583 負、後 0/766 負
+--- T2_11 framing -9 n=2：2 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1146 terms, 1 prime, 0s
+T2_11 framing -8 ρ=[2]：前 0/583 負、後 0/766 負
+T2_11 framing -8 ρ=[1, 1]：前 0/563 負、後 0/745 負
+--- T2_11 framing -8 n=2：2 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1118 terms, 1 prime, 0s
+T2_11 framing -7 ρ=[2]：前 0/563 負、後 0/745 負
+T2_11 framing -7 ρ=[1, 1]：前 0/555 負、後 0/734 負
+--- T2_11 framing -7 n=2：2 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1110 terms, 1 prime, 0s
+T2_11 framing -6 ρ=[2]：前 0/555 負、後 0/734 負
+T2_11 framing -6 ρ=[1, 1]：前 0/555 負、後 0/733 負
+--- T2_11 framing -6 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1122 terms, 1 prime, 0s
+T2_11 framing -5 ρ=[2]：前 0/555 負、後 0/733 負
+T2_11 framing -5 ρ=[1, 1]：前 0/567 負、後 0/742 負
+--- T2_11 framing -5 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1154 terms, 1 prime, 0s
+T2_11 framing -4 ρ=[2]：前 0/567 負、後 0/742 負
+T2_11 framing -4 ρ=[1, 1]：前 0/587 負、後 0/769 負
+--- T2_11 framing -4 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1211 terms, 1 prime, 0s
+T2_11 framing -3 ρ=[2]：前 0/587 負、後 0/769 負
+T2_11 framing -3 ρ=[1, 1]：前 0/624 負、後 0/805 負
+--- T2_11 framing -3 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1294 terms, 1 prime, 0s
+T2_11 framing -2 ρ=[2]：前 0/624 負、後 0/805 負
+T2_11 framing -2 ρ=[1, 1]：前 0/670 負、後 0/859 負
+--- T2_11 framing -2 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1403 terms, 1 prime, 0s
+T2_11 framing -1 ρ=[2]：前 0/670 負、後 0/859 負
+T2_11 framing -1 ρ=[1, 1]：前 0/733 負、後 0/931 負
+--- T2_11 framing -1 n=2：1 秒、最大 RSS 108 MB
+      grid 41 x 41 = 1681 points
+      1546 terms, 1 prime, 0s
+T2_11 framing +0 ρ=[2]：前 0/733 負、後 0/931 負
+T2_11 framing +0 ρ=[1, 1]：前 0/813 負、後 0/1030 負
+--- T2_11 framing +0 n=2：1 秒、最大 RSS 108 MB
+      grid 43 x 43 = 1849 points
+      1729 terms, 1 prime, 0s
+T2_11 framing +1 ρ=[2]：前 0/813 負、後 0/1030 負
+T2_11 framing +1 ρ=[1, 1]：前 0/916 負、後 0/1134 負
+--- T2_11 framing +1 n=2：1 秒、最大 RSS 113 MB
+      grid 45 x 45 = 2025 points
+      1942 terms, 1 prime, 0s
+T2_11 framing +2 ρ=[2]：前 0/916 負、後 0/1134 負
+T2_11 framing +2 ρ=[1, 1]：前 0/1026 負、後 0/1243 負
+--- T2_11 framing +2 n=2：1 秒、最大 RSS 113 MB
+      grid 47 x 47 = 2209 points
+      2165 terms, 1 prime, 0s
+T2_11 framing +3 ρ=[2]：前 0/1026 負、後 0/1243 負
+T2_11 framing +3 ρ=[1, 1]：前 0/1139 負、後 0/1357 負
+--- T2_11 framing +3 n=2：1 秒、最大 RSS 121 MB
+      grid 49 x 49 = 2401 points
+      2398 terms, 1 prime, 0s
+T2_11 framing +4 ρ=[2]：前 0/1139 負、後 0/1357 負
+T2_11 framing +4 ρ=[1, 1]：前 0/1259 負、後 0/1476 負
+--- T2_11 framing +4 n=2：1 秒、最大 RSS 122 MB
+      grid 51 x 51 = 2601 points
+      2641 terms, 1 prime, 0s
+T2_11 framing +5 ρ=[2]：前 0/1259 負、後 0/1476 負
+T2_11 framing +5 ρ=[1, 1]：前 0/1382 負、後 0/1600 負
+--- T2_11 framing +5 n=2：1 秒、最大 RSS 129 MB
+      grid 53 x 53 = 2809 points
+      2894 terms, 1 prime, 0s
+T2_11 framing +6 ρ=[2]：前 0/1382 負、後 0/1600 負
+T2_11 framing +6 ρ=[1, 1]：前 0/1512 負、後 0/1729 負
+--- T2_11 framing +6 n=2：1 秒、最大 RSS 129 MB
+      grid 55 x 55 = 3025 points
+      3157 terms, 1 prime, 0s
+T2_11 framing +7 ρ=[2]：前 0/1512 負、後 0/1729 負
+T2_11 framing +7 ρ=[1, 1]：前 0/1645 負、後 0/1863 負
+--- T2_11 framing +7 n=2：2 秒、最大 RSS 130 MB
+      grid 57 x 57 = 3249 points
+      3430 terms, 1 prime, 0s
+T2_11 framing +8 ρ=[2]：前 0/1645 負、後 0/1863 負
+T2_11 framing +8 ρ=[1, 1]：前 0/1785 負、後 0/2002 負
+--- T2_11 framing +8 n=2：2 秒、最大 RSS 140 MB
+      grid 59 x 59 = 3481 points
+      3713 terms, 1 prime, 1s
+T2_11 framing +9 ρ=[2]：前 0/1785 負、後 0/2002 負
+T2_11 framing +9 ρ=[1, 1]：前 0/1928 負、後 0/2146 負
+--- T2_11 framing +9 n=2：2 秒、最大 RSS 142 MB
+      grid 61 x 61 = 3721 points
+      4006 terms, 1 prime, 1s
+T2_11 framing +10 ρ=[2]：前 0/1928 負、後 0/2146 負
+T2_11 framing +10 ρ=[1, 1]：前 0/2078 負、後 0/2295 負
+--- T2_11 framing +10 n=2：2 秒、最大 RSS 151 MB
+       31.67 real        30.34 user         0.32 sys
+time: sysctl kern.clockrate: Operation not permitted
+      grid 93 x 93 = 8649 points
+      14392 terms, 1 prime, 6s
+T2_11 framing -10 ρ=[3]：前 0/4982 負、後 0/5558 負
+T2_11 framing -10 ρ=[2, 1]：前 0/4938 負、後 0/5436 負
+T2_11 framing -10 ρ=[1, 1, 1]：前 0/4472 負、後 0/4966 負
+--- T2_11 framing -10 n=3：8 秒、最大 RSS 221 MB
+      grid 93 x 93 = 8649 points
+      13162 terms, 1 prime, 6s
+T2_11 framing -9 ρ=[3]：前 0/4472 負、後 0/4966 負
+T2_11 framing -9 ρ=[2, 1]：前 0/4537 負、後 0/4940 負
+T2_11 framing -9 ρ=[1, 1, 1]：前 0/4153 負、後 0/4553 負
+--- T2_11 framing -9 n=3：8 秒、最大 RSS 224 MB
+      grid 93 x 93 = 8649 points
+      12412 terms, 1 prime, 6s
+T2_11 framing -8 ρ=[3]：前 0/4153 負、後 0/4553 負
+T2_11 framing -8 ρ=[2, 1]：前 0/4299 負、後 0/4633 負
+T2_11 framing -8 ρ=[1, 1, 1]：前 0/3960 負、後 0/4316 負
+--- T2_11 framing -8 n=3：7 秒、最大 RSS 224 MB
+      grid 93 x 93 = 8649 points
+      11988 terms, 1 prime, 6s
+T2_11 framing -7 ρ=[3]：前 0/3960 負、後 0/4316 負
+T2_11 framing -7 ρ=[2, 1]：前 0/4159 負、後 0/4452 負
+T2_11 framing -7 ρ=[1, 1, 1]：前 0/3869 負、後 0/4191 負
+--- T2_11 framing -7 n=3：7 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      11862 terms, 1 prime, 6s
+T2_11 framing -6 ρ=[3]：前 0/3869 負、後 0/4191 負
+T2_11 framing -6 ρ=[2, 1]：前 0/4117 負、後 0/4383 負
+T2_11 framing -6 ρ=[1, 1, 1]：前 0/3876 負、後 0/4178 負
+--- T2_11 framing -6 n=3：7 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      12032 terms, 1 prime, 5s
+T2_11 framing -5 ρ=[3]：前 0/3876 負、後 0/4178 負
+T2_11 framing -5 ρ=[2, 1]：前 0/4173 負、後 0/4426 負
+T2_11 framing -5 ρ=[1, 1, 1]：前 0/3983 負、後 0/4277 負
+--- T2_11 framing -5 n=3：7 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      12515 terms, 1 prime, 5s
+T2_11 framing -4 ρ=[3]：前 0/3983 負、後 0/4277 負
+T2_11 framing -4 ρ=[2, 1]：前 0/4327 負、後 0/4592 負
+T2_11 framing -4 ρ=[1, 1, 1]：前 0/4205 負、後 0/4525 負
+--- T2_11 framing -4 n=3：7 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      13371 terms, 1 prime, 4s
+T2_11 framing -3 ρ=[3]：前 0/4205 負、後 0/4525 負
+T2_11 framing -3 ρ=[2, 1]：前 0/4610 負、後 0/4907 負
+T2_11 framing -3 ρ=[1, 1, 1]：前 0/4556 負、後 0/4901 負
+--- T2_11 framing -3 n=3：5 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      14608 terms, 1 prime, 6s
+T2_11 framing -2 ρ=[3]：前 0/4556 負、後 0/4901 負
+T2_11 framing -2 ρ=[2, 1]：前 0/5019 負、後 0/5348 負
+T2_11 framing -2 ρ=[1, 1, 1]：前 0/5033 負、後 0/5420 負
+--- T2_11 framing -2 n=3：8 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      16254 terms, 1 prime, 6s
+T2_11 framing -1 ρ=[3]：前 0/5033 負、後 0/5420 負
+T2_11 framing -1 ρ=[2, 1]：前 0/5554 負、後 0/5930 負
+T2_11 framing -1 ρ=[1, 1, 1]：前 0/5667 負、後 0/6116 負
+--- T2_11 framing -1 n=3：8 秒、最大 RSS 225 MB
+      grid 93 x 93 = 8649 points
+      18446 terms, 1 prime, 5s
+T2_11 framing +0 ρ=[3]：前 0/5667 負、後 0/6116 負
+T2_11 framing +0 ρ=[2, 1]：前 0/6260 負、後 0/6715 負
+T2_11 framing +0 ρ=[1, 1, 1]：前 0/6519 負、後 0/7025 負
+--- T2_11 framing +0 n=3：6 秒、最大 RSS 226 MB
+      grid 99 x 99 = 9801 points
+      21212 terms, 1 prime, 6s
+T2_11 framing +1 ρ=[3]：前 0/6519 負、後 0/7025 負
+T2_11 framing +1 ρ=[2, 1]：前 0/7184 負、後 0/7666 負
+T2_11 framing +1 ρ=[1, 1, 1]：前 0/7509 負、後 0/7997 負
+--- T2_11 framing +1 n=3：8 秒、最大 RSS 268 MB
+      grid 105 x 105 = 11025 points
+      24287 terms, 1 prime, 6s
+T2_11 framing +2 ρ=[3]：前 0/7509 負、後 0/7997 負
+T2_11 framing +2 ρ=[2, 1]：前 0/8216 負、後 0/8680 負
+T2_11 framing +2 ρ=[1, 1, 1]：前 0/8562 負、後 0/9032 負
+--- T2_11 framing +2 n=3：8 秒、最大 RSS 321 MB
+      grid 111 x 111 = 12321 points
+      27551 terms, 1 prime, 6s
+T2_11 framing +3 ρ=[3]：前 0/8562 負、後 0/9032 負
+T2_11 framing +3 ρ=[2, 1]：前 0/9311 負、後 0/9757 負
+T2_11 framing +3 ρ=[1, 1, 1]：前 0/9678 負、後 0/10130 負
+--- T2_11 framing +3 n=3：7 秒、最大 RSS 340 MB
+      grid 117 x 117 = 13689 points
+      31004 terms, 1 prime, 7s
+T2_11 framing +4 ρ=[3]：前 0/9678 負、後 0/10130 負
+T2_11 framing +4 ρ=[2, 1]：前 0/10469 負、後 0/10897 負
+T2_11 framing +4 ρ=[1, 1, 1]：前 0/10857 負、後 0/11291 負
+--- T2_11 framing +4 n=3：9 秒、最大 RSS 382 MB
+      grid 123 x 123 = 15129 points
+      34646 terms, 1 prime, 7s
+T2_11 framing +5 ρ=[3]：前 0/10857 負、後 0/11291 負
+T2_11 framing +5 ρ=[2, 1]：前 0/11690 負、後 0/12100 負
+T2_11 framing +5 ρ=[1, 1, 1]：前 0/12099 負、後 0/12515 負
+--- T2_11 framing +5 n=3：8 秒、最大 RSS 400 MB
+      grid 129 x 129 = 16641 points
+      38477 terms, 1 prime, 9s
+T2_11 framing +6 ρ=[3]：前 0/12099 負、後 0/12515 負
+T2_11 framing +6 ρ=[2, 1]：前 0/12974 負、後 0/13366 負
+T2_11 framing +6 ρ=[1, 1, 1]：前 0/13404 負、後 0/13802 負
+--- T2_11 framing +6 n=3：11 秒、最大 RSS 440 MB
+      grid 135 x 135 = 18225 points
+      42497 terms, 1 prime, 9s
+T2_11 framing +7 ρ=[3]：前 0/13404 負、後 0/13802 負
+T2_11 framing +7 ρ=[2, 1]：前 0/14321 負、後 0/14695 負
+T2_11 framing +7 ρ=[1, 1, 1]：前 0/14772 負、後 0/15152 負
+--- T2_11 framing +7 n=3：11 秒、最大 RSS 495 MB
+      grid 141 x 141 = 19881 points
+      46706 terms, 1 prime, 10s
+T2_11 framing +8 ρ=[3]：前 0/14772 負、後 0/15152 負
+T2_11 framing +8 ρ=[2, 1]：前 0/15731 負、後 0/16087 負
+T2_11 framing +8 ρ=[1, 1, 1]：前 0/16203 負、後 0/16565 負
+--- T2_11 framing +8 n=3：11 秒、最大 RSS 561 MB
+      grid 147 x 147 = 21609 points
+      51104 terms, 1 prime, 10s
+T2_11 framing +9 ρ=[3]：前 0/16203 負、後 0/16565 負
+T2_11 framing +9 ρ=[2, 1]：前 0/17204 負、後 0/17542 負
+T2_11 framing +9 ρ=[1, 1, 1]：前 0/17697 負、後 0/18041 負
+--- T2_11 framing +9 n=3：12 秒、最大 RSS 578 MB
+      grid 153 x 153 = 23409 points
+      55691 terms, 1 prime, 11s
+T2_11 framing +10 ρ=[3]：前 0/17697 負、後 0/18041 負
+T2_11 framing +10 ρ=[2, 1]：前 0/18740 負、後 0/19060 負
+T2_11 framing +10 ρ=[1, 1, 1]：前 0/19254 負、後 0/19580 負
+--- T2_11 framing +10 n=3：12 秒、最大 RSS 578 MB
+      175.85 real       170.51 user         1.07 sys
+time: sysctl kern.clockrate: Operation not permitted
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -10 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -10 n=1：1 秒、最大 RSS 95 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -9 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -9 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -8 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -8 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -7 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -7 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -6 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -6 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -5 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -5 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -4 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -4 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -3 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -3 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -2 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -2 n=1：1 秒、最大 RSS 100 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing -1 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing -1 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +0 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +0 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +1 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +1 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +2 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +2 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +3 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +3 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +4 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +4 n=1：1 秒、最大 RSS 101 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +5 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +5 n=1：1 秒、最大 RSS 102 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +6 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +6 n=1：1 秒、最大 RSS 102 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +7 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +7 n=1：1 秒、最大 RSS 102 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +8 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +8 n=1：1 秒、最大 RSS 102 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +9 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +9 n=1：1 秒、最大 RSS 102 MB
+      grid 9 x 9 = 81 points
+      30 terms, 1 prime, 0s
+T3_5 framing +10 ρ=[1]：前 0/30 負、後 0/43 負
+--- T3_5 framing +10 n=1：1 秒、最大 RSS 102 MB
+       23.65 real        23.16 user         0.18 sys
+time: sysctl kern.clockrate: Operation not permitted
+      grid 35 x 35 = 1225 points
+      1221 terms, 1 prime, 0s
+T3_5 framing -10 ρ=[2]：前 0/652 負、後 0/735 負
+T3_5 framing -10 ρ=[1, 1]：前 0/569 負、後 0/644 負
+--- T3_5 framing -10 n=2：2 秒、最大 RSS 100 MB
+      grid 35 x 35 = 1225 points
+      1077 terms, 1 prime, 0s
+T3_5 framing -9 ρ=[2]：前 0/569 負、後 0/644 負
+T3_5 framing -9 ρ=[1, 1]：前 0/508 負、後 0/582 負
+--- T3_5 framing -9 n=2：1 秒、最大 RSS 104 MB
+      grid 35 x 35 = 1225 points
+      989 terms, 1 prime, 0s
+T3_5 framing -8 ρ=[2]：前 0/508 負、後 0/582 負
+T3_5 framing -8 ρ=[1, 1]：前 0/481 負、後 0/541 負
+--- T3_5 framing -8 n=2：1 秒、最大 RSS 105 MB
+      grid 35 x 35 = 1225 points
+      957 terms, 1 prime, 0s
+T3_5 framing -7 ρ=[2]：前 0/481 負、後 0/541 負
+T3_5 framing -7 ρ=[1, 1]：前 0/476 負、後 0/521 負
+--- T3_5 framing -7 n=2：1 秒、最大 RSS 105 MB
+      grid 35 x 35 = 1225 points
+      963 terms, 1 prime, 0s
+T3_5 framing -6 ρ=[2]：前 0/476 負、後 0/521 負
+T3_5 framing -6 ρ=[1, 1]：前 0/487 負、後 0/526 負
+--- T3_5 framing -6 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1003 terms, 1 prime, 0s
+T3_5 framing -5 ρ=[2]：前 0/487 負、後 0/526 負
+T3_5 framing -5 ρ=[1, 1]：前 0/516 負、後 0/543 負
+--- T3_5 framing -5 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1071 terms, 1 prime, 0s
+T3_5 framing -4 ρ=[2]：前 0/516 負、後 0/543 負
+T3_5 framing -4 ρ=[1, 1]：前 0/555 負、後 0/578 負
+--- T3_5 framing -4 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1168 terms, 1 prime, 0s
+T3_5 framing -3 ρ=[2]：前 0/555 負、後 0/578 負
+T3_5 framing -3 ρ=[1, 1]：前 0/613 負、後 0/624 負
+--- T3_5 framing -3 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1293 terms, 1 prime, 0s
+T3_5 framing -2 ρ=[2]：前 0/613 負、後 0/624 負
+T3_5 framing -2 ρ=[1, 1]：前 0/680 負、後 0/688 負
+--- T3_5 framing -2 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1446 terms, 1 prime, 0s
+T3_5 framing -1 ρ=[2]：前 0/680 負、後 0/688 負
+T3_5 framing -1 ρ=[1, 1]：前 0/766 負、後 0/770 負
+--- T3_5 framing -1 n=2：1 秒、最大 RSS 107 MB
+      grid 35 x 35 = 1225 points
+      1633 terms, 1 prime, 0s
+T3_5 framing +0 ρ=[2]：前 0/766 負、後 0/770 負
+T3_5 framing +0 ρ=[1, 1]：前 0/867 負、後 0/877 負
+--- T3_5 framing +0 n=2：1 秒、最大 RSS 107 MB
+      grid 37 x 37 = 1369 points
+      1858 terms, 1 prime, 0s
+T3_5 framing +1 ρ=[2]：前 0/867 負、後 0/877 負
+T3_5 framing +1 ρ=[1, 1]：前 0/991 負、後 0/991 負
+--- T3_5 framing +1 n=2：1 秒、最大 RSS 111 MB
+      grid 39 x 39 = 1521 points
+      2113 terms, 1 prime, 0s
+T3_5 framing +2 ρ=[2]：前 0/991 負、後 0/991 負
+T3_5 framing +2 ρ=[1, 1]：前 0/1122 負、後 0/1112 負
+--- T3_5 framing +2 n=2：1 秒、最大 RSS 111 MB
+      grid 41 x 41 = 1681 points
+      2382 terms, 1 prime, 0s
+T3_5 framing +3 ρ=[2]：前 0/1122 負、後 0/1112 負
+T3_5 framing +3 ρ=[1, 1]：前 0/1260 負、後 0/1240 負
+--- T3_5 framing +3 n=2：1 秒、最大 RSS 116 MB
+      grid 43 x 43 = 1849 points
+      2665 terms, 1 prime, 0s
+T3_5 framing +4 ρ=[2]：前 0/1260 負、後 0/1240 負
+T3_5 framing +4 ρ=[1, 1]：前 0/1405 負、後 0/1375 負
+--- T3_5 framing +4 n=2：1 秒、最大 RSS 121 MB
+      grid 45 x 45 = 2025 points
+      2962 terms, 1 prime, 0s
+T3_5 framing +5 ρ=[2]：前 0/1405 負、後 0/1375 負
+T3_5 framing +5 ρ=[1, 1]：前 0/1557 負、後 0/1517 負
+--- T3_5 framing +5 n=2：1 秒、最大 RSS 121 MB
+      grid 47 x 47 = 2209 points
+      3273 terms, 1 prime, 0s
+T3_5 framing +6 ρ=[2]：前 0/1557 負、後 0/1517 負
+T3_5 framing +6 ρ=[1, 1]：前 0/1716 負、後 0/1666 負
+--- T3_5 framing +6 n=2：1 秒、最大 RSS 129 MB
+      grid 49 x 49 = 2401 points
+      3598 terms, 1 prime, 0s
+T3_5 framing +7 ρ=[2]：前 0/1716 負、後 0/1666 負
+T3_5 framing +7 ρ=[1, 1]：前 0/1882 負、後 0/1822 負
+--- T3_5 framing +7 n=2：1 秒、最大 RSS 129 MB
+      grid 51 x 51 = 2601 points
+      3937 terms, 1 prime, 0s
+T3_5 framing +8 ρ=[2]：前 0/1882 負、後 0/1822 負
+T3_5 framing +8 ρ=[1, 1]：前 0/2055 負、後 0/1985 負
+--- T3_5 framing +8 n=2：1 秒、最大 RSS 138 MB
+      grid 53 x 53 = 2809 points
+      4290 terms, 1 prime, 0s
+T3_5 framing +9 ρ=[2]：前 0/2055 負、後 0/1985 負
+T3_5 framing +9 ρ=[1, 1]：前 0/2235 負、後 0/2155 負
+--- T3_5 framing +9 n=2：1 秒、最大 RSS 140 MB
+      grid 55 x 55 = 3025 points
+      4657 terms, 1 prime, 0s
+T3_5 framing +10 ρ=[2]：前 0/2235 負、後 0/2155 負
+T3_5 framing +10 ρ=[1, 1]：前 0/2422 負、後 0/2332 負
+--- T3_5 framing +10 n=2：1 秒、最大 RSS 141 MB
+       25.99 real        25.63 user         0.19 sys
+time: sysctl kern.clockrate: Operation not permitted
+      grid 81 x 81 = 6561 points
+      13503 terms, 1 prime, 4s
+T3_5 framing -10 ρ=[3]：前 0/4865 負、後 0/5076 負
+T3_5 framing -10 ρ=[2, 1]：前 0/4596 負、後 0/4786 負
+T3_5 framing -10 ρ=[1, 1, 1]：前 0/4042 負、後 0/4236 負
+--- T3_5 framing -10 n=3：6 秒、最大 RSS 243 MB
+      grid 81 x 81 = 6561 points
+      11492 terms, 1 prime, 4s
+T3_5 framing -9 ρ=[3]：前 0/4042 負、後 0/4236 負
+T3_5 framing -9 ρ=[2, 1]：前 0/3955 負、後 0/4093 負
+T3_5 framing -9 ρ=[1, 1, 1]：前 0/3495 負、後 0/3638 負
+--- T3_5 framing -9 n=3：5 秒、最大 RSS 246 MB
+      grid 81 x 81 = 6561 points
+      10205 terms, 1 prime, 4s
+T3_5 framing -8 ρ=[3]：前 0/3495 負、後 0/3638 負
+T3_5 framing -8 ρ=[2, 1]：前 0/3540 負、後 0/3592 負
+T3_5 framing -8 ρ=[1, 1, 1]：前 0/3170 負、後 0/3231 負
+--- T3_5 framing -8 n=3：5 秒、最大 RSS 246 MB
+      grid 81 x 81 = 6561 points
+      9591 terms, 1 prime, 4s
+T3_5 framing -7 ρ=[3]：前 0/3170 負、後 0/3231 負
+T3_5 framing -7 ρ=[2, 1]：前 0/3344 負、後 0/3300 負
+T3_5 framing -7 ρ=[1, 1, 1]：前 0/3077 負、後 0/3032 負
+--- T3_5 framing -7 n=3：5 秒、最大 RSS 246 MB
+      grid 81 x 81 = 6561 points
+      9607 terms, 1 prime, 4s
+T3_5 framing -6 ρ=[3]：前 0/3077 負、後 0/3032 負
+T3_5 framing -6 ρ=[2, 1]：前 0/3359 負、後 0/3223 負
+T3_5 framing -6 ρ=[1, 1, 1]：前 0/3171 負、後 0/3050 負
+--- T3_5 framing -6 n=3：5 秒、最大 RSS 246 MB
+      grid 81 x 81 = 6561 points
+      10105 terms, 1 prime, 3s
+T3_5 framing -5 ρ=[3]：前 0/3171 負、後 0/3050 負
+T3_5 framing -5 ρ=[2, 1]：前 0/3530 負、後 0/3314 負
+T3_5 framing -5 ρ=[1, 1, 1]：前 0/3404 負、後 0/3215 負
+--- T3_5 framing -5 n=3：4 秒、最大 RSS 251 MB
+      grid 81 x 81 = 6561 points
+      11022 terms, 1 prime, 3s
+T3_5 framing -4 ρ=[3]：前 0/3404 負、後 0/3215 負
+T3_5 framing -4 ρ=[2, 1]：前 0/3836 負、後 0/3560 負
+T3_5 framing -4 ρ=[1, 1, 1]：前 0/3782 負、後 0/3533 負
+--- T3_5 framing -4 n=3：5 秒、最大 RSS 252 MB
+      grid 81 x 81 = 6561 points
+      12364 terms, 1 prime, 3s
+T3_5 framing -3 ρ=[3]：前 0/3782 負、後 0/3533 負
+T3_5 framing -3 ρ=[2, 1]：前 0/4278 負、後 0/3959 負
+T3_5 framing -3 ρ=[1, 1, 1]：前 0/4304 負、後 0/4015 負
+--- T3_5 framing -3 n=3：5 秒、最大 RSS 252 MB
+      grid 81 x 81 = 6561 points
+      14163 terms, 1 prime, 3s
+T3_5 framing -2 ρ=[3]：前 0/4304 負、後 0/4015 負
+T3_5 framing -2 ρ=[2, 1]：前 0/4875 負、後 0/4521 負
+T3_5 framing -2 ρ=[1, 1, 1]：前 0/4984 負、後 0/4658 負
+--- T3_5 framing -2 n=3：4 秒、最大 RSS 252 MB
+      grid 81 x 81 = 6561 points
+      16443 terms, 1 prime, 3s
+T3_5 framing -1 ρ=[3]：前 0/4984 負、後 0/4658 負
+T3_5 framing -1 ρ=[2, 1]：前 0/5628 負、後 0/5242 負
+T3_5 framing -1 ρ=[1, 1, 1]：前 0/5831 負、後 0/5486 負
+--- T3_5 framing -1 n=3：5 秒、最大 RSS 253 MB
+      grid 81 x 81 = 6561 points
+      19280 terms, 1 prime, 4s
+T3_5 framing +0 ρ=[3]：前 0/5831 負、後 0/5486 負
+T3_5 framing +0 ρ=[2, 1]：前 0/6559 負、後 0/6168 負
+T3_5 framing +0 ρ=[1, 1, 1]：前 0/6890 負、後 0/6524 負
+--- T3_5 framing +0 n=3：6 秒、最大 RSS 254 MB
+      grid 87 x 87 = 7569 points
+      22691 terms, 1 prime, 4s
+T3_5 framing +1 ρ=[3]：前 0/6890 負、後 0/6524 負
+T3_5 framing +1 ρ=[2, 1]：前 0/7702 負、後 0/7266 負
+T3_5 framing +1 ρ=[1, 1, 1]：前 0/8099 負、後 0/7652 負
+--- T3_5 framing +1 n=3：6 秒、最大 RSS 317 MB
+      grid 93 x 93 = 8649 points
+      26468 terms, 1 prime, 5s
+T3_5 framing +2 ρ=[3]：前 0/8099 負、後 0/7652 負
+T3_5 framing +2 ρ=[2, 1]：前 0/8971 負、後 0/8454 負
+T3_5 framing +2 ρ=[1, 1, 1]：前 0/9398 負、後 0/8870 負
+--- T3_5 framing +2 n=3：7 秒、最大 RSS 336 MB
+      grid 99 x 99 = 9801 points
+      30515 terms, 1 prime, 6s
+T3_5 framing +3 ρ=[3]：前 0/9398 負、後 0/8870 負
+T3_5 framing +3 ρ=[2, 1]：前 0/10330 負、後 0/9732 負
+T3_5 framing +3 ρ=[1, 1, 1]：前 0/10787 負、後 0/10178 負
+--- T3_5 framing +3 n=3：8 秒、最大 RSS 365 MB
+      grid 105 x 105 = 11025 points
+      34832 terms, 1 prime, 7s
+T3_5 framing +4 ρ=[3]：前 0/10787 負、後 0/10178 負
+T3_5 framing +4 ρ=[2, 1]：前 0/11779 負、後 0/11100 負
+T3_5 framing +4 ρ=[1, 1, 1]：前 0/12266 負、後 0/11576 負
+--- T3_5 framing +4 n=3：9 秒、最大 RSS 441 MB
+      grid 111 x 111 = 12321 points
+      39419 terms, 1 prime, 9s
+T3_5 framing +5 ρ=[3]：前 0/12266 負、後 0/11576 負
+T3_5 framing +5 ρ=[2, 1]：前 0/13318 負、後 0/12558 負
+T3_5 framing +5 ρ=[1, 1, 1]：前 0/13835 負、後 0/13064 負
+--- T3_5 framing +5 n=3：11 秒、最大 RSS 461 MB
+      grid 117 x 117 = 13689 points
+      44276 terms, 1 prime, 10s
+T3_5 framing +6 ρ=[3]：前 0/13835 負、後 0/13064 負
+T3_5 framing +6 ρ=[2, 1]：前 0/14947 負、後 0/14106 負
+T3_5 framing +6 ρ=[1, 1, 1]：前 0/15494 負、後 0/14642 負
+--- T3_5 framing +6 n=3：12 秒、最大 RSS 504 MB
+      grid 123 x 123 = 15129 points
+      49403 terms, 1 prime, 10s
+T3_5 framing +7 ρ=[3]：前 0/15494 負、後 0/14642 負
+T3_5 framing +7 ρ=[2, 1]：前 0/16666 負、後 0/15744 負
+T3_5 framing +7 ρ=[1, 1, 1]：前 0/17243 負、後 0/16310 負
+--- T3_5 framing +7 n=3：12 秒、最大 RSS 540 MB
+      grid 129 x 129 = 16641 points
+      54800 terms, 1 prime, 13s
+T3_5 framing +8 ρ=[3]：前 0/17243 負、後 0/16310 負
+T3_5 framing +8 ρ=[2, 1]：前 0/18475 負、後 0/17472 負
+T3_5 framing +8 ρ=[1, 1, 1]：前 0/19082 負、後 0/18068 負
+--- T3_5 framing +8 n=3：15 秒、最大 RSS 558 MB
+      grid 135 x 135 = 18225 points
+      60467 terms, 1 prime, 12s
+T3_5 framing +9 ρ=[3]：前 0/19082 負、後 0/18068 負
+T3_5 framing +9 ρ=[2, 1]：前 0/20374 負、後 0/19290 負
+T3_5 framing +9 ρ=[1, 1, 1]：前 0/21011 負、後 0/19916 負
+--- T3_5 framing +9 n=3：14 秒、最大 RSS 620 MB
+      grid 141 x 141 = 19881 points
+      66404 terms, 1 prime, 12s
+T3_5 framing +10 ρ=[3]：前 0/21011 負、後 0/19916 負
+T3_5 framing +10 ρ=[2, 1]：前 0/22363 負、後 0/21198 負
+T3_5 framing +10 ρ=[1, 1, 1]：前 0/23030 負、後 0/21854 負
+--- T3_5 framing +10 n=3：14 秒、最大 RSS 653 MB
+      161.11 real       156.61 user         0.82 sys
+time: sysctl kern.clockrate: Operation not permitted
+=== framing big batch done 2026-10-09 14:08:19
