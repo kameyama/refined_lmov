@@ -1,0 +1,67 @@
+# 論文の記号表（2026-10-09、執筆前の準備）
+
+論文で使う記号と規約を、conventions.md から論文用に抜き出したもの。根拠の節番号は conventions.md のもの。
+執筆中に記号を変えるときは、この表と conventions.md を同時に直す。
+
+## 1. 変数
+| 記号 | 意味 | 根拠 |
+|---|---|---|
+| (a, q, t) | KN の変数。q = e^{iε₁}, t = e^{iε₂}、a = t^N。Ω 背景 (z₁, z₂) ↦ (q z₁, t^{−1} z₂) | §1.1、KN :407-409 |
+| (A, Q, T) = (a, q, t)^{1/2} | 実装の半整数冪の変数。論文では使わず、必要な箇所だけ脚注で触れる | §1.1 |
+| (𝐚, 𝐪, 𝐭) | 太字の変数（DGR の変数）。a = −𝐚²𝐭、q^{1/2} = −𝐪𝐭、t^{1/2} = 𝐪（KN (cov)）。t = q は 𝐭 = −1 | §1.1 |
+| 標準の変数（CD14） | t = q_st²、q = (q_st t_st)²、a = a_st² t_st。(q_st, t_st, a_st) は太字の変数と同じ（符号の分枝を除く） | §1.2、claims §7 の 5 |
+| a_DAHA | a_DAHA = −a_KN | §1.2 |
+| 符号の分枝 | √q = −𝐪𝐭（KN (cov) に従う）。全体の符号は最低次の項を正にする向き | §8 |
+
+## 2. 対称関数と不変量
+| 記号 | 意味 | 根拠 |
+|---|---|---|
+| P_λ(x; q, t) | monic な Macdonald 多項式 | §2 |
+| g_λ(q,t) | (q/t)^{\|λ\|}/⟨P_λ, P_λ⟩_{q,t} | §2、KN |
+| rCS_λ(K; a, q, t) | reduced の refined CS 不変量（framing 0、正規化 (N1)(N2')）。U(N) と SU(N) の違いは無視 | §4, §5 |
+| T_λ | q^{n(λ')} t^{−n(λ)}。refined の framing の固有値（(N2') の T_λ） | §5 |
+| n(λ), κ_λ | n(λ) = Σ(i−1)λ_i、n(λ') − n(λ) = Σ content。MV の κ_R = 2Σ content | §17、MV :647 |
+| f^q_μ, f^{\bar t}_μ | KN の (refined-GT1)(GT2) の reformulated invariants。f^q は付録 B の尺度 | §8 |
+| \hat f_ρ | f^q = M(t)\hat f、f^{\bar t} = M(q^{−1})\hat f で決まる量 | §8 |
+| \hat{𝐍}_{ρ;i,j,k} | G 展開の前の係数：a 次数をずらした \hat f_ρ を太字にした Laurent 多項式の係数 | §8 |
+| \hat N_{ρ,g,β,J_r} | G 展開の後の refined LMOV（refined BPS）不変量。G = (𝐪𝐭 − 𝐪⁻¹𝐭⁻¹)(𝐪 − 𝐪⁻¹) の冪で展開 | §8 |
+| a 次数のずらし | nontorus 規約：\|ρ\| = 1 で a^{−1/2}、\|ρ\| = 3 で a^{+1/2} | §8 |
+| 正値性 | 全体の符号を一つ選ぶと、\hat{𝐍} と \hat N の全ての項が非負整数 | §8 |
+| σ | DGR の対称性 (e_𝐚, e_𝐪, e_𝐭) ↦ (e_𝐚, −e_𝐪, e_𝐭 − e_𝐪)。G 展開が閉じる条件 | REPORT_knot_table §2 |
+
+## 3. framing
+| 記号 | 意味 | 根拠 |
+|---|---|---|
+| framing[λ] | (−(q/t)^{1/2})^{\|λ\|} q^{n(λ')} t^{−n(λ)} = (−(q/t)^{1/2})^{\|λ\|} T_λ。Taki の f_λ(t,q) の逆数。太字では 𝐭^{\|λ\|+2n(λ')} 𝐪^{2(n(λ')−n(λ))} | §17 |
+| x | framing の整数。x = 0 が KN の場合（Seifert framing を基準にした (N2')） | §17 |
+| rCS^{(x)}_λ | framing[λ]^x rCS_λ。Adams の写しでは framing[λ](q^k, t^k)^x（符号は k によらない） | §17 |
+| \hat f^{(x)}_ρ, \hat{𝐍}^{(x)}, \hat N^{(x)} | rCS^{(x)} から同じ手順で作る量 | §17 |
+| F | (N2') の framing の整数。ケーブルでは p₂q₂（q₂ は companion の Seifert framing で測る） | §5, §13 |
+
+## 4. 結び目
+| 記号 | 結び目 | 根拠 |
+|---|---|---|
+| T(m, n) | トーラス結び目。DGR の向き（三葉結び目 T(2,3) は負の交差） | §1.2 |
+| C_{p,q}K | K の (p, q)-ケーブル。q は companion の Seifert framing で測る。DAHA の Newton 対は r = (p₁, p₂), s = (q₁, q₂ − p₁q₁p₂) | §5 |
+| K1, K3, K6a, K9 | T(2,3) の (2,13)、T(2,3) の (2,15)、T(2,5) の (2,21)、T(2,7) の (2,31)-ケーブル（代数的） | RESULTS.md §1 |
+| K8, K7, K10 | T(3,4) の (2,25)、T(2,3) の (3,19)、K1 の (2,53)-ケーブル（代数的） | RESULTS.md §1 |
+| K2, K4, K5a, K5b, K5c, K6b | 非代数的なケーブル（付録） | REPORT.md |
+| K_p, K_{s,t} | ツイスト結び目、pretzel（GNSSS の規約） | REPORT_phase4 §5 |
+| δ | 種数型の量。T(m,n) は (m−1)(n−1)/2、ケーブルは δ ↦ pδ + (p−1)(q−1)/2 | §13 |
+| b | ブレイドの本数 Π p_i | §13 |
+
+## 5. 正規化
+| 記号 | 意味 | 根拠 |
+|---|---|---|
+| (N1) | t = q で framing 0 の reduced 彩色 HOMFLY-PT（DGR の規約）に一致 | §5 |
+| (N2) | [1] の最低 𝐭 次数が 0（正値性に影響しない (q/t)^c の自由度を決めるだけ） | §5 |
+| (N2') | M_λ = M_□^{\|λ\|} T_λ^F | §5 |
+| M_□ | (−q/t)^{b−1}(a(q/t)^{1/2})^δ | §13 |
+| tilde 正規化 | CD14 の正規化。本研究の [1] の太字の P = 𝐚^{2δ}𝐪^{−2δ} × (tilde) | §13、claims §7 の 5 |
+| H_sat | refined 衛星公式（仮説） | §13.1 |
+
+## 6. 論文での表記の決めごと（執筆時に守る）
+- superpolynomial は、ホモロジーの Poincaré 多項式（DGR などの意味）にだけ使う。rCS や DAHA の値は superpolynomial と呼ばない（§8 の用語）。
+- 「refined LMOV 不変量」は \hat{𝐍} と \hat N だけを指す。f^q, f^{\bar t} の係数は付録の補足。
+- Zhu の "refined LMOV conjecture"（非 refined の概念）と区別することを、序論で一度書く。
+- 主張には、定理・命題・計算結果・予想・仮説の区別をつける（claims.md）。

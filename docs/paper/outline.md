@@ -170,6 +170,8 @@
 
 ## 3. 執筆の前に済ませること
 
+追加で済ませたもの（2026-10-09）：記号表（notation.md）、文献データベース（references.bib）、準備の文書の一覧（README.md）。
+
 1. **（済み、2026-10-09、docs/paper/claims.md）主張の格付け表**：各節の主張を Theorem / Proposition / Computational result / Conjecture に割り当て、根拠（導出・データ・テスト）と対応させる。
 2. **（済み、2026-10-09、novelty_report.md §10）新規性の確認（framing を軸にしたので最優先）**
    - refined の framed knot の LMOV や正整数性を扱った文献を探す。KN の被引用、Mariño–Vafa の被引用のうち refined のもの、Cheng–Sułkowski とその周辺。
@@ -182,5 +184,5 @@
    - 3 箱の x ≠ 0：K6a, K7, K8, K9 を x = ±1, ±2 で計算する。1 framing あたり数十分〜数時間の見込み（progress.md）。K10 は 1 framing あたり数時間かかり、メモリも 17 GB 程度要るので、除外する案を推す。
    - 実行する場合は、CLAUDE.md の手順（見積もり・再開・並列）に従って、先に progress.md に準備を書く。
 6. **（済み、2026-10-09、conventions.md §13.1 (IV)。一部は計算で確認）Mellit の Cor (daha) の正規化**：原典で確定させる（open_problems.md D1）。確定できなければ、本文に「未確認」と書く。
-7. **表と図**：docs/paper/generated の生成スクリプトを広げる。対象は §0 の表、3 箱の結び目ごとの表、framing の表。
-8. **データの公開**：data/bps を arXiv の補助ファイルにするか、外部のリポジトリに置くか。外部への送信になるので、許可が要る。
+7. **（一部済み、2026-10-09）表と図**：主結果の表の原型は generated/summary_table.tex（scripts/paper_summary.py、data/bps/ の保存値から生成、REPORT.md の値と一致を確認）。framing の表と §0 の検証の全体像の表は、執筆時に logs/framing_*.log から作る。docs/paper/generated の生成スクリプトを広げる。対象は §0 の表、3 箱の結び目ごとの表、framing の表。
+8. **（準備済み、公開は未実施）データの公開**：docs/paper/data_availability.md に一覧と選択肢。data/bps を arXiv の補助ファイルにするか、外部のリポジトリに置くか。外部への送信になるので、許可が要る。
