@@ -90,7 +90,7 @@ def main():
     tex = ("% scripts/paper_framing_table.py が logs/framing_batch.log と data/framed/ から生成。\n"
            f"% 判定件数の合計 {total}（重なりは 1 件と数える）、\\hat f = 0 は {zero} 件。\n"
            "\\begin{tabular}{lccccc}\n\\hline\n"
-           "結び目 & $|\\rho|=1$ & $|\\rho|=2$ & $|\\rho|=3$ & 件数 & 負（前/後） \\\\\n\\hline\n"
+           "結び目 & $|\\rho|=1$ & $|\\rho|=2$ & $|\\rho|=3$ & 件数 & 負（spin/genus） \\\\\n\\hline\n"
            + "\n".join(rows) + "\n\\hline\n\\end{tabular}\n")
     Path("docs/paper/generated/framing_table.tex").write_text(tex)
     print(tex)

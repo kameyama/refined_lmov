@@ -79,8 +79,8 @@ def write_table(summary, suffix, kinds):
                 cells.append(f"{s['before_neg']}/{s['before_terms']}; {s['after_neg']}/{s['after_terms']}")
         rows.append(f"{label} & {kind} & " + " & ".join(cells) + " \\\\")
     head = " & ".join(f"${RHO_TEX[r]}$" for r in RHOS)
-    tex = ("% scripts/paper_summary.py が生成。\\checkmark(n) は genus 展開の前後とも負の項 0（n は前の項数）。"
-           "それ以外は 前の負/前の項数; 後の負/後の項数（前後それぞれで全体の符号は良い方）。framing 0。\n"
+    tex = ("% scripts/paper_summary.py が生成。\\checkmark(n) は spin 表示と genus 表示の両方で負の項 0（n は spin 表示の項数）。"
+           "それ以外は spin 表示の負/項数; genus 表示の負/項数（前後それぞれで全体の符号は良い方）。framing 0。\n"
            "\\begin{tabular}{ll" + "c" * len(RHOS) + "}\n\\hline\n結び目 & 分類 & " + head + " \\\\\n\\hline\n"
            + "\n".join(rows) + "\n\\hline\n\\end{tabular}\n")
     Path(f"docs/paper/generated/summary_table{suffix}.tex").write_text(tex)

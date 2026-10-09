@@ -76,10 +76,24 @@ KN は，genus 展開をする前の素朴な変数変換 \eqref{eq:cov} の係�
 \wh f_\rho(K;a=-\ba^2\bt,\,q=\bq^2\bt^2,\,t=\bq^2)=\sum_{i,j,k}\wh{\mathbf N}_{\rho;i,j,k}(K)\,\ba^{2i}\bq^{2j}\bt^{k}
 \]
 も非負整数になることを観察した．
-本論文で refined LMOV 不変量と呼ぶのは，genus 展開の前の $\wh{\mathbf N}_{\rho;i,j,k}$ と，後の $\wh N_{\rho,g,\beta,J_r}$ の二つである．$f^q$, $f^{\bar t}$ の係数は付録で補足として扱う．
+本論文では，この二つを refined LMOV 不変量の二つの表示として区別し，
+$\wh{\mathbf N}_{\rho;i,j,k}$ を \emph{spin 表示}，$\wh N_{\rho,g,\beta,J_r}$ を \emph{genus 表示} と呼ぶ．
+名前の根拠は KN の BPS 状態の構成にある．
+\begin{itemize}
+\item genus 表示：KN は BPS 状態を $\bigoplus C_{\mu\sigma\rho}\,\mathcal{H}_{\sigma,g}\otimes A_{\rho,g,\beta,J_r,S_R}$ と分解し，$\wh N_{\rho,g,\beta,J_r,S_R}=\dim A_{\rho,g,\beta,J_r,S_R}$ と定める．
+因子 $G^g$ は M2-brane の曲線 $\Sigma_{g,h}$ の bulk の Jacobian $H^*((T^2)^g)$ の寄与であり，$g$ はその genus である．
+Labastida--Mariño--Vafa~\cite{Labastida01} の $\wh N_{R,g,Q}$ の refined 版にあたる．
+\item spin 表示：refined index $\mathrm{Tr}\,(-1)^Fq^{J_1-S_R}t^{S_R-J_2}$ の単項式は，\eqref{eq:cov} で $\pm\bq^{2(J_1-J_2)}\bt^{2(J_1-S_R)}$ になる．
+したがって $\wh{\mathbf N}_{\rho;i,j,k}$ は，$\beta=i$ と spin の固有値 $J_1-J_2=j$，$2(J_1-S_R)=k$ を固定した BPS 状態の符号付きの数である．
+$J_1-J_2$ は非 refined の index $q^{J_1-J_2}$ の冪で，Ooguri--Vafa~\cite{Ooguri99} が $N_{R,Q,s}$ の spin $s$ と呼んだものにあたる．
+\end{itemize}
+spin 表示は spin の既約表現ではなく固有値（重み）でラベルされた，符号付きの数である（OV の $N_{R,Q,s}$ も同じ）．その非負性は自明ではない．
+genus のラベルは，KN の形式的な BPS 状態の分解の中で意味をもつ．
+なお knots--quivers 対応の文献~\cite{Ekholm18} では，genus 展開をしない型の不変量を「LMOV invariants」と呼ぶ．本論文では KN にならい，LMOV 不変量は genus 表示を指す．
+$f^q$, $f^{\bar t}$ の係数は refined LMOV 不変量ではなく，付録で補足として扱う．
 
 \begin{definition}[正値性]\label{def:positivity}
-$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，$\wh{\mathbf N}_{\rho;i,j,k}$ と $\wh N_{\rho,g,\beta,J_r}$ の全てが非負整数になることをいう．
+$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，spin 表示 $\wh{\mathbf N}_{\rho;i,j,k}$ と genus 表示 $\wh N_{\rho,g,\beta,J_r}$ の全てが非負整数になることをいう．
 \end{definition}
 
 $\yng(1)$ では $\hf_{\yng(1)}=(a^{1/2}-a^{-1/2})\rCS_{\yng(1)}$ である．
