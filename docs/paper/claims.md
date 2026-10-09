@@ -73,7 +73,7 @@
 | R6 | 正値性は自動的でない：5_2 で t_c 次数の別の割り当て 12 通りは全て負の項をもつ | 計算結果 | 予想式 | REPORT_knot_table.md §4、logs/t3_nonunique.log | 新規。注意として載せる |
 | R7 | 2 箱は、全ての整数 x で G 展開の前後とも正。対象は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 | 定理（導出 ＋ 有限個の厳密な判定） | 入力：EHA/DAHA、4_1 は KN のデータ（ホモロジー由来） | logs/framing_newton.log、F16、test_trefoil_two_box_all_framings_newton | 新規 |
 | R8 | ツイスト結び目の (p, x)：p と x が同符号の向きでは全て正。逆符号は \|p\| ≤ 6、\|x\| ≤ 14 の直接計算で全て正（696 件） | 定理（同符号）＋ 計算結果（逆符号） | 予想式 | logs/framing_twist.log, framing_twist_direct.log | 新規。**逆符号は証明書なし**と明記 |
-| R9 | framing を振った直接の判定：自明な結び目・トーラス結び目 4 個・4_1 は 3 箱まで、ツイスト結び目 12 個は 2 箱まで、K1, K3 は 3 箱まで。\|x\| ≤ 2〜6 の 732 件で負の項 0（9 件は \hat f = 0） | 計算結果 | 入力は R7・R8 と同じ | logs/framing_batch.log、test_unknot_and_trefoil_three_boxes_positive。以前の計算（未発表）の出力 9 件と全係数一致（logs/framing_notebook_check.log、test_trefoil_framing_2_matches_notebook） | 新規 |
+| R9 | framing を振った直接の判定：計 1821 件（(x, ρ) の組）で G 展開の前後とも負の項 0（9 件は \hat f = 0）。3 箱まで：自明な結び目と T(2,3) は \|x\| ≤ 6、T(2,5) と 4_1 は ≤ 4、T(2,7) と T(3,4) は ≤ 3、T(3,5), T(2,11), T(3,7), T(4,5) と K6a, K7, K8, K9 は ≤ 10、K3 は ≤ 2、K1 は ≤ 2 と ±6。K10 は 2 箱まで ≤ 10、3 箱は ≤ 2。ツイスト結び目 12 個は 2 箱まで ≤ 4 | 計算結果 | 入力は R7・R8 と同じ | logs/framing_batch.log（732 件）、data/framed/ と data/framed_summary.md（1083 件 ＋ K1 の 6 件、main の PR #6）、docs/paper/generated/framing_table.tex（scripts/paper_framing_table.py）、test_framing_big_matches_framing_check。以前の計算（未発表）の出力 9 件と全係数一致 | 新規 |
 
 ## 5. 検証 III：3 箱（outline §7）
 
@@ -82,7 +82,7 @@
 | R10 | トーラス結び目 T(3,4), T(3,5), T(2,11), T(3,7), T(4,5) の \|ρ\| ≤ 3 は G 展開の前後とも正（x = 0）。T(2,3), T(2,5) は KN の表の再現 | 計算結果 | — | RESULTS.md §1、logs/u4_torus.log, u4_T3_4.log、data/lmov/ | KN の予想の確認（新しい表だが、主張の新規性は弱い） |
 | R11 | 代数的な iterated torus 結び目 7 個（K1, K3, K6a, K7, K8, K9, K10）の \|ρ\| ≤ 3 の全 6 ρ で、G 展開の前後とも正（x = 0）。K7 は 3 本ケーブル、K10 は 2 段の反復（3 箱は約 183 万項、係数の最大 1.1×10¹⁹） | 計算結果 | 入力は DAHA の定義どおり。正規化は I4（仮説） | RESULTS.md §1、data/cables/, data/lmov/, data/bps/、logs/u4_cables*.log, v0_K10_*.log。test_u4_three_box_positivity（results）、test_u4_bps_saved、test_positive_before_and_after_G | 新規（K7, K10 の \|λ\| = 3 の値自体も文献に無い、novelty_report §10） |
 | R12 | 入力の rCS_{[2,1]} 自体は負の係数をもつのに、BPS の段で正になる | 注意（計算での観察） | — | REPORT_phase3.md §3 | 観察 |
-| R13 | 3 箱を x ≠ 0 で判定：自明な結び目 \|x\| ≤ 6、T(2,3) \|x\| ≤ 6、T(2,5) と 4_1 \|x\| ≤ 4、T(2,7), T(3,4) \|x\| ≤ 3、K1, K3 \|x\| ≤ 2 で全て正。全ての x の証明書は未取得（6 根のニュートン形では見つからない） | 計算結果 | 4_1 の [2,1] は KN の候補 | logs/framing_batch.log、logs/framing_newton_first.log | 新規 |
+| R13 | 3 箱を x ≠ 0 で判定：R9 の範囲で全て正。最大は K10 の 3 箱 x = 2（G 展開の前に約 189 万項）。全ての x の証明書は未取得（6 根のニュートン形では見つからない） | 計算結果 | 4_1 の [2,1] は KN の候補 | R9 と同じ | 新規 |
 | R14 | **予想 B**：代数的な iterated torus 結び目は、全ての ρ について KN の正値性を満たす（予想 A の x = 0、結び目のクラスを明示した版） | 予想 | KN の U(1)_R の議論は直接は当てはまらない（補空間が Seifert でない）。動機は CD14 の正値性予想（代数的な結び目・長方形の DAHA の値は正）と Connection Conjecture (ii)（無彩色では KhR と一致）。[1] は CD14 (ii) ＋ 命題 1 から従う。[2,1] は CD14 の範囲外（§7 の 5） | R10, R11 | 新規の予想（KN の予想のクラスの拡張） |
 | R15 | 双曲結び目の [2,1]：構造的な条件では決まらない。解の差は「結び目によらない因子 × 自由な多項式」 | 命題（計算 ＋ 導出） | — | REPORT_phase3.md §2、REPORT_phase4.md §3 | 曖昧さ自体は既知（AMMM 1211.6375）。解の空間の構造の明示は新規 |
 | R16 | 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1（813 項の整数解）に存在し、5_2 は有理数解のみ（整数は未決）。σ = −1 は 3 結び目とも解なし | 計算結果 | 入力の [1]〜[3] は予想式（GNSSS） | REPORT_phase4.md §6、logs/v5_weak.log | 新規。**予想の検証ではなく「矛盾しない」ことの確認**と明記 |

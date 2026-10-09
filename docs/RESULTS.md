@@ -61,7 +61,7 @@
 - 基準：ユーザーの以前の計算（未発表）の出力 9 件と全係数一致。[1] は 𝐭^x 倍だけで自明【導出】。
 - データ・コード：logs/framing_batch.log、logs/framing_notebook_check.log、scripts/framing_check.py、tests/test_framing.py。
 - 拡張（2026-10-09）：T(3,5), T(2,11), T(3,7), T(4,5) は 3 箱まで x ∈ [−10, 10]、代数的なケーブル K6a, K7, K8, K9 は 3 箱まで x ∈ [−10, 10]、K10 は 2 箱まで x ∈ [−10, 10] と 3 箱の x ∈ {−2, −1, 1, 2}（x = 0 は framing 0 の既存の判定）。
-  計 1167 件（x × ρ）で G 展開の前後とも負の項 0【計算】。最大の \hat f は K10 の 3 箱 x = 2 の約 189 万項（G 展開の前）。表は data/framed_summary.md。
+  計 1083 件（x × ρ）で G 展開の前後とも負の項 0【計算】（2026-10-09 訂正：以前は 1167 件と書いていたが、data/framed/ の判定を数えると 1083 件）。ほかに K1 の 3 箱 x = ±6 の 6 件も負の項 0。前の 732 件と合わせて 1821 件。最大の \hat f は K10 の 3 箱 x = 2 の約 189 万項（G 展開の前）。表は data/framed_summary.md。
   データ・コード：data/framed/（(結び目, x, n) ごとの判定）、scripts/framing_big.py（\hat f だけを補間）、scripts/framing_big_batch.sh、scripts/framing_big_K10_n3.sh、logs/framing_big_*.log。
 - framing を記号として扱う（2026-10-09）：𝐭^{−nx}\hat f^{(x)} は x の指数和で、命題 1・命題 2・Laurent 性・G 展開の閉じ方は framing によらない【導出】。
   2 箱は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 で**全ての整数の framing** で G 展開の前後とも正【導出 ＋ 有限個の厳密な判定】（logs/framing_newton.log）。
