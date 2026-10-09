@@ -4,7 +4,7 @@
 トーラス結び目 $T(m,n)$ の $\rCS_\lambda$ は，Gorsky--Neguţ~\cite{Gorsky13b} による楕円 Hall 代数の生成元の作用で計算する．
 楕円 Hall 代数と DAHA の対応は Schiffmann--Vasserot~\cite{Schiffmann09} により，ケーブルの場合の対応は Morton--Samuelson~\cite{Morton14} による．
 % [I1]
-規約を固定するため，KN の補助ファイルにあるトーラス結び目の値 27 件（$T(2,3)$, $T(2,5)$, $T(2,7)$, $T(2,9)$ の $|\lambda|\le3$ と $T(3,4)$ の $[1],[2],[1,1]$）と，
+規約を固定するため，KN の補助ファイルにあるトーラス結び目の値 27 件（$T(2,3)$, $T(2,5)$, $T(2,7)$, $T(2,9)$ の $|\lambda|\le3$ と $T(3,4)$ の $\Y{1},\Y{2},\Y{1,1}$）と，
 KN の付録 C の BPS の表 13 個を，単項式の正規化（\S\ref{sec:normalization}）の下で全係数で再現した．
 これは既知の結果の再現であり，以下の計算の規約の確認として用いる．
 
@@ -18,7 +18,7 @@ Cherednik--Danilenko~\cite{Cherednik14,Cherednik15} の DAHA による定義で�
 companion の値 $\rCS_K(\mu)$ との一次結合をとる．
 素朴な Rosso--Jones の $t$ 変形が誤りであることは知られており~\cite{Danilenko14,Morozov18}，ここで使う形は定義から直接従うものである．
 \begin{compresult}\label{cr:daha}
-この計算法は，Cherednik--Danilenko の明示例 10 件（$K1$ の $[1]$ と $[2]$，$K2,K3,K4,K5a,K5b,K5c,K7,K8$ の $[1]$）と，単項式倍を除いて全係数で一致する．
+この計算法は，Cherednik--Danilenko の明示例 10 件（$K1$ の $\Y{1}$ と $\Y{2}$，$K2,K3,K4,K5a,K5b,K5c,K7,K8$ の $\Y{1}$）と，単項式倍を除いて全係数で一致する．
 また，$t=q$ の極限はブレイドから計算した彩色 HOMFLY-PT 多項式と一致する．
 \end{compresult}
 
@@ -47,7 +47,7 @@ DAHA と楕円 Hall 代数は値を単項式倍を除いてしか決めないが
 そこで次の規則で正規化する．
 \begin{itemize}
 \item[(N1)] $t=q$ の極限が，framing 0 の reduced 彩色 HOMFLY-PT 多項式（DGR の規約）に等しい．
-\item[(N2)] $[1]$ の太字の変数での最低の $\bt$ 次数が 0 である．
+\item[(N2)] $\Y{1}$ の太字の変数での最低の $\bt$ 次数が 0 である．
 \item[(N2$'$)] 彩色 $\lambda$ の単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ である．$F$ は一番外側のケーブル $C_{p,q}$ では $pq$，トーラス結び目 $T(m,n)$ では $mn$ である．
 \end{itemize}
 トーラス結び目では，(N1)(N2) の下で KN の値 27 件が全係数で再現される．
@@ -64,12 +64,12 @@ $t=q$ で決まらないのは，彩色ごとの $(q/t)^{c_\lambda}$ の自由�
 命題~\ref{prop:N2-framing} により，仮説~\ref{hyp:N2} は「彩色によって変わる部分は Seifert framing の $F$ 単位の framing である」と言い換えられる．
 根拠は次の三つである．
 (i) 後述の refined 衛星公式（仮説~\ref{hyp:sat}）から従う．
-(ii) 非代数的なケーブル $K5c$ では，$[2]$ を $(q/t)^u$ 倍する 1 パラメータ族のうち，Laurent 性と転置対称性を満たすのは (N2$'$) の $u$ だけである．
+(ii) 非代数的なケーブル $K5c$ では，$\Y{2}$ を $(q/t)^u$ 倍する 1 パラメータ族のうち，Laurent 性と転置対称性を満たすのは (N2$'$) の $u$ だけである．
 (iii) 9 個のケーブルの全ての彩色で，(N2$'$) の形が計算した値と一致する．
 
 % [I5]
 \begin{compresult}\label{cr:M}
-(N1)(N2) で決めた $[1]$ の単項式は，保存した全 22 結び目（トーラス結び目 9 個，ケーブル 13 個）で
+(N1)(N2) で決めた $\Y{1}$ の単項式は，保存した全 22 結び目（トーラス結び目 9 個，ケーブル 13 個）で
 \[
 M_\square=(-q/t)^{b-1}\bigl(a(q/t)^{1/2}\bigr)^{\delta}
 \]
@@ -113,7 +113,7 @@ Mellit~\cite[Cor.~daha]{Mellit17} は $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\d
 \begin{remark}[Cherednik--Danilenko の tilde 正規化との関係]\label{rem:tilde}
 Cherednik--Danilenko~\cite{Cherednik14} は DAHA superpolynomial を，最低の $a$ の冪と $q_{st}^\bullet t_{st}^\bullet$ で割って，$a_{st}=0$ の部分の定数項が 1 になるように正規化する（tilde 正規化）．
 標準の変数 $(q_{st},t_{st},a_{st})$ は太字の変数と同じである．
-係数が非負の保存値 19 個（トーラス結び目 9 個，ケーブル 10 個）で，本論文の $[1]$ の太字の $P$ は
+係数が非負の保存値 19 個（トーラス結び目 9 個，ケーブル 10 個）で，本論文の $\Y{1}$ の太字の $P$ は
 \[
 P=\ba^{2\delta}\bq^{-2\delta}\times(\text{tilde 正規化})
 \]
@@ -122,16 +122,16 @@ P=\ba^{2\delta}\bq^{-2\delta}\times(\text{tilde 正規化})
 \end{remark}
 
 \subsection{ホモロジーを入力とする結び目}
-11 交点以下の全素結び目 801 個について，reduced HOMFLY-PT ホモロジーの Poincaré 多項式（Nakagane--Sano~\cite{Nakagane21} のデータ）を $[1]$ の入力とする．
-DGR の規約への変換は，$\sigma$ 不変性，$\bt=-1$ での HOMFLY-PT 多項式，トーラス結び目の $\rCS_{[1]}$ との一致で確かめた．
+11 交点以下の全素結び目 801 個について，reduced HOMFLY-PT ホモロジーの Poincaré 多項式（Nakagane--Sano~\cite{Nakagane21} のデータ）を $\Y{1}$ の入力とする．
+DGR の規約への変換は，$\sigma$ 不変性，$\bt=-1$ での HOMFLY-PT 多項式，トーラス結び目の $\rCS_{\Y{1}}$ との一致で確かめた．
 
 \subsection{2 箱の予想式}
-双曲結び目の refined な $[2]$, $[1,1]$ は定義どおりには得られない．そこで文献の予想式を入力とする．
+双曲結び目の refined な $\Y{2}$, $\Y{1,1}$ は定義どおりには得られない．そこで文献の予想式を入力とする．
 \begin{itemize}
 \item ツイスト結び目 $K_p$ と pretzel 結び目 $K_{s,t}$：GNSSS~\cite{Gukov15} の彩色 HOMFLY-PT ホモロジーの式（四重次数）と，KN の $t_c$ 次数への変換（Nawata ら~\cite{Nawata12} も参照）．
 変換は，トーラス結び目と既知の彩色 HOMFLY-PT 多項式で較正した．
 \item thick な結び目 $\mathbf{10_{139}}$，$\mathbf{10_{152}}$：Stošić~\cite{Stosic24} の quiver 型の式と，KRSS~\cite{Kucharski17b} の予想式で $t_c$ 次数を作る．
-この方法は，$\mathbf{8_{19}}=T(3,4)$ で楕円 Hall 代数の値と $[2]$ から $[1,1,1]$ まで全項一致する．
+この方法は，$\mathbf{8_{19}}=T(3,4)$ で楕円 Hall 代数の値と $\Y{2}$ から $\Y{1,1,1}$ まで全項一致する．
 \end{itemize}
 これらを入力とする主張は「予想式を入力とした場合の正値性」であり，定義どおりの入力による 3 箱の結果（\S\ref{sec:three}）とは確からしさが異なる．
 

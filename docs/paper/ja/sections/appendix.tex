@@ -9,7 +9,7 @@ $w=\bq^2\bt$，$s=\bt+\bt^{-1}$ とおくと $G=w+w^{-1}-s$ である．各行�
 \paragraph{計算時間．}
 主な計算の時間と最大メモリを表に示す（Apple M3 Pro と Mac mini M1 で分担）．
 % TODO：logs/ から表を作る。既知の値：K8 の |ρ| ≤ 3 は 22853 秒・最大 RSS 1756 MB、K7 は 12275 秒・1879 MB、
-% K10 の 3 箱の \hat f は最後の実行で 4050 秒・17.6 GB（3 素数、係数の最大 1.13×10^19）、K10 の [3] の rCS は 14440 秒。
+% K10 の 3 箱の \hat f は最後の実行で 4050 秒・17.6 GB（3 素数、係数の最大 1.13×10^19）、K10 の \Y{3} の rCS は 14440 秒。
 \paragraph{機能テスト．}
 計算の正しさは，小さな入力で各段を確かめる機能テストで担保する．
 対象は，KN の値の再現，DAHA の明示例，ブレイドの HOMFLY-PT，補間と中国剰余定理，$G$ 展開の高速版と直接版の一致などである．
@@ -47,7 +47,7 @@ $K5c$ は展開の後だけが（ほぼ）正になる例で，補題~\ref{lem:G
 
 \section{文献の誤植と読み方}\label{app:typos}
 \begin{itemize}
-\item KN~\cite{Kameyama17} の付録 B の $f^{\bar t}_{[1,1,1]}$ の式は，KN のノートブックの式と一致しない．ノートブックの式が正しい．
+\item KN~\cite{Kameyama17} の付録 B の $f^{\bar t}_{\Y{1,1,1}}$ の式は，KN のノートブックの式と一致しない．ノートブックの式が正しい．
 $f^q_\mu$ の尺度は本文の定義と付録 B で $(q/t)^{|\mu|/2}$ 違う．付録 B に従う．
 \item Gukov--Stošić~\cite{Gukov11} の $\mathbf{9_{42}}$ の $S^2$ の式には誤植がある（修正後の次元 401 は Gorsky--Gukov--Stošić~\cite{Gorsky13} と一致）．
 \item Morozov~\cite{Morozov16} の分母と，\cite{Morozov19} の正規化（$Z$ を $F^{(1)}F^{(-1)}$ で割る読み方）．
@@ -60,5 +60,5 @@ $f^q_\mu$ の尺度は本文の定義と付録 B で $(q/t)^{|\mu|/2}$ 違う．
 \section{データとコード}\label{app:data}
 $\rCS_\lambda$，$\hf_\rho$，$\hN$ の全ての値と，計算・判定のコード，機能テストを公開する予定である（公開の方法は未定）．
 framed の定義は，著者の以前の計算（2017--2018 年，未発表）の出力 9 件と全係数で一致することを確かめた．
-三葉結び目の framing 2 の $[1],[2],[1,1],[3]$，自明な結び目の framing 3 の 3 箱，$\mathbf{4_1}$ の framing 0, 2 の $[2]$ である．
+三葉結び目の framing 2 の $\Y{1},\Y{2},\Y{1,1},\Y{3}$，自明な結び目の framing 3 の 3 箱，$\mathbf{4_1}$ の framing 0, 2 の $\Y{2}$ である．
 % docs/paper/data_availability.md

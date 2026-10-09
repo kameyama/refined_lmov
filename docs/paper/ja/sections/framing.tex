@@ -16,7 +16,7 @@ $x=0$ が KN の場合である．
 $\fr[\lambda]$ は係数 $\pm1$ の単項式であり，plethystic 対数の中の Adams 作用 $\rCS_\lambda\mapsto\rCS_\lambda(a^k,q^k,t^k)$ では
 $\fr[\lambda](q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
 この扱いは Mariño--Vafa~\cite{Marino01} の例
-$f^{(p)}_{[2]}=q^pW_{[2]}-\tfrac12\bigl(W_{[1]}^2+(-1)^pW_{[1]}(q^2,\lambda^2)\bigr)$ と同じである．
+$f^{(p)}_{\Y{2}}=q^pW_{\Y{2}}-\tfrac12\bigl(W_{\Y{1}}^2+(-1)^pW_{\Y{1}}(q^2,\lambda^2)\bigr)$ と同じである．
 この定義は，著者が以前（2017--2018 年，未発表）に行った計算の定義と同じである．
 その出力 9 件と全係数で一致することを確かめた（付録~\ref{app:data}）．
 
@@ -50,7 +50,7 @@ $T_\lambda/T_\emptyset$ は $SU(N)$ の部分を除いて $(a^{1/2}(q/t)^{1/2})^
 \[
 \fr[\lambda]=\bt^{\,|\lambda|+2n(\lambda')}\,\bq^{\,2(n(\lambda')-n(\lambda))}
 \]
-であり，符号を含まない．例えば $\fr[\square]=\bt$，$\fr[2]=\bq^2\bt^4$，$\fr[1,1]=\bq^{-2}\bt^2$，$\fr[2,1]=\bt^5$ である．
+であり，符号を含まない．例えば $\fr[\square]=\bt$，$\fr\Y{2}=\bq^2\bt^4$，$\fr\Y{1,1}=\bq^{-2}\bt^2$，$\fr\Y{2,1}=\bt^5$ である．
 \end{proposition}
 \begin{proof}
 \eqref{eq:cov} から $-(q/t)^{1/2}=\bt$，$q=\bq^2\bt^2$，$t=\bq^2$ である．
@@ -84,7 +84,7 @@ $x$ の偶奇で分ければ，根は係数 1 の単項式になる．
 \begin{proof}
 $\hf_\rho$ は，$\rCS_\lambda$ とその Adams の写しの積を固定した有理関数の係数で一次結合したものである．
 framing をつけると，各項には $\prod\fr[\lambda_i](q^{k_i},t^{k_i})^x$ が掛かる．
-これらを太字の変数で書き出すと，$n=2$ では $\fr[2]=\bq^2\bt^4$，$\fr[1,1]=\bq^{-2}\bt^2$，$\fr[\square]^2=\bt^2$，$\fr[\square](q^2,t^2)=-\bt^2$ である．
+これらを太字の変数で書き出すと，$n=2$ では $\fr\Y{2}=\bq^2\bt^4$，$\fr\Y{1,1}=\bq^{-2}\bt^2$，$\fr[\square]^2=\bt^2$，$\fr[\square](q^2,t^2)=-\bt^2$ である．
 $\bt^{-2x}$ を掛ければ主張の根が得られる．$n=3$ も同様である．
 \end{proof}
 
@@ -102,7 +102,7 @@ $v=\bq^2\bt$ とおくと $\bq^2\bt^2=v\bt$，$\bq^{-2}=\bt/v$ で，根は $\si
 \end{proposition}
 \begin{proof}
 (1) は定義から直接従う．
-(2) $|\rho|=2$ の $\hf_\rho$ は，四つの入力 $\rCS_{[2]}$，$\rCS_{[1,1]}$，$\rCS_{[1]}^2$，$\rCS_{[1]}(a^2,q^2,t^2)$ の一次結合を，
+(2) $|\rho|=2$ の $\hf_\rho$ は，四つの入力 $\rCS_{\Y{2}}$，$\rCS_{\Y{1,1}}$，$\rCS_{\Y{1}}^2$，$\rCS_{\Y{1}}(a^2,q^2,t^2)$ の一次結合を，
 共通の分母 $2A^2(Q^4-1)(T^4-1)(Q^2T^2-1)$（$(A,Q,T)=(a,q,t)^{1/2}$）で割ったものである．
 分母の各既約因子の零点で分子に残る入力はちょうど二つで，その二つの framing の因子は零点の上で一致する（記号計算で確かめた）．
 よって，零点での分子の消え方は $x$ によらない．
@@ -112,15 +112,15 @@ $v=\bq^2\bt$ とおくと $\bq^2\bt^2=v\bt$，$\bq^{-2}=\bt/v$ で，根は $\si
 \begin{proposition}\label{prop:sign}
 定義~\ref{def:framed} の符号 $(-1)^{|\lambda|x}$ を外し，$T_\lambda^x$ だけを掛けたとする．
 このとき $x$ が奇数なら，命題~\ref{prop:x-indep} (2) の分母の零点 $Q=i$，$T=i$（$q=-1$，$t=-1$）で残る二つの入力の因子が一致しない．
-したがって，一般の入力で $\hf_{[2]}$，$\hf_{[1,1]}$ は Laurent 多項式でなくなる．
+したがって，一般の入力で $\hf_{\Y{2}}$，$\hf_{\Y{1,1}}$ は Laurent 多項式でなくなる．
 $x$ が偶数なら符号は効かない．また，箱あたりの $(q/t)^{1/2}$ を外しても Laurent 性は保たれる．
 \end{proposition}
 \begin{proof}
-符号を外すと，Adams の写し $\rCS_{[1]}(a^2,q^2,t^2)$ の項の因子だけが $(-1)^x$ 倍変わる．この項が残る零点で一致が壊れる．
+符号を外すと，Adams の写し $\rCS_{\Y{1}}(a^2,q^2,t^2)$ の項の因子だけが $(-1)^x$ 倍変わる．この項が残る零点で一致が壊れる．
 \end{proof}
 
 \begin{compresult}
-三葉結び目，$x=1$ で符号を外すと，$\hf_{[2]}$，$\hf_{[1,1]}$ の分母に $(1+q)(1+t)$ が残る．
+三葉結び目，$x=1$ で符号を外すと，$\hf_{\Y{2}}$，$\hf_{\Y{1,1}}$ の分母に $(1+q)(1+t)$ が残る．
 $x=2$ と，符号をつけた $x=1$ では Laurent 多項式である．
 \end{compresult}
 
@@ -147,15 +147,15 @@ $w_0=\bt+\bt^{-1}$ のまわりの Taylor 係数は $dp_k/dw=kU_{k-1}(w/2)$ と�
 % [F12, F13]
 \begin{proposition}\label{prop:one}
 $P\in\mathbb{Z}_{\ge0}[\ba^{\pm1},\bq^{\pm1},\bt^{\pm1}]$ の $\bq$ の指数が偶数で，$P$ が $\sigma$ \eqref{eq:sigma} で不変とする．
-$P$ を $\rCS_{[1]}$ とする $\hf_{[1]}$ は，全ての $x$ について，$G$ 展開が整数で閉じ，展開の前も後も非負である．
+$P$ を $\rCS_{\Y{1}}$ とする $\hf_{\Y{1}}$ は，全ての $x$ について，$G$ 展開が整数で閉じ，展開の前も後も非負である．
 \end{proposition}
 \begin{proof}
-$x=0$ では，$\hf_{[1]}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ も $\sigma$ で不変で非負なので，補題~\ref{lem:G} から従う．
-一般の $x$ では $\fr[\square]^x=\bt^x$ なので，$\hf^{(x)}_{[1]}=\bt^x\hf_{[1]}$ である．これは $\hN$ の $2J_r$ を $x$ だけずらす．
+$x=0$ では，$\hf_{\Y{1}}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ も $\sigma$ で不変で非負なので，補題~\ref{lem:G} から従う．
+一般の $x$ では $\fr[\square]^x=\bt^x$ なので，$\hf^{(x)}_{\Y{1}}=\bt^x\hf_{\Y{1}}$ である．これは $\hN$ の $2J_r$ を $x$ だけずらす．
 \end{proof}
 
 \begin{corollary}\label{cor:one}
-$\rCS_{[1]}$ が結び目の reduced HOMFLY-PT ホモロジーの Poincaré 多項式（DGR の正規化）で与えられるなら，任意の結び目・任意の $x$ で $[1]$ は正である．
+$\rCS_{\Y{1}}$ が結び目の reduced HOMFLY-PT ホモロジーの Poincaré 多項式（DGR の正規化）で与えられるなら，任意の結び目・任意の $x$ で $\Y{1}$ は正である．
 \end{corollary}
 \begin{proof}
 係数は次元なので非負である．$\sigma$ 不変性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の対称性の定理である．
@@ -164,18 +164,18 @@ $\bq$ の指数が偶数であることは結び目のホモロジーの次数�
 
 % [F15]
 \begin{proposition}\label{prop:two-necessary}
-非負係数の入力 $\rCS_{[1]}$，$\rCS_{[2]}$ に対し，$\hf_{[2]}$ が Laurent 多項式なら $\rCS_{[2]}|_{q=1}=\rCS_{[1]}|_{q=1}^2$ である．
-特に，入力がホモロジーの Poincaré 多項式なら $\dim H^{[2]}=(\dim H^{[1]})^2$ が必要である．
-$[1,1]$ についても $t=1$ で同様である．この条件は $x$ によらない．
+非負係数の入力 $\rCS_{\Y{1}}$，$\rCS_{\Y{2}}$ に対し，$\hf_{\Y{2}}$ が Laurent 多項式なら $\rCS_{\Y{2}}|_{q=1}=\rCS_{\Y{1}}|_{q=1}^2$ である．
+特に，入力がホモロジーの Poincaré 多項式なら $\dim H^{\Y{2}}=(\dim H^{\Y{1}})^2$ が必要である．
+$\Y{1,1}$ についても $t=1$ で同様である．この条件は $x$ によらない．
 \end{proposition}
 \begin{proof}
-$\hf_{[2]}$ の分子の $Q=1$ での値は $\rCS_{[2]}-\rCS_{[1]}^2$ に比例する．
+$\hf_{\Y{2}}$ の分子の $Q=1$ での値は $\rCS_{\Y{2}}-\rCS_{\Y{1}}^2$ に比例する．
 非負係数の入力では，$q=1$（$\bt=-\bq^{-1}$）で各項の符号が $\bq$ の指数の偶奇だけで決まり，打ち消しが起きない．
 したがって次元の等式が必要になる．$x$ によらないことは命題~\ref{prop:x-indep} による．
 \end{proof}
 
 \begin{remark}
-$\mathbf{9_{42}}$ では $\dim H^{[1]}=9$，$\dim H^{[2]}=401$~\cite{Gorsky13} で $401\neq81$ である．
+$\mathbf{9_{42}}$ では $\dim H^{\Y{1}}=9$，$\dim H^{\Y{2}}=401$~\cite{Gorsky13} で $401\neq81$ である．
 したがって，$t_c$ 次数の選び方によらず，KN の形に乗らない．
 $\mathbf{9_{42}}$ が KN の形に乗らないこと自体は KN が述べている．命題~\ref{prop:two-necessary} はその理由を与える．
 \end{remark}
