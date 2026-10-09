@@ -89,3 +89,25 @@ def test_mellit_cor_daha_normalization(M, N):
     pref = (a / sq) ** d / (1 - t)
     assert D == -pref * pleth(V, a / q) / (a / q - 1)
     assert D not in (pref * pleth(V, a) / (a - 1), -pref * pleth(V, a) / (a - 1))
+
+
+def test_n1n2_is_cd14_tilde_times_corner():
+    """(N1)(N2) の [1] と CD14（1408.4348）の tilde 正規化の対応：係数が非負の全ての保存値で、太字の P は
+    𝐚^{2δ}𝐪^{−2δ} × (最低 𝐚 の行の最低の項が 1 になる tilde 正規化) で、DGR の対称性 (e_𝐚, e_𝐪, e_𝐭) ↔ (e_𝐚, −e_𝐪, e_𝐭 − e_𝐪)
+    と 𝐪 の指数の偶数性（命題 1 の条件）をもつ。CD14 の明示例との比も 𝐚^{2δ}𝐪^{−2δ}（scripts/check_cd14_tilde.py）。"""
+    from rcsknots.bps import to_bold
+    files = sorted(ROOT.glob("data/torus/*_1.json")) + sorted(ROOT.glob("data/cables/*_1.json"))
+    n = 0
+    for f in files:
+        d = json.loads(f.read_text())
+        P = to_bold({tuple(map(int, k.split(","))): v for k, v in d["poly"].items()}, 0)
+        if any(v < 0 for v in P.values()):
+            continue
+        _, delta, _ = predicted(steps_of(d))
+        amin = min(k[0] for k in P)
+        low = {k: v for k, v in P.items() if k[0] == amin}
+        assert amin == 2 * delta and low.get((2 * delta, -2 * delta, 0)) == 1, d["knot"]
+        assert all(k[1] >= -2 * delta and k[2] >= 0 for k in low), d["knot"]
+        assert all(P.get((ea, -eq, et - eq)) == c and eq % 2 == 0 for (ea, eq, et), c in P.items()), d["knot"]
+        n += 1
+    assert n >= 17
