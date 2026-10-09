@@ -2,13 +2,14 @@
 
 scripts/framing_check.py と同じ framing の因子・判定（framing_check.framed, framing_check.judge）。違いは次の 2 点。
 - 補間するのは \\hat f_ρ だけ（rcsknots.extract.reformulated_exact は f^q, f^t も補間するので、列の数が約 3 倍）。全ての ρ を 1 回の補間でまとめて求める。
-- 格子点の評価を並列にし（--workers）、評価のまとまりと補間の係数を data/cache/framing/{K}_x{x}_n{n}/ に保存して再開できるようにする。
+- 格子点の評価を並列にし（--workers）、評価のまとまりと補間の係数を data/cache/framing/{K}_x{x}_n{n}/ に保存して再開できるようにする（判定を保存したら消す）。
 f^t = M(q^{-1}) \\hat f の照合は全ての評価点で行う（reformulated_exact と同じ）。\\hat f が恒等的に 0 になる ρ は扱わない（自明な結び目は framing_check.py で）。
 判定の結果は (結び目, x, n) ごとに data/framed/{K}_x{x}_n{n}.json に保存し、保存済みの単位は飛ばす。
 使い方：python scripts/framing_big.py [--workers N] 結び目 n x1,x2,...
 """
 import json
 import resource
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -76,6 +77,8 @@ def run_unit(name, n, x, workers=1):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"knot": name, "framing": x, "n": n, "judge": res,
                                 "seconds": round(sec), "max_rss_mb": rss}, ensure_ascii=False, indent=1))
+    if cache is not None:
+        shutil.rmtree(cache, ignore_errors=True)      # 判定を保存した単位の途中結果は再開に要らない
     print(f"--- {name} framing {x:+d} n={n}：{sec:.0f} 秒、最大 RSS {rss} MB", flush=True)
 
 
