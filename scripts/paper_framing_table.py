@@ -26,14 +26,28 @@ def label(name):
     return f"$T_{{{m[1]},{m[2]}}}$" if m else f"${name}$"
 
 
-def ranges(xs_by_box):
-    """{箱の数: x の集合} を「n 箱まで x の範囲」の文字列に。"""
-    parts = []
-    for n in sorted(xs_by_box):
-        xs = sorted(xs_by_box[n])
-        r = f"{xs[0]}..{xs[-1]}" if xs == list(range(xs[0], xs[-1] + 1)) else ",".join(map(str, xs))
-        parts.append(f"{n}: ${r}$")
-    return "; ".join(parts)
+GROUPS = [  # 範囲と件数が同じ結び目を 1 行にまとめる（行の表示, 結び目）
+    ("自明な結び目", ["unknot"]), ("$T_{2,3}$", ["T2_3"]), ("$T_{2,5}$, $\\mathbf{4_1}$", ["T2_5", "4_1"]),
+    ("$T_{2,7}$, $T_{3,4}$", ["T2_7", "T3_4"]), ("$T_{3,5}$, $T_{2,11}$, $T_{3,7}$, $T_{4,5}$", ["T3_5", "T2_11", "T3_7", "T4_5"]),
+    ("$K1$", ["K1"]), ("$K3$", ["K3"]), ("$K6a$, $K7$, $K8$, $K9$", ["K6a", "K7", "K8", "K9"]), ("$K10$", ["K10"]),
+    ("$K_p$（$1\\le|p|\\le6$）", [f"twist:{p}" for p in (1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6)]),
+]
+
+
+def cell(xs):
+    """x の集合（framing 0 を含めて）を |x| ≤ N（と飛び地）で表す。"""
+    if not xs:
+        return "--"
+    xs = set(xs) | {0}                      # x = 0 は framing 0 の判定（表 tab:three）で済んでいる
+    n = 0
+    while all(y in xs for y in (-(n + 1), n + 1)):
+        n += 1
+    rest = sorted(xs - set(range(-n, n + 1)))
+    s = f"$|x|\\le{n}$"
+    if rest:
+        pm = sorted({abs(y) for y in rest})
+        s += ", " + ", ".join(f"$x=\\pm{a}$" if (a in rest and -a in rest) else f"$x={y}$" for a in pm for y in ([a] if (a in rest and -a in rest) else [y for y in rest if abs(y) == a]))
+    return s
 
 
 def main():
@@ -62,15 +76,21 @@ def main():
         s["na"] += na
         s["zero"] += z
     rows, total = [], 0
-    for name in ORDER + sorted(set(stats) - set(ORDER)):
-        if name not in stats:
-            continue
-        s = stats[name]
-        total += s["n"]
-        rows.append(f"{label(name)} & {ranges(s['xs'])} & {s['n']} & {s['nb']} & {s['na']} & {s['zero']} \\\\")
+    for lab, names in GROUPS:
+        sigs = {(tuple(cell(stats[nm]["xs"].get(k, set())) for k in (1, 2, 3)), stats[nm]["n"]) for nm in names}
+        assert len(sigs) == 1, (lab, sigs)            # まとめた結び目は範囲と件数が同じ
+        (cells, n), = sigs
+        nb = sum(stats[nm]["nb"] for nm in names)
+        na = sum(stats[nm]["na"] for nm in names)
+        total += n * len(names)
+        cnt = f"{n}" if len(names) == 1 else f"各 {n}"
+        rows.append(f"{lab} & " + " & ".join(cells) + f" & {cnt} & {nb}/{na} \\\\")
+    assert total == len(seen), (total, len(seen))
+    zero = sum(s["zero"] for s in stats.values())
     tex = ("% scripts/paper_framing_table.py が logs/framing_batch.log と data/framed/ から生成。\n"
-           f"% 判定件数の合計 {total}（重なりは 1 件と数える）。\n"
-           "\\begin{tabular}{llcccc}\n\\hline\n結び目 & 箱の数: $x$ の範囲 & 件数 & 前の負 & 後の負 & $\\wh f=0$ \\\\\n\\hline\n"
+           f"% 判定件数の合計 {total}（重なりは 1 件と数える）、\\hat f = 0 は {zero} 件。\n"
+           "\\begin{tabular}{lccccc}\n\\hline\n"
+           "結び目 & $|\\rho|=1$ & $|\\rho|=2$ & $|\\rho|=3$ & 件数 & 負（前/後） \\\\\n\\hline\n"
            + "\n".join(rows) + "\n\\hline\n\\end{tabular}\n")
     Path("docs/paper/generated/framing_table.tex").write_text(tex)
     print(tex)
