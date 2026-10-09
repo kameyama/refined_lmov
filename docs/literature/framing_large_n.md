@@ -3,7 +3,7 @@
 問い：Mariño–Vafa（MV）による framed knot の large N 双対の説明と、KN による refined large N 双対の説明を組み合わせると、本研究の framed knot の refined LMOV（conventions.md §17）が自然に説明できるか。
 
 印：【原典】原典で確認、【導出】、【計算】、【解釈】（物理的な読み）、【仮定】。
-原典は、MV が hep-th/0108064 の TeX（framing.tex）、KN が references/1703.05408/src/refined-integrality.tex、AS が references/1105.5117/src、IKV が hep-th/0701156 の TeX（refinedvertex.tex）。
+原典は、MV が hep-th/0108064 の TeX（framing.tex）、KN が references/1703.05408/src/refined-integrality.tex、AS が references/1105.5117/src、IKV が hep-th/0701156 の TeX（refinedvertex.tex）、Taki が arXiv:0710.1776 の TeX（instanton.tex）。
 
 ---
 
@@ -38,14 +38,21 @@
 - 箱あたりの単項式 c^{|λ|} は、c = a^{1/2}, (q/t)^{1/2} のように Adams 作用と両立する（ψ_k(c) = c^k）。そのため \hat f_ρ を c^{|ρ|} 倍するだけで、β と 2J_r を一様にずらす（MV が λ^{pℓ/2} を V に吸収したのと同じ）。
   太字の変数では (q/t)^{1/2} = −𝐭 なので、全体の符号 (−1)^{|ρ|} も伴う。これは判定で「全体の符号は良い方」を選ぶことで吸収される。
 
-### 2.2 弦側：refined topological vertex の framing の因子【原典】
-- IKV（hep-th/0701156 の Appendix「Framing factors」、refinedvertex.tex:3305-3337）は、preferred direction に沿った framing の因子として次を与える。
-  f_ν(t,q) = (−1)^{|ν|} t^{n(ν)} q^{−n(ν^t)}
-  t = q では q^{−κ(ν)/2}。また、Nekrasov の分配関数への外部ゲージ場の結合（Tachikawa）からも、同じ t^{n(ν)} q^{−n(ν^t)} が出ると述べている。
-- これは本研究の framing[λ] = (−(q/t)^{1/2})^{|λ|} q^{n(λ')} t^{−n(λ)} の逆数と、次の 2 点を除いて同じ形である。
-  - 箱あたりの (q/t)^{1/2}（§2.1 により影響しない）。
-  - 向き（x ↔ −x）と、(q,t) の対応の取り方。
-  ただし IKV は、符号 (−1)^{|ν|} を「後の便宜のため」に入れており、導出はしていない。
+### 2.2 弦側：refined topological vertex の framing の因子（Taki）【原典】
+**正しい framing の因子は Taki のもの**である。IKV のものは誤り（または誤植）で、Taki が修正している（2026-10-09、ユーザーの指摘。原典で確認）。
+- Taki, "Refined topological vertex and instanton counting"（arXiv:0710.1776、instanton.tex の式 (modification)）は、IKV の framing の因子を次のように修正した。
+  f_μ(t,q) = (−1)^{|μ|} t^{‖μ^t‖²/2} q^{−‖μ‖²/2} = (−1)^{|μ|} (t/q)^{‖μ^t‖²/2} q^{−κ_μ/2}
+  理由も示している。修正しないと、SU(N) の分配関数に余分な因子 Π_a (t/q)^{−n_a|μ_a|/2} が残る。この因子は Q̂ に吸収できず、K 理論版の Nekrasov の分配関数との一致が壊れる（instanton.tex:1130-1135）。
+- ‖μ‖² = 2n(μ') + |μ|、‖μ^t‖² = 2n(μ) + |μ| を使うと、次のように書ける【導出】。
+  f_μ(t,q) = (−1)^{|μ|} (t/q)^{|μ|/2} t^{n(μ)} q^{−n(μ')} = framing[μ]^{−1}
+  つまり**本研究の framing[λ]（ユーザーの以前の計算の定義）は、Taki の framing の因子の逆数にちょうど一致する**。(q/t)^{1/2} と符号を含めて一致する。逆数になっているのは向き（x ↔ −x）の規約の違い。
+  Cheng–Sułkowski（2104.00713）の preferred direction の因子 f^p_λ も Taki の形である（novelty_report.md §10）。
+- IKV（hep-th/0701156 の Appendix「Framing factors」、refinedvertex.tex:3305-3337）の f_ν(t,q) = (−1)^{|ν|} t^{n(ν)} q^{−n(ν^t)} には、因子 (t/q)^{|ν|/2} が欠けている。
+  IKV は、符号 (−1)^{|ν|} を「後の便宜のため」に入れている。
+- 本研究の判定への影響：箱あたりの (q/t)^{1/2} は Adams 作用と両立するので、1 つの結び目の \hat N の正値性には効かない（2J_r の一様なずれと全体の符号だけ。§2.1）。
+  それでも Taki の形が正しいことは、次の 2 点で意味をもつ。
+  - framing の因子を、物理的に決まったもの（Nekrasov の分配関数との一致で固定されたもの）として引用できる。
+  - Taki の形でだけ、太字の変数で符号のない単項式 𝐭^{|λ|+2n(λ')}𝐪^{κ_λ} になる（§2.3）。IKV の形では、太字で (−1)^{|λ|} が残る。
 
 ### 2.3 符号 (−1)^{|λ|x}：MV の平坦座標のずれの refined 版【導出 ＋ 解釈】
 - **太字の変数で見ると、符号は 𝐭 の冪になる**【導出】。framing[□] = −(q/t)^{1/2} = 𝐭（KN の (cov)）。一般の λ では
@@ -78,22 +85,22 @@
 
 **結論（考察）**：framed knot の refined large N 双対は、次の 3 つの組み合わせとして自然に説明できる。
 1. CS 側：AS の refined T 行列の固有値（本質は q^{n(λ')} t^{−n(λ)}）。
-2. 弦側：IKV の refined vertex の framing の因子と同じ形。
+2. 弦側：Taki の refined vertex の framing の因子と、向きを除いてちょうど一致する（IKV の形は (t/q)^{|ν|/2} が欠けていて誤り）。
 3. MV の平坦座標のずれの refined 版：太字の 𝐭 で、t = q で MV の符号 (−1)^{ℓp} になる。
 
 このとき、KN の抽出式（refined-GT1, GT2）とその物理的な根拠（Schwinger の計算、S_R の自明な作用）は、そのまま全ての framing に適用できる。
 本研究の定義は、ユーザーの以前の計算の定義と同じもので、この説明と矛盾しない。
 
 **自然には説明できない点・仮定の点**
-1. 符号の起源：MV は非 refined で AKV の平坦座標から符号を導いたが、refined の平坦座標のずれ（V → −(q/t)^{1/2}V）は AS の示唆と本研究の読みにとどまり、導出していない。IKV も符号は便宜として入れている。
+1. 符号の起源：MV は非 refined で AKV の平坦座標から符号を導いたが、refined の平坦座標のずれ（V → −(q/t)^{1/2}V）は AS の示唆と本研究の読みにとどまり、導出していない。Taki の因子も符号 (−1)^{|μ|} は IKV から受け継いだもので、符号そのものの導出ではない（Taki が Nekrasov との一致で確かめたのは (t/q)^{|μ|/2} の部分）。
 2. U(1)_R が framing の変化で保たれること（KN の正値性の議論の前提）は仮定である。
 3. 正値性（整数性より強い主張）は MV の議論からは出ない。KN の S_R の仮定による。framing を変えても成り立つことは、計算で支持されている。
 4. MV は、固定した種数で BPS 数が p の多項式になると観察している（unknot の Π(l + jp)、:1455）。本研究の「x の指数和」は、これを g_s で展開する前の形と読める【解釈、未確認】。
-5. Cheng–Sułkowski（2104.00713）の toric brane の refined open BPS の framing との対応は未確認（文献調査に回した）。
+5. 文献（novelty_report.md §10）：Cheng–Sułkowski（2104.00713）の preferred direction の framing の因子 f^p_λ は framing[λ]^{−1} にちょうど一致する（‖λ‖² = 2n(λ') + |λ|。(q/t)^{1/2} と符号を含めて一致）。ただし同論文は framing を固定し、単一ブレーン・対称表現のみ。Diaconescu–Donagi–Pantev（1704.07412）は refined unknot の framing を符号なしで書いている。符号の要否を refined で論じた文献は見つからない。
 
 ---
 
 ## 4. 論文での位置づけ（outline.md §3 への反映）
-- §3.1（定義）で、framing[λ] の 3 つの由来を述べる：AS の T 行列、IKV の framing の因子、MV の符号の refined 版（太字では 𝐭^{|λ|+2n(λ')}𝐪^{κ}）。
+- §3.1（定義）で、framing[λ] の 3 つの由来を述べる：AS の T 行列、Taki の framing の因子（IKV の誤りを修正したもの）、MV の符号の refined 版（太字では 𝐭^{|λ|+2n(λ')}𝐪^{κ}）。
 - §3.2〜§3.5 の「x によらない構造」は、上の §3 の表の【導出】の部分（転置との両立、Laurent 性、G 展開が閉じる条件）。
 - 物理的な予言（全ての x で正）は、KN の S_R の仮定を framed に広げたものとして述べる。根拠は計算である。

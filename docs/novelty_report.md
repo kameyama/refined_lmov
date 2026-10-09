@@ -244,3 +244,23 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 
 書いてはいけないこと（追加）：T(3,4), T(3,5) の四重次数の S^r の式と refined CS との一致（GNSSS）、(quad-C) そのもの（KRSS）、10_139, 10_152, 8_19 の quiver（Stošić）、quiver 由来の refined LMOV の整数性（KRSS, EKL）。
 調べた範囲：取得済み・新規取得の文献の TeX の全文検索、KN の被引用（INSPIRE 14 件、Semantic Scholar 9 件）、Stošić の被引用（INSPIRE 4 件、うち 1 件は本文未確認）、KRSS の被引用（2023 年以降、題名のみ）。Google Scholar は未使用。
+
+## 10. framed knot の refined LMOV の新規性（2026-10-09 追記、文献確認はサブエージェントによる。原典は TeX を grep して該当箇所を読んだもの）
+
+調べた範囲：INSPIRE の被引用（KN 14 件、Mariño–Vafa hep-th/0108064 144 件、Cheng–Sułkowski 2104.00713 12 件の全題名）、INSPIRE の全文検索、arXiv API（2026-01-01〜2026-10-09）、主要論文の TeX。
+
+| 項目 | 判断 |
+|---|---|
+| refined の framing の因子 framing[λ] そのもの | **既知**。正しい形は Taki 0710.1776 の式 (modification) f_μ(t,q) = (−1)^{|μ|}t^{‖μ^t‖²/2}q^{−‖μ‖²/2}（IKV の因子を、Nekrasov の分配関数との一致のために修正したもの。ユーザーの指摘で IKV は誤り・誤植と判断）。‖λ‖² = 2n(λ') + |λ| から **framing[λ]^{−1} にちょうど一致**（親セッションで式を確認）。Cheng–Sułkowski 2104.00713 の f^p_λ も同じ形。IKV hep-th/0701156 の f_ν = (−1)^{|ν|}t^{n(ν)}q^{−n(ν^t)} は (t/q)^{|ν|/2} が欠けている。Diaconescu–Donagi–Pantev 1704.07412 は符号なしの (t/s)^{p\|λ\|/2} f_λ^{−p} |
+| 単一ブレーン（対称・反対称表現）の refined open BPS の非負性 | 既知。Cheng–Sułkowski（framing は固定、resolved conifold は §3.3）、Banerjee–Ishtiaque–Jeong 2601.07662（任意の framing f を CS 準位 −f として入れるが、framing は q_1 の冪だけで (q/t) を含む形ではない。系統的な正値性の表は無い） |
+| quiver での framing（C → C + f）と対称表現の refined LMOV の整数性 | 既知（KRSS 1707.04017、EKL 1811.03110。EKL は整数性を定義から、正値性は主張しない。KN の refinement とは t_c/t_r の取り方が違うと明記） |
+| 非 refined の framed LMOV | 既知（Mariño–Vafa、Zhu 2105.02037・2510.15692、Wang–Zhu 2502.16609、Luo–Zhu 1611.06506・2106.02882、Chen–Liu–Peng–Zhu 1402.3571）。**用語の注意**：Zhu の "refined LMOV conjecture for framed links" は非 refined の整数性の強化で、KN の refined とは別物（Zhu 自身が Remark で明記） |
+| framing 付きの refined torus link のデータから正の量（局所曲線幾何、closed の GV 展開） | 関連するが別の対象（DDP 1704.07412、CDDNP 1804.08364） |
+| KN の \hat f_ρ を framing x 付きで作り、一般の ρ（\|ρ\| ≤ 3、[2,1] を含む）で G 展開の前後の正整数性を検証すること | **新規と思われる**（前例なし） |
+| 𝐭^{−nx}\hat f^{(x)} が x の指数和になる構造、全ての x での 2 箱の正値性 | 新規と思われる |
+| 符号 (−1)^{\|λ\|} を含む refined の framing が正値性に必要かの判定 | 新規と思われる（符号の役割を refined で論じた文献は見つからない） |
+| 2026 年の新着 | refined LMOV の正値性、iterated torus の refined BPS、ツイスト・pretzel の refined 2 箱、双曲結び目の refined [2,1] を扱う論文は見つからない。周辺：Cherednik 2607.25666、Fang–Zhou 2610.00303（非 refined） |
+| K7・K10 の \|λ\| = 3 の refined の値と refined BPS | 新規と思われる。CD14（1408.4348）は K1 の [1], [2]（[1,1] は super-dual）、K7 の [1]、K10 の DAHA-Betti 多項式のみ。Cherednik 1709.07589 も 2 段のケーブルは無彩色のみ |
+
+書いてはいけないこと（追加）：refined の framing の因子の形（Taki・Cheng–Sułkowski）、単一ブレーンの refined open BPS の非負性、quiver の framing のシフト、非 refined の framed の整数性。
+未確認：Cheng–Sułkowski の掲載頁。KN の書誌（INSPIRE は J. Knot Theory Ramifications 32 (2023) 2041001、DOI 10.1142/S0218216520410011 は 2020 年の巻を示唆。§5 の記載とあわせて要再確認）。
