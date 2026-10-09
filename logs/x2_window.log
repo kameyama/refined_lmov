@@ -1,0 +1,31 @@
+EGP：固有値の組 25、式 25、未知数 5、解 1
+   z_0 = 1
+   z_1 = -(A - 1)*(A + 1)*(-2*A**2*t**2 - A**2 + t**6 + 2*t**4)/(A**2*t**3)
+   z_11 = -(-A + t)*(-A + t**2)*(-A + t**3)*(A - 1)*(A + 1)*(A + t)*(A + t**2)*(A + t**3)/(A**4*t**6)
+   z_2 = (-A + t)*(-A + t**2)*(A - 1)**2*(A + 1)**2*(A + t)*(A + t**2)*(t**2 + 1)/(A**4*t**4)
+   z_21 = (-A + t)**2*(-A + t**2)*(-A + t**3)*(A - 1)**2*(A + 1)**2*(A + t)**2*(A + t**2)*(A + t**3)/(A**6*t**7)
+U(2)：固有値の組 41、式 25、未知数 5、解 1
+   z_0 = 1
+   z_1 = (t - 1)*(t + 1)*(q*t**2 - 1)*(q*t**2 + 1)/(q*t**3)
+   z_11 = 0
+   z_2 = 0
+   z_21 = 0
+(1,) K=1：解なし（0.0s）
+(1,) K=2：解なし（0.0s）
+(1,) K=3：解の空間の次元 8（0.1s）
+(1,) K=4：解の空間の次元 21（0.1s）
+(1,) K=5：解の空間の次元 40（0.2s）
+(1,) K=6：解の空間の次元 65（0.4s）
+(1,) K=7：解の空間の次元 96（1.0s）
+(1,) K=8：解の空間の次元 133（1.9s）
+(1,) K=9：解の空間の次元 176（3.3s）
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/untitled-session-121eb1/scripts/x2_window.py", line 100, in <module>
+    res = solve_channel(X, K, egp, u2)
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/untitled-session-121eb1/scripts/x2_window.py", line 43, in solve_channel
+    Ad = max(abs(k[0]) for k in terms(mor, (A, Q)))
+                                ~~~~~^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/untitled-session-121eb1/scripts/x2_window.py", line 29, in terms
+    assert len(D.terms()) == 1, f"分母が単項式でない：{den}"
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: 分母が単項式でない：A**4*q**10 + A**4*q**8
