@@ -115,3 +115,14 @@ def test_trefoil_two_box_all_framings_newton():
     for key, found in res.items():
         assert found and found[1] is not None and found[3], key
         assert all(g[0] == found[2] and g[1] is True for x, g in found[4]), key
+
+
+@pytest.mark.parametrize("x", [-3, 2])
+def test_framing_big_matches_framing_check(x):
+    """scripts/framing_big.py（\\hat f だけを 1 回の補間で）が framing_check.py（ρ ごとの補間）と全係数で一致する（三葉結び目、3 箱）。"""
+    from framing_big import hat_f_all
+    R = framed(load_reduced("T2_3", 3), x)
+    hats = hat_f_all(R, 3, log=lambda s: None, workers=1, cache=None)
+    ref = run("T2_3", [x], nmax=3, log=lambda s: None)
+    for rho, hat in hats.items():
+        assert hat == ref[(x, rho)][2]
