@@ -17,7 +17,7 @@ Gukov--Nawata--Saberi--Stošić--Sułkowski（GNSSS）~\cite{Gukov15} の $(2s-1
 および KN が構成した $\mathbf{4_1}$ の $\yng(2,1)$ の候補である．
 KN はさらに次の二点を指摘した．
 非長方形の表現の refined CS 不変量は負の係数をもつが，genus 表示は非負になること．
-thick な結び目 $\mathbf{9_{42}}$ は形 \eqref{eq:hat-f-2} に乗らず，それは thick なホモロジーが指数増大性をもたないこと（Gukov--Stošić~\cite{Gukov11}）と関係すること．
+thick な（HOMFLY-PT ホモロジーが一つの $\delta$ 次数に集中しない）結び目 $\mathbf{9_{42}}$ は形 \eqref{eq:hat-f-2} に乗らず，それは thick なホモロジーが指数増大性をもたないこと（Gukov--Stošić~\cite{Gukov11}）と関係すること．
 本論文では，KN のデータの再現は規約を定めるためだけに用い，KN で観察された現象は成果としては扱わない．
 
 \subsection{本論文の内容}
@@ -31,7 +31,7 @@ framing $x$ の不変量を $\overline{\rCS}^{(x)}_\lambda=\theta_\lambda^x\,\ov
 \theta_\lambda=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)}
 \]
 で定める．この因子は Taki~\cite{Taki07} の refined topological vertex の framing の因子の逆数にちょうど一致し，
-$t=q$ では Mariño--Vafa~\cite{Marino01} の framing の規則 $W_R\mapsto(-1)^{\ell p}q^{p\kappa_R/2}W_R$ に $x=p$ で戻る．
+$t=q$ では Mariño--Vafa~\cite{Marino01} の framing の規則 $W_R\mapsto(-1)^{\ell p}q^{p\kappa_R/2}W_R$（$\ell=|R|$）に $x=p$ で戻る．
 太字の変数では $\theta_\lambda$ は符号のない単項式 $\bt^{|\lambda|+2n(\lambda')}\bq^{2(n(\lambda')-n(\lambda))}$ になり，
 framing はホモロジーの次数のずらしとして働く．
 主な構造的な結果は次のとおりである．
@@ -45,7 +45,7 @@ framing はホモロジーの次数のずらしとして働く．
 \paragraph{検証（\S\ref{sec:one}--\S\ref{sec:three}）．}
 入力の確からしさは結び目のクラスによって異なる（表~\ref{tab:overview}）．
 \begin{itemize}
-\item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，genus 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
+\item 基本表現 $\rho=\yng(1)$：入力が非負係数で Dunfield--Gukov--Rasmussen（DGR）~\cite{Dunfield05} の対称性 \eqref{eq:sigma} をもてば，genus 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
 DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\yng(1)$ は正である．
 \item 2 箱：KN が指摘した $\mathbf{9_{42}}$ と指数増大性の関係を，Laurent 性の必要条件 $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ として証明する（命題~\ref{prop:two-necessary}）．
 KN が観察したツイスト結び目とダブルツイスト（pretzel）結び目の族について，Kameyama--Nawata--Tao--Zhang（KNTZ）~\cite{Kameyama19} の refined の式（GNSSS の予想式と一致する）を入力として，
@@ -53,7 +53,7 @@ KN が観察したツイスト結び目とダブルツイスト（pretzel）結�
 また，8 個の結び目では全ての整数の framing で 2 箱が正である（定理~\ref{thm:two-all-x}）．
 \item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，正規化 (N1)(N2$'$)（\S\ref{sec:normalization}）の下で，$|\rho|\le3$ の全ての $\rho$ について spin 表示と genus 表示の両方で正である（計算結果~\ref{cr:three}）．
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
-3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む．
+3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む（結び目の名前は表~\ref{tab:cables}）．
 KN がトーラス結び目で観察したとおり，入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが genus 表示は正になる．本論文はこの現象を代数的な iterated torus 結び目に広げる．
 \end{itemize}
 これらに基づき，framed knot の refined LMOV 不変量の正値性を予想~\ref{conj:A} として，
@@ -69,8 +69,8 @@ KN がトーラス結び目で観察したとおり，入力の $\rCS_{\yng(2,1)
 結び目 & 入力 & $\yng(1)$ & 2 箱 $x=0$ & 2 箱 $x\neq0$ & 3 箱 $x=0$ & 3 箱 $x\neq0$ \\
 \midrule
 自明な結び目 & -- & 全 $x$ & ○ & ○ & ○ & $|x|\le6$ \\
-$T_{2,3},T_{2,5},T_{2,7},T_{3,4}$ & EHA & 全 $x$ & ○ & ○ & ○ & $|x|\le 3$--$6$ \\
-$T_{3,5},T_{2,11},T_{3,7},T_{4,5}$ & EHA & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le10$ \\
+$T_{2,3},T_{2,5},T_{2,7},T_{3,4}$ & 楕円 Hall 代数 & 全 $x$ & ○ & ○ & ○ & $|x|\le 3$--$6$ \\
+$T_{3,5},T_{2,11},T_{3,7},T_{4,5}$ & 楕円 Hall 代数 & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le10$ \\
 $K1,K3$ & DAHA & 全 $x$ & ○ & ○ & ○ & $|x|\le2$（$K1$ は $x=\pm6$ も） \\
 $K6a,K7,K8,K9$ & DAHA & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le10$ \\
 $K10$ & DAHA & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le2$ \\
@@ -106,7 +106,7 @@ knots--quivers 対応~\cite{Kucharski17,Kucharski17b,Ekholm18} では，framing 
 \S\ref{sec:inputs} で入力（トーラス結び目，ケーブル，ホモロジー，予想式）と計算法を説明する．
 \S\ref{sec:one}，\S\ref{sec:two}，\S\ref{sec:three} で，それぞれ $\yng(1)$，2 箱，3 箱の検証を述べる．
 \S\ref{sec:discussion} で未解決の問題を議論する．
-付録に計算法の詳細，非代数的なケーブル，文献の誤植，データとコードをまとめる．
+付録に計算法の詳細，正規化の導出，非代数的なケーブル，データとコードをまとめる．
 
 主張の確からしさを区別するため，解析的に導いたものを定理・命題・補題とし，計算機で確かめたものは「計算結果」として範囲とともに書く．
 有限個の厳密な計算機計算（多項式の係数の符号の判定や線形計画法の証明書の検証）を含む証明は，定理の見出しに「計算機援用」と記す．

@@ -16,19 +16,19 @@ $x=0$ が KN の場合である．
 $\theta_\lambda$ は係数 $\pm1$ の単項式であり，plethystic 対数の中の Adams 作用 $\overline{\rCS}_\lambda\mapsto\overline{\rCS}_\lambda(a^k,q^k,t^k)$ では
 $\theta_\lambda(q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
 この扱いは Mariño--Vafa~\cite{Marino01} の例
-$f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,\lambda^2)\bigr)$ と同じである．
+$f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,a^2)\bigr)$ と同じである（Mariño--Vafa の変数 $\lambda$ を $a$ と書く．以下同じ）．
 
 \subsection{framing の因子の由来}
 % [F2]
 \begin{proposition}\label{prop:MV}
 $t=q$ で $\theta_\lambda^x=(-1)^{|\lambda|x}q^{x\kappa_\lambda/2}$ である．
 ここで $\kappa_\lambda=|\lambda|+\sum_i(\lambda_i^2-2i\lambda_i)=2\sum_{s\in\lambda}c(s)$ は Mariño--Vafa の $\kappa_R$ である．
-したがって $\overline{\rCS}^{(x)}$ の $t=q$ の極限は，Mariño--Vafa~\cite{Marino01} の framed knot の規則 $W^{(p)}_R=(-1)^{\ell p}q^{p\kappa_R/2}W_R$ に $x=p$ で一致する．
+したがって $\overline{\rCS}^{(x)}$ の $t=q$ の極限は，Mariño--Vafa~\cite{Marino01} の framed knot の規則 $W^{(p)}_R=(-1)^{\ell p}q^{p\kappa_R/2}W_R$（$\ell=|R|$ は箱の数）に $x=p$ で一致する．
 \end{proposition}
 \begin{proof}
 $t=q$ で $(q/t)^{1/2}=1$，$n(\lambda')-n(\lambda)=\sum_s c(s)=\kappa_\lambda/2$ である．
 変数の向き（$q$ と $q^{-1}$）は，自明な結び目の主特殊化と Mariño--Vafa の量子次元を比べて確かめる．
-$a=\lambda_{\mathrm{MV}}$，$q=q_{\mathrm{MV}}$ で両者は単項式倍を除いて一致し，$q\mapsto q^{-1}$ では一致しない（$\lambda\neq\lambda^T$ のとき）．
+Mariño--Vafa の $\lambda$ を $a$，$q$ を $q$ とすると両者は単項式倍を除いて一致し，$q\mapsto q^{-1}$ では一致しない（$\lambda\neq\lambda^T$ のとき）．
 \end{proof}
 
 \begin{remark}
@@ -40,7 +40,7 @@ $a^{|\lambda|/2}$ と $(q/t)^{1/2}$ は補題~\ref{lem:adams} により正値性
 \begin{remark}[refined topological vertex との関係]\label{rem:Taki}
 Taki~\cite{Taki07} の refined topological vertex の framing の因子は
 $f_\mu(t,q)=(-1)^{|\mu|}t^{\|\mu^T\|^2/2}q^{-\|\mu\|^2/2}$ である．
-$\|\mu\|^2=2n(\mu')+|\mu|$ を使うと $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$ となり，定義~\ref{def:framed} の因子に（向きを除いて）ちょうど一致する．
+$\|\mu\|^2=2n(\mu')+|\mu|$ を使うと $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$ となる．すなわち Taki の因子は定義~\ref{def:framed} の因子の逆数にちょうど一致し，違いは framing の正の向きの取り方だけである．
 本論文では，KN の $f^q_\mu$，$f^{\bar t}_\mu$，$\wh f_\rho$ との混同を避けるため，Taki の $f_\mu$ ではなく $\theta_\lambda$ と書く．
 Taki は，Iqbal--Kozçaz--Vafa~\cite{Iqbal07} の因子 $(-1)^{|\nu|}t^{n(\nu)}q^{-n(\nu^T)}$ に $(t/q)^{|\nu|/2}$ を掛ける修正が，
 K 理論版の Nekrasov 分配関数と一致するために必要であることを示した．
@@ -64,7 +64,7 @@ $T_\lambda/T_\emptyset$ は $SU(N)$ の部分を除いて $(a^{1/2}(q/t)^{1/2})^
 \begin{remark}
 命題~\ref{prop:bold} により，framing の変化は（色付き）HOMFLY-PT ホモロジーの次数を符号なしでずらす操作として働く．
 非 refined の極限 $\bt=-1$ では $\theta_\lambda^x\to(-1)^{(|\lambda|+2n(\lambda'))x}=(-1)^{|\lambda|x}$ となる．
-Mariño--Vafa の符号 $(-1)^{\ell p}$ は，refined の次数のずらし $\bt^{\ell p}$ の非 refined での影と読める．
+Mariño--Vafa の符号 $(-1)^{\ell p}$ は，refined の次数のずらし $\bt^{|\lambda|x}$ の非 refined での影と読める．
 この符号が KN の形に必要であることは命題~\ref{prop:sign} で示す．
 \end{remark}
 
@@ -75,7 +75,7 @@ $c$ を係数 1 の単項式とし，Adams 作用で $c\mapsto c^k$ となるも
 $\overline{\rCS}_\lambda$ を $c^{|\lambda|}\overline{\rCS}_\lambda$ に置き換えると，$\hf_\rho$ は $c^{|\rho|}\hf_\rho$ になる．
 \end{lemma}
 \begin{proof}
-$c^{|\lambda|}$ は生成関数の変数を $x\mapsto cx$ と取り替えることに当たり，$c$ が Adams 作用と両立するので plethystic 対数と可換である．
+$c^{|\lambda|}$ は対称関数の変数を $u\mapsto cu$ と取り替えることに当たり，$c$ が Adams 作用と両立するので plethystic 対数と可換である．
 \end{proof}
 太字の変数で $c=(q/t)^{1/2}=-\bt$ のとき，これは spin 表示と genus 表示の $\bt$ の次数を一様にずらし，全体の符号を変えるだけである．
 したがって正値性に影響しない．
@@ -132,7 +132,7 @@ $x=2$ と，符号をつけた $x=1$ では Laurent 多項式である．
 命題~\ref{prop:sign} は，Mariño--Vafa の「符号は整数性に不可欠である」という観察~\cite{Marino01} の refined 版である．
 Mariño--Vafa は，符号を開いた弦の平坦座標の取り替え $\hat u\mapsto\hat u+i\pi p$（$V\mapsto(-1)^pV$）から説明した．
 この取り替えは，生成関数 $\sum_RW_R\,\mathrm{Tr}_RV$ を新しい変数で展開し直すことにあたり，Chern--Simons 側の係数 $W_R$ に定数の符号 $(-1)^{|R|p}$ を掛ける．
-定数の符号は Adams の写し $W_R(q^d,\lambda^d)$ で $d$ 乗されない（Mariño--Vafa の $f^{(p)}_{\yng(2)}$ の $(-1)^pW_{\yng(1)}(q^2,\lambda^2)$）．
+定数の符号は Adams の写し $W_R(q^d,a^d)$ で $d$ 乗されない（Mariño--Vafa の $f^{(p)}_{\yng(2)}$ の $(-1)^pW_{\yng(1)}(q^2,a^2)$）．
 したがってこれは補題~\ref{lem:adams} の型の自明な置き換えではなく，BPS 側では $d$ 重被覆の項に $(-1)^{d|R|}$ が付く．
 定義~\ref{def:framed} の符号は，これと同じ扱いである．
 一方，$\theta_\lambda$ の残りの部分 $(q/t)^{|\lambda|/2}q^{n(\lambda')}t^{-n(\lambda)}$ は refined の $T$ 行列の固有値に由来する（注意~\ref{rem:Taki}）．$T$ 行列の固有値は符号を含まない．
@@ -145,11 +145,11 @@ $\ba^{2\beta}$ の各行が $\sigma$ で不変で $\bq$ の指数が偶数（す
 逆は成り立たない．
 \end{lemma}
 \begin{proof}
-$y=\bq^2\bt$ とおくと，各行は $\bt^l(y^k+y^{-k})$ の非負結合である．
-$p_k=y^k+y^{-k}$ を $w=y+y^{-1}$ の多項式とみなす．
-$w_0=\bt+\bt^{-1}$ のまわりの Taylor 係数は $dp_k/dw=kU_{k-1}(w/2)$ と母関数
+$v=\bq^2\bt$ とおくと，各行は $\bt^l\chi_k$（$\chi_k=v^k+v^{-k}$）の非負結合である．
+$\chi_k$ を $w=v+v^{-1}$ の多項式とみなす．
+$w_0=\bt+\bt^{-1}$ のまわりの Taylor 係数は $d\chi_k/dw=kU_{k-1}(w/2)$ と母関数
 \[
-\frac{1}{1-wx+x^2}=\sum_{g\ge0}\frac{G^g x^g}{\bigl((1-\bt x)(1-x/\bt)\bigr)^{g+1}}
+\frac{1}{1-w\xi+\xi^2}=\sum_{g\ge0}\frac{G^g \xi^g}{\bigl((1-\bt \xi)(1-\xi/\bt)\bigr)^{g+1}}
 \]
 から非負である（$G=w-w_0$）．逆が成り立たない例は非代数的なケーブル $K5c$ にある（付録~\ref{app:nonalg}）．
 \end{proof}
@@ -211,16 +211,16 @@ $\sigma$ 不変性は命題~\ref{prop:x-indep} から全ての $x$ に従い，�
 \subsection{正規化との関係}\label{sec:N2-framing}
 % [F17]
 \begin{proposition}\label{prop:N2-framing}
-\S\ref{sec:normalization} の正規化 (N2$'$) の単項式 $M_\lambda=M_\square^{|\lambda|}T_\lambda^F$（$F=p_2q_2$）は
+\S\ref{sec:normalization} の正規化 (N2$'$) の単項式 $M_\lambda=M_\square^{|\lambda|}T_\lambda^F$ は
 \[
 M_\lambda=\bigl(M_\square(-(q/t)^{1/2})^{-F}\bigr)^{|\lambda|}\,\theta_\lambda^F
 \]
 と書ける．すなわち，(N2$'$) のうち表現によって変わる部分は，ちょうど $F$ 単位の framing である．
-基準の framing を偶数 $y$ だけずらすことは，$x$ を $y$ ずらし，補題~\ref{lem:adams} の一様なずれを加えることに等しい．
+基準の framing を偶数だけずらすことは，$x$ を同じだけずらし，補題~\ref{lem:adams} の一様なずれを加えることに等しい．
 奇数だけずらすと Mariño--Vafa の符号が落ち，命題~\ref{prop:sign} により Laurent 性が壊れる．
 \end{proposition}
 したがって，全ての $x\in\mathbb{Z}$ についての正値性の主張は，$x=0$ をどこに置くかに依存しない．
-Aganagic--Shakirov~\cite{Aganagic11} が三葉結び目の値と DGR の superpolynomial の比を「$-6$ 単位の framing と $\sqrt{q/t}$」と書いていることは，$F=mn=6$ に合う（向きの規約を除く）．
+Aganagic--Shakirov~\cite{Aganagic11} が三葉結び目の値と DGR の superpolynomial の比を「$-6$ 単位の framing と $\sqrt{q/t}$」と書いていることは，絶対値が $F=mn=6$ に合う（符号は framing の正の向きの取り方による）．
 
 \subsection{物理的な描像と予想}\label{sec:physics}
 framed knot の refined large $N$ 双対は，次のように組み立てられる．

@@ -7,13 +7,21 @@ $SU(N)$ の不変量の large $N$ 極限を $a=t^N$ で表す．
 \begin{equation}\label{eq:cov}
 a=-\ba^2\bt,\qquad q^{1/2}=-\bq\bt,\qquad t^{1/2}=\bq
 \end{equation}
-で定める（KN の式 (cov)）．これは Dunfield--Gukov--Rasmussen~\cite{Dunfield05} の superpolynomial の変数と同じであり，
+で定める（KN の式 (cov)）．これは Dunfield--Gukov--Rasmussen（DGR）~\cite{Dunfield05} の superpolynomial の変数と同じであり，
 $t=q$ は $\bt=-1$ に当たる．Aganagic--Shakirov~\cite{Aganagic11} の太字の変数も同じである．
 Cherednik--Danilenko~\cite{Cherednik14} の DAHA の変数 $(q,t,a)$ は KN の $(q,t)$ と同じで，$a_{\mathrm{DAHA}}=-a$ である．
 半整数冪の分枝は \eqref{eq:cov} で固定する．$\hf_\rho$ の全体の符号は規約であり，最低次の項が正になる向きにとる．
 
+\paragraph{結び目の向き．}
+結び目の向き（鏡像のどちらをとるか）は DGR に従う．
+トーラス結び目 $T_{m,n}$（$m,n>0$）は，三葉結び目 $T_{2,3}$ の reduced superpolynomial が $\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$ になる向きにとる（この向きでは交差は全て負である）．
+楕円 Hall 代数では，$T_{m,n}$ は傾き $(m,-n)$ の元に当たる．
+結び目表の結び目は KnotInfo のブレイドの向きのまま用い，ツイスト結び目とダブルツイスト結び目は KNTZ~\cite{Kameyama19} の向き（$K_{1,1}=\mathbf{3_1}$ など）にとる．
+鏡像 $K^\ast$ の superpolynomial は，$K$ のものの $\ba,\bq,\bt$ を逆数にしたもの（単項式倍を除く）である．
+framing $x>0$ は Mariño--Vafa の $p>0$ に当たる（命題~\ref{prop:MV}）．
+
 \subsection{Macdonald 多項式と自明な結び目}
-$P_\lambda(x;q,t)$ を monic な Macdonald 多項式とし，内積 $\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}z_\lambda\prod_i(1-q^{\lambda_i})/(1-t^{\lambda_i})$ に関する
+$P_\lambda(u;q,t)$ を monic な Macdonald 多項式とし（$u=(u_1,u_2,\dots)$ は対称関数の変数．framing の $x$ と区別する），内積 $\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}z_\lambda\prod_i(1-q^{\lambda_i})/(1-t^{\lambda_i})$ に関する
 $g_\lambda=(q/t)^{|\lambda|}/\langle P_\lambda,P_\lambda\rangle_{q,t}$ を用いる．
 自明な結び目の不変量は主特殊化
 \[
@@ -41,18 +49,18 @@ $\U(N)$ と $\SU(N)$ の違いは framing と linking number の補正だけで�
 \subsection{refined reformulated invariants}
 KN は，$q$-brane と $\bar t$-brane の二つの配位について，幾何学的遷移の等式
 \begin{align}
-\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(x;q,t)
-&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^q_\mu(K;a^d,q^d,t^d)}{q^{\frac d2}-q^{-\frac d2}}\,s_\mu(x^d)\Bigr),\label{eq:GT1}\\
-\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,P_{\lambda^T}(-x;t,q)
-&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^{\bar t}_\mu(K;a^d,q^d,t^d)}{t^{-\frac d2}-t^{\frac d2}}\,s_\mu(x^d)\Bigr)\label{eq:GT2}
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(u;q,t)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^q_\mu(K;a^d,q^d,t^d)}{q^{\frac d2}-q^{-\frac d2}}\,s_\mu(u^d)\Bigr),\label{eq:GT1}\\
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,P_{\lambda^T}(-u;t,q)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^{\bar t}_\mu(K;a^d,q^d,t^d)}{t^{-\frac d2}-t^{\frac d2}}\,s_\mu(u^d)\Bigr)\label{eq:GT2}
 \end{align}
 を提案した．
-ここから定まる refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ は，行列 $M_{\mu\rho}(t)$ により
+ここから定まる refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ は，KN が定めた $t$ だけに依存する行列 $M_{\mu\rho}(t)$（$|\mu|=|\rho|$）により
 \begin{equation}\label{eq:f-to-hatf}
 f^q_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(t)\,\wh f_\rho(K;a,q,t),\qquad f^{\bar t}_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(q^{-1})\,\wh f_\rho(K;a,q,t)
 \end{equation}
 と書け，二つの式が同じ $\wh f_\rho$ を与えることが KN の枠組みの整合性になる．
-$f^q_\mu$ の尺度は KN の付録 B の式に合わせる．本文の \eqref{eq:GT1} をそのまま展開した値とは $(q/t)^{|\mu|/2}$ だけ違う．
+$f^q_\mu$ の尺度は KN の付録 B の式に合わせる．本文の \eqref{eq:GT1} をそのまま展開した値とは $(q/t)^{|\mu|/2}$ だけ違う（$u$ を $(t/q)^{1/2}u$ に取り替える尺度の違い）．$f^{\bar t}_\mu$ は \eqref{eq:GT2} のとおりで，この違いは無い．
 
 KN の予想は，$a$ 次数を $\pm\frac12$ ずらした後で $\wh f_\rho$ が
 \begin{equation}\label{eq:hat-f-2}
@@ -88,7 +96,7 @@ $\wh{\mathbf N}_{\rho;i,j,k}$ を \emph{spin 表示}，$\wh{\mathbf N}_{\rho,g,\
 \item genus 表示：KN は BPS 状態を $\bigoplus C_{\mu\sigma\rho}\,\mathcal{H}_{\sigma,g}\otimes A_{\rho,g,\beta,J_r,S_R}$ と分解し，$\wh N_{\rho,g,\beta,J_r,S_R}=\dim A_{\rho,g,\beta,J_r,S_R}$ と定める．
 因子 $G^g$ は M2-brane の曲線 $\Sigma_{g,h}$ の bulk の Jacobian $H^*((T^2)^g)$ の寄与であり，$g$ はその genus である．
 Labastida--Mariño--Vafa~\cite{Labastida01} の $\wh N_{R,g,Q}$ の refined 版にあたる．
-\item spin 表示：refined index $\mathrm{Tr}\,(-1)^Fq^{J_1-S_R}t^{S_R-J_2}$ の単項式は，\eqref{eq:cov} で $\pm\bq^{2(J_1-J_2)}\bt^{2(J_1-S_R)}$ になる．
+\item spin 表示：refined index $\mathrm{Tr}\,(-1)^Fq^{J_1-S_R}t^{S_R-J_2}$（$J_1,J_2$ は $\Omega$ 背景の二つの複素平面 $z_1,z_2$ の回転の生成元）の単項式は，\eqref{eq:cov} で $\pm\bq^{2(J_1-J_2)}\bt^{2(J_1-S_R)}$ になる．
 したがって $\wh{\mathbf N}_{\rho;i,j,k}$ は，$\beta=i$ と spin の固有値 $J_1-J_2=j$，$2(J_1-S_R)=k$ を固定した BPS 状態の符号付きの数である．
 $J_1-J_2$ は非 refined の index $q^{J_1-J_2}$ の冪で，Ooguri--Vafa~\cite{Ooguri99} が $N_{R,Q,s}$ の spin $s$ と呼んだものにあたる．
 \end{itemize}

@@ -9,23 +9,23 @@ KN の付録 C の BPS の表 13 個を，単項式の正規化（\S\ref{sec:nor
 これは既知の結果の再現であり，以下の計算の規約の確認として用いる．
 
 \subsection{代数的な iterated torus 結び目}
-companion $K$ の $(p,q)$-ケーブルを $C_{p,q}K$ と書く．$q$ は companion の Seifert framing で測る．
-Cherednik--Danilenko~\cite{Cherednik14,Cherednik15} の DAHA による定義では，Newton 対は $r=(p_1,p_2)$，$s=(q_1,q_2-p_1q_1p_2)$ であり，
-全ての $r_i,s_i>0$（$q_2>p_1q_1p_2$）のとき代数的である．
+companion $K$ の $(m,n)$-ケーブルを $C_{m,n}K$ と書く．$m$ は巻き数で，$n$ は companion の Seifert framing で測る．
+Cherednik--Danilenko~\cite{Cherednik14,Cherednik15} の DAHA による定義では，$C_{m_2,n_2}T_{m_1,n_1}$ の Newton 対は $r=(m_1,m_2)$，$s=(n_1,n_2-m_1n_1m_2)$ であり，
+全ての $r_i,s_i>0$（$n_2>m_1n_1m_2$）のとき代数的である．
 % [I2]
 我々はこの定義を companion の段で線形に分解し，楕円 Hall 代数の演算子の合成として計算した．
-すなわち $F_\lambda=P_\lambda[p_k\mapsto P_{k(p,-s)}]\cdot1=\sum_\mu c_{\lambda\mu}(s)P_\mu$ と展開し，
+すなわち一番外側の段 $C_{m,n}$ について $\Phi_\lambda=P_\lambda[p_k\mapsto P_{k(m,-s')}]\cdot1=\sum_\mu c_{\lambda\mu}(s')P_\mu$ と展開し（$s'$ は Newton 対 $s$ の最後の成分，$p_k$ は冪和），
 companion の値 $\rCS_K(\mu)$ との一次結合をとる．
 素朴な Rosso--Jones の $t$ 変形が誤りであることは知られており~\cite{Danilenko14,Morozov18}，ここで使う形は定義から直接従うものである．
 \begin{compresult}\label{cr:daha}
-この計算法は，Cherednik--Danilenko の明示例 10 件（$K1$ の $\yng(1)$ と $\yng(2)$，$K2,K3,K4,K5a,K5b,K5c,K7,K8$ の $\yng(1)$）と，単項式倍を除いて全係数で一致する．
+この計算法は，Cherednik--Danilenko の明示例 10 件（$K1$ の $\yng(1)$ と $\yng(2)$，$K2,K3,K4,K5a,K5b,K5c,K7,K8$ の $\yng(1)$．非代数的なケーブルの名前は付録~\ref{app:nonalg}）と，単項式倍を除いて全係数で一致する．
 また，$t=q$ の極限はブレイドから計算した色付き HOMFLY-PT 多項式と一致する．
 \end{compresult}
 
 本論文で扱うケーブルを表~\ref{tab:cables} にまとめる．
 \begin{table}[h]
 \centering
-\caption{代数的な iterated torus 結び目．$b$ はブレイドの本数，$\delta$ は種数型の量（\S\ref{sec:normalization}）．}\label{tab:cables}
+\caption{代数的な iterated torus 結び目．$C_{m,n}K$ は $K$ の $(m,n)$-ケーブル．$b$ はブレイドの本数，$\delta$ は種数型の量（\S\ref{sec:normalization}）．}\label{tab:cables}
 \begin{tabular}{llcc}
 \toprule
 名前 & 結び目 & $b$ & $\delta$ \\
@@ -47,7 +47,7 @@ DAHA と楕円 Hall 代数は値を単項式倍を除いてしか決めないが
 \begin{itemize}
 \item[(N1)] $t=q$ の極限が，framing 0 の reduced 色付き HOMFLY-PT 多項式（DGR の規約）に等しい．
 \item[(N2)] $\yng(1)$ の太字の変数での最低の $\bt$ 次数が 0 である．
-\item[(N2$'$)] 表現 $\lambda$ の単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ である．$F$ は一番外側のケーブル $C_{p,q}$ では $pq$，トーラス結び目 $T_{m,n}$ では $mn$ である．
+\item[(N2$'$)] 表現 $\lambda$ の単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ である．$F$ は一番外側のケーブル $C_{m,n}$ では $mn$，トーラス結び目 $T_{m,n}$ では $mn$ である．
 \end{itemize}
 トーラス結び目では，(N1)(N2) の下で KN の値 27 件が全係数で再現される．
 (N2) が決めるのは，箱あたりの $(q/t)^{c}$ の自由度だけである．補題~\ref{lem:adams} により，これは正値性に影響しない．
@@ -68,24 +68,24 @@ $t=q$ で決まらないのは，表現ごとの $(q/t)^{c_\lambda}$ の自由�
 
 % [I5]
 \begin{compresult}\label{cr:M}
-(N1)(N2) で決めた $\yng(1)$ の単項式は，保存した全 22 結び目（トーラス結び目 9 個，ケーブル 13 個）で
+(N1)(N2) で決めた $\yng(1)$ の単項式は，計算した全 22 結び目（トーラス結び目 9 個，ケーブル 13 個）で
 \[
 M_\square=(-q/t)^{b-1}\bigl(a(q/t)^{1/2}\bigr)^{\delta}
 \]
-に一致する．ここで $b$ はブレイドの本数，$\delta$ は反復ごとに $\delta\mapsto p\delta+(p-1)(q-1)/2$ で決まる（$T_{m,n}$ では $\delta=(m-1)(n-1)/2$）．
+に一致する．ここで $b$ はブレイドの本数，$\delta$ はケーブル $C_{m,n}$ の段ごとに $\delta\mapsto m\delta+(m-1)(n-1)/2$ で決まる（$T_{m,n}$ では $\delta=(m-1)(n-1)/2$）．
 \end{compresult}
 
 % [I6]
 \begin{hypothesis}[refined 衛星公式]\label{hyp:sat}
-$\rCS_{C_{p,q}K}(\lambda)=\sum_\mu C_{\lambda\mu}\,\rCS_K(\mu)$ が成り立つ．
-係数 $C$ は，トーラス結び目 $T_{p,q}$（自明な結び目のケーブル）の正規化された係数 $C=M_{T_{p,q}}^{|\lambda|}T_\lambda^{pq}c(q)$ である．
+$\rCS_{C_{m,n}K}(\lambda)=\sum_\mu C_{\lambda\mu}\,\rCS_K(\mu)$ が成り立つ．
+係数は，トーラス結び目 $T_{m,n}$（自明な結び目の $(m,n)$-ケーブル）の展開係数を (N2$'$) で正規化した $C_{\lambda\mu}=M_{T_{m,n}}^{|\lambda|}T_\lambda^{mn}c_{\lambda\mu}(n)$ である．
 \end{hypothesis}
 $t=q$ では仮説~\ref{hyp:sat} は古典的な衛星公式に帰着し，(N1) と両立する．
 
 導出には，計算で確かめた次の二つの式を用いる．
 \begin{compresult}\label{cr:tau}
-framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，楕円 Hall 代数の傾き $(p,n)$ の元に対し
-$\tau^kP_\lambda[p_k\mapsto P_{k(p,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(p,n+kp)}]\cdot1$ が成り立つ（5 つの傾きと $k=1,-1,2$ で，有理数の点で厳密に一致）．
+framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，楕円 Hall 代数の傾き $(m,n)$ の元と整数 $j$ に対し
+$\tau^jP_\lambda[p_k\mapsto P_{k(m,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(m,n+jm)}]\cdot1$ が成り立つ（5 つの傾きと $j=1,-1,2$ で，有理数の点で厳密に一致）．
 \end{compresult}
 \begin{compresult}\label{cr:mellit}
 Mellit~\cite[Thm.~3.1]{Mellit17} の Dyck 路の表示によるトーラス結び目の HOMFLY-PT ホモロジーの Poincaré 多項式 $\mathcal{P}_{m,n}$ は，
@@ -99,8 +99,8 @@ Mellit~\cite[Thm.~3.1]{Mellit17} の Dyck 路の表示によるトーラス結�
 仮説~\ref{hyp:sat} と計算結果~\ref{cr:tau}，\ref{cr:mellit} を仮定すると，計算結果~\ref{cr:M} の閉じた式と (N2$'$) の形が成り立つ．
 \end{proposition}
 \begin{proof}[証明の概略]
-ケーブルの部分では，計算結果~\ref{cr:tau}（framing 演算子が傾きを $(p,n)\mapsto(p,n+kp)$ に送ること）を使う．
-これと仮説~\ref{hyp:sat} から，$M_{C_{p,q}K}=M_K^p\,M_{T_{p,q}}$ と $F=pq$ が従う．
+ケーブルの部分では，計算結果~\ref{cr:tau}（framing 演算子が傾きを $(m,n)\mapsto(m,n+jm)$ に送ること）を使う．
+これと仮説~\ref{hyp:sat} から，$M_{C_{m,n}K}=M_K^m\,M_{T_{m,n}}$ と $F=mn$ が従う．
 トーラス結び目の部分は四つの事実からなる．
 (I) Gorsky--Neguţ の正規化前の値の最低 $a$ 係数は，有理 $q,t$-Catalan 数で与えられる．これは Gorsky--Neguţ の予想であり，Mellit~\cite{Mellit16} の定理の系として成り立つ．
 (II) 最低 $a$ 次数は，Franks--Williams の定理による．
@@ -120,7 +120,7 @@ Mellit~\cite[Cor.~3.4]{Mellit17} は $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\de
 \begin{remark}[Cherednik--Danilenko の tilde 正規化との関係]\label{rem:tilde}
 Cherednik--Danilenko~\cite{Cherednik14} は DAHA superpolynomial を，最低の $a$ の冪と $q_{st}^\bullet t_{st}^\bullet$ で割って，$a_{st}=0$ の部分の定数項が 1 になるように正規化する（tilde 正規化）．
 標準の変数 $(q_{st},t_{st},a_{st})$ は太字の変数と同じである．
-係数が非負の保存値 19 個（トーラス結び目 9 個，ケーブル 10 個）で，本論文の $\yng(1)$ の太字の $P$ は
+係数が非負の計算値 19 個（トーラス結び目 9 個，ケーブル 10 個）で，本論文の $\yng(1)$ の太字の $P$ は
 \[
 P=\ba^{2\delta}\bq^{-2\delta}\times(\text{tilde 正規化})
 \]
@@ -141,7 +141,7 @@ KNTZ の式は GNSSS の四重次数の予想式と一致する（$\yng(1)$，$\
 $t=q$ では KNTZ の式は Fang--Zhou~\cite{Fang26} により証明されている．
 KN の $t_c$ 次数への変換は，Gorsky--Gukov--Stošić~\cite{Gorsky13} の次数の関係 $\mathbf{Q}\mapsto\bq^R$，$\mathbf{t}_r\mapsto\bq^{-1}$，$\mathbf{t}_c\mapsto\bt\bq$（$R$ は長方形の行数）による．
 変換は，三葉結び目 $K_{1,1}=T_{2,3}$ の $\yng(1)$，$\yng(2)$，$\yng(1,1)$，$\yng(2,2)$ が楕円 Hall 代数の値と全係数一致することで較正した（Nawata ら~\cite{Nawata12} も参照）．
-\item thick な結び目 $\mathbf{10_{139}}$，$\mathbf{10_{152}}$：Stošić~\cite{Stosic24} の quiver 型の式と，KRSS~\cite{Kucharski17b} の予想式で $t_c$ 次数を作る．
+\item thick な結び目 $\mathbf{10_{139}}$，$\mathbf{10_{152}}$：Stošić~\cite{Stosic24} の quiver 型の式と，Kucharski--Reineke--Stošić--Sułkowski（KRSS）~\cite{Kucharski17b} の予想式で $t_c$ 次数を作る．
 この方法は，$\mathbf{8_{19}}=T_{3,4}$ で楕円 Hall 代数の値と $\yng(2)$ から $\yng(1,1,1)$ まで全項一致する．
 \end{itemize}
 \begin{compresult}\label{cr:kntz}

@@ -72,3 +72,11 @@
 - 「refined LMOV 不変量」は \hat{𝐍} と \hat N だけを指す。f^q, f^{\bar t} の係数は付録の補足。
 - Zhu の "refined LMOV conjecture"（非 refined の概念）と区別することを、序論で一度書く。
 - 主張には、定理・命題・計算結果・予想・仮説の区別をつける（claims.md）。
+
+## 記号の衝突の解消（2026-10-10、査読の 8〜12）
+- ケーブル：$C_{p,q}K$ → $C_{m,n}K$（$m$ は巻き数、$n$ は companion の Seifert framing）。反復は $C_{m_2,n_2}T_{m_1,n_1}$、Newton 対 $r=(m_1,m_2)$、$s=(n_1,n_2-m_1n_1m_2)$。展開 $\Phi_\lambda$（(N2′) の整数 $F$ と区別）、$s'$ は $s$ の最後の成分。framing 演算子の冪は $\tau^j$（冪和の添字 $k$ と区別）。
+- 対称関数の変数：$x$ → $u$（framing の $x$、$z_\lambda$、Ω 背景の $z_1,z_2$ と区別）。補題 G の母関数の変数は $\xi$。
+- $v=\bq^2\bt$ に統一。$w=v+v^{-1}$、$w_0=\bt+\bt^{-1}$、$G=w-w_0$、$\chi_k=v^k+v^{-k}$（冪和 $p_k$ と区別）。$y$ は使わない（全ての framing の判定の $x=x_0+2y$ だけ）。
+- Mariño–Vafa の $\lambda$ は $a$ と書く。$\ell=|R|$。
+- ダブルツイストの $\mathrm{sgn}$ → $\epsilon=(\mathrm{sign}\,m+\mathrm{sign}\,n)/2$。
+- 向き：DGR（三葉結び目の superpolynomial が $\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$、交差は負、EHA の傾き $(m,-n)$）。結び目表は KnotInfo のブレイドのまま、ツイスト・ダブルツイストは KNTZ。$x>0$ は MV の $p>0$。
