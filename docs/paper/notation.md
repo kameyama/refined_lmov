@@ -32,7 +32,7 @@
 ## 3. framing
 | 記号 | 意味 | 根拠 |
 |---|---|---|
-| framing[λ] | (−(q/t)^{1/2})^{\|λ\|} q^{n(λ')} t^{−n(λ)} = (−(q/t)^{1/2})^{\|λ\|} T_λ。Taki の f_λ(t,q) の逆数。太字では 𝐭^{\|λ\|+2n(λ')} 𝐪^{2(n(λ')−n(λ))} | §17 |
+| θ_λ(q,t)（準備稿の記号、2026-10-10 に framing[λ] から変更） | (−(q/t)^{1/2})^{\|λ\|} q^{n(λ')} t^{−n(λ)} = (−(q/t)^{1/2})^{\|λ\|} T_λ。Taki の f_λ(t,q) の逆数。太字では 𝐭^{\|λ\|+2n(λ')} 𝐪^{2(n(λ')−n(λ))} | §17 |
 | x | framing の整数。x = 0 が KN の場合（Seifert framing を基準にした (N2')） | §17 |
 | rCS^{(x)}_λ | framing[λ]^x rCS_λ。Adams の写しでは framing[λ](q^k, t^k)^x（符号は k によらない） | §17 |
 | \hat f^{(x)}_ρ, \hat{𝐍}^{(x)}, \hat N^{(x)} | rCS^{(x)} から同じ手順で作る量 | §17 |
@@ -62,6 +62,8 @@
 
 ## 6. 論文での表記の決めごと（執筆時に守る）
 - **ヤング図は KN と同じく youngtab の `\yng(2,1)` で書く**（箱 4pt、2026-10-09、ユーザーの指示）：角括弧の [1], [2,1] は引用の番号 [n] と紛らわしいので本文では使わない。言葉を添えるときは「基本表現 ρ = \yng(1)」のように書く。`\yng` は見出しと caption の中では壊れるので、見出しは言葉で書き、caption には短い版を付ける。作業用の文書（claims.md など）では従来どおり [2,1] と書いてよい。
+- **framing の因子は $\theta_\lambda(q,t)$**（2026-10-10、ユーザーの判断）：彩色 HOMFLY-PT の framing の固有値 θ_λ の refined 版として。Taki の $f_\mu(t,q)$ とは $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$。Taki の記号は KN の $f^q_\mu$, $\widehat f_\rho$ とぶつかるので使わない。作業用の文書・コードでは従来どおり framing[λ] と書いてよい。
+- **rCS のバー**（2026-10-10、ユーザーの指示）：KN と同じく、不変量そのもの・生成関数・framing の定義・計算の対象は unreduced の $\overline{\rm rCS}_\lambda$。reduced の多項式そのものを指す箇所（[1] の関係式 $\widehat f_{[1]}=(a^{1/2}-a^{-1/2}){\rm rCS}_{[1]}$、転置対称性、2 箱の公式の入力、ホモロジーの Poincaré 多項式、係数の負、ケーブルの公式、正規化）は KN の脚注どおりバーなしの ${\rm rCS}_\lambda$。
 - **KN に合わせる記号**（2026-10-09）：トーラス結び目は $T_{m,n}$。unreduced を $\overline{\rm rCS}_\lambda$、reduced を ${\rm rCS}_\lambda$（$\overline{\rm rCS}_\lambda(K)=\overline{\rm rCS}_\lambda(\bigcirc)\,{\rm rCS}_\lambda(K)$）。生成関数は unreduced で書く。G 展開の前の係数は KN の $\widehat{\mathbf N}_{\rho;i,j,k}$（$\mathbf a^{2i}\mathbf q^{2j}\mathbf t^k$）、後は $\widehat N_{\rho,g,\beta,J_r}$（KN (hat-f-2)）。予想は KN と同じく枠（tcolorbox）で囲む。
 - superpolynomial は、ホモロジーの Poincaré 多項式（DGR などの意味）にだけ使う。rCS や DAHA の値は superpolynomial と呼ばない（§8 の用語）。
 - 「refined LMOV 不変量」は \hat{𝐍} と \hat N だけを指す。f^q, f^{\bar t} の係数は付録の補足。

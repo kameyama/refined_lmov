@@ -3,18 +3,18 @@
 \subsection{定義}
 % [F1]
 \begin{definition}\label{def:framed}
-分割 $\lambda$ に対し
+分割 $\lambda$ に対し，refined の framing の因子を
 \[
-\fr[\lambda]=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)}
+\theta_\lambda(q,t)=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)}
 =(-1)^{|\lambda|}\prod_{s\in\lambda}q^{a(s)+\frac12}\,t^{-l(s)-\frac12}
 \]
-とおく．framing $x\in\mathbb{Z}$ の refined CS 不変量を $\rCS^{(x)}_\lambda=\fr[\lambda]^x\,\rCS_\lambda$ で定め，
+とおく．framing $x\in\mathbb{Z}$ の refined CS 不変量を $\overline{\rCS}^{(x)}_\lambda=\theta_\lambda^x\,\overline{\rCS}_\lambda$ で定め（reduced の不変量でも同じ因子 $\rCS^{(x)}_\lambda=\theta_\lambda^x\rCS_\lambda$），
 これを \eqref{eq:GT1}，\eqref{eq:GT2} に代入して得る量を $f^{q,(x)}_\mu$，$f^{\bar t,(x)}_\mu$，$\hf^{(x)}_\rho$，$\hbN^{(x)}$，$\hN^{(x)}$ と書く．
 $x=0$ が KN の場合である．
 \end{definition}
 
-$\fr[\lambda]$ は係数 $\pm1$ の単項式であり，plethystic 対数の中の Adams 作用 $\rCS_\lambda\mapsto\rCS_\lambda(a^k,q^k,t^k)$ では
-$\fr[\lambda](q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
+$\theta_\lambda$ は係数 $\pm1$ の単項式であり，plethystic 対数の中の Adams 作用 $\overline{\rCS}_\lambda\mapsto\overline{\rCS}_\lambda(a^k,q^k,t^k)$ では
+$\theta_\lambda(q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
 この扱いは Mariño--Vafa~\cite{Marino01} の例
 $f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,\lambda^2)\bigr)$ と同じである．
 この定義は，著者が以前（2017--2018 年，未発表）に行った計算の定義と同じである．
@@ -23,9 +23,9 @@ $f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(
 \subsection{framing の因子の由来}
 % [F2]
 \begin{proposition}\label{prop:MV}
-$t=q$ で $\fr[\lambda]^x=(-1)^{|\lambda|x}q^{x\kappa_\lambda/2}$ である．
+$t=q$ で $\theta_\lambda^x=(-1)^{|\lambda|x}q^{x\kappa_\lambda/2}$ である．
 ここで $\kappa_\lambda=|\lambda|+\sum_i(\lambda_i^2-2i\lambda_i)=2\sum_{s\in\lambda}c(s)$ は Mariño--Vafa の $\kappa_R$ である．
-したがって $\rCS^{(x)}$ の $t=q$ の極限は，Mariño--Vafa~\cite{Marino01} の framed knot の規則 $W^{(p)}_R=(-1)^{\ell p}q^{p\kappa_R/2}W_R$ に $x=p$ で一致する．
+したがって $\overline{\rCS}^{(x)}$ の $t=q$ の極限は，Mariño--Vafa~\cite{Marino01} の framed knot の規則 $W^{(p)}_R=(-1)^{\ell p}q^{p\kappa_R/2}W_R$ に $x=p$ で一致する．
 \end{proposition}
 \begin{proof}
 $t=q$ で $(q/t)^{1/2}=1$，$n(\lambda')-n(\lambda)=\sum_s c(s)=\kappa_\lambda/2$ である．
@@ -33,10 +33,17 @@ $t=q$ で $(q/t)^{1/2}=1$，$n(\lambda')-n(\lambda)=\sum_s c(s)=\kappa_\lambda/2
 $a=\lambda_{\mathrm{MV}}$，$q=q_{\mathrm{MV}}$ で両者は単項式倍を除いて一致し，$q\mapsto q^{-1}$ では一致しない（$\lambda\neq\lambda^T$ のとき）．
 \end{proof}
 
+\begin{remark}
+記号 $\theta_\lambda$ は，彩色 HOMFLY-PT 多項式の framing の固有値 $\theta_\lambda=q^{\sum_{s}c(s)}a^{|\lambda|/2}$（Rosso--Jones の公式などで使われるもの）の refined 版として選んだ．
+定義~\ref{def:framed} の $\theta_\lambda$ は，$a^{|\lambda|/2}$ を含まず，符号 $(-1)^{|\lambda|}$ と箱あたりの $(q/t)^{1/2}$ を含む点で異なる．
+$a^{|\lambda|/2}$ と $(q/t)^{1/2}$ は補題~\ref{lem:adams} により正値性に影響せず，符号は命題~\ref{prop:sign} により必要である．
+\end{remark}
+
 \begin{remark}[refined topological vertex との関係]\label{rem:Taki}
 Taki~\cite{Taki07} の refined topological vertex の framing の因子は
 $f_\mu(t,q)=(-1)^{|\mu|}t^{\|\mu^T\|^2/2}q^{-\|\mu\|^2/2}$ である．
-$\|\mu\|^2=2n(\mu')+|\mu|$ を使うと $f_\mu(t,q)=\fr[\mu]^{-1}$ となり，定義~\ref{def:framed} の因子に（向きを除いて）ちょうど一致する．
+$\|\mu\|^2=2n(\mu')+|\mu|$ を使うと $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$ となり，定義~\ref{def:framed} の因子に（向きを除いて）ちょうど一致する．
+本論文では，KN の $f^q_\mu$，$f^{\bar t}_\mu$，$\wh f_\rho$ との混同を避けるため，Taki の $f_\mu$ ではなく $\theta_\lambda$ と書く．
 Taki は，Iqbal--Kozçaz--Vafa~\cite{Iqbal07} の因子 $(-1)^{|\nu|}t^{n(\nu)}q^{-n(\nu^T)}$ に $(t/q)^{|\nu|/2}$ を掛ける修正が，
 K 理論版の Nekrasov 分配関数と一致するために必要であることを示した．
 また Aganagic--Shakirov の refined $T$ 行列の固有値 $T_i=c_Tq^{(\lambda_{R_i}+\beta\rho)^2/2}$（$t=q^\beta$）について，
@@ -48,9 +55,9 @@ $T_\lambda/T_\emptyset$ は $SU(N)$ の部分を除いて $(a^{1/2}(q/t)^{1/2})^
 \begin{proposition}\label{prop:bold}
 太字の変数では
 \[
-\fr[\lambda]=\bt^{\,|\lambda|+2n(\lambda')}\,\bq^{\,2(n(\lambda')-n(\lambda))}
+\theta_\lambda=\bt^{\,|\lambda|+2n(\lambda')}\,\bq^{\,2(n(\lambda')-n(\lambda))}
 \]
-であり，符号を含まない．例えば $\fr[\square]=\bt$，$\fr\yng(2)=\bq^2\bt^4$，$\fr\yng(1,1)=\bq^{-2}\bt^2$，$\fr\yng(2,1)=\bt^5$ である．
+であり，符号を含まない．例えば $\theta_{\yng(1)}=\bt$，$\theta_{\yng(2)}=\bq^2\bt^4$，$\theta_{\yng(1,1)}=\bq^{-2}\bt^2$，$\theta_{\yng(2,1)}=\bt^5$ である．
 \end{proposition}
 \begin{proof}
 \eqref{eq:cov} から $-(q/t)^{1/2}=\bt$，$q=\bq^2\bt^2$，$t=\bq^2$ である．
@@ -58,7 +65,7 @@ $T_\lambda/T_\emptyset$ は $SU(N)$ の部分を除いて $(a^{1/2}(q/t)^{1/2})^
 
 \begin{remark}
 命題~\ref{prop:bold} により，framing の変化は（彩色付き）HOMFLY-PT ホモロジーの次数を符号なしでずらす操作として働く．
-非 refined の極限 $\bt=-1$ では $\fr[\lambda]^x\to(-1)^{(|\lambda|+2n(\lambda'))x}=(-1)^{|\lambda|x}$ となる．
+非 refined の極限 $\bt=-1$ では $\theta_\lambda^x\to(-1)^{(|\lambda|+2n(\lambda'))x}=(-1)^{|\lambda|x}$ となる．
 Mariño--Vafa の符号 $(-1)^{\ell p}$ は，refined の次数のずらし $\bt^{\ell p}$ の非 refined での影と読める．
 この符号が KN の形に必要であることは命題~\ref{prop:sign} で示す．
 \end{remark}
@@ -67,7 +74,7 @@ Mariño--Vafa の符号 $(-1)^{\ell p}$ は，refined の次数のずらし $\bt
 % [F5]
 \begin{lemma}\label{lem:adams}
 $c$ を係数 1 の単項式とし，Adams 作用で $c\mapsto c^k$ となるものとする（$c=a^{1/2}$, $(q/t)^{1/2}$ など）．
-$\rCS_\lambda$ を $c^{|\lambda|}\rCS_\lambda$ に置き換えると，$\hf_\rho$ は $c^{|\rho|}\hf_\rho$ になる．
+$\overline{\rCS}_\lambda$ を $c^{|\lambda|}\overline{\rCS}_\lambda$ に置き換えると，$\hf_\rho$ は $c^{|\rho|}\hf_\rho$ になる．
 \end{lemma}
 \begin{proof}
 $c^{|\lambda|}$ は生成関数の変数を $x\mapsto cx$ と取り替えることに当たり，$c$ が Adams 作用と両立するので plethystic 対数と可換である．
@@ -82,9 +89,9 @@ $n=2$ で $\{\bq^2\bt^2,\bq^{-2},1,-1\}$，$n=3$ で $\{\bq^6\bt^6,\bq^{-6},\bq^
 $x$ の偶奇で分ければ，根は係数 1 の単項式になる．
 \end{proposition}
 \begin{proof}
-$\hf_\rho$ は，$\rCS_\lambda$ とその Adams の写しの積を固定した有理関数の係数で一次結合したものである．
-framing をつけると，各項には $\prod\fr[\lambda_i](q^{k_i},t^{k_i})^x$ が掛かる．
-これらを太字の変数で書き出すと，$n=2$ では $\fr\yng(2)=\bq^2\bt^4$，$\fr\yng(1,1)=\bq^{-2}\bt^2$，$\fr[\square]^2=\bt^2$，$\fr[\square](q^2,t^2)=-\bt^2$ である．
+$\hf_\rho$ は，$\overline{\rCS}_\lambda$ とその Adams の写しの積を固定した有理関数の係数で一次結合したものである．
+framing をつけると，各項には $\prod\theta_{\lambda_i}(q^{k_i},t^{k_i})^x$ が掛かる．
+これらを太字の変数で書き出すと，$n=2$ では $\theta_{\yng(2)}=\bq^2\bt^4$，$\theta_{\yng(1,1)}=\bq^{-2}\bt^2$，$\theta_{\yng(1)}^2=\bt^2$，$\theta_{\yng(1)}(q^2,t^2)=-\bt^2$ である．
 $\bt^{-2x}$ を掛ければ主張の根が得られる．$n=3$ も同様である．
 \end{proof}
 
@@ -96,7 +103,7 @@ $v=\bq^2\bt$ とおくと $\bq^2\bt^2=v\bt$，$\bq^{-2}=\bt/v$ で，根は $\si
 \begin{proposition}\label{prop:x-indep}
 任意の $x$ について次が成り立つ．
 \begin{enumerate}
-\item $\fr[\lambda](1/t,1/q)=\fr[\lambda^T](q,t)$．したがって，$\rCS_\lambda$ の転置対称性，$q$-brane と $\bar t$-brane の式 \eqref{eq:GT1}，\eqref{eq:GT2} が同じ $\hf$ を与えること，$G$ 展開が閉じる条件（$\sigma$ 不変性）は，$x$ によらない．
+\item $\theta_\lambda(1/t,1/q)=\theta_{\lambda^T}(q,t)$．したがって，$\rCS_\lambda$ の転置対称性，$q$-brane と $\bar t$-brane の式 \eqref{eq:GT1}，\eqref{eq:GT2} が同じ $\hf$ を与えること，$G$ 展開が閉じる条件（$\sigma$ 不変性）は，$x$ によらない．
 \item 2 箱について，$\hf^{(x)}_\rho$ が Laurent 多項式であることと $\hf^{(0)}_\rho$ が Laurent 多項式であることは同値である．
 \end{enumerate}
 \end{proposition}
@@ -151,7 +158,7 @@ $P$ を $\rCS_{\yng(1)}$ とする $\hf_{\yng(1)}$ は，全ての $x$ につい
 \end{proposition}
 \begin{proof}
 $x=0$ では，$\hf_{\yng(1)}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ も $\sigma$ で不変で非負なので，補題~\ref{lem:G} から従う．
-一般の $x$ では $\fr[\square]^x=\bt^x$ なので，$\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$ である．これは $\hN$ の $2J_r$ を $x$ だけずらす．
+一般の $x$ では $\theta_{\yng(1)}^x=\bt^x$ なので，$\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$ である．これは $\hN$ の $2J_r$ を $x$ だけずらす．
 \end{proof}
 
 \begin{corollary}\label{cor:one}
@@ -195,7 +202,7 @@ $\sigma$ 不変性は命題~\ref{prop:x-indep} から全ての $x$ に従い，�
 \begin{proposition}\label{prop:N2-framing}
 \S\ref{sec:normalization} の正規化 (N2$'$) の単項式 $M_\lambda=M_\square^{|\lambda|}T_\lambda^F$（$F=p_2q_2$）は
 \[
-M_\lambda=\bigl(M_\square(-(q/t)^{1/2})^{-F}\bigr)^{|\lambda|}\,\fr[\lambda]^F
+M_\lambda=\bigl(M_\square(-(q/t)^{1/2})^{-F}\bigr)^{|\lambda|}\,\theta_\lambda^F
 \]
 と書ける．すなわち，(N2$'$) のうち彩色によって変わる部分は，ちょうど $F$ 単位の framing である．
 基準の framing を偶数 $y$ だけずらすことは，$x$ を $y$ ずらし，補題~\ref{lem:adams} の一様なずれを加えることに等しい．
