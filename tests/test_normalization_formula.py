@@ -71,3 +71,21 @@ def test_bottom_coefficient_is_rational_catalan(m, n):
     raw = reconstruct(lambda G: G.torus_reduced_apoly((1,), m, -n), log=lambda s: None)
     R = sum(c * q ** eq * t ** et for (ea, eq, et), c in raw.items() if ea == 0)
     assert sp.expand(R - (-t / q) ** (m - 1) * catalan(m, n).subs(q, 1 / q)) == 0
+
+
+@pytest.mark.parametrize("M,N", [(2, 3), (3, 2), (2, 5)])
+def test_mellit_cor_daha_normalization(M, N):
+    """Mellit 1704.07630 の Thm (dyck paths) の 𝒫_{M,N} は −(a(qt)^{−1/2})^δ (1/(1−t)) (Q_{M,N}·1)[a/q−1]/(a/q−1)（BGLX の Q）。
+    Cor (daha) の文面どおりの代入 [a−1] では、どの符号でも一致しない（scripts/d1_mellit_cor.py の総当たりの一部）。"""
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from d1_bglx import Qop
+    from d1_ops2 import dyck, pleth
+    a, s, u = Fraction(2, 7), Fraction(2, 3), Fraction(3, 5)
+    q, t, sq = s * s, u * u, s * u
+    d = (M - 1) * (N - 1) // 2
+    V = Qop(M, N, {(): Fraction(1)}, q, t)
+    D = dyck(M, N, a, q, t, sq)
+    pref = (a / sq) ** d / (1 - t)
+    assert D == -pref * pleth(V, a / q) / (a / q - 1)
+    assert D not in (pref * pleth(V, a) / (a - 1), -pref * pleth(V, a) / (a - 1))

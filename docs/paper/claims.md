@@ -50,7 +50,7 @@
 | I3 | ケーブルの t = q の極限が、ブレイドから計算した彩色 HOMFLY-PT と一致する | 計算結果 | — | test_cable_formula_matches_braid、test_t_equals_q_is_homfly | 照合 |
 | I4 | 正規化 (N1)(N2')：[1] は t = q で HOMFLY-PT に一致し最低 𝐭 次数 0。彩色付きは [1] の単項式と framing の固有値の積 | 仮説（ケーブル） | — | conventions.md §5。トーラス結び目では確定（27 件）。ケーブルでは K5c で (N2) が破れ (N2') で回復（転置・Laurent 性）。test_normalization_N2prime | 新規（規則の提案） |
 | I5 | M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^δ が保存済みの 22 結び目で成立する | 計算結果 | — | conventions.md §13。test_box_monomial_formula | 新規 |
-| I6 | I5 の導出：H_sat とトーラス結び目の事実 (I)〜(IV) から | 定理（条件つき） | **仮説 H_sat**。(IV) の辞書は Mellit の Cor (daha) の正規化に依存し、その原典での確定は**未了**（符号と a → a/q） | conventions.md §13.1。test_framing_operator_shifts_slope、test_bottom_coefficient_is_rational_catalan | 新規（条件つき）。GN の Catalan 予想が Mellit の定理の系であることは既知と考えられるので、成果にしない |
+| I6 | I5 の導出：H_sat とトーラス結び目の事実 (I)〜(IV) から | 定理（条件つき） | **仮説 H_sat**。(IV) の辞書は、Mellit の Thm (dyck paths)（定理）と、標準の正規化の Cor (daha) の形 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) に依存する。後者は Thm (daha) から d_± の表現の元として導出でき（2026-10-09、原典で確認）、標準の正規化での形は計算（12 例、総当たりで唯一）。d_± の元と BGLX の Q の対応の照合が残る | conventions.md §13.1。test_framing_operator_shifts_slope、test_bottom_coefficient_is_rational_catalan | 新規（条件つき）。GN の Catalan 予想が Mellit の定理の系であることは既知と考えられるので、成果にしない |
 | I7 | 結び目表 801 個の [1] の入力（yui-kr の HOMFLY-PT ホモロジー）が、DGR の対称性・ブレイドの HOMFLY-PT・トーラス結び目の rCS と整合する | 計算結果（入力の検証） | — | test_dgr_symmetry、test_euler_characteristic_is_braid_homfly、test_torus_knots_match_rcs | 照合 |
 | I8 | 2 箱の入力：GNSSS の予想式（ツイスト・pretzel）。t_c 次数の変換は、トーラス結び目と既知の彩色 HOMFLY-PT で較正した | 既知（入力の予想式） | **予想式** | conventions.md §12。test_tc_conversion_reproduces_torus_knots、test_cable_inversion_reproduces_known_colored_homfly | 入力は既知の予想式 |
 | I9 | thick な結び目の t_c 次数：Stošić の quiver ＋ KRSS の (quad-C) の組み合わせが、8_19 で EHA の [2]〜[1,1,1] と全項一致する | 計算結果（方法の較正） | **予想式** | open_problems.md B4、logs/b4_819_quad.log | 部分的に新しい（予想式の検証例） |
@@ -102,7 +102,7 @@
 
 ## 7. 書く前に解決・明記が必要な点（格付けで見つかったもの）
 
-1. **I6 の Mellit の正規化**：原典での確定が未了（outline §3 の 6）。確定できなければ、I6 は「H_sat と (I)〜(III) の下で導出、(IV) は辞書の仮定の下で」と書き分ける。
+1. **I6 の Mellit の正規化**（2026-10-09 に原典で確認、conventions.md §13.1 (IV)）：Cor の文面は d_± の表現での元と読めば Thm (daha) と整合する。標準の正規化では [a/q−1] と符号 −1 の形だけが成り立つ（計算）。論文では文面を引用せず、Thm (daha) からの導出と標準の形を書き、「d_± の元と BGLX の Q の対応は計算で確認」と明記する。
 2. **I4 の (N2') は、ケーブルでは仮説**：F17 で framing として意味づけたので、「彩色依存部分は framing、仮説として残るのは M_□（I5・I6）」と書ける。仮説の範囲を狭めて書く。
 3. **R4・R8 の未証明部分**：pretzel の異符号の残りと、ツイスト結び目の逆符号の領域。定理の文で範囲を限定する。
 4. **F14**：Chandler–Gorsky の規約との照合が未確認。「同じ形の条件」と書くにとどめるか、照合してから同値と書く。

@@ -9,7 +9,9 @@
 - PR：#1〜#4 はマージ済み。#4 は #2 のブランチにマージされたため main に入っておらず、ブランチ framed-refined-lmov に main を取り込んで main 向けに出し直す（2026-10-09）。
 - 作業の続きはユーザーの指示待ち（「進まなくて良い」、2026-10-09）。
 - **論文の構成（2026-10-09、ユーザーの指示）**：KN を framed knot に拡張し、KN のデータを超えて G 展開の前後の正整数性を検証する、という軸の 1 本の論文にする。準備段階は日本語、最終版は英語、投稿先は未定（arXiv には上げる）。構成案は docs/paper/outline.md（執筆前の作業は同 §3）。
-- **framed への拡張の確認（2026-10-09）**：(1) t = q で MV の framing に x = p で一致、(2) framing[λ] は Taki の refined vertex の framing の因子の逆数に一致（IKV の形は誤り、ユーザーの指摘）、(3) MV の符号は奇数の framing で Laurent 性に必要【導出】、(4) (N2') の彩色依存部分はちょうど F 単位の framing、(5) 文献調査で framed の refined LMOV の検証は新規と思われる（novelty_report.md §10）。考察は docs/literature/framing_large_n.md。執筆前の残り：outline.md §3 の 1, 6〜8。表の空欄を埋める計算は、このセッションでは行わない（ユーザーの指示）。
+- **framed への拡張の確認（2026-10-09）**：(1) t = q で MV の framing に x = p で一致、(2) framing[λ] は Taki の refined vertex の framing の因子の逆数に一致（IKV の形は誤り、ユーザーの指摘）、(3) MV の符号は奇数の framing で Laurent 性に必要【導出】、(4) (N2') の彩色依存部分はちょうど F 単位の framing、(5) 文献調査で framed の refined LMOV の検証は新規と思われる（novelty_report.md §10）。考察は docs/literature/framing_large_n.md。執筆前の残り：outline.md §3 の 7, 8。
+- **主張の格付け表（2026-10-09）**：docs/paper/claims.md。
+- **Mellit の Cor (daha) の正規化（2026-10-09、原典で確認）**：文面の符号 (−1)^n と [a−1] は、生成元を Carlsson–Mellit の d_± の表現の元 −d_-B_{c}d_+(1) と読めば Thm (daha) と整合する【導出】。標準の正規化（BGLX の Q、GN の \tilde P）では、総当たりで唯一 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) が成り立つ【計算】。残り：d_± の元と BGLX の Q の対応の具体的な照合（1604.07456）。conventions.md §13.1、scripts/d1_mellit_cor.py。表の空欄を埋める計算は、このセッションでは行わない（ユーザーの指示）。
 
 
 別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。
