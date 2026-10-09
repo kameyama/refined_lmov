@@ -29,6 +29,8 @@ docs/paper/*.fdb_latexmk
 # K10 の 3 箱の \hat f（363 MB）は xz で圧縮した data/lmov/K10_3.json.xz だけを git に入れる
 data/lmov/K10_3.json
 
+# framing を記号として扱う判定の途中の値（scripts/framing_newton.py が再生成する）
+data/framing/
 # K7〜K9 の 3 箱の \hat N（各 21〜32 MB）は xz で圧縮した .json.xz だけを git に入れる。.txt の表は git に入れない（scripts/export_bps.py で再生成）
 data/bps/K[789]_3.json
 data/bps/K[789]_21.json
