@@ -59,6 +59,9 @@
 - framing x の rCS_λ = framing[λ]^x rCS_λ（framing[λ] = (−(q/t)^{1/2})^{|λ|} q^{n(λ')} t^{−n(λ)}、conventions.md §17）で、自明な結び目・トーラス結び目 4 つ・4_1 は 3 箱まで、ツイスト結び目 12 個は 2 箱まで、代数的なケーブル K1, K3 は 3 箱まで、framing を |x| ≤ 2〜6 で振った 732 件で、G 展開の前後とも負の項 0【計算】（9 件は \hat f = 0）。
 - 基準：ユーザーの以前の計算（未発表）の出力 9 件と全係数一致。[1] は 𝐭^x 倍だけで自明【導出】。
 - データ・コード：logs/framing_batch.log、logs/framing_notebook_check.log、scripts/framing_check.py、tests/test_framing.py。
+- framing を記号として扱う（2026-10-09）：𝐭^{−nx}\hat f^{(x)} は x の指数和で、命題 1・命題 2・Laurent 性・G 展開の閉じ方は framing によらない【導出】。
+  2 箱は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 で**全ての整数の framing** で G 展開の前後とも正【導出 ＋ 有限個の厳密な判定】（logs/framing_newton.log）。
+  ツイスト結び目の 2 箱は p と framing が同じ符号の向きで全て正（逆向きは |p| ≤ 6、|x| ≤ 14 の直接計算のみ）。3 箱の全ての framing の証明書は未取得。
 
 ## 4. ケーブルの正規化の閉じた式
 

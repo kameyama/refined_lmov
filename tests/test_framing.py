@@ -69,3 +69,49 @@ def test_framed_is_monomial_rescaling():
     for lam in red:
         s, (da, dq, dt) = framing_monomial(lam, 3)
         assert f[lam] == {(ea + da, eq + dq, et + dt): s * c for (ea, eq, et), c in red[lam].items()}
+
+
+# ---------------------------------------------------------------- framing を記号として扱う（構造の導出）
+def test_two_box_denominator_loci_framing_factors_agree():
+    """2 箱の公式の分母の各既約因子の零点で、残る 2 つの入力の framing の因子が一致する ⇒ Laurent 性と命題 2 は framing によらない。"""
+    from v4_closed import formula
+    Asym, Q, T = sp.symbols("A Q T")
+    mult = [Q**4 * T**-2, Q**2 * T**-4, Q**2 * T**-2, -Q**2 * T**-2]          # r2, r11, r1², r1(Adams) の framing[λ]（x = 1）
+    for rho, (ns, den) in formula().items():
+        polys = [sum(c * Asym**i * Q**j * T**k for (i, j, k), c in n.to_dict().items()) for n in ns]
+        for locus in ({Q: 1}, {Q: -1}, {Q: sp.I}, {T: 1}, {T: -1}, {T: sp.I}, {Q: 1 / T}, {Q: -1 / T}):
+            alive = [i for i, P in enumerate(polys) if sp.simplify(P.subs(locus)) != 0]
+            assert len(alive) == 2
+            assert len({sp.simplify(mult[i].subs(locus)) for i in alive}) == 1, (rho, locus)
+
+
+def test_framing_factor_transposition():
+    """framing[λ](1/t, 1/q) = framing[λ^T](q, t) ⇒ framing を付けても転置対称性（G 展開が閉じる条件の σ）は保たれる。"""
+    from rcsknots.partitions import conjugate
+    for lam in [(1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1)]:
+        s, (_, eq, et) = framing_monomial(lam, 1)
+        sT, (_, eqT, etT) = framing_monomial(conjugate(lam), 1)
+        assert s == sT and (-et, -eq) == (eqT, etT)          # (Q, T) → (1/T, 1/Q)
+
+
+def test_two_box_framing_is_exponential_sum():
+    """𝐭^{−2x}\\hat f^{(x)} は x の指数和（根 𝐪²𝐭², 𝐪⁻², 1, −1）：x = 0..3 で係数を決め、x = 4, −1, −2 を予測（三葉結び目、有理数の点で）。"""
+    from fractions import Fraction as Fr
+    from framing_newton import S_values
+    red = load_reduced("T2_3", 2)
+    pt = (Fr(2), Fr(3), Fr(5))
+    roots = [pt[1] ** 2 * pt[2] ** 2, pt[1] ** -2, Fr(1), Fr(-1)]
+    for rho in [(2,), (1, 1)]:
+        v = {x: sum(Fr(c) * pt[0] ** i * pt[1] ** j * pt[2] ** k for (i, j, k), c in S_values("T2_3", 2, x, red)[rho].items())
+             for x in (-2, -1, 0, 1, 2, 3, 4)}
+        c = sp.Matrix([[r ** x for r in roots] for x in range(4)]).LUsolve(sp.Matrix([v[x] for x in range(4)]))
+        assert all(sum(c[i] * roots[i] ** x for i in range(4)) == v[x] for x in (4, -1, -2))
+
+
+def test_trefoil_two_box_all_framings_newton():
+    """三葉結び目の 2 箱：4 つの (偶奇, 向き) でニュートン形の係数が一様な符号になる起点があり、起点と 0 の間も直接判定で正。"""
+    from framing_newton import run as nrun
+    res = nrun("T2_3", 2, 4, log=lambda s: None)
+    for key, found in res.items():
+        assert found and found[1] is not None and found[3], key
+        assert all(g[0] == found[2] and g[1] is True for x, g in found[4]), key

@@ -415,6 +415,13 @@ GJ = Gu–Jockers 1407.5643（GJ.v3.arXiv.tex）、MMM = 1408.3076（main.lf.tex
 - **照合**【計算】：ノートブックに残っている出力 9 件と全係数一致（三葉結び目 framing 2 の [1], [2], [1,1], [3]、自明な結び目 framing 3 の [3], [2,1] と [1,1,1] の G 展開の前、4_1 framing 0 と 2 の [2]）。
 - **[1] は自明**【導出】：framing[□]^x は太字の変数で 𝐭^x（Q/T = −𝐭）なので、\hat f_{[1]} は 𝐭^x 倍され、\hat N は 2J_r が x ずれるだけ。
 - **計算上の注意**：自明な結び目では \hat f_ρ が恒等的に 0 になる ρ がある（framing 0 では [1] 以外の全て）。補間（rcsknots.exact.reconstruct_points）は 0 を扱えず長時間かかって失敗するので、乱数の 3 点で 0 なら補間を飛ばす（framing_check.zero_rhos）。
+- **framing を記号として扱う構造**（2026-10-09、`scripts/framing_newton.py`、`scripts/framing_twist.py`）：
+  - 太字の変数での framing の因子：framing[□] = 𝐭、framing[□](q², t²) = −𝐭²、framing[□](q³, t³) = 𝐭³、framing[2] = 𝐪²𝐭⁴、framing[1,1] = 𝐪⁻²𝐭²、framing[3] = 𝐪⁶𝐭⁹、framing[2,1] = 𝐭⁵、framing[1,1,1] = 𝐪⁻⁶𝐭³【導出】。
+  - よって 𝐭^{−nx}\hat f^{(x)}_ρ（|ρ| = n）は x の指数和【導出】：n = 2 の根は {𝐪²𝐭², 𝐪⁻², 1, −1}、n = 3 の根は {𝐪⁶𝐭⁶, 𝐪⁻⁶, 𝐪²𝐭², 𝐪⁻², 𝐭², 1, −1}（−1 は Adams の写し rCS_□·rCS_□(q², t²) から）。
+    v = 𝐪²𝐭 とおくと 𝐪²𝐭² = v𝐭、𝐪⁻² = 𝐭/v で、framing は sl₂（σ）の重み ±1 の対を作る。【計算：根の構造は当てはめに使わない x で予測が一致（2 箱：三葉結び目、3 箱：自明な結び目、x = 7..10, −1, −2）】
+  - 転置：framing[λ](1/t, 1/q) = framing[λ^T](q, t)【導出】。framing を付けても転置対称性は保たれ、G 展開が閉じる条件（σ 不変性）は framing によらない。
+  - 2 箱の Laurent 性：公式の分母 2A²(Q⁴−1)(T⁴−1)(Q²T²−1) の各既約因子の零点で、残る入力はちょうど 2 つで、その framing の因子は一致する【導出（tests/test_framing.py）】。
+    よって \hat f^{(x)} が Laurent ⇔ \hat f^{(0)} が Laurent（全ての結び目・全ての x）、命題 2 の必要条件 dim H^{[2]} = (dim H^{[1]})² も framing によらない。
 - 文献：非 refined の framed knot の LMOV 型の整数性は Mariño–Vafa "Framed knots at large N"（arXiv:hep-th/0108064、掲載誌は arXiv に記載なし）。refined の framed の正値性はユーザーの以前の計算が初出（文献での扱いは未確認）。
 
 ## 変更履歴
