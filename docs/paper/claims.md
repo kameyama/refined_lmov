@@ -34,7 +34,7 @@
 | F11 | G 展開の補題：G 展開が閉じ（各 𝐚 行が σ 不変で 𝐪 の指数が偶数）、展開の前が非負係数なら、\hat N も非負整数。逆は成り立たない（K5c） | 補題 | — | REPORT_knot_table.md §2、REPORT_phase4.md §5.1。test_lemma_chebyshev_expansion_is_positive、test_K5c_before_and_after_G_differ | 新規と思われる（構成要素は初等的） |
 | F12 | 命題 1：入力が非負係数で DGR の対称性をもてば、\hat f_{[1]} の G 展開は整数で閉じ、前後とも非負。全ての x で成り立つ（framing[□]^x = 𝐭^x なので 2J_r が x ずれるだけ） | 命題 | DGR の対称性は Gorsky–Hogancamp–Mellit 2103.01212 の定理（ホモロジーを入力とする場合） | REPORT_knot_table.md §2。test_positive_symmetric_polynomials_give_positive_bps、test_fundamental_framing_is_t_shift | 新規（構成要素は既知、§6） |
 | F13 | 系：HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする限り、任意の結び目・任意の x で [1] は正 | 系 | F12 と同じ | 同上 | 新規 |
-| F14 | [1] の 2J_r の偶奇が (g, β) ごとにそろう ⇔ 𝐚 の次数が連続する範囲ごとに e_𝐭 + e_𝐚/2 の偶奇が一定（parity knot の条件） | 命題 ＋ 計算結果（801 個中 9 個） | Chandler–Gorsky の parity knot との規約の照合は未確認 | REPORT_knot_table.md §2、REPORT_phase4.md §7。test_knot_table_all_positive_and_parity_criterion | 条件自体は既知（Chandler–Gorsky 2209.13058）。BPS との同値性は新規 |
+| F14 | [1] の 2J_r の偶奇が (g, β) ごとにそろう ⇔ 𝐚 の次数が連続する範囲ごとに e_𝐭 + e_𝐚/2 の偶奇が一定（parity knot の条件） | 命題 ＋ 計算結果（801 個中 9 個） | 𝐚 次数の台に隙間が無いこと（801 個すべてで成立）。CG の定義と同値（§7 の 4） | REPORT_knot_table.md §2、REPORT_phase4.md §7。test_knot_table_all_positive_and_parity_criterion | 条件自体は既知（Chandler–Gorsky 2209.13058）。BPS との同値性と、11 交点以下の一覧は新規 |
 | F15 | 命題 2：\hat f_{[2]} が Laurent なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要（[1,1] も同様）。この条件は x によらない | 命題 | — | REPORT_knot_table.md §3.3、F9 | 導出は新規。9_42 の次元 401（GGS）と、9_42 が KN の形に乗らないこと（KN）は既知 |
 | F16 | 全ての x の判定法：x の偶奇・向きごとにニュートン形を作り、係数の一様な符号と、起点と 0 の間の直接判定で、全ての x を有限個の判定に帰着する | 方法（補題としての正しさは導出） | — | scripts/framing_newton.py、test_trefoil_two_box_all_framings_newton | 方法。V4 のツイスト結び目の方法の転用 |
 | F17 | (N2') の彩色依存部分はちょうど F（= pq）単位の framing：M_λ = (M_□(−(q/t)^{1/2})^{−F})^{\|λ\|}framing[λ]^F。基準の framing を偶数ずらすのは x のずれに吸収され、奇数ずらすと F10 により Laurent 性が壊れる | 命題 | — | framing_large_n.md §2.6、conventions.md §17 | 新規（正規化の意味づけ） |
@@ -48,7 +48,7 @@
 | I1 | KN のノートブックの 27 件（トーラス結び目 \|λ\| ≤ 3）を EHA（GN の構成）から全係数で再現し、BPS の表 13 個も再現した（規約の固定） | 既知の再現 | — | test_gn_reproduces_notebook、test_saved_tables_match_paper、test_kn_tables_reproduced | 既知。成果として書かない |
 | I2 | ケーブルの refined 不変量：DAHA の定義を companion の段で分解した計算法が、CD14 の明示例 8 件と全係数一致する。素朴な Rosso–Jones の t 変形は誤り | 計算結果（方法の検証） | — | REPORT.md §2、conventions.md §7。test_matches_daha_example | 素朴な形の失敗は既知。正しい形は定義から従うので、新規性は弱い（novelty_report §5 (N4)）。「計算法として明示し検証した」と書く |
 | I3 | ケーブルの t = q の極限が、ブレイドから計算した彩色 HOMFLY-PT と一致する | 計算結果 | — | test_cable_formula_matches_braid、test_t_equals_q_is_homfly | 照合 |
-| I4 | 正規化 (N1)(N2')：[1] は t = q で HOMFLY-PT に一致し最低 𝐭 次数 0。彩色付きは [1] の単項式と framing の固有値の積 | 仮説（ケーブル） | — | conventions.md §5。トーラス結び目では確定（27 件）。ケーブルでは K5c で (N2) が破れ (N2') で回復（転置・Laurent 性）。test_normalization_N2prime | 新規（規則の提案） |
+| I4 | 正規化 (N1)(N2')：[1] は t = q で HOMFLY-PT に一致し最低 𝐭 次数 0。彩色付きは [1] の単項式と framing の固有値の積 | 仮説（ケーブル）。仮説の中身は「t = q で決まらない彩色ごとの (q/t)^{c_λ} が framing の固有値に従う」の一点（§7 の 2） | — | conventions.md §5。トーラス結び目では確定（27 件）。ケーブルでは K5c で (N2) が破れ (N2') で回復（転置・Laurent 性）。test_normalization_N2prime | 新規（規則の提案） |
 | I5 | M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^δ が保存済みの 22 結び目で成立する | 計算結果 | — | conventions.md §13。test_box_monomial_formula | 新規 |
 | I6 | I5 の導出：H_sat とトーラス結び目の事実 (I)〜(IV) から | 定理（条件つき） | **仮説 H_sat**。(IV) の辞書は、Mellit の Thm (dyck paths)（定理）と、標準の正規化の Cor (daha) の形 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) に依存する。後者は Thm (daha) から d_± の表現の元として導出でき（2026-10-09、原典で確認）、標準の正規化での形は計算（12 例、総当たりで唯一）。d_± の元と BGLX の Q の対応の照合が残る | conventions.md §13.1。test_framing_operator_shifts_slope、test_bottom_coefficient_is_rational_catalan | 新規（条件つき）。GN の Catalan 予想が Mellit の定理の系であることは既知と考えられるので、成果にしない |
 | I7 | 結び目表 801 個の [1] の入力（yui-kr の HOMFLY-PT ホモロジー）が、DGR の対称性・ブレイドの HOMFLY-PT・トーラス結び目の rCS と整合する | 計算結果（入力の検証） | — | test_dgr_symmetry、test_euler_characteristic_is_braid_homfly、test_torus_knots_match_rcs | 照合 |
@@ -68,7 +68,7 @@
 |---|---|---|---|---|---|
 | R2 | ツイスト結び目 K_p：全ての p ≠ 0 で、2 箱は G 展開の前後とも正（x = 0） | 定理（導出 ＋ 有限個の厳密な判定） | **予想式（GNSSS）**、t_c 次数 δ' = −S | REPORT_phase4.md §5.1。c_2 を使わない LP 証明書あり（data/v4/v4_ck5_cert_*）。test_v4_twist.py（7 件）、logs/v4_closed.log, v4_newton_*.log | 新規（\hat f の段階） |
 | R3 | ツイスト結び目の 2 箱は、全ての p で sl_2 指標の正係数の和（単峰） | 命題（導出 ＋ 有限個の判定） | 予想式 | REPORT_phase4.md §5.1（c_0..c_2 は計算） | 新規。注意として載せる |
-| R4 | pretzel K_{s,t}：s, t が同符号なら全て正。異符号は min(\|s\|, t) ≤ 20 で証明、\|s\|, t ≤ 40 の範囲で直接確認。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（GNSSS）** | REPORT_phase4.md §5.2、REPORT_phase5.md §2。data/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
+| R4 | pretzel K_{s,t}：s, t が同符号なら全て正。異符号は min(\|s\|, t) ≤ 20 で証明、\|s\| ≤ 30 かつ t ≤ 40 の範囲で直接確認（\|s\|, t > 20 の 200 点。閉じた形での判定で、閉じた形は 54 点で直接計算と一致）。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（GNSSS）** | REPORT_phase4.md §5.2、REPORT_phase5.md §2。data/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
 | R5 | thick な非トーラス結び目 10_139, 10_152 の 2 箱は G 展開の前後とも正（次元 441 = 21², 841 = 29²） | 計算結果 | **予想式（Stošić ＋ KRSS）** | RESULTS.md §3、logs/b4_s2_thick.log、data/b4/ | 新規（knots–quivers の正値性からは従わない、novelty_report §9） |
 | R6 | 正値性は自動的でない：5_2 で t_c 次数の別の割り当て 12 通りは全て負の項をもつ | 計算結果 | 予想式 | REPORT_knot_table.md §4、logs/t3_nonunique.log | 新規。注意として載せる |
 | R7 | 2 箱は、全ての整数 x で G 展開の前後とも正。対象は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 | 定理（導出 ＋ 有限個の厳密な判定） | 入力：EHA/DAHA、4_1 は KN のデータ（ホモロジー由来） | logs/framing_newton.log、F16、test_trefoil_two_box_all_framings_newton | 新規 |
@@ -83,7 +83,7 @@
 | R11 | 代数的な iterated torus 結び目 7 個（K1, K3, K6a, K7, K8, K9, K10）の \|ρ\| ≤ 3 の全 6 ρ で、G 展開の前後とも正（x = 0）。K7 は 3 本ケーブル、K10 は 2 段の反復（3 箱は約 183 万項、係数の最大 1.1×10¹⁹） | 計算結果 | 入力は DAHA の定義どおり。正規化は I4（仮説） | RESULTS.md §1、data/cables/, data/lmov/, data/bps/、logs/u4_cables*.log, v0_K10_*.log。test_u4_three_box_positivity（results）、test_u4_bps_saved、test_positive_before_and_after_G | 新規（K7, K10 の \|λ\| = 3 の値自体も文献に無い、novelty_report §10） |
 | R12 | 入力の rCS_{[2,1]} 自体は負の係数をもつのに、BPS の段で正になる | 注意（計算での観察） | — | REPORT_phase3.md §3 | 観察 |
 | R13 | 3 箱を x ≠ 0 で判定：自明な結び目 \|x\| ≤ 6、T(2,3) \|x\| ≤ 6、T(2,5) と 4_1 \|x\| ≤ 4、T(2,7), T(3,4) \|x\| ≤ 3、K1, K3 \|x\| ≤ 2 で全て正。全ての x の証明書は未取得（6 根のニュートン形では見つからない） | 計算結果 | 4_1 の [2,1] は KN の候補 | logs/framing_batch.log、logs/framing_newton_first.log | 新規 |
-| R14 | **予想 B**：代数的な iterated torus 結び目は、全ての ρ について KN の正値性を満たす（予想 A の x = 0、結び目のクラスを明示した版） | 予想 | 仮定 S_R | R10, R11 | 新規の予想（KN の予想のクラスの拡張） |
+| R14 | **予想 B**：代数的な iterated torus 結び目は、全ての ρ について KN の正値性を満たす（予想 A の x = 0、結び目のクラスを明示した版） | 予想 | KN の U(1)_R の議論は直接は当てはまらない（補空間が Seifert でない）。動機は DAHA の値とホモロジーの関係（§7 の 5） | R10, R11 | 新規の予想（KN の予想のクラスの拡張） |
 | R15 | 双曲結び目の [2,1]：構造的な条件では決まらない。解の差は「結び目によらない因子 × 自由な多項式」 | 命題（計算 ＋ 導出） | — | REPORT_phase3.md §2、REPORT_phase4.md §3 | 曖昧さ自体は既知（AMMM 1211.6375）。解の空間の構造の明示は新規 |
 | R16 | 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1（813 項の整数解）に存在し、5_2 は有理数解のみ（整数は未決）。σ = −1 は 3 結び目とも解なし | 計算結果 | 入力の [1]〜[3] は予想式（GNSSS） | REPORT_phase4.md §6、logs/v5_weak.log | 新規。**予想の検証ではなく「矛盾しない」ことの確認**と明記 |
 | R17 | 族として：t = q ではダブルツイスト結び目の [2,1] の Morozov の式がケーブルの値と一致する。refined の長方形は KNTZ の式を実装して照合した。refined の [2,1] は、族の仮定を置いても一意に決まらない | 計算結果 ＋ 命題 | 族の仮定（Morozov の構造、KNTZ の正則な行） | REPORT_overview.md §6、tests/test_x0_double_twist.py, test_x1_refined.py, test_x2_family.py | t = q は既知の式の検証。refined の否定的な結果は新規。要点だけ書く |
@@ -100,16 +100,44 @@
 
 ---
 
-## 7. 書く前に解決・明記が必要な点（格付けで見つかったもの）
+## 7. 書く前に解決・明記が必要な点（2026-10-09 に検証済み）
 
-1. **I6 の Mellit の正規化**（2026-10-09 に原典で確認、conventions.md §13.1 (IV)）：Cor の文面は d_± の表現での元と読めば Thm (daha) と整合する。標準の正規化では [a/q−1] と符号 −1 の形だけが成り立つ（計算）。論文では文面を引用せず、Thm (daha) からの導出と標準の形を書き、「d_± の元と BGLX の Q の対応は計算で確認」と明記する。
-2. **I4 の (N2') は、ケーブルでは仮説**：F17 で framing として意味づけたので、「彩色依存部分は framing、仮説として残るのは M_□（I5・I6）」と書ける。仮説の範囲を狭めて書く。
-3. **R4・R8 の未証明部分**：pretzel の異符号の残りと、ツイスト結び目の逆符号の領域。定理の文で範囲を限定する。
-4. **F14**：Chandler–Gorsky の規約との照合が未確認。「同じ形の条件」と書くにとどめるか、照合してから同値と書く。
-5. **F18・F19 の仮定**：U(1)_R が保たれることと、符号の幾何的な導出が無いこと。予想 A の動機の節で明記する。
-6. **R11 の正規化の依存**：x = 0 の判定は (N2') に依存するが、F17 により、正値性の主張は「F 単位の framing を基準にした列」の中の 1 点についてのものだと書ける。K6a〜K10 の x ≠ 0 は未計算（表の空欄、このセッションでは計算しない）。
-7. **新規性で注意する用語**：Zhu の "refined LMOV for framed links" は非 refined の概念。本文で区別を明記する。
-8. **KN の書誌**：INSPIRE（JKTR 32 (2023) 2041001）と DOI（2020 年の巻を示唆）が食い違う。引用の前に確定する。
+1. **I6 の Mellit の正規化**【解決（影響の範囲を確定）】
+   - 原典の確認（conventions.md §13.1 (IV)）：Cor (daha) の文面は、d_± の表現の元と読めば Thm (daha) と整合する【導出】。標準の正規化では [a/q−1]・符号 −1 の形だけが成り立つ【計算、総当たりで唯一】。
+   - 影響の範囲：(IV) が決めるのは M_□ の (q/t) の冪 c だけである。(q/t)^{c|λ|} は Adams 作用と両立するので、\hat f_ρ を (q/t)^{c|ρ|} 倍し、2J_r を一様にずらすだけ（F5、conventions.md §5）。
+     **したがって、(IV) の未了の部分（d_± の元と BGLX の Q の対応）は、正値性・整数性の結果に影響しない。** 影響するのは閉じた式 I5 の (q/t) の指数の導出（I6）だけで、I5 自体は 22 結び目で計算により成立している。
+   - 書き方：I6 を「H_sat の下で、(I)〜(III) は導出、(IV) は Mellit の Thm (dyck paths) と、標準の正規化での Cor (daha) の形（計算で確認）の下で導出」とする。
+2. **I4 の (N2') の仮説の範囲**【解決（範囲を訂正）】
+   - 前の記述「仮説として残るのは M_□」は不正確だった。M_□ は [1] の t = q（(N1)、HOMFLY-PT との一致）と (N2) で決まる。(N2) の自由度 (q/t)^c は正値性に影響しない。
+   - 彩色付きの単項式 ±a^α q^β t^γ のうち、t = q で決まるのは符号・α・β + γ である（彩色付きの (N1) を検査として確認：test_t_equals_q_is_homfly）。**t = q で決まらないのは、彩色ごとの (q/t)^{c_λ} の自由度だけ**。
+   - (N2') はこれを「c_λ は |λ| に比例する部分（正値性に無関係）と、refined の framing の固有値 T_λ^F（F = pq）の分だけ」と定める。**仮説の中身はこの一点**。
+   - 根拠は 3 つ：(i) H_sat からの導出（conventions.md §13.1 (A)）。(ii) K5c で、[2] を (q/t)^u 倍する 1 パラメータ族のうち、Laurent 性と転置対称性を満たすのは (N2') の u だけ（conventions.md §5）。(iii) 全ケーブルで (N2') の形が保存値と一致（test_normalization_N2prime、9 結び目）。
+   - F17 により、この仮説は「彩色によって変わる部分は Seifert framing の F 単位の framing である」と言い換えられる。
+3. **R4・R8 の未証明部分**【検証済み、1 件訂正】
+   - R8：ログと一致する。p と x が同符号の 2 象限は、テンソル積のニュートン形と、起点と 0 の間の判定で全て正。逆符号は |p| ≤ 6、|x| ≤ 14 の直接判定 696 件で負の項 0（logs/framing_twist_direct.log）。
+     ログの「符号 0（一様でない）」は、x を固定したときの p のニュートン形の係数が一様でないこと（証明法が使えない）を表す。負の項ではない。
+   - R4：**範囲の記述に誤りがあった**。|s|, t > 20 で直接判定したのは 21 ≤ |s| ≤ 30・21 ≤ t ≤ 40 の 200 点だけである（logs/v4_pretzel_np2_check_a.log。「264 点」は、その中の 21..28 の正方形 64 点を重ねて数えていた）。
+     正しくは「min(|s|, t) ≤ 20 で証明、|s| ≤ 30 かつ t ≤ 40 で確認」。RESULTS.md、REPORT_overview.md、REPORT_phase5.md、outline.md、R4 を訂正した。
+     この直接判定は閉じた形を使っている。閉じた形は、作るのに使っていない 54 点で直接計算と全係数一致している。
+4. **F14 の parity knot**【解決：同値】
+   - Chandler–Gorsky（2209.13058、main.tex:334-336）の定義は「HHH(K) 全体で t/2 の偶奇が一定（Nakagane–Sano の次数）」で、同値な言い換えは「t_DGR − a/2 の偶奇が一定」。大域的な条件である。
+   - 本研究の条件は「𝐚 の次数が連続する範囲ごとに e_𝐭 + e_𝐚/2 の偶奇が一定」。𝐚 の次数は偶数なので ±a/2 は偶奇が同じ。**𝐚 次数の台に隙間が無ければ、二つの条件は同じ**【導出】。
+   - 801 結び目すべてで台に隙間が無く、該当する結び目の集合は一致した（9 個：3_1, 5_1, 7_1, 9_1, 11a_367, 8_19, 10_124, 10_125, 10_140）。CG の元の定義（NS の t/2）で数えても同じ【計算】。CG の本文には一覧が無い。
+   - 書き方：「[1] の 2J_r の偶奇がそろう ⇔ parity knot（𝐚 次数の台に隙間が無い結び目で。11 交点以下の全素結び目がこれに当たる）」。
+5. **F18・F19・R14 の仮定**【一部解決、一部は仮定として明記】
+   - CS 側（解決）：AS（1105.5117 :646-648, :1236-1239）では、U(1)_R は M が半自由な U(1) 作用をもつ（Seifert）ことから存在する。framing の変化は refined CS の T 行列（K と K T^f の違い。AS :2030 のコメントアウトされた注に「framing の曖昧さ」と明記）として、同じ S, T の演算子の形式の中で扱われる。
+     したがって、トーラス結び目では framing を変えても CS 側の U(1)_R は保たれる【原典 ＋ 解釈】。
+   - 弦側（仮定のまま）：遷移の後の L_K の境界条件を変えたときに、BPS 状態への U(1)_R の作用が自明なままであることは導出できない。予想 A の前提として明記する。符号の幾何的な導出も無い（必要性は F10 で導出済み）。
+   - **新たに見つかった点（R14）**：代数的な iterated torus 結び目の補空間は一般に Seifert ではない（graph manifold）。そのため、KN の U(1)_R による正値性の議論は x = 0 でも直接は当てはまらない。
+     予想 B の動機は KN の物理的な議論ではなく、DAHA の値（定義どおりの refined 不変量）とホモロジーの関係（CD14 の予想と ORS）として述べる必要がある。CD14 の該当箇所の原典での確認は未了。
+6. **R11 の正規化の依存**【解決】
+   - 2 により、x = 0 の判定が依存するのは「彩色ごとの (q/t)^{c_λ} が framing の固有値に従う」という一点の仮説だけである。符号と t = q の部分は HOMFLY-PT から決まる。F17 により、この仮説の下で正値性の主張は「F 単位の framing を基準にした列」の 1 点についてのものと書ける。
+   - K6a〜K10 の x ≠ 0 は未計算（表の空欄。このセッションでは計算しない）。
+7. **Zhu の用語**【確認済み】
+   - Zhu 2105.02037 の Remark（HOMFLYPT-skein-theory3.tex:673-679）で、「refined LMOV conjecture」の refinement は KN の refined とは意味が違う、と Zhu 自身が明記している。本文で区別を書く。
+8. **KN の書誌**【解決：食い違いは無い】
+   - Crossref と INSPIRE で確認した：J. Knot Theory Ramifications **32** (2023) no. 06, 2041001、DOI 10.1142/S0218216520410011、オンライン公開 2020-07-08、印刷 2023-05。
+   - DOI の「20」はオンライン公開の年に当たり、矛盾ではない。novelty_report.md §5 の記載（32 (2023) no.06, 2041001）は正しい。
 
 ## 8. 種別ごとの数（論文の骨格の確認）
 
