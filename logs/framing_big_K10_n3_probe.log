@@ -1,0 +1,12 @@
+=== K10 n=3 x=1 開始 2026-10-09 14:34:58
+      grid 801 x 801 = 641601 points
+      1 prime not enough; using prime 2
+      2 primes not enough; using prime 3
+      5554041 terms, 3 primes, 3176s
+K10 framing +1 ρ=[3]：前 0/1834640 負、後 0/1667711 負
+K10 framing +1 ρ=[2, 1]：前 0/1854695 負、後 0/1685998 負
+K10 framing +1 ρ=[1, 1, 1]：前 0/1864706 負、後 0/1695179 負
+--- K10 framing +1 n=3：3650 秒、最大 RSS 9097 MB
+     3652.28 real     11896.37 user        84.89 sys
+time: sysctl kern.clockrate: Operation not permitted
+=== K10 n=3 x=1 終了 2026-10-09 15:35:50
