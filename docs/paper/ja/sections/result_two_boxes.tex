@@ -1,6 +1,8 @@
 \section{検証 II：2 箱}\label{sec:two}
 
 この節の双曲結び目の入力は予想式（\S\ref{sec:inputs}）であり，主張は全て「その予想式を入力とした場合」のものである．
+KN~\cite{Kameyama17} は，GNSSS の式を入力として，ツイスト結び目とダブルツイスト（pretzel）結び目の族のいくつかの結び目で 2 箱を計算し，形 \eqref{eq:hat-f-2} に乗ることを観察した．
+本節の定理~\ref{thm:twist}，\ref{thm:pretzel} の新しい点は，族全体（全ての撚りの数）での正値性の証明にある．
 トーラス結び目と代数的なケーブルの入力は定義どおりの refined 不変量である．
 
 \subsection{ツイスト結び目}
@@ -19,7 +21,7 @@ $\hf$ は入力の積と Adams 作用の一次結合を，命題~\ref{prop:two-n
 \end{proof}
 
 % [R2]
-\begin{theorem}\label{thm:twist}
+\begin{theorem}[計算機援用]\label{thm:twist}
 KNTZ の refined の式を入力とすると，全ての $p\neq0$ で $\hf_{\yng(2)}(K_p)$，$\hf_{\yng(1,1)}(K_p)$ は正である．
 \end{theorem}
 \begin{proof}[証明の概略]
@@ -28,9 +30,10 @@ $c_k$ は $s_1,\dots,s_5$（$|p|=1,\dots,5$ の値）の整数係数の一次結
 両方の $\rho$，両方の $p$ の符号で，$c_0,\dots,c_4$ の全係数が同じ符号であることを有限個の厳密な計算で確かめる．
 $h$ の係数は非負なので，全ての $p$ で展開の前が一様な符号になる．
 $\sigma$ は根の集合を保つ（$Y\leftrightarrow\bar Y$）ので，$\sigma$ 不変性は $|p|\le5$ から全ての $p$ に従い，補題~\ref{lem:G} で展開の後も非負になる．
-$c_2$ の正値性は構造からは導けていない．
-しかし，根の部分集合ごとの完全斉次対称式の非負結合（線形計画法による証明書，有理数で厳密に検証）でも同じ結論が得られる．
-この証明は $c_2$ を使わない．
+係数 $c_k$ と判定のデータは付録~\ref{app:data} に置く．
+
+別証明として，$-\hf_\rho(K_{\pm n})$ を根の部分集合ごとの完全斉次対称式の非負結合で表す証明書もある（線形計画法で求め，有理数で厳密に検証した）．
+こちらは $c_2$ の符号を使わない．$c_2$ が一様な符号をもつ構造的な理由は分かっていない．
 \end{proof}
 
 \begin{compresult}
@@ -46,7 +49,7 @@ $\yng(1)$ の単峰性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の hard Lef
 
 \subsection{ダブルツイスト結び目}
 % [R4]
-\begin{theorem}\label{thm:pretzel}
+\begin{theorem}[計算機援用]\label{thm:pretzel}
 KNTZ の refined の式を入力とすると，ダブルツイスト結び目 $K_{m,n}$ の 2 箱は次の範囲で正である．
 \begin{enumerate}
 \item $m,n$ が同符号の全ての $(m,n)$．
@@ -86,7 +89,7 @@ $\mathbf{5_2}$ で $t_c$ 次数の割り当てを別の 12 通りに変えると
 
 \subsection{全ての framing}
 % [R7]
-\begin{theorem}\label{thm:two-all-x}
+\begin{theorem}[計算機援用]\label{thm:two-all-x}
 自明な結び目，$T_{2,3}$，$T_{2,5}$，$T_{2,7}$，$T_{3,4}$，$\mathbf{4_1}$，$K1$，$K3$ の 2 箱は，全ての $x\in\mathbb{Z}$ で正である．
 $\mathbf{4_1}$ の入力は KN のデータである．
 \end{theorem}
@@ -97,7 +100,7 @@ $\mathbf{4_1}$ の入力は KN のデータである．
 負の向きの起点は，結び目が複雑になるほど 0 から遠い（$T_{2,2k+1}$ で $-(2k+2)$，$K1$ で $-20$，$K3$ で $-22$）．この意味は未解明である．
 
 % [R8]
-\begin{theorem}\label{thm:twist-x}
+\begin{theorem}[計算機援用]\label{thm:twist-x}
 KNTZ の refined の式を入力とすると，ツイスト結び目の 2 箱は，$p$ と $x$ が同符号（$p>0,x\ge0$ または $p<0,x\le0$）の全ての $(p,x)$ で正である．
 \end{theorem}
 \begin{proof}[証明の概略]

@@ -59,13 +59,18 @@ KN の予想は，$a$ 次数を $\pm\frac12$ ずらした後で $\wh f_\rho$ が
 \wh f_\rho(K;a,q,t)=\sum_{g,\beta,J_r}(-1)^{2J_r}\,\wh N_{\rho,g,\beta,J_r}(K)\,(q^{\frac12}-q^{-\frac12})^{g}(t^{-\frac12}-t^{\frac12})^{g}\Bigl(\frac qt\Bigr)^{J_r-\frac\beta2}a^{\beta}
 \end{equation}
 の形をとり，$\wh N_{\rho,g,\beta,J_r}(K)$ が非負整数になる，というものである．
+ここで $g$ は M2-brane の曲線の genus，$\beta$ は $\mathbb P^1$ の次数，$J_r$ は M2-brane のモジュライ空間のコホモロジーの右 spin である．
+KN の議論では，BPS 状態は $J_r$ のほかに追加の $U(1)_R$ 対称性の電荷 $S_R$ をもち，$\wh N_{\rho,g,\beta,J_r}$ は $S_R$ が BPS 状態に自明に作用するという予想の下での縮退度である．
 $a$ 次数のずらしは，$|\rho|=1$ で $a^{-1/2}$，$|\rho|=3$ で $a^{1/2}$ とする．
-\eqref{eq:cov} の変数では，\eqref{eq:hat-f-2} は
-\[
-\wh f_\rho=\sum_{g,\beta,J_r}\wh N_{\rho,g,\beta,J_r}\,(\bq\bt-\bq^{-1}\bt^{-1})^{g}(\bq-\bq^{-1})^{g}\,\ba^{2\beta}\,\bt^{2J_r}
-\]
-となる（KN の $\wh{\mathbf N}_{\rho,g,\beta,F}$ で $F=2J_r$ としたもの）．
-KN にならい，\eqref{eq:hat-f-2} を M2-brane の genus 展開と呼ぶ（$g$ は M2-brane の種数である）．以下では $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ と略記する．
+\eqref{eq:cov} の変数では，$\wh f_\rho$ は
+\begin{equation}\label{eq:bold-form}
+\wh f_\rho=\sum_{g,\beta,F}\wh{\mathbf N}_{\rho,g,\beta,F}\,(\bq\bt-\bq^{-1}\bt^{-1})^{g}(\bq-\bq^{-1})^{g}\,\ba^{2\beta}\,\bt^{F}
+\end{equation}
+と展開される（KN の (bold-form)）．
+KN の BPS 状態の数え上げでは $\wh{\mathbf N}_{\rho,g,\beta,F}=\sum_{2(J_r-S_R)=F}(-1)^{2S_R}\wh N_{\rho,g,\beta,J_r,S_R}$ であり，
+$S_R$ が自明に作用するという予想の下でだけ $\wh{\mathbf N}_{\rho,g,\beta,F}=\wh N_{\rho,g,\beta,J_r}$（$F=2J_r$）となる．
+本論文で計算し判定するのは $\wh{\mathbf N}_{\rho,g,\beta,F}$ である．
+KN にならい，\eqref{eq:hat-f-2}，\eqref{eq:bold-form} の展開を M2-brane の genus 展開と呼ぶ．以下では $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ と略記する．
 genus 展開が整数係数で閉じるのは，$\ba^{2\beta}$ の各行が
 \begin{equation}\label{eq:sigma}
 \sigma:\ (e_\ba,e_\bq,e_\bt)\mapsto(e_\ba,-e_\bq,e_\bt-e_\bq)
@@ -77,7 +82,7 @@ KN は，genus 展開をする前の素朴な変数変換 \eqref{eq:cov} の係�
 \]
 も非負整数になることを観察した．
 本論文では，この二つを refined LMOV 不変量の二つの表示として区別し，
-$\wh{\mathbf N}_{\rho;i,j,k}$ を \emph{spin 表示}，$\wh N_{\rho,g,\beta,J_r}$ を \emph{genus 表示} と呼ぶ．
+$\wh{\mathbf N}_{\rho;i,j,k}$ を \emph{spin 表示}，$\wh{\mathbf N}_{\rho,g,\beta,F}$ を \emph{genus 表示} と呼ぶ（どちらも KN の記号）．
 名前の根拠は KN の BPS 状態の構成にある．
 \begin{itemize}
 \item genus 表示：KN は BPS 状態を $\bigoplus C_{\mu\sigma\rho}\,\mathcal{H}_{\sigma,g}\otimes A_{\rho,g,\beta,J_r,S_R}$ と分解し，$\wh N_{\rho,g,\beta,J_r,S_R}=\dim A_{\rho,g,\beta,J_r,S_R}$ と定める．
@@ -93,8 +98,9 @@ genus のラベルは，KN の形式的な BPS 状態の分解の中で意味を
 $f^q$, $f^{\bar t}$ の係数は refined LMOV 不変量ではなく，付録で補足として扱う．
 
 \begin{definition}[正値性]\label{def:positivity}
-$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，spin 表示 $\wh{\mathbf N}_{\rho;i,j,k}$ と genus 表示 $\wh N_{\rho,g,\beta,J_r}$ の全てが非負整数になることをいう．
+$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，spin 表示 $\wh{\mathbf N}_{\rho;i,j,k}$ と genus 表示 $\wh{\mathbf N}_{\rho,g,\beta,F}$ の全てが非負整数になることをいう．
 \end{definition}
+KN の予想は，これに加えて $(\rho,g,\beta)$ を固定したときの $2J_r$ の偶奇がそろうことを含む．本論文の正値性はこの偶奇の条件を含まない（偶奇は \S\ref{sec:one} で別に調べる）．
 
 $\yng(1)$ では $\hf_{\yng(1)}=(a^{1/2}-a^{-1/2})\rCS_{\yng(1)}$ である．
 したがって，$\rCS_{\yng(1)}$ を太字の変数で書いた $P$ に対し，$\hf_{\yng(1)}$ は（a 次数をずらした後）$(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ になる．

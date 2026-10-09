@@ -82,31 +82,39 @@ $\rCS_{C_{p,q}K}(\lambda)=\sum_\mu C_{\lambda\mu}\,\rCS_K(\mu)$ が成り立つ�
 \end{hypothesis}
 $t=q$ では仮説~\ref{hyp:sat} は古典的な衛星公式に帰着し，(N1) と両立する．
 
-\begin{theorem}\label{thm:M}
-仮説~\ref{hyp:sat} の下で，計算結果~\ref{cr:M} の閉じた式と (N2$'$) の形が成り立つ．
-ただし，トーラス結び目の場合の $(q/t)$ の指数の導出には，Mellit~\cite{Mellit17} の定理（dyck paths）と，次の式を用いる．
+導出には，計算で確かめた次の二つの式を用いる．
+\begin{compresult}\label{cr:tau}
+framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，楕円 Hall 代数の傾き $(p,n)$ の元に対し
+$\tau^kP_\lambda[p_k\mapsto P_{k(p,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(p,n+kp)}]\cdot1$ が成り立つ（5 つの傾きと $k=1,-1,2$ で，有理数の点で厳密に一致）．
+\end{compresult}
+\begin{compresult}\label{cr:mellit}
+Mellit~\cite[Thm.~3.1]{Mellit17} の Dyck 路の表示によるトーラス結び目の HOMFLY-PT ホモロジーの Poincaré 多項式 $\mathcal{P}_{m,n}$ は，
 \[
 \mathcal{P}_{m,n}=-\bigl(a(qt)^{-1/2}\bigr)^{\delta}\frac{1}{1-t}\,\frac{(Q_{m,n}\cdot1)[a/q-1]}{a/q-1}
 \]
-ここで $Q_{m,n}$ は Bergeron--Garsia--Leven--Xin~\cite{Bergeron14} の演算子で，この式は計算で確かめたものである．
-\end{theorem}
+に一致する（$Q_{m,n}$ は Bergeron--Garsia--Leven--Xin~\cite{Bergeron14} の演算子．$(m,n)=(2,3),(3,2),(2,5),(3,4),(4,3),(3,5),(5,3)$ で厳密に一致）．
+\end{compresult}
+
+\begin{proposition}\label{thm:M}
+仮説~\ref{hyp:sat} と計算結果~\ref{cr:tau}，\ref{cr:mellit} を仮定すると，計算結果~\ref{cr:M} の閉じた式と (N2$'$) の形が成り立つ．
+\end{proposition}
 \begin{proof}[証明の概略]
-ケーブルの部分では，framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ が楕円 Hall 代数の傾きを $(p,n)\mapsto(p,n+kp)$ に送ることを使う．
+ケーブルの部分では，計算結果~\ref{cr:tau}（framing 演算子が傾きを $(p,n)\mapsto(p,n+kp)$ に送ること）を使う．
 これと仮説~\ref{hyp:sat} から，$M_{C_{p,q}K}=M_K^p\,M_{T_{p,q}}$ と $F=pq$ が従う．
 トーラス結び目の部分は四つの事実からなる．
 (I) Gorsky--Neguţ の正規化前の値の最低 $a$ 係数は，有理 $q,t$-Catalan 数で与えられる．これは Gorsky--Neguţ の予想であり，Mellit~\cite{Mellit16} の定理の系として成り立つ．
 (II) 最低 $a$ 次数は，Franks--Williams の定理による．
 (III) $t=q$ での符号と $q$ の冪は，$q\leftrightarrow q^{-1}$ 対称性から決まる．
-(IV) $(q/t)$ の指数は，Mellit の Dyck 路の表示から決まる．
+(IV) $(q/t)$ の指数は，Mellit の Dyck 路の表示（計算結果~\ref{cr:mellit}）から決まる．
 詳細は付録~\ref{app:normalization} に述べる．
 \end{proof}
 
 \begin{remark}[Mellit の系の正規化]
-Mellit~\cite[Cor.~daha]{Mellit17} は $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\delta\frac{1}{1-t}\frac{P_{m,n}(1)[a-1]}{a-1}$ と書き，$P_{m,n}$ を「対応する楕円 Hall 代数の生成元」とする．
-同論文の Thm.~daha から，この式は $P_{m,n}(1)=-d_-B_{c_{m,n}}d_+(1)$（Carlsson--Mellit の $d_\pm$ の表現の元）と読めば成り立つ．
+Mellit~\cite[Cor.~3.4]{Mellit17} は $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\delta\frac{1}{1-t}\frac{P_{m,n}(1)[a-1]}{a-1}$ と書き，$P_{m,n}$ を「対応する楕円 Hall 代数の生成元」とする．
+同論文の Thm.~3.3 から，この式は $P_{m,n}(1)=-d_-B_{c_{m,n}}d_+(1)$（Carlsson--Mellit の $d_\pm$ の表現の元）と読めば成り立つ．
 一方，標準の正規化（Bergeron--Garsia--Leven--Xin の $Q_{m,n}$，Gorsky--Neguţ の $\widetilde P$）の元と読むと，代入 $[a-1]$ では成り立たない．
-候補の総当たりで成り立つのは定理~\ref{thm:M} の形だけである．
-定理~\ref{thm:M} の (IV) が決めるのは $M_\square$ の $(q/t)$ の指数だけなので，この点は正値性の結果に影響しない（補題~\ref{lem:adams}）．
+標準の正規化の元と変数の取り方を変えて調べると，成り立つのは計算結果~\ref{cr:mellit} の形だけである．
+命題~\ref{thm:M} の (IV) が決めるのは $M_\square$ の $(q/t)$ の指数だけなので，この点は正値性の結果に影響しない（補題~\ref{lem:adams}）．
 \end{remark}
 
 \begin{remark}[Cherednik--Danilenko の tilde 正規化との関係]\label{rem:tilde}

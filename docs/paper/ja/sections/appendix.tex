@@ -18,7 +18,7 @@ $K7$ と $K8$ の $|\rho|\le3$ は，それぞれ 12275 秒と 22853 秒で，�
 
 \section{正規化の導出}\label{app:normalization}
 \paragraph{(A) ケーブル．}
-framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambda[p_k\mapsto P_{k(p,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(p,n+kp)}]\cdot1$ が成り立つ（有理数の点で厳密に確認．原典での該当箇所は未確認）．
+framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambda[p_k\mapsto P_{k(p,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(p,n+kp)}]\cdot1$ が成り立つ（計算結果~\ref{cr:tau}）．
 ケーブルの構成は companion について線形である．companion に (N2$'$) を適用すると，傾きが $-s$ から $-q_2$（Seifert framing）にずれる．
 仮説~\ref{hyp:sat} と合わせると，$M_{C_{p,q}K}=M_K^pM_{T_{p,q}}$ と $F=pq$ が従う．
 \paragraph{(B) トーラス結び目．}
@@ -26,7 +26,7 @@ framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambd
 これは Gorsky--Neguţ の予想であり，Bergeron--Garsia--Leven--Xin の $Q_{m,n}$ を介して Mellit~\cite{Mellit16} の定理から従う．
 (II) 最低 $a$ 次数 $\delta$ は Franks--Williams の正のブレイドについての定理から従う．
 (III) $t=q$ での符号と $q$ の冪は，$C_{m,n}$ の $q,t$ 対称性から決まる．
-(IV) $(q/t)$ の指数は，Mellit~\cite{Mellit17} の Dyck 路の表示と定理~\ref{thm:M} の式から決まる．
+(IV) $(q/t)$ の指数は，Mellit~\cite{Mellit17} の Dyck 路の表示と計算結果~\ref{cr:mellit} の式から決まる．
 以上から $M_{T_{m,n}}=(-q/t)^{m-1}(a(q/t)^{1/2})^{\delta}$ である．
 
 \section{非代数的なケーブル}\label{app:nonalg}
@@ -44,6 +44,4 @@ framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambd
 $K5c$ は展開の後だけが（ほぼ）正になる例で，補題~\ref{lem:G} の逆が成り立たないことを示す．
 
 \section{データとコード}\label{app:data}
-$\overline{\rCS}_\lambda$，$\hf_\rho$，$\hN$ の全ての値と，計算・判定のコード，機能テストを公開する．
-framed の定義は，著者の以前の計算（2017--2018 年，未発表）の出力 9 件と全係数で一致することを確かめた．
-三葉結び目の framing 2 の $\yng(1),\yng(2),\yng(1,1),\yng(3)$，自明な結び目の framing 3 の 3 箱，$\mathbf{4_1}$ の framing 0, 2 の $\yng(2)$ である．
+$\overline{\rCS}_\lambda$，$\hf_\rho$，spin 表示と genus 表示の全ての値と，計算・判定のコード，機能テストを公開する．

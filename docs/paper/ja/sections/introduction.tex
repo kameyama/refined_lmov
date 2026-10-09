@@ -8,14 +8,17 @@ Kameyama--Nawata~\cite{Kameyama17} は，この描像を refined Chern--Simons �
 M 理論の refined index と Schwinger の計算から自由エネルギーの形を定め，refined CS 不変量 $\overline{\rCS}_\lambda(K;a,q,t)$ から
 refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ と $\hf_\rho$ を作る式を与えた．
 そのうえで，$\hf_\rho$ を太字の変数 $(\ba,\bq,\bt)$ で書いたときの係数 $\hbN_{\rho;i,j,k}$（本論文の spin 表示）と，
-$G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ の冪に展開（M2-brane の genus 展開）した後の refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$（本論文の genus 表示）が，非負整数になることを予想した．
+$G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ の冪に展開（M2-brane の genus 展開）した後の係数 $\hbN_{\rho,g,\beta,F}$（本論文の genus 表示．後述の予想の下で refined BPS 不変量 $\hN_{\rho,g,\beta,J_r}$ に一致する）が，非負整数になることを予想した．
 物理的には，この正値性は追加の $U(1)_R$ 対称性が BPS 状態に自明に作用することから期待される．
 
-KN がこの予想を確かめたのは，framing 0 の次のデータである（以下「KN のデータ」と呼ぶ）．
+Kameyama--Nawata~\cite{Kameyama17} がこの予想を確かめたのは，framing 0 の次のデータである（以下「KN のデータ」と呼ぶ）．
 トーラス結び目・トーラス絡み目の $|\lambda|\le 3$ の表現，
-$\mathbf{4_1},\mathbf{5_2},\mathbf{6_1},\mathbf{6_3}$ などの thin な結び目の $\yng(1),\yng(2),\yng(1,1)$（色付き HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする），
+Gukov--Nawata--Saberi--Stošić--Sułkowski（GNSSS）~\cite{Gukov15} の $(2s-1,1,2t-1)$-pretzel 結び目（ツイスト結び目を含む）と $\mathbf{6_2},\mathbf{6_3}$ の $\yng(1),\yng(2),\yng(1,1)$（色付き HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする），
 および KN が構成した $\mathbf{4_1}$ の $\yng(2,1)$ の候補である．
-本論文では，KN のデータの再現は規約を定めるためだけに用い，成果としては扱わない．
+KN はさらに次の二点を指摘した．
+非長方形の表現の refined CS 不変量は負の係数をもつが，genus 表示は非負になること．
+thick な結び目 $\mathbf{9_{42}}$ は形 \eqref{eq:hat-f-2} に乗らず，それは thick なホモロジーが指数増大性をもたないこと（Gukov--Stošić~\cite{Gukov11}）と関係すること．
+本論文では，KN のデータの再現は規約を定めるためだけに用い，KN で観察された現象は成果としては扱わない．
 
 \subsection{本論文の内容}
 本論文の目的は，KN の枠組みを framing をもつ結び目に拡張し，KN のデータを二つの方向に超えて正整数性を検証することである．
@@ -44,13 +47,14 @@ framing はホモロジーの次数のずらしとして働く．
 \begin{itemize}
 \item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，genus 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
 DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\yng(1)$ は正である．
-\item 2 箱：$\hf_{\yng(2)}$ が Laurent であるためには $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である（命題~\ref{prop:two-necessary}）．
-KNTZ~\cite{Kameyama19} の refined の式（GNSSS~\cite{Gukov15} の予想式と一致する）を入力として，ツイスト結び目の全ての撚りの数で 2 箱が正であることを示す（定理~\ref{thm:twist}）．
+\item 2 箱：KN が指摘した $\mathbf{9_{42}}$ と指数増大性の関係を，Laurent 性の必要条件 $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ として証明する（命題~\ref{prop:two-necessary}）．
+KN が観察したツイスト結び目とダブルツイスト（pretzel）結び目の族について，Kameyama--Nawata--Tao--Zhang（KNTZ）~\cite{Kameyama19} の refined の式（GNSSS の予想式と一致する）を入力として，
+ツイスト結び目の全ての撚りの数で 2 箱が正であることを証明する（定理~\ref{thm:twist}．ダブルツイスト結び目は定理~\ref{thm:pretzel}）．
 また，8 個の結び目では全ての整数の framing で 2 箱が正である（定理~\ref{thm:two-all-x}）．
-\item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，$|\rho|\le3$ の全ての $\rho$ について spin 表示と genus 表示の両方で正である（計算結果~\ref{cr:three}）．
+\item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，正規化 (N1)(N2$'$)（\S\ref{sec:normalization}）の下で，$|\rho|\le3$ の全ての $\rho$ について spin 表示と genus 表示の両方で正である（計算結果~\ref{cr:three}）．
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
 3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む．
-入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが，BPS の段では正になる．
+KN がトーラス結び目で観察したとおり，入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが genus 表示は正になる．本論文はこの現象を代数的な iterated torus 結び目に広げる．
 \end{itemize}
 これらに基づき，framed knot の refined LMOV 不変量の正値性を予想~\ref{conj:A} として，
 代数的な iterated torus 結び目の正値性を予想~\ref{conj:B} として提出する．
@@ -105,4 +109,5 @@ knots--quivers 対応~\cite{Kucharski17,Kucharski17b,Ekholm18} では，framing 
 付録に計算法の詳細，非代数的なケーブル，文献の誤植，データとコードをまとめる．
 
 主張の確からしさを区別するため，解析的に導いたものを定理・命題・補題とし，計算機で確かめたものは「計算結果」として範囲とともに書く．
+有限個の厳密な計算機計算（多項式の係数の符号の判定や線形計画法の証明書の検証）を含む証明は，定理の見出しに「計算機援用」と記す．
 予想式を入力とする主張は，その旨を文中に明記する．

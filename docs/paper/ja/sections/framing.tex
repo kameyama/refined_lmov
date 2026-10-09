@@ -9,7 +9,7 @@
 =(-1)^{|\lambda|}\prod_{s\in\lambda}q^{a(s)+\frac12}\,t^{-l(s)-\frac12}
 \]
 とおく．framing $x\in\mathbb{Z}$ の refined CS 不変量を $\overline{\rCS}^{(x)}_\lambda=\theta_\lambda^x\,\overline{\rCS}_\lambda$ で定め（reduced の不変量でも同じ因子 $\rCS^{(x)}_\lambda=\theta_\lambda^x\rCS_\lambda$），
-これを \eqref{eq:GT1}，\eqref{eq:GT2} に代入して得る量を $f^{q,(x)}_\mu$，$f^{\bar t,(x)}_\mu$，$\hf^{(x)}_\rho$，$\hbN^{(x)}$，$\hN^{(x)}$ と書く．
+これを \eqref{eq:GT1}，\eqref{eq:GT2} に代入して得る量を $f^{q,(x)}_\mu$，$f^{\bar t,(x)}_\mu$，$\hf^{(x)}_\rho$，$\hbN^{(x)}_{\rho;i,j,k}$，$\hbN^{(x)}_{\rho,g,\beta,F}$ と書く．
 $x=0$ が KN の場合である．
 \end{definition}
 
@@ -17,8 +17,6 @@ $\theta_\lambda$ は係数 $\pm1$ の単項式であり，plethystic 対数の�
 $\theta_\lambda(q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
 この扱いは Mariño--Vafa~\cite{Marino01} の例
 $f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,\lambda^2)\bigr)$ と同じである．
-この定義は，著者が以前（2017--2018 年，未発表）に行った計算の定義と同じである．
-その出力 9 件と全係数で一致することを確かめた（付録~\ref{app:data}）．
 
 \subsection{framing の因子の由来}
 % [F2]
@@ -79,7 +77,7 @@ $\overline{\rCS}_\lambda$ を $c^{|\lambda|}\overline{\rCS}_\lambda$ に置き�
 \begin{proof}
 $c^{|\lambda|}$ は生成関数の変数を $x\mapsto cx$ と取り替えることに当たり，$c$ が Adams 作用と両立するので plethystic 対数と可換である．
 \end{proof}
-太字の変数で $c=(q/t)^{1/2}=-\bt$ のとき，これは $\hbN$，$\hN$ の $2J_r$ を一様にずらし，全体の符号を変えるだけである．
+太字の変数で $c=(q/t)^{1/2}=-\bt$ のとき，これは spin 表示と genus 表示の $\bt$ の次数を一様にずらし，全体の符号を変えるだけである．
 したがって正値性に影響しない．
 
 % [F7]
@@ -132,13 +130,18 @@ $x=2$ と，符号をつけた $x=1$ では Laurent 多項式である．
 \end{compresult}
 
 命題~\ref{prop:sign} は，Mariño--Vafa の「符号は整数性に不可欠である」という観察~\cite{Marino01} の refined 版である．
-非 refined の場合，符号は平坦座標のずれ $\hat u\mapsto\hat u+i\pi p$ から説明された．refined の場合も，平坦座標のずれ $V\mapsto\bt V=-(q/t)^{1/2}V$ として読める．
-Aganagic--Shakirov~\cite{Aganagic11} も，三葉結び目の前因子に現れる $\sqrt{q/t}$ が平坦座標のずれに関係するはずだと述べている．
-ただし，このずれを幾何から導くことは本論文ではしていない．
+Mariño--Vafa は，符号を開いた弦の平坦座標の取り替え $\hat u\mapsto\hat u+i\pi p$（$V\mapsto(-1)^pV$）から説明した．
+この取り替えは，生成関数 $\sum_RW_R\,\mathrm{Tr}_RV$ を新しい変数で展開し直すことにあたり，Chern--Simons 側の係数 $W_R$ に定数の符号 $(-1)^{|R|p}$ を掛ける．
+定数の符号は Adams の写し $W_R(q^d,\lambda^d)$ で $d$ 乗されない（Mariño--Vafa の $f^{(p)}_{\yng(2)}$ の $(-1)^pW_{\yng(1)}(q^2,\lambda^2)$）．
+したがってこれは補題~\ref{lem:adams} の型の自明な置き換えではなく，BPS 側では $d$ 重被覆の項に $(-1)^{d|R|}$ が付く．
+定義~\ref{def:framed} の符号は，これと同じ扱いである．
+一方，$\theta_\lambda$ の残りの部分 $(q/t)^{|\lambda|/2}q^{n(\lambda')}t^{-n(\lambda)}$ は refined の $T$ 行列の固有値に由来する（注意~\ref{rem:Taki}）．$T$ 行列の固有値は符号を含まない．
+Aganagic--Shakirov~\cite{Aganagic11} は，三葉結び目の前因子の $\sqrt{q/t}$ も平坦座標の取り替えに関係するはずだと述べている．
+refined の場合の平坦座標の取り替えを幾何から導くことは，本論文ではしていない．
 
 \subsection{KN の命題の framed 版}
 \begin{lemma}[genus 展開の補題]\label{lem:G}
-$\ba^{2\beta}$ の各行が $\sigma$ で不変で $\bq$ の指数が偶数（すなわち genus 展開が閉じる）であり，spin 表示 $\hbN$ が非負なら，genus 表示 $\hN$ も非負整数である．
+$\ba^{2\beta}$ の各行が $\sigma$ で不変で $\bq$ の指数が偶数（すなわち genus 展開が閉じる）であり，spin 表示 $\hbN_{\rho;i,j,k}$ が非負なら，genus 表示 $\hbN_{\rho,g,\beta,F}$ も非負整数である．
 逆は成り立たない．
 \end{lemma}
 \begin{proof}
@@ -158,7 +161,7 @@ $P$ を $\rCS_{\yng(1)}$ とする $\hf_{\yng(1)}$ は，全ての $x$ につい
 \end{proposition}
 \begin{proof}
 $x=0$ では，$\hf_{\yng(1)}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ も $\sigma$ で不変で非負なので，補題~\ref{lem:G} から従う．
-一般の $x$ では $\theta_{\yng(1)}^x=\bt^x$ なので，$\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$ である．これは $\hN$ の $2J_r$ を $x$ だけずらす．
+一般の $x$ では $\theta_{\yng(1)}^x=\bt^x$ なので，$\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$ である．これは genus 表示の $F$ を $x$ だけずらす．
 \end{proof}
 
 \begin{corollary}\label{cor:one}
@@ -171,20 +174,28 @@ $\bq$ の指数が偶数であることは結び目のホモロジーの次数�
 
 % [F15]
 \begin{proposition}\label{prop:two-necessary}
-非負係数の入力 $\rCS_{\yng(1)}$，$\rCS_{\yng(2)}$ に対し，$\hf_{\yng(2)}$ が Laurent 多項式なら $\rCS_{\yng(2)}|_{q=1}=\rCS_{\yng(1)}|_{q=1}^2$ である．
+太字の変数で非負係数をもち，$\bq$ の指数が全て偶数の入力 $\rCS_{\yng(1)}$，$\rCS_{\yng(2)}$ に対し，$\hf_{\yng(2)}$ が Laurent 多項式なら $\rCS_{\yng(2)}|_{q=1}=\rCS_{\yng(1)}|_{q=1}^2$ である．
 特に，入力がホモロジーの Poincaré 多項式なら $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である．
 $\yng(1,1)$ についても $t=1$ で同様である．この条件は $x$ によらない．
 \end{proposition}
 \begin{proof}
-$\hf_{\yng(2)}$ の分子の $Q=1$ での値は $\rCS_{\yng(2)}-\rCS_{\yng(1)}^2$ に比例する．
-非負係数の入力では，$q=1$（$\bt=-\bq^{-1}$）で各項の符号が $\bq$ の指数の偶奇だけで決まり，打ち消しが起きない．
-したがって次元の等式が必要になる．$x$ によらないことは命題~\ref{prop:x-indep} による．
+$(A,Q,T)=(a,q,t)^{1/2}$ と書く．2 箱の公式の分子を $Q=1$ に制限すると，$\rho=\yng(2),\yng(1,1)$ のどちらでも
+\[
+2T(A^2-1)^2(T^4-1)\bigl(\rCS_{\yng(1)}^2-\rCS_{\yng(2)}\bigr)
+\]
+となり，$\rCS_{\yng(1,1)}$ と Adams の写し $\rCS_{\yng(1)}(a^2,q^2,t^2)$ の項は消える（$T=1$ では $\yng(2)$ と $\yng(1,1)$ の役が入れ替わる）．
+分母は $Q=1$ で消えるので，Laurent 性には $Q=1$ で $\rCS_{\yng(2)}=\rCS_{\yng(1)}^2$ が必要である．
+$Q=1$ は $\bt=-\bq^{-1}$ にあたり，単項式 $\ba^i\bq^j\bt^k$ は $(-1)^k\ba^i\bq^{j-k}$ になる．
+$j$ が偶数なら $(-1)^k=(-1)^{j-k}$ なので，さらに $\bq\mapsto-\bq$ とすると全ての項の係数が非負になり，打ち消しは起きない．
+$\ba=\bq=1$ とおけば次元の等式を得る．$x$ によらないことは命題~\ref{prop:x-indep} による．
 \end{proof}
 
 \begin{remark}
 $\mathbf{9_{42}}$ では $\dim H^{\yng(1)}=9$，$\dim H^{\yng(2)}=401$~\cite{Gorsky13} で $401\neq81$ である．
 したがって，$t_c$ 次数の選び方によらず，KN の形に乗らない．
-$\mathbf{9_{42}}$ が KN の形に乗らないこと自体は KN が述べている．命題~\ref{prop:two-necessary} はその理由を与える．
+$\mathbf{9_{42}}$ が KN の形に乗らないことは KN~\cite{Kameyama17} が指摘し，thick なホモロジーが指数増大性をもたないこと（Gukov--Stošić~\cite{Gukov11} の付録 B）と結びつけた．
+指数増大性 $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ は Gukov--Stošić~\cite{Gukov11}，Fuji--Gukov--Sułkowski~\cite{Fuji12} が論じた性質である．
+命題~\ref{prop:two-necessary} は，これが KN の形（Laurent 性）の必要条件であることを示す．
 \end{remark}
 
 \subsection{全ての framing での判定法}\label{sec:newton}
@@ -214,14 +225,15 @@ Aganagic--Shakirov~\cite{Aganagic11} が三葉結び目の値と DGR の superpo
 \subsection{物理的な描像と予想}\label{sec:physics}
 framed knot の refined large $N$ 双対は，次のように組み立てられる．
 \begin{itemize}
-\item Chern--Simons 側：framing の変化は refined CS 理論の $T$ 行列の作用である（注意~\ref{rem:Taki}）．
+\item Chern--Simons 側：$\theta_\lambda$ のうち符号を除いた部分は，refined CS 理論の $T$ 行列の作用である（注意~\ref{rem:Taki}）．
 Aganagic--Shakirov の構成では，$U(1)_R$ 対称性は 3 次元多様体が半自由な $U(1)$ 作用をもつ（Seifert 多様体である）ことから存在する．
 トーラス結び目の framing の変化は，同じ $S$, $T$ 行列の形式の中で扱われる．
-\item 弦側：Mariño--Vafa の議論では，framing の整数は $L_K$ の平坦座標の取り方（無限遠での境界条件）に当たり，BPS 状態の数え方の構造は変わらない．
-KN の Schwinger の計算と抽出式 \eqref{eq:GT1}，\eqref{eq:GT2} は，全ての $x$ でそのまま適用できる．
+\item 弦側：Mariño--Vafa の議論では，framing の整数は $L_K$ の平坦座標の取り方（無限遠での境界条件）に当たる．符号 $(-1)^{|\lambda|x}$ はこの平坦座標の取り替えから来る（命題~\ref{prop:sign} の後の議論）．
 \end{itemize}
-弦側で $U(1)_R$ の作用が自明なまま保たれることは，導出していない．
-この点を仮定として，次を予想する．
+次の二点は導出していない．
+(i) KN の Schwinger の計算と抽出式 \eqref{eq:GT1}，\eqref{eq:GT2} が，全ての $x$ でそのまま適用できること．
+(ii) 弦側で $U(1)_R$ の作用が自明なまま保たれること．
+これらを仮定として，次を予想する．
 
 % [F19]
 \begin{tcolorbox}

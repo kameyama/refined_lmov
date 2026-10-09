@@ -7,9 +7,9 @@
 \subsection{トーラス結び目と代数的な iterated torus 結び目}
 % [R10, R11]
 \begin{compresult}\label{cr:three}
-表~\ref{tab:three} の 15 個の結び目で，$|\rho|\le3$ の全 6 つの $\rho$ について $\hf_\rho$ は正（framing 0）である．
+表~\ref{tab:three} の 15 個の結び目で，正規化 (N1)(N2$'$)（\S\ref{sec:normalization}）の下で，$|\rho|\le3$ の全 6 つの $\rho$ について $\hf_\rho$ は正（framing 0）である．
 内訳はトーラス結び目 7 個，代数的な iterated torus 結び目 7 個，$\mathbf{4_1}$ である．
-同じ全体の符号で，spin 表示 $\hbN$ と genus 表示 $\hN$ がともに非負整数になる．
+同じ全体の符号で，spin 表示 $\hbN_{\rho;i,j,k}$ と genus 表示 $\hbN_{\rho,g,\beta,F}$ がともに非負整数になる．
 \end{compresult}
 
 \begin{table}[h]
@@ -26,10 +26,18 @@ KN の表に無いトーラス結び目 5 個（$T_{3,4}$ の 3 箱，$T_{3,5}$�
 3 本ケーブル $K7$ と 2 段の反復 $K10$ では，$|\lambda|=3$ の refined 不変量そのものも文献に見当たらない．
 Cherednik--Danilenko~\cite{Cherednik14} は，$K7$ の $\yng(1)$ と $K10$ の DAHA-Betti 多項式を与えている．
 
+\begin{remark}[正規化への依存]
+DAHA と楕円 Hall 代数は値を単項式倍を除いてしか決めないので，KN のデータに無い結び目（$T_{3,4}$ の 3 箱，$T_{3,5}$，$T_{2,11}$，$T_{3,7}$，$T_{4,5}$ と全てのケーブル）の判定は，正規化 (N2$'$) に依存する．
+依存するのは，$t=q$ で決まらない表現ごとの $(q/t)^{c_\lambda}$ の一点だけである（仮説~\ref{hyp:N2}）．
+基準の framing を偶数ずらすことは $x$ のずれに等しく（命題~\ref{prop:N2-framing}），その範囲は表~\ref{tab:framing} の判定に含まれる．
+これと異なる割り当ては，$K5c$ の例で Laurent 性と転置対称性を壊す．
+\end{remark}
+
 % [R12]
 \begin{remark}
 入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが，$\hf_{\yng(2,1)}$ は正になる．
-したがって，3 箱の正値性は入力の係数の正値性から直接は従わず，KN の抽出（plethystic な対数と $M$ 行列）を経て初めて現れる．
+この現象はトーラス結び目について KN~\cite{Kameyama17} が指摘したもので（Cherednik~\cite{Cherednik11} の例も参照），本論文の結果はそれが代数的な iterated torus 結び目でも成り立つことを示す．
+3 箱の正値性は入力の係数の正値性から直接は従わず，KN の抽出（plethystic な対数と $M$ 行列）を経て初めて現れる．
 \end{remark}
 
 \subsection{framing を変えた 3 箱}
@@ -48,7 +56,7 @@ $x$ を正に大きくすると項数が増え，負では減る（$K10$ の $\r
 % [R14]
 \begin{tcolorbox}
 \begin{conjecture}\label{conj:B}
-代数的な iterated torus 結び目は，framing 0 で全ての $\rho$ について正である．
+代数的な iterated torus 結び目は，正規化 (N1)(N2$'$) の下の framing 0 で，全ての $\rho$ について正である．
 \end{conjecture}
 \end{tcolorbox}
 
