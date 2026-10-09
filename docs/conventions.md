@@ -423,6 +423,8 @@ GJ = Gu–Jockers 1407.5643（GJ.v3.arXiv.tex）、MMM = 1408.3076（main.lf.tex
   - 2 箱の Laurent 性：公式の分母 2A²(Q⁴−1)(T⁴−1)(Q²T²−1) の各既約因子の零点で、残る入力はちょうど 2 つで、その framing の因子は一致する【導出（tests/test_framing.py）】。
     よって \hat f^{(x)} が Laurent ⇔ \hat f^{(0)} が Laurent（全ての結び目・全ての x）、命題 2 の必要条件 dim H^{[2]} = (dim H^{[1]})² も framing によらない。
 - **framing の因子の出典（2026-10-09）**：framing[λ] は Taki（arXiv:0710.1776、式 (modification)）の refined vertex の framing の因子 f_λ(t,q) = (−1)^{|λ|}t^{‖λ^t‖²/2}q^{−‖λ‖²/2} の逆数にちょうど一致する【導出】。IKV（hep-th/0701156）の f_ν = (−1)^{|ν|}t^{n(ν)}q^{−n(ν^t)} は (t/q)^{|ν|/2} が欠けた誤り（誤植）で、Taki が修正した（ユーザーの指摘、原典で確認）。t = q では Mariño–Vafa の (−1)^{ℓp}q^{pκ_R/2} に x = p で一致（tests/test_framing.py）。物理的な考察は docs/literature/framing_large_n.md。
+- **MV の符号は必要（2026-10-09）**【導出】：符号 (−1)^{|λ|x} を外すと、奇数の x で 2 箱の公式の分母の零点 Q = i, T = i で因子が食い違い、\hat f が Laurent でなくなる（三葉結び目の x = 1 で分母 (1+q)(1+t) が残ることを確認。tests/test_framing.py::test_marino_vafa_sign_is_needed_for_laurent）。箱あたりの (q/t)^{1/2} は判定に影響しない。
+- **(N2') と framing**【導出】：M_λ = (M_□(−(q/t)^{1/2})^{−F})^{|λ|} framing[λ]^F。(N2') の彩色依存部分はちょうど F 単位の framing である。
 - 文献：非 refined の framed knot の LMOV 型の整数性は Mariño–Vafa "Framed knots at large N"（arXiv:hep-th/0108064、掲載誌は arXiv に記載なし）。refined の framed の正値性はユーザーの以前の計算が初出（文献での扱いは未確認）。
 
 ## 変更履歴

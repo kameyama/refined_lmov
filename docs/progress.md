@@ -9,6 +9,7 @@
 - PR：#1〜#4 はマージ済み。#4 は #2 のブランチにマージされたため main に入っておらず、ブランチ framed-refined-lmov に main を取り込んで main 向けに出し直す（2026-10-09）。
 - 作業の続きはユーザーの指示待ち（「進まなくて良い」、2026-10-09）。
 - **論文の構成（2026-10-09、ユーザーの指示）**：KN を framed knot に拡張し、KN のデータを超えて G 展開の前後の正整数性を検証する、という軸の 1 本の論文にする。準備段階は日本語、最終版は英語、投稿先は未定（arXiv には上げる）。構成案は docs/paper/outline.md（執筆前の作業は同 §3）。
+- **framed への拡張の確認（2026-10-09）**：(1) t = q で MV の framing に x = p で一致、(2) framing[λ] は Taki の refined vertex の framing の因子の逆数に一致（IKV の形は誤り、ユーザーの指摘）、(3) MV の符号は奇数の framing で Laurent 性に必要【導出】、(4) (N2') の彩色依存部分はちょうど F 単位の framing、(5) 文献調査で framed の refined LMOV の検証は新規と思われる（novelty_report.md §10）。考察は docs/literature/framing_large_n.md。執筆前の残り：outline.md §3 の 1, 6〜8。表の空欄を埋める計算は、このセッションでは行わない（ユーザーの指示）。
 
 
 別のセッションで再開するときは、この節だけ読めば続きができるようにしてある。詳しい経緯は下の日付つきの節、結果は各期の REPORT。

@@ -152,3 +152,28 @@ def test_t_eq_q_unknot_matches_marino_vafa_variables():
         assert is_monomial(principal_specialization(lam, Asym**2, Q**2, Q**2) / mv)
         if lamT != lam:                                    # 自己共役な [2,1] は q ↔ 1/q で区別できない
             assert not is_monomial(principal_specialization(lam, Asym**2, Q**-2, Q**-2) / mv)
+
+
+def test_marino_vafa_sign_is_needed_for_laurent():
+    """MV の符号 (−1)^{|λ|x} を外し T_λ^x だけを掛けると、x が奇数のとき 2 箱の公式の分母の零点 Q = i, T = i で
+    残る 2 入力の因子が食い違う（Adams の写しの項だけ符号が変わる）⇒ 一般の入力で \\hat f_{[2]}, \\hat f_{[1,1]} が Laurent でなくなる。
+    箱あたりの (q/t)^{1/2} は外しても食い違わない（Adams 作用と両立）。"""
+    from v4_closed import formula
+    Asym, Q, T = sp.symbols("A Q T")
+    one = sp.Integer(1)
+
+    def mismatched(mult):
+        bad = set()
+        for rho, (ns, den) in formula().items():
+            polys = [sum(c * Asym**i * Q**j * T**k for (i, j, k), c in n.to_dict().items()) for n in ns]
+            for locus in ({Q: 1}, {Q: -1}, {Q: sp.I}, {T: 1}, {T: -1}, {T: sp.I}, {Q: 1 / T}, {Q: -1 / T}):
+                alive = [i for i, P in enumerate(polys) if sp.simplify(P.subs(locus)) != 0]
+                if len({sp.simplify(mult[i].subs(locus)) for i in alive}) != 1:
+                    bad.add((rho, tuple(locus.items())[0]))
+        return bad
+
+    for x in (1, 3, -1):                                   # r2, r11, r1², r1(Adams) の因子
+        assert not mismatched([Q ** (2 * x), T ** (-2 * x), one, (-one) ** x])
+        assert mismatched([Q ** (2 * x), T ** (-2 * x), one, one]) == {
+            ((2,), (Q, sp.I)), ((2,), (T, sp.I)), ((1, 1), (Q, sp.I)), ((1, 1), (T, sp.I))}
+    assert not mismatched([Q**4, T**-4, one, one])         # x = 2：符号は効かない
