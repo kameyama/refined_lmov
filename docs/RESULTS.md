@@ -29,7 +29,7 @@
 | K7 = T(2,3) の (3,19)-ケーブル | 代数的（3 本ケーブル） | 約 35 万 | data/cables/K7_*, data/lmov/K7_* | logs/u4_cables3.log |
 | K10 = K1 の (2,53)-ケーブル | 代数的（2 段の反復） | 約 183 万 | data/cables/K10_*, data/lmov/K10_*（3 箱は K10_3.json.xz） | logs/v0_K10_*.log |
 
-- G 展開の後の \hat N_{ρ,g,β,J_r} は data/bps/{K}_{ρ}.json（\hat f も同梱）。T(3,4)〜T(4,5), K7, K8, K9 の分は 2026-10-09 に保存済みの \hat f から `scripts/export_bps.py` で書き出した（K7〜K9 の 3 箱は .json.xz のみ。計算時の判定 48 件と項数・負の数が一致、tests/test_phase3.py::test_u4_bps_saved）。K10 も 2026-10-09 に書き出した（同じ方法、全 6 ρ で負の項 0、計算時の判定と項数が一致、196 秒）。K10 の 3 箱の .json.xz（各 87〜90 MB）は git の管理外で、この PC だけにある。
+- G 展開の後の \hat N_{ρ,g,β,J_r} は data/bps/{K}_{ρ}.json（\hat f も同梱）。T(3,4)〜T(4,5), K7, K8, K9 の分は 2026-10-09 に保存済みの \hat f から `scripts/export_bps.py` で書き出した（K7〜K9 の 3 箱は .json.xz のみ。計算時の判定 48 件と項数・負の数が一致、tests/test_phase3.py::test_u4_bps_saved）。K10 も 2026-10-09 に書き出した（同じ方法、全 6 ρ で負の項 0、計算時の判定と項数が一致、196 秒）。K10 の 2・3 箱は .json.xz のみ（3 箱は各 87〜90 MB）。
 - 代数的な iterated torus 結び目への KN の正値性予想の拡張を支持する【予想】。K10 も |ρ| ≤ 3 の全 6 つの ρ で G 展開の前後とも非負【計算】（2026-10-08、REPORT_phase4.md §1.1）。
 - 4_1（KN が [2,1] の候補を構成、付録 C）の 3 箱までの表は全項で再現した（既知の結果の再現で、本研究の成果ではない。data/bps/4_1_*）。
 - 非代数的なケーブル（DAHA の値を入力）では [1] またはそれ以降で破れる。破れ方は 3 つの型に分かれる（docs/REPORT.md §5.2）。
