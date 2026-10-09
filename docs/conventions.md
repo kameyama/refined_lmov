@@ -402,7 +402,24 @@ GJ = Gu–Jockers 1407.5643（GJ.v3.arXiv.tex）、MMM = 1408.3076（main.lf.tex
     よって rCS の転置対称性とミラー対称性は、チャネルごとの Z̃_X(A, 1/T, 1/Q) = Z̃_{X^T}(A, Q, T)、Z̃_X(1/x) = Z̃_X(x) と同値（チャネルの関数は一次独立）。
   - 正規化の指数 |R|：[2,1] では EGP（rCS_{[1]}·rCS_{[1,1]} の正規化 (T/Q)^{1+2}）から c = 3 = |R| が要る【導出】。
 
+## 17. framed knot の refined LMOV 不変量（2026-10-09、ユーザーの以前の計算の取り込み）【確定（照合済み）】
+
+コードは `scripts/framing_check.py`（まとめての実行は `scripts/framing_batch.sh`）、テストは `tests/test_framing.py`。
+基準はユーザーの以前の計算（2017-2018 年、Dropbox の Mathematica/marino-vafa。主に「framed refined Oogri-Vafa ver2.nb」と「framed_results.nb」。未発表）。
+- **framing の因子**（ノートブックの framing[λ, q, t]）：framing[λ] = (−1)^{|λ|} Π_{□∈λ} q^{a(□)+1/2} t^{−l(□)−1/2} = (−(q/t)^{1/2})^{|λ|} q^{n(λ')} t^{−n(λ)}。
+  framing x の rCS_λ は framing[λ]^x × rCS_λ（reduced でも unreduced でも同じ単項式）。Adams 作用の写し rCS_λ(a^k, q^k, t^k) には framing[λ](q^k, t^k)^x が付く（符号 (−1)^{|λ|} は k によらない）。
+  KN の (A, Q, T) では framing[λ]^x = (−1)^{|λ|x} Q^{x(|λ|+2n(λ'))} T^{−x(|λ|+2n(λ))}。framing 0 は本研究の正規化 (N1)(N2')（§5）そのもの。
+  後半の q^{n(λ')} t^{−n(λ)} は (N2') の T_λ（refined の framing の固有値）と同じ。前半の (−(q/t)^{1/2})^{|λ|} は |λ| だけによる因子。
+- **判定**：第 3 期と同じ（太字の変数、a 次数のずらしは nontorus 規約、G 展開の前と後、全体の符号は良い方）。ノートブックの knotparam（太字への置換）と gfactor（G の冪への展開）は、本研究の to_bold と g_expand に当たる。
+  G 展開の結果の対応：本研究の (g, β, 2J_r) の係数 c ↔ ノートブックの c A^{2β} g^g T^{2J_r}（A = 𝐚, T = 𝐭, g = G）。
+- **照合**【計算】：ノートブックに残っている出力 9 件と全係数一致（三葉結び目 framing 2 の [1], [2], [1,1], [3]、自明な結び目 framing 3 の [3], [2,1] と [1,1,1] の G 展開の前、4_1 framing 0 と 2 の [2]）。
+- **[1] は自明**【導出】：framing[□]^x は太字の変数で 𝐭^x（Q/T = −𝐭）なので、\hat f_{[1]} は 𝐭^x 倍され、\hat N は 2J_r が x ずれるだけ。
+- **計算上の注意**：自明な結び目では \hat f_ρ が恒等的に 0 になる ρ がある（framing 0 では [1] 以外の全て）。補間（rcsknots.exact.reconstruct_points）は 0 を扱えず長時間かかって失敗するので、乱数の 3 点で 0 なら補間を飛ばす（framing_check.zero_rhos）。
+- 文献：非 refined の framed knot の LMOV 型の整数性は Mariño–Vafa "Framed knots at large N"（arXiv:hep-th/0108064、掲載誌は arXiv に記載なし）。refined の framed の正値性はユーザーの以前の計算が初出（文献での扱いは未確認）。
+
 ## 変更履歴
+
+- 2026-10-09：§17 を追加（framed knot の refined LMOV、ユーザーの以前の計算との照合）。
 
 - 2026-10-08（別研究 [2,1] の X2）：§16 を追加（KN の変数での KNTZ の読み替え、チャネル分解）。
 

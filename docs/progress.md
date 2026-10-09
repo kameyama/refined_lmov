@@ -113,6 +113,7 @@
   ケーブルの漸化式は framing 演算子の恒等式（厳密に確認）から、トーラス結び目は正規化前の最低 a 係数 = (−t/q)^{m−1} C_{m,n}(1/q,t)（有理 Catalan、11 例）から。残りは規約の書き下しと文献確認。
 - V4：上の表のとおり完了。
 ### 判断待ち・次の候補
+- **framed knot の refined LMOV（2026-10-09、ユーザーの指示、ブランチ framed-refined-lmov）→ 報告して確認待ち**。詳細は下の「framed knot の refined LMOV」の節。
 - **別研究 [2,1] は X2（停止点 1）で作業を終了（2026-10-08、ユーザーの指示）**。結論：t = q の [2,1] は再現できたが、refined の [2,1] は族の仮定を置いても一意に決まらない。
   残る道（refined の Racah 行列、DAHA/EHA 型の定義、ホモロジーの計算）は研究規模の課題として docs/open_problems.md §F に記録した。ブランチ x0-21-t-eq-q はローカルに commit 済み（push・PR は未実施、許可待ち）。
 - 別研究 [2,1] の X2 完了（2026-10-08）。詳細は下の「別研究 [2,1] X2」の節。
@@ -546,6 +547,36 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 - C2：Chandler–Gorsky の parity knot は DGR の太字で「deg_𝐚/2 + deg_𝐭 の偶奇が一定」で、本研究の [1] の 2J_r の条件と同じ。原典に一覧は無く、11 交点以下の非トーラスの parity knot は 10_125, 10_140（本研究のデータ）。
   候補の条件の比較：e_𝐭 + e_𝐪/2 が一定の結び目は 705 個（thin と一致、δ 次数の偶奇）、e_𝐭 だけ・e_𝐭 + e_𝐚/2 + e_𝐪/2 は 0 個。
 - 新規性：U(2) の恒等式は既知（CD14 の安定化定理、AMMM の要請 (D)）で、V3 の導出は成果から外した。K10 の 2 箱、[2,1] の解の空間の構造、\hat f の p についての構造、parity knot の一覧と 2J_r との関係は新規と思われる。novelty_report.md §8。
+
+## framed knot の refined LMOV（2026-10-09、ユーザーの指示）
+
+**背景**：ユーザーは以前（2017-2018 年、Dropbox の Mathematica/marino-vafa、未発表）に、framing を変えた refined の不変量でも同じ G 展開で正整数性が成り立つことを確かめていた。これを本研究に取り込む。
+
+**やったこと**
+- ノートブック（framed refined Oogri-Vafa ver2.nb, framed_results.nb ほか 14 本）を scripts/nb2txt.py でテキストにして読み、framing の因子・判定の手順を本研究の規約に対応させた（conventions.md §17）。
+  framing[λ] = (−(q/t)^{1/2})^{|λ|} q^{n(λ')} t^{−n(λ)}、framing x の rCS_λ = framing[λ]^x rCS_λ。knotparam・gfactor は本研究の to_bold・g_expand と同じ。
+- `scripts/framing_check.py`（framing を掛けて \hat f_ρ を補間し判定）、`scripts/framing_batch.sh`（まとめての実行）、`scripts/framing_notebook_check.py`（ノートブックの出力との照合）、`tests/test_framing.py`（10 件、47 秒）。
+- 自明な結び目では \hat f_ρ が恒等的に 0 になる ρ があり、補間が失敗して長時間止まった。乱数の点で 0 を判定して補間を飛ばすように直した。
+
+**結果**（全て【計算】）
+1. ノートブックに残っている出力 9 件（三葉結び目 framing 2 の [1], [2], [1,1], [3]、自明な結び目 framing 3 の 3 箱、4_1 framing 0, 2 の [2]）と全係数一致（logs/framing_notebook_check.log）。
+2. framing を振った判定（logs/framing_batch.log、2026-10-09 12:40 完了）：負の項は 0 件。
+   | 結び目 | 入力 | framing | |ρ| | 判定（G 展開の前後とも非負 / \hat f = 0） |
+   |---|---|---|---|---|
+   | 自明な結び目 | — | −6..6 | ≤ 3 | 69 / 9 |
+   | T(2,3) | EHA（KN のノートブック） | −6..6 | ≤ 3 | 78 / 0 |
+   | 4_1 | KN のノートブック（[2,1] は KN の候補） | −4..4 | ≤ 3 | 54 / 0 |
+   | T(2,5) | EHA | −4..4 | ≤ 3 | 54 / 0 |
+   | T(2,7), T(3,4) | EHA | −3..3 | ≤ 3 | 各 42 / 0 |
+   | ツイスト結び目 K_p（p = ±1..±6） | GNSSS の予想式 | −4..4 | ≤ 2 | 324 / 0 |
+   | K1, K3（代数的なケーブル） | EHA（ケーブル） | −2..2 | ≤ 3 | 各 30 / 0 |
+3. [1] は自明【導出】：framing[□]^x は太字の変数で 𝐭^x。\hat N は 2J_r が x ずれるだけ（テストで確認）。
+4. framing 0 の自明な結び目では [1] 以外の \hat f が全て 0。
+
+**位置づけ**：refined の framed knot の正値性はユーザーの以前の計算が初出（未発表、文献での扱いは未確認）。非 refined の framed の整数性は Mariño–Vafa（arXiv:hep-th/0108064）。
+本研究の範囲では、正値性が framing 0（(N1)(N2') の正規化）に特有ではなく、framing を変えても保たれることの確認になる。
+
+**次にやること（指示待ち）**：(i) K7〜K10 など大きいケーブルへの拡張（3 箱は 1 framing あたり数十分〜数時間の見込み）、(ii) framing を記号のまま扱う証明の方向（[1] は自明。2 箱以上の構造）。
 
 ## 別研究 [2,1] X2：未知数と条件の数え上げ（2026-10-08、docs/research_plan_21.md §3、停止点 1）
 
