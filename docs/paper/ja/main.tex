@@ -5,7 +5,8 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs,array,longtable,graphicx}
 \usepackage[margin=25mm]{geometry}
-\usepackage{ytableau}
+\usepackage{youngtab}
+\usepackage{tcolorbox}
 \usepackage[hidelinks]{hyperref}
 
 \newtheorem{theorem}{定理}[section]
@@ -20,10 +21,12 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{注意}
 
-% ヤング図は箱の図で書く（角括弧の数字は引用の番号と紛らわしいので使わない）。\Y{2,1} は行の長さの並び。
-\ytableausetup{centertableaux,boxsize=0.5em}
-\newcommand{\Y}[1]{\ensuremath{\ydiagram{#1}}}
-\newcommand{\rCS}{\mathrm{rCS}}
+% ヤング図は KN と同じく youngtab の \yng(2,1) で書く
+\Yboxdim4pt
+\newcommand{\wh}{\widehat}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\rCS}{\textrm{rCS}}
 \newcommand{\ba}{\mathbf{a}}
 \newcommand{\bq}{\mathbf{q}}
 \newcommand{\bt}{\mathbf{t}}

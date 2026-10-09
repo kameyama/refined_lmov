@@ -13,8 +13,8 @@ $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ の冪に展開した後の refined 
 
 KN がこの予想を確かめたのは，framing 0 の次のデータである（以下「KN のデータ」と呼ぶ）．
 トーラス結び目・トーラス絡み目の $|\lambda|\le 3$ の彩色，
-$\mathbf{4_1},\mathbf{5_2},\mathbf{6_1},\mathbf{6_3}$ などの thin な結び目の $\Y{1},\Y{2},\Y{1,1}$（彩色 HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする），
-および KN が構成した $\mathbf{4_1}$ の $\Y{2,1}$ の候補である．
+$\mathbf{4_1},\mathbf{5_2},\mathbf{6_1},\mathbf{6_3}$ などの thin な結び目の $\yng(1),\yng(2),\yng(1,1)$（彩色 HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする），
+および KN が構成した $\mathbf{4_1}$ の $\yng(2,1)$ の候補である．
 本論文では，KN のデータの再現は規約を定めるためだけに用い，成果としては扱わない．
 
 \subsection{本論文の内容}
@@ -42,35 +42,34 @@ framing はホモロジーの次数のずらしとして働く．
 \paragraph{検証（\S\ref{sec:one}--\S\ref{sec:three}）．}
 入力の確からしさは結び目のクラスによって異なる（表~\ref{tab:overview}）．
 \begin{itemize}
-\item 基本表現 $\rho=\Y{1}$：入力が非負係数で DGR の対称性をもてば，$G$ 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
-DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\Y{1}$ は正である．
-\item 2 箱：$\hf_{\Y{2}}$ が Laurent であるためには $\dim H^{\Y{2}}=(\dim H^{\Y{1}})^2$ が必要である（命題~\ref{prop:two-necessary}）．
+\item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，$G$ 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
+DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\yng(1)$ は正である．
+\item 2 箱：$\hf_{\yng(2)}$ が Laurent であるためには $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である（命題~\ref{prop:two-necessary}）．
 GNSSS~\cite{Gukov15} の予想式を入力として，ツイスト結び目の全ての撚りの数で 2 箱が正であることを示す（定理~\ref{thm:twist}）．
 また，8 個の結び目では全ての整数の framing で 2 箱が正である（定理~\ref{thm:two-all-x}）．
 \item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，$|\rho|\le3$ の全ての $\rho$ について $G$ 展開の前後とも正である（計算結果~\ref{cr:three}）．
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
 3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む．
-入力の $\rCS_{\Y{2,1}}$ 自体は負の係数をもつが，BPS の段では正になる．
+入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが，BPS の段では正になる．
 \end{itemize}
 これらに基づき，framed knot の refined LMOV 不変量の正値性を予想~\ref{conj:A} として，
 代数的な iterated torus 結び目の正値性を予想~\ref{conj:B} として提出する．
-双曲結び目の 3 箱には，定義に基づく $\Y{2,1}$ の refined 不変量が無い．構造的な条件では $\Y{2,1}$ が一意に決まらないことを \S\ref{sec:21} で述べる．
+双曲結び目の 3 箱には，定義に基づく $\yng(2,1)$ の refined 不変量が無い．構造的な条件では $\yng(2,1)$ が一意に決まらないことを \S\ref{sec:21} で述べる．
 
-% [outline §0 の表]
 \begin{table}[t]
 \centering
 \caption{検証の全体像．○ は $G$ 展開の前後とも正，— は未実施，× は入力が無い．}\label{tab:overview}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccc}
 \toprule
-結び目 & 入力 & $\Y{1}$ & 2 箱 $x=0$ & 2 箱 全ての $x$ & 3 箱 $x=0$ & 3 箱 $x\neq0$ \\
+結び目 & 入力 & $\yng(1)$ & 2 箱 $x=0$ & 2 箱 全ての $x$ & 3 箱 $x=0$ & 3 箱 $x\neq0$ \\
 \midrule
 自明な結び目 & -- & 全 $x$ & ○ & ○ & ○ & $|x|\le6$ \\
-$T(2,3),T(2,5),T(2,7),T(3,4)$ & EHA & 全 $x$ & ○ & ○ & ○ & $|x|\le 3$--$6$ \\
-$T(3,5),T(2,11),T(3,7),T(4,5)$ & EHA & 全 $x$ & ○ & -- & ○ & -- \\
+$T_{2,3},T_{2,5},T_{2,7},T_{3,4}$ & EHA & 全 $x$ & ○ & ○ & ○ & $|x|\le 3$--$6$ \\
+$T_{3,5},T_{2,11},T_{3,7},T_{4,5}$ & EHA & 全 $x$ & ○ & -- & ○ & -- \\
 $K1,K3$ & DAHA & 全 $x$ & ○ & ○ & ○ & $|x|\le2$ \\
 $K6a,K7,K8,K9,K10$ & DAHA & 全 $x$ & ○ & -- & ○ & -- \\
-$\mathbf{4_1}$ & ホモロジー（$\Y{2,1}$ は KN の候補） & 全 $x$ & ○ & ○ & ○ & $|x|\le4$ \\
+$\mathbf{4_1}$ & ホモロジー（$\yng(2,1)$ は KN の候補） & 全 $x$ & ○ & ○ & ○ & $|x|\le4$ \\
 結び目表 801 個 & ホモロジー & 全 $x$ & × & × & × & × \\
 ツイスト $K_p$ & GNSSS の予想式 & 全 $x$ & 全 $p$ & 注 1 & × & × \\
 pretzel $K_{s,t}$ & GNSSS の予想式 & 全 $x$ & 注 2 & -- & × & × \\
@@ -92,15 +91,15 @@ refined の open BPS 不変量の非負性は，単一のブレーン・対称�
 Banerjee--Ishtiaque--Jeong~\cite{Banerjee26} が論じている．
 knots--quivers 対応~\cite{Kucharski17,Kucharski17b,Ekholm18} では，framing の変化は quiver 行列のずらし $C\mapsto C+f$ として現れ，
 対称表現の refined LMOV 不変量の整数性が quiver の構造から従う．
-本論文の調べた範囲では，KN の $\hf_\rho$ を framing をつけて作り，非対称な $\rho$（$\Y{2,1}$ を含む）まで $G$ 展開の前後の正整数性を調べた研究は見当たらない．
+本論文の調べた範囲では，KN の $\hf_\rho$ を framing をつけて作り，非対称な $\rho$（$\yng(2,1)$ を含む）まで $G$ 展開の前後の正整数性を調べた研究は見当たらない．
 ケーブルの refined 不変量の定義は Cherednik--Danilenko~\cite{Cherednik14,Cherednik15} による．
-その明示例は $K1$ の $\Y{1},\Y{2}$ などに限られ，$|\lambda|=3$ の値と refined BPS 不変量は文献に見当たらない．
+その明示例は $K1$ の $\yng(1),\yng(2)$ などに限られ，$|\lambda|=3$ の値と refined BPS 不変量は文献に見当たらない．
 
 \subsection{構成}
 \S\ref{sec:prelim} で変数と KN の refined LMOV 不変量を復習する．
 \S\ref{sec:framing} で framed knot への拡張と，$x$ によらない構造を述べる．
 \S\ref{sec:inputs} で入力（トーラス結び目，ケーブル，ホモロジー，予想式）と計算法を説明する．
-\S\ref{sec:one}，\S\ref{sec:two}，\S\ref{sec:three} で，それぞれ $\Y{1}$，2 箱，3 箱の検証を述べる．
+\S\ref{sec:one}，\S\ref{sec:two}，\S\ref{sec:three} で，それぞれ $\yng(1)$，2 箱，3 箱の検証を述べる．
 \S\ref{sec:discussion} で未解決の問題を議論する．
 付録に計算法の詳細，非代数的なケーブル，文献の誤植，データとコードをまとめる．
 

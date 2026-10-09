@@ -12,13 +12,13 @@ $\hf_\rho(K_p)$（$|\rho|=2$）は $p$ について根 $\{1,X,X^2,Y,\bar Y\}$ �
 \end{lemma}
 \begin{proof}
 GNSSS の式では，$p$ は $\bigl((\ba\bt)^{2j}(\bt\bq)^{2j(j-1)}\bigr)^p$ の形でだけ入る．
-入力の根は $P_{\Y{1}}$ で $\{1,X\}$，$P_{\Y{2}}$ で $\{1,X,Y\}$，$P_{\Y{1,1}}$ で $\{1,X,\bar Y\}$ である．
+入力の根は $P_{\yng(1)}$ で $\{1,X\}$，$P_{\yng(2)}$ で $\{1,X,Y\}$，$P_{\yng(1,1)}$ で $\{1,X,\bar Y\}$ である．
 $\hf$ は入力の積と Adams 作用の一次結合を，命題~\ref{prop:two-necessary} の分母で割ったものである．
 \end{proof}
 
 % [R2]
 \begin{theorem}\label{thm:twist}
-GNSSS の予想式を入力とすると，全ての $p\neq0$ で $\hf_{\Y{2}}(K_p)$，$\hf_{\Y{1,1}}(K_p)$ は正である．
+GNSSS の予想式を入力とすると，全ての $p\neq0$ で $\hf_{\yng(2)}(K_p)$，$\hf_{\yng(1,1)}(K_p)$ は正である．
 \end{theorem}
 \begin{proof}[証明の概略]
 並び $(1,X,X^2,Y,\bar Y)$ のニュートン形 $s_{1+n}=\sum_{k=0}^{4}c_k\,h_{n-k}(m_0,\dots,m_k)$ を作る．
@@ -38,7 +38,7 @@ $|p|\le30$ の 120 件で，展開の前後とも負の項は 0 である．
 
 \begin{remark}[単峰性]
 $v=\bq^2\bt$ とおくと，$c_3$ と $c_4$ は構造から正であり，$\hf(K_p)$ は全ての $p$ で $v$ についての $\mathfrak{sl}_2$ 指標の正係数の和（単峰）になる（$c_0,\dots,c_2$ は有限個の判定）．
-$\Y{1}$ の単峰性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の hard Lefschetz の性質から全ての結び目で従う．
+$\yng(1)$ の単峰性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の hard Lefschetz の性質から全ての結び目で従う．
 2 箱の単峰性の構造的な理由は未解明である．
 \end{remark}
 
@@ -69,13 +69,13 @@ $|s|,|t|\le20$ の 820 点と，$21\le|s|\le30$・$21\le t\le40$ の 200 点で�
 \subsection{thick な非トーラス結び目}
 % [R5]
 \begin{compresult}\label{cr:thick}
-Stošić の quiver と KRSS の予想式から作った $\mathbf{10_{139}}$，$\mathbf{10_{152}}$ の $\Y{2}$，$\Y{1,1}$ の入力で，2 箱は正である．
+Stošić の quiver と KRSS の予想式から作った $\mathbf{10_{139}}$，$\mathbf{10_{152}}$ の $\yng(2)$，$\yng(1,1)$ の入力で，2 箱は正である．
 次元は $441=21^2$，$841=29^2$ で，命題~\ref{prop:two-necessary} の必要条件を満たす．
-$t=q$ の極限は，$(2,s)$-ケーブルから逆に解いた $\Y{2}$，$\Y{1,1}$ の彩色 HOMFLY-PT 多項式と一致する．
+$t=q$ の極限は，$(2,s)$-ケーブルから逆に解いた $\yng(2)$，$\yng(1,1)$ の彩色 HOMFLY-PT 多項式と一致する．
 \end{compresult}
 これらは，命題~\ref{prop:two-necessary} の必要条件を満たす thick な非トーラス結び目で 2 箱の正値性が成り立つ例である．
 knots--quivers 対応の DT 不変量の正値性からは従わない．
-対称表現だけの quiver 級数からは，$\Y{1,1}$ の入力を要する $\hf_{\Y{2}}$，$\hf_{\Y{1,1}}$ は出てこない．
+対称表現だけの quiver 級数からは，$\yng(1,1)$ の入力を要する $\hf_{\yng(2)}$，$\hf_{\yng(1,1)}$ は出てこない．
 
 \begin{remark}[正値性は自動的ではない]
 $\mathbf{5_2}$ で $t_c$ 次数の割り当てを別の 12 通りに変えると，いずれも負の項が出る．
@@ -85,14 +85,14 @@ $\mathbf{5_2}$ で $t_c$ 次数の割り当てを別の 12 通りに変えると
 \subsection{全ての framing}
 % [R7]
 \begin{theorem}\label{thm:two-all-x}
-自明な結び目，$T(2,3)$，$T(2,5)$，$T(2,7)$，$T(3,4)$，$\mathbf{4_1}$，$K1$，$K3$ の 2 箱は，全ての $x\in\mathbb{Z}$ で正である．
+自明な結び目，$T_{2,3}$，$T_{2,5}$，$T_{2,7}$，$T_{3,4}$，$\mathbf{4_1}$，$K1$，$K3$ の 2 箱は，全ての $x\in\mathbb{Z}$ で正である．
 $\mathbf{4_1}$ の入力は KN のデータである．
 \end{theorem}
 \begin{proof}
 \S\ref{sec:newton} の方法による．各結び目・各 $\rho$・$x$ の偶奇と向きの四つの組で，ニュートン形の係数が一様な符号になる起点 $x_0$ がある．
 起点と 0 の間の $x$ は直接判定した．
 \end{proof}
-負の向きの起点は，結び目が複雑になるほど 0 から遠い（$T(2,2k+1)$ で $-(2k+2)$，$K1$ で $-20$，$K3$ で $-22$）．この意味は未解明である．
+負の向きの起点は，結び目が複雑になるほど 0 から遠い（$T_{2,2k+1}$ で $-(2k+2)$，$K1$ で $-20$，$K3$ で $-22$）．この意味は未解明である．
 
 % [R8]
 \begin{theorem}\label{thm:twist-x}
@@ -109,7 +109,6 @@ $\bt^{-2x}\hf^{(x)}_\rho(K_p)$ は $p$ と $x$ の両方について指数和で
 
 \begin{compresult}[framing を振った直接の判定]\label{cr:framing-batch}
 次の 732 件で，$G$ 展開の前後とも負の項は 0 である（9 件は $\hf=0$）．
-自明な結び目（$|x|\le6$），$T(2,3)$（$|x|\le6$），$\mathbf{4_1}$ と $T(2,5)$（$|x|\le4$），$T(2,7)$ と $T(3,4)$（$|x|\le3$）は 3 箱まで．
+自明な結び目（$|x|\le6$），$T_{2,3}$（$|x|\le6$），$\mathbf{4_1}$ と $T_{2,5}$（$|x|\le4$），$T_{2,7}$ と $T_{3,4}$（$|x|\le3$）は 3 箱まで．
 ツイスト結び目 $K_{\pm1},\dots,K_{\pm6}$（$|x|\le4$）は 2 箱まで．$K1$，$K3$（$|x|\le2$）は 3 箱まで．
 \end{compresult}
-% 表：docs/paper/generated/framing_table.tex

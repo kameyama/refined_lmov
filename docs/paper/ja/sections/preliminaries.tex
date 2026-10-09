@@ -11,7 +11,6 @@ a=-\ba^2\bt,\qquad q^{1/2}=-\bq\bt,\qquad t^{1/2}=\bq
 $t=q$ は $\bt=-1$ に当たる．Aganagic--Shakirov~\cite{Aganagic11} の太字の変数も同じである．
 Cherednik--Danilenko~\cite{Cherednik14} の DAHA の変数 $(q,t,a)$ は KN の $(q,t)$ と同じで，$a_{\mathrm{DAHA}}=-a$ である．
 半整数冪の分枝は \eqref{eq:cov} で固定する．$\hf_\rho$ の全体の符号は規約であり，最低次の項が正になる向きにとる．
-% conventions.md §1, §8
 
 \subsection{Macdonald 多項式と自明な結び目}
 $P_\lambda(x;q,t)$ を monic な Macdonald 多項式とし，内積 $\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}z_\lambda\prod_i(1-q^{\lambda_i})/(1-t^{\lambda_i})$ に関する
@@ -28,55 +27,61 @@ T_\lambda=q^{n(\lambda')}\,t^{-n(\lambda)}
 を refined の framing の固有値と呼ぶ．$t=q$ では $q^{\sum_{s\in\lambda}c(s)}$（$c(s)$ は content）になる．
 
 \subsection{refined CS 不変量}
-結び目 $K$ と分割 $\lambda$ に対し，$\rCS_\lambda(K;a,q,t)$ を reduced の refined CS 不変量とする（自明な結び目で 1）．
+KN と同じく，unreduced の refined CS 不変量を $\overline{\rCS}_\lambda(K;a,q,t)$，reduced の不変量を $\rCS_\lambda(K;a,q,t)$ と書く．両者は
+\[
+\overline{\rCS}_\lambda(K;a,q,t)=\overline{\rCS}_\lambda(\bigcirc;a,q,t)\,\rCS_\lambda(K;a,q,t)
+\]
+で結ばれる．ここで $\bigcirc$ は自明な結び目である．
 トーラス結び目では，Aganagic--Shakirov の $S,T$ 行列による定義~\cite{Aganagic11}，Cherednik の DAHA による定義~\cite{Cherednik11}，
 Gorsky--Neguţ~\cite{Gorsky13b} の楕円 Hall 代数による表示が知られている．
 本論文では後者で計算する（\S\ref{sec:inputs}）．
 これらの定義は単項式倍を除いてしか値を決めない．KN の BPS 抽出は単項式倍で結果が変わるので，単項式の正規化を \S\ref{sec:normalization} で固定する．
-$U(N)$ と $SU(N)$ の違いは framing と linking number の補正だけで，本論文では区別しない（KN の脚注と同じ扱い）．
+$\U(N)$ と $\SU(N)$ の違いは framing と linking number の補正だけで，本論文では区別しない（KN の脚注と同じ扱い）．
 
-\subsection{KN の refined LMOV 不変量}
-KN は，$q$-brane と $\bar t$-brane の二つの配位について，生成関数の等式
+\subsection{refined reformulated invariants}
+KN は，$q$-brane と $\bar t$-brane の二つの配位について，幾何学的遷移の等式
 \begin{align}
-\sum_\lambda \rCS_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(x;q,t)
-&=\Exp\Bigl(\sum_\mu \frac{f^q_\mu(K;a,q,t)}{q^{1/2}-q^{-1/2}}\,s_\mu(x)\Bigr),\label{eq:GT1}\\
-\sum_\lambda \rCS_\lambda(K;a,q,t)\,P_{\lambda^T}(-x;t,q)
-&=\Exp\Bigl(\sum_\mu \frac{f^{\bar t}_\mu(K;a,q,t)}{t^{-1/2}-t^{1/2}}\,s_\mu(x)\Bigr)\label{eq:GT2}
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(x;q,t)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^q_\mu(K;a^d,q^d,t^d)}{q^{\frac d2}-q^{-\frac d2}}\,s_\mu(x^d)\Bigr),\label{eq:GT1}\\
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,P_{\lambda^T}(-x;t,q)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^{\bar t}_\mu(K;a^d,q^d,t^d)}{t^{-\frac d2}-t^{\frac d2}}\,s_\mu(x^d)\Bigr)\label{eq:GT2}
 \end{align}
-を提案した（$\Exp$ は plethystic 指数）．
-ここから定まる $f^q_\mu$, $f^{\bar t}_\mu$ は，Schur 関数と巡回型から作る行列 $M_{\mu\rho}(t)$ により
-\[
-f^q_\mu=\sum_\rho M_{\mu\rho}(t)\,\hf_\rho,\qquad f^{\bar t}_\mu=\sum_\rho M_{\mu\rho}(q^{-1})\,\hf_\rho
-\]
-と書け，二つの式が同じ $\hf_\rho$ を与えることが KN の枠組みの整合性になる．
+を提案した．
+ここから定まる refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ は，行列 $M_{\mu\rho}(t)$ により
+\begin{equation}\label{eq:f-to-hatf}
+f^q_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(t)\,\wh f_\rho(K;a,q,t),\qquad f^{\bar t}_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(q^{-1})\,\wh f_\rho(K;a,q,t)
+\end{equation}
+と書け，二つの式が同じ $\wh f_\rho$ を与えることが KN の枠組みの整合性になる．
 $f^q_\mu$ の尺度は KN の付録 B の式に合わせる．本文の \eqref{eq:GT1} をそのまま展開した値とは $(q/t)^{|\mu|/2}$ だけ違う（付録~\ref{app:typos}）．
 
-$\hf_\rho$ に a 次数のずらし（$|\rho|=1$ で $a^{-1/2}$，$|\rho|=3$ で $a^{1/2}$）を施し，\eqref{eq:cov} で太字の変数に移す．
-その Laurent 多項式の係数を
+KN の予想は，$a$ 次数を $\pm\frac12$ ずらした後で $\wh f_\rho$ が
+\begin{equation}\label{eq:hat-f-2}
+\wh f_\rho(K;a,q,t)=\sum_{g,\beta,J_r}(-1)^{2J_r}\,\wh N_{\rho,g,\beta,J_r}(K)\,(q^{\frac12}-q^{-\frac12})^{g}(t^{-\frac12}-t^{\frac12})^{g}\Bigl(\frac qt\Bigr)^{J_r-\frac\beta2}a^{\beta}
+\end{equation}
+の形をとり，$\wh N_{\rho,g,\beta,J_r}(K)$ が非負整数になる，というものである．
+$a$ 次数のずらしは，$|\rho|=1$ で $a^{-1/2}$，$|\rho|=3$ で $a^{1/2}$ とする．
+\eqref{eq:cov} の変数では，\eqref{eq:hat-f-2} は
 \[
-\hf_\rho=\sum_{i,j,k}\hbN_{\rho;i,j,k}\,\ba^{i}\bq^{j}\bt^{k}
+\wh f_\rho=\sum_{g,\beta,J_r}\wh N_{\rho,g,\beta,J_r}\,(\bq\bt-\bq^{-1}\bt^{-1})^{g}(\bq-\bq^{-1})^{g}\,\ba^{2\beta}\,\bt^{2J_r}
 \]
-と書き，$G$ 展開の前の係数と呼ぶ．
-さらに $\ba^{2\beta}$ の各行を
-\[
-G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})
-\]
-の冪で展開し，
-\[
-\hf_\rho=\sum_{g,\beta,J_r}\hN_{\rho,g,\beta,J_r}\,G^{g}\,\ba^{2\beta}\,\bt^{2J_r}
-\]
-と書いたときの係数 $\hN_{\rho,g,\beta,J_r}$ を refined BPS 不変量（$G$ 展開の後）と呼ぶ．
-この展開が整数係数で閉じるのは，各行が
+となる（KN の $\wh{\mathbf N}_{\rho,g,\beta,F}$ で $F=2J_r$ としたもの）．
+$G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ とおき，この展開を $G$ 展開と呼ぶ．
+$G$ 展開が整数係数で閉じるのは，$\ba^{2\beta}$ の各行が
 \begin{equation}\label{eq:sigma}
 \sigma:\ (e_\ba,e_\bq,e_\bt)\mapsto(e_\ba,-e_\bq,e_\bt-e_\bq)
 \end{equation}
 で不変で，$\bq$ の指数が偶数のときである．
-本論文で refined LMOV 不変量と呼ぶのは，$\hbN$ と $\hN$ の二つだけである．$f^q$, $f^{\bar t}$ の係数は付録で補足として扱う．
+KN は，展開をする前の素朴な変数変換の係数
+\[
+\wh f_\rho(K;a=-\ba^2\bt,\,q=\bq^2\bt^2,\,t=\bq^2)=\sum_{i,j,k}\wh{\mathbf N}_{\rho;i,j,k}(K)\,\ba^{2i}\bq^{2j}\bt^{k}
+\]
+も非負整数になることを観察した．
+本論文で refined LMOV 不変量と呼ぶのは，$G$ 展開の前の $\wh{\mathbf N}_{\rho;i,j,k}$ と，後の $\wh N_{\rho,g,\beta,J_r}$ の二つである．$f^q$, $f^{\bar t}$ の係数は付録で補足として扱う．
 
 \begin{definition}[正値性]\label{def:positivity}
-$\hf_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，$\hbN_{\rho;i,j,k}$ と $\hN_{\rho,g,\beta,J_r}$ の全てが非負整数になることをいう．
+$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，$\wh{\mathbf N}_{\rho;i,j,k}$ と $\wh N_{\rho,g,\beta,J_r}$ の全てが非負整数になることをいう．
 \end{definition}
 
-$\Y{1}$ では $\hf_{\Y{1}}=(a^{1/2}-a^{-1/2})\rCS_{\Y{1}}$ である．
-したがって，$\rCS_{\Y{1}}$ を太字の変数で書いた $P$ に対し，$\hf_{\Y{1}}$ は（a 次数をずらした後）$(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ になる．
-$P$ が HOMFLY-PT ホモロジーの Poincaré 多項式として解釈されるなら，$\Y{1}$ の正値性は自然に期待される．
+$\yng(1)$ では $\hf_{\yng(1)}=(a^{1/2}-a^{-1/2})\rCS_{\yng(1)}$ である．
+したがって，$\rCS_{\yng(1)}$ を太字の変数で書いた $P$ に対し，$\hf_{\yng(1)}$ は（a 次数をずらした後）$(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ になる．
+$P$ が HOMFLY-PT ホモロジーの Poincaré 多項式として解釈されるなら，$\yng(1)$ の正値性は自然に期待される．

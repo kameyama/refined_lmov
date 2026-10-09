@@ -61,7 +61,8 @@
 | H_sat | refined 衛星公式（仮説） | §13.1 |
 
 ## 6. 論文での表記の決めごと（執筆時に守る）
-- **ヤング図は箱の図で書く**（2026-10-09、ユーザーの指示）：角括弧の [1], [2,1] は引用の番号 [n] と紛らわしいので本文では使わない。原稿では `\Y{2,1}`（ytableau、行の長さの並び）を使う。言葉を添えるときは「基本表現 ρ = \Y{1}」「λ = \Y{2,1}」のように書く。この文書や claims.md などの作業用の文書では、従来どおり [2,1] と書いてよい。
+- **ヤング図は KN と同じく youngtab の `\yng(2,1)` で書く**（箱 4pt、2026-10-09、ユーザーの指示）：角括弧の [1], [2,1] は引用の番号 [n] と紛らわしいので本文では使わない。言葉を添えるときは「基本表現 ρ = \yng(1)」のように書く。`\yng` は見出しと caption の中では壊れるので、見出しは言葉で書き、caption には短い版を付ける。作業用の文書（claims.md など）では従来どおり [2,1] と書いてよい。
+- **KN に合わせる記号**（2026-10-09）：トーラス結び目は $T_{m,n}$。unreduced を $\overline{\rm rCS}_\lambda$、reduced を ${\rm rCS}_\lambda$（$\overline{\rm rCS}_\lambda(K)=\overline{\rm rCS}_\lambda(\bigcirc)\,{\rm rCS}_\lambda(K)$）。生成関数は unreduced で書く。G 展開の前の係数は KN の $\widehat{\mathbf N}_{\rho;i,j,k}$（$\mathbf a^{2i}\mathbf q^{2j}\mathbf t^k$）、後は $\widehat N_{\rho,g,\beta,J_r}$（KN (hat-f-2)）。予想は KN と同じく枠（tcolorbox）で囲む。
 - superpolynomial は、ホモロジーの Poincaré 多項式（DGR などの意味）にだけ使う。rCS や DAHA の値は superpolynomial と呼ばない（§8 の用語）。
 - 「refined LMOV 不変量」は \hat{𝐍} と \hat N だけを指す。f^q, f^{\bar t} の係数は付録の補足。
 - Zhu の "refined LMOV conjecture"（非 refined の概念）と区別することを、序論で一度書く。

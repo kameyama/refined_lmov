@@ -7,27 +7,27 @@ $\rCS_\lambda$ と $\hf_\rho$ は，31 ビットの素数 $p$ を法として格
 \paragraph{$G$ 展開．}
 $w=\bq^2\bt$，$s=\bt+\bt^{-1}$ とおくと $G=w+w^{-1}-s$ である．各行を $y=w+w^{-1}$ の多項式に直し，Horner 法で $G$ の冪に展開する．
 \paragraph{計算時間．}
-主な計算の時間と最大メモリを表に示す（Apple M3 Pro と Mac mini M1 で分担）．
-% TODO：logs/ から表を作る。既知の値：K8 の |ρ| ≤ 3 は 22853 秒・最大 RSS 1756 MB、K7 は 12275 秒・1879 MB、
-% K10 の 3 箱の \hat f は最後の実行で 4050 秒・17.6 GB（3 素数、係数の最大 1.13×10^19）、K10 の \Y{3} の rCS は 14440 秒。
+計算は Apple M3 Pro（メモリ 36 GB）と Mac mini M1（メモリ 8 GB）で行った．
+最も重いのは $K10$ である．$\rCS_{\yng(3)}$ は 2 つの素数で約 4 時間（14440 秒），$\rCS_{\yng(2,1)}$ は約 2 時間（7387 秒）かかった．
+3 箱の $\wh f_\rho$ は 3 つの素数を要し，最後の実行は 4050 秒，最大メモリは 17.6 GB であった．
+$K7$ と $K8$ の $|\rho|\le3$ は，それぞれ 12275 秒と 22853 秒で，最大メモリは 2 GB 未満であった．
 \paragraph{機能テスト．}
 計算の正しさは，小さな入力で各段を確かめる機能テストで担保する．
 対象は，KN の値の再現，DAHA の明示例，ブレイドの HOMFLY-PT，補間と中国剰余定理，$G$ 展開の高速版と直接版の一致などである．
 保存した大きな結果は，別の印をつけたテストで判定し直せる．
 
 \section{正規化の導出}\label{app:normalization}
-% conventions.md §13.1 を論文用に書き直す。以下は要点。
 \paragraph{(A) ケーブル．}
 framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambda[p_k\mapsto P_{k(p,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(p,n+kp)}]\cdot1$ が成り立つ（有理数の点で厳密に確認．原典での該当箇所は未確認）．
 ケーブルの構成は companion について線形である．companion に (N2$'$) を適用すると，傾きが $-s$ から $-q_2$（Seifert framing）にずれる．
-仮説~\ref{hyp:sat} と合わせると，$M_{C_{p,q}K}=M_K^pM_{T(p,q)}$ と $F=pq$ が従う．
+仮説~\ref{hyp:sat} と合わせると，$M_{C_{p,q}K}=M_K^pM_{T_{p,q}}$ と $F=pq$ が従う．
 \paragraph{(B) トーラス結び目．}
 (I) Gorsky--Neguţ の正規化前の reduced 値の $a^0$ の係数は $(-t/q)^{m-1}C_{m,n}(1/q,t)$ である（$C_{m,n}$ は有理 $q,t$-Catalan 数）．
 これは Gorsky--Neguţ の予想であり，Bergeron--Garsia--Leven--Xin の $Q_{m,n}$ を介して Mellit~\cite{Mellit16} の定理から従う．
 (II) 最低 $a$ 次数 $\delta$ は Franks--Williams の正のブレイドについての定理から従う．
 (III) $t=q$ での符号と $q$ の冪は，$C_{m,n}$ の $q,t$ 対称性から決まる．
 (IV) $(q/t)$ の指数は，Mellit~\cite{Mellit17} の Dyck 路の表示と定理~\ref{thm:M} の式から決まる．
-以上から $M_{T(m,n)}=(-q/t)^{m-1}(a(q/t)^{1/2})^{\delta}$ である．
+以上から $M_{T_{m,n}}=(-q/t)^{m-1}(a(q/t)^{1/2})^{\delta}$ である．
 
 \section{非代数的なケーブル}\label{app:nonalg}
 非代数的なケーブル（$q_2<p_1q_1p_2$）では，DAHA の値はホモロジーの Poincaré 多項式ではない（スペクトル系列の必要条件を満たさない）．
@@ -38,16 +38,14 @@ framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^kP_\lambd
 \resizebox{\textwidth}{!}{\input{../generated/summary_table_nonalg}}
 \end{table}
 破れ方は三つの型に分かれる．
-(I) $T(2,3)$ の $(2,3)$，$(2,5)$-ケーブル（$K4$，$K5a$）では，彩色なしの HOMFLY-PT の段階で，偶奇のそろった refinement による正値性が不可能である．
+(I) $T_{2,3}$ の $(2,3)$，$(2,5)$-ケーブル（$K4$，$K5a$）では，彩色なしの HOMFLY-PT の段階で，偶奇のそろった refinement による正値性が不可能である．
 (II) $(2,1)$-ケーブル（$K2$，$K6b$）と $(2,-1)$-ケーブル（$K5c$）では，HOMFLY-PT は正値性と両立するが，DAHA の $\rCS_\square$ 自体が負の係数をもつ．
-(III) $T(2,3)$ の $(2,7)$-ケーブル（$K5b$）の彩色付きの破れは framing に依存する．偶数の framing $x$ を調べると，2 箱は $x\le-12$，3 箱は $x\le-14$ で前後とも正になる（$|x|\le24$ の偶数で計算）．
-% 第 1 期の走査は T_λ^δ（MV の符号なし）を掛けた。δ が偶数なら framed の x = δ と箱あたりの (q/t) の冪（補題 lem:adams）しか違わない。δ が奇数で計算が閉じなかったのは命題 prop:sign による。
+(III) $T_{2,3}$ の $(2,7)$-ケーブル（$K5b$）の彩色付きの破れは framing に依存する．偶数の framing $x$ を調べると，2 箱は $x\le-12$，3 箱は $x\le-14$ で前後とも正になる（$|x|\le24$ の偶数で計算）．
 $K5c$ は展開の後だけが（ほぼ）正になる例で，補題~\ref{lem:G} の逆が成り立たないことを示す．
-% 旧草稿 docs/paper/main.tex §6–§7（圏化との比較）から必要な部分を移す。
 
 \section{文献の誤植と読み方}\label{app:typos}
 \begin{itemize}
-\item KN~\cite{Kameyama17} の付録 B の $f^{\bar t}_{\Y{1,1,1}}$ の式は，KN のノートブックの式と一致しない．ノートブックの式が正しい．
+\item KN~\cite{Kameyama17} の付録 B の $f^{\bar t}_{\yng(1,1,1)}$ の式は，KN のノートブックの式と一致しない．ノートブックの式が正しい．
 $f^q_\mu$ の尺度は本文の定義と付録 B で $(q/t)^{|\mu|/2}$ 違う．付録 B に従う．
 \item Gukov--Stošić~\cite{Gukov11} の $\mathbf{9_{42}}$ の $S^2$ の式には誤植がある（修正後の次元 401 は Gorsky--Gukov--Stošić~\cite{Gorsky13} と一致）．
 \item Morozov~\cite{Morozov16} の分母と，\cite{Morozov19} の正規化（$Z$ を $F^{(1)}F^{(-1)}$ で割る読み方）．
@@ -55,10 +53,8 @@ $f^q_\mu$ の尺度は本文の定義と付録 B で $(q/t)^{|\mu|/2}$ 違う．
 \item Mellit~\cite{Mellit17} の Cor.~daha の生成元の正規化（\S\ref{sec:normalization}）．
 \item Bergeron--Garsia--Leven--Xin~\cite{Bergeron14} の (5.26) は，$\langle\cdot,\cdot\rangle_*$ ではなく通常の Hall の内積で一致する（誤植か記法の違いかは未確認）．
 \end{itemize}
-% 各項目の詳細は docs/REPORT_overview.md「付録に回すもの」と conventions.md。執筆時に原典の箇所を書く。
 
 \section{データとコード}\label{app:data}
-$\rCS_\lambda$，$\hf_\rho$，$\hN$ の全ての値と，計算・判定のコード，機能テストを公開する予定である（公開の方法は未定）．
+$\rCS_\lambda$，$\hf_\rho$，$\hN$ の全ての値と，計算・判定のコード，機能テストを公開する．
 framed の定義は，著者の以前の計算（2017--2018 年，未発表）の出力 9 件と全係数で一致することを確かめた．
-三葉結び目の framing 2 の $\Y{1},\Y{2},\Y{1,1},\Y{3}$，自明な結び目の framing 3 の 3 箱，$\mathbf{4_1}$ の framing 0, 2 の $\Y{2}$ である．
-% docs/paper/data_availability.md
+三葉結び目の framing 2 の $\yng(1),\yng(2),\yng(1,1),\yng(3)$，自明な結び目の framing 3 の 3 箱，$\mathbf{4_1}$ の framing 0, 2 の $\yng(2)$ である．
