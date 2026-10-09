@@ -12,6 +12,7 @@
 - **framed への拡張の確認（2026-10-09）**：(1) t = q で MV の framing に x = p で一致、(2) framing[λ] は Taki の refined vertex の framing の因子の逆数に一致（IKV の形は誤り、ユーザーの指摘）、(3) MV の符号は奇数の framing で Laurent 性に必要【導出】、(4) (N2') の彩色依存部分はちょうど F 単位の framing、(5) 文献調査で framed の refined LMOV の検証は新規と思われる（novelty_report.md §10）。考察は docs/literature/framing_large_n.md。執筆前の残り：outline.md §3 の 7, 8。
 - **主張の格付け表（2026-10-09）**：docs/paper/claims.md。
 - **格付けで見つかった 8 点の検証（2026-10-09）**：claims.md §7。(1) Mellit の未了の部分は (q/t) の冪だけに効き、正値性に影響しない。(2) (N2') の仮説の中身は「t = q で決まらない (q/t)^{c_λ} が framing の固有値に従う」の一点。(3) **pretzel の異符号の確認範囲の誤記を訂正**（「|s|, t ≤ 40、264 点」→「|s| ≤ 30・t ≤ 40、200 点」）。(4) parity knot は CG の定義と同値（台に隙間なし、801 個で一致）。(5) CS 側の U(1)_R は framing で保たれる（AS）。弦側は仮定。予想 B（ケーブル）は KN の U(1)_R の議論が直接は当てはまらないので、動機を DAHA とホモロジーの関係で述べる必要がある。(7) Zhu の用語は確認。(8) KN の書誌に食い違いは無い（JKTR 32 (2023) 2041001、オンライン 2020）。
+- **CD14 の確認（2026-10-09）**：代数的な結び目・長方形の DAHA の値の正値性予想（cable.tex:1072-1076）と Connection Conjecture（:1488-1550、(ii) は無彩色の pseudo-algebraic 結び目で DAHA ＝ KhR）。予想 B の動機に使う。[1] は CD14 (ii) ＋ 命題 1 から従う。[2,1] は CD14 の範囲外。claims.md §7 の 5。
 - **Mellit の Cor (daha) の正規化（2026-10-09、原典で確認）**：文面の符号 (−1)^n と [a−1] は、生成元を Carlsson–Mellit の d_± の表現の元 −d_-B_{c}d_+(1) と読めば Thm (daha) と整合する【導出】。標準の正規化（BGLX の Q、GN の \tilde P）では、総当たりで唯一 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) が成り立つ【計算】。残り：d_± の元と BGLX の Q の対応の具体的な照合（1604.07456）。conventions.md §13.1、scripts/d1_mellit_cor.py。表の空欄を埋める計算は、このセッションでは行わない（ユーザーの指示）。
 
 
