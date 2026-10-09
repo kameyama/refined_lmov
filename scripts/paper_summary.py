@@ -2,7 +2,7 @@
 
 計算はしない（保存済みの \\hat f と \\hat N を読むだけ）。G 展開の前は太字の変数（a 次数のずらしは nontorus 規約）、
 全体の符号は保存時に適用済みのもの（overall_sign_applied）。
-出力：data/paper_summary.json、docs/paper/generated/summary_table.tex（論文の表の原型）。
+出力：data/paper_summary.json、docs/paper/generated/summary_table{,_main,_nonalg}.tex（全体、本文用、付録用）。
 使い方：PYTHONPATH=src python scripts/paper_summary.py
 """
 import json
@@ -58,8 +58,16 @@ def main():
             summary[key] = summarize(d, rho)
             print(key, summary[key], flush=True)
             out_json.write_text(json.dumps(summary, indent=1, sort_keys=True))   # 1 件ごとに保存（再開できる）
+    for suffix, kinds in (("", None), ("_main", {"torus", "alg", "kn"}), ("_nonalg", {"non"})):
+        write_table(summary, suffix, kinds)
+    print("done")
+
+
+def write_table(summary, suffix, kinds):
     rows = []
     for name, label, kind in CLASSES:
+        if kinds is not None and kind not in kinds:
+            continue
         cells = []
         for rho in RHOS:
             s = summary.get(f"{name}_{rho}")
@@ -75,8 +83,7 @@ def main():
            "それ以外は 前の負/前の項数; 後の負/後の項数（前後それぞれで全体の符号は良い方）。framing 0。\n"
            "\\begin{tabular}{ll" + "c" * len(RHOS) + "}\n\\hline\n結び目 & 分類 & " + head + " \\\\\n\\hline\n"
            + "\n".join(rows) + "\n\\hline\n\\end{tabular}\n")
-    Path("docs/paper/generated/summary_table.tex").write_text(tex)
-    print("done")
+    Path(f"docs/paper/generated/summary_table{suffix}.tex").write_text(tex)
 
 
 if __name__ == "__main__":

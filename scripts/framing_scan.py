@@ -2,7 +2,8 @@
 
 正規化 (N2') の rCS_λ に T_λ^δ（T_λ = q^{n(λ')} t^{−n(λ)}）を掛けてから \\hat f_ρ（|ρ| = n）を求め、
 G 展開の前（太字の係数）と後（\\hat N）の負の項の数（全体の符号を選んだ後の少数派）を出す。
-t = q では T_λ^2 = q^{κ_λ} なので、δ = 2 が framing 1 単位に当たる。δ が奇数では \\hat f が閉じない。
+t = q では T_λ = q^{Σ content}（Mariño–Vafa の q^{κ_R/2}）なので、δ = 1 が framing 1 単位に当たる（2026-10-09 訂正。以前は δ = 2 と書いていた）。
+Mariño–Vafa の符号 (−1)^{|λ|δ} を付けていないので、δ が奇数では \\hat f が Laurent にならない（docs/literature/framing_large_n.md §2.5）。δ が偶数なら framed の x = δ と箱あたりの単項式しか違わない。
 使い方：python scripts/framing_scan.py K5b 2 -16,-12,0,12   （出力は標準出力）
 """
 import json

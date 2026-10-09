@@ -46,3 +46,11 @@ data/bps/K10_21.json
 data/bps/K10_111.json
 data/bps/K10_*.txt
 !data/bps/K10_1.txt
+docs/paper/ja/*.aux
+docs/paper/ja/*.log
+docs/paper/ja/*.fdb_latexmk
+docs/paper/ja/*.fls
+docs/paper/ja/*.out
+docs/paper/ja/*.toc
+docs/paper/ja/*.bbl
+docs/paper/ja/*.blg

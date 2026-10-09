@@ -12,6 +12,7 @@
 | data_availability.md | データとコードの公開の準備（公開は未実施、許可が要る） |
 | generated/summary_table.tex | 主結果の表の原型（scripts/paper_summary.py が data/bps/ から生成） |
 | generated/*.tex（その他） | 第 1 期の草稿の表（scripts/paper_tables.py） |
+| ja/main.tex, ja/sections/*.tex | **本文の日本語の準備稿（2026-10-09 に執筆開始）**。`cd docs/paper/ja && latexmk -lualatex main.tex`（サンドボックスの中ではフォントのキャッシュを書けないので外で実行）。各主張の直前に claims.md の ID を `% [ID]` で書く。`% TODO` は執筆中の未了の箇所 |
 | main.tex | 第 1 期だけを扱った旧草稿。準備・計算法・BPS の抽出・検証の節は再利用する。軸が変わったので構成は outline.md に従って書き直す |
 
 関連：docs/literature/framing_large_n.md（framed の refined large N の物理的な考察）、docs/novelty_report.md §10（新規性）、docs/conventions.md（規約の正本）。

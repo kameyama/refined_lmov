@@ -1,0 +1,80 @@
+\section{検証 III：3 箱}\label{sec:three}
+
+3 箱には非長方形の彩色 $[2,1]$ が要る．
+定義どおりの $\rCS_{[2,1]}$ が得られるのは，トーラス結び目と iterated torus 結び目（DAHA，楕円 Hall 代数）である．
+この節の主な結果は，これらの結び目についてのものである．
+
+\subsection{トーラス結び目と代数的な iterated torus 結び目}
+% [R10, R11]
+\begin{compresult}\label{cr:three}
+表~\ref{tab:three} の 15 個の結び目で，$|\rho|\le3$ の全 6 つの $\rho$ について $\hf_\rho$ は正（framing 0）である．
+内訳はトーラス結び目 7 個，代数的な iterated torus 結び目 7 個，$\mathbf{4_1}$ である．
+同じ全体の符号で，$G$ 展開の前の $\hbN$ と後の $\hN$ がともに非負整数になる．
+\end{compresult}
+
+\begin{table}[h]
+\centering
+\caption{3 箱までの判定（framing 0）．$\checkmark(n)$ は $G$ 展開の前後とも負の項が 0 で，$n$ は展開の前の項数．
+$T(2,3)$，$T(2,5)$ と $\mathbf{4_1}$ は KN の表の再現である．$\mathbf{4_1}$ の $[2,1]$ は KN の候補を用いた．}\label{tab:three}
+\resizebox{\textwidth}{!}{\input{../generated/summary_table_main}}
+\end{table}
+
+$T(2,3)$，$T(2,5)$ と $\mathbf{4_1}$ の結果は，KN の表の再現である．
+KN の表に無いトーラス結び目 5 個（$T(3,4)$ の 3 箱，$T(3,5)$，$T(2,11)$，$T(3,7)$，$T(4,5)$）は新しい表である．
+ただし KN はトーラス結び目全般について予想しているので，これは予想の確認に当たる．
+代数的な iterated torus 結び目 7 個の 3 箱は，本論文の調べた範囲では文献に無い．
+3 本ケーブル $K7$ と 2 段の反復 $K10$ では，$|\lambda|=3$ の refined 不変量そのものも文献に見当たらない．
+Cherednik--Danilenko~\cite{Cherednik14} は，$K7$ の $[1]$ と $K10$ の DAHA-Betti 多項式を与えている．
+
+% [R12]
+\begin{remark}
+入力の $\rCS_{[2,1]}$ 自体は負の係数をもつが，$\hf_{[2,1]}$ は正になる．
+したがって，3 箱の正値性は入力の係数の正値性から直接は従わず，KN の抽出（plethystic な対数と $M$ 行列）を経て初めて現れる．
+\end{remark}
+
+\subsection{framing を変えた 3 箱}
+% [R13]
+\begin{compresult}\label{cr:three-x}
+3 箱を $x\neq0$ で判定した．自明な結び目と $T(2,3)$ は $|x|\le6$，$T(2,5)$ と $\mathbf{4_1}$ は $|x|\le4$，$T(2,7)$ と $T(3,4)$ は $|x|\le3$，$K1$ と $K3$ は $|x|\le2$ の範囲である．
+いずれも正である（計算結果~\ref{cr:framing-batch} の一部）．
+\end{compresult}
+3 箱でも $\bt^{-3x}\hf^{(x)}_\rho$ は 7 根の指数和である（命題~\ref{prop:expsum}）．
+しかし，6 根のニュートン形では一様な符号の並びが見つからず，全ての $x$ の証明書は得られていない．
+
+\subsection{予想 B とその動機}\label{sec:conjB}
+% [R14]
+\begin{conjecture}\label{conj:B}
+代数的な iterated torus 結び目は，framing 0 で全ての $\rho$ について正である．
+\end{conjecture}
+
+KN の物理的な議論は，追加の $U(1)_R$ 対称性を Seifert 多様体の構造から得る．
+代数的な iterated torus 結び目の補空間は一般に Seifert 多様体ではないので，この議論は直接は当てはまらない．
+予想~\ref{conj:B} の動機は，次の Cherednik--Danilenko~\cite{Cherednik14} の予想にある．
+\begin{itemize}
+\item 正値性の予想：代数的な結び目と任意の長方形のヤング図形について，DAHA superpolynomial の係数は全て正である（このような結び目を pseudo-algebraic と呼ぶ）．
+\item Connection Conjecture (ii)：彩色なしの pseudo-algebraic な結び目では，DAHA superpolynomial は（tilde 正規化した）reduced stable Khovanov--Rozansky 多項式に一致する．
+\end{itemize}
+これらと本論文の結果の関係は次のとおりである．
+\begin{itemize}
+\item $[1]$：Connection Conjecture (ii) の下で，DAHA の $[1]$ は KhR の Poincaré 多項式 $P_{\mathrm{KhR}}$ の単項式倍 $mP_{\mathrm{KhR}}$ になる．
+(N1) により両者は $\bt=-1$ で同じ reduced HOMFLY-PT 多項式を与えるので，$m=\pm\bt^k$ で $\pm(-1)^k=1$ である．両者とも係数が非負なので $m=\bt^{2l}$ である．
+$\bt^{2l}$ は $\sigma$ で不変なので，命題~\ref{prop:one} が適用でき，$[1]$ の正値性が従う．
+\item 長方形：Cherednik--Danilenko は DAHA の値の正値性を予想し，ホモロジーとの一致を期待している．予想~\ref{conj:B} の長方形の部分は，これを KN の BPS の段に移したものである．
+\item $[2,1]$：Cherednik--Danilenko は長方形でない彩色の正値性を主張していない．実際 $\rCS_{[2,1]}$ は負の係数をもつ．BPS の段での正値性は，その範囲の外の現象である．
+\item 非代数的なケーブル：Cherednik--Danilenko は，正値性をもたない非代数的な iterated torus 結び目があることを認めている．本論文の非代数的なケーブルの多くで，DAHA の値の $[1]$ から負の係数が現れる（付録~\ref{app:nonalg}）．
+\end{itemize}
+
+\subsection{双曲結び目の 3 箱へ：$[2,1]$ の問題}\label{sec:21}
+双曲結び目では，定義に基づく refined $[2,1]$ が文献にもソフトウェアにも無い．
+そこで，構造的な条件から $[2,1]$ を決められるかを調べた．
+% [R15, R16, R17]
+\begin{itemize}
+\item 結び目ごと：条件は $t=q$ での 3 本ケーブルから得た $[2,1]$ 彩色 HOMFLY-PT 多項式，ミラー，指数増大性，$U(2)$ への簡約，3 箱の Laurent 性，$G$ 展開である．
+これらを課しても $[2,1]$ は一意に決まらない．解の差は「結び目によらない因子 × 自由な多項式」の形をしている．
+曖昧さがあること自体は Anokhina ら~\cite{Anokhina12} も指摘している．
+\item 弱い判定：正値性を満たす整数の $[2,1]$ は，$\mathbf{4_1}$（KN の候補）と $\mathbf{6_1}$（813 項の解）に存在する．$\mathbf{5_2}$ では有理数の解しか見つからない（整数解の有無は未決）．
+これは予想の検証ではなく，予想と矛盾しないことの確認にとどまる．
+\item 族として：$t=q$ ではダブルツイスト結び目の $[2,1]$ について Morozov の式~\cite{Morozov16,Morozov19} がケーブルからの値と一致する．これは既知の式の検証である．
+refined の長方形は KNTZ~\cite{Kameyama19} の式を実装し，GNSSS の式と三葉結び目の楕円 Hall 代数の値（$[2,2]$ まで）と照合した．しかし refined の $[2,1]$ は，族の構造の仮定を置いても一意に決まらない．
+\end{itemize}
+双曲結び目の 3 箱には，定義に基づく $[2,1]$ が必要である．その候補は \S\ref{sec:discussion} で述べる．

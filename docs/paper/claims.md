@@ -46,7 +46,7 @@
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
 | I1 | KN のノートブックの 27 件（トーラス結び目 \|λ\| ≤ 3）を EHA（GN の構成）から全係数で再現し、BPS の表 13 個も再現した（規約の固定） | 既知の再現 | — | test_gn_reproduces_notebook、test_saved_tables_match_paper、test_kn_tables_reproduced | 既知。成果として書かない |
-| I2 | ケーブルの refined 不変量：DAHA の定義を companion の段で分解した計算法が、CD14 の明示例 8 件と全係数一致する。素朴な Rosso–Jones の t 変形は誤り | 計算結果（方法の検証） | — | REPORT.md §2、conventions.md §7。test_matches_daha_example | 素朴な形の失敗は既知。正しい形は定義から従うので、新規性は弱い（novelty_report §5 (N4)）。「計算法として明示し検証した」と書く |
+| I2 | ケーブルの refined 不変量：DAHA の定義を companion の段で分解した計算法が、CD14 の明示例 10 件（第 1 期の 8 件に K7, K8 を追加）と全係数一致する。素朴な Rosso–Jones の t 変形は誤り | 計算結果（方法の検証） | — | REPORT.md §2、conventions.md §7。test_matches_daha_example | 素朴な形の失敗は既知。正しい形は定義から従うので、新規性は弱い（novelty_report §5 (N4)）。「計算法として明示し検証した」と書く |
 | I3 | ケーブルの t = q の極限が、ブレイドから計算した彩色 HOMFLY-PT と一致する | 計算結果 | — | test_cable_formula_matches_braid、test_t_equals_q_is_homfly | 照合 |
 | I4 | 正規化 (N1)(N2')：[1] は t = q で HOMFLY-PT に一致し最低 𝐭 次数 0。彩色付きは [1] の単項式と framing の固有値の積 | 仮説（ケーブル）。仮説の中身は「t = q で決まらない彩色ごとの (q/t)^{c_λ} が framing の固有値に従う」の一点（§7 の 2） | — | conventions.md §5。トーラス結び目では確定（27 件）。ケーブルでは K5c で (N2) が破れ (N2') で回復（転置・Laurent 性）。test_normalization_N2prime | 新規（規則の提案） |
 | I5 | M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^δ が保存済みの 22 結び目で成立する | 計算結果 | — | conventions.md §13。test_box_monomial_formula | 新規 |
