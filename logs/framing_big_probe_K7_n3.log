@@ -1,0 +1,11 @@
+      axis q: exponents -58..352 (probe N=1024)
+      axis t: exponents -352..58 (probe N=1024)
+      grid 411 x 411 = 168921 points
+      1 prime not enough; using prime 2
+      1083738 terms, 2 primes, 176s
+K7 framing +1 ρ=[3]：前 0/354818 負、後 0/322730 負
+K7 framing +1 ρ=[2, 1]：前 0/362537 負、後 0/329763 負
+K7 framing +1 ρ=[1, 1, 1]：前 0/366383 負、後 0/333308 負
+--- K7 framing +1 n=3：203 秒、最大 RSS 2354 MB
+      203.81 real       570.14 user         5.89 sys
+time: sysctl kern.clockrate: Operation not permitted

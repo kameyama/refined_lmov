@@ -1,0 +1,28 @@
+=== K10 n=3 開始 2026-10-09 15:36:29
+      grid 795 x 795 = 632025 points
+=== K10 n=3 開始 2026-10-09 15:50:20
+      grid 795 x 795 = 632025 points
+      1 prime not enough; using prime 2
+      2 primes not enough; using prime 3
+      5380318 terms, 3 primes, 2667s
+K10 framing -1 ρ=[3]：前 0/1777819 負、後 0/1614710 負
+K10 framing -1 ρ=[2, 1]：前 0/1797070 負、後 0/1632317 負
+K10 framing -1 ρ=[1, 1, 1]：前 0/1805429 負、後 0/1640468 負
+--- K10 framing -1 n=3：3150 秒、最大 RSS 9758 MB
+      grid 795 x 795 = 632025 points
+      1 prime not enough; using prime 2
+      2 primes not enough; using prime 3
+      5299107 terms, 3 primes, 2921s
+K10 framing -2 ρ=[3]：前 0/1751157 負、後 0/1589994 負
+K10 framing -2 ρ=[2, 1]：前 0/1770131 負、後 0/1607319 負
+K10 framing -2 ρ=[1, 1, 1]：前 0/1777819 負、後 0/1614710 負
+--- K10 framing -2 n=3：3262 秒、最大 RSS 9758 MB
+      grid 807 x 807 = 651249 points
+      1 prime not enough; using prime 2
+      2 primes not enough; using prime 3
+      5644614 terms, 3 primes, 2506s
+K10 framing +2 ρ=[3]：前 0/1864706 負、後 0/1695179 負
+K10 framing +2 ρ=[2, 1]：前 0/1884911 負、後 0/1713616 負
+K10 framing +2 ρ=[1, 1, 1]：前 0/1894997 負、後 0/1722872 負
+--- K10 framing +2 n=3：2894 秒、最大 RSS 12731 MB
+=== K10 n=3 終了 2026-10-09 18:25:31

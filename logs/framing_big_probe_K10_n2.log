@@ -1,0 +1,10 @@
+      axis q: exponents -81..269 (probe N=1024)
+      axis t: exponents -269..81 (probe N=1024)
+      grid 351 x 351 = 123201 points
+      1 prime not enough; using prime 2
+      464382 terms, 2 primes, 79s
+K10 framing +1 ρ=[2]：前 0/230642 負、後 0/206976 負
+K10 framing +1 ρ=[1, 1]：前 0/233740 負、後 0/209624 負
+--- K10 framing +1 n=2：89 秒、最大 RSS 1581 MB
+       88.96 real       249.92 user         3.36 sys
+time: sysctl kern.clockrate: Operation not permitted

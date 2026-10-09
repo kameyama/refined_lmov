@@ -177,3 +177,14 @@ def test_marino_vafa_sign_is_needed_for_laurent():
         assert mismatched([Q ** (2 * x), T ** (-2 * x), one, one]) == {
             ((2,), (Q, sp.I)), ((2,), (T, sp.I)), ((1, 1), (Q, sp.I)), ((1, 1), (T, sp.I))}
     assert not mismatched([Q**4, T**-4, one, one])         # x = 2：符号は効かない
+
+
+@pytest.mark.parametrize("x", [-3, 2])
+def test_framing_big_matches_framing_check(x):
+    """scripts/framing_big.py（\\hat f だけを 1 回の補間で）が framing_check.py（ρ ごとの補間）と全係数で一致する（三葉結び目、3 箱）。"""
+    from framing_big import hat_f_all
+    R = framed(load_reduced("T2_3", 3), x)
+    hats = hat_f_all(R, 3, log=lambda s: None, workers=1, cache=None)
+    ref = run("T2_3", [x], nmax=3, log=lambda s: None)
+    for rho, hat in hats.items():
+        assert hat == ref[(x, rho)][2]
