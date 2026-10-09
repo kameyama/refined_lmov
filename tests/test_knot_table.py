@@ -139,3 +139,14 @@ def test_knot_table_all_positive_and_parity_criterion():
         r = judge1(p)
         assert r["closes"] and r["before_neg"] == 0 and r["after_neg"] == 0, name
         assert r["parity_aligned"] == parity_uniform(p), name
+
+
+def test_parity_criterion_equals_chandler_gorsky():
+    """Chandler–Gorsky（2209.13058 main.tex:334）の parity knot：HHH 全体で t/2（Nakagane–Sano の次数）の偶奇が一定。
+    𝐚 次数の台に隙間が無ければ、本研究の条件（parity_uniform）と同じ。801 個すべてで台に隙間が無く、判定が一致する。"""
+    for name, h in load_homology().items():
+        p = superpoly(h)
+        a_degs = sorted({a for a, q, t in p})
+        assert all(y - x == 2 for x, y in zip(a_degs, a_degs[1:])), name
+        cg = len({k // 2 % 2 for (i, j, k) in h}) == 1
+        assert cg == (len({(t - a // 2) % 2 for a, q, t in p}) == 1) == parity_uniform(p), name

@@ -1,0 +1,244 @@
+\section{framed knot への拡張}\label{sec:framing}
+
+\subsection{定義}
+% [F1]
+\begin{definition}\label{def:framed}
+分割 $\lambda$ に対し，refined の framing の因子を
+\[
+\theta_\lambda(q,t)=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)}
+=(-1)^{|\lambda|}\prod_{s\in\lambda}q^{a(s)+\frac12}\,t^{-l(s)-\frac12}
+\]
+とおく．framing $x\in\mathbb{Z}$ の refined CS 不変量を $\overline{\rCS}^{(x)}_\lambda=\theta_\lambda^x\,\overline{\rCS}_\lambda$ で定め（reduced の不変量でも同じ因子 $\rCS^{(x)}_\lambda=\theta_\lambda^x\rCS_\lambda$），
+これを \eqref{eq:GT1}，\eqref{eq:GT2} に代入して得る量を $f^{q,(x)}_\mu$，$f^{\bar t,(x)}_\mu$，$\hf^{(x)}_\rho$，$\hbN^{(x)}_{\rho;i,j,k}$，$\hbN^{(x)}_{\rho,g,\beta,F}$ と書く．
+$x=0$ が KN の場合である．
+\end{definition}
+
+$\theta_\lambda$ は係数 $\pm1$ の単項式であり，plethystic 対数の中の Adams 作用 $\overline{\rCS}_\lambda\mapsto\overline{\rCS}_\lambda(a^k,q^k,t^k)$ では
+$\theta_\lambda(q^k,t^k)^x$ が付く．符号 $(-1)^{|\lambda|}$ は $k$ によらない．
+この扱いは Mariño--Vafa~\cite{Marino01} の例
+$f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,a^2)\bigr)$ と同じである（Mariño--Vafa の変数 $\lambda$ を $a$ と書く．以下同じ）．
+
+\subsection{framing の因子の由来}
+% [F2]
+\begin{proposition}\label{prop:MV}
+$t=q$ で $\theta_\lambda^x=(-1)^{|\lambda|x}q^{x\kappa_\lambda/2}$ である．
+ここで $\kappa_\lambda=|\lambda|+\sum_i(\lambda_i^2-2i\lambda_i)=2\sum_{s\in\lambda}c(s)$ は Mariño--Vafa の $\kappa_R$ である．
+したがって $\overline{\rCS}^{(x)}$ の $t=q$ の極限は，Mariño--Vafa~\cite{Marino01} の framed knot の規則 $W^{(p)}_R=(-1)^{\ell p}q^{p\kappa_R/2}W_R$（$\ell=|R|$ は箱の数）に $x=p$ で一致する．
+\end{proposition}
+\begin{proof}
+$t=q$ で $(q/t)^{1/2}=1$，$n(\lambda')-n(\lambda)=\sum_s c(s)=\kappa_\lambda/2$ である．
+変数の向き（$q$ と $q^{-1}$）は，自明な結び目の主特殊化と Mariño--Vafa の量子次元を比べて確かめる．
+Mariño--Vafa の $\lambda$ を $a$，$q$ を $q$ とすると両者は単項式倍を除いて一致し，$q\mapsto q^{-1}$ では一致しない（$\lambda\neq\lambda^T$ のとき）．
+\end{proof}
+
+\begin{remark}
+記号 $\theta_\lambda$ は，色付き HOMFLY-PT 多項式の framing の固有値 $\theta_\lambda=q^{\sum_{s}c(s)}a^{|\lambda|/2}$（Rosso--Jones の公式などで使われるもの）の refined 版として選んだ．
+定義~\ref{def:framed} の $\theta_\lambda$ は，$a^{|\lambda|/2}$ を含まず，符号 $(-1)^{|\lambda|}$ と箱あたりの $(q/t)^{1/2}$ を含む点で異なる．
+$a^{|\lambda|/2}$ と $(q/t)^{1/2}$ は補題~\ref{lem:adams} により正値性に影響せず，符号は命題~\ref{prop:sign} により必要である．
+\end{remark}
+
+\begin{remark}[refined topological vertex との関係]\label{rem:Taki}
+Taki~\cite{Taki07} の refined topological vertex の framing の因子は
+$f_\mu(t,q)=(-1)^{|\mu|}t^{\|\mu^T\|^2/2}q^{-\|\mu\|^2/2}$ である．
+$\|\mu\|^2=2n(\mu')+|\mu|$ を使うと $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$ となる．すなわち Taki の因子は定義~\ref{def:framed} の因子の逆数にちょうど一致し，違いは framing の正の向きの取り方だけである．
+本論文では，KN の $f^q_\mu$，$f^{\bar t}_\mu$，$\wh f_\rho$ との混同を避けるため，Taki の $f_\mu$ ではなく $\theta_\lambda$ と書く．
+Taki は，Iqbal--Kozçaz--Vafa~\cite{Iqbal07} の因子 $(-1)^{|\nu|}t^{n(\nu)}q^{-n(\nu^T)}$ に $(t/q)^{|\nu|/2}$ を掛ける修正が，
+K 理論版の Nekrasov 分配関数と一致するために必要であることを示した．
+また Aganagic--Shakirov の refined $T$ 行列の固有値 $T_i=c_Tq^{(\lambda_{R_i}+\beta\rho)^2/2}$（$t=q^\beta$）について，
+$T_\lambda/T_\emptyset$ は $SU(N)$ の部分を除いて $(a^{1/2}(q/t)^{1/2})^{|\lambda|}\,q^{n(\lambda')}t^{-n(\lambda)}$ に等しい．
+箱あたりの単項式を除けば，framing の 1 単位は refined の $T$ 行列の作用である．
+\end{remark}
+
+% [F6]
+\begin{proposition}\label{prop:bold}
+太字の変数では
+\[
+\theta_\lambda=\bt^{\,|\lambda|+2n(\lambda')}\,\bq^{\,2(n(\lambda')-n(\lambda))}
+\]
+であり，符号を含まない．例えば $\theta_{\yng(1)}=\bt$，$\theta_{\yng(2)}=\bq^2\bt^4$，$\theta_{\yng(1,1)}=\bq^{-2}\bt^2$，$\theta_{\yng(2,1)}=\bt^5$ である．
+\end{proposition}
+\begin{proof}
+\eqref{eq:cov} から $-(q/t)^{1/2}=\bt$，$q=\bq^2\bt^2$，$t=\bq^2$ である．
+\end{proof}
+
+\begin{remark}
+命題~\ref{prop:bold} により，framing の変化は（色付き）HOMFLY-PT ホモロジーの次数を符号なしでずらす操作として働く．
+非 refined の極限 $\bt=-1$ では $\theta_\lambda^x\to(-1)^{(|\lambda|+2n(\lambda'))x}=(-1)^{|\lambda|x}$ となる．
+Mariño--Vafa の符号 $(-1)^{\ell p}$ は，refined の次数のずらし $\bt^{|\lambda|x}$ の非 refined での影と読める．
+この符号が KN の形に必要であることは命題~\ref{prop:sign} で示す．
+\end{remark}
+
+\subsection{$x$ についての構造}
+% [F5]
+\begin{lemma}\label{lem:adams}
+$c$ を係数 1 の単項式とし，Adams 作用で $c\mapsto c^k$ となるものとする（$c=a^{1/2}$, $(q/t)^{1/2}$ など）．
+$\overline{\rCS}_\lambda$ を $c^{|\lambda|}\overline{\rCS}_\lambda$ に置き換えると，$\hf_\rho$ は $c^{|\rho|}\hf_\rho$ になる．
+\end{lemma}
+\begin{proof}
+$c^{|\lambda|}$ は対称関数の変数を $u\mapsto cu$ と取り替えることに当たり，$c$ が Adams 作用と両立するので plethystic 対数と可換である．
+\end{proof}
+太字の変数で $c=(q/t)^{1/2}=-\bt$ のとき，これは spin 表示と genus 表示の $\bt$ の次数を一様にずらし，全体の符号を変えるだけである．
+したがって正値性に影響しない．
+
+% [F7]
+\begin{proposition}\label{prop:expsum}
+$|\rho|=n$ のとき，$\bt^{-nx}\hf^{(x)}_\rho$ は $x$ の指数和である．根は
+$n=2$ で $\{\bq^2\bt^2,\bq^{-2},1,-1\}$，$n=3$ で $\{\bq^6\bt^6,\bq^{-6},\bq^2\bt^2,\bq^{-2},\bt^2,1,-1\}$ の 7 個である．
+$x$ の偶奇で分ければ，根は係数 1 の単項式になる．
+\end{proposition}
+\begin{proof}
+$\hf_\rho$ は，$\overline{\rCS}_\lambda$ とその Adams の写しの積を固定した有理関数の係数で一次結合したものである．
+framing をつけると，各項には $\prod\theta_{\lambda_i}(q^{k_i},t^{k_i})^x$ が掛かる．
+これらを太字の変数で書き出すと，$n=2$ では $\theta_{\yng(2)}=\bq^2\bt^4$，$\theta_{\yng(1,1)}=\bq^{-2}\bt^2$，$\theta_{\yng(1)}^2=\bt^2$，$\theta_{\yng(1)}(q^2,t^2)=-\bt^2$ である．
+$\bt^{-2x}$ を掛ければ主張の根が得られる．$n=3$ も同様である．
+\end{proof}
+
+指数和の形は，ツイスト結び目 $K_p$ の撚りの数 $p$ についての構造（\S\ref{sec:two}）と同じ型である．
+framing は「もう一つの撚りの変数」として振る舞う．
+$v=\bq^2\bt$ とおくと $\bq^2\bt^2=v\bt$，$\bq^{-2}=\bt/v$ で，根は $\sigma$ が入れ替える $v^{\pm1}$ の対をなす．
+
+% [F8, F9]
+\begin{proposition}\label{prop:x-indep}
+任意の $x$ について次が成り立つ．
+\begin{enumerate}
+\item $\theta_\lambda(1/t,1/q)=\theta_{\lambda^T}(q,t)$．したがって，$\rCS_\lambda$ の転置対称性，$q$-brane と $\bar t$-brane の式 \eqref{eq:GT1}，\eqref{eq:GT2} が同じ $\hf$ を与えること，genus 展開が閉じる条件（$\sigma$ 不変性）は，$x$ によらない．
+\item 2 箱について，$\hf^{(x)}_\rho$ が Laurent 多項式であることと $\hf^{(0)}_\rho$ が Laurent 多項式であることは同値である．
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(1) は定義から直接従う．
+(2) $|\rho|=2$ の $\hf_\rho$ は，四つの入力 $\rCS_{\yng(2)}$，$\rCS_{\yng(1,1)}$，$\rCS_{\yng(1)}^2$，$\rCS_{\yng(1)}(a^2,q^2,t^2)$ の一次結合を，
+共通の分母 $2A^2(Q^4-1)(T^4-1)(Q^2T^2-1)$（$(A,Q,T)=(a,q,t)^{1/2}$）で割ったものである．
+分母の各既約因子の零点で分子に残る入力はちょうど二つで，その二つの framing の因子は零点の上で一致する（記号計算で確かめた）．
+よって，零点での分子の消え方は $x$ によらない．
+\end{proof}
+
+% [F10]
+\begin{proposition}\label{prop:sign}
+定義~\ref{def:framed} の符号 $(-1)^{|\lambda|x}$ を外し，$T_\lambda^x$ だけを掛けたとする．
+このとき $x$ が奇数なら，命題~\ref{prop:x-indep} (2) の分母の零点 $Q=i$，$T=i$（$q=-1$，$t=-1$）で残る二つの入力の因子が一致しない．
+したがって，一般の入力で $\hf_{\yng(2)}$，$\hf_{\yng(1,1)}$ は Laurent 多項式でなくなる．
+$x$ が偶数なら符号は効かない．また，箱あたりの $(q/t)^{1/2}$ を外しても Laurent 性は保たれる．
+\end{proposition}
+\begin{proof}
+符号を外すと，Adams の写し $\rCS_{\yng(1)}(a^2,q^2,t^2)$ の項の因子だけが $(-1)^x$ 倍変わる．この項が残る零点で一致が壊れる．
+\end{proof}
+
+\begin{compresult}
+三葉結び目，$x=1$ で符号を外すと，$\hf_{\yng(2)}$，$\hf_{\yng(1,1)}$ の分母に $(1+q)(1+t)$ が残る．
+$x=2$ と，符号をつけた $x=1$ では Laurent 多項式である．
+\end{compresult}
+
+命題~\ref{prop:sign} は，Mariño--Vafa の「符号は整数性に不可欠である」という観察~\cite{Marino01} の refined 版である．
+Mariño--Vafa は，符号を開いた弦の平坦座標の取り替え $\hat u\mapsto\hat u+i\pi p$（$V\mapsto(-1)^pV$）から説明した．
+この取り替えは，生成関数 $\sum_RW_R\,\mathrm{Tr}_RV$ を新しい変数で展開し直すことにあたり，Chern--Simons 側の係数 $W_R$ に定数の符号 $(-1)^{|R|p}$ を掛ける．
+定数の符号は Adams の写し $W_R(q^d,a^d)$ で $d$ 乗されない（Mariño--Vafa の $f^{(p)}_{\yng(2)}$ の $(-1)^pW_{\yng(1)}(q^2,a^2)$）．
+したがってこれは補題~\ref{lem:adams} の型の自明な置き換えではなく，BPS 側では $d$ 重被覆の項に $(-1)^{d|R|}$ が付く．
+定義~\ref{def:framed} の符号は，これと同じ扱いである．
+一方，$\theta_\lambda$ の残りの部分 $(q/t)^{|\lambda|/2}q^{n(\lambda')}t^{-n(\lambda)}$ は refined の $T$ 行列の固有値に由来する（注意~\ref{rem:Taki}）．$T$ 行列の固有値は符号を含まない．
+Aganagic--Shakirov~\cite{Aganagic11} は，三葉結び目の前因子の $\sqrt{q/t}$ も平坦座標の取り替えに関係するはずだと述べている．
+refined の場合の平坦座標の取り替えを幾何から導くことは，本論文ではしていない．
+
+\subsection{KN の命題の framed 版}
+\begin{lemma}[genus 展開の補題]\label{lem:G}
+$\ba^{2\beta}$ の各行が $\sigma$ で不変で $\bq$ の指数が偶数（すなわち genus 展開が閉じる）であり，spin 表示 $\hbN_{\rho;i,j,k}$ が非負なら，genus 表示 $\hbN_{\rho,g,\beta,F}$ も非負整数である．
+逆は成り立たない．
+\end{lemma}
+\begin{proof}
+$v=\bq^2\bt$ とおくと，各行は $\bt^l\chi_k$（$\chi_k=v^k+v^{-k}$）の非負結合である．
+$\chi_k$ を $w=v+v^{-1}$ の多項式とみなす．
+$w_0=\bt+\bt^{-1}$ のまわりの Taylor 係数は $d\chi_k/dw=kU_{k-1}(w/2)$ と母関数
+\[
+\frac{1}{1-w\xi+\xi^2}=\sum_{g\ge0}\frac{G^g \xi^g}{\bigl((1-\bt \xi)(1-\xi/\bt)\bigr)^{g+1}}
+\]
+から非負である（$G=w-w_0$）．逆が成り立たない例は非代数的なケーブル $K5c$ にある（付録~\ref{app:nonalg}）．
+\end{proof}
+
+% [F12, F13]
+\begin{proposition}\label{prop:one}
+$P\in\mathbb{Z}_{\ge0}[\ba^{\pm1},\bq^{\pm1},\bt^{\pm1}]$ の $\bq$ の指数が偶数で，$P$ が $\sigma$ \eqref{eq:sigma} で不変とする．
+$P$ を $\rCS_{\yng(1)}$ とする $\hf_{\yng(1)}$ は，全ての $x$ について，genus 展開が整数で閉じ，spin 表示も genus 表示も非負である．
+\end{proposition}
+\begin{proof}
+$x=0$ では，$\hf_{\yng(1)}=(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ も $\sigma$ で不変で非負なので，補題~\ref{lem:G} から従う．
+一般の $x$ では $\theta_{\yng(1)}^x=\bt^x$ なので，$\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$ である．これは genus 表示の $F$ を $x$ だけずらす．
+\end{proof}
+
+\begin{corollary}\label{cor:one}
+$\rCS_{\yng(1)}$ が結び目の reduced HOMFLY-PT ホモロジーの Poincaré 多項式（DGR の正規化）で与えられるなら，任意の結び目・任意の $x$ で $\yng(1)$ は正である．
+\end{corollary}
+\begin{proof}
+係数は次元なので非負である．$\sigma$ 不変性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の対称性の定理である．
+$\bq$ の指数が偶数であることは結び目のホモロジーの次数の偶奇から従う．
+\end{proof}
+
+% [F15]
+\begin{proposition}\label{prop:two-necessary}
+太字の変数で非負係数をもち，$\bq$ の指数が全て偶数の入力 $\rCS_{\yng(1)}$，$\rCS_{\yng(2)}$ に対し，$\hf_{\yng(2)}$ が Laurent 多項式なら $\rCS_{\yng(2)}|_{q=1}=\rCS_{\yng(1)}|_{q=1}^2$ である．
+特に，入力がホモロジーの Poincaré 多項式なら $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である．
+$\yng(1,1)$ についても $t=1$ で同様である．この条件は $x$ によらない．
+\end{proposition}
+\begin{proof}
+$(A,Q,T)=(a,q,t)^{1/2}$ と書く．2 箱の公式の分子を $Q=1$ に制限すると，$\rho=\yng(2),\yng(1,1)$ のどちらでも
+\[
+2T(A^2-1)^2(T^4-1)\bigl(\rCS_{\yng(1)}^2-\rCS_{\yng(2)}\bigr)
+\]
+となり，$\rCS_{\yng(1,1)}$ と Adams の写し $\rCS_{\yng(1)}(a^2,q^2,t^2)$ の項は消える（$T=1$ では $\yng(2)$ と $\yng(1,1)$ の役が入れ替わる）．
+分母は $Q=1$ で消えるので，Laurent 性には $Q=1$ で $\rCS_{\yng(2)}=\rCS_{\yng(1)}^2$ が必要である．
+$Q=1$ は $\bt=-\bq^{-1}$ にあたり，単項式 $\ba^i\bq^j\bt^k$ は $(-1)^k\ba^i\bq^{j-k}$ になる．
+$j$ が偶数なら $(-1)^k=(-1)^{j-k}$ なので，さらに $\bq\mapsto-\bq$ とすると全ての項の係数が非負になり，打ち消しは起きない．
+$\ba=\bq=1$ とおけば次元の等式を得る．$x$ によらないことは命題~\ref{prop:x-indep} による．
+\end{proof}
+
+\begin{remark}
+$\mathbf{9_{42}}$ では $\dim H^{\yng(1)}=9$，$\dim H^{\yng(2)}=401$~\cite{Gorsky13} で $401\neq81$ である．
+したがって，$t_c$ 次数の選び方によらず，KN の形に乗らない．
+$\mathbf{9_{42}}$ が KN の形に乗らないことは KN~\cite{Kameyama17} が指摘し，thick なホモロジーが指数増大性をもたないこと（Gukov--Stošić~\cite{Gukov11} の付録 B）と結びつけた．
+指数増大性 $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ は Gukov--Stošić~\cite{Gukov11}，Fuji--Gukov--Sułkowski~\cite{Fuji12} が論じた性質である．
+命題~\ref{prop:two-necessary} は，これが KN の形（Laurent 性）の必要条件であることを示す．
+\end{remark}
+
+\subsection{全ての framing での判定法}\label{sec:newton}
+命題~\ref{prop:expsum} により，固定した結び目について全ての $x$ の正値性を有限個の判定に帰着できる．
+$x$ を偶奇と向き（$x\ge x_0$ または $x\le x_0$）に分け，$x=x_0+2y$ について，根の並び $(r_0,r_1,r_2)$ のニュートン形
+\[
+\bt^{-nx}\hf^{(x)}_\rho=\sum_{k}c_k\,h_{y-k}(r_0,\dots,r_k)
+\]
+を作る（$h$ は完全斉次対称式）．係数 $c_k$ が全て同じ符号の非負係数の Laurent 多項式なら，$h$ の係数が非負なので，$y\ge0$ の全てで展開の前が非負である．
+$\sigma$ 不変性は命題~\ref{prop:x-indep} から全ての $x$ に従い，補題~\ref{lem:G} で展開の後も非負になる．
+起点 $x_0$ と 0 の間は直接判定する．
+
+\subsection{正規化との関係}\label{sec:N2-framing}
+% [F17]
+\begin{proposition}\label{prop:N2-framing}
+\S\ref{sec:normalization} の正規化 (N2$'$) の単項式 $M_\lambda=M_\square^{|\lambda|}T_\lambda^F$ は
+\[
+M_\lambda=\bigl(M_\square(-(q/t)^{1/2})^{-F}\bigr)^{|\lambda|}\,\theta_\lambda^F
+\]
+と書ける．すなわち，(N2$'$) のうち表現によって変わる部分は，ちょうど $F$ 単位の framing である．
+基準の framing を偶数だけずらすことは，$x$ を同じだけずらし，補題~\ref{lem:adams} の一様なずれを加えることに等しい．
+奇数だけずらすと Mariño--Vafa の符号が落ち，命題~\ref{prop:sign} により Laurent 性が壊れる．
+\end{proposition}
+したがって，全ての $x\in\mathbb{Z}$ についての正値性の主張は，$x=0$ をどこに置くかに依存しない．
+Aganagic--Shakirov~\cite{Aganagic11} が三葉結び目の値と DGR の superpolynomial の比を「$-6$ 単位の framing と $\sqrt{q/t}$」と書いていることは，絶対値が $F=mn=6$ に合う（符号は framing の正の向きの取り方による）．
+
+\subsection{物理的な描像と予想}\label{sec:physics}
+framed knot の refined large $N$ 双対は，次のように組み立てられる．
+\begin{itemize}
+\item Chern--Simons 側：$\theta_\lambda$ のうち符号を除いた部分は，refined CS 理論の $T$ 行列の作用である（注意~\ref{rem:Taki}）．
+Aganagic--Shakirov の構成では，$U(1)_R$ 対称性は 3 次元多様体が半自由な $U(1)$ 作用をもつ（Seifert 多様体である）ことから存在する．
+トーラス結び目の framing の変化は，同じ $S$, $T$ 行列の形式の中で扱われる．
+\item 弦側：Mariño--Vafa の議論では，framing の整数は $L_K$ の平坦座標の取り方（無限遠での境界条件）に当たる．符号 $(-1)^{|\lambda|x}$ はこの平坦座標の取り替えから来る（命題~\ref{prop:sign} の後の議論）．
+\end{itemize}
+次の二点は導出していない．
+(i) KN の Schwinger の計算と抽出式 \eqref{eq:GT1}，\eqref{eq:GT2} が，全ての $x$ でそのまま適用できること．
+(ii) 弦側で $U(1)_R$ の作用が自明なまま保たれること．
+これらを仮定として，次を予想する．
+
+% [F19]
+\begin{tcolorbox}
+\begin{conjecture}[framed refined LMOV 不変量の正値性]\label{conj:A}
+トーラス結び目，および $\rCS_\lambda$ が色付き HOMFLY-PT ホモロジーの Poincaré 多項式で与えられる結び目について，
+全ての $x\in\mathbb{Z}$ と全ての $\rho$ で $\hf^{(x)}_\rho$ は正（定義~\ref{def:positivity}）である．
+\end{conjecture}
+\end{tcolorbox}

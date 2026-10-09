@@ -1,0 +1,128 @@
+\section{検証 II：2 箱}\label{sec:two}
+
+この節の双曲結び目の入力は予想式（\S\ref{sec:inputs}）であり，主張は全て「その予想式を入力とした場合」のものである．
+KN~\cite{Kameyama17} は，GNSSS の式を入力として，ツイスト結び目とダブルツイスト（pretzel）結び目の族のいくつかの結び目で 2 箱を計算し，形 \eqref{eq:hat-f-2} に乗ることを観察した．
+本節の定理~\ref{thm:twist}，\ref{thm:pretzel} の新しい点は，族全体（全ての撚りの数）での正値性の証明にある．
+トーラス結び目と代数的なケーブルの入力は定義どおりの refined 不変量である．
+
+\subsection{ツイスト結び目}
+$K_p=K_{p,1}$ を KNTZ~\cite{Kameyama19} の規約のツイスト結び目とする（$K_1=\mathbf{3_1}$，$K_2=\mathbf{5_2}$，$K_{-1}=\mathbf{4_1}$，$K_{-2}=\mathbf{6_1}$．GNSSS~\cite{Gukov15} の規約と同じ）．
+入力は KNTZ の refined の式である（\S\ref{sec:inputs}）．
+$X=\ba^2\bt^2$，$Y=\ba^4\bq^4\bt^8$，$\bar Y=\ba^4\bq^{-4}\bt^4$ とおく．
+
+\begin{lemma}\label{lem:twist-expsum}
+$\hf_\rho(K_p)$（$|\rho|=2$）は $p$ について根 $\{1,X,X^2,Y,\bar Y\}$ の指数和である（$p<0$ では根を逆数にし，全体に $\bt^2$ が掛かる）．
+\end{lemma}
+\begin{proof}
+KNTZ の式では，$p$ は捻りの因子 $\mathbf{Tw}^{(p)}_\lambda$（$\lambda\subseteq\yng(2)$ または $\lambda\subseteq\yng(1,1)$）に固有値の $p$ 乗としてだけ入る．
+太字の変数では，これは $\bigl((\ba\bt)^{2j}(\bt\bq)^{2j(j-1)}\bigr)^p$（$j=0,1,2$）の形である（GNSSS の式でも同じ形）．
+入力の根は $P_{\yng(1)}$ で $\{1,X\}$，$P_{\yng(2)}$ で $\{1,X,Y\}$，$P_{\yng(1,1)}$ で $\{1,X,\bar Y\}$ である．
+$\hf$ は入力の積と Adams 作用の一次結合を，命題~\ref{prop:two-necessary} の分母で割ったものである．
+\end{proof}
+
+% [R2]
+\begin{theorem}[計算機援用]\label{thm:twist}
+KNTZ の refined の式を入力とすると，全ての $p\neq0$ で $\hf_{\yng(2)}(K_p)$，$\hf_{\yng(1,1)}(K_p)$ は正である．
+\end{theorem}
+\begin{proof}[証明の概略]
+並び $(1,X,X^2,Y,\bar Y)$ のニュートン形 $s_{1+n}=\sum_{k=0}^{4}c_k\,h_{n-k}(m_0,\dots,m_k)$ を作る．
+$c_k$ は $s_1,\dots,s_5$（$|p|=1,\dots,5$ の値）の整数係数の一次結合なので，Laurent 多項式である．
+両方の $\rho$，両方の $p$ の符号で，$c_0,\dots,c_4$ の全係数が同じ符号であることを有限個の厳密な計算で確かめる．
+$h$ の係数は非負なので，全ての $p$ で展開の前が一様な符号になる．
+$\sigma$ は根の集合を保つ（$Y\leftrightarrow\bar Y$）ので，$\sigma$ 不変性は $|p|\le5$ から全ての $p$ に従い，補題~\ref{lem:G} で展開の後も非負になる．
+係数 $c_k$ と判定のデータは付録~\ref{app:data} に置く．
+
+別証明として，$-\hf_\rho(K_{\pm n})$ を根の部分集合ごとの完全斉次対称式の非負結合で表す証明書もある（線形計画法で求め，有理数で厳密に検証した）．
+こちらは $c_2$ の符号を使わない．$c_2$ が一様な符号をもつ構造的な理由は分かっていない．
+\end{proof}
+
+\begin{compresult}
+$|p|\le30$ の 120 件で，spin 表示と genus 表示の両方で負の項は 0 である．
+閉じた形は，作るのに使っていない $|p|=6,\dots,12,15,20,30$ で直接計算と全係数一致する．
+\end{compresult}
+
+\begin{remark}[単峰性]
+$v=\bq^2\bt$ とおくと，$c_3$ と $c_4$ は構造から正であり，$\hf(K_p)$ は全ての $p$ で $v$ についての $\mathfrak{sl}_2$ 指標の正係数の和（単峰）になる（$c_0,\dots,c_2$ は有限個の判定）．
+$\yng(1)$ の単峰性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の hard Lefschetz の性質から全ての結び目で従う．
+2 箱の単峰性の構造的な理由は未解明である．
+\end{remark}
+
+\subsection{ダブルツイスト結び目}
+% [R4]
+\begin{theorem}[計算機援用]\label{thm:pretzel}
+KNTZ の refined の式を入力とすると，ダブルツイスト結び目 $K_{m,n}$ の 2 箱は次の範囲で正である．
+\begin{enumerate}
+\item $m,n$ が同符号の全ての $(m,n)$．
+\item $m<0<n$ で $\min(|m|,n)\le20$ の全ての $(m,n)$．
+\end{enumerate}
+\end{theorem}
+\begin{proof}[証明の概略]
+$\epsilon=(\mathrm{sign}\,m+\mathrm{sign}\,n)/2$ として $\hf(K_{m,n})=\bt^{2(1-\epsilon)}F(m,n)$ と書くと，$F$ は $\mathbb{Z}^2$ 全体で一つの指数和である．
+同符号の領域では，2 変数のニュートン形の係数が全て同じ符号になる．
+異符号の領域では 2 変数のニュートン形は一様にならない．そこで直線ごとの 1 変数のニュートン形で $\min(|m|,n)\le20$ を示す．
+\end{proof}
+
+\begin{compresult}
+$|m|,|n|\le20$ の 820 点と，$21\le|m|\le30$・$21\le n\le40$ の 200 点で，両方の $\rho$ についてspin 表示と genus 表示の両方で負の項は 0 である．
+\end{compresult}
+
+異符号で $|m|,n>20$ の領域は，くさび形への分割と鏡像型の恒等式で調べる．
+くさびの方向のニュートン係数 $d_2,d_3,d_4$ の非正値性は，線形計画法の証明書で示した．
+残りは，1 変数の三つの数列の非正値性に帰着する．三つとは，対角線 $F(-u,u)$ と，両方の $\rho$ の $d_1(u)$ である．
+これらは $u\le25$ で成り立つが，一般には未証明である．
+
+\subsection{thick な非トーラス結び目}
+% [R5]
+\begin{compresult}\label{cr:thick}
+Stošić の quiver と KRSS の予想式から作った $\mathbf{10_{139}}$，$\mathbf{10_{152}}$ の $\yng(2)$，$\yng(1,1)$ の入力で，2 箱は正である．
+次元は $441=21^2$，$841=29^2$ で，命題~\ref{prop:two-necessary} の必要条件を満たす．
+$t=q$ の極限は，$(2,s)$-ケーブルから逆に解いた $\yng(2)$，$\yng(1,1)$ の色付き HOMFLY-PT 多項式と一致する．
+\end{compresult}
+これらは，命題~\ref{prop:two-necessary} の必要条件を満たす thick な非トーラス結び目で 2 箱の正値性が成り立つ例である．
+knots--quivers 対応の DT 不変量の正値性からは従わない．
+対称表現だけの quiver 級数からは，$\yng(1,1)$ の入力を要する $\hf_{\yng(2)}$，$\hf_{\yng(1,1)}$ は出てこない．
+
+\begin{remark}[正値性は自動的ではない]
+$\mathbf{5_2}$ で $t_c$ 次数の割り当てを別の 12 通りに変えると，いずれも負の項が出る．
+正値性は入力の細かい次数に依存する，非自明な性質である．
+\end{remark}
+
+\subsection{全ての framing}
+% [R7]
+\begin{theorem}[計算機援用]\label{thm:two-all-x}
+自明な結び目，$T_{2,3}$，$T_{2,5}$，$T_{2,7}$，$T_{3,4}$，$\mathbf{4_1}$，$K1$，$K3$ の 2 箱は，全ての $x\in\mathbb{Z}$ で正である．
+$\mathbf{4_1}$ の入力は KN のデータである．
+\end{theorem}
+\begin{proof}
+\S\ref{sec:newton} の方法による．各結び目・各 $\rho$・$x$ の偶奇と向きの四つの組で，ニュートン形の係数が一様な符号になる起点 $x_0$ がある．
+起点と 0 の間の $x$ は直接判定した．
+\end{proof}
+負の向きの起点は，結び目が複雑になるほど 0 から遠い（$T_{2,2k+1}$ で $-(2k+2)$，$K1$ で $-20$，$K3$ で $-22$）．この意味は未解明である．
+
+% [R8]
+\begin{theorem}[計算機援用]\label{thm:twist-x}
+KNTZ の refined の式を入力とすると，ツイスト結び目の 2 箱は，$p$ と $x$ が同符号（$p>0,x\ge0$ または $p<0,x\le0$）の全ての $(p,x)$ で正である．
+\end{theorem}
+\begin{proof}[証明の概略]
+$\bt^{-2x}\hf^{(x)}_\rho(K_p)$ は $p$ と $x$ の両方について指数和である（補題~\ref{lem:twist-expsum}，命題~\ref{prop:expsum}）．
+テンソル積のニュートン形の係数を $|p|=1,\dots,5$ と 3 点の $x$ から作り，同符号の向きで一様な符号であることを確かめる．
+\end{proof}
+
+\begin{compresult}
+逆符号の領域では，$|p|\le6$，$|x|\le14$ の 696 件で負の項は 0 である．この領域の証明書は得られていない．
+\end{compresult}
+
+\begin{compresult}[framing を振った直接の判定]\label{cr:framing-batch}
+次の 1821 件（$(x,\rho)$ の組）で，spin 表示と genus 表示の両方で負の項は 0 である（9 件は $\hf=0$）．
+3 箱までは，自明な結び目と $T_{2,3}$（$|x|\le6$），$\mathbf{4_1}$ と $T_{2,5}$（$|x|\le4$），$T_{2,7}$ と $T_{3,4}$（$|x|\le3$），
+$T_{3,5},T_{2,11},T_{3,7},T_{4,5}$ と $K6a,K7,K8,K9$（$|x|\le10$），$K3$（$|x|\le2$），$K1$（$|x|\le2$ と $x=\pm6$）である．
+$K10$ は 2 箱まで $|x|\le10$，3 箱は $|x|\le2$ である．
+ツイスト結び目 $K_{\pm1},\dots,K_{\pm6}$（$|x|\le4$）は 2 箱までである．
+最大の例は $K10$ の 3 箱，$x=2$ で，spin 表示で約 189 万項である．
+\end{compresult}
+
+\begin{table}[h]
+\centering
+\caption{framing を振った判定．$|\rho|=1,2,3$ の列は調べた framing $x$ の範囲，件数は判定した $(x,\rho)$ の組の数（「各」は 1 結び目あたり．$K10$ の 3 箱の $x=0$ は表~\ref{tab:three} の判定で，件数に含めない），負（spin/genus）は spin 表示と genus 表示の負の項の数の合計（全体の符号は良い方）．自明な結び目の 9 件は $\wh f=0$．}\label{tab:framing}
+\resizebox{\textwidth}{!}{\input{../generated/framing_table}}
+\end{table}

@@ -45,7 +45,7 @@
 
 - **命題 2【導出】**：\hat f_{[2]} が Laurent 多項式なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要。9_42（401 ≠ 81）が KN の形に乗らない原因（docs/REPORT_knot_table.md §3）。
 - **ツイスト結び目 K_p**：全ての p ≠ 0 で 2 箱は G 展開の前後とも正【導出（入力は GNSSS の予想式）】（docs/REPORT_phase4.md §5.1、`scripts/v4_closed.py`, `scripts/v4_newton.py`）。
-- **pretzel K_{s,t}**：s, t が同符号なら全て正【導出（同上）】。異符号では min(|s|, t) ≤ 20 で正【導出 ＋ 有限個の判定】。|s|, t > 20 は 1 変数の 3 系列の非正値性に帰着し（u ≤ 25 で成立。d_1 と対角線の LP 証明書は打ち切り、2026-10-08）、|s|, t ≤ 40 の範囲で直接確認【計算】（REPORT_phase4.md §5.2、REPORT_phase5.md §2、`scripts/v4_pretzel*.py`、証明書 `data/v4/`）。
+- **pretzel K_{s,t}**：s, t が同符号なら全て正【導出（同上）】。異符号では min(|s|, t) ≤ 20 で正【導出 ＋ 有限個の判定】。|s|, t > 20 は 1 変数の 3 系列の非正値性に帰着し（u ≤ 25 で成立。d_1 と対角線の LP 証明書は打ち切り、2026-10-08）、|s| ≤ 30 かつ t ≤ 40 の範囲で直接確認【計算】（|s|, t > 20 の 200 点。2026-10-09 に範囲の記述を訂正）（REPORT_phase4.md §5.2、REPORT_phase5.md §2、`scripts/v4_pretzel*.py`、証明書 `data/v4/`）。
 - 証明の要点：\hat f は撚りの数の指数多項式（根 1, 𝐚²𝐭², 𝐚⁴𝐭⁴, 𝐚⁴𝐪⁴𝐭⁸, 𝐚⁴𝐪⁻⁴𝐭⁴）。差分商（ニュートン形）の係数が一様な符号をもち、G 展開の後は「展開が閉じる ＋ 展開前に非負 ⇒ \hat N ≥ 0」から従う。
 - **thick な非トーラス結び目 10_139, 10_152**（2026-10-07）：2 箱の \hat f_{[2]}, \hat f_{[1,1]} は G 展開の前後とも正【計算、予想式に基づく】。
   - 入力：Stošić 2402.03066 の quiver 型の式を展開し、KRSS 1707.04017 の予想式 (quad-C) で S²（t_c 次数）を作った。この方法は 8_19 で EHA の正解（[2] から [1,1,1] まで）と全項一致することを確かめてある（open_problems.md B4）。
@@ -61,7 +61,7 @@
 - 基準：ユーザーの以前の計算（未発表）の出力 9 件と全係数一致。[1] は 𝐭^x 倍だけで自明【導出】。
 - データ・コード：logs/framing_batch.log、logs/framing_notebook_check.log、scripts/framing_check.py、tests/test_framing.py。
 - 拡張（2026-10-09）：T(3,5), T(2,11), T(3,7), T(4,5) は 3 箱まで x ∈ [−10, 10]、代数的なケーブル K6a, K7, K8, K9 は 3 箱まで x ∈ [−10, 10]、K10 は 2 箱まで x ∈ [−10, 10] と 3 箱の x ∈ {−2, −1, 1, 2}（x = 0 は framing 0 の既存の判定）。
-  計 1167 件（x × ρ）で G 展開の前後とも負の項 0【計算】。最大の \hat f は K10 の 3 箱 x = 2 の約 189 万項（G 展開の前）。表は data/framed_summary.md。
+  計 1083 件（x × ρ）で G 展開の前後とも負の項 0【計算】（2026-10-09 訂正：以前は 1167 件と書いていたが、data/framed/ の判定を数えると 1083 件）。ほかに K1 の 3 箱 x = ±6 の 6 件も負の項 0。前の 732 件と合わせて 1821 件。最大の \hat f は K10 の 3 箱 x = 2 の約 189 万項（G 展開の前）。表は data/framed_summary.md。
   データ・コード：data/framed/（(結び目, x, n) ごとの判定）、scripts/framing_big.py（\hat f だけを補間）、scripts/framing_big_batch.sh、scripts/framing_big_K10_n3.sh、logs/framing_big_*.log。
 - framing を記号として扱う（2026-10-09）：𝐭^{−nx}\hat f^{(x)} は x の指数和で、命題 1・命題 2・Laurent 性・G 展開の閉じ方は framing によらない【導出】。
   2 箱は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 で**全ての整数の framing** で G 展開の前後とも正【導出 ＋ 有限個の厳密な判定】（logs/framing_newton.log）。

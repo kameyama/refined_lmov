@@ -1,0 +1,47 @@
+\section{計算法の詳細}\label{app:computation}
+\paragraph{評価と補間．}
+$\overline{\rCS}_\lambda$ と $\hf_\rho$ は，31 ビットの素数 $p$ を法として格子の点で評価し，$(A,Q,T)$ の各変数について補間して求める．
+係数が $p/2$ を超えるときは 2〜3 個の素数で補間し，中国剰余定理（Garner の方法）で復元する．
+得られた多項式は，補間に使っていない素数の点で検証する．
+評価の点はまとまりごとに保存し，計算を途中から再開できるようにした．
+\paragraph{genus 展開．}
+補題~\ref{lem:G} と同じく $v=\bq^2\bt$，$w=v+v^{-1}$，$w_0=\bt+\bt^{-1}$ とおくと $G=w-w_0$ である．各行を $w$ の多項式に直し，Horner 法で $G$ の冪に展開する．
+\paragraph{計算時間．}
+計算は Apple M3 Pro（メモリ 36 GB）と Mac mini M1（メモリ 8 GB）で行った．
+最も重いのは $K10$ である．$\rCS_{\yng(3)}$ は 2 つの素数で約 4 時間（14440 秒），$\rCS_{\yng(2,1)}$ は約 2 時間（7387 秒）かかった．
+3 箱の $\wh f_\rho$ は 3 つの素数を要し，4050 秒，最大メモリ 17.6 GB であった．
+$K7$ と $K8$ の $|\rho|\le3$ は，それぞれ 12275 秒と 22853 秒で，最大メモリは 2 GB 未満であった．
+\paragraph{実装の検証．}
+実装は，小さな入力で各段を確かめるテストで検証した．
+対象は，KN の値の再現，Cherednik--Danilenko の明示例，ブレイドから計算した HOMFLY-PT 多項式，補間と中国剰余定理，genus 展開の二つの実装の一致などである．
+
+\section{正規化の導出}\label{app:normalization}
+\paragraph{(A) ケーブル．}
+framing 演算子 $\tau:P_\mu\mapsto T_\mu P_\mu$ について，$\tau^jP_\lambda[p_k\mapsto P_{k(m,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(m,n+jm)}]\cdot1$ が成り立つ（計算結果~\ref{cr:tau}）．
+ケーブルの構成は companion について線形である．companion に (N2$'$) を適用すると，パターンの傾きが $(m,-s')$ から $(m,-n)$（Seifert framing）にずれる．
+仮説~\ref{hyp:sat} と合わせると，$M_{C_{m,n}K}=M_K^mM_{T_{m,n}}$ と $F=mn$ が従う．
+\paragraph{(B) トーラス結び目．}
+(I) Gorsky--Neguţ の正規化前の reduced 値の $a^0$ の係数は $(-t/q)^{m-1}C_{m,n}(1/q,t)$ である（$C_{m,n}$ は有理 $q,t$-Catalan 数）．
+これは Gorsky--Neguţ の予想であり，Bergeron--Garsia--Leven--Xin の $Q_{m,n}$ を介して Mellit~\cite{Mellit16} の定理から従う．
+(II) 最低 $a$ 次数 $\delta$ は Franks--Williams の正のブレイドについての定理から従う．
+(III) $t=q$ での符号と $q$ の冪は，$C_{m,n}$ の $q,t$ 対称性から決まる．
+(IV) $(q/t)$ の指数は，Mellit~\cite{Mellit17} の Dyck 路の表示と計算結果~\ref{cr:mellit} の式から決まる．
+以上から $M_{T_{m,n}}=(-q/t)^{m-1}(a(q/t)^{1/2})^{\delta}$ である．
+
+\section{非代数的なケーブル}\label{app:nonalg}
+本論文で扱う非代数的なケーブルは，$T_{2,3}$ の $(2,1)$-，$(2,3)$-，$(2,5)$-，$(2,7)$-，$(2,-1)$-ケーブル（順に $K2,K4,K5a,K5b,K5c$）と，$T_{2,5}$ の $(2,1)$-ケーブル（$K6b$）である．
+非代数的なケーブル（$n_2<m_1n_1m_2$）では，DAHA の値はホモロジーの Poincaré 多項式ではない（スペクトル系列の必要条件を満たさない）．
+したがって KN の正値性の前提を満たさない．表~\ref{tab:nonalg} に判定を示す．
+\begin{table}[h]
+\centering
+\caption{非代数的なケーブルの判定（framing 0）．各欄は「spin 表示の負の項の数/項数; genus 表示の負の項の数/項数」（全体の符号はそれぞれで良い方）．}\label{tab:nonalg}
+\resizebox{\textwidth}{!}{\input{../generated/summary_table_nonalg}}
+\end{table}
+破れ方は三つの型に分かれる．
+(I) $T_{2,3}$ の $(2,3)$，$(2,5)$-ケーブル（$K4$，$K5a$）では，色付きでない HOMFLY-PT の段階で，偶奇のそろった refinement による正値性が不可能である．
+(II) $(2,1)$-ケーブル（$K2$，$K6b$）と $(2,-1)$-ケーブル（$K5c$）では，HOMFLY-PT は正値性と両立するが，DAHA の $\rCS_\square$ 自体が負の係数をもつ．
+(III) $T_{2,3}$ の $(2,7)$-ケーブル（$K5b$）の色付きの場合の破れは framing に依存する．偶数の framing $x$ を調べると，2 箱は $x\le-12$，3 箱は $x\le-14$ で前後とも正になる（$|x|\le24$ の偶数で計算）．
+$K5c$ は展開の後だけが（ほぼ）正になる例で，補題~\ref{lem:G} の逆が成り立たないことを示す．
+
+\section{データとコード}\label{app:data}
+$\overline{\rCS}_\lambda$，$\hf_\rho$，spin 表示と genus 表示の全ての値と，計算・判定のコード，テストを公開する．

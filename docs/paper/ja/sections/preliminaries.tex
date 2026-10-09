@@ -1,0 +1,115 @@
+\section{準備}\label{sec:prelim}
+
+\subsection{変数}
+KN~\cite{Kameyama17} に従い，$q=e^{i\epsilon_1}$，$t=e^{i\epsilon_2}$ を $\Omega$ 背景 $(z_1,z_2)\mapsto(qz_1,t^{-1}z_2)$ の変数とし，
+$SU(N)$ の不変量の large $N$ 極限を $a=t^N$ で表す．
+太字の変数 $(\ba,\bq,\bt)$ を
+\begin{equation}\label{eq:cov}
+a=-\ba^2\bt,\qquad q^{1/2}=-\bq\bt,\qquad t^{1/2}=\bq
+\end{equation}
+で定める（KN の式 (cov)）．これは Dunfield--Gukov--Rasmussen（DGR）~\cite{Dunfield05} の superpolynomial の変数と同じであり，
+$t=q$ は $\bt=-1$ に当たる．Aganagic--Shakirov~\cite{Aganagic11} の太字の変数も同じである．
+Cherednik--Danilenko~\cite{Cherednik14} の DAHA の変数 $(q,t,a)$ は KN の $(q,t)$ と同じで，$a_{\mathrm{DAHA}}=-a$ である．
+半整数冪の分枝は \eqref{eq:cov} で固定する．$\hf_\rho$ の全体の符号は規約であり，最低次の項が正になる向きにとる．
+
+\paragraph{結び目の向き．}
+結び目の向き（鏡像のどちらをとるか）は DGR に従う．
+トーラス結び目 $T_{m,n}$（$m,n>0$）は，三葉結び目 $T_{2,3}$ の reduced superpolynomial が $\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$ になる向きにとる（この向きでは交差は全て負である）．
+楕円 Hall 代数では，$T_{m,n}$ は傾き $(m,-n)$ の元に当たる．
+結び目表の結び目は KnotInfo のブレイドの向きのまま用い，ツイスト結び目とダブルツイスト結び目は KNTZ~\cite{Kameyama19} の向き（$K_{1,1}=\mathbf{3_1}$ など）にとる．
+鏡像 $K^\ast$ の superpolynomial は，$K$ のものの $\ba,\bq,\bt$ を逆数にしたもの（単項式倍を除く）である．
+framing $x>0$ は Mariño--Vafa の $p>0$ に当たる（命題~\ref{prop:MV}）．
+
+\subsection{Macdonald 多項式と自明な結び目}
+$P_\lambda(u;q,t)$ を monic な Macdonald 多項式とし（$u=(u_1,u_2,\dots)$ は対称関数の変数．framing の $x$ と区別する），内積 $\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}z_\lambda\prod_i(1-q^{\lambda_i})/(1-t^{\lambda_i})$ に関する
+$g_\lambda=(q/t)^{|\lambda|}/\langle P_\lambda,P_\lambda\rangle_{q,t}$ を用いる．
+自明な結び目の不変量は主特殊化
+\[
+P_\lambda(1,t,\dots,t^{N-1})=\prod_{s\in\lambda}\frac{t^{l'(s)}-a\,q^{a'(s)}}{1-q^{a(s)}t^{l(s)+1}}\qquad(a=t^N)
+\]
+を対称化したものである．$a(s),l(s)$ は腕と脚の長さ，$a'(s),l'(s)$ は余腕と余脚の長さである．
+$n(\lambda)=\sum_i(i-1)\lambda_i$ とおき，
+\[
+T_\lambda=q^{n(\lambda')}\,t^{-n(\lambda)}
+\]
+を refined の framing の固有値と呼ぶ．$t=q$ では $q^{\sum_{s\in\lambda}c(s)}$（$c(s)$ は content）になる．
+
+\subsection{refined CS 不変量}
+KN と同じく，unreduced の refined CS 不変量を $\overline{\rCS}_\lambda(K;a,q,t)$，reduced の不変量を $\rCS_\lambda(K;a,q,t)$ と書く．両者は
+\[
+\overline{\rCS}_\lambda(K;a,q,t)=\overline{\rCS}_\lambda(\bigcirc;a,q,t)\,\rCS_\lambda(K;a,q,t)
+\]
+で結ばれる．ここで $\bigcirc$ は自明な結び目である．
+トーラス結び目では，Aganagic--Shakirov の $S,T$ 行列による定義~\cite{Aganagic11}，Cherednik の DAHA による定義~\cite{Cherednik11}，
+Gorsky--Neguţ~\cite{Gorsky13b} の楕円 Hall 代数による表示が知られている．
+本論文では後者で計算する（\S\ref{sec:inputs}）．
+これらの定義は単項式倍を除いてしか値を決めない．KN の BPS 抽出は単項式倍で結果が変わるので，単項式の正規化を \S\ref{sec:normalization} で固定する．
+$\U(N)$ と $\SU(N)$ の違いは framing と linking number の補正だけで，本論文では区別しない（KN の脚注と同じ扱い）．
+
+\subsection{refined reformulated invariants}
+KN は，$q$-brane と $\bar t$-brane の二つの配位について，幾何学的遷移の等式
+\begin{align}
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(u;q,t)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^q_\mu(K;a^d,q^d,t^d)}{q^{\frac d2}-q^{-\frac d2}}\,s_\mu(u^d)\Bigr),\label{eq:GT1}\\
+\sum_\lambda \overline{\rCS}_\lambda(K;a,q,t)\,P_{\lambda^T}(-u;t,q)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^{\bar t}_\mu(K;a^d,q^d,t^d)}{t^{-\frac d2}-t^{\frac d2}}\,s_\mu(u^d)\Bigr)\label{eq:GT2}
+\end{align}
+を提案した．
+ここから定まる refined reformulated invariants $f^q_\mu$, $f^{\bar t}_\mu$ は，KN が定めた $t$ だけに依存する行列 $M_{\mu\rho}(t)$（$|\mu|=|\rho|$）により
+\begin{equation}\label{eq:f-to-hatf}
+f^q_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(t)\,\wh f_\rho(K;a,q,t),\qquad f^{\bar t}_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(q^{-1})\,\wh f_\rho(K;a,q,t)
+\end{equation}
+と書け，二つの式が同じ $\wh f_\rho$ を与えることが KN の枠組みの整合性になる．
+$f^q_\mu$ の尺度は KN の付録 B の式に合わせる．本文の \eqref{eq:GT1} をそのまま展開した値とは $(q/t)^{|\mu|/2}$ だけ違う（$u$ を $(t/q)^{1/2}u$ に取り替える尺度の違い）．$f^{\bar t}_\mu$ は \eqref{eq:GT2} のとおりで，この違いは無い．
+
+KN の予想は，$a$ 次数を $\pm\frac12$ ずらした後で $\wh f_\rho$ が
+\begin{equation}\label{eq:hat-f-2}
+\wh f_\rho(K;a,q,t)=\sum_{g,\beta,J_r}(-1)^{2J_r}\,\wh N_{\rho,g,\beta,J_r}(K)\,(q^{\frac12}-q^{-\frac12})^{g}(t^{-\frac12}-t^{\frac12})^{g}\Bigl(\frac qt\Bigr)^{J_r-\frac\beta2}a^{\beta}
+\end{equation}
+の形をとり，$\wh N_{\rho,g,\beta,J_r}(K)$ が非負整数になる，というものである．
+ここで $g$ は M2-brane の曲線の genus，$\beta$ は $\mathbb P^1$ の次数，$J_r$ は M2-brane のモジュライ空間のコホモロジーの右 spin である．
+KN の議論では，BPS 状態は $J_r$ のほかに追加の $U(1)_R$ 対称性の電荷 $S_R$ をもち，$\wh N_{\rho,g,\beta,J_r}$ は $S_R$ が BPS 状態に自明に作用するという予想の下での縮退度である．
+$a$ 次数のずらしは，$|\rho|=1$ で $a^{-1/2}$，$|\rho|=3$ で $a^{1/2}$ とする．
+\eqref{eq:cov} の変数では，$\wh f_\rho$ は
+\begin{equation}\label{eq:bold-form}
+\wh f_\rho=\sum_{g,\beta,F}\wh{\mathbf N}_{\rho,g,\beta,F}\,(\bq\bt-\bq^{-1}\bt^{-1})^{g}(\bq-\bq^{-1})^{g}\,\ba^{2\beta}\,\bt^{F}
+\end{equation}
+と展開される（KN の (bold-form)）．
+KN の BPS 状態の数え上げでは $\wh{\mathbf N}_{\rho,g,\beta,F}=\sum_{2(J_r-S_R)=F}(-1)^{2S_R}\wh N_{\rho,g,\beta,J_r,S_R}$ であり，
+$S_R$ が自明に作用するという予想の下でだけ $\wh{\mathbf N}_{\rho,g,\beta,F}=\wh N_{\rho,g,\beta,J_r}$（$F=2J_r$）となる．
+本論文で計算し判定するのは $\wh{\mathbf N}_{\rho,g,\beta,F}$ である．
+KN にならい，\eqref{eq:hat-f-2}，\eqref{eq:bold-form} の展開を M2-brane の genus 展開と呼ぶ．以下では $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ と略記する．
+genus 展開が整数係数で閉じるのは，$\ba^{2\beta}$ の各行が
+\begin{equation}\label{eq:sigma}
+\sigma:\ (e_\ba,e_\bq,e_\bt)\mapsto(e_\ba,-e_\bq,e_\bt-e_\bq)
+\end{equation}
+で不変で，$\bq$ の指数が偶数のときである．
+KN は，genus 展開をする前の素朴な変数変換 \eqref{eq:cov} の係数
+\[
+\wh f_\rho(K;a=-\ba^2\bt,\,q=\bq^2\bt^2,\,t=\bq^2)=\sum_{i,j,k}\wh{\mathbf N}_{\rho;i,j,k}(K)\,\ba^{2i}\bq^{2j}\bt^{k}
+\]
+も非負整数になることを観察した．
+本論文では，この二つを refined LMOV 不変量の二つの表示として区別し，
+$\wh{\mathbf N}_{\rho;i,j,k}$ を \emph{spin 表示}，$\wh{\mathbf N}_{\rho,g,\beta,F}$ を \emph{genus 表示} と呼ぶ（どちらも KN の記号）．
+名前の根拠は KN の BPS 状態の構成にある．
+\begin{itemize}
+\item genus 表示：KN は BPS 状態を $\bigoplus C_{\mu\sigma\rho}\,\mathcal{H}_{\sigma,g}\otimes A_{\rho,g,\beta,J_r,S_R}$ と分解し，$\wh N_{\rho,g,\beta,J_r,S_R}=\dim A_{\rho,g,\beta,J_r,S_R}$ と定める．
+因子 $G^g$ は M2-brane の曲線 $\Sigma_{g,h}$ の bulk の Jacobian $H^*((T^2)^g)$ の寄与であり，$g$ はその genus である．
+Labastida--Mariño--Vafa~\cite{Labastida01} の $\wh N_{R,g,Q}$ の refined 版にあたる．
+\item spin 表示：refined index $\mathrm{Tr}\,(-1)^Fq^{J_1-S_R}t^{S_R-J_2}$（$J_1,J_2$ は $\Omega$ 背景の二つの複素平面 $z_1,z_2$ の回転の生成元）の単項式は，\eqref{eq:cov} で $\pm\bq^{2(J_1-J_2)}\bt^{2(J_1-S_R)}$ になる．
+したがって $\wh{\mathbf N}_{\rho;i,j,k}$ は，$\beta=i$ と spin の固有値 $J_1-J_2=j$，$2(J_1-S_R)=k$ を固定した BPS 状態の符号付きの数である．
+$J_1-J_2$ は非 refined の index $q^{J_1-J_2}$ の冪で，Ooguri--Vafa~\cite{Ooguri99} が $N_{R,Q,s}$ の spin $s$ と呼んだものにあたる．
+\end{itemize}
+spin 表示は spin の既約表現ではなく固有値（重み）でラベルされた，符号付きの数である（OV の $N_{R,Q,s}$ も同じ）．その非負性は自明ではない．
+genus のラベルは，KN の形式的な BPS 状態の分解の中で意味をもつ．
+なお knots--quivers 対応の文献~\cite{Ekholm18} では，genus 展開をしない型の不変量を「LMOV invariants」と呼ぶ．本論文では KN にならい，LMOV 不変量は genus 表示を指す．
+$f^q$, $f^{\bar t}$ の係数は refined LMOV 不変量ではなく，付録で補足として扱う．
+
+\begin{definition}[正値性]\label{def:positivity}
+$\wh f_\rho$ が\emph{正}であるとは，全体の符号を一つ選ぶと，spin 表示 $\wh{\mathbf N}_{\rho;i,j,k}$ と genus 表示 $\wh{\mathbf N}_{\rho,g,\beta,F}$ の全てが非負整数になることをいう．
+\end{definition}
+KN の予想は，これに加えて $(\rho,g,\beta)$ を固定したときの $2J_r$ の偶奇がそろうことを含む．本論文の正値性はこの偶奇の条件を含まない（偶奇は \S\ref{sec:one} で別に調べる）．
+
+$\yng(1)$ では $\hf_{\yng(1)}=(a^{1/2}-a^{-1/2})\rCS_{\yng(1)}$ である．
+したがって，$\rCS_{\yng(1)}$ を太字の変数で書いた $P$ に対し，$\hf_{\yng(1)}$ は（a 次数をずらした後）$(1+\ba^2\bt)\ba^{-2}\bt^{-1}P$ になる．
+$P$ が HOMFLY-PT ホモロジーの Poincaré 多項式として解釈されるなら，$\yng(1)$ の正値性は自然に期待される．

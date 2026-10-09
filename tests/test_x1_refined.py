@@ -104,3 +104,16 @@ def test_kntz_package_all():
 def test_twist_knots_match_phase2_inputs_wide():
     from x1_check import y6_twist
     assert y6_twist([p for p in range(-6, 7) if p], lambda s: None) == 0
+
+
+def test_kntz_equals_gnsss_on_grids():
+    """2 箱の入力の基礎：KNTZ の refined の式と GNSSS の四重次数の式が、K_{m,n} の [r], [1^r]（r = 1, 2）で
+    符号の 4 象限それぞれの |m|, |n| ∈ {1, 2, 3} の格子で一致する（両方とも各変数について根 3 個以下の指数和なので、全ての (m, n) で一致）。
+    scripts/kntz_vs_gnsss.py、logs/kntz_vs_gnsss.log。"""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from kntz_vs_gnsss import main
+    import io, contextlib
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        main()
+    assert "照合 144 件、不一致 0 件" in buf.getvalue()

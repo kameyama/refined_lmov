@@ -71,3 +71,43 @@ def test_bottom_coefficient_is_rational_catalan(m, n):
     raw = reconstruct(lambda G: G.torus_reduced_apoly((1,), m, -n), log=lambda s: None)
     R = sum(c * q ** eq * t ** et for (ea, eq, et), c in raw.items() if ea == 0)
     assert sp.expand(R - (-t / q) ** (m - 1) * catalan(m, n).subs(q, 1 / q)) == 0
+
+
+@pytest.mark.parametrize("M,N", [(2, 3), (3, 2), (2, 5)])
+def test_mellit_cor_daha_normalization(M, N):
+    """Mellit 1704.07630 の Thm (dyck paths) の 𝒫_{M,N} は −(a(qt)^{−1/2})^δ (1/(1−t)) (Q_{M,N}·1)[a/q−1]/(a/q−1)（BGLX の Q）。
+    Cor (daha) の文面どおりの代入 [a−1] では、どの符号でも一致しない（scripts/d1_mellit_cor.py の総当たりの一部）。"""
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from d1_bglx import Qop
+    from d1_ops2 import dyck, pleth
+    a, s, u = Fraction(2, 7), Fraction(2, 3), Fraction(3, 5)
+    q, t, sq = s * s, u * u, s * u
+    d = (M - 1) * (N - 1) // 2
+    V = Qop(M, N, {(): Fraction(1)}, q, t)
+    D = dyck(M, N, a, q, t, sq)
+    pref = (a / sq) ** d / (1 - t)
+    assert D == -pref * pleth(V, a / q) / (a / q - 1)
+    assert D not in (pref * pleth(V, a) / (a - 1), -pref * pleth(V, a) / (a - 1))
+
+
+def test_n1n2_is_cd14_tilde_times_corner():
+    """(N1)(N2) の [1] と CD14（1408.4348）の tilde 正規化の対応：係数が非負の全ての保存値で、太字の P は
+    𝐚^{2δ}𝐪^{−2δ} × (最低 𝐚 の行の最低の項が 1 になる tilde 正規化) で、DGR の対称性 (e_𝐚, e_𝐪, e_𝐭) ↔ (e_𝐚, −e_𝐪, e_𝐭 − e_𝐪)
+    と 𝐪 の指数の偶数性（命題 1 の条件）をもつ。CD14 の明示例との比も 𝐚^{2δ}𝐪^{−2δ}（scripts/check_cd14_tilde.py）。"""
+    from rcsknots.bps import to_bold
+    files = sorted(ROOT.glob("data/torus/*_1.json")) + sorted(ROOT.glob("data/cables/*_1.json"))
+    n = 0
+    for f in files:
+        d = json.loads(f.read_text())
+        P = to_bold({tuple(map(int, k.split(","))): v for k, v in d["poly"].items()}, 0)
+        if any(v < 0 for v in P.values()):
+            continue
+        _, delta, _ = predicted(steps_of(d))
+        amin = min(k[0] for k in P)
+        low = {k: v for k, v in P.items() if k[0] == amin}
+        assert amin == 2 * delta and low.get((2 * delta, -2 * delta, 0)) == 1, d["knot"]
+        assert all(k[1] >= -2 * delta and k[2] >= 0 for k in low), d["knot"]
+        assert all(P.get((ea, -eq, et - eq)) == c and eq % 2 == 0 for (ea, eq, et), c in P.items()), d["knot"]
+        n += 1
+    assert n >= 17

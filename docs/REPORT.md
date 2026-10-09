@@ -210,6 +210,7 @@ G 展開の前と後の両方が同じ全体の符号で全彩色非負：T2_3, 
    - よって K4, K5a は、t = q で同じ HOMFLY-PT を与え偶奇がそろうどんな refinement でも正にならない【導出＋計算】。正の Poincaré 多項式が存在するなら、それは偶奇がそろわない（4_1 と同じ型）。偶奇が必ずそろう DAHA の不変量はそれと一致できない【導出】。
    - K2, K5c, K6b は t = q の符号が正値性と両立する（型 II：DAHA の refinement に固有の負）。K5b は [1] で両立、彩色付きは framing 0 で両立しない。
 3. **framing への依存（型 III）。** rCS_λ に T_λ^δ を掛けた（t = q で δ = 2 が framing 1 単位。δ が奇数では計算が閉じない。\hat f が Laurent にならないためと考えるが未確認）。偶数の δ ∈ [−24, 24] で調べた【計算】。
+   - 追記（2026-10-09）：δ が奇数で閉じなかったのは、Mariño–Vafa の符号 (−1)^{|λ|δ} を付けていないためである。符号を外すと奇数の framing で 2 箱の \hat f が Laurent でなくなる【導出、docs/literature/framing_large_n.md §2.5、tests/test_framing.py::test_marino_vafa_sign_is_needed_for_laurent】。δ が偶数なら framed の x = δ と箱あたりの単項式（2J_r の一様なずれ）しか違わないので、この表はそのまま framed の結果として読める。なお framing の 1 単位は δ = 1 に当たる（t = q で T_λ = q^{Σ content}）。
 
 | 結び目 | 正値性が成り立つ δ |
 |---|---|
