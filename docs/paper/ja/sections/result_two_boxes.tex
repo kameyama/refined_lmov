@@ -4,21 +4,23 @@
 トーラス結び目と代数的なケーブルの入力は定義どおりの refined 不変量である．
 
 \subsection{ツイスト結び目}
-$K_p$ を GNSSS~\cite{Gukov15} の規約のツイスト結び目とする（$K_1=\mathbf{3_1}$，$K_2=\mathbf{5_2}$，$K_{-1}=\mathbf{4_1}$，$K_{-2}=\mathbf{6_1}$）．
+$K_p=K_{p,1}$ を KNTZ~\cite{Kameyama19} の規約のツイスト結び目とする（$K_1=\mathbf{3_1}$，$K_2=\mathbf{5_2}$，$K_{-1}=\mathbf{4_1}$，$K_{-2}=\mathbf{6_1}$．GNSSS~\cite{Gukov15} の規約と同じ）．
+入力は KNTZ の refined の式である（\S\ref{sec:inputs}）．
 $X=\ba^2\bt^2$，$Y=\ba^4\bq^4\bt^8$，$\bar Y=\ba^4\bq^{-4}\bt^4$ とおく．
 
 \begin{lemma}\label{lem:twist-expsum}
 $\hf_\rho(K_p)$（$|\rho|=2$）は $p$ について根 $\{1,X,X^2,Y,\bar Y\}$ の指数和である（$p<0$ では根を逆数にし，全体に $\bt^2$ が掛かる）．
 \end{lemma}
 \begin{proof}
-GNSSS の式では，$p$ は $\bigl((\ba\bt)^{2j}(\bt\bq)^{2j(j-1)}\bigr)^p$ の形でだけ入る．
+KNTZ の式では，$p$ は捻りの因子 $\mathbf{Tw}^{(p)}_\lambda$（$\lambda\subseteq\yng(2)$ または $\lambda\subseteq\yng(1,1)$）に固有値の $p$ 乗としてだけ入る．
+太字の変数では，これは $\bigl((\ba\bt)^{2j}(\bt\bq)^{2j(j-1)}\bigr)^p$（$j=0,1,2$）の形である（GNSSS の式でも同じ形）．
 入力の根は $P_{\yng(1)}$ で $\{1,X\}$，$P_{\yng(2)}$ で $\{1,X,Y\}$，$P_{\yng(1,1)}$ で $\{1,X,\bar Y\}$ である．
 $\hf$ は入力の積と Adams 作用の一次結合を，命題~\ref{prop:two-necessary} の分母で割ったものである．
 \end{proof}
 
 % [R2]
 \begin{theorem}\label{thm:twist}
-GNSSS の予想式を入力とすると，全ての $p\neq0$ で $\hf_{\yng(2)}(K_p)$，$\hf_{\yng(1,1)}(K_p)$ は正である．
+KNTZ の refined の式を入力とすると，全ての $p\neq0$ で $\hf_{\yng(2)}(K_p)$，$\hf_{\yng(1,1)}(K_p)$ は正である．
 \end{theorem}
 \begin{proof}[証明の概略]
 並び $(1,X,X^2,Y,\bar Y)$ のニュートン形 $s_{1+n}=\sum_{k=0}^{4}c_k\,h_{n-k}(m_0,\dots,m_k)$ を作る．
@@ -42,26 +44,26 @@ $\yng(1)$ の単峰性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の hard Lef
 2 箱の単峰性の構造的な理由は未解明である．
 \end{remark}
 
-\subsection{pretzel 結び目}
+\subsection{ダブルツイスト結び目}
 % [R4]
 \begin{theorem}\label{thm:pretzel}
-GNSSS の予想式を入力とすると，pretzel 結び目 $K_{s,t}$ の 2 箱は次の範囲で正である．
+KNTZ の refined の式を入力とすると，ダブルツイスト結び目 $K_{m,n}$ の 2 箱は次の範囲で正である．
 \begin{enumerate}
-\item $s,t$ が同符号の全ての $(s,t)$．
-\item $s<0<t$ で $\min(|s|,t)\le20$ の全ての $(s,t)$．
+\item $m,n$ が同符号の全ての $(m,n)$．
+\item $m<0<n$ で $\min(|m|,n)\le20$ の全ての $(m,n)$．
 \end{enumerate}
 \end{theorem}
 \begin{proof}[証明の概略]
-$\hf(K_{s,t})=\bt^{2(1-\mathrm{sgn})}F(s,t)$ と書くと，$F$ は $\mathbb{Z}^2$ 全体で一つの指数和である．
+$\hf(K_{m,n})=\bt^{2(1-\mathrm{sgn})}F(m,n)$ と書くと，$F$ は $\mathbb{Z}^2$ 全体で一つの指数和である．
 同符号の領域では，2 変数のニュートン形の係数が全て同じ符号になる．
-異符号の領域では 2 変数のニュートン形は一様にならない．そこで直線ごとの 1 変数のニュートン形で $\min(|s|,t)\le20$ を示す．
+異符号の領域では 2 変数のニュートン形は一様にならない．そこで直線ごとの 1 変数のニュートン形で $\min(|m|,n)\le20$ を示す．
 \end{proof}
 
 \begin{compresult}
-$|s|,|t|\le20$ の 820 点と，$21\le|s|\le30$・$21\le t\le40$ の 200 点で，両方の $\rho$ について展開の前後とも負の項は 0 である．
+$|m|,|n|\le20$ の 820 点と，$21\le|m|\le30$・$21\le n\le40$ の 200 点で，両方の $\rho$ について展開の前後とも負の項は 0 である．
 \end{compresult}
 
-異符号で $|s|,t>20$ の領域は，くさび形への分割と鏡像型の恒等式で調べる．
+異符号で $|m|,n>20$ の領域は，くさび形への分割と鏡像型の恒等式で調べる．
 くさびの方向のニュートン係数 $d_2,d_3,d_4$ の非正値性は，線形計画法の証明書で示した．
 残りは，1 変数の三つの数列の非正値性に帰着する．三つとは，対角線 $F(-u,u)$ と，両方の $\rho$ の $d_1(u)$ である．
 これらは $u\le25$ で成り立つが，一般には未証明である．
@@ -96,7 +98,7 @@ $\mathbf{4_1}$ の入力は KN のデータである．
 
 % [R8]
 \begin{theorem}\label{thm:twist-x}
-GNSSS の予想式を入力とすると，ツイスト結び目の 2 箱は，$p$ と $x$ が同符号（$p>0,x\ge0$ または $p<0,x\le0$）の全ての $(p,x)$ で正である．
+KNTZ の refined の式を入力とすると，ツイスト結び目の 2 箱は，$p$ と $x$ が同符号（$p>0,x\ge0$ または $p<0,x\le0$）の全ての $(p,x)$ で正である．
 \end{theorem}
 \begin{proof}[証明の概略]
 $\bt^{-2x}\hf^{(x)}_\rho(K_p)$ は $p$ と $x$ の両方について指数和である（補題~\ref{lem:twist-expsum}，命題~\ref{prop:expsum}）．

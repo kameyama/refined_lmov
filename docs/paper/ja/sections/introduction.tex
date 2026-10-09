@@ -19,7 +19,7 @@ $\mathbf{4_1},\mathbf{5_2},\mathbf{6_1},\mathbf{6_3}$ などの thin な結び�
 
 \subsection{本論文の内容}
 本論文の目的は，KN の枠組みを framing をもつ結び目に拡張し，KN のデータを二つの方向に超えて正整数性を検証することである．
-一つは結び目の方向で，トーラス結び目と thin な結び目から，代数的な iterated torus 結び目，結び目表の全ての結び目，ツイスト結び目・pretzel 結び目の族，thick な結び目へ広げる．
+一つは結び目の方向で，トーラス結び目と thin な結び目から，代数的な iterated torus 結び目，結び目表の全ての結び目，ツイスト結び目・ダブルツイスト結び目の族，thick な結び目へ広げる．
 もう一つは framing の方向で，$x=0$ から，有限の範囲の $x$，さらに全ての整数 $x$ へ広げる．
 
 \paragraph{framed knot への拡張（\S\ref{sec:framing}）．}
@@ -45,7 +45,7 @@ framing はホモロジーの次数のずらしとして働く．
 \item 基本表現 $\rho=\yng(1)$：入力が非負係数で DGR の対称性をもてば，$G$ 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
 DGR の対称性は Gorsky--Hogancamp--Mellit~\cite{Gorsky21} の定理なので，ホモロジーを入力とする限り，任意の結び目・任意の framing で $\yng(1)$ は正である．
 \item 2 箱：$\hf_{\yng(2)}$ が Laurent であるためには $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ が必要である（命題~\ref{prop:two-necessary}）．
-GNSSS~\cite{Gukov15} の予想式を入力として，ツイスト結び目の全ての撚りの数で 2 箱が正であることを示す（定理~\ref{thm:twist}）．
+KNTZ~\cite{Kameyama19} の refined の式（GNSSS~\cite{Gukov15} の予想式と一致する）を入力として，ツイスト結び目の全ての撚りの数で 2 箱が正であることを示す（定理~\ref{thm:twist}）．
 また，8 個の結び目では全ての整数の framing で 2 箱が正である（定理~\ref{thm:two-all-x}）．
 \item 3 箱：トーラス結び目 7 個と，代数的な iterated torus 結び目 7 個で，$|\rho|\le3$ の全ての $\rho$ について $G$ 展開の前後とも正である（計算結果~\ref{cr:three}）．
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
@@ -72,8 +72,8 @@ $K6a,K7,K8,K9$ & DAHA & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le10$ \\
 $K10$ & DAHA & 全 $x$ & ○ & $|x|\le10$ & ○ & $|x|\le2$ \\
 $\mathbf{4_1}$ & ホモロジー（$\yng(2,1)$ は KN の候補） & 全 $x$ & ○ & ○ & ○ & $|x|\le4$ \\
 結び目表 801 個 & ホモロジー & 全 $x$ & × & × & × & × \\
-ツイスト $K_p$ & GNSSS の予想式 & 全 $x$ & 全 $p$ & 注 1 & × & × \\
-pretzel $K_{s,t}$ & GNSSS の予想式 & 全 $x$ & 注 2 & -- & × & × \\
+ツイスト $K_p$ & KNTZ の式 & 全 $x$ & 全 $p$ & 注 1 & × & × \\
+ダブルツイスト $K_{m,n}$ & KNTZ の式 & 全 $x$ & 注 2 & -- & × & × \\
 $\mathbf{10_{139}},\mathbf{10_{152}}$ & quiver ＋ KRSS の予想式 & 全 $x$ & ○ & -- & × & × \\
 \bottomrule
 \end{tabular}}
@@ -81,7 +81,7 @@ $\mathbf{10_{139}},\mathbf{10_{152}}$ & quiver ＋ KRSS の予想式 & 全 $x$ &
 \smallskip
 \raggedright
 注 1：$p$ と $x$ が同符号の向きでは全て正．逆符号は $|p|\le6$，$|x|\le14$ の直接計算で正．\\
-注 2：同符号は全て正．異符号は $\min(|s|,t)\le20$ で証明，$|s|\le30$ かつ $t\le40$ で確認．
+注 2：同符号は全て正．異符号は $\min(|m|,n)\le20$ で証明，$|m|\le30$ かつ $n\le40$ で確認．
 \end{table}
 
 \subsection{関連する研究}

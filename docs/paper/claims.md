@@ -11,7 +11,7 @@
 - **注意（Rem）**：観察・解釈。
 
 列の意味
-- 前提：仮説 H_sat（refined 衛星公式）、予想式（GNSSS 1512.07883、NRZS 1209.1409、Stošić 2402.03066 ＋ KRSS 1707.04017）、仮定 S_R（KN の U(1)_R の自明な作用）など。
+- 前提：仮説 H_sat（refined 衛星公式）、予想式（KNTZ 1902.02275 の refined の式。GNSSS 1512.07883 の予想式と一致。NRZS 1209.1409、Stošić 2402.03066 ＋ KRSS 1707.04017）、仮定 S_R（KN の U(1)_R の自明な作用）など。
 - 根拠：導出のある文書、データ・ログ、機能テスト（`results` は保存済みの大きな結果を判定し直すテスト）。
 - 新規性：novelty_report.md の判断（「新規」は「新規と思われる」の意味）。
 
@@ -52,7 +52,7 @@
 | I5 | M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^δ が保存済みの 22 結び目で成立する | 計算結果 | — | conventions.md §13。test_box_monomial_formula | 新規 |
 | I6 | I5 の導出：H_sat とトーラス結び目の事実 (I)〜(IV) から | 定理（条件つき） | **仮説 H_sat**。(IV) の辞書は、Mellit の Thm (dyck paths)（定理）と、標準の正規化の Cor (daha) の形 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) に依存する。後者は Thm (daha) から d_± の表現の元として導出でき（2026-10-09、原典で確認）、標準の正規化での形は計算（12 例、総当たりで唯一）。d_± の元と BGLX の Q の対応の照合が残る | conventions.md §13.1。test_framing_operator_shifts_slope、test_bottom_coefficient_is_rational_catalan | 新規（条件つき）。GN の Catalan 予想が Mellit の定理の系であることは既知と考えられるので、成果にしない |
 | I7 | 結び目表 801 個の [1] の入力（yui-kr の HOMFLY-PT ホモロジー）が、DGR の対称性・ブレイドの HOMFLY-PT・トーラス結び目の rCS と整合する | 計算結果（入力の検証） | — | test_dgr_symmetry、test_euler_characteristic_is_braid_homfly、test_torus_knots_match_rcs | 照合 |
-| I8 | 2 箱の入力：GNSSS の予想式（ツイスト・pretzel）。t_c 次数の変換は、トーラス結び目と既知の彩色 HOMFLY-PT で較正した | 既知（入力の予想式） | **予想式** | conventions.md §12。test_tc_conversion_reproduces_torus_knots、test_cable_inversion_reproduces_known_colored_homfly | 入力は既知の予想式 |
+| I8 | 2 箱の入力：KNTZ（1902.02275）の refined の式（ツイスト・ダブルツイスト）。GNSSS の予想式と全ての (m, n) で一致（各象限の 3×3 の格子で 144 件一致 ＋ 指数和の根の数）。t = q では Fang–Zhou（2610.00303）の定理。t_c 次数の変換は GGS の 𝐐 → 𝐪^R で、三葉結び目の EHA と較正 | 既知（入力の予想式） | **予想式** | conventions.md §15。scripts/kntz_vs_gnsss.py、logs/kntz_vs_gnsss.log、test_kntz_equals_gnsss_on_grids、test_trefoil_matches_eha、test_twist_knots_match_phase2_inputs | 入力は既知の予想式。KNTZ と GNSSS の両方を引用 |
 | I9 | thick な結び目の t_c 次数：Stošić の quiver ＋ KRSS の (quad-C) の組み合わせが、8_19 で EHA の [2]〜[1,1,1] と全項一致する | 計算結果（方法の較正） | **予想式** | open_problems.md B4、logs/b4_819_quad.log | 部分的に新しい（予想式の検証例） |
 | I10 | 厳密な計算：素数 1〜3 個の補間と CRT、補間に使っていない素数での検証、G 展開の高速化 | 方法 | — | tests/test_speedup.py（7 件） | 方法（付録） |
 
@@ -66,9 +66,9 @@
 
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
-| R2 | ツイスト結び目 K_p：全ての p ≠ 0 で、2 箱は G 展開の前後とも正（x = 0） | 定理（導出 ＋ 有限個の厳密な判定） | **予想式（GNSSS）**、t_c 次数 δ' = −S | REPORT_phase4.md §5.1。c_2 を使わない LP 証明書あり（data/v4/v4_ck5_cert_*）。test_v4_twist.py（7 件）、logs/v4_closed.log, v4_newton_*.log | 新規（\hat f の段階） |
+| R2 | ツイスト結び目 K_p：全ての p ≠ 0 で、2 箱は G 展開の前後とも正（x = 0） | 定理（導出 ＋ 有限個の厳密な判定） | **予想式（KNTZ の refined の式＝GNSSS）**、t_c 次数 δ' = −S | REPORT_phase4.md §5.1。c_2 を使わない LP 証明書あり（data/v4/v4_ck5_cert_*）。test_v4_twist.py（7 件）、logs/v4_closed.log, v4_newton_*.log | 新規（\hat f の段階） |
 | R3 | ツイスト結び目の 2 箱は、全ての p で sl_2 指標の正係数の和（単峰） | 命題（導出 ＋ 有限個の判定） | 予想式 | REPORT_phase4.md §5.1（c_0..c_2 は計算） | 新規。注意として載せる |
-| R4 | pretzel K_{s,t}：s, t が同符号なら全て正。異符号は min(\|s\|, t) ≤ 20 で証明、\|s\| ≤ 30 かつ t ≤ 40 の範囲で直接確認（\|s\|, t > 20 の 200 点。閉じた形での判定で、閉じた形は 54 点で直接計算と一致）。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（GNSSS）** | REPORT_phase4.md §5.2、REPORT_phase5.md §2。data/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
+| R4 | ダブルツイスト K_{m,n}（GNSSS の pretzel K_{s,t}）：m, n が同符号なら全て正。異符号は min(\|m\|, n) ≤ 20 で証明、\|m\| ≤ 30 かつ n ≤ 40 の範囲で直接確認（\|m\|, n > 20 の 200 点。閉じた形での判定で、閉じた形は 54 点で直接計算と一致）。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（KNTZ の refined の式＝GNSSS）** | REPORT_phase4.md §5.2、REPORT_phase5.md §2。data/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
 | R5 | thick な非トーラス結び目 10_139, 10_152 の 2 箱は G 展開の前後とも正（次元 441 = 21², 841 = 29²） | 計算結果 | **予想式（Stošić ＋ KRSS）** | RESULTS.md §3、logs/b4_s2_thick.log、data/b4/ | 新規（knots–quivers の正値性からは従わない、novelty_report §9） |
 | R6 | 正値性は自動的でない：5_2 で t_c 次数の別の割り当て 12 通りは全て負の項をもつ | 計算結果 | 予想式 | REPORT_knot_table.md §4、logs/t3_nonunique.log | 新規。注意として載せる |
 | R7 | 2 箱は、全ての整数 x で G 展開の前後とも正。対象は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 | 定理（導出 ＋ 有限個の厳密な判定） | 入力：EHA/DAHA、4_1 は KN のデータ（ホモロジー由来） | logs/framing_newton.log、F16、test_trefoil_two_box_all_framings_newton | 新規 |

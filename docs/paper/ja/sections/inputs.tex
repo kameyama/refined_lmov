@@ -127,11 +127,21 @@ DGR の規約への変換は，$\sigma$ 不変性，$\bt=-1$ での HOMFLY-PT �
 \subsection{2 箱の予想式}
 双曲結び目の refined な $\yng(2)$, $\yng(1,1)$ は定義どおりには得られない．そこで文献の予想式を入力とする．
 \begin{itemize}
-\item ツイスト結び目 $K_p$ と pretzel 結び目 $K_{s,t}$：GNSSS~\cite{Gukov15} の彩色 HOMFLY-PT ホモロジーの式（四重次数）と，KN の $t_c$ 次数への変換（Nawata ら~\cite{Nawata12} も参照）．
-変換は，トーラス結び目と既知の彩色 HOMFLY-PT 多項式で較正した．
+\item ダブルツイスト結び目 $K_{m,n}$ とツイスト結び目 $K_p=K_{p,1}$：Kameyama--Nawata--Tao--Zhang（KNTZ）~\cite{Kameyama19} の，長方形の彩色 HOMFLY-PT ホモロジーの Poincaré 多項式の式（refined 版，予想）を用いる．
+KNTZ の $K_{m,n}$ は，GNSSS~\cite{Gukov15} の $(2m-1,1,2n-1)$-pretzel 結び目 $K_{s,t}$（$s=m$，$t=n$）と同じ結び目である．
+KNTZ の式は GNSSS の四重次数の予想式と一致する（$\yng(1)$，$\yng(2)$，$\yng(1,1)$ について．下の計算結果~\ref{cr:kntz}）．
+$t=q$ では KNTZ の式は Fang--Zhou~\cite{Fang26} により証明されている．
+KN の $t_c$ 次数への変換は，Gorsky--Gukov--Stošić~\cite{Gorsky13} の次数の関係 $\mathbf{Q}\mapsto\bq^R$，$\mathbf{t}_r\mapsto\bq^{-1}$，$\mathbf{t}_c\mapsto\bt\bq$（$R$ は長方形の行数）による．
+変換は，三葉結び目 $K_{1,1}=T_{2,3}$ の $\yng(1)$，$\yng(2)$，$\yng(1,1)$，$\yng(2,2)$ が楕円 Hall 代数の値と全係数一致することで較正した（Nawata ら~\cite{Nawata12} も参照）．
 \item thick な結び目 $\mathbf{10_{139}}$，$\mathbf{10_{152}}$：Stošić~\cite{Stosic24} の quiver 型の式と，KRSS~\cite{Kucharski17b} の予想式で $t_c$ 次数を作る．
 この方法は，$\mathbf{8_{19}}=T_{3,4}$ で楕円 Hall 代数の値と $\yng(2)$ から $\yng(1,1,1)$ まで全項一致する．
 \end{itemize}
+\begin{compresult}\label{cr:kntz}
+KNTZ の refined の式と GNSSS の四重次数の式は，$K_{m,n}$ の $\yng(1)$，$\yng(2)$ と，ミラー対称性 $\mathbf{t}_r\leftrightarrow\mathbf{t}_c$ を介した $\yng(1,1)$ で，
+符号の四つの象限それぞれの $|m|,|n|\in\{1,2,3\}$ で全係数一致する（144 件）．
+両方の式は $m,n$ のそれぞれについて（象限ごとに）根が 3 個以下の指数和なので，全ての $(m,n)$ で一致する．
+また KNTZ の式の実装は，KNTZ の補助ファイルの値と全係数一致する．
+\end{compresult}
 これらを入力とする主張は「予想式を入力とした場合の正値性」であり，定義どおりの入力による 3 箱の結果（\S\ref{sec:three}）とは確からしさが異なる．
 
 \subsection{厳密な計算}
