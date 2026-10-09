@@ -19,7 +19,7 @@ companion の値 $\rCS_K(\mu)$ との一次結合をとる．
 素朴な Rosso--Jones の $t$ 変形が誤りであることは知られており~\cite{Danilenko14,Morozov18}，ここで使う形は定義から直接従うものである．
 \begin{compresult}\label{cr:daha}
 この計算法は，Cherednik--Danilenko の明示例 10 件（$K1$ の $\yng(1)$ と $\yng(2)$，$K2,K3,K4,K5a,K5b,K5c,K7,K8$ の $\yng(1)$）と，単項式倍を除いて全係数で一致する．
-また，$t=q$ の極限はブレイドから計算した彩色 HOMFLY-PT 多項式と一致する．
+また，$t=q$ の極限はブレイドから計算した色付き HOMFLY-PT 多項式と一致する．
 \end{compresult}
 
 本論文で扱うケーブルを表~\ref{tab:cables} にまとめる．
@@ -45,26 +45,26 @@ $K10$ & $K1$ の $(2,53)$-ケーブル & 8 & 42 \\
 DAHA と楕円 Hall 代数は値を単項式倍を除いてしか決めないが，KN の BPS 抽出は単項式倍で結果が変わる．
 そこで次の規則で正規化する．
 \begin{itemize}
-\item[(N1)] $t=q$ の極限が，framing 0 の reduced 彩色 HOMFLY-PT 多項式（DGR の規約）に等しい．
+\item[(N1)] $t=q$ の極限が，framing 0 の reduced 色付き HOMFLY-PT 多項式（DGR の規約）に等しい．
 \item[(N2)] $\yng(1)$ の太字の変数での最低の $\bt$ 次数が 0 である．
-\item[(N2$'$)] 彩色 $\lambda$ の単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ である．$F$ は一番外側のケーブル $C_{p,q}$ では $pq$，トーラス結び目 $T_{m,n}$ では $mn$ である．
+\item[(N2$'$)] 表現 $\lambda$ の単項式は $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$ である．$F$ は一番外側のケーブル $C_{p,q}$ では $pq$，トーラス結び目 $T_{m,n}$ では $mn$ である．
 \end{itemize}
 トーラス結び目では，(N1)(N2) の下で KN の値 27 件が全係数で再現される．
 (N2) が決めるのは，箱あたりの $(q/t)^{c}$ の自由度だけである．補題~\ref{lem:adams} により，これは正値性に影響しない．
-彩色付きの単項式 $\pm a^\alpha q^\beta t^\gamma$ のうち，$t=q$ で決まるのは符号，$\alpha$，$\beta+\gamma$ である．
-彩色付きの (N1) は検査として確かめた．
-$t=q$ で決まらないのは，彩色ごとの $(q/t)^{c_\lambda}$ の自由度だけである．
+色付きの場合の単項式 $\pm a^\alpha q^\beta t^\gamma$ のうち，$t=q$ で決まるのは符号，$\alpha$，$\beta+\gamma$ である．
+色付きの場合の (N1) は検査として確かめた．
+$t=q$ で決まらないのは，表現ごとの $(q/t)^{c_\lambda}$ の自由度だけである．
 
 % [I4]
 \begin{hypothesis}\label{hyp:N2}
-ケーブルについて，$t=q$ で決まらない彩色ごとの単項式 $(q/t)^{c_\lambda}$ は (N2$'$) の形をとる．
+ケーブルについて，$t=q$ で決まらない表現ごとの単項式 $(q/t)^{c_\lambda}$ は (N2$'$) の形をとる．
 すなわち，$|\lambda|$ に比例する部分（正値性に無関係）と，refined の framing の固有値 $T_\lambda^F$ の分だけである．
 \end{hypothesis}
-命題~\ref{prop:N2-framing} により，仮説~\ref{hyp:N2} は「彩色によって変わる部分は Seifert framing の $F$ 単位の framing である」と言い換えられる．
+命題~\ref{prop:N2-framing} により，仮説~\ref{hyp:N2} は「表現によって変わる部分は Seifert framing の $F$ 単位の framing である」と言い換えられる．
 根拠は次の三つである．
 (i) 後述の refined 衛星公式（仮説~\ref{hyp:sat}）から従う．
 (ii) 非代数的なケーブル $K5c$ では，$\yng(2)$ を $(q/t)^u$ 倍する 1 パラメータ族のうち，Laurent 性と転置対称性を満たすのは (N2$'$) の $u$ だけである．
-(iii) 9 個のケーブルの全ての彩色で，(N2$'$) の形が計算した値と一致する．
+(iii) 9 個のケーブルの全ての表現で，(N2$'$) の形が計算した値と一致する．
 
 % [I5]
 \begin{compresult}\label{cr:M}
@@ -127,7 +127,7 @@ DGR の規約への変換は，$\sigma$ 不変性，$\bt=-1$ での HOMFLY-PT �
 \subsection{2 箱の予想式}
 双曲結び目の refined な $\yng(2)$, $\yng(1,1)$ は定義どおりには得られない．そこで文献の予想式を入力とする．
 \begin{itemize}
-\item ダブルツイスト結び目 $K_{m,n}$ とツイスト結び目 $K_p=K_{p,1}$：Kameyama--Nawata--Tao--Zhang（KNTZ）~\cite{Kameyama19} の，長方形の彩色 HOMFLY-PT ホモロジーの Poincaré 多項式の式（refined 版，予想）を用いる．
+\item ダブルツイスト結び目 $K_{m,n}$ とツイスト結び目 $K_p=K_{p,1}$：Kameyama--Nawata--Tao--Zhang（KNTZ）~\cite{Kameyama19} の，長方形のヤング図で色付けた HOMFLY-PT ホモロジーの Poincaré 多項式の式（refined 版，予想）を用いる．
 KNTZ の $K_{m,n}$ は，GNSSS~\cite{Gukov15} の $(2m-1,1,2n-1)$-pretzel 結び目 $K_{s,t}$（$s=m$，$t=n$）と同じ結び目である．
 KNTZ の式は GNSSS の四重次数の予想式と一致する（$\yng(1)$，$\yng(2)$，$\yng(1,1)$ について．下の計算結果~\ref{cr:kntz}）．
 $t=q$ では KNTZ の式は Fang--Zhou~\cite{Fang26} により証明されている．
