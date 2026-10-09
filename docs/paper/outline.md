@@ -169,7 +169,7 @@
 
 ## 3. 執筆の前に済ませること
 
-1. **主張の格付け表**：各節の主張を Theorem / Proposition / Computational result / Conjecture に割り当て、根拠（導出・データ・テスト）と対応させる。
+1. **（済み、2026-10-09、docs/paper/claims.md）主張の格付け表**：各節の主張を Theorem / Proposition / Computational result / Conjecture に割り当て、根拠（導出・データ・テスト）と対応させる。
 2. **（済み、2026-10-09、novelty_report.md §10）新規性の確認（framing を軸にしたので最優先）**
    - refined の framed knot の LMOV や正整数性を扱った文献を探す。KN の被引用、Mariño–Vafa の被引用のうち refined のもの、Cheng–Sułkowski とその周辺。
    - K10 についても、文献を再確認する。
