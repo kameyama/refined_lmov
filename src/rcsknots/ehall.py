@@ -46,7 +46,7 @@ class EHA:
         self.qt = q * t
         self.gamma = (q - 1) * (t - 1) / (self.qt * (self.qt - 1))
         self._chi, self._g, self._omega_inv = {}, {}, {}
-        self._pair, self._ratio, self._chipow, self._ginv, self._omega_prod = {}, {}, {}, {}, {}   # 値が箱の組だけで決まる量のキャッシュ
+        self._pair, self._ratio, self._chipow, self._ginv, self._omega_prod, self._boxf = {}, {}, {}, {}, {}, {}   # 値が箱の組だけで決まる量のキャッシュ
 
     def chi(self, box):
         if box not in self._chi:
@@ -92,6 +92,13 @@ class EHA:
             self._chipow[key] = self.chi(box) ** e
         return self._chipow[key]
 
+    def box_factor(self, box, e):
+        """χ(box)^e (qtχ(box) − 1)"""
+        key = (box, e)
+        if key not in self._boxf:
+            self._boxf[key] = self.chi_pow(box, e) * (self.qt * self.chi(box) - 1)
+        return self._boxf[key]
+
     def g_inv(self, lam):
         if lam not in self._ginv:
             self._ginv[lam] = 1 / self.g(lam)
@@ -129,7 +136,7 @@ class EHA:
             new_states = {}
             for (shape, last), (A, B) in states.items():
                 for box in addable(shape):
-                    w = self.chi_pow(box, S[label]) * (self.qt * self.chi(box) - 1) * self.omega_prod(shape, box)
+                    w = self.box_factor(box, S[label]) * self.omega_prod(shape, box)
                     if last is not None:            # pair (label, label+1): 1/(1 − qt χ_{label+1}/χ_label)
                         w = w * self.pair(last, box)
                     if label in r_steps:

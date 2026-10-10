@@ -42,7 +42,7 @@ framing はホモロジーの次数のずらしとして働く．
 \item KN の単項式の正規化のうち表現によって変わる部分は，ちょうど Seifert framing の分の framing である（命題~\ref{prop:N2-framing}）．
 \end{itemize}
 
-\paragraph{検証（\S\ref{sec:one}--\S\ref{sec:three}）．}
+\paragraph{検証（\S\ref{sec:one}--\S\ref{sec:higher}）．}
 入力の確からしさは結び目のクラスによって異なる（表~\ref{tab:overview}）．
 \begin{itemize}
 \item 基本表現 $\rho=\yng(1)$：入力が非負係数で Dunfield--Gukov--Rasmussen（DGR）~\cite{Dunfield05} の対称性 \eqref{eq:sigma} をもてば，genus 展開は整数で閉じ，前後とも非負である（命題~\ref{prop:one}）．
@@ -55,10 +55,14 @@ KN が観察したツイスト結び目とダブルツイスト（pretzel）結�
 後者は Cherednik--Danilenko~\cite{Cherednik14} の DAHA による定義どおりの refined 不変量を入力とし，
 3 本ケーブル $K7$ と 2 段の反復 $K10$（3 箱で約 183 万項）を含む（結び目の名前は表~\ref{tab:cables}）．
 KN がトーラス結び目で観察したとおり，入力の $\rCS_{\yng(2,1)}$ 自体は負の係数をもつが genus 表示は正になる．本論文はこの現象を代数的な iterated torus 結び目に広げる．
+\item 4 箱以上：KN の行列 $M(t)$ を対称群の指標で対角化し（補題~\ref{lem:M-diag}），任意の箱数で $\hf_\rho$ を計算する．
+トーラス結び目 8 個で，$|\rho|=4$ から最大 9 まで（計 340 個の $(K,\rho)$）正である（計算結果~\ref{cr:higher}）．
+$\mathbf{4_1}$ の 4 箱は，未知の $\yng(3,1)$ に条件を課した弱い判定にとどまる（計算結果~\ref{cr:fig8-four}）．
 \end{itemize}
 これらに基づき，framed knot の refined LMOV 不変量の正値性を予想~\ref{conj:A} として，
 代数的な iterated torus 結び目の正値性を予想~\ref{conj:B} として提出する．
 双曲結び目の 3 箱には，定義に基づく $\yng(2,1)$ の refined 不変量が無い．構造的な条件では $\yng(2,1)$ が一意に決まらないことを \S\ref{sec:21} で述べる．
+KN の $\mathbf{4_1}$ の $\yng(2,1)$ の候補は，Anokhina ら~\cite{Anokhina12} の $Z$ 因子展開の係数を一つ取り替えたものとして書ける（\S\ref{sec:fig8-21}）．
 
 \begin{table}[t]
 \centering
@@ -85,7 +89,8 @@ $\mathbf{10_{139}},\mathbf{10_{152}}$ & quiver ＋ KRSS の予想式 & 全 $x$ &
 \smallskip
 \raggedright
 注 1：$p$ と $x$ が同符号の向きでは全て正．逆符号は $|p|\le6$，$|x|\le14$ の直接計算で正．\\
-注 2：同符号は全て正．異符号は $\min(|m|,n)\le20$ で証明，$|m|\le30$ かつ $n\le40$ で確認．
+注 2：同符号は全て正．異符号は $\min(|m|,n)\le20$ で証明，$|m|\le30$ かつ $n\le40$ で確認．\\
+4 箱以上（framing 0）：トーラス結び目 8 個で正（表~\ref{tab:higher}）．$\mathbf{4_1}$ は弱い判定（\S\ref{sec:fig8-four}）．
 \end{table}
 
 \subsection{関連する研究}
@@ -104,7 +109,7 @@ knots--quivers 対応~\cite{Kucharski17,Kucharski17b,Ekholm18} では，framing 
 \S\ref{sec:prelim} で変数と KN の refined LMOV 不変量を復習する．
 \S\ref{sec:framing} で framed knot への拡張と，$x$ によらない構造を述べる．
 \S\ref{sec:inputs} で入力（トーラス結び目，ケーブル，ホモロジー，予想式）と計算法を説明する．
-\S\ref{sec:one}，\S\ref{sec:two}，\S\ref{sec:three} で，それぞれ $\yng(1)$，2 箱，3 箱の検証を述べる．
+\S\ref{sec:one}，\S\ref{sec:two}，\S\ref{sec:three}，\S\ref{sec:higher} で，それぞれ $\yng(1)$，2 箱，3 箱，4 箱以上の検証を述べる．
 \S\ref{sec:discussion} で未解決の問題を議論する．
 付録に計算法の詳細，正規化の導出，非代数的なケーブル，データとコードをまとめる．
 

@@ -54,3 +54,6 @@ docs/paper/ja/*.out
 docs/paper/ja/*.toc
 docs/paper/ja/*.bbl
 docs/paper/ja/*.blg
+
+# 4 箱以上の計算結果（約 1.2 GB、scripts/highbox_torus.py で再計算できる。判定は data/highbox_summary.md とログ）
+data/highbox/
