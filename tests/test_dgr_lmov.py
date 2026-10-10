@@ -147,3 +147,43 @@ def test_d11_top_genus_drop_rule():
     assert top({-4: 1}) == {(2,): 2, (1, 1): 3}
     assert top({0: 1}) == {(2,): 3, (1, 1): 2}
     assert top({-4: 2}) == {(2,): 3, (1, 1): 3}
+
+
+# ---- H1：(S_{1|0}), (S_{0|1}) の導出の補題（scripts/dgr_h1_lemma.py） ----
+
+def _gn():
+    from fractions import Fraction as Fr
+    from rcsknots.gn import GN
+    q, t = Fr(3, 7), Fr(5, 11)
+    return q, t, GN(q, t, t, lambda x: x), GN(q, t, 1 / q, lambda x: x)
+
+
+def test_h1_kernels_of_one_variable_evaluations():
+    """H̃_μ[p_k ↦ 1 − u^k] = 0 ⇔ ℓ(μ) ≥ 2（u = t）、μ₁ ≥ 2（u = 1/q）、μ ⊇ (2,2)（u = t/q）。"""
+    from dgr_h1_lemma import check_kernel
+    q, t, Gt, _ = _gn()
+    assert check_kernel(Gt, t, lambda mu: len(mu) >= 2, 4)
+    assert check_kernel(Gt, 1 / q, lambda mu: mu[0] >= 2, 4)
+    assert check_kernel(Gt, t / q, lambda mu: len(mu) >= 2 and mu[1] >= 2, 4)
+
+
+def test_h1_quotient_is_quantum_torus():
+    """P̃_{kn,km} は核を保ち、商に x^j ↦ γ^k q^{(k²−k)nm/2 + kmj} x^{j+kn} で作用する（γ = (−t)^{n−1}q^{(n−1)(m−1)/2}）。"""
+    from fractions import Fraction as Fr
+    from dgr_h1_lemma import scalars
+    q, t, Gt, _ = _gn()
+    for n, m in ((1, 1), (2, 1)):
+        gam = (-t) ** (n - 1) * q ** Fr((n - 1) * (m - 1), 2)
+        assert scalars(Gt, t, n, m, 1, 2) == [gam * q ** (m * j) for j in range(3)]
+
+
+def test_h1_row_and_column_values_trefoil():
+    """reduced rCS_{[r]}|_{a=t} = γ^r q^{nm r(r−1)/2}、二次の部分は (N2') の T_{[r]}^{nm}。列も a = 1/q で同様に c^r 型。"""
+    from fractions import Fraction as Fr
+    q, t, Gt, Gq = _gn()
+    n, m = 2, 3
+    gam = (-t) * q
+    for r in (1, 2):
+        assert Gt.torus((r,), n, m) / Gt.torus((r,), 1, 0) == gam ** r * q ** Fr(n * m * r * (r - 1), 2)
+    v = [Gq.torus((1,) * r, n, m) / Gq.torus((1,) * r, 1, 0) / t ** Fr(-n * m * r * (r - 1), 2) for r in (1, 2)]
+    assert v[1] == v[0] ** 2

@@ -1,0 +1,37 @@
+(a) 核 u = t：ℓ(μ) ≥ 2 True
+(a) 核 u = 1/q：μ₁ ≥ 2 True
+(a) 核 u = t/q：μ ⊇ (2,2) True
+(b) (n,m)=(1,0) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -22/9
+(b) (n,m)=(1,0) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -605/108
+(b) (n,m)=(1,1) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -22/9
+(b) (n,m)=(1,1) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -605/108
+(b) (n,m)=(1,2) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -22/9
+(b) (n,m)=(1,2) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -605/108
+(b) (n,m)=(1,-1) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -22/9
+(b) (n,m)=(1,-1) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -605/108
+(b) (n,m)=(2,1) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = 154/27
+(b) (n,m)=(2,1) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -29645/972
+(b) (n,m)=(2,3) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = 1694/135
+(b) (n,m)=(2,3) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -717409/4860
+(b) (n,m)=(3,2) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -11858/405
+(b) (n,m)=(3,2) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -35153041/43740
+(b) (n,m)=(2,-3) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = 350/297
+(b) (n,m)=(2,-3) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -153125/117612
+(b) (n,m)=(3,4) k=1: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -1434818/10125
+(b) (n,m)=(3,4) k=2: u=t 両立・閉じた形 True   u=1/q 両立・j 依存 True  γ'_k = -514675673281/27337500
+(c) T(2,1) r=1: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,1) r=2: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,1) r=3: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,3) r=1: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,3) r=2: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,3) r=3: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(3,2) r=1: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(3,2) r=2: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(3,2) r=3: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,-3) r=1: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,-3) r=2: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) T(2,-3) r=3: a=t 行 reduced = γ^r q^(nm r(r−1)/2) True  a=1/q 列 reduced = γ''^r t^(−nm r(r−1)/2) True
+(c) ケーブル inner=(2, 1) outer=(2, 3)（F = 26）：a=t で c^r 型 True  a=1/q で c^r 型 True
+(c) ケーブル inner=(2, 3) outer=(2, 1)（F = 14）：a=t で c^r 型 True  a=1/q で c^r 型 True
+(c) ケーブル inner=(3, 1) outer=(2, 3)（F = 57）：a=t で c^r 型 True  a=1/q で c^r 型 True
+(c) ケーブル inner=(2, 1) outer=(3, 2)（F = 26）：a=t で c^r 型 True  a=1/q で c^r 型 True
