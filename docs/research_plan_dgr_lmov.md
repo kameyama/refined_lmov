@@ -70,7 +70,7 @@ docs/dgr_lmov.md §1〜§9 に記録した。主な内容：
 | 段階 | 状態 | 記録 |
 |---|---|---|
 | D0 | 済み | dgr_lmov.md §1〜§9 |
-| D1 | 済み（8 箱の T(2,7), T(2,9) は実行中に追記） | dgr_lmov.md D1、data/dgr_lmov/highbox_summary.md |
+| D1 | 済み（31 ファイル全て） | dgr_lmov.md D1、data/dgr_lmov/highbox_summary.md |
 | D2 | 2 箱は済み。3 箱以上はデータでの確認のみ | dgr_lmov.md D2 |
 | D3 | 方針のみ（未完） | dgr_lmov.md D3 |
 | D4 | ツイスト結び目の spin 表示は済み。R_ρ の意味は未解決 | dgr_lmov.md D4 |
