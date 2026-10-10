@@ -24,7 +24,7 @@ class GN:
         self.one, self.zero = conv(Fraction(1)), conv(Fraction(0))
         self.tw = 1 / t
         self.eha = EHA(q, self.tw, self.one)
-        self._H, self._P = {}, {}
+        self._H, self._P, self._nabla, self._nabla_inv, self._cinv = {}, {}, {}, {}, {}
 
     # -- bases ----------------------------------------------------------------
     def H(self, n):
@@ -39,7 +39,9 @@ class GN:
         return self._P[n]
 
     def nabla(self, mu):
-        return self.q ** n_stat(conjugate(mu)) * self.tw ** n_stat(mu) * self.one
+        if mu not in self._nabla:
+            self._nabla[mu] = self.q ** n_stat(conjugate(mu)) * self.tw ** n_stat(mu) * self.one
+        return self._nabla[mu]
 
     def c(self, k):
         q, tw = self.q, self.tw
@@ -51,8 +53,15 @@ class GN:
         """P̃_{kn,km} acting on vec (H̃-basis dict)."""
         vI = {mu: c * self.nabla(mu) for mu, c in vec.items()}
         wI = self.eha.apply(k, n, m, vI)
-        ck = self.c(k)
-        return {mu: c / (self.nabla(mu) * ck) for mu, c in wI.items()}
+        ck_inv = self._cinv.get(k)
+        if ck_inv is None:
+            ck_inv = self._cinv[k] = 1 / self.c(k)
+        return {mu: c * self.nabla_inv(mu) * ck_inv for mu, c in wI.items()}
+
+    def nabla_inv(self, mu):
+        if mu not in self._nabla_inv:
+            self._nabla_inv[mu] = 1 / self.nabla(mu)
+        return self._nabla_inv[mu]
 
     def apply_symmetric(self, f, n, m, vec):
         """f[p_k ↦ P̃_{kn,km}] acting on vec, for f = {ρ: coefficient of p_ρ} (physical symmetric function)."""
