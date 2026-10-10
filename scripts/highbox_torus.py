@@ -32,14 +32,18 @@ def a_shift(N):
 
 
 class Problem:
-    def __init__(self, m, n, N):
-        self.m, self.n, self.N = m, n, N
+    """|ρ| = N の全ての \\hat f_ρ を補間する問題。rcs_factory() は bpsgen.Points に渡す rCS の関数を返す。
+
+    A の窓 [alo, ahi]（偶奇は alo と同じ）。post(Qs, Ts, p) を与えると、各点の値にその数（長さ len(Qs) の配列）を掛ける。
+    """
+
+    def __init__(self, N, rcs_factory, alo, ahi, post=None):
+        self.N, self.rcs_factory, self.post = N, rcs_factory, post
         self.rhos = partitions(N)
-        d = (m - 1) * (n - 1) // 2
-        lo1, hi1 = 2 * d - 1, 2 * d + 2 * (min(m, n) - 1) + 1     # \\hat f_[1] = (A − 1/A) rCS_[1] の A 次数（a の幅は min(m,n) − 1）
-        self.alo, self.ahi = N * lo1, N * hi1
+        self.alo, self.ahi = alo, ahi
         self.Na = (self.ahi - self.alo) // 2 + 1
         self.e0 = (0, 0)                                                     # Q, T の指数の偶奇（probe で決める）
+        self.step = (2, 2)                                                   # 偶奇が一様なら Q², T² で補間する（混ざれば 1）
 
     def raw(self, Qs, Ts, p):
         """(len, len(rhos)·Na)：各点の A^{alo + 2k} の係数。"""
@@ -50,7 +54,7 @@ class Problem:
             x = int(rng.integers(2, p - 1))
             if all((x * x - y * y) % p for y in avals):
                 avals.append(x)
-        pts = Points(torus_rcs_factory(self.m, self.n), V(Qs, p), V(Ts, p), avals)
+        pts = Points(self.rcs_factory(), V(Qs, p), V(Ts, p), avals)
         hat, ok = pts.hat_f(self.N)
         if not ok:
             raise ArithmeticError("f^t ≠ M(q^{-1}) \\hat f at some point")
@@ -66,7 +70,10 @@ class Problem:
             if not np.array_equal(pred, vals[:, -1]):
                 raise ArithmeticError("A の窓が足りない")
             cols.append(c.T)
-        return np.concatenate(cols, axis=1)
+        out = np.concatenate(cols, axis=1)
+        if self.post is not None:
+            out = out * (self.post(Qs, Ts, p) % p)[:, None] % p
+        return out
 
     def ev_parity(self, Qs, Ts, p):
         """偶奇をそろえた値：Q^{−e0} T^{−f0} × raw。"""
@@ -129,17 +136,26 @@ def probe(prob, axis, rng, p, log, workers):
             raise RuntimeError("exponent range too large")
 
 
+def torus_problem(m, n, N):
+    d = (m - 1) * (n - 1) // 2
+    lo1, hi1 = 2 * d - 1, 2 * d + 2 * (min(m, n) - 1) + 1     # \\hat f_[1] = (A − 1/A) rCS_[1] の A 次数（a の幅は min(m,n) − 1）
+    return Problem(N, lambda: torus_rcs_factory(m, n), N * lo1, N * hi1)
+
+
 def run(m, n, N, workers=8, log=print):
+    return run_problem(torus_problem(m, n, N), 1000 * m + 100 * n + N, workers, log)
+
+
+def run_problem(prob, seed, workers=8, log=print):
     t0 = time.time()
-    prob = Problem(m, n, N)
-    rng = np.random.default_rng(1000 * m + 100 * n + N)
+    rng = np.random.default_rng(seed)
     qexps, cq = probe(prob, 0, rng, P31, log, workers)
     texps, ct = probe(prob, 1, rng, P31, log, workers)
-    if len({e % 2 for e in qexps}) != 1 or len({e % 2 for e in texps}) != 1:
-        raise RuntimeError("Q または T の指数の偶奇が一様でない")
-    prob.e0 = (qexps[0] % 2, texps[0] % 2)
-    xlo, xhi = (qexps[0] - prob.e0[0]) // 2, (qexps[-1] - prob.e0[0]) // 2
-    ylo, yhi = (texps[0] - prob.e0[1]) // 2, (texps[-1] - prob.e0[1]) // 2
+    prob.step = tuple(2 if len({e % 2 for e in ex}) == 1 else 1 for ex in (qexps, texps))
+    prob.e0 = (qexps[0] % prob.step[0], texps[0] % prob.step[1])
+    sq, st = prob.step
+    xlo, xhi = (qexps[0] - prob.e0[0]) // sq, (qexps[-1] - prob.e0[0]) // sq
+    ylo, yhi = (texps[0] - prob.e0[1]) // st, (texps[-1] - prob.e0[1]) // st
     Nx, Ny = xhi - xlo + 1, yhi - ylo + 1
     log(f"  grid {Nx} x {Ny} = {Nx * Ny} points, A window {prob.alo}..{prob.ahi} ({prob.Na}), {len(prob.rhos)} rho")
     primes, coeffs, M, lifted = (P31, P31B, P31D), [], 1, {}
@@ -149,7 +165,7 @@ def run(m, n, N, workers=8, log=print):
         tp = time.time()
         vals = evaluate(prob.ev_parity, Qg.ravel(), Tg.ravel(), p, workers).reshape(Nx, Ny, -1)
         log(f"  prime {i + 1}: evaluation {time.time() - tp:.0f}s")
-        cj = exact._interp_grid(vals, Qs * Qs % p, Ts * Ts % p, xlo, ylo, p, workers)
+        cj = exact._interp_grid(vals, Qs ** sq % p, Ts ** st % p, xlo, ylo, p, workers)
         del vals
         if i == 0:
             lifted, M = dict(cj), p
@@ -164,11 +180,11 @@ def run(m, n, N, workers=8, log=print):
         if i + 1 == len(primes):
             raise ArithmeticError("verification failed with all primes")
         log(f"  {i + 1} prime(s) not enough")
-    # 列 d = (ρ の番号)·Na + k → A^{alo + 2k}、x^{ex} y^{ey} → Q^{2ex + e0} T^{2ey + f0}
+    # 列 d = (ρ の番号)·Na + k → A^{alo + 2k}、x^{ex} y^{ey} → Q^{sq·ex + e0} T^{st·ey + f0}
     hats = {rho: {} for rho in prob.rhos}
     for (d, ex, ey), c in poly.items():
         rho = prob.rhos[d // prob.Na]
-        hats[rho][(prob.alo + 2 * (d % prob.Na), 2 * ex + prob.e0[0], 2 * ey + prob.e0[1])] = c
+        hats[rho][(prob.alo + 2 * (d % prob.Na), sq * ex + prob.e0[0], st * ey + prob.e0[1])] = c
     return hats, time.time() - t0
 
 
@@ -177,7 +193,7 @@ def verify(prob, poly, xlo, ylo, npts=6):
     rng = np.random.default_rng(777)
     Qs, Ts = exact._distinct(rng, npts, p), exact._distinct(rng, npts, p)
     got = prob.ev_parity(Qs, Ts, p)
-    pred = exact.evaluate_poly(poly, Qs * Qs % p, Ts * Ts % p, p)
+    pred = exact.evaluate_poly(poly, Qs ** prob.step[0] % p, Ts ** prob.step[1] % p, p)
     D = max(got.shape[1], pred.shape[1])
     got = np.pad(got, ((0, 0), (0, D - got.shape[1])))
     pred = np.pad(pred, ((0, 0), (0, D - pred.shape[1])))
