@@ -11,6 +11,8 @@
   (E) 任意：refined の指数増大性 rCS_{[2]}(q=1) = rCS_{[1]}(q=1)²（KN (EGP)）。
   (P) h ≥ 0（spin 表示の正値性）。任意で genus 表示：σ 不変性と、genus 展開の係数 N ≥ 0 を等式で課す。
   (Π) 任意：parity knot の 2J_r の偶奇（F − β − g ≡ c mod 2、c は [1] の genus 表示から読む）。
+  (X) 任意：追加の特殊化（d_{0|2}, d_{0|3}, d_{2|0} など、目標は外から与える）。
+  rcs_pos：rCS_{[2]} ≥ 0（対称表現の Poincaré 多項式として。docs/dgr_lmov/README.md の規則で許される）。
 一意性：LP 緩和で各 x_m の最小と最大を求め、全て一致すれば（実数の範囲でも）一意。
 入力 [1] は変種 (a) でも使う（2 箱の公式に [1] が入るため）。(a) と (b) の違いは条件 (H) の有無。
 """
@@ -51,7 +53,7 @@ class Lin:
         self.rhs.append(rhs)
 
 
-def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None):
+def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None, extra_special=(), laurent=True):
     """P1：rCS_{[1]}（太字）、H2u：非 refined の [2]（{(e_𝐚, e_𝐪): c}）、window_t：rCS_{[2]} の 𝐭 の窓。"""
     lin = Lin()
     mons = [(a, q, t) for (a, q) in H2u for t in range(*window_t)]
@@ -84,6 +86,14 @@ def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False,
                 img.setdefault(k, {})[("x", m)] = v
         for k in set(img) | set(tgt):
             lin.eq(img.get(k, {}), tgt.get(k, 0))
+    # (X) 任意：追加の特殊化 [(n, m, 目標 {(e_𝐪, e_𝐭): c})]（S² の追跡で見つけた d_{0|2}, d_{0|3}、sl(2) の像 d_{2|0} など）
+    for n_, m_, tgt in extra_special:
+        img = {}
+        for m in mons:
+            for k, v in specialize({m: 1}, n_, m_).items():
+                img.setdefault(k, {})[("x", m)] = v
+        for k in set(img) | set(tgt):
+            lin.eq(img.get(k, {}), tgt.get(k, 0))
     # (E) refined の指数増大性（KN (EGP)）：q = 1（太字で 𝐪 = 𝐭^{−1}、𝐪 の指数は偶数）で rCS_{[2]} = rCS_{[1]}²
     if egp:
         sq = {}
@@ -99,7 +109,7 @@ def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False,
     # (L)：num_ρ = ns0·r2 + ns1·r11 + ns2·r1² + ns3·r1(x²)。r2, r11 の部分は x について一次
     r1 = L.from_dict(bold_to_small(P1))
     r1d = L.from_dict({(2 * i, 2 * j, 2 * k): v for (i, j, k), v in bold_to_small(P1).items()})
-    for idx, (rho, (ns, den)) in enumerate(formula().items()):
+    for idx, (rho, (ns, den)) in enumerate(formula().items() if laurent else []):
         const = (ns[2] * (r1 * r1) + ns[3] * r1d).to_dict()
         lin_part = {}
         for m in mons:
@@ -170,15 +180,17 @@ def add_genus(lin, rho, hmons, sgn, gmax=None, parity=None):
             lin.eq(row, 0)
 
 
-def solve(lin, xbound=60, objective=None, integral=True):
+def solve(lin, xbound=60, objective=None, integral=True, rcs_pos=False, lmov_pos=True):
     n = len(lin.col)
     Aeq = sps.lil_matrix((len(lin.rows), n))
     for i, row in enumerate(lin.rows):
         for j, v in row.items():
             Aeq[i, j] = v
-    lb = np.array([(-xbound if name[0] == "x" else 0) for name in lin.col], dtype=float)
+    lb = np.array([((0 if rcs_pos else -xbound) if name[0] == "x" else 0) for name in lin.col], dtype=float)
     # h と N は 0 以上（正値性）。h は太字の係数で、σ_ρ を掛けた後の値
     ub = np.array([(xbound if name[0] == "x" else np.inf) for name in lin.col], dtype=float)
+    if not lmov_pos:                                   # h, N の非負性を外す（LMOV の正値性を使わない比較用）
+        lb = np.array([lb[i] if name[0] == "x" else -np.inf for i, name in enumerate(lin.col)], dtype=float)
     c = np.zeros(n) if objective is None else objective
     cons = LinearConstraint(Aeq.tocsr(), np.array(lin.rhs, float), np.array(lin.rhs, float))
     if integral:

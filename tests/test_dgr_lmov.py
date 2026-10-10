@@ -263,3 +263,27 @@ def test_s2_follow_trefoil_unique():
     for e in mod[4]:
         cost[mod[3][("c", e)]] = 1
     assert solve(mod, cost) == mod[5]
+
+
+def test_d7_with_rcs_positivity_trefoil_unique():
+    """rCS_{[2]} ≥ 0 を課すと、三葉結び目の 2 箱は V1 の条件で一意に正解が決まり、全体の符号も (−1, −1) だけが実行可能。"""
+    import numpy as np
+    from dgr_d7_construct import build, solution, solve, unrefined
+    from dgr_d7_pos import SIGMAS, load
+    P1, P2 = load("K_1")
+    ts = [k[2] for k in P2]
+    feasible, sols = [], []
+    for sig in SIGMAS:
+        lin, mons = build(P1, unrefined(P2), (min(ts) - 2, max(ts) + 3), "b", sig, egp=True)
+        if solve(lin, rcs_pos=True).x is None:
+            continue
+        feasible.append(sig)
+        rng = np.random.default_rng(0)
+        for _ in range(3):
+            obj = np.zeros(len(lin.col))
+            for m in mons:
+                obj[lin.col[("x", m)]] = rng.normal()
+            s = solution(lin, solve(lin, objective=obj, rcs_pos=True), mons)
+            if s not in sols:
+                sols.append(s)
+    assert feasible == [(-1, -1)] and sols == [P2]
