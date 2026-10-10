@@ -425,5 +425,37 @@ def check_linear(red, al, Dp, dk, log=print):
     return good
 
 
+
+def recheck(path, log=print, workers=4):
+    """保存した解（rCS_[3,1]）を入力に入れ、\\hat f_ρ（ρ ⊢ 4）を新しい経路で補間し直して G 展開の前後を判定する（LP とは独立）。"""
+    red, _ = inputs(log)
+    X = {tuple(map(int, k.split(","))): int(round(v)) for k, v in json.loads(Path(path).read_text()).items()}
+    X = {k: v for k, v in X.items() if v}
+    full = dict(red)
+    full[UNK[0]], full[UNK[1]] = X, tr(X)
+
+    def factory():
+        def rcs(lam, Qv, Tv):
+            P = full[lam]
+            lo, hi = min(k[0] for k in P), max(k[0] for k in P)
+            cs = [Qv * 0 for _ in range(hi - lo + 1)]
+            for (ea, eq, et), c in P.items():
+                cs[ea - lo] = cs[ea - lo] + Qv ** eq * Tv ** et * c
+            return lo, cs
+        return rcs
+    hats, sec = H.run_problem(H.Problem(N, factory, -16, 16), 4141, workers, log)
+    out = {}
+    for rho, h in hats.items():
+        r, Nh = H.judge(h, N)
+        out["".join(map(str, rho))] = {"judge": r, "hat_f": {",".join(map(str, k)): v for k, v in sorted(h.items())},
+                                        "N": None if Nh is None else {",".join(map(str, k)): v for k, v in sorted(Nh.items())}}
+        log(f"  4_1 ρ={list(rho)}：前 {r['before_neg']}/{r['before_terms']} 負、後 {r['after_neg']}/{r['after_terms']} 負、符号 {r['sign']:+d}")
+    (CACHE / "recheck.json").write_text(json.dumps({"solution": path, "r31_terms": len(X), "rho": out}))
+    return out
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 2 and sys.argv[1] == "recheck":
+        recheck(sys.argv[2])
+    else:
+        main()

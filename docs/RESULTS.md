@@ -35,6 +35,14 @@
 - 非代数的なケーブル（DAHA の値を入力）では [1] またはそれ以降で破れる。破れ方は 3 つの型に分かれる（docs/REPORT.md §5.2）。
   DAHA の値は非代数的なケーブルではホモロジーではないので、これ以上は扱わない（CLAUDE.md、open_problems.md D5）。
 
+## 1.2 トーラス結び目の 4 箱以上と 4_1 の 4 箱（2026-10-10）
+
+- トーラス結び目 8 個で |ρ| = 4〜9（結び目ごとの範囲は data/highbox_summary.md）、計 340 件の (結び目, ρ) で G 展開の前後とも負の項 0【計算】。
+  T(2,3) は 9 箱（30 個の ρ）、T(2,5), T(2,7), T(2,9) は 8 箱、T(3,4), T(3,5) は 6 箱、T(3,7), T(4,5) は 5 箱まで。KN の表（T(2,3) の 3 箱まで、T(2,5) の [1]）を超える範囲での KN の予想の確認。
+  計算法は conventions.md §18（bpsgen.py、保存済みの 3 箱を全係数で再現）。ログ logs/highbox_torus.log, logs/highbox_batch.log。
+- 4_1 の 4 箱：[3,1] の refined の値が未知のため弱い判定。σ = −1 は G 展開の前の正値性で解なし、σ = +1 は前後の正値性を満たす有理数解が存在、整数解は 50 分の MILP で未決【計算】。
+  KN の [2,1] の候補、U(2) の仮説、未知数の窓に依存する（progress.md 2026-10-10、scripts/f41_box4.py）。
+
 ## 2. [1]：ホモロジーを入力とする任意の結び目で正
 
 - **命題 1【導出】**：入力が非負係数で DGR の対称性をもてば、\hat f_{[1]} の G 展開は整数で閉じ、前後とも非負。DGR の対称性は Gorsky–Hogancamp–Mellit の定理なので、ホモロジーを入力とする限り任意の結び目で [1] は正。
@@ -96,5 +104,6 @@
 | 正規化 | src/rcsknots/normalize.py, scripts/renormalize_cables.py | tests/test_normalization_formula.py |
 | 結び目表の入力 | src/rcsknots/knot_table.py | tests/test_knot_table.py |
 | 2 箱の入力（GNSSS の式） | scripts/t3_pretzel.py | tests/test_v4_twist.py, tests/test_v4_pretzel.py |
+| 任意の箱数の \hat f | src/rcsknots/bpsgen.py, scripts/highbox_torus.py | tests/test_bpsgen.py, tests/test_f41_box4.py |
 
 訂正の履歴：pretzel の入力スクリプトの浮動小数点のバグ（2026-10-07 修正、REPORT_phase4.md §8）。修正前のログは logs/*_float_bug.log。

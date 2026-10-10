@@ -1,0 +1,10 @@
+== f41_box4 lp0 2026-10-10 12:46:09
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  x 2367、行 121577、列 58228（G 展開 なし）
+  σ = -1：lp0 2 The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)（2s）

@@ -115,7 +115,11 @@ def probe(prob, axis, rng, p, log, workers):
         xs = exact._distinct(rng, Np + 3, p)
         others = np.full(Np + 3, other, dtype=np.int64)
         Qs, Ts = (xs, others) if axis == 0 else (others, xs)
-        vals = evaluate(prob.raw, Qs, Ts, p, workers)
+        try:
+            vals = evaluate(prob.raw, Qs, Ts, p, workers)
+        except ZeroDivisionError:                    # 分母の零点：他方の値を取り直す
+            other = int(rng.integers(2, p - 1))
+            continue
         shift = Np // 2
         c = exact._laurent_1d(xs[:Np], vals[:Np], shift, p)
         ok = True
@@ -160,10 +164,15 @@ def run_problem(prob, seed, workers=8, log=print):
     log(f"  grid {Nx} x {Ny} = {Nx * Ny} points, A window {prob.alo}..{prob.ahi} ({prob.Na}), {len(prob.rhos)} rho")
     primes, coeffs, M, lifted = (P31, P31B, P31D), [], 1, {}
     for i, p in enumerate(primes):
-        Qs, Ts = exact._distinct(rng, Nx, p), exact._distinct(rng, Ny, p)
-        Qg, Tg = np.meshgrid(Qs, Ts, indexing="ij")
         tp = time.time()
-        vals = evaluate(prob.ev_parity, Qg.ravel(), Tg.ravel(), p, workers).reshape(Nx, Ny, -1)
+        for attempt in range(5):                     # 乱数の点が分母の零点に当たったら点を取り直す
+            Qs, Ts = exact._distinct(rng, Nx, p), exact._distinct(rng, Ny, p)
+            Qg, Tg = np.meshgrid(Qs, Ts, indexing="ij")
+            try:
+                vals = evaluate(prob.ev_parity, Qg.ravel(), Tg.ravel(), p, workers).reshape(Nx, Ny, -1)
+                break
+            except ZeroDivisionError:
+                log(f"  prime {i + 1}: 評価点が分母の零点に当たったので点を取り直す")
         log(f"  prime {i + 1}: evaluation {time.time() - tp:.0f}s")
         cj = exact._interp_grid(vals, Qs ** sq % p, Ts ** st % p, xlo, ylo, p, workers)
         del vals

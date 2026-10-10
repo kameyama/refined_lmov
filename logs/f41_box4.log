@@ -1,0 +1,103 @@
+== f41_box4 check 2026-10-10 11:51:29
+  (1,)：KNTZ = KN のノートブック
+  (1,)：KNTZ = GNSSS
+  (2,)：KNTZ = KN のノートブック
+  (2,)：KNTZ = GNSSS
+  (1, 1)：KNTZ = KN のノートブック
+  (3,)：KNTZ = KN のノートブック
+  (3,)：KNTZ = GNSSS
+  (1, 1, 1)：KNTZ = KN のノートブック
+  (4,)：KNTZ = GNSSS
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+== f41_box4 check 2026-10-10 12:12:43
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  axis Q: exponents -25..45, parities [0, 1] (probe 128)
+  axis T: exponents -25..45, parities [0, 1] (probe 128)
+  grid 71 x 71 = 5041 points, A window -24..24 (25), 5 rho
+  prime 1: evaluation 1s
+  24369 terms, 1 prime(s), verified at independent points
+  D·K：24369 項、2s
+== f41_box4 check 2026-10-10 12:13:08
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+== f41_box4 check 2026-10-10 12:13:16
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+== f41_box4 lp 2026-10-10 12:13:25
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  x 7535（A -10..10、Q・T -18..18）、行 531502、列 199745
+  σ = +1：LP 1 Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)（1857s）
+== f41_box4 lp0 2026-10-10 12:46:09
+== f41_box4 lp0 2026-10-10 12:46:09
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  x 2367、行 121577、列 58228（G 展開 なし）
+  x 2367、行 121577、列 58228（G 展開 なし）
+  σ = -1：lp0 2 The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)（2s）
+== f41_box4 eq 2026-10-10 12:47:18
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  x 2367、行 121577、列 58228（G 展開 なし）
+  σ = +1：lp0 0 Optimization terminated successfully. (HiGHS Status 7: Optimal)（87s）
+  σ = +1：eq 0 Optimization terminated successfully. (HiGHS Status 7: Optimal)（96s）
+== f41_box4 lp 2026-10-10 12:49:50
+== f41_box4 milp0 2026-10-10 12:49:50
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [3,1] の t = q：91 項、q = 1 で r1⁴ と一致 True、両手型 True
+  (4,)：転置で閉じる True、両手型 True
+  (2, 2)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  (1, 1, 1, 1)：転置で閉じる True、両手型 True
+  [2,1]（KN の候補）：U(2) r21 = r1·r11 True
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  D = (Q - 1)**2*(Q + 1)**2*(Q**2 + 1)*(T - 1)**2*(T + 1)**2*(T**2 + 1)*(Q*T - 1)**2*(Q*T + 1)**2*(Q*T**3 - 1)*(Q*T**3 + 1)*(Q**2*T**2 + 1)*(Q**3*T - 1)*(Q**3*T + 1)（0s）
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  一次の分解の検査（乱数の r31、評価点 3×2）：True
+  x 2367、行 121577、列 58228（G 展開 なし）
+  x 2367、行 450880、列 166063（G 展開 あり）
+  σ = +1：lp 0 Optimization terminated successfully. (HiGHS Status 7: Optimal)（68s）
+  σ = +1：MILP 1 Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)（3002s）
