@@ -187,3 +187,48 @@ def test_h1_row_and_column_values_trefoil():
         assert Gt.torus((r,), n, m) / Gt.torus((r,), 1, 0) == gam ** r * q ** Fr(n * m * r * (r - 1), 2)
     v = [Gq.torus((1,) * r, n, m) / Gq.torus((1,) * r, 1, 0) / t ** Fr(-n * m * r * (r - 1), 2) for r in (1, 2)]
     assert v[1] == v[0] ** 2
+
+
+# ---- D8・D9：GT1/GT2 の逆解き（src/rcsknots/large_n_inverse.py） ----
+
+def test_inverse_round_trip_trefoil():
+    """\\hat f（data/lmov）から GT1・GT2 を逆に解いた reduced の rCS が、既存の rCS に点で一致する（|λ| ≤ 3）。"""
+    from fractions import Fraction as Fr
+    from rcsknots.large_n_inverse import ev_poly, rcs_from_hat, reduced
+    F = load_lmov("T2_3")
+    hat_ = {rho: F[("hat", rho)] for rho in RHOS}
+    R = load_reduced("T2_3", 3)
+    P = (Fr(2, 3), Fr(5, 7), Fr(3, 11))
+    for which in ("q", "t"):
+        red = reduced(rcs_from_hat(hat_, *P, which), *P)
+        assert all(red[lam] == ev_poly(R[lam], *P) for lam in red)
+
+
+def test_gt1_gt2_agree_for_any_hat_f():
+    """\\hat f を摂動しても GT1 と GT2 の逆解きは一致する（2 つの式は同値で、\\hat f への制約にならない）。"""
+    from fractions import Fraction as Fr
+    from rcsknots.large_n_inverse import rcs_from_hat
+    F = load_lmov("T2_3")
+    hat_ = {rho: dict(F[("hat", rho)]) for rho in RHOS}
+    hat_[(2,)][(2, 1, 1)] = hat_[(2,)].get((2, 1, 1), 0) + 1
+    hat_[(2, 1)][(3, 1, 1)] = hat_[(2, 1)].get((3, 1, 1), 0) + 1
+    P = (Fr(2, 3), Fr(5, 7), Fr(3, 11))
+    assert rcs_from_hat(hat_, *P, "q") == rcs_from_hat(hat_, *P, "t")
+
+
+def test_d7_true_answer_is_feasible_and_not_unique():
+    """D7 の整数計画：三葉結び目の正解の rCS_{[2]} は全ての条件を満たすが、総数が同じ別解もある。"""
+    import numpy as np
+    from dgr_d7_construct import build, parity_class, solve, solution, unrefined
+    from v4_closed import inputs
+    P1, P2 = inputs(1)
+    true = {k: int(v) for k, v in P2.items() if v}
+    ts = [k[2] for k in P2]
+    lin, mons = build(P1, unrefined(P2), (min(ts) - 2, max(ts) + 3), "b", (-1, -1), genus=True, egp=True, parity=parity_class(P1))
+    obj = np.array([1.0 if n[0] == "h" else 0.0 for n in lin.col])
+    res = solve(lin, objective=obj)
+    assert round(res.fun) == 96
+    assert solution(lin, res, mons) != true                     # 最小解は正解と限らない（𝐭 のずらしなど）
+    for m in mons:
+        lin.eq({("x", m): 1}, true.get(m, 0))
+    assert solve(lin).x is not None                              # 正解は実行可能
