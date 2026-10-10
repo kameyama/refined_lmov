@@ -1,0 +1,134 @@
+\section{検証 IV：4 箱以上}\label{sec:higher}
+
+KN の表は 3 箱までである．この節では，定義どおりの refined 不変量が得られるトーラス結び目について，$|\rho|=4$ から最大 $9$ までの全ての $\rho$ を判定する．
+あわせて，$\mathbf{4_1}$ の 4 箱について，未知の $\rCS_{\yng(3,1)}$ に条件を課した弱い判定を述べる．
+いずれも framing 0 である．
+
+\subsection{\texorpdfstring{任意の箱数での $\hf_\rho$ の計算}{任意の箱数での hat f の計算}}
+KN の $f^q_\mu$ と $\hf_\rho$ の関係 \eqref{eq:f-to-hatf} の行列 $M(t)$ は，$|\mu|\le3$ では明示的に書かれている．
+任意の箱数では，次の対角化を用いる．
+% [M1]
+\begin{lemma}\label{lem:M-diag}
+$|\mu|=|\rho|=n$ のとき，$M_{\mu\rho}(t)=\sum_\sigma C_{\mu\sigma\rho}B_\sigma(t)$ は，$B(t)=\sum_\sigma B_\sigma(t)s_\sigma$ との Kronecker 積の行列である．
+よって対称群の指標の基底で対角になり，
+\[
+\sum_\mu M_{\mu\rho}(t)\,\chi_\mu(\kappa)=B(\kappa)\,\chi_\rho(\kappa),\qquad
+B(\kappa)=t^{-\frac{n-1}2}\,\frac{\prod_i(1-t^{\kappa_i})}{1-t}
+\]
+が成り立つ．$\kappa$ は共役類（$n$ の分割）である．
+\end{lemma}
+\begin{proof}
+$C_{\mu\sigma\rho}=\sum_\nu z_\nu^{-1}\chi_\mu(\nu)\chi_\sigma(\nu)\chi_\rho(\nu)$ と指標の直交性から，左辺は $\chi_\rho(\kappa)\sum_\sigma B_\sigma(t)\chi_\sigma(\kappa)$ に等しい．
+$B_\sigma$ は hook $\sigma=(n-d,1^d)$ でだけ 0 でなく $(-t)^d t^{-(n-1)/2}$ であり，
+$\sum_{d}(-u)^d s_{(n-d,1^d)}=\sum_\kappa z_\kappa^{-1}p_\kappa\prod_i(1-u^{\kappa_i})/(1-u)$ である．
+\end{proof}
+したがって $f^q$ の冪和基底での係数を $B(\kappa)$ で割り，指標で Schur 基底に戻せば $\hf_\rho$ が得られる．
+plethystic な対数は，冪和基底での次数ごとの漸化式で評価点ごとに計算する．
+$\rCS_\lambda$ は楕円 Hall 代数の値に計算結果~\ref{cr:M} の閉じた正規化 $M_\lambda=M_\square^{|\lambda|}T_\lambda^{mn}$ を掛けて作る．
+この手順は，保存済みの 3 箱の $\hf_\rho$（$T_{2,3}$，$T_{3,4}$ の全 6 つの $\rho$）を全係数で再現し，$f^{\bar t}=M(q^{-1})\hf$ は全ての評価点で成り立った．
+計算の詳細は付録~\ref{app:computation} に述べる．
+
+\subsection{トーラス結び目}
+% [R18]
+\begin{compresult}\label{cr:higher}
+表~\ref{tab:higher} のトーラス結び目 8 個と箱数で，全ての $\rho$ について $\hf_\rho$ は正である（framing 0）．
+すなわち，同じ全体の符号で spin 表示 $\hbN_{\rho;i,j,k}$ と genus 表示 $\hbN_{\rho,g,\beta,F}$ がともに非負整数になる．
+判定した $(K,\rho)$ の組は，$|\rho|\ge4$ で計 340 個である．
+\end{compresult}
+
+\begin{table}[h]
+\centering
+\caption{4 箱以上の判定（framing 0）．「件数」は判定した $\rho$ の数の合計．項数は箱数が最大のときの spin 表示の項数の和．
+いずれも spin 表示と genus 表示の両方で負の項は 0 である．}\label{tab:higher}
+\begin{tabular}{lcrrr}
+\toprule
+結び目 & 箱数 $|\rho|$ & 件数 & 最大の箱数での項数 & 最大の箱数の計算時間（秒） \\
+\midrule
+$T_{2,3}$ & $4$--$9$ & 90 & 1786668 & 428 \\
+$T_{2,5}$ & $4$--$8$ & 60 & 2880410 & 299 \\
+$T_{2,7}$ & $4$--$8$ & 60 & 6556642 & 1260 \\
+$T_{2,9}$ & $4$--$8$ & 60 & 11740842 & 2036 \\
+$T_{3,4}$ & $4$--$6$ & 23 & 1358553 & 280 \\
+$T_{3,5}$ & $4$--$6$ & 23 & 2336943 & 322 \\
+$T_{3,7}$ & $4$--$5$ & 12 & 1307758 & 64 \\
+$T_{4,5}$ & $4$--$5$ & 12 & 1848265 & 474 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+箱数の範囲は次の考えで選んだ．
+4 箱で，hook でない $\rho=\yng(2,2)$ と，$\yng(2),\yng(1,1)$ の Adams 作用（$(a,q,t)\mapsto(a^2,q^2,t^2)$）が初めて $\hf_\rho$ に入る．
+6 箱で，$d=2,3,6$ の Adams 作用が 3 箱以下の全ての表現を通して出そろう．
+7 箱以上では新しい種類の項は現れず，同じ構造の規模が大きくなる．
+結び目はブレイドの本数（$a$ 次数の幅）で選んだ．$T_{2,2k+1}$ は thin な族，$T_{3,n}$ は thick で $a$ 次数の幅が 2，$T_{4,5}$ は幅が 3 である．
+
+\begin{remark}
+全体の符号は，$|\rho|\equiv2\pmod 4$ で $-1$，それ以外で $+1$ になった（同じ箱数の全ての $\rho$ で共通）．
+$|\rho|$ が奇数のときの $a$ 次数の半整数のずらしは，KN の $|\rho|=1,3$ の規約を周期的に延長した（$\beta$ を一様にずらすだけで，正値性には影響しない）．
+genus 表示の係数は箱数とともに急速に大きくなる．$T_{2,3}$ の 9 箱では最大 $10^{30}$ 程度である．
+3 箱の $T_{4,5}$ でも $10^{21}$ 程度であり，同じ傾向である．
+\end{remark}
+
+\subsection{\texorpdfstring{$\mathbf{4_1}$ の 4 箱：弱い判定}{4\_1 の 4 箱：弱い判定}}\label{sec:fig8-four}
+$\mathbf{4_1}$ の 4 箱の入力のうち，長方形の $\yng(4),\yng(2,2),\yng(1,1,1,1)$ は KNTZ の refined の式~\cite{Kameyama19} から得られる．
+$\yng(1)$ から $\yng(1,1,1)$ では KN のノートブックの値と，対称表現 $[r]$（$r\le4$）では GNSSS の式と全係数一致する．
+$\yng(2,1)$ には KN の候補を用いる．
+$\yng(3,1)$（と転置で決まる $\yng(2,1,1)$）の refined の値は文献に無い．
+そこで $\rCS_{\yng(3,1)}$ の係数を未知数とし，次の一次の条件を課す．
+\begin{itemize}
+\item $t=q$ で Morozov~\cite{Morozov16} の $\yng(3,1)$ の微分展開に一致する（$\mathbf{4_1}$ では $Z$ 因子の和）．
+\item 転置 $\rCS_{\yng(2,1,1)}(a,q,t)=\rCS_{\yng(3,1)}(a,t^{-1},q^{-1})$，両手型性．
+\item 指数増大性：$q=1$ で $\rCS_{\yng(1,1)}\rCS_{\yng(1)}^2$，$t=1$ で $\rCS_{\yng(3)}\rCS_{\yng(1)}$ に一致する．
+\item $a=t^2$ で $\rCS_{\yng(3,1)}=\rCS_{\yng(2)}\rCS_{\yng(1,1)}$（$U(2)$ への簡約．仮説）．
+\item $|\rho|=4$ の全ての $\hf_\rho$ が Laurent 多項式で，genus 展開が閉じ，正である．
+\end{itemize}
+$\hf_\rho$ は $\rCS_{\yng(3,1)}$ について一次なので（分母 $D$ は $q,t$ だけの多項式），これらは線形計画の条件になる．
+% [R19]
+\begin{compresult}\label{cr:fig8-four}
+上の条件（未知数の範囲は特殊化の値から決めた 2367 個の単項式）の下で，次が成り立つ．
+\begin{itemize}
+\item 全体の符号 $\sigma=-1$ では，genus 展開の前の正値性だけで実行不可能である．
+\item $\sigma=+1$ では，genus 展開の前後の正値性を満たす有理数の解が存在する．
+\item 整数の解は，混合整数計画を 50 分実行しても見つからなかった（未決）．
+\end{itemize}
+\end{compresult}
+これは予想の検証ではなく，4 箱でも予想と矛盾しない $\rCS_{\yng(3,1)}$ が（有理数の範囲で）存在することの確認にとどまる．
+結論は KN の $\yng(2,1)$ の候補，$U(2)$ の仮説，未知数の範囲に依存する．
+定式化は，$\rCS_{\yng(3,1)}$ が楕円 Hall 代数から分かる $T_{2,3}$ で検査した．真の値は全ての条件と未知数の範囲を満たし，そこから組み立てた $\hf_\rho$ は直接の計算と全係数一致した．
+
+\subsection{\texorpdfstring{KN の $[2,1]$ の候補の構造}{KN の [2,1] の候補の構造}}\label{sec:fig8-21}
+KN は $\mathbf{4_1}$ の $\yng(2,1)$ の候補を，ミラー対称性，指数増大性，両手型性を課して求めたと述べている~\cite{Kameyama17}．
+その候補は，Anokhina らの $Z$ 因子展開~\cite{Anokhina12} の係数を一つ取り替えたものとして書ける．
+$\mathfrak{Z}_{I|J}^{(s|\sigma)}=\{AQ^{I+s}T^{-\sigma}\}\{AQ^sT^{-J-\sigma}\}$，$\{x\}=x-x^{-1}$ とおく．
+% [R20]
+\begin{compresult}\label{cr:fig8-21}
+KN の候補は
+\[
+1+\bigl(\mathfrak Z^{(-1|-1)}_{3|3}+\mathfrak Z^{(1|0)}_{1|1}+\mathfrak Z^{(0|1)}_{1|1}\bigr)
++\bigl(\mathfrak Z^{(0|-1)}_{3|3}\mathfrak Z^{(1|0)}_{1|1}+\mathfrak Z^{(-1|0)}_{3|3}\mathfrak Z^{(0|1)}_{1|1}+\alpha\,\mathfrak Z^{(1|0)}_{1|1}\mathfrak Z^{(0|1)}_{1|1}\bigr)
++\mathfrak Z_{3|3}\mathfrak Z^{(1|0)}_{1|1}\mathfrak Z^{(0|1)}_{1|1}
+\]
+で $\alpha=1-\{Q\}\{T\}$ としたものに等しい．
+Anokhina らは同じ式で $\alpha=1-(Q-T^{-1})(T-Q^{-1})$ とし，係数が全て正の superpolynomial を与えた．
+KN の候補は太字の変数で 69 項中 10 項が負で，$\ba=\bq=\bt=1$ での値は $125=5^3$（$\yng(1)$ の値の 3 乗）である．Anokhina らの式では 189 である．
+\end{compresult}
+$t=q$ では二つの $\alpha$ はともに $1-(Q-Q^{-1})^2$ になる．
+つまり KN の候補は，superpolynomial の正値性の代わりに指数増大性を課した選び方に当たる．
+
+さらに，Anokhina らが hook の表現 $\lambda=[r,1^{s-1}]$ に提案した Heegaard--Floer 型の条件
+\begin{equation}\label{eq:HF}
+\rCS_\lambda\bigl(A=T/Q\,\big|\,Q,T\bigr)=\rCS_{\yng(1)}\bigl(A=T/Q\,\big|\,Q^rT^{s-1},\,T^sQ^{r-1}\bigr)
+\end{equation}
+を調べた（$A=a^{1/2}$，$Q=q^{1/2}$，$T=t^{1/2}$）．
+% [R21]
+\begin{compresult}\label{cr:HF}
+\eqref{eq:HF} は，$\mathbf{4_1}$ の $\yng(2,1)$（KN の候補と Anokhina らの式の両方）で成り立つ．
+楕円 Hall 代数から得た $T_{2,3},T_{2,5},T_{3,4}$ の $\yng(2,1)$ と $\yng(3,1)$ では，単項式 $(T/Q)^{\delta(|\lambda|-1)}$ の違いを除いて成り立つ（$\delta$ は種数型の量）．
+\end{compresult}
+\eqref{eq:HF} は上の線形計画に含めていない一次の条件である．
+
+KN の方法を $\yng(3,1)$ に延ばすことも試みた．
+$t=q$ の Morozov の値を，Anokhina らの形（箱の部分集合ごとに，シフトした $Z$ 因子の積を 1 項置き，係数の補正は箱がつながっていない部分集合だけに付ける）に分解しようとした．
+この探索は $\yng(2,1)$ では Anokhina らの展開をただ一つの解として再現する．
+しかし $\yng(3,1)$ では，この形の分解は見つからなかった（シフト $|k|\le2$ の整数計画が実行不可能，シフトが箱の組ごとの寄与の和である場合も解なし）．
+$\yng(3,1)$ には，部分集合ごとの単純な積を超える構造（Morozov の式の $[6]/[3]$ の係数や異常な成分）が必要と考えられる．
