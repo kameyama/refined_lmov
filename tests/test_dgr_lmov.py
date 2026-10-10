@@ -287,3 +287,14 @@ def test_d7_with_rcs_positivity_trefoil_unique():
             if s not in sols:
                 sols.append(s)
     assert feasible == [(-1, -1)] and sols == [P2]
+
+
+# ---- D10：thin な結び目の予言（scripts/dgr_d10_predict.py） ----
+
+def test_d10_prediction_reproduces_5_2():
+    """5_2：ケーブルの非 refined の [2] と yui-kr の [1] だけから、V2 ＋ rCS_{[2]} ≥ 0 で refined の [2] が一意に決まり、GNSSS の値に一致する。"""
+    import dgr_d10_predict as D
+    from v4_closed import inputs
+    known = {k: int(v) for k, v in inputs(2)[1].items() if v}
+    rec = D.predict("5_2", lambda s: None, samples=3, known=known)
+    assert rec["n_solutions"] == 1 and rec["matches_known"] and all(rec["genus_uniform_sign_all"])

@@ -27,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from t4_colored import bold_to_small  # noqa: E402
 from v4_closed import RHOS, L, formula, mir  # noqa: E402
 from rcsknots.bps import g_expand, to_bold  # noqa: E402
-from rcsknots.dgr import specialize  # noqa: E402
+from rcsknots.dgr import specialize, u  # noqa: E402
 
 
 def unrefined(P):
@@ -53,7 +53,7 @@ class Lin:
         self.rhs.append(rhs)
 
 
-def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None, extra_special=(), laurent=True):
+def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None, extra_special=(), laurent=True, cancel_hom=()):
     """P1：rCS_{[1]}（太字）、H2u：非 refined の [2]（{(e_𝐚, e_𝐪): c}）、window_t：rCS_{[2]} の 𝐭 の窓。"""
     lin = Lin()
     mons = [(a, q, t) for (a, q) in H2u for t in range(*window_t)]
@@ -94,6 +94,25 @@ def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False,
                 img.setdefault(k, {})[("x", m)] = v
         for k in set(img) | set(tgt):
             lin.eq(img.get(k, {}), tgt.get(k, 0))
+    # (C) 任意：打ち消す微分のホモロジーの形 [(n, m, 単項式の目標 {(e_𝐪, e_𝐭): c})]：
+    #     x = r + Q + Q[ずらし]（r, Q ≥ 0、r はちょうど 1 項で、d_{n|m} での像が目標の単項式になる直線上）。rCS_{[2]} ≥ 0 と併用する
+    mset = set(mons)
+    for n_, m_, tgt in cancel_hom:
+        (tk, tv), = tgt.items()
+        ea, eq, et = u(n_, m_)
+        d = f"cancel{n_}{m_}"
+        for m in mons:
+            row = {("x", m): 1, (d + "_r", m): -1, (d, m): -1}
+            src = (m[0] - ea, m[1] - eq, m[2] - et)
+            if src in mset:
+                row[(d, src)] = row.get((d, src), 0) - 1
+            lin.eq(row, 0)
+            if (m[0] + ea, m[1] + eq, m[2] + et) not in mset:
+                lin.eq({(d, m): 1}, 0)
+            img = specialize({m: 1}, n_, m_)
+            if img != {tk: tv} and img != {tk: -tv}:
+                lin.eq({(d + "_r", m): 1}, 0)
+        lin.eq({(d + "_r", m): 1 for m in mons}, 1)
     # (E) refined の指数増大性（KN (EGP)）：q = 1（太字で 𝐪 = 𝐭^{−1}、𝐪 の指数は偶数）で rCS_{[2]} = rCS_{[1]}²
     if egp:
         sq = {}
@@ -187,6 +206,7 @@ def solve(lin, xbound=60, objective=None, integral=True, rcs_pos=False, lmov_pos
         for j, v in row.items():
             Aeq[i, j] = v
     lb = np.array([((0 if rcs_pos else -xbound) if name[0] == "x" else 0) for name in lin.col], dtype=float)
+    # cancel*（対と残り）は常に 0 以上
     # h と N は 0 以上（正値性）。h は太字の係数で、σ_ρ を掛けた後の値
     ub = np.array([(xbound if name[0] == "x" else np.inf) for name in lin.col], dtype=float)
     if not lmov_pos:                                   # h, N の非負性を外す（LMOV の正値性を使わない比較用）
