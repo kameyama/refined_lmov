@@ -124,3 +124,26 @@ def test_unrefined_double_zero_at_a1():
             P = sp.diff(P, x)
             order += 1
         assert order == (1 if rho == (1,) else 2)
+
+
+# ---- 段階 D2：d_{1|1} の普遍式（scripts/dgr_d11_universal.py） ----
+
+def test_d11_universal_formula_matches_twist_knots():
+    """hook 性質から作る \\hat f_ρ|_{d11}（A_K だけで決まる）が実際の値と全係数で一致する。"""
+    from dgr_d11_universal import universal
+    from v4_closed import hat_from_inputs, inputs
+    for p in (-2, 2):
+        P1, P2 = inputs(p)
+        Sigma = -next(iter(specialize(P1, 1, 0)))[1]
+        real = {rho: specialize(b, 1, 1) for rho, b in hat_from_inputs(P1, P2).items()}
+        assert universal(specialize(P1, 1, 1), Sigma) == real
+
+
+def test_d11_top_genus_drop_rule():
+    """genus 2、Σ = 2：最高 genus の係数 α_2 が 𝐭^{−4} なら [2] だけ、1 なら [1,1] だけが一般の 2g−1 = 3 から 1 落ちる。"""
+    from dgr_d11_universal import from_genus, universal_qdeg
+    low = [{-1: 1, 0: 2}, {1: -1, 0: 1}]
+    top = lambda al: {r: v[0] for r, v in universal_qdeg(from_genus(low + [al]), 2).items()}  # noqa: E731
+    assert top({-4: 1}) == {(2,): 2, (1, 1): 3}
+    assert top({0: 1}) == {(2,): 3, (1, 1): 2}
+    assert top({-4: 2}) == {(2,): 3, (1, 1): 3}
