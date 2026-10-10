@@ -264,3 +264,17 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 
 書いてはいけないこと（追加）：refined の framing の因子の形（Taki・Cheng–Sułkowski）、単一ブレーンの refined open BPS の非負性、quiver の framing のシフト、非 refined の framed の整数性。
 未確認：Cheng–Sułkowski の掲載頁。KN の書誌（INSPIRE は J. Knot Theory Ramifications 32 (2023) 2041001、DOI 10.1142/S0218216520410011 は 2020 年の巻を示唆。§5 の記載とあわせて要再確認）。
+
+## 11. DGR 型の構造（2026-10-11 追記、文献確認はサブエージェントによる）
+
+| 主張 | 判定 |
+|---|---|
+| 非 refined の f_R の a = 1 の零点 | 既知（LM hep-th/0004196 (4.22) の観察、Zhu 2105.02037 Thm 1.8） |
+| 色付き d_{±1} のホモロジーが 1 次元で次数が r に比例 | 既知（GS 1112.0030 予想 4.2・(4.4)、GGS 1304.3481 §3.5） |
+| framing 0 で \|ρ\| ≥ 2 の \hat f_ρ が a = t, q⁻¹（非 refined では a = q^{±1}）で消える | 新規と思われる（LM の三葉結び目の式には因子が現れるが、主張した文献なし） |
+| 商 \hat f_ρ/D の spin・genus 表示での正値性、σ 軌道の genus 表示 | 新規と思われる |
+| hook 型の性質の refined 版、d_{1|1} 後の genus の線形性 | 新規と思われる（非 refined の版の出典は未確認） |
+| framing x での \hat f^{(x)}(K) ≡ c^{\|ρ\|}\hat f^{(x)}(○) | 新規と思われる |
+
+書いてはいけないこと：a = 1 の零点、色付き d_{±1} の 1 次元性、sl(1) の自明性、EGGKPS の F_K(x,q,q) = 1。
+
