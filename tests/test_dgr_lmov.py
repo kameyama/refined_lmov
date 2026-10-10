@@ -232,3 +232,34 @@ def test_d7_true_answer_is_feasible_and_not_unique():
     for m in mons:
         lin.eq({("x", m): 1}, true.get(m, 0))
     assert solve(lin).x is not None                              # 正解は実行可能
+
+
+# ---- DGR・四重次数の構成の追跡（scripts/dgr_follow.py、dgr_s2_follow.py） ----
+
+def test_dgr_follow_trefoil_unique_with_khovanov():
+    """三葉結び目：HOMFLY-PT と対称性だけでは最小解が複数、d_{±1} と Khovanov（d₂）を加えると正解だけになる。"""
+    import numpy as np
+    from scipy.optimize import LinearConstraint
+    from dgr_follow import STAGES, braid, khovanov, knot_floer, model, solve
+    from rcsknots.knot_table import homfly, load_homology, superpoly
+    P = superpoly(load_homology()["3_1"]); H = homfly(P); w = braid("3_1")
+    kh, hfk = khovanov(w), knot_floer(w)
+    ga, gq, gt = list(range(0, 7, 2)), list(range(-4, 5, 2)), list(range(-3, 7))
+    mod = model(H, kh, hfk, ga, gq, gt, **STAGES["C4"])
+    n = len(mod[3]); cost = np.zeros(n)
+    for e in mod[4]:
+        cost[mod[3][("c", e)]] = 1
+    assert solve(mod, cost) == P
+
+
+def test_s2_follow_trefoil_unique():
+    """三葉結び目の S²（t_c 次数）：打ち消す微分・色付き微分・EGP（S3）で最小解は正解だけ。"""
+    import numpy as np
+    from dgr_s2_follow import build, solve
+    from v4_closed import inputs
+    P1, P2 = inputs(1)
+    mod = build(P1, P2, "S3")
+    n = len(mod[3]); cost = np.zeros(n)
+    for e in mod[4]:
+        cost[mod[3][("c", e)]] = 1
+    assert solve(mod, cost) == mod[5]
