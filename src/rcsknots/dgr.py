@@ -1,4 +1,4 @@
-"""DGR / GGS の微分 d_{n|m} に当たる構造を refined LMOV 不変量（spin 表示・genus 表示）で調べる道具（docs/dgr_lmov.md）。
+"""DGR / GGS の微分 d_{n|m} に当たる構造を refined LMOV 不変量（spin 表示・genus 表示）で調べる道具（docs/dgr_lmov/report.md）。
 
 変数は太字 (𝐚, 𝐪, 𝐭)、多項式は {(e_𝐚, e_𝐪, e_𝐭): c}。GGS 1304.3481 の d_{n|m} は次数 (a,q,t_c) = (−2, 2(n−m), −2m−1) で、
 対になる生成元の因子は 1 + u_{n|m}、u_{n|m} = 𝐚²𝐪^{−2(n−m)}𝐭^{2m+1}。KN の小文字では u_{n|m} = −1 ⇔ a = t^n q^{−m}（U(n|m)）。

@@ -1,6 +1,6 @@
-"""段階 D2（docs/research_plan_dgr_lmov.md）：d_{1|1} での \\hat f_ρ の普遍式（2 箱）と、最大 genus の c_ρ。
+"""段階 D2（docs/dgr_lmov/research_plan.md）：d_{1|1} での \\hat f_ρ の普遍式（2 箱）と、最大 genus の c_ρ。
 
-hook 性質（docs/dgr_lmov.md §5）を仮定すると、2 箱の入力の d_{1|1} での値は A = rCS_{[1]}|_{d11} だけで決まる。
+hook 性質（docs/dgr_lmov/report.md §5）を仮定すると、2 箱の入力の d_{1|1} での値は A = rCS_{[1]}|_{d11} だけで決まる。
   [1] → A(𝐪, 𝐭)、[2] → c·A(𝐪²𝐭, 𝐭)、[1,1] → c·A(𝐪², 𝐭)、Adams の [1](q², t²) → A(𝐪², −𝐭²)（c = (−𝐭)^{−Σ}）。
 \\hat f_ρ は入力の（係数が a, q, t の有理式の）多項式なので、d_{1|1} での値は入力の d_{1|1} での値だけで決まる。
 そこで 𝐚 によらない持ち上げ P1 = A、P2 = c·A(𝐪²𝐭, 𝐭) を 2 箱の公式（scripts/v4_closed.py）に入れ、結果を d_{1|1} で特殊化する。

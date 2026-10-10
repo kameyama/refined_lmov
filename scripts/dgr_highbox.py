@@ -1,4 +1,4 @@
-"""段階 D1（docs/research_plan_dgr_lmov.md）：トーラス結び目の 4 箱以上で、因子 D の割り切り・商 R_ρ の正値性・d_{1|1} 後の最大 genus を判定する。
+"""段階 D1（docs/dgr_lmov/research_plan.md）：トーラス結び目の 4 箱以上で、因子 D の割り切り・商 R_ρ の正値性・d_{1|1} 後の最大 genus を判定する。
 
 入力：data/highbox/<結び目>_N<N>.json.xz（scripts/highbox_torus.py の出力、git の外。既定は本体のチェックアウトのもの）。
 出力：data/dgr_lmov/highbox/<結び目>_N<N>.json（ρ ごとの判定）。保存済みは読み飛ばす。ログは logs/dgr_highbox.log に追記。

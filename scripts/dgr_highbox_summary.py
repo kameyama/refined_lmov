@@ -1,6 +1,6 @@
 """段階 D1 の集計：data/dgr_lmov/highbox/*.json → data/dgr_lmov/highbox_summary.md。
 
-d_{1|1} 後の最大 genus を、予想 |ρ|(g−1) − [ρ = [n]]（トーラス結び目は Σ = g なので行だけが 1 落ちる、docs/dgr_lmov.md D2）と比べる。
+d_{1|1} 後の最大 genus を、予想 |ρ|(g−1) − [ρ = [n]]（トーラス結び目は Σ = g なので行だけが 1 落ちる、docs/dgr_lmov/report.md D2）と比べる。
 """
 import json
 from pathlib import Path

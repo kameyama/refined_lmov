@@ -1,4 +1,4 @@
-"""DGR / GGS の微分 d_{n|m} の類似を refined LMOV 不変量（spin 表示・genus 表示）で調べる観察の一括実行（docs/dgr_lmov.md）。
+"""DGR / GGS の微分 d_{n|m} の類似を refined LMOV 不変量（spin 表示・genus 表示）で調べる観察の一括実行（docs/dgr_lmov/report.md）。
 
 出力：logs/dgr_lmov.log（人が読む記録）、data/dgr_lmov/summary.json（判定の表）。
 使い方：PYTHONPATH=src python scripts/dgr_lmov_survey.py

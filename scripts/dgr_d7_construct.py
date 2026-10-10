@@ -1,7 +1,7 @@
-"""段階 D7（docs/research_plan_dgr_lmov.md）：非 refined のデータと見つけた構造から、2 箱の refined LMOV（と rCS_{[2]}）を構成する。
+"""段階 D7（docs/dgr_lmov/research_plan.md）：非 refined のデータと見つけた構造から、2 箱の refined LMOV（と rCS_{[2]}）を構成する。
 
 未知数（全て太字 (𝐚, 𝐪, 𝐭) の係数、整数）：
-  x_m：rCS_{[2]} の係数（窓の中の単項式 m）。rCS に正値性は課さない（open_problems §F）。rCS_{[1,1]} は転置対称性（太字の σ）で rCS_{[2]} から決める。
+  x_m：rCS_{[2]} の係数（窓の中の単項式 m）。この版では rCS に正値性を課していない（docs/dgr_lmov/README.md の規則では対称表現の rCS には課してよい）。rCS_{[1,1]} は転置対称性（太字の σ）で rCS_{[2]} から決める。
   h_{ρ,e} ≥ 0：σ_ρ·\\hat f_ρ の係数（ρ = [2], [1,1]、σ_ρ = ±1 は全体の符号）。この計画では LMOV の正値性を条件に使ってよい（ユーザーの指示）。
 条件：
   (U) 𝐭 = −1 で非 refined の [2]（t = q の色付き HOMFLY-PT、太字）に戻る。

@@ -1,4 +1,4 @@
-"""refined large N の式（KN の (refined-GT1), (refined-GT2)）を逆に解き、\\hat f_ρ から rCS_λ を求める（段階 D8、docs/research_plan_dgr_lmov.md）。
+"""refined large N の式（KN の (refined-GT1), (refined-GT2)）を逆に解き、\\hat f_ρ から rCS_λ を求める（段階 D8、docs/dgr_lmov/research_plan.md）。
 
 評価点 (A, Q, T) = (a, q, t)^{1/2}（有理数）で数値として解く。|λ| ≤ 3。
   GT1：f^q = M(t) \\hat f、f^q_μ は bps.f_formulas の記号式（\\bar{rCS}_λ = C[λ] と Adams の像 C1[d] の多項式）。

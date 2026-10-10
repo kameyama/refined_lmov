@@ -1,4 +1,4 @@
-"""段階 D8・D9（docs/research_plan_dgr_lmov.md）：\\hat f_ρ から GT1・GT2 を逆に解いた rCS_λ が、既存の rCS_λ と一致するか（往復の照合）。
+"""段階 D8・D9（docs/dgr_lmov/research_plan.md）：\\hat f_ρ から GT1・GT2 を逆に解いた rCS_λ が、既存の rCS_λ と一致するか（往復の照合）。
 
 点での厳密な比較（有理数の 3 点）。データは data/lmov（\\hat f）と、framing_check.load_reduced が読む既存の rCS。
 記録：logs/dgr_inverse_check.log。使い方：PYTHONPATH=src python scripts/dgr_inverse_check.py [結び目...]

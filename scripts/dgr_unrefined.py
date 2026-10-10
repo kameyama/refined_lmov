@@ -1,4 +1,4 @@
-"""段階 D5（docs/research_plan_dgr_lmov.md）：非 refined（t = q、𝐭 = −1）の商と、その genus 表示の符号の規則。
+"""段階 D5（docs/dgr_lmov/research_plan.md）：非 refined（t = q、𝐭 = −1）の商と、その genus 表示の符号の規則。
 
 R_ρ（refined の商）を 𝐭 = −1 にすると、d_{1|1} が d_{0|0} に重なるので |ρ| ≥ 2 では (1 − 𝐚²) でもう一度割れる。
 Ru_ρ = R_ρ|_{𝐭=−1} / (1 − 𝐚²)（|ρ| = 1 は R_{[1]}|_{𝐭=−1} = HOMFLY-PT）を、非 refined の genus 表示

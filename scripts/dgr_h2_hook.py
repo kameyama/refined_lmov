@@ -1,4 +1,4 @@
-"""H2（open_problems §H2）：hook 性質を、正規化によらない形で GN の値から直接確かめる。
+"""H2（docs/dgr_lmov/open_problems.md2）：hook 性質を、正規化によらない形で GN の値から直接確かめる。
 
 hook λ = (a+1, 1^l)、n = |λ| について、予想は
   raw_λ(q, t)|_{a=t/q} / raw_{[1]}(q', t')|_{a'=t'/q'} = ± q^α t^β（単項式）、　q' = q^{a+1}t^l、t' = q^a t^{l+1}

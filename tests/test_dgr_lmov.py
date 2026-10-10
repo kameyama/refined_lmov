@@ -1,4 +1,4 @@
-"""DGR / GGS の微分 d_{n|m} の類似（src/rcsknots/dgr.py、docs/dgr_lmov.md）の機能テスト。小さい結び目だけで数秒。"""
+"""DGR / GGS の微分 d_{n|m} の類似（src/rcsknots/dgr.py、docs/dgr_lmov/report.md）の機能テスト。小さい結び目だけで数秒。"""
 import sys
 from pathlib import Path
 

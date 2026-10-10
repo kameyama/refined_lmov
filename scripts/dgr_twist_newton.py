@@ -1,4 +1,4 @@
-"""段階 D4（docs/research_plan_dgr_lmov.md）：ツイスト結び目 K_p の商 R_ρ = \\hat f_ρ / D の、全ての p での spin 表示の正値性。
+"""段階 D4（docs/dgr_lmov/research_plan.md）：ツイスト結び目 K_p の商 R_ρ = \\hat f_ρ / D の、全ての p での spin 表示の正値性。
 
 \\hat f_ρ(K_p) は p の符号ごとに 5 つの単項式 m_j の指数和（scripts/v4_closed.py）で、D は p によらないので R_ρ も同じ根の指数和。
 ニュートン形 R(|p| = n) = Σ_k c_k h_{n−1−k}(m_{π0..πk}) の係数 c_k が全て同じ符号なら（h は正係数）、|p| ≥ 1 の全てで R_ρ は一様な符号【導出】。

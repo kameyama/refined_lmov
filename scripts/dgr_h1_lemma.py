@@ -1,4 +1,4 @@
-"""H1（docs/research_plan_dgr_lmov.md の D3、open_problems §H1）：(S_{1|0}), (S_{0|1}) の導出に使う補題の厳密な検査。
+"""H1（docs/dgr_lmov/research_plan.md の D3、docs/dgr_lmov/open_problems.md1）：(S_{1|0}), (S_{0|1}) の導出に使う補題の厳密な検査。
 
 GN の構成（src/rcsknots/gn.py）：\\bar{rCS}_λ(T_{n,m}) = ε(P_λ[p_k ↦ P̃_{kn,km}]·1)、ε は tilde 側で f̃[p_k ↦ 1 − a^k]。
 q, t に有理数を入れ、全て Fraction で厳密に計算する。検査する内容：
