@@ -29,6 +29,15 @@ def C1(d):
     return sp.Symbol(f"C1_{d}")
 
 
+def Cd(lam, d):
+    """Adams 像 C_λ(x^d)（q, t も d 乗）の記号。d = 1 は C(λ)、λ = [1] は C1(d)（3 箱までの記号と互換）。"""
+    if d == 1:
+        return C(lam)
+    if lam == (1,):
+        return C1(d)
+    return sp.Symbol("C_" + "".join(map(str, lam)) + f"_{d}")
+
+
 def _rat(c):
     return sp.Rational(c.numerator, c.denominator)
 
@@ -92,9 +101,7 @@ def f_formulas(nmax=3):
         out = {}
         for n in range(1, nmax // d + 1):
             for lam in partitions(n):
-                cs = C(lam) if d == 1 else (C1(d) if lam == (1,) else None)
-                if cs is None:
-                    raise NotImplementedError("Adams images beyond [1] are not needed for |μ| ≤ 3")
+                cs = Cd(lam, d)
                 g = _subs_d(g_lambda(lam), d)
                 for rho, c in _P_sym(n)[lam].items():
                     key = tuple(d * k for k in rho)
@@ -105,9 +112,7 @@ def f_formulas(nmax=3):
         out = {}
         for n in range(1, nmax // d + 1):
             for lam in partitions(n):
-                cs = C(lam) if d == 1 else (C1(d) if lam == (1,) else None)
-                if cs is None:
-                    raise NotImplementedError
+                cs = Cd(lam, d)
                 for rho, c in _P_sym(n, swap=True)[conjugate(lam)].items():
                     key = tuple(d * k for k in rho)
                     out[key] = out.get(key, 0) + cs * (-1) ** n * _subs_d(c, d)

@@ -9,6 +9,8 @@ reduced は unreduced ÷ unknot_λ で、unknot_λ の分子 Π_□(t^{l'} − a
 使い方：PYTHONPATH=src:scripts python scripts/dgr_hu.py check [結び目 ...]      既知の reduced から N_λ（|λ| ≤ 3）の符号を数える
         PYTHONPATH=src:scripts python scripts/dgr_hu.py convention T2_3 T2_5     GN の hook の Schur 係数と N の a の行の照合（有理数の評価点）
         PYTHONPATH=src:scripts python scripts/dgr_hu.py highbox m n N            T(m,n) の N 箱の rCS_λ を GN から補間して N_λ の符号を数える
+        PYTHONPATH=src:scripts python scripts/dgr_hu.py series [結び目 ...]     仮説 H_u″：N_λ の a の行 ÷ Π_□(1 − q^{a(□)} t^{l(□)+1}) の冪級数（P 正規化の hook の Schur 係数）の符号
+        PYTHONPATH=src:scripts python scripts/dgr_hu.py series-highbox m n N   同じ検査を N 箱で
 記録：logs/dgr_hu.log、data/dgr_lmov/hu_check.json。
 """
 import json
@@ -192,10 +194,71 @@ def highbox(m, n, Nb):
             return arr
         raw = reconstruct_points(ev, seed=7, log=lambda s: None)
         red = {(d - A_OFFSET, eq, et): c for (d, eq, et), c in raw.items()}
-        sm, rs = sign_summary(N_lambda(red, lam)), sign_summary(bold(red))
-        out[str(lam)] = {"N": sm, "red_neg": rs["neg"], "red_terms": rs["terms"]}
-        log(f"T({m},{n}) λ={str(lam):16s} reduced 負 {rs['neg']:4d}/{rs['terms']:5d} → N 負 {sm['neg']:4d}/{sm['terms']:5d} 行の符号一様 {sm['rows_uniform']} ({time.time() - t0:.0f}s)")
+        Nl = N_lambda(red, lam)
+        sm, rs, se = sign_summary(Nl), sign_summary(bold(red)), series_summary(Nl, lam)
+        out[str(lam)] = {"N": sm, "red_neg": rs["neg"], "red_terms": rs["terms"], "series": se}
+        log(f"T({m},{n}) λ={str(lam):16s} reduced 負 {rs['neg']:4d}/{rs['terms']:5d} → N 負 {sm['neg']:4d}/{sm['terms']:5d} 冪級数の負 𝐪→0 {se['neg_to0']:4d} 鏡像 {se['neg_toinf']:4d} ({time.time() - t0:.0f}s)")
     return out
+
+
+# ---- 仮説 H_u″：P 正規化（Macdonald の P_λ）の hook の Schur 係数は冪級数として非負 ---------------------
+
+def macdonald_denominators_bold(lam):
+    """Π_□(1 − q^{a(□)} t^{l(□)+1}) の各因子の単項式（太字）：q^a t^{l+1} = 𝐪^{2a+2l+2} 𝐭^{2a}。"""
+    return [(2 * arm(lam, i, j) + 2 * leg(lam, i, j) + 2, 2 * arm(lam, i, j)) for i, j in boxes(lam)]
+
+
+def series_signs(N, lam, order=40):
+    """N_λ の a の各行を Π_□(1 − q^{a(□)} t^{l(□)+1}) で割った冪級数の符号。
+    "to0"：𝐪 → 0（𝐭 固定）の向き。"toinf"：(𝐪, 𝐭) ↦ (1/𝐪, 1/𝐭)（鏡像の向き）。後者では 1/(1 − 1/m) = −m/(1 − m) と書き直す
+    （全体の符号 (−1)^{因子の数}、単項式倍は符号に無関係）。返り値 {行: {"to0": (負, 正), "toinf": (負, 正)}}。order は行の 𝐪 の幅に足す次数。"""
+    import flint
+    ctx = flint.fmpz_mpoly_ctx.get(("q", "t"), "lex")
+    dens = macdonald_denominators_bold(lam)
+    rows = {}
+    for (a, q, t), c in N.items():
+        rows.setdefault(a, {})[(q, t)] = c
+
+    def expand(d, flip):
+        pts = {((-k, -t) if flip else (k, t)): c for (k, t), c in d.items()}
+        lo = (min(k[0] for k in pts), min(k[1] for k in pts))
+        P = ctx.from_dict({(k[0] - lo[0], k[1] - lo[1]): v for k, v in pts.items()})
+        top = (max(k[0] for k in pts) - lo[0]) + order
+        sign = (-1) ** len(dens) if flip else 1
+        for kq, kt in dens:
+            acc, mk, m = ctx.from_dict({}), ctx.from_dict({(0, 0): 1}), ctx.from_dict({(kq, kt): 1})
+            for _ in range(top // kq + 2):
+                acc += P * mk
+                mk = mk * m
+            P = acc
+        dd = P.to_dict()
+        neg = sum(1 for e, c in dd.items() if int(e[0]) <= top and sign * c < 0)
+        pos = sum(1 for e, c in dd.items() if int(e[0]) <= top and sign * c > 0)
+        return neg, pos
+    return {a: {"to0": expand(d, False), "toinf": expand(d, True)} for a, d in sorted(rows.items())}
+
+
+def series_summary(N, lam, order=40):
+    ss = series_signs(N, lam, order)
+    n0 = sum(v["to0"][0] for v in ss.values()); ninf = sum(v["toinf"][0] for v in ss.values())
+    rows_ok = sum(1 for v in ss.values() if v["to0"][0] == 0 or v["toinf"][0] == 0)
+    return {"neg_to0": n0, "neg_toinf": ninf, "rows": len(ss), "rows_ok_either": rows_ok}
+
+
+def series_check(knots, order=40):
+    res = {}
+    for K in knots:
+        try:
+            R = load_reduced(K, 3)
+        except AssertionError as e:
+            log(f"{K}: {e}")
+            continue
+        res[K] = {}
+        for lam in sorted(R, key=lambda l: (sum(l), l)):
+            sm = series_summary(N_lambda(R[lam], lam), lam, order)
+            res[K][str(lam)] = sm
+            log(f"{K:6s} λ={str(lam):10s} 冪級数の負：𝐪→0 {sm['neg_to0']:4d}、鏡像 {sm['neg_toinf']:4d}（行 {sm['rows']}、どちらかで非負の行 {sm['rows_ok_either']}）")
+    return res
 
 
 if __name__ == "__main__":
@@ -210,6 +273,13 @@ if __name__ == "__main__":
     elif cmd == "convention":
         for K in sys.argv[2:]:
             convention(K)
+    elif cmd == "series":
+        knots = sys.argv[2:] or list(TORUS) + ALGEBRAIC + NONALG
+        res = series_check(knots)
+        path = Path("data/dgr_lmov/hu_series.json")
+        prev = json.loads(path.read_text()) if path.exists() else {}
+        prev.update(res)
+        path.write_text(json.dumps(prev, ensure_ascii=False, indent=1))
     elif cmd == "highbox":
         m, n, Nb = map(int, sys.argv[2:5])
         res = highbox(m, n, Nb)
