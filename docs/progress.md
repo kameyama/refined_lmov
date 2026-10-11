@@ -3,11 +3,12 @@
 ## 現在の状況（再開用、2026-10-09 更新）
 
 **2026-10-09 時点の要約**（全体の整理は docs/REPORT_overview.md）
-- **refined LMOV の DGR 型・四重次数型の構造（2026-10-11、ユーザーの指示、ブランチ claude/dgr-quadruply-graded-lomv-2a7fb6）**：計画と観察は docs/research_plan_dgr_lmov.md。
-  計画を立てる前の観察【計算】：(1) \hat f_ρ は保存済み全 120 件で (q,t)→(1/t,1/q) 不変（G 展開が閉じることと同値【導出】、DGR の対称性の LMOV 版）。
-  (2) スピン基底（w = 𝐪²𝐭 の SU(2)_L 指標 χ_j(w)）での係数は、KN の正値性が成り立つ全ての (結び目, ρ) と 801 結び目の [1] で非負（各 (β, f) 行の単峰性。非負性から従わない新しい観察）。
-  (3) \hat f_ρ(a = t) = 0（|ρ| ≥ 2、全 100 件）、rCS_{[r^N]}(a = t^N) は単項式：DGR の d_N の消去点が KN の a = t^N に当たる【導出】。
-  次：ワークツリー rename-literature-survey-doc-9cc5fc を取り込み（その検証結果は再検証せず、計画は使わない）、S0〜S6 を進める。
+- **refined LMOV の DGR 型・四重次数型の構造（2026-10-11、ユーザーの指示、ブランチ claude/dgr-quadruply-graded-lomv-2a7fb6）**：計画 docs/research_plan_dgr_lmov.md（§6 に状態）、報告 docs/REPORT_dgr_lmov_spin.md。別セッション（docs/dgr_lmov/、ワークツリー rename-literature-survey-doc-9cc5fc のブランチ claude/dgr-quadruply-graded-lomv-7091c2）を計画の後にマージした（衝突は progress.md のみ）。
+  結果：(1) W: (a,q,t)↦(a,1/t,1/q) ＝ DGR の φ ＝ SU(2)_L の Weyl 反転で、G 展開が閉じること ⇔ \hat f の W 不変性 ⇔ KN の整合条件 f^{\bar t} = M(q^{−1})\hat f【導出】。
+  (2) **既約表示**（spin 表示の各 (β, f) 行を SU(2)_L の指標 χ_j(w)、w = 𝐪²𝐭 にまとめ直したもの）の係数は、KN の G 展開前の正値性が成り立つ全件（data/bps 77 件、highbox 340 件、K7〜K9 の 3 箱 9 件、801 結び目の [1]）で非負、KN が破れる 35 件で破れる【計算】。[1] は GHM の sl₂（CG の単峰性）から定理【導出】。彩色は予想 S。
+  (3) a = t^N q^{−M} は Macdonald の unknot を gl(N|M) の (N|M)-hook に切り詰める点（DGR の d_N ↔ a = t^N、d_{−N} ↔ a = q^{−N}、d_0 ↔ a = t/q、GGS の d_{N|M}）【導出】。a = t, 1/q で |ρ| ≥ 2 の \hat f_ρ = 0（彩色 d_1、rCS_[r](a=t) = (t/q)^{rδ/2} から導出。別セッションの §2 が先行、独立に同じ結論）。
+  (4) 種数 0（q = 1）は EGP の値だけでは決まらない（式に 1 位の極、ジェットが要る）【計算】。計画 S3 は撤回。
+  未解決は open_problems.md §H。K10 の 3 箱（1200 万項）は未判定。
 - **別の研究：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：本研究（KN の検証）とは目的も規則も異なる別の研究として docs/dgr_lmov/ にまとめた（計画・進捗・未解決・新規性はそちら。入口は docs/dgr_lmov/README.md）。
 - **箱数を増やした検証（2026-10-10、ユーザーの指示「トーラス結び目は 9 箱程度まで（1 回 10 分以内）、4_1 は 4 箱まで」）**：下の「2026-10-10 箱数を増やした検証」。
   トーラス結び目は計算した全ての (結び目, 箱数, ρ) で G 展開の前後とも負の項 0【計算】（表は data/highbox_summary.md）。

@@ -268,3 +268,14 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 ## 11. DGR 型の構造（別の研究、2026-10-11）
 
 docs/dgr_lmov/novelty.md に移した。
+
+## 12. refined LMOV の既約表示と微分の点（2026-10-11、docs/REPORT_dgr_lmov_spin.md。文献は原典で確認したもののみ）
+
+| 主張 | 判定 | 根拠 |
+|---|---|---|
+| G 展開が閉じる ⇔ \hat f の (a,q,t)↦(a,1/t,1/q) 不変性 ⇔ KN の整合条件 f^{\bar t} = M(q^{−1})\hat f | 新規と思われる（構成要素は KN の式） | KN (refined-GT1)(refined-GT2) と unreduced のミラー対称性から導出 |
+| [1] の既約表示（SU(2)_L の指標）の非負性 | 既知の定理の帰結（GHM 2103.01212 Cor. sl2 intro、Chandler–Gorsky 2209.13058 main.tex:198 の単峰性）。open_problems B1 にも記載済み | 本研究の成果として書かない。801 結び目での計算は確認 |
+| 彩色の既約表示の非負性（予想 S、|ρ| ≤ 9 のトーラス結び目、|ρ| ≤ 3 の代数的なケーブルと 4_1） | 新規と思われる | 文献で「colored LMOV の unimodality」に当たる記述は未調査（要調査） |
+| 彩色 d_1：a = t, 1/q で |ρ| ≥ 2 の \hat f_ρ = 0 | 別セッション（docs/dgr_lmov/novelty.md）が先に「新規と思われる」と判定。本研究は独立な再導出 | 成果として書くときは別セッションの記述に統合 |
+| a = t^N q^{−M} ＝ gl(N|M) の切り詰め（DGR・GGS の微分の点の統一） | Macdonald の主特殊化の積公式の直接の帰結。GGS の d_{N|M} ↔ U(N|M) は別セッションの報告にも記載 | 新規とは主張しない |
+| 種数 0 の部分に q = 1 のジェットが要ること | 否定的な観察（成果ではない） | |
