@@ -3,6 +3,15 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 2026-10-11 3 箱の公式を unreduced の短い式に作り直した（ユーザーの指示「3 箱の公式を unreduced の短い式に作り直して」）
+
+- dgr_box3._formula3 を、unreduced の C の短い式 \hat f_ρ = Σ_i k_{ρ,i}(q,t)·（C の単項式）を経由する形に置き換えた。sympy の式を flint の (分子, 分母) に直接変換する。
+- 導出時間：約 15 分 → 約 0.2 秒。旧版と全ての項で一致【計算】。キャッシュ data/dgr_lmov/formula3.json と試作 scripts/dgr_formula_short.py は削除した。
+- 遅かった原因は sympy の展開と約分（f^q を C の多項式に展開するだけで 2 分以上）。
+- 係数 k_{ρ,i} の表は report.md の「3 箱」の節。C_1·C_1(x²) の係数は 3 箱では全て 0。
+- テスト：tests/test_dgr_lmov.py の 3 箱のテスト 2 件が通る（13 秒）。
+- 次：下の再開の手順 1, 2, 4（手順 3 は完了）。
+
 ## 2026-10-11 3 箱（途中、ユーザーの指示「3箱へ進め」。作業はユーザーの指示「現在までの進捗を再開可能な形で記録せよ」で中断）
 
 **やったこと・結果**：report.md の「3 箱」の節。要点：
@@ -14,16 +23,11 @@
 1. ツイスト結び目の [2,1] の予言：`PYTHONPATH=src python scripts/dgr_box3_predict.py 1 -1 2 -2 3 -3`。
    - 保存済みは data/dgr_lmov/box3/K_1.json, K_-1.json。保存済みの p は読み飛ばすので、同じコマンドで再開できる。
 2. T(2,5) の検証：`PYTHONPATH=src python scripts/dgr_box3_check.py T2_5 1,1,1 5`。結果はファイルに保存しないので、やり直す。
-3. 短い式の試作：`PYTHONPATH=src python scripts/dgr_formula_short.py`（標準出力のみ）。
 
 **再開するときの手順**
 1. 上の 1 を再実行し、K_{±2}, K_{±3} の [2,1] を得る。これらは refined の値が文献に無い予言の候補で、novelty.md で確認が要る。
 2. 上の 2（T(2,5)）と、T(3,4) の検証を行う。時間がかかるので、全体の符号は (1,1,1) に絞り、乱数の試行回数を減らす。
-3. 公式の短い式への作り直し（ユーザーの指示）：
-   - dgr_formula_short.py で係数 k_{ρ,i}(q,t) を取り出す。
-   - 自明な結び目の因子を、因数のリストのまま掛けて分子・分母を作る。
-   - formula3 と同じ値になるかを hat3 で確かめ（T(2,3), 4_1, T(2,5)）、導出時間を比べる。
-   - 合えば dgr_box3._formula3 を置き換える。
+3. （完了。上の節）公式の短い式への作り直し。
 4. 結果を report.md・novelty.md・open_problems.md に記録し、テストを足して commit する。
 
 **未解決**：H9, H10 に加え、3 箱の [2,1] が一般の結び目でも一意に決まるか。決まるなら、どの条件が決め手か（切り分けは未実施）。

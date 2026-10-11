@@ -318,7 +318,7 @@ def test_kh2_proxy_distinguishes_6_2_solutions():
 # ---- 3 箱（scripts/dgr_box3.py） ----
 
 def test_box3_formula_reproduces_hat_f():
-    """3 箱の公式（data/dgr_lmov/formula3.json）で作った \\hat f_{[3]}, \\hat f_{[2,1]}, \\hat f_{[1,1,1]} が保存済みの値と一致する。"""
+    """3 箱の公式（dgr_box3.formula3）で作った \\hat f_{[3]}, \\hat f_{[2,1]}, \\hat f_{[1,1,1]} が保存済みの値と一致する。"""
     from dgr_box3 import hat3
     R = load_reduced("T2_3", 3)
     F = load_lmov("T2_3")

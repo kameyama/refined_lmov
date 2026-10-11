@@ -3,7 +3,7 @@
 公式（scripts/v4_closed.py の formula の 3 箱版）：
   \\hat f_ρ = (Σ_i n_{ρ,i} R_i) / D_ρ、R = (r3, r21, r111, r2·r1, r11·r1, r1³, r1·r1(x²), r1(x³))、
   r は reduced の rCS（KN の小文字 (A, Q, T)、framing 0）、r1(x^d) は指数を d 倍したもの（Adams）。
-  n, D は bps.f_formulas(3) と M_matrix(3) から sympy で一度だけ導く（各項の係数を個別に約分してから共通分母にそろえる）。
+  n, D は bps.f_formulas(3) と M_matrix(3) から導く（_formula3：unreduced の C の短い式を経由し、多項式演算は flint）。
 """
 import sys
 from functools import lru_cache
@@ -21,25 +21,48 @@ RHOS3 = [(3,), (2, 1), (1, 1, 1)]
 KEYS = ["r3", "r21", "r111", "r2r1", "r11r1", "r1^3", "r1r1d2", "r1d3"]
 
 
-CACHE = Path(__file__).resolve().parents[1] / "data/dgr_lmov/formula3.json"   # git で管理する（31 KB）
-
-
 @lru_cache(maxsize=None)
 def formula3():
-    """導出に約 15 分かかるので data/dgr_lmov/formula3.json に保存して再利用する。"""
-    import json
-    if CACHE.exists():
-        raw = json.loads(CACHE.read_text())
-        dec = lambda d: L.from_dict({tuple(map(int, k.split(","))): v for k, v in d.items()})  # noqa: E731
-        return {tuple(map(int, r.split(","))): ({int(k): dec(v) for k, v in ns.items()}, dec(den)) for r, (ns, den) in raw.items()}
-    out = _formula3()
-    enc = lambda l_: {",".join(map(str, k)): v for k, v in l_.to_dict().items()}  # noqa: E731
-    CACHE.parent.mkdir(parents=True, exist_ok=True)
-    CACHE.write_text(json.dumps({",".join(map(str, r)): ({str(k): enc(v) for k, v in ns.items()}, enc(den)) for r, (ns, den) in out.items()}))
-    return out
+    return _formula3()
+
+
+def _to_flint(e, ctx, gen):
+    """sympy の有理式 → flint の (分子, 分母)。足し算・掛け算のたびに gcd で約分する（sympy の展開・約分を使わない）。"""
+    one = ctx.from_dict({(0,) * ctx.nvars(): 1})
+
+    def red(n, d):
+        g = n.gcd(d)
+        n, d = n / g, d / g
+        return (-n, -d) if d.leading_coefficient() < 0 else (n, d)
+
+    def conv(e):
+        if e.is_Symbol:
+            return gen[e], one
+        if e.is_Rational:
+            return one * int(e.p), one * int(e.q)
+        if e.is_Add or e.is_Mul:
+            n, d = conv(e.args[0])
+            for a in e.args[1:]:
+                n2, d2 = conv(a)
+                if e.is_Mul:
+                    n, d = red(n * n2, d * d2)
+                else:
+                    g = d.gcd(d2)
+                    n, d = red(n * (d2 / g) + n2 * (d / g), d * (d2 / g))
+            return n, d
+        if e.is_Pow and e.exp.is_Integer:
+            n, d = conv(e.base)
+            k = int(e.exp)
+            return (n ** k, d ** k) if k >= 0 else red(d ** -k, n ** -k)
+        raise TypeError(e)
+    return conv(e), red
 
 
 def _formula3():
+    """\\hat f_ρ = Σ_i k_{ρ,i}(Q, T)·（unreduced の C の単項式 i）（ユーザーのノートブック new derivation of link rf_qt と同じ形）。
+    k は f^q = M(t) \\hat f を M(t)⁻¹ で解いたものの係数で、(1 − q^a t^b) 型の因子の短い比になる。
+    C = （自明な結び目の値）× r を代入して共通分母にそろえる。多項式演算は flint（約 1 秒）。"""
+    import flint
     Asym = sp.Symbol("A")
 
     def unknot(lam, d=1):
@@ -49,33 +72,40 @@ def _formula3():
             out *= (T ** (2 * d * i) - Asym ** (2 * d) * Q ** (2 * d * j)) / (1 - Q ** (2 * d * arm(lam, i, j)) * T ** (2 * d * (leg(lam, i, j) + 1)))
         return out
 
-    F = f_formulas(3)
-    parts3 = partitions(3)
-    fq = sp.Matrix([F[mu][0] for mu in parts3])
-    hat = M_matrix(3).inv() * fq
     syms = [C((3,)), C((2, 1)), C((1, 1, 1)), C((2,)), C((1, 1)), C((1,)), C1(2), C1(3)]
+    names = [Asym, Q, T] + syms
+    ctx = flint.fmpz_mpoly_ctx.get(tuple(map(str, names)), "lex")
+    gen = dict(zip(names, ctx.gens()))
+    conv = lambda e: _to_flint(e, ctx, gen)[0]  # noqa: E731
+    red = _to_flint(sp.Integer(1), ctx, gen)[1]
     mon_key = {(1, 0, 0, 0, 0, 0, 0, 0): 0, (0, 1, 0, 0, 0, 0, 0, 0): 1, (0, 0, 1, 0, 0, 0, 0, 0): 2,
                (0, 0, 0, 1, 0, 1, 0, 0): 3, (0, 0, 0, 0, 1, 1, 0, 0): 4, (0, 0, 0, 0, 0, 3, 0, 0): 5,
                (0, 0, 0, 0, 0, 1, 1, 0): 6, (0, 0, 0, 0, 0, 0, 0, 1): 7}
-    unk = [unknot((3,)), unknot((2, 1)), unknot((1, 1, 1)), unknot((2,)) * unknot((1,)), unknot((1, 1)) * unknot((1,)),
-           unknot((1,)) ** 3, unknot((1,)) * unknot((1,), 2), unknot((1,), 3)]
-    out = {}
-    for rho, h in zip(parts3, hat):
-        h = sp.together(h)
-        P = sp.Poly(sp.numer(h), *syms)
-        den0 = sp.denom(h)
-        parts = {}
-        for mon, c in P.terms():
-            key = mon_key[mon]
-            parts[key] = sp.cancel(sp.together(c * unk[key] / den0))
-        dens = [sp.denom(parts[k]) for k in parts]
-        D = sp.lcm_list(dens) if hasattr(sp, "lcm_list") else sp.lcm(dens)
-        coeffs = {k: sp.cancel(parts[k] * D) for k in parts}
+    unk = [conv(u) for u in [unknot((3,)), unknot((2, 1)), unknot((1, 1, 1)), unknot((2,)) * unknot((1,)),
+                             unknot((1, 1)) * unknot((1,)), unknot((1,)) ** 3, unknot((1,)) * unknot((1,), 2), unknot((1,), 3)]]
+    F = f_formulas(3)
+    parts3 = partitions(3)
+    fq = [conv(F[mu][0]) for mu in parts3]
+    Minv = M_matrix(3).inv()
 
-        def to_L(e):
-            P_ = sp.Poly(sp.expand(e * (Asym * Q * T) ** 80), Asym, Q, T)
-            return L.from_dict({(i - 80, j - 80, k - 80): int(c) for (i, j, k), c in P_.terms()})
-        out[rho] = ({k: to_L(c) for k, c in coeffs.items()}, to_L(D))
+    def to_L(x):
+        return L.from_dict({tuple(int(v) for v in e[:3]): int(c) for e, c in x.to_dict().items()})
+    out = {}
+    for i, rho in enumerate(parts3):
+        n, d = ctx.from_dict({}), ctx.from_dict({(0,) * len(names): 1})
+        for j in range(3):                                   # \\hat f_ρ = Σ_j (M⁻¹)_{ρj} f^q_j
+            mn, md = conv(sp.together(Minv[i, j]))
+            a, b = red(mn * fq[j][0], md * fq[j][1])
+            g = d.gcd(b)
+            n, d = red(n * (b / g) + a * (d / g), d * (b / g))
+        parts = {}
+        for e, c in n.to_dict().items():                     # C の単項式ごとの係数 k_{ρ,i} = parts[i] / d
+            parts.setdefault(mon_key[tuple(int(v) for v in e[3:])], {})[tuple(e[:3]) + (0,) * len(syms)] = c
+        coeffs = {k: red(ctx.from_dict(v) * unk[k][0], d * unk[k][1]) for k, v in parts.items()}
+        D = ctx.from_dict({(0,) * len(names): 1})
+        for _, dk in coeffs.values():
+            D = D * (dk / D.gcd(dk))
+        out[rho] = ({k: to_L(nk * (D / dk)) for k, (nk, dk) in coeffs.items()}, to_L(D))
     return out
 
 
