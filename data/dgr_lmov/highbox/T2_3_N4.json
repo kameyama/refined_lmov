@@ -1,0 +1,103 @@
+{
+ "knot": "T2_3",
+ "N": 4,
+ "seconds": 0.1,
+ "max_rss_MB": 73,
+ "rho": {
+  "4": {
+   "divides": {
+    "0|0": true,
+    "1|0": true,
+    "0|1": true,
+    "1|1": true,
+    "2|0": false,
+    "0|2": false,
+    "2|1": false,
+    "1|2": false
+   },
+   "R_spin_neg": 0,
+   "R_spin_terms": 205,
+   "R_genus_neg": 0,
+   "R_genus_terms": 208,
+   "same_sign": true,
+   "R_genus_max": 9,
+   "R_d11_top_genus": null
+  },
+  "31": {
+   "divides": {
+    "0|0": true,
+    "1|0": true,
+    "0|1": true,
+    "1|1": false,
+    "2|0": false,
+    "0|2": false,
+    "2|1": false,
+    "1|2": false
+   },
+   "R_spin_neg": 0,
+   "R_spin_terms": 387,
+   "R_genus_neg": 0,
+   "R_genus_terms": 376,
+   "same_sign": true,
+   "R_genus_max": 12,
+   "R_d11_top_genus": 0
+  },
+  "22": {
+   "divides": {
+    "0|0": true,
+    "1|0": true,
+    "0|1": true,
+    "1|1": false,
+    "2|0": false,
+    "0|2": false,
+    "2|1": false,
+    "1|2": false
+   },
+   "R_spin_neg": 0,
+   "R_spin_terms": 447,
+   "R_genus_neg": 0,
+   "R_genus_terms": 444,
+   "same_sign": true,
+   "R_genus_max": 13,
+   "R_d11_top_genus": 0
+  },
+  "211": {
+   "divides": {
+    "0|0": true,
+    "1|0": true,
+    "0|1": true,
+    "1|1": false,
+    "2|0": false,
+    "0|2": false,
+    "2|1": false,
+    "1|2": false
+   },
+   "R_spin_neg": 0,
+   "R_spin_terms": 529,
+   "R_genus_neg": 0,
+   "R_genus_terms": 518,
+   "same_sign": true,
+   "R_genus_max": 14,
+   "R_d11_top_genus": 0
+  },
+  "1111": {
+   "divides": {
+    "0|0": true,
+    "1|0": true,
+    "0|1": true,
+    "1|1": false,
+    "2|0": false,
+    "0|2": false,
+    "2|1": false,
+    "1|2": false
+   },
+   "R_spin_neg": 0,
+   "R_spin_terms": 591,
+   "R_genus_neg": 0,
+   "R_genus_terms": 598,
+   "same_sign": true,
+   "R_genus_max": 15,
+   "R_d11_top_genus": 0
+  }
+ }
+}

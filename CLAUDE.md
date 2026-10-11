@@ -8,6 +8,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 1. docs/progress.md を読み、現在のステージと未完了の作業を把握する。
 2. 作業内容に応じて docs/research_plan.md（ステージ 0〜7 の計算計画）と docs/novelty_report.md（既知の結果と新規性の範囲）を参照する。
 3. 計算に入る前に docs/conventions.md の規約を確認する。
+4. 別の研究「DGR・四重次数型の構造と refined LMOV」（2026-10-11 開始）の作業では、docs/dgr_lmov/README.md を読み、そこに書いた規則に従う。正値性の扱いが本研究と異なり、この研究では open_problems.md §F は適用しない。その研究の進捗は docs/dgr_lmov/progress.md に書く。
 
 # 規約
 - 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/conventions.md に従う。

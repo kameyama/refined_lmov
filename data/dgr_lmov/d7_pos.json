@@ -1,0 +1,435 @@
+{
+ "K_1": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 2
+  }
+ },
+ "K_-1": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 4
+  }
+ },
+ "K_2": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 3,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true
+   ],
+   "seconds": 7
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 7
+  }
+ },
+ "K_-2": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 6,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 12
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 11
+  }
+ },
+ "K_3": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 16
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 16
+  }
+ },
+ "K_-3": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 25
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 24
+  }
+ },
+ "10_124": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 38
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 4,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 37
+  },
+  "V3": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 36
+  }
+ },
+ "10_139": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 204
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 42
+  },
+  "V3": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 36
+  }
+ },
+ "10_152": {
+  "V1": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 207
+  },
+  "V2": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 10,
+   "true_found": false,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "seconds": 45
+  },
+  "V3": {
+   "feasible_sigmas": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "n_solutions_found": 1,
+   "true_found": true,
+   "true_sigma": [
+    -1,
+    -1
+   ],
+   "genus_positive": [
+    true
+   ],
+   "seconds": 35
+  }
+ }
+}

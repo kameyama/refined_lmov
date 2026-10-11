@@ -1,0 +1,61 @@
+{
+ "knot": "10_161",
+ "rank": 19,
+ "thin": false,
+ "stages": {
+  "C0": {
+   "vars": 810,
+   "rows": 45,
+   "min_rank": 9,
+   "min_is_true": false,
+   "true_among_min": false,
+   "n_min_solutions_found": 9,
+   "seconds": 0.1
+  },
+  "C1": {
+   "vars": 810,
+   "rows": 505,
+   "min_rank": 9,
+   "min_is_true": false,
+   "true_among_min": false,
+   "n_min_solutions_found": 9,
+   "seconds": 0.1
+  },
+  "C2": {
+   "vars": 4050,
+   "rows": 2723,
+   "min_rank": 19,
+   "min_is_true": false,
+   "true_among_min": false,
+   "n_min_solutions_found": 8,
+   "seconds": 4.1
+  },
+  "C3": {
+   "vars": 4050,
+   "rows": 4337,
+   "min_rank": 19,
+   "min_is_true": false,
+   "true_among_min": true,
+   "n_min_solutions_found": 7,
+   "seconds": 0.2
+  },
+  "C4": {
+   "vars": 5670,
+   "rows": 5787,
+   "min_rank": 19,
+   "min_is_true": true,
+   "true_among_min": true,
+   "n_min_solutions_found": 1,
+   "seconds": 0.2
+  },
+  "C5": {
+   "vars": 7290,
+   "rows": 7101,
+   "min_rank": 19,
+   "min_is_true": true,
+   "true_among_min": true,
+   "n_min_solutions_found": 1,
+   "seconds": 0.3
+  }
+ }
+}
