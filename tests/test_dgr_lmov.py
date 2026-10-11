@@ -343,3 +343,50 @@ def test_box3_trefoil_21_unique():
         for m in mons:
             obj[lin.col[("x", m)]] = rng.normal()
         assert solution(lin, solve(lin, objective=obj, xbound=200), mons) == true21
+
+
+def _true21(K):
+    R = load_reduced(K, 3)
+    return R, {k: v for k, v in to_bold(R[(2, 1)], 1 if any(k[0] % 2 for k in R[(2, 1)]) else 0).items() if v}
+
+
+@pytest.mark.parametrize("K", ["T2_3", "T2_5", "4_1"])
+def test_box3_rcs_window_rule(K):
+    """予想 R：rCS_{[2,1]} の 𝐭 の最低次・最高次の線は、rCS_{[2]} と rCS_{[1]} の線の min-plus・max-plus の積。"""
+    from dgr_box3 import rcs_window21
+    R, t21 = _true21(K)
+    bold = lambda P: to_bold(P, 0 if all(k[0] % 2 == 0 for k in P) else 1)  # noqa: E731
+    ends = {}
+    for ea, _, et in t21:
+        lo, hi = ends.get(ea, (10 ** 9, -10 ** 9))
+        ends[ea] = (min(lo, et), max(hi, et))
+    assert rcs_window21(bold(R[(1,)]), bold(R[(2,)])) == ends
+
+
+def test_box3_t5_free_part_and_selection():
+    """T(2,5)：Φ·g の定式化で、正解は一意ではない（自由度が残る）が、rCS の項数最小・L1 最小のどちらでも正解が選ばれる。"""
+    from dgr_box3 import solve21_g
+    R, t21 = _true21("T2_5")
+    qs = [k[1] for k in t21]
+    small = {l_: P for l_, P in R.items() if l_ != (2, 1)}
+    out = solve21_g(small, t21, (min(qs), max(qs)), (1, 1, 1), ("B", "R"), objectives=("terms",))
+    assert out["feasible"] and out["unique"] is False and out["best"] == t21
+    out = solve21_g(small, t21, (min(qs), max(qs)), (1, 1, 1), ("B", "R"), objectives=("l1",), check_unique=False)
+    assert out["best"] == t21
+
+
+def test_box3_phi_divides_differences():
+    """【導出】の確認：T(2,5) の別の解（保存済み）と正解の差は Φ（dgr_box3.phi21）で割り切れる。"""
+    import json
+    import flint
+    from dgr_box3 import phi21
+    d = json.loads((ROOT / "data/dgr_lmov/box3/check_T2_5_UTHEU2L.json").read_text())
+    true = {tuple(m): v for m, v in d["true"]}
+    ctx = flint.fmpz_mpoly_ctx.get(("a", "q", "t"), "lex")
+    Phi = ctx.from_dict(phi21())
+    for x in d["solutions"]:
+        x = {tuple(m): v for m, v in x}
+        D = {m: x.get(m, 0) - true.get(m, 0) for m in set(x) | set(true)}
+        D = {m: v for m, v in D.items() if v}
+        lo = [min(k[i] for k in D) for i in range(3)]
+        assert divmod(ctx.from_dict({tuple(k[i] - lo[i] for i in range(3)): v for k, v in D.items()}), Phi)[1] == 0
