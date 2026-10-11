@@ -228,6 +228,29 @@ def particular_solution(small, H21u, window, conds=("U", "T", "H", "E", "U2", "L
     return {m: int(round(r.x[lin.col[("x", m)]])) for m in mons if round(r.x[lin.col[("x", m)]]) != 0}
 
 
+def particular_solution_linear(small, H21u, window, log=log):
+    """条件の等式（U, T, E, U2, H, R と、因子ごとの代入による Laurent 性）だけを満たす整数解を一つ求める。
+    \\hat f の係数を変数にしないので小さい（正値性は face_core で xp + Φ·g に課す）。"""
+    import numpy as np
+    import scipy.sparse as sps
+    from scipy.optimize import Bounds, LinearConstraint, milp
+    t0 = time.time()
+    lin, mons = build21(small, H21u, window, (1, 1, 1), conds=("U", "T", "H", "E", "U2", "R"))
+    rows = [(dict(r), b) for r, b in zip(lin.rows, lin.rhs)] + LL.laurent_rows(small, mons, lin.col)
+    n = len(lin.col)
+    A = sps.lil_matrix((len(rows), n))
+    for i, (row, _) in enumerate(rows):
+        for j, v in row.items():
+            A[i, j] = v
+    rhs = np.array([b for _, b in rows], float)
+    r = milp(np.zeros(n), constraints=[LinearConstraint(A.tocsr(), rhs, rhs)], bounds=Bounds(np.full(n, -400.0), np.full(n, 400.0)),
+             integrality=np.ones(n), options={"time_limit": 3000})
+    log(f"  実行可能解の探索（等式のみ）：{r.message}（変数 {n}、式 {len(rows)}、{time.time() - t0:.0f}s）")
+    if r.x is None:
+        return None
+    return {m: int(round(r.x[lin.col[("x", m)]])) for m in mons if round(r.x[lin.col[("x", m)]]) != 0}
+
+
 def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, log=log):
     """x = xp + Φ·g（xp は条件の等式を満たす一つの解。既知の結び目では正解）。
     条件：転置、箱（(𝐚, 𝐪) は非 refined の台、𝐭 は r₂r₁ の範囲）、(R)、各 framing x ∈ xs での \\hat f_ρ^{(x)} の
@@ -509,7 +532,9 @@ def predict_twist(p, xs, use_R=True, genus=True, irr=True, log=log):
     small, H21u, window, known21 = LL.twist_inputs(p)
     LL.MARGIN = 0
     small, H21u, window, known21 = LL.twist_inputs(p)         # 窓の規則（margin 0）
-    xp = particular_solution(small, H21u, window, log=log)
+    xp = particular_solution_linear(small, H21u, window, log=log)
+    if xp is None:
+        xp = particular_solution(small, H21u, window, log=log)
     if xp is None:
         return {"status": "実行可能解なし"}
     res = face_core(f"K_{p}", small, xp, H21u, xs, use_R, genus, irr, known=False, log=log)
