@@ -1,0 +1,803 @@
+{
+ "T2_5 x=0 R=False": {
+  "n_g": 136,
+  "n_eq": 1004,
+  "n_ineq": 6583,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 6,
+  "face_contains_true": false,
+  "face_unique": false
+ },
+ "T2_5 x=-6,-5,-4,-3,-2,-1,0 R=False": {
+  "n_g": 136,
+  "n_eq": 1004,
+  "n_ineq": 46081,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 3,
+  "face_contains_true": false,
+  "face_unique": false
+ },
+ "T2_5 x=-3,-2,-1,0,1,2,3 R=False": {
+  "n_g": 136,
+  "n_eq": 1004,
+  "n_ineq": 46081,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 6,
+  "face_contains_true": false,
+  "face_unique": false
+ },
+ "T2_7 x=-6,-5,-4,-3,-2,-1,0 R=False": {
+  "n_g": 666,
+  "n_eq": 2880,
+  "n_ineq": 153531,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 6,
+  "face_contains_true": false,
+  "face_unique": false
+ },
+ "T2_5 x=-6,-5,-4,-3,-2,-1,0 R=False genus=True irr=True": {
+  "n_g": 72,
+  "n_eq": 504,
+  "n_ineq": 67403,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 4,
+  "face_contains_true": true,
+  "face_count": ">=60",
+  "face_count_contains_true": false,
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 176,
+    "d_hat": {
+     "(3,)": [
+      140,
+      70,
+      70,
+      0
+     ],
+     "(2, 1)": [
+      180,
+      90,
+      90,
+      0
+     ],
+     "(1, 1, 1)": [
+      140,
+      70,
+      70,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 128,
+    "d_hat": {
+     "(3,)": [
+      108,
+      54,
+      54,
+      0
+     ],
+     "(2, 1)": [
+      140,
+      70,
+      70,
+      0
+     ],
+     "(1, 1, 1)": [
+      108,
+      54,
+      54,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 200,
+    "d_hat": {
+     "(3,)": [
+      144,
+      72,
+      72,
+      0
+     ],
+     "(2, 1)": [
+      186,
+      93,
+      93,
+      0
+     ],
+     "(1, 1, 1)": [
+      144,
+      72,
+      72,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ },
+ "T2_5 x=0 R=False genus=True irr=True": {
+  "n_g": 72,
+  "n_eq": 504,
+  "n_ineq": 9629,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 6,
+  "face_contains_true": false,
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 200,
+    "d_hat": {
+     "(3,)": [
+      173,
+      91,
+      82,
+      0
+     ],
+     "(2, 1)": [
+      215,
+      114,
+      101,
+      0
+     ],
+     "(1, 1, 1)": [
+      173,
+      91,
+      82,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 262,
+    "d_hat": {
+     "(3,)": [
+      247,
+      150,
+      97,
+      0
+     ],
+     "(2, 1)": [
+      304,
+      187,
+      117,
+      0
+     ],
+     "(1, 1, 1)": [
+      247,
+      150,
+      97,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 264,
+    "d_hat": {
+     "(3,)": [
+      254,
+      119,
+      135,
+      0
+     ],
+     "(2, 1)": [
+      308,
+      143,
+      165,
+      0
+     ],
+     "(1, 1, 1)": [
+      254,
+      119,
+      135,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ },
+ "T2_5 x=-6,-5,-4,-3,-2,-1,0 R=False genus=False irr=False": {
+  "n_g": 72,
+  "n_eq": 504,
+  "n_ineq": 24045,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 4,
+  "face_contains_true": true,
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 176,
+    "d_hat": {
+     "(3,)": [
+      140,
+      70,
+      70,
+      0
+     ],
+     "(2, 1)": [
+      180,
+      90,
+      90,
+      0
+     ],
+     "(1, 1, 1)": [
+      140,
+      70,
+      70,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 200,
+    "d_hat": {
+     "(3,)": [
+      144,
+      72,
+      72,
+      0
+     ],
+     "(2, 1)": [
+      186,
+      93,
+      93,
+      0
+     ],
+     "(1, 1, 1)": [
+      144,
+      72,
+      72,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ },
+ "T2_7 x=-6,-5,-4,-3,-2,-1,0 R=False genus=True irr=True": {
+  "n_g": 342,
+  "n_eq": 1440,
+  "n_ineq": 228305,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 6,
+  "face_contains_true": false,
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 640,
+    "d_hat": {
+     "(3,)": [
+      724,
+      414,
+      310,
+      0
+     ],
+     "(2, 1)": [
+      841,
+      483,
+      358,
+      0
+     ],
+     "(1, 1, 1)": [
+      724,
+      414,
+      310,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 604,
+    "d_hat": {
+     "(3,)": [
+      661,
+      335,
+      326,
+      0
+     ],
+     "(2, 1)": [
+      762,
+      394,
+      368,
+      0
+     ],
+     "(1, 1, 1)": [
+      661,
+      335,
+      326,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 600,
+    "d_hat": {
+     "(3,)": [
+      545,
+      318,
+      227,
+      0
+     ],
+     "(2, 1)": [
+      651,
+      393,
+      258,
+      0
+     ],
+     "(1, 1, 1)": [
+      545,
+      318,
+      227,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ },
+ "T2_5 x=-6,-5,-4,-3,-2,-1,0 R=True genus=True irr=True": {
+  "n_g": 72,
+  "n_eq": 644,
+  "n_ineq": 67403,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 1,
+  "face_contains_true": true,
+  "face_count": 1,
+  "face_count_contains_true": true,
+  "feature_rank": {
+   "hat_terms": {
+    "true": 2822,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 2822,
+    "max": 2822
+   },
+   "rcs_terms": {
+    "true": 92,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 92,
+    "max": 92
+   },
+   "rcs_l1": {
+    "true": 239,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 239,
+    "max": 239
+   },
+   "rcs_neg": {
+    "true": 25,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 25,
+    "max": 25
+   },
+   "hat_t_width": {
+    "true": 44,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 44,
+    "max": 44
+   },
+   "hat_q_width": {
+    "true": 68,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 68,
+    "max": 68
+   },
+   "hat_gmax": {
+    "true": 17,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 17,
+    "max": 17
+   },
+   "hat_max_coeff": {
+    "true": 763,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 763,
+    "max": 763
+   }
+  },
+  "face_bounded": true,
+  "alt_summary": [],
+  "face_unique": true
+ },
+ "T2_5 x=-6,-5,-4,-3,-2,-1,0 R=True genus=False irr=False": {
+  "n_g": 72,
+  "n_eq": 644,
+  "n_ineq": 24045,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 1,
+  "face_contains_true": true,
+  "face_count": 1,
+  "face_count_contains_true": true,
+  "feature_rank": {
+   "hat_terms": {
+    "true": 2822,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 2822,
+    "max": 2822
+   },
+   "rcs_terms": {
+    "true": 92,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 92,
+    "max": 92
+   },
+   "rcs_l1": {
+    "true": 239,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 239,
+    "max": 239
+   },
+   "rcs_neg": {
+    "true": 25,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 25,
+    "max": 25
+   },
+   "hat_t_width": {
+    "true": 44,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 44,
+    "max": 44
+   },
+   "hat_q_width": {
+    "true": 68,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 68,
+    "max": 68
+   },
+   "hat_gmax": {
+    "true": 17,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 17,
+    "max": 17
+   },
+   "hat_max_coeff": {
+    "true": 763,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 763,
+    "max": 763
+   }
+  },
+  "face_bounded": true,
+  "alt_summary": [],
+  "face_unique": true
+ },
+ "T2_5 x=0 R=True genus=True irr=True": {
+  "n_g": 72,
+  "n_eq": 644,
+  "n_ineq": 9629,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 2,
+  "face_contains_true": true,
+  "face_count": 2,
+  "face_count_contains_true": true,
+  "feature_rank": {
+   "hat_terms": {
+    "true": 2822,
+    "n_le": 2,
+    "n_lt": 0,
+    "min": 2822,
+    "max": 2822
+   },
+   "rcs_terms": {
+    "true": 92,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 92,
+    "max": 144
+   },
+   "rcs_l1": {
+    "true": 239,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 239,
+    "max": 289
+   },
+   "rcs_neg": {
+    "true": 25,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 25,
+    "max": 52
+   },
+   "hat_t_width": {
+    "true": 44,
+    "n_le": 2,
+    "n_lt": 0,
+    "min": 44,
+    "max": 44
+   },
+   "hat_q_width": {
+    "true": 68,
+    "n_le": 2,
+    "n_lt": 0,
+    "min": 68,
+    "max": 68
+   },
+   "hat_gmax": {
+    "true": 17,
+    "n_le": 2,
+    "n_lt": 0,
+    "min": 17,
+    "max": 17
+   },
+   "hat_max_coeff": {
+    "true": 763,
+    "n_le": 2,
+    "n_lt": 1,
+    "min": 760,
+    "max": 763
+   }
+  },
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 104,
+    "d_hat": {
+     "(3,)": [
+      74,
+      37,
+      37,
+      0
+     ],
+     "(2, 1)": [
+      108,
+      54,
+      54,
+      0
+     ],
+     "(1, 1, 1)": [
+      74,
+      37,
+      37,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ },
+ "T2_5 x=-2,-1,0 R=True genus=True irr=True": {
+  "n_g": 72,
+  "n_eq": 644,
+  "n_ineq": 28887,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 1,
+  "face_contains_true": true,
+  "face_count": 1,
+  "face_count_contains_true": true,
+  "feature_rank": {
+   "hat_terms": {
+    "true": 2822,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 2822,
+    "max": 2822
+   },
+   "rcs_terms": {
+    "true": 92,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 92,
+    "max": 92
+   },
+   "rcs_l1": {
+    "true": 239,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 239,
+    "max": 239
+   },
+   "rcs_neg": {
+    "true": 25,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 25,
+    "max": 25
+   },
+   "hat_t_width": {
+    "true": 44,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 44,
+    "max": 44
+   },
+   "hat_q_width": {
+    "true": 68,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 68,
+    "max": 68
+   },
+   "hat_gmax": {
+    "true": 17,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 17,
+    "max": 17
+   },
+   "hat_max_coeff": {
+    "true": 763,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 763,
+    "max": 763
+   }
+  },
+  "face_bounded": true,
+  "alt_summary": [],
+  "face_unique": true
+ },
+ "T2_5 x=-1,0 R=True genus=False irr=False": {
+  "n_g": 72,
+  "n_eq": 644,
+  "n_ineq": 6870,
+  "min_total": 0,
+  "true_total": 0,
+  "face_solutions_found": 2,
+  "face_contains_true": false,
+  "face_count": 12,
+  "face_count_contains_true": true,
+  "feature_rank": {
+   "hat_terms": {
+    "true": 2822,
+    "n_le": 12,
+    "n_lt": 0,
+    "min": 2822,
+    "max": 2822
+   },
+   "rcs_terms": {
+    "true": 92,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 92,
+    "max": 150
+   },
+   "rcs_l1": {
+    "true": 239,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 239,
+    "max": 1017
+   },
+   "rcs_neg": {
+    "true": 25,
+    "n_le": 1,
+    "n_lt": 0,
+    "min": 25,
+    "max": 58
+   },
+   "hat_t_width": {
+    "true": 44,
+    "n_le": 12,
+    "n_lt": 0,
+    "min": 44,
+    "max": 44
+   },
+   "hat_q_width": {
+    "true": 68,
+    "n_le": 12,
+    "n_lt": 0,
+    "min": 68,
+    "max": 68
+   },
+   "hat_gmax": {
+    "true": 17,
+    "n_le": 12,
+    "n_lt": 0,
+    "min": 17,
+    "max": 17
+   },
+   "hat_max_coeff": {
+    "true": 763,
+    "n_le": 7,
+    "n_lt": 6,
+    "min": 745,
+    "max": 778
+   }
+  },
+  "face_bounded": true,
+  "alt_summary": [
+   {
+    "d_rcs_terms": 104,
+    "d_hat": {
+     "(3,)": [
+      74,
+      37,
+      37,
+      0
+     ],
+     "(2, 1)": [
+      108,
+      54,
+      54,
+      0
+     ],
+     "(1, 1, 1)": [
+      74,
+      37,
+      37,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 104,
+    "d_hat": {
+     "(3,)": [
+      74,
+      37,
+      37,
+      0
+     ],
+     "(2, 1)": [
+      108,
+      54,
+      54,
+      0
+     ],
+     "(1, 1, 1)": [
+      74,
+      37,
+      37,
+      0
+     ]
+    }
+   },
+   {
+    "d_rcs_terms": 104,
+    "d_hat": {
+     "(3,)": [
+      74,
+      37,
+      37,
+      0
+     ],
+     "(2, 1)": [
+      108,
+      54,
+      54,
+      0
+     ],
+     "(1, 1, 1)": [
+      74,
+      37,
+      37,
+      0
+     ]
+    }
+   }
+  ],
+  "face_unique": false
+ }
+}
