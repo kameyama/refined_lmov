@@ -3,6 +3,25 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 2026-10-12 D12：仮説 H_u（unreduced の hook の Schur 係数の正値性）の検査——不成立で停止（ユーザーの指示）
+
+**やったこと**：scripts/dgr_hu.py（check / highbox / convention）、tests/test_dgr_lmov.py に D12 の 2 件。記録 logs/dgr_hu.log、data/dgr_lmov/hu_check.json。詳細は report.md D12。
+
+**結果**
+- 規約の照合【計算】：T(2,3), T(2,5) の [2,1] で、N_λ = rCS^{red} × Π_{□≠(1,1)}（unknot の分子の因子）の a の行は、GN の f̃_{[2,1]} の hook の Schur 係数 × Π(1 − q^a t^{l+1}) に単項式倍（−(q/t)^{21/2}, −(q/t)^{16}）で一致（有理数の 3 点、全行で同じ比）。
+- H_u は [2,1] で全ての結び目（トーラス 9、4_1、代数的ケーブル 6）で不成立【計算】。N の負の項は reduced より増える（T(2,3)：7 → 14、4_1：10 → 10、K1：1247 → 1773）。
+- 4〜6 箱（T(2,3)）、4〜5 箱（T(2,5)）、4 箱（T(3,4)）でも「N_λ ≥ 0 ⇔ λ が長方形」【計算】。非長方形は全て負。
+- 結論：負の符号は reduced への割り算ではなく、積分形 J_λ に対する f̃ の hook の Schur 係数そのものにある。Mellit の定理（[1] の Schur 正値性）は非長方形には伸びない（H19）。
+- 段階 2 は前提が崩れたので未実施。段階 3 の安い方（列ごとの 𝐭 の範囲、凸包の包含）は D11 の `support` の検査で既に否定的。
+- 4 箱の Laurent 性との連立の規模【見積もり、T(2,5)】：未知数は [2,1] の箱 2184 ＋ [3,1] の箱 8670（[2,1,1] は転置で決まる）≈ 1.1 万。4_1 の [3,1]（未知数 2367、式 5.2 万）の消去が 15 分だったので、式は数十万、消去は数時間の見込み（1 件 30 分を超えるため実行せず）。
+
+**停止点**：段階 1 の結果が出たので停止し報告する。
+
+**次の候補（ユーザーの判断待ち）**
+1. Schur 基底より細かい正の基底（hook の Schur 係数の中の符号の構造）を f̃_{[2,1]} で調べる（例：T(2,3) の c_s を q, t_w の多項式として因数分解し、負の項の位置を見る）。
+2. 4 箱の Laurent 性との連立（数時間、再開可能な形で）。
+3. H11 の方法（総数最小 ＋ framing）の K_{±2} の予言を別の方法で検査する。
+
 ## 2026-10-12 H11：framing の正値性と BPS 総数の最小化（ユーザーの指示「証明の優先順位を一番最後にせよ。unrefined から refined を一意（多くとも O(1)）に予想できることが最優先である。予想 H11 に進め」）
 
 **やったこと**：scripts/lmov21_h11.py（face / predict / framing / support）、tests/test_lmov21_h11.py（4 件）。記録 logs/lmov21_h11.log、data/lmovstruct/lmov21_h11_*.json。詳細は report.md D11「H11 の進展」。

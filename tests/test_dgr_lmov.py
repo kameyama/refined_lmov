@@ -390,3 +390,25 @@ def test_box3_phi_divides_differences():
         D = {m: v for m, v in D.items() if v}
         lo = [min(k[i] for k in D) for i in range(3)]
         assert divmod(ctx.from_dict({tuple(k[i] - lo[i] for i in range(3)): v for k, v in D.items()}), Phi)[1] == 0
+
+
+# ---- D12：仮説 H_u（N_λ = rCS × unknot の分子の因子） ----
+
+def test_hu_unknot_factors_and_trivial_positivity():
+    """N_λ の作り方：[2,1] の因子は (𝐪² + 𝐚²𝐭)(1 + 𝐚²𝐪²𝐭³)。[1], [2], [1,1] では reduced が正なので N も正（自明）。[2,1] は三葉結び目で負の項が残る。"""
+    from dgr_hu import N_lambda, sign_summary, unknot_numerator_factors
+    assert unknot_numerator_factors((2, 1)) == [{(0, 0, 0): 1, (2, 2, 3): 1}, {(0, 2, 0): 1, (2, 0, 1): 1}]
+    assert unknot_numerator_factors((1,)) == []
+    R = load_reduced("T2_3", 3)
+    for lam in ((1,), (2,), (1, 1)):
+        assert sign_summary(N_lambda(R[lam], lam))["neg"] == 0
+    s = sign_summary(N_lambda(R[(2, 1)], (2, 1)))
+    assert s["neg"] == 14 and s["terms"] == 81 and not s["rows_uniform"]
+
+
+def test_hu_convention_rows_are_hook_schur_coefficients():
+    """規約の照合：T(2,3) の [2,1] で、N の a の行は GN の f̃_{[2,1]} の hook の Schur 係数 × Π(1 − q^a t^{l+1}) に単項式倍で一致する（1 点）。"""
+    from fractions import Fraction
+    from dgr_hu import convention
+    r = convention("T2_3", points=((Fraction(3, 7), Fraction(5, 11)), (Fraction(2, 9), Fraction(7, 13)), (Fraction(5, 3), Fraction(4, 7))))
+    assert all(r["rows_equal_ratio"]) and r["monomial"] == (21, -21, "-1")
