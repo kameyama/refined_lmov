@@ -197,7 +197,7 @@ if __name__ == "__main__" and not (len(sys.argv) > 1 and sys.argv[1] in ("face",
 
 # ---- face：全条件 ＋ framing の正値性 ＋ BPS 状態の総数の最小化で、残る整数解を数える ----------------
 
-def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=False, l1=False, log=log):
+def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=False, l1=False, series=False, log=log):
     """既知の結び目：x = x_true + Φ·g。face_core を参照。"""
     R = load_reduced(K, 3)
     small = {l: P for l, P in R.items() if l != (2, 1)}
@@ -206,7 +206,7 @@ def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=Fa
     for (a, q, t), c in xp.items():
         H21u[(a, q)] = H21u.get((a, q), 0) + c * (-1) ** (t % 2)
     H21u = {k: v for k, v in H21u.items() if v}
-    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, lex=lex, quot=quot, l1=l1, log=log)
+    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, lex=lex, quot=quot, l1=l1, series=series, log=log)
 
 
 def particular_solution(small, H21u, window, conds=("U", "T", "H", "E", "U2", "L", "R"), sigmas=(1, 1, 1), log=log):
@@ -251,7 +251,7 @@ def particular_solution_linear(small, H21u, window, log=log):
     return {m: int(round(r.x[lin.col[("x", m)]])) for m in mons if round(r.x[lin.col[("x", m)]]) != 0}
 
 
-def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, lex=False, quot=False, l1=False, log=log):
+def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, lex=False, quot=False, l1=False, series=False, log=log):
     """x = xp + Φ·g（xp は条件の等式を満たす一つの解。既知の結び目では正解）。
     条件：転置、箱（(𝐚, 𝐪) は非 refined の台、𝐭 は r₂r₁ の範囲）、(R)、各 framing x ∈ xs での \\hat f_ρ^{(x)} の
     spin 表示（genus, irr も選べる）の非負性。全体の符号は既知なら xp（正解）から、未知なら ＋ を仮定する【仮定】。
@@ -298,6 +298,24 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
             r2 = {j: v for j, v in r2.items() if v}
             if r2:
                 eqs.append((r2, xp.get(s, 0) - xp.get(m, 0)))
+    nS = 0
+    if series:
+        # S：仮説 H_u″。N(x) = x·(𝐪²+𝐚²𝐭)(1+𝐚²𝐪²𝐭³) を (1−𝐪²)²(1−𝐪⁶𝐭²) で割った 𝐪→0 の冪級数の係数 ≥ 0（scripts/lmov21_hu.py）
+        from dgr_hu import unknot_numerator_factors
+        from lmov21_hu import series_rows
+        Fm = {(0, 0, 0): 1}
+        for f in unknot_numerator_factors((2, 1)):
+            Fm = _mul(Fm, f)
+        cols = {None: _mul(xp, Fm)}
+        for e in G:
+            cols[gi[e]] = _mul(_mul({e: 1}, Phi), Fm)
+        Np = cols[None]
+        sg = 1 if sum(1 for v in Np.values() if v > 0) >= sum(1 for v in Np.values() if v < 0) else -1
+        for key, r in series_rows(cols, (2, 1), 40).items():
+            c0 = r.pop(None, 0)
+            if r:
+                ineqs.append(({j: sg * v for j, v in r.items()}, -sg * c0))
+                nS += 1
     # framing 0 の像の行（g_e → \hat f_ρ の太字の係数）
     phis = L.from_dict(bold_to_small(Phi))
     rows0, shifts, sig = {}, {}, {}
@@ -436,7 +454,7 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
                         r = irows.get(k, {})
                         if r:
                             ineqs.append(({j: s * v for j, v in r.items()}, -s * Ix.get(k, 0)))
-    log(f"  等式 {len(eqs)}、不等式 {len(ineqs)}、符号 {sorted(set(sig.values()))}")
+    log(f"  等式 {len(eqs)}、不等式 {len(ineqs)}（うち S {nS}）、符号 {sorted(set(sig.values()))}")
 
     def mat(rows):
         A = sps.lil_matrix((len(rows), n))
@@ -684,10 +702,11 @@ if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "face":
     lex = "--lex" in sys.argv
     quot = "--quot" in sys.argv
     l1 = "--l1" in sys.argv
+    series = "--S" in sys.argv
     OUT.mkdir(parents=True, exist_ok=True)
     log(f"=== lmov21_h11 face {time.strftime('%Y-%m-%d %H:%M:%S')} {' '.join(sys.argv[2:])} ===")
-    res = face(K, xs, use_R, genus, irr, lex=lex, quot=quot, l1=l1)
+    res = face(K, xs, use_R, genus, irr, lex=lex, quot=quot, l1=l1, series=series)
     path = OUT / "lmov21_h11_face.json"
     prev = json.loads(path.read_text()) if path.exists() else {}
-    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr} lex={lex} quot={quot} l1={l1}"] = json.loads(json.dumps(res, default=str))
+    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr} lex={lex} quot={quot} l1={l1} S={series}"] = json.loads(json.dumps(res, default=str))
     path.write_text(json.dumps(prev, ensure_ascii=False, indent=1))
