@@ -298,3 +298,18 @@ def test_d10_prediction_reproduces_5_2():
     known = {k: int(v) for k, v in inputs(2)[1].items() if v}
     rec = D.predict("5_2", lambda s: None, samples=3, known=known)
     assert rec["n_solutions"] == 1 and rec["matches_known"] and all(rec["genus_uniform_sign_all"])
+
+
+def test_kh2_proxy_distinguishes_6_2_solutions():
+    """6_2：文献の解（Nawata–Oblomkov）の d₂ の最小の残りを A = Q² で写した像は、別解からは作れない（色付き Khovanov で区別できる）。"""
+    import json
+    from dgr_kh2_test import kh_images
+    from dgr_no_6263 import tc_bold
+    rec = json.loads((ROOT / "data/dgr_lmov/d10/6_2.json").read_text())
+    sols = [{tuple(map(int, k.split(","))): v for k, v in s.items()} for s in rec["all_solutions"]]
+    lit = tc_bold("6_2", 2)
+    other = [s for s in sols if s != lit]
+    assert lit in sols and len(other) == 1
+    mn, imgs = kh_images(lit, samples=3)
+    assert mn == 93 and len(imgs) == 1
+    assert not kh_images(other[0], kh_fixed=imgs[0])

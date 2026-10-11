@@ -12,6 +12,7 @@
   (P) h ≥ 0（spin 表示の正値性）。任意で genus 表示：σ 不変性と、genus 展開の係数 N ≥ 0 を等式で課す。
   (Π) 任意：parity knot の 2J_r の偶奇（F − β − g ≡ c mod 2、c は [1] の genus 表示から読む）。
   (X) 任意：追加の特殊化（d_{0|2}, d_{0|3}, d_{2|0} など、目標は外から与える）。
+  (K) 任意：d₂ のホモロジーの形で、残りを A = Q² で写したものを色付き Khovanov の値（kh2）に固定する。
   rcs_pos：rCS_{[2]} ≥ 0（対称表現の Poincaré 多項式として。docs/dgr_lmov/README.md の規則で許される）。
 一意性：LP 緩和で各 x_m の最小と最大を求め、全て一致すれば（実数の範囲でも）一意。
 入力 [1] は変種 (a) でも使う（2 箱の公式に [1] が入るため）。(a) と (b) の違いは条件 (H) の有無。
@@ -53,7 +54,7 @@ class Lin:
         self.rhs.append(rhs)
 
 
-def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None, extra_special=(), laurent=True, cancel_hom=()):
+def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False, parity=None, extra_special=(), laurent=True, cancel_hom=(), kh2=None):
     """P1：rCS_{[1]}（太字）、H2u：非 refined の [2]（{(e_𝐚, e_𝐪): c}）、window_t：rCS_{[2]} の 𝐭 の窓。"""
     lin = Lin()
     mons = [(a, q, t) for (a, q) in H2u for t in range(*window_t)]
@@ -113,6 +114,10 @@ def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False,
             if img != {tk: tv} and img != {tk: -tv}:
                 lin.eq({(d + "_r", m): 1}, 0)
         lin.eq({(d + "_r", m): 1 for m in mons}, 1)
+    # (K) 任意：d₂ のホモロジーの形と色付き Khovanov。x = r + Q + Q[−deg]（deg = (−2, 4, −1)、r, Q ≥ 0）、
+    #     残り r を太字の A = Q²（(e_𝐚, e_𝐪, e_𝐭) ↦ (2e_𝐚 + e_𝐪, e_𝐭)）で写したものが kh2 = {(q 次数, t 次数): 階数} に一致する
+    if kh2 is not None:
+        add_kh2(lin, mons, kh2)
     # (E) refined の指数増大性（KN (EGP)）：q = 1（太字で 𝐪 = 𝐭^{−1}、𝐪 の指数は偶数）で rCS_{[2]} = rCS_{[1]}²
     if egp:
         sq = {}
@@ -157,6 +162,28 @@ def build(P1, H2u, window_t, variant="b", sigmas=(1, 1), genus=False, egp=False,
         if genus:
             add_genus(lin, rho, hmons, sgn, parity=parity)
     return lin, mons
+
+
+D2 = (-2, 4, -1)
+
+
+def add_kh2(lin, mons, kh2, var="x"):
+    mset = set(mons)
+    for m in mons:
+        row = {(var, m): 1, ("d2r", m): -1, ("d2", m): -1}
+        src = (m[0] - D2[0], m[1] - D2[1], m[2] - D2[2])
+        if src in mset:
+            row[("d2", src)] = row.get(("d2", src), 0) - 1
+        lin.eq(row, 0)
+        if (m[0] + D2[0], m[1] + D2[1], m[2] + D2[2]) not in mset:
+            lin.eq({("d2", m): 1}, 0)
+    if kh2 is None:
+        return                                  # 分解だけ（像は固定しない）
+    img = {}
+    for m in mons:
+        img.setdefault((2 * m[0] + m[1], m[2]), {})[("d2r", m)] = 1
+    for k in set(img) | set(kh2):
+        lin.eq(img.get(k, {}), kh2.get(k, 0))
 
 
 def add_genus(lin, rho, hmons, sgn, gmax=None, parity=None):

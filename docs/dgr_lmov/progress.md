@@ -3,6 +3,15 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 2026-10-11 6_2 で色付き Khovanov の効き目を確かめる（ユーザーの指示「6_2 で 1 と 2 を確かめて」）
+
+- 変数の訂正（ユーザーの指摘）：外部の色付き Khovanov は、a = t² の特殊化ではなく、d₂ のホモロジーの形で、残りを太字の A = Q² で写して課す。report.md に訂正を記録した。
+- 色付き Khovanov の代理（文献の正解の d₂ の最小の残りの A = Q² 像）で調べた。
+  - 1：6_2 の 2 つの解は区別される。互いの像を作れない。
+  - 2：代理を条件に加えると、解は一意で文献の解に一致する。
+- テストは 26 件。
+- 次にやること（指示待ち）：実際の S² 色付き Khovanov の値の入手（文献か計算）と、次数の較正。
+
 ## 2026-10-11 D10：thin な結び目の予言（ユーザーの指示「D10 の予言を thin な結び目で進めよ」）
 
 **やったこと**
