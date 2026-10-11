@@ -1,6 +1,6 @@
 """保存済みの refined LMOV（data/bps/、|ρ| ≤ 3）の再判定：既約表示の非負性と彩色 d_1（results の印。既定では実行しない）。
 
-主張（docs/REPORT_dgr_lmov_spin.md）：
+主張（docs/dgr_lmov/report.md §11〜§14）：
 - \\hat f_ρ は全件で W 不変（G 展開が閉じることと同値）。
 - 既約表示（SU(2)_L の指標 χ_j(w)、w = 𝐪²𝐭）の係数は、KN の G 展開の前の正値性が成り立つ (結び目, ρ) で非負。
 - a = t で |ρ| ≥ 2 の \\hat f_ρ は 0、a = 1 で全ての \\hat f_ρ は 0。

@@ -1,4 +1,4 @@
-"""refined LMOV 不変量の既約表示・種数表示と、DGR 型の構造を調べる道具（docs/research_plan_dgr_lmov.md §1 の辞書）。
+"""refined LMOV 不変量の既約表示・種数表示と、DGR 型の構造を調べる道具（docs/dgr_lmov/report.md §11 の辞書）。
 
 多項式は {(e_𝐚, e_𝐪, e_𝐭): c}（太字、DGR の変数）か {(e_A, e_Q, e_T): c}（KN の小文字の平方根 (A, Q, T) = (a, q, t)^{1/2}）。
 行の座標 (β, k, f)：𝐚^{2β} w^k 𝐭^f、w = 𝐪²𝐭（SU(2)_L の重みの変数）、𝐭（U(1)_R の電荷の変数）。

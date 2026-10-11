@@ -6,7 +6,8 @@
 ## 目的
 - DGR（math/0505662）や四重次数の色付きホモロジー（GGS 1304.3481）の考え方（微分 d_{n|m}、対称性、色付き微分、δ 次数、t_r/t_c）を、refined LMOV 不変量の spin 表示・genus 表示で、どう表せるかを調べる。
   - 同じ構造はそのままは成り立たないので、非 refined と refined の LMOV のデータを観察して 0 から考える（ユーザーの最初の指示）。
-- 見つけた構造と非 refined のデータから refined LMOV と rCS を構成し、まだ計算されていない値を予言する（計画 D7〜D10）。
+- 見つけた構造と非 refined のデータから refined LMOV と rCS を構成し、まだ計算されていない値を予言する（計画 D7〜D11）。特に、まだ数の少ない [2,1]・[3,1] が「unrefined の LMOV ＋ いくつかの仮定」から構成できるかを調べる。
+- \hat f_ρ の側で自然に定義できる基底（SU(2)_L の既約表示）・特殊化の点（a = t^N q^{−M}）・種数 0 の部分に、DGR の対称性・微分・正値性・指数増大性がどう対応するかを整理する（計画 S0〜S6）。
 
 ## 本研究との違い（規則）
 | 項目 | 本研究（docs/ 直下、CLAUDE.md） | この研究 |
@@ -27,17 +28,17 @@
 ## ファイル
 | ファイル | 内容 |
 |---|---|
-| research_plan.md | 計画（段階 D0〜D10、状態の表、停止点、記録の規則） |
-| report.md | 本文（結果と導出。前半 §0〜§10 が最初の観察、後半が計画の段階ごとの記録） |
+| research_plan.md | 計画（段階 D0〜D11 と S0〜S6、状態の表、停止点、記録の規則） |
+| report.md | 本文（結果と導出。§0〜§10 が最初の観察、§11〜§14 が σ の辞書・既約表示・特殊化の点・種数 0、後半が計画の段階 D1〜D11 ごとの記録） |
 | progress.md | 進捗（日付ごと、新しいものが上） |
-| open_problems.md | 未解決（H1〜H8） |
+| open_problems.md | 未解決（H1〜H18） |
 | novelty.md | 新規性と既知の結果（文献調査） |
 
-## コード・データ・記録（名前に dgr を含むもの）
-- コード：src/rcsknots/dgr.py（道具）、src/rcsknots/large_n_inverse.py（GT1/GT2 の逆解き）、scripts/dgr_*.py。
-- テスト：tests/test_dgr_lmov.py（既定の実行に含まれる）。
-- データ：data/dgr_lmov/（判定の要約、4 箱以上の判定 highbox/、構成の追跡 follow/ など）。
-- 記録：logs/dgr_*.log。
+## コード・データ・記録
+- コード：src/rcsknots/dgr.py（因子・特殊化の道具）、src/rcsknots/lmovstruct.py（既約表示・σ・特殊化の点）、src/rcsknots/large_n_inverse.py（GT1/GT2 の逆解き）、scripts/dgr_*.py（D 段階）、scripts/lmovstruct_*.py（S 段階）、scripts/lmov21_*.py, scripts/lmov31_linear.py（D11 の一次の解析）。
+- テスト：tests/test_dgr_lmov.py, test_lmovstruct.py, test_lmov21_linear.py（既定の実行に含まれる）。保存値の再判定は tests/test_lmovstruct_results.py と results 印のテスト（既定の実行から外れる）。
+- データ：data/dgr_lmov/（判定の要約、4 箱以上の判定 highbox/、構成の追跡 follow/、2 箱の予言 d10/、3 箱 box3/）、data/lmovstruct/（既約表示の調査、801 結び目、特殊化の点、D11 の零空間と多面体）。
+- 記録：logs/dgr_*.log、logs/lmov*.log。
 - 4 箱以上の入力（data/highbox/）は本研究のデータで、git の外にある（本体のチェックアウトのものを読むだけ）。
 
 ## 作業を再開するとき

@@ -458,9 +458,9 @@ GJ = Gu–Jockers 1407.5643（GJ.v3.arXiv.tex）、MMM = 1408.3076（main.lf.tex
 
 ## 19. refined LMOV の既約表示と SU(2)_L の辞書（2026-10-11）【導出】
 
-docs/REPORT_dgr_lmov_spin.md §1。太字の単項式 𝐚^{2β} 𝐪^{2k} 𝐭^{f+k} = 𝐚^{2β} w^k 𝐭^f（w = 𝐪²𝐭 = −(qt)^{1/2}）に (β, k, f) = (a 次数, SU(2)_L の重み, U(1)_R の電荷) を当てる。
+docs/dgr_lmov/report.md §11。太字の単項式 𝐚^{2β} 𝐪^{2k} 𝐭^{f+k} = 𝐚^{2β} w^k 𝐭^f（w = 𝐪²𝐭 = −(qt)^{1/2}）に (β, k, f) = (a 次数, SU(2)_L の重み, U(1)_R の電荷) を当てる。
 - G = w + w^{−1} − 𝐭 − 𝐭^{−1} = χ_{1/2}(w) − χ_{1/2}(𝐭)。
-- W: (a, q, t) ↦ (a, 1/t, 1/q) は太字で (𝐚, w, 𝐭) ↦ (𝐚, 1/w, 𝐭)、DGR の φ: (e_𝐚, e_𝐪, e_𝐭) ↦ (e_𝐚, −e_𝐪, e_𝐭 − e_𝐪) に等しい。G 展開が閉じる ⇔ \hat f_ρ が W 不変 ⇔ f^{\bar t} = M(q^{−1})\hat f。
+- σ: (a, q, t) ↦ (a, 1/t, 1/q) は太字で (𝐚, w, 𝐭) ↦ (𝐚, 1/w, 𝐭)、すなわち (e_𝐚, e_𝐪, e_𝐭) ↦ (e_𝐚, −e_𝐪, e_𝐭 − e_𝐪)（DGR の対称性、SU(2)_L の Weyl 反転）。G 展開が閉じる ⇔ \hat f_ρ が σ 不変 ⇔ f^{\bar t} = M(q^{−1})\hat f。
 - 既約表示：\hat f_ρ = Σ N^{(s)}_{ρ;β,j,f} 𝐚^{2β} χ_j(w) 𝐭^f、N^{(s)} = c_{2j} − c_{2j+2}（c_k は spin 表示の係数）。実装 `src/rcsknots/lmovstruct.py`。
 - 特殊化の点：a = t^N q^{−M} で unknot_λ = 0 ⇔ (N+1, M+1) ∈ λ（gl(N|M) の切り詰め）。DGR の d_N は a = t^N、d_{−N} は a = q^{−N}、d_0 は a = t/q、GGS の d_{N|M} は a = t^N q^{−M}。
 

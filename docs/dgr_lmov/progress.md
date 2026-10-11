@@ -3,6 +3,35 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 2026-10-12 文書の一本化（ユーザーの指示「取り込んで整理せよ。重複分は一つにまとめよ」）
+
+- 並行して進めていた 2 本の作業（3 箱の整数計画による検証と、一次の解析・既約表示）を一つのブランチに取り込み、文書を docs/dgr_lmov/ に一本化した。
+  - report.md：§11〜§14（σ の辞書、既約表示、特殊化の点、種数 0）を追加。「3 箱」「T(2,5) の検証」と一次の解析の報告を一つの節 D11 に書き直した。
+  - research_plan.md：D11 と S0〜S6 を追加し、状態の表を更新。open_problems.md：H8 を解決済みにし、H11 を書き直し、H13〜H18 を追加。novelty.md：§3 を追加。
+  - 削除した文書：docs/REPORT_dgr_lmov_spin.md、docs/REPORT_unrefined_to_refined.md、docs/research_plan_dgr_lmov.md（内容は上に統合）。docs/open_problems.md・novelty_report.md・progress.md 本体はこのディレクトリへの案内だけにした。conventions.md §19 は辞書として残し、参照先を直した。
+- 統合で直した不整合：
+  - 「三葉結び目・4_1 では正値性が自由度を 0 に抑える」→ 正しくは Φ の次数が窓に収まらず g の変数が 0 個で、一次の条件だけで決まる（正値性は不要）。
+  - t = q（Q = T）は 𝐭 = −1 と同じ特殊化である（「𝐭 = −1 の側ではない」とした記述を撤回）。
+  - 解の差の t = q に由来する因子は Q − T = −𝐪(1+𝐭) であって q − t ではない。
+  - 対称性の記号は σ に統一（W、DGR の φ と同じもの）。
+- 第 4 期 V2（三葉結び目でも一意に決まらない）との食い違いは窓の取り方で説明できることを、scripts/u3_21.py（EGP の積の範囲に margin 2）と build21（(𝐚, 𝐪) は非 refined の台）を比べて確認した。report.md D11「自由度の構造」に記録。
+- テスト：tests/test_dgr_lmov.py 33 件、tests/test_lmovstruct.py・test_lmov21_linear.py 38 件（results 印を含む）が通る。
+- **状態：D11 の停止点で停止中**。次の候補は H11（自由度を決める入力か上界型の仮定）、H12（予想 R の証明と 4 箱での確認）、H13（予想 S の証明）。
+
+## 2026-10-11 D11：[2,1]・[3,1] の一次の解析（ユーザーの指示「目標は unrefined LMOV から仮定の下で refined LMOV を計算できるようになること。[2,1], [3,1] が構成できるか」「t = q か 𝐭 = −1 か」）
+
+**やったこと**：scripts/lmov21_linear.py（零空間の次元、法 p の疎な消去）、lmov21_polytope.py（正値性の多面体）、lmov31_linear.py（4_1 の [3,1]）、lmov21_predict_check.py。記録 logs/lmov21_linear*.log, lmov21_polytope.log, lmov31_linear.log、データ data/lmovstruct/lmov21_*.json, lmov31_linear.json。テスト tests/test_lmov21_linear.py。
+
+**結果**（report.md D11）
+- 変数：(cov) の下で t = q（Q = T）と 𝐭 = −1 は同じ特殊化で、入力の情報は同じ。未知数と条件は太字で置くのが良い【導出】。
+- 三葉結び目と 4_1 では t = q・転置・EGP・U(2)・3 箱の Laurent 性の一次の条件だけで零空間 0、唯一解は EHA・KN の候補に一致（𝐭 の窓 3 倍でも）【計算】。正値性も hook も不要。
+- T(2,5) では零空間 70（hook 込み 20、𝐭 の窓は r₂r₁ の範囲の規則）、T(3,4) 850（560）、K_2 100（56）、K_{−2} 240（168）【計算】。零空間は Φ·g の形【導出】。
+- 正値性（spin・genus・既約表示）を T(2,5) の零空間の座標で一次不等式にすると多面体は非有界で、非有界方向の \hat f の像は全て非負（正解に正の BPS 状態を足したもの）【計算】。
+- 否定的な結果：framing の Laurent 性は零空間を変えない【導出】、台の包含と δ の窓は既知で不成立、q = 1 の 1 次のジェットの Casimir 型の規則は t = q では成立するが refined では列で破れる【計算】。
+- 4_1 の [3,1]（未知数 2367、因子ごとの代入）：特殊化だけで零空間 552、4 箱の Laurent 性で 128、hook も加えて 70【計算】。補助変数つきの系の消去は 7 時間半で終わらず、因子ごとの代入に書き直した（15 分）。ツイスト結び目 K_{±3} は打ち切り。
+
+**次にやること（指示待ち）**：H11（上界型の仮定かホモロジー側の入力）、4 箱の Laurent 性と [2,1] の連立、[3,1] の正値性の多面体。
+
 ## 2026-10-11 3 箱の検証：T(2,5) 以降は一意に決まらない（停止、ユーザーの指示「T(2,5) と T(3,4) の検証を進めよ。残りの検証も致命的な障害にあたるまで続けよ」）
 
 **やったこと・結果**（詳細は report.md の「T(2,5) の検証」）
@@ -23,6 +52,17 @@
 1. 自由度を決める追加の入力を探す（[2,1] の sl(3) の像、quiver の式、DAHA など）。
 2. 項数最小の規則を T(3,4), T(3,5) で確かめる（1 件 1 時間以上の見込み。実行前に見積もりと再開の準備が要る）。
 3. 予想 R, 仮説 B の 4 箱以上での確認と理由の解明（H12）。
+
+## 2026-10-11 S0〜S6：既約表示・σ の辞書・特殊化の点・種数 0（ユーザーの指示「DGR や quadruply graded homology のような考え方を refined LMOV 不変量の既約表示や種数表示でできるか研究せよ」）
+
+**やったこと**：src/rcsknots/lmovstruct.py（行の抽出、σ、既約表示、特殊化、δ）、scripts/lmovstruct_survey.py（保存値 463 件、data/lmovstruct/survey.jsonl, survey.md、logs/lmovstruct_survey.log）、lmovstruct_knot_table.py（801 結び目の [1]）、lmovstruct_loci.py（特殊化の点の走査）。テスト tests/test_lmovstruct.py（7 件）、test_lmovstruct_results.py（results）。conventions.md §19 に辞書を転記。
+
+**結果**（report.md §11〜§14）
+- σ: (a,q,t) ↦ (a,1/t,1/q) ＝ DGR の対称性 ＝ SU(2)_L の Weyl 反転で、G 展開が閉じること ⇔ \hat f の σ 不変性 ⇔ KN の整合条件 f^{\bar t} = M(q^{−1})\hat f【導出】。GT1 と GT2 が σ で移り合うことが D8 の「同値」の導出になる（H8 解決）。
+- 既約表示（spin 表示の各 (β, f) 行を SU(2)_L の指標 χ_j(w)、w = 𝐪²𝐭 にまとめ直したもの）の係数は、KN の G 展開前の正値性が成り立つ全件（data/bps 77 件、highbox 340 件、K7〜K9 の 3 箱、801 結び目の [1]）で非負、KN が破れる 35 件で破れる【計算】。[1] は GHM の sl₂（CG の単峰性）から定理【導出】。彩色は予想 S（H13）。
+- a = t^N q^{−M} は Macdonald の unknot を gl(N|M) の (N|M)-hook に切り詰める点（DGR の d_N ↔ a = t^N、d_{−N} ↔ a = q^{−N}、d_0 ↔ a = t/q、GGS の d_{N|M}）【導出】。a = t, 1/q で |ρ| ≥ 2 の \hat f_ρ = 0 は §2 と同じ結論で、c = (t/q)^{δ/2} の閉じた形と 452 件での確認を加えた。
+- 種数 0（q = 1）は EGP の値だけでは決まらない（式に 1 位の極、ジェットが要る）【計算】。「種数 0 は P だけから決まる」という見込みは撤回（H14）。
+- 未判定：K10 の 3 箱（1200 万項、H16）。
 
 ## 2026-10-11 3 箱の公式を unreduced の短い式に作り直した（ユーザーの指示「3 箱の公式を unreduced の短い式に作り直して」）
 
@@ -101,7 +141,7 @@
 ## 2026-10-11 文書の整理（ユーザーの指示「今回は研究自体が異なるので衝突しない。研究自体が異なることが明確になるようにディレクトリをわけてドキュメントを整理せよ」）
 
 - この研究の文書を docs/dgr_lmov/ に集めた。
-  - docs/dgr_lmov.md → report.md、docs/research_plan_dgr_lmov.md → research_plan.md。
+  - docs/dgr_lmov.md → report.md、docs/research_plan_dgr_lmov.md → research_plan.md（2026-10-12 の一本化で再度まとめ直した）。
   - docs/progress.md の該当 6 節 → progress.md、open_problems.md §H → open_problems.md、novelty_report.md §11 → novelty.md。
   - 本体の文書には案内だけを残した。
 - README.md に、目的と本研究との規則の違いを書いた。本研究の §F（rCS に正値性を課さない）はこの研究には適用しない。refined LMOV の正値性は構成の条件に使ってよい。
