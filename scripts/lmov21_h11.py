@@ -197,7 +197,7 @@ if __name__ == "__main__" and not (len(sys.argv) > 1 and sys.argv[1] in ("face",
 
 # ---- face：全条件 ＋ framing の正値性 ＋ BPS 状態の総数の最小化で、残る整数解を数える ----------------
 
-def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=False, log=log):
+def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=False, l1=False, log=log):
     """既知の結び目：x = x_true + Φ·g。face_core を参照。"""
     R = load_reduced(K, 3)
     small = {l: P for l, P in R.items() if l != (2, 1)}
@@ -206,7 +206,7 @@ def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=Fa
     for (a, q, t), c in xp.items():
         H21u[(a, q)] = H21u.get((a, q), 0) + c * (-1) ** (t % 2)
     H21u = {k: v for k, v in H21u.items() if v}
-    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, lex=lex, quot=quot, log=log)
+    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, lex=lex, quot=quot, l1=l1, log=log)
 
 
 def particular_solution(small, H21u, window, conds=("U", "T", "H", "E", "U2", "L", "R"), sigmas=(1, 1, 1), log=log):
@@ -251,7 +251,7 @@ def particular_solution_linear(small, H21u, window, log=log):
     return {m: int(round(r.x[lin.col[("x", m)]])) for m in mons if round(r.x[lin.col[("x", m)]]) != 0}
 
 
-def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, lex=False, quot=False, log=log):
+def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, lex=False, quot=False, l1=False, log=log):
     """x = xp + Φ·g（xp は条件の等式を満たす一つの解。既知の結び目では正解）。
     条件：転置、箱（(𝐚, 𝐪) は非 refined の台、𝐭 は r₂r₁ の範囲）、(R)、各 framing x ∈ xs での \\hat f_ρ^{(x)} の
     spin 表示（genus, irr も選べる）の非負性。全体の符号は既知なら xp（正解）から、未知なら ＋ を仮定する【仮定】。
@@ -475,6 +475,49 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
             out[f"min_{name}"] = v
             face_cons.append(LinearConstraint(o.reshape(1, -1), -np.inf, v + 1e-6))
             log(f"  二次の目的 {name} の最小値 {v}（正解は 0）")
+    if l1:
+        # 面の上で rCS_{[2,1]} の係数の絶対値の和（L1）を最小化する【仮説：選択の規則】。x_m = xp_m + Σ g Φ = p_m − q_m、p, q ≥ 0
+        ms = sorted(set(xrow) | set(xp))
+        k = len(ms)
+        X = sps.lil_matrix((k, n + 2 * k))
+        for i, m in enumerate(ms):
+            for j, v in xrow.get(m, {}).items():
+                X[i, j] = v
+            X[i, n + i] = -1; X[i, n + k + i] = 1
+        rhs_x = np.array([-xp.get(m, 0) for m in ms], float)
+        pad = lambda A: sps.hstack([A, sps.csr_matrix((A.shape[0], 2 * k))]).tocsr()  # noqa: E731
+        cons_l1 = [LinearConstraint(X.tocsr(), rhs_x, rhs_x), LinearConstraint(pad(mat(eqs)), rhs_e, rhs_e),
+                   LinearConstraint(pad(mat(ineqs)), rhs_i, np.inf)]
+        for lc in face_cons:
+            cons_l1.append(LinearConstraint(sps.hstack([sps.csr_matrix(lc.A), sps.csr_matrix((1, 2 * k))]).tocsr(), lc.lb, lc.ub))
+        objl1 = np.concatenate([np.zeros(n), np.ones(2 * k)])
+        bl = Bounds(np.concatenate([np.full(n, -np.inf), np.zeros(2 * k)]), np.full(n + 2 * k, np.inf))
+        rl = milp(objl1, constraints=cons_l1, bounds=bl, integrality=np.ones(n + 2 * k), options={"time_limit": 3000})
+        if rl.x is not None:
+            vl1 = round(float(objl1 @ rl.x))
+            gl1 = tuple(int(round(v)) for v in rl.x[:n])
+            out["l1_min"] = vl1
+            out["l1_min_is_true"] = not any(gl1) if known else None
+            # L1 最小の点が一意か：L1 ≤ vl1 の下で c·g ≥ 1 / ≤ −1（gl1 からの距離）
+            cc = rng.integers(-30, 31, size=n).astype(float) if False else np.random.default_rng(1).integers(-30, 31, size=n).astype(float)
+            v0 = float(cc @ np.array(gl1))
+            cons_fix = cons_l1 + [LinearConstraint(objl1.reshape(1, -1), -np.inf, vl1 + 1e-6)]
+            st = []
+            for lo_, hi_ in ((v0 + 1, np.inf), (-np.inf, v0 - 1)):
+                rr2 = milp(np.zeros(n + 2 * k), constraints=cons_fix + [LinearConstraint(np.concatenate([cc, np.zeros(2 * k)]).reshape(1, -1), lo_, hi_)],
+                           bounds=bl, integrality=np.ones(n + 2 * k), options={"time_limit": 3000})
+                st.append(rr2.status)
+            out["l1_min_unique"] = all(x_ == 2 for x_ in st)
+            xl1 = dict(xp)
+            for e, ge in zip(G, gl1):
+                if ge:
+                    for f, c_ in Phi.items():
+                        m = (e[0] + f[0], e[1] + f[1], e[2] + f[2])
+                        xl1[m] = xl1.get(m, 0) + ge * c_
+            out["l1_min_rcs21"] = {",".join(map(str, m)): v for m, v in sorted(xl1.items()) if v}
+            log(f"  面の上の L1 最小：{vl1}、正解か {out['l1_min_is_true']}、一意か {out['l1_min_unique']} ({time.time() - t0:.0f}s)")
+        else:
+            log(f"  面の上の L1 最小：{rl.message}")
     rng = np.random.default_rng(0)
     sols = set()
     for s in range(seeds):
@@ -613,7 +656,7 @@ def predict_twist(p, xs, use_R=True, genus=True, irr=True, log=log):
         xp = particular_solution(small, H21u, window, log=log)
     if xp is None:
         return {"status": "実行可能解なし"}
-    res = face_core(f"K_{p}", small, xp, H21u, xs, use_R, genus, irr, known=False, log=log)
+    res = face_core(f"K_{p}", small, xp, H21u, xs, use_R, genus, irr, known=False, l1=True, log=log)
     if known21 is not None and res.get("face_solutions_rcs21"):
         kb = {",".join(map(str, m)): v for m, v in sorted(known21.items())}
         res["matches_known"] = [sol == kb for sol in res["face_solutions_rcs21"]]
@@ -640,10 +683,11 @@ if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "face":
     irr = "--irr" in sys.argv
     lex = "--lex" in sys.argv
     quot = "--quot" in sys.argv
+    l1 = "--l1" in sys.argv
     OUT.mkdir(parents=True, exist_ok=True)
     log(f"=== lmov21_h11 face {time.strftime('%Y-%m-%d %H:%M:%S')} {' '.join(sys.argv[2:])} ===")
-    res = face(K, xs, use_R, genus, irr, lex=lex, quot=quot)
+    res = face(K, xs, use_R, genus, irr, lex=lex, quot=quot, l1=l1)
     path = OUT / "lmov21_h11_face.json"
     prev = json.loads(path.read_text()) if path.exists() else {}
-    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr} lex={lex} quot={quot}"] = json.loads(json.dumps(res, default=str))
+    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr} lex={lex} quot={quot} l1={l1}"] = json.loads(json.dumps(res, default=str))
     path.write_text(json.dumps(prev, ensure_ascii=False, indent=1))

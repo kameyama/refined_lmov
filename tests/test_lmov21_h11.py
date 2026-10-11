@@ -35,7 +35,9 @@ def test_predict_k1_reproduces_eha():
 
 
 @pytest.mark.results
-def test_face_t27_unique():
-    """T(2,7)：R ＋ framing −6..0 ＋ 全ての正値性で一意（数分）。"""
-    res = H.face("T2_7", list(range(-6, 1)), use_R=True, genus=True, irr=True, seeds=2, log=quiet)
-    assert res["face_count"] == 1 and res["face_count_contains_true"]
+def test_face_t27_true_on_minimal_face_but_not_unique():
+    """T(2,7)：R ＋ framing −6..0 ＋ spin の正値性で、正解は総数最小の面の上にあるが一意ではなく、面の上の L1 最小も正解ではない（数分）。"""
+    H.NMAX_ENUM = 20
+    res = H.face("T2_7", list(range(-6, 1)), use_R=True, seeds=2, l1=True, log=quiet)
+    assert res["min_total"] == 0 and res["face_bounded"]
+    assert res["face_count"] != 1 and res["l1_min_is_true"] is False
