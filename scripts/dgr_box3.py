@@ -133,6 +133,22 @@ def hat3(small):
 
 # ---- rCS_{[2,1]} を未知数とする構成（整数計画） ----
 
+def t_floor(r1_small, nbox=3):
+    """【仮説 B】\\hat f_ρ（|ρ| = nbox）の spin 表示で、𝐚 の行ごとの 𝐭 の最低次の下限 {e_𝐚: e_𝐭}。
+    [1] の線 P(e_𝐚) = min{e_𝐭 : \\hat f_{[1]} の項} の nbox 乗（min-plus の畳み込み）を (e_𝐚, e_𝐭) → (e_𝐚 − 2, e_𝐭 + nbox − 2) と平行移動したもの。
+    保存済みの 22 結び目（data/bps）のうち 4_1 と DAHA 入力の K5b, K5c 以外の全てで、2・3 箱の全ての ρ について等号で成り立つ（report.md）。"""
+    hf1 = (L.from_dict({(1, 0, 0): 1, (-1, 0, 0): -1}) * L.from_dict(r1_small)).to_dict()
+    b1 = to_bold(hf1, 0 if all(k[0] % 2 == 0 for k in hf1) else 1)
+    P = {}
+    for ea, _, et in b1:
+        P[ea] = min(P.get(ea, 10 ** 9), et)
+    out = dict(P)
+    for _ in range(nbox - 1):
+        out = {b: min(f1 + f2 for b1_, f1 in out.items() for b2_, f2 in P.items() if b1_ + b2_ == b)
+               for b in {b1_ + b2_ for b1_ in out for b2_ in P}}
+    return {b - 2: f + nbox - 2 for b, f in out.items()}
+
+
 def _mul(A, B):
     out = {}
     for k1, v1 in A.items():
@@ -140,6 +156,26 @@ def _mul(A, B):
             k = tuple(k1[i] + k2[i] for i in range(len(k1)))
             out[k] = out.get(k, 0) + v1 * v2
     return {k: v for k, v in out.items() if v}
+
+
+def rcs_window21(r1_bold, r2_bold):
+    """【予想 R】rCS_{[2,1]}（太字）の 𝐚 の行ごとの 𝐭 の最低次と最高次 {e_𝐚: (lo, hi)}。
+    lo は floor(rCS_{[2]}) と floor(rCS_{[1]}) の min-plus の畳み込み、hi は最高次の max-plus の畳み込み。
+    一般に「rCS_λ の 𝐭 の最低次・最高次 = 行ごとの対称表現 [λ_i] のものの畳み込み」（Jacobi–Trudi の対角項）。
+    保存済みの 13〜16 結び目（トーラス、4_1、代数的ケーブル）の [2,1] で等号で成り立つ（report.md）。σ で移した列の版は条件 T から従う。"""
+    def ends(b):
+        o = {}
+        for ea, _, et in b:
+            lo, hi = o.get(ea, (10 ** 9, -10 ** 9))
+            o[ea] = (min(lo, et), max(hi, et))
+        return o
+    e1, e2 = ends(r1_bold), ends(r2_bold)
+    out = {}
+    for a1, (l1, h1) in e2.items():
+        for a2, (l2, h2) in e1.items():
+            lo, hi = out.get(a1 + a2, (10 ** 9, -10 ** 9))
+            out[a1 + a2] = (min(lo, l1 + l2), max(hi, h1 + h2))
+    return out
 
 
 def build21(small, H21u, window_t, sigmas, conds=("U", "T", "H", "E", "U2", "L")):
@@ -155,6 +191,11 @@ def build21(small, H21u, window_t, sigmas, conds=("U", "T", "H", "E", "U2", "L")
     mset = set(mons)
     for m in mons:
         lin.var(("x", m))
+    if "R" in conds:                                         # 𝐭 の最低次・最高次の線の外の係数は 0
+        win = rcs_window21(r1, bold(small[(2,)]))
+        for m in mons:
+            if m[0] not in win or not win[m[0]][0] <= m[2] <= win[m[0]][1]:
+                lin.eq({("x", m): 1}, 0)
 
     def special(n, m, target):
         img = {}
@@ -215,6 +256,10 @@ def build21(small, H21u, window_t, sigmas, conds=("U", "T", "H", "E", "U2", "L")
             shift = hpar                                     # 太字にするための a 次数のずらし（A の単位）
             hm = [(a, q, t) for a in range(lo[0], hi[0] + 1) for q in range(lo[1], hi[1] + 1) for t in range(lo[2], hi[2] + 1)
                   if a % 2 == hpar]
+            if "B" in conds:                                 # 下限より下の \\hat f の項は 0（h を置かない）
+                floor = t_floor(small[(1,)])
+                ok = lambda e: (lambda k: k[0] in floor and k[2] >= floor[k[0]])(next(iter(to_bold({e: 1}, shift))))  # noqa: E731
+                hm = [e for e in hm if ok(e)]
             sgn = {e: next(iter(to_bold({e: 1}, shift).values())) for e in hm}
             conv = {}
             for e in hm:
