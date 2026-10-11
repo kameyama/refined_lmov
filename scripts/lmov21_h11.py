@@ -29,7 +29,7 @@ from t4_colored import bold_to_small  # noqa: E402
 from rcsknots.bps import g_expand, to_bold  # noqa: E402
 
 OUT = Path("data/lmovstruct")
-NMAX_ENUM = 3000
+NMAX_ENUM = 100
 LOG = Path("logs/lmov21_h11.log")
 
 
@@ -197,7 +197,7 @@ if __name__ == "__main__" and not (len(sys.argv) > 1 and sys.argv[1] in ("face",
 
 # ---- face：全条件 ＋ framing の正値性 ＋ BPS 状態の総数の最小化で、残る整数解を数える ----------------
 
-def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, log=log):
+def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, lex=False, quot=False, log=log):
     """既知の結び目：x = x_true + Φ·g。face_core を参照。"""
     R = load_reduced(K, 3)
     small = {l: P for l, P in R.items() if l != (2, 1)}
@@ -206,7 +206,7 @@ def face(K, xs, use_R=False, genus=False, irr=False, seeds=6, log=log):
     for (a, q, t), c in xp.items():
         H21u[(a, q)] = H21u.get((a, q), 0) + c * (-1) ** (t % 2)
     H21u = {k: v for k, v in H21u.items() if v}
-    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, log=log)
+    return face_core(K, small, xp, H21u, xs, use_R, genus, irr, seeds, known=True, lex=lex, quot=quot, log=log)
 
 
 def particular_solution(small, H21u, window, conds=("U", "T", "H", "E", "U2", "L", "R"), sigmas=(1, 1, 1), log=log):
@@ -251,7 +251,7 @@ def particular_solution_linear(small, H21u, window, log=log):
     return {m: int(round(r.x[lin.col[("x", m)]])) for m in mons if round(r.x[lin.col[("x", m)]]) != 0}
 
 
-def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, log=log):
+def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds=6, known=False, lex=False, quot=False, log=log):
     """x = xp + Φ·g（xp は条件の等式を満たす一つの解。既知の結び目では正解）。
     条件：転置、箱（(𝐚, 𝐪) は非 refined の台、𝐭 は r₂r₁ の範囲）、(R)、各 framing x ∈ xs での \\hat f_ρ^{(x)} の
     spin 表示（genus, irr も選べる）の非負性。全体の符号は既知なら xp（正解）から、未知なら ＋ を仮定する【仮定】。
@@ -313,7 +313,7 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
                 (kb, cb), = to_bold({(k[0] + se[0], k[1] + se[1], k[2] + se[2]): v * ce}, shift).items()
                 rows.setdefault(kb, {})[gi[e]] = rows.get(kb, {}).get(gi[e], 0) + cb
         rows0[rho] = {kb: {j: v for j, v in r.items() if v} for kb, r in rows.items()}
-    obj = np.zeros(n)
+    obj = np.zeros(n); obj_g = np.zeros(n); obj_i = np.zeros(n)
     for x in xs:
         fr = framed(small, x)
         s21, (da, dq, dt) = framing_monomial((2, 1), x)
@@ -333,6 +333,68 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
                 if x == 0:
                     for j, v in r.items():
                         obj[j] += s * v
+            if x == 0 and lex:
+                cols0 = {}
+                for kb, r in rows0[rho].items():
+                    ks = (kb[0], -kb[1], kb[2] - kb[1])
+                    for j, v in r.items():
+                        d = cols0.setdefault(j, {})
+                        d[kb] = d.get(kb, 0) + v
+                        d[ks] = d.get(ks, 0) + v
+                from rcsknots.lmovstruct import rows as w_rows0
+                for j, d in cols0.items():
+                    d = {kk: vv for kk, vv in d.items() if vv}
+                    obj_g[j] += s * sum(g_expand(d).values())             # 2 倍の対称化なので係数は 2 倍（比較には影響しない）
+                    tot = 0
+                    for (bb, ff), rr in w_rows0(d).items():
+                        tot += rr.get(0, 0) + rr.get(1, 0)                 # 行の既約表現の数 = 中央の係数 c_0 + c_1
+                    obj_i[j] += s * tot
+            if quot and x == 0:                                # D が因子になるのは framing 0 だけ（report.md §4）
+                # 商 R_ρ^{(x)} = \\hat f_ρ^{(x)} / D（D = (1+𝐚²𝐭)(1+𝐚²𝐪⁻²𝐭)(1+𝐚²𝐪²𝐭³)）の spin・genus 表示の非負性。
+                # 各列の像は D で割り切れる（a = 1, t, q⁻¹ で unknot_{[2,1]} = 0）。σ 対称化してから割る（genus 用）
+                import flint
+                ctx = flint.fmpz_mpoly_ctx.get(("a", "q", "t"), "lex")
+                Dpoly = ctx.from_dict({(0, 0, 0): 1, (2, 0, 1): 1}) * ctx.from_dict({(0, 2, 0): 1, (2, 0, 1): 1}) * ctx.from_dict({(0, 0, 0): 1, (2, 2, 3): 1})
+                def divD(dct):
+                    if not dct:
+                        return {}
+                    lo = [min(k[i] for k in dct) for i in range(3)]
+                    lo[1] -= 2                                   # D の 𝐪⁻² のぶん
+                    P = ctx.from_dict({(k[0] - lo[0], k[1] - lo[1], k[2] - lo[2]): v for k, v in dct.items()})
+                    Qp, rem = divmod(P, Dpoly)
+                    assert rem == 0, "D で割り切れない"
+                    return {(int(e[0]) + lo[0], int(e[1]) + lo[1] + 2, int(e[2]) + lo[2]): int(c) for e, c in Qp.to_dict().items()}
+                Rb = divD(hb)
+                qrows = {}
+                for kb, r in rows0[rho].items():
+                    pass
+                colsq = {}
+                for kb, r in rows0[rho].items():
+                    kx = (kb[0], kb[1], kb[2] + 5 * x)
+                    for j, v in r.items():
+                        colsq.setdefault(j, {})[kx] = v
+                for j, d in colsq.items():
+                    for k, v in divD(d).items():
+                        qrows.setdefault(k, {})[j] = v
+                for k in set(qrows) | set(Rb):
+                    r = qrows.get(k, {})
+                    if r:
+                        ineqs.append(({j: s * v for j, v in r.items()}, -s * Rb.get(k, 0)))
+                if genus:
+                    Rb2 = {k: 2 * v for k, v in Rb.items()}
+                    NR = g_expand(Rb2)
+                    grows = {}
+                    for j, d in colsq.items():
+                        ds = {}
+                        for kk, vv in d.items():
+                            ks = (kk[0], -kk[1], kk[2] - kk[1])
+                            ds[kk] = ds.get(kk, 0) + vv; ds[ks] = ds.get(ks, 0) + vv
+                        for k, v in g_expand(divD({kk: vv for kk, vv in ds.items() if vv})).items():
+                            grows.setdefault(k, {})[j] = v
+                    for k in set(grows) | set(NR):
+                        r = grows.get(k, {})
+                        if r:
+                            ineqs.append(({j: s * v for j, v in r.items()}, -s * NR.get(k, 0)))
             if genus or irr:
                 # 列ごとの像を σ 対称化（2 倍して整数に）してから G 展開・既約表示にする。合計が σ 不変なら線形性で正しい
                 hbx = {k: 2 * v for k, v in hb.items()}
@@ -404,6 +466,15 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
     else:
         log(f"  総数の最小値（出発点との差）{opt} ({time.time() - t0:.0f}s)")
     face_cons = [LinearConstraint(obj.reshape(1, -1), -np.inf, opt + 1e-6)]
+    if lex:                                                   # 辞書式：genus 表示の総数 → 既約表示の総数（SU(2)_L 多重項の数）
+        for name, o in (("genus_total", obj_g), ("irrep_total", obj_i)):
+            rr = solve(o, face_cons)
+            if rr.x is None:
+                break
+            v = round(float(o @ rr.x))
+            out[f"min_{name}"] = v
+            face_cons.append(LinearConstraint(o.reshape(1, -1), -np.inf, v + 1e-6))
+            log(f"  二次の目的 {name} の最小値 {v}（正解は 0）")
     rng = np.random.default_rng(0)
     sols = set()
     for s in range(seeds):
@@ -414,18 +485,23 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
     out["face_solutions_found"] = len(sols)
     out["face_contains_true"] = tuple([0] * n) in sols
     # 正確な列挙：整数の乱数 c で c·g の小さい順に、c·g ≥ 前の値 + 1 を足して解き直す（c·g の同値は乱数で起きにくい）
-    c = rng.integers(-10 ** 6, 10 ** 6, size=n).astype(float)
-    allsols, lo, nmax = [], -np.inf, NMAX_ENUM
+    # c は小さい整数にする（c·g が大きいと +1 の切断が解法の許容誤差に埋もれ、同じ点が繰り返し出る）
+    c = rng.integers(-30, 31, size=n).astype(float)
+    allsols, lo, nmax, stalled = [], -np.inf, NMAX_ENUM, False
     while len(allsols) < nmax:
         rr = solve(c, face_cons + [LinearConstraint(c.reshape(1, -1), lo, np.inf)])
         if rr.x is None:
             break
         g = tuple(int(round(v)) for v in rr.x)
+        if g in allsols:
+            stalled = True
+            break
         allsols.append(g)
         lo = float(c @ np.array(g)) + 1
-    out["face_count"] = len(allsols) if len(allsols) < nmax else f">={nmax}"
+    out["face_count"] = (len(allsols) if len(allsols) < nmax else f">={nmax}") if not stalled else f"列挙が重複で停止（{len(allsols)} 個まで）"
+    out["enum_stalled"] = stalled
     out["face_count_contains_true"] = tuple([0] * n) in allsols
-    if len(allsols) <= 5:
+    if len(allsols) <= 20:
         sols_x = []
         for g in allsols:
             x = dict(xp)
@@ -471,7 +547,7 @@ def face_core(K, small, xp, H21u, xs, use_R=False, genus=False, irr=False, seeds
                 "rcs_neg": sum(1 for v in x.values() if v < 0), "hat_t_width": max(k[2] for k in allh) - min(k[2] for k in allh),
                 "hat_q_width": max(k[1] for k in allh) - min(k[1] for k in allh), "hat_gmax": gmax,
                 "hat_max_coeff": max(abs(v) for d in hf.values() for v in d.values())}
-    if isinstance(out["face_count"], int) and allsols:
+    if allsols:
         F = [feats(g) for g in allsols]
         ft = feats(tuple([0] * n))
         rank = {}
@@ -562,10 +638,12 @@ if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "face":
     use_R = "--R" in sys.argv
     genus = "--genus" in sys.argv
     irr = "--irr" in sys.argv
+    lex = "--lex" in sys.argv
+    quot = "--quot" in sys.argv
     OUT.mkdir(parents=True, exist_ok=True)
     log(f"=== lmov21_h11 face {time.strftime('%Y-%m-%d %H:%M:%S')} {' '.join(sys.argv[2:])} ===")
-    res = face(K, xs, use_R, genus, irr)
+    res = face(K, xs, use_R, genus, irr, lex=lex, quot=quot)
     path = OUT / "lmov21_h11_face.json"
     prev = json.loads(path.read_text()) if path.exists() else {}
-    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr}"] = json.loads(json.dumps(res, default=str))
+    prev[f"{K} x={sys.argv[3] if len(sys.argv) > 3 else '0'} R={use_R} genus={genus} irr={irr} lex={lex} quot={quot}"] = json.loads(json.dumps(res, default=str))
     path.write_text(json.dumps(prev, ensure_ascii=False, indent=1))
