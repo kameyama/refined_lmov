@@ -174,4 +174,4 @@ docs/dgr_lmov/open_problems.md に移した（別の研究として整理、2026
 - H4. K10 の 3 箱（1200 万項）の既約表示の判定（メモリの見積もりが要る）。
 - H5. a = t^N q^{−M} の一般の (N, M) で、\hat f_ρ が (N|M)-hook の彩色だけで作った LMOV に一致することの、reduced の正規化を含めた確認。
 - H6. **[2,1] を非 refined のデータから決める追加の仮定**（docs/REPORT_unrefined_to_refined.md）：3 箱の一次の条件（t = q、転置、EGP、U(2)、hook、Laurent 性）と正値性では T(2,5) 以上で決まらない（零空間 20、正値性の多面体は非有界）。候補：4 箱の Laurent 性との連立、正の BPS 状態の追加を禁じる上界型の条件、refined の q = 1 の 1 次のジェットの規則、彩色ホモロジーの入力。
-- H7. 4_1 の [3,1] の一次の系（f41_box4 ＋ hook）の零空間の次元（scripts/lmov31_linear.py、未完）。
+- H7. 4_1 の [3,1] の一次の系（特殊化 ＋ 4 箱の Laurent 性 ＋ hook）の零空間は 70（scripts/lmov31_linear.py）。これを殺す仮定は H6 と同じ問い。
