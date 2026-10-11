@@ -313,3 +313,33 @@ def test_kh2_proxy_distinguishes_6_2_solutions():
     mn, imgs = kh_images(lit, samples=3)
     assert mn == 93 and len(imgs) == 1
     assert not kh_images(other[0], kh_fixed=imgs[0])
+
+
+# ---- 3 箱（scripts/dgr_box3.py） ----
+
+def test_box3_formula_reproduces_hat_f():
+    """3 箱の公式（data/dgr_lmov/formula3.json）で作った \\hat f_{[3]}, \\hat f_{[2,1]}, \\hat f_{[1,1,1]} が保存済みの値と一致する。"""
+    from dgr_box3 import hat3
+    R = load_reduced("T2_3", 3)
+    F = load_lmov("T2_3")
+    assert all(v == {k: int(c) for k, c in F[("hat", rho)].items()} for rho, v in hat3(R).items())
+
+
+def test_box3_trefoil_21_unique():
+    """三葉結び目：[2,1] 以外を既知として、t = q・転置・hook・EGP・U(2)・Laurent・\\hat f の非負性で rCS_{[2,1]} が決まり、EHA の値に一致する。"""
+    import numpy as np
+    from dgr_box3 import build21
+    from dgr_d7_construct import solution, solve
+    R = load_reduced("T2_3", 3)
+    true21 = {k: v for k, v in to_bold(R[(2, 1)], 1 if any(k[0] % 2 for k in R[(2, 1)]) else 0).items() if v}
+    H21u = {}
+    for (a, q, t), c in true21.items():
+        H21u[(a, q)] = H21u.get((a, q), 0) + c * (-1) ** (t % 2)
+    small = {l_: P for l_, P in R.items() if l_ != (2, 1)}
+    lin, mons = build21(small, {k: v for k, v in H21u.items() if v}, (-3, 19), (1, 1, 1))
+    rng = np.random.default_rng(0)
+    for _ in range(2):
+        obj = np.zeros(len(lin.col))
+        for m in mons:
+            obj[lin.col[("x", m)]] = rng.normal()
+        assert solution(lin, solve(lin, objective=obj, xbound=200), mons) == true21

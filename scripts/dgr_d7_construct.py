@@ -242,7 +242,7 @@ def solve(lin, xbound=60, objective=None, integral=True, rcs_pos=False, lmov_pos
     cons = LinearConstraint(Aeq.tocsr(), np.array(lin.rhs, float), np.array(lin.rhs, float))
     if integral:
         integ = np.ones(n)
-        return milp(c, constraints=[cons], bounds=Bounds(lb, ub), integrality=integ, options={"time_limit": 600})
+        return milp(c, constraints=[cons], bounds=Bounds(lb, ub), integrality=integ, options={"time_limit": 3000})
     return linprog(c, A_eq=Aeq.tocsr(), b_eq=np.array(lin.rhs, float), bounds=list(zip(lb, [None if np.isinf(u) else u for u in ub])),
                    method="highs")
 
