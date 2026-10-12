@@ -241,6 +241,10 @@ def run(p):
                 rhs.append(-c0)
         log(f"  ρ={rho}: 剰余の式 {len(rows) - n_before} ({time.time() - t0:.0f}s)")
     log(f"  消去：式 {len(rows)}、列 {ncols}")
+    import pickle
+    Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").write_bytes(pickle.dumps(
+        {"mons21": mons21, "mons31": mons31, "B21": B21, "B31": B31, "x021i": x021i, "x031i": x031i, "dd": dd, "rows": rows, "rhs": rhs,
+         "small": small, "H": H, "boldd": boldd}))
     sols = []
     for pp in PRIMES:
         y, nullity, bad = solve_modp(rows, ncols, rhs, pp)
@@ -299,7 +303,249 @@ def run(p):
             "x31": {",".join(map(str, m)): v for m, v in sorted(x31.items())}, "checks": checks, "seconds": time.time() - t0}
 
 
-if __name__ == "__main__":
+def nullspace_two_primes(rows, ncols, batch=1500):
+    """法 p₁, p₂ の密な RREF から零空間の基底を求め、CRT と有理数の復元で整数ベクトルにする（自由な列が一致することを確かめる）。"""
+    from lmov4_joint import dense_nullspace_modp
+    from lmov21_polytope import ratrec
+    bases = [dense_nullspace_modp([(r, 0) for r in rows], ncols, p=pp, batch=batch) for pp in PRIMES]
+    assert len(bases[0]) == len(bases[1]), "零空間の次元が素数で違う"
+    out = []
+    m = PRIMES[0] * PRIMES[1]
+    for v1, v2 in zip(bases[0], bases[1]):
+        assert set(v1) == set(v2) or True
+        vec = {}
+        for c in set(v1) | set(v2):
+            x = crt_sym(v1.get(c, 0) % PRIMES[0], v2.get(c, 0) % PRIMES[1])
+            f = ratrec(x % m, m)
+            if f is None:
+                raise ValueError("有理数の復元に失敗")
+            if f:
+                vec[c] = f
+        den = 1
+        for f in vec.values():
+            den = den * f.denominator // gcd(den, f.denominator)
+        out.append({c: int(f * den) for c, f in vec.items()})
+    return out
+
+
+def positivity_stage(p, series=True, hat4=True, log=log):
+    """4 箱の Laurent 性までの一次の系（lmov4_sys_K_<p>.pkl）の解空間 x = x_p + V w の上で、
+    3 箱・4 箱の \\hat f の spin 表示の非負性と、S（[2,1] と [3,1] の P 正規化の冪級数の非負性）を課し、多面体の有界性と整数解を調べる。"""
+    import pickle
+    import scipy.sparse as sps
+    from scipy.optimize import Bounds, LinearConstraint, linprog, milp
+    from dgr_box3 import formula3
+    from dgr_hu import unknot_numerator_factors
+    from lmov21_hu import series_rows
+    t0 = time.time()
+    S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
+    mons21, mons31, B21, B31, x021i, x031i, dd, rows, rhs, small, boldd = (S[k] for k in ("mons21", "mons31", "B21", "B31", "x021i", "x031i", "dd", "rows", "rhs", "small", "boldd"))
+    ncols = len(B21) + len(B31)
+    # 特解 y_p（法 p で解き、2 素数で復元）
+    ys = []
+    for pp in PRIMES:
+        y, nullity, bad = solve_modp(rows, ncols, rhs, pp)
+        assert not bad
+        ys.append(y)
+    from lmov21_polytope import ratrec
+    m = PRIMES[0] * PRIMES[1]
+    yp = {}
+    for j in range(ncols):
+        f = ratrec(crt_sym(int(ys[0][j]) % PRIMES[0], int(ys[1][j]) % PRIMES[1]) % m, m)
+        if f is None:
+            raise ValueError("特解の復元に失敗")
+        yp[j] = f
+    N = nullspace_two_primes(rows, ncols)
+    log(f"K_{p}: 連立の零空間 {len(N)}、特解の分母の最大 {max(f.denominator for f in yp.values())} ({time.time() - t0:.0f}s)")
+    # x 空間へ：x = (x0i + dd·Σ y B)/dd
+    def to_x(yvec, scale):
+        x21, x31 = {}, {}
+        for j, vec in enumerate(B21):
+            c = yvec.get(j, 0) if isinstance(yvec, dict) else yvec[j]
+            if c:
+                for mm, z in vec.items():
+                    x21[mm] = x21.get(mm, 0) + c * z * scale
+        for j, vec in enumerate(B31):
+            c = yvec.get(len(B21) + j, 0) if isinstance(yvec, dict) else yvec[len(B21) + j]
+            if c:
+                for mm, z in vec.items():
+                    x31[mm] = x31.get(mm, 0) + c * z * scale
+        return {k: v for k, v in x21.items() if v}, {k: v for k, v in x31.items() if v}
+    xp21, xp31 = to_x(yp, Fraction(1))
+    xp21 = {mm: Fraction(x021i.get(mm, 0), dd) + v for mm, v in {**{mm: Fraction(0) for mm in x021i}, **xp21}.items()}
+    xp31 = {mm: Fraction(x031i.get(mm, 0), dd) + v for mm, v in {**{mm: Fraction(0) for mm in x031i}, **xp31}.items()}
+    xp21 = {k: v for k, v in xp21.items() if v}; xp31 = {k: v for k, v in xp31.items() if v}
+    V = [to_x(vec, 1) for vec in N]                            # 整数の基底（[2,1] 側, [3,1] 側）
+    d = len(N)
+    if d == 0:
+        log("  自由度なし")
+        return {"nullity": 0}
+    # 線形な像：\hat f（3 箱・4 箱）と S を、特解と各基底ベクトルについて計算する
+    def small_of(bd):
+        den = 1
+        for v in bd.values():
+            den = den * Fraction(v).denominator // gcd(den, Fraction(v).denominator)
+        return bold_to_small({k: int(Fraction(v) * den) for k, v in bd.items()}), den
+    fo3 = formula3(); fo4, keys = formula_n(4)
+    idx = {k: i for i, k in enumerate(keys)}
+    e21 = tuple(1 if i in (idx[((2, 1), 1)], idx[((1,), 1)]) else 0 for i in range(len(keys)))
+    e31 = tuple(1 if i == idx[((3, 1), 1)] else 0 for i in range(len(keys)))
+    e211 = tuple(1 if i == idx[((2, 1, 1), 1)] else 0 for i in range(len(keys)))
+    Rk = inputs_n({**small, (2, 1): {(0, 0, 0): 0}, (3, 1): {(0, 0, 0): 0}, (2, 1, 1): {(0, 0, 0): 0}}, 4)
+    R3 = {}
+    from dgr_box3 import KEYS, inputs_R
+    R3 = inputs_R({**small, (2, 1): {(0, 0, 0): 0}})
+
+    def lin_nums(x21, x31):
+        """x に対する 3 箱・4 箱の \\hat f の分子の一次の部分（L）。{(箱, ρ): (分子, 分母)}。"""
+        out = {}
+        s21 = L.from_dict(bold_to_small(x21)); s31 = L.from_dict(bold_to_small(x31)); s211 = L.from_dict(bold_to_small(transpose_bold(x31)))
+        for rho, (ns, den) in fo3.items():
+            out[(3, rho)] = (ns[1] * s21, den)
+        for rho, (ns, D) in fo4.items():
+            out[(4, rho)] = (ns[e21] * Rk[((1,), 1)] * s21 + ns[e31] * s31 + ns[e211] * s211, D)
+        return out
+
+    def const_nums():
+        out = {}
+        for rho, (ns, den) in fo3.items():
+            num = None
+            for k, n in ns.items():
+                if KEYS[k] == "r21":
+                    continue
+                term = n * R3[KEYS[k]]
+                num = term if num is None else num + term
+            out[(3, rho)] = num
+        for rho, (ns, D) in fo4.items():
+            num = None
+            for expo, n in ns.items():
+                if expo in (e21, e31, e211):
+                    continue
+                term = n
+                for (lam, dg), k in zip(keys, expo):
+                    for _ in range(k):
+                        term = term * Rk[(lam, dg)]
+                num = term if num is None else num + term
+            out[(4, rho)] = num
+        return out
+
+    def hat_images(x21, x31):
+        """基底ベクトル（解の差）の像：一次の部分だけで割り切れる。"""
+        return {key: (num / den).to_dict() for key, (num, den) in lin_nums(x21, x31).items()}
+
+    def hat_full(x21i, x31i, scale):
+        """特解（scale 倍して整数）の像：scale·定数項 ＋ 一次の部分 を割る。"""
+        cn = const_nums()
+        return {key: ((cn[key] * L.from_dict({(0, 0, 0): scale}) + num) / den).to_dict() for key, (num, den) in lin_nums(x21i, x31i).items()}
+    # 特解の像（有理数）：整数化して den_p 倍で扱う
+    sp21, den21 = small_of(xp21); sp31, den31 = small_of(xp31)
+    denp = den21 * den31 // gcd(den21, den31)
+    xp21i = {k: int(v * denp) for k, v in xp21.items()}; xp31i = {k: int(v * denp) for k, v in xp31.items()}
+    img_p = hat_full(xp21i, xp31i, denp)                     # denp·\\hat f(x_p)
+    img_V = [hat_images(v21, v31) for v21, v31 in V]
+    log(f"  像の計算 ({time.time() - t0:.0f}s)")
+    # 太字の係数ごとの不等式：denp·const + img_p + Σ w_j denp·img_Vj ≥ 0（符号は定数側の多数派）
+    ineqs = []
+    shift_of = {}
+    for key in img_p:
+        allk = list(img_p[key]) + [k for im in img_V for k in im[key]]
+        shift = 1 if any(k[0] % 2 for k in allk) else 0
+        shift_of[key] = shift
+        base = {}
+        for k, v in to_bold(img_p[key], shift).items():
+            base[k] = base.get(k, 0) + v
+        sgn = 1 if sum(1 for v in base.values() if v > 0) >= sum(1 for v in base.values() if v < 0) else -1
+        cols = {}
+        for j, im in enumerate(img_V):
+            for k, v in to_bold(im[key], shift).items():
+                cols.setdefault(k, {})[j] = cols.get(k, {}).get(j, 0) + v * denp
+        for k in set(cols) | set(base):
+            r = {j: sgn * v for j, v in cols.get(k, {}).items() if v}
+            if r:
+                ineqs.append((r, -sgn * base.get(k, 0)))
+    nhat = len(ineqs)
+    # S：[2,1] と [3,1] の P 正規化の冪級数
+    nS = 0
+    if series:
+        for lam, xpi, Vside in (((2, 1), xp21i, [v21 for v21, _ in V]), ((3, 1), xp31i, [v31 for _, v31 in V])):
+            F = {(0, 0, 0): 1}
+            for f in unknot_numerator_factors(lam):
+                F = _mul(F, f)
+            cols = {None: _mul(xpi, F)}
+            for j, v in enumerate(Vside):
+                cols[j] = _mul({k: val * denp for k, val in v.items()}, F)
+            Np = cols[None]
+            sgn = 1 if sum(1 for v in Np.values() if v > 0) >= sum(1 for v in Np.values() if v < 0) else -1
+            for key, r in series_rows(cols, lam, 40).items():
+                c0 = r.pop(None, 0)
+                if r:
+                    ineqs.append(({j: sgn * v for j, v in r.items()}, -sgn * c0))
+                    nS += 1
+    log(f"  不等式：\\hat f {nhat}、S {nS} ({time.time() - t0:.0f}s)")
+    A = sps.lil_matrix((len(ineqs), d))
+    for i, (r, _) in enumerate(ineqs):
+        for j, v in r.items():
+            A[i, j] = v
+    A = A.tocsr(); b = np.array([float(rr) for _, rr in ineqs])
+    Path(f"data/lmovstruct/lmov4_pos_K_{p}.pkl").write_bytes(pickle.dumps({"ineqs": ineqs, "V": V, "xp21i": xp21i, "xp31i": xp31i, "denp": denp}))
+    # 実行可能性と有界性（w は実数）。不等式は整数係数で大きいので、行を最大係数で正規化する
+    scale = np.array([max(1.0, max(abs(float(v)) for v in r.values())) for r, _ in ineqs])
+    An = sps.diags(1.0 / scale) @ A; bn = b / scale
+    r0 = linprog(np.zeros(d), A_ub=-An, b_ub=-bn, bounds=[(None, None)] * d, method="highs")
+    feas = r0.status == 0
+    log(f"  実行可能性の LP：status {r0.status}（{r0.message[:60]}）")
+    rng = np.random.default_rng(0)
+    widths, bounded = [], feas
+    for _ in range(6 if feas else 0):
+        c = rng.standard_normal(d)
+        w = []
+        for sg in (1, -1):
+            r = linprog(sg * c, A_ub=-An, b_ub=-bn, bounds=[(None, None)] * d, method="highs")
+            w.append(float(sg * r.fun) if r.status == 0 else None)
+            if r.status not in (0, 3):
+                log(f"  LP status {r.status}: {r.message[:60]}")
+        widths.append(w)
+        bounded = bounded and all(v is not None for v in w)
+    log(f"  正値性の多面体：実行可能 {feas}、有界 {bounded}、幅の例 {[(None if a is None else round(a, 2), None if b_ is None else round(b_, 2)) for a, b_ in widths[:3]]} ({time.time() - t0:.0f}s)")
+    out = {"nullity": d, "feasible": feas, "bounded": bounded, "n_hat_rows": nhat, "n_S_rows": nS}
+    if feas and bounded:
+        # 整数解の列挙：denp·x = denp·x_p + Σ w_j V_j が整数 ⇔ w_j ∈ Z（V は整数で原始的とは限らないが、w 整数なら十分）。w を整数に限って列挙
+        c = rng.integers(-30, 31, size=d).astype(float)
+        sols, lo = [], -np.inf
+        while len(sols) < 50:
+            rr = milp(c, constraints=[LinearConstraint(An, bn, np.inf), LinearConstraint(c.reshape(1, -1), lo, np.inf)],
+                      bounds=Bounds(np.full(d, -np.inf), np.full(d, np.inf)), integrality=np.ones(d), options={"time_limit": 1800})
+            if rr.x is None:
+                break
+            g = tuple(int(round(v)) for v in rr.x)
+            if g in sols:
+                break
+            sols.append(g)
+            lo = float(c @ np.array(g)) + 1
+        out["count_w_integer"] = len(sols) if len(sols) < 50 else ">=50"
+        log(f"  w が整数の解 {out['count_w_integer']} 個 ({time.time() - t0:.0f}s)")
+        xs = []
+        for g in sols[:5]:
+            x21 = dict(xp21i); x31 = dict(xp31i)
+            for j, (v21, v31) in enumerate(V):
+                if g[j]:
+                    for k, v in v21.items():
+                        x21[k] = x21.get(k, 0) + g[j] * v * denp
+                    for k, v in v31.items():
+                        x31[k] = x31.get(k, 0) + g[j] * v * denp
+            if all(v % denp == 0 for v in list(x21.values()) + list(x31.values())):
+                xs.append({"x21": {",".join(map(str, k)): v // denp for k, v in sorted(x21.items()) if v}, "x31": {",".join(map(str, k)): v // denp for k, v in sorted(x31.items()) if v}})
+        out["solutions"] = xs
+    return out
+
+
+if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "pos":
+    p = int(sys.argv[1])
+    log(f"=== lmov4_predict pos {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
+    res = positivity_stage(p)
+    Path(f"data/lmovstruct/lmov4_predict_pos_K_{p}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
+
+if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] == "pos"):
     p = int(sys.argv[1])
     log(f"=== lmov4_predict {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
     res = run(p)
