@@ -35,3 +35,26 @@ def test_eliminate_streaming_matches_rank_and_solves():
     bad_rhs = [int(b) for b in rhs]; bad_rhs[5] += 1
     eliminate(st2, rows, bad_rhs, p)
     assert solution_of(st2)[2]
+
+
+def test_pickle_rows_to_csr_and_eliminate_csr(tmp_path):
+    import pickle
+    from lmov4_predict import eliminate_csr, load_csr, pickle_rows_to_csr
+    rng = np.random.default_rng(2)
+    ncols = 1300
+    rows = [{int(j): int(rng.integers(-2**29, 2**29)) for j in rng.choice(ncols, size=1105, replace=False)},   # 1000 項を超える辞書
+            {7: 3}, {}, {int(j): int(v) for j, v in zip(range(0, 1300, 13), rng.integers(1, 300, size=100))}]
+    rows += [{int(j): int(rng.integers(-9, 10)) for j in rng.choice(ncols, size=50, replace=False)} for _ in range(1200)]  # APPENDS が分かれる
+    rhs = [int(v) for v in rng.integers(-2**30, 2**30, size=len(rows))]
+    src = tmp_path / "rows.pkl"
+    src.write_bytes(pickle.dumps((rows, rhs)))
+    n, nnz = pickle_rows_to_csr(src, tmp_path / "csr")
+    assert (n, nnz) == (len(rows), sum(len(r) for r in rows))
+    indptr, indices, vals, rhs2 = load_csr(tmp_path / "csr")
+    back = [{int(c): int(v) for c, v in zip(indices[indptr[i]:indptr[i + 1]], vals[indptr[i]:indptr[i + 1]])} for i in range(n)]
+    assert back == rows and list(rhs2) == rhs
+    p = PRIMES[1]
+    k = 40                                                     # 消去の比較は先頭の 40 行だけ（速さのため）
+    st_a = eliminate(new_state(ncols), rows[:k], rhs[:k], p, batch=16)
+    st_b = eliminate_csr(new_state(ncols), indptr[:k + 1], indices, vals, rhs2, p, batch=16)
+    assert st_a["piv"] == st_b["piv"] and np.array_equal(st_a["B"], st_b["B"]) and st_a["bad"] == st_b["bad"]

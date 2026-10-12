@@ -155,7 +155,6 @@ def new_state(ncols):
 def eliminate(st, rows, rhs, p, batch=1500):
     """A y = rhs（法 p）の行を状態 st の RREF に取り込む（密な消去、まとまりごと）。rows：[{列: 係数}]。"""
     ncols = st["B"].shape[1] - 1
-    piv_cols, B = st["piv"], st["B"]
     for start in range(0, len(rows), batch):
         chunk = rows[start:start + batch]
         M = np.zeros((len(chunk), ncols + 1))
@@ -163,9 +162,33 @@ def eliminate(st, rows, rhs, p, batch=1500):
             for c, v in row.items():
                 M[i, c] = v % p
             M[i, ncols] = rhs[start + i] % p
+        eliminate_dense(st, M, p)
+    return st
+
+
+def eliminate_csr(st, indptr, indices, vals, rhs, p, batch=1500):
+    """CSR（indptr, indices, vals、右辺 rhs。numpy の配列、mmap でよい）の行を st の RREF に取り込む。"""
+    ncols = st["B"].shape[1] - 1
+    nrows = len(indptr) - 1
+    for start in range(0, nrows, batch):
+        stop = min(start + batch, nrows)
+        M = np.zeros((stop - start, ncols + 1))
+        lo, hi = int(indptr[start]), int(indptr[stop])
+        rowid = np.repeat(np.arange(stop - start), np.diff(indptr[start:stop + 1]).astype(np.int64))
+        M[rowid, np.asarray(indices[lo:hi], dtype=np.int64)] = np.asarray(vals[lo:hi], dtype=np.int64) % p
+        M[:, ncols] = np.asarray(rhs[start:stop], dtype=np.int64) % p
+        eliminate_dense(st, M, p)
+    return st
+
+
+def eliminate_dense(st, M, p):
+    """まとまり M（最後の列は右辺、法 p に還元済み）を st の RREF に取り込む。"""
+    ncols = st["B"].shape[1] - 1
+    piv_cols, B = st["piv"], st["B"]
+    if True:
         if len(piv_cols):
             M = (M - (M[:, piv_cols] @ B) % p) % p
-        for i in range(len(chunk)):
+        for i in range(M.shape[0]):
             nz = np.nonzero(M[i, :ncols])[0]
             if len(nz) == 0:
                 if M[i, ncols] % p:
@@ -182,6 +205,61 @@ def eliminate(st, rows, rhs, p, batch=1500):
             piv_cols.append(c)
     st["B"] = B
     return st
+
+
+def csr_prefix(p, rho):
+    return Path("data/lmovstruct") / f"predict_csr_K_{p}_{''.join(map(str, rho))}"
+
+
+def pickle_rows_to_csr(src, prefix):
+    """剰余の行の pickle（([{列: 係数}, ...], [右辺, ...])）を、オブジェクトに戻さずにオペコードから読んで
+    CSR の numpy 配列（<prefix>_indptr/indices/vals/rhs.npy）に保存する。辞書に戻すと 1 ρ で 14 GB になるため。"""
+    import array
+    import pickletools
+    INTS = {"BININT", "BININT1", "BININT2", "LONG1", "LONG4", "INT", "LONG"}
+    indptr, indices, vals, rhs = [], array.array("i"), array.array("q"), []  # 行は EMPTY_DICT で開く（SETITEMS は 1000 項ごとに分かれる）
+    stack = []                                                 # MARK（None）、整数、辞書の印（"D"）
+    with open(src, "rb") as f:
+        for op, arg, _ in pickletools.genops(f):
+            name = op.name
+            if name in INTS:
+                stack.append(int(arg))
+            elif name == "MARK":
+                stack.append(None)
+            elif name == "EMPTY_DICT":
+                stack.append("D")
+                indptr.append(len(indices))
+            elif name == "SETITEMS":
+                m = len(stack) - 1 - stack[::-1].index(None)
+                items = stack[m + 1:]
+                del stack[m:]
+                indices.extend(items[0::2]); vals.extend(items[1::2])
+            elif name == "APPENDS":
+                m = len(stack) - 1 - stack[::-1].index(None)
+                items = stack[m + 1:]
+                del stack[m:]
+                if items and items[0] != "D":
+                    rhs.extend(items)
+            elif name == "APPEND":
+                v = stack.pop()
+                if v != "D":
+                    rhs.append(v)
+            elif name == "EMPTY_LIST":
+                pass                                           # 行の辞書は印を置かない（APPENDS で捨てる）
+            elif name == "SETITEM":
+                v, k = stack.pop(), stack.pop()
+                indices.append(k); vals.append(v)               # 1 項だけの辞書
+    indptr.append(len(indices))
+    assert len(rhs) == len(indptr) - 1, (len(rhs), len(indptr) - 1)
+    np.save(f"{prefix}_indptr.npy", np.array(indptr, dtype=np.int64))
+    np.save(f"{prefix}_indices.npy", np.frombuffer(indices, dtype=np.int32))
+    np.save(f"{prefix}_vals.npy", np.frombuffer(vals, dtype=np.int64))
+    np.save(f"{prefix}_rhs.npy", np.array(rhs, dtype=np.int64))
+    return len(rhs), len(indices)
+
+
+def load_csr(prefix):
+    return tuple(np.load(f"{prefix}_{k}.npy", mmap_mode="r") for k in ("indptr", "indices", "vals", "rhs"))
 
 
 def solution_of(st):
@@ -232,12 +310,16 @@ def rref_rho(p, rho):
     if rho in st["done"]:
         return st
     t0 = time.time()
-    rows, rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
+    prefix = csr_prefix(p, rho)
+    if not Path(f"{prefix}_rhs.npy").exists():
+        n, nnz = pickle_rows_to_csr(Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl", prefix)
+        log(f"  ρ={rho} の剰余の行を CSR に変換：式 {n}、非零 {nnz} ({time.time() - t0:.0f}s)")
+    indptr, indices, vals, rhs = load_csr(prefix)
     for pp in PRIMES:
-        eliminate(st["states"][pp], rows, rhs, pp)
+        eliminate_csr(st["states"][pp], indptr, indices, vals, rhs, pp)
     st["done"].append(rho)
     rref_path(p).write_bytes(pickle.dumps(st))
-    log(f"  RREF に取り込み ρ={rho}：式 {len(rows)}、ピボット " + ", ".join(f"{len(st['states'][pp]['piv'])}" for pp in PRIMES) + f" ({time.time() - t0:.0f}s)")
+    log(f"  RREF に取り込み ρ={rho}：式 {len(rhs)}、ピボット " + ", ".join(f"{len(st['states'][pp]['piv'])}" for pp in PRIMES) + f" ({time.time() - t0:.0f}s)")
     return st
 
 
@@ -770,19 +852,28 @@ def fix21_check(p, x21_pred, log=log):
     ncols = len(B31)
     sts = {pp: new_state(ncols) for pp in PRIMES}
     nrows = 0
+    y21v = np.array(y21i, dtype=np.int64)
     for rho in partitions(4):
-        rows, rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
-        rows31, rhs31 = [], []
-        for row, b in zip(rows, rhs):
-            r31 = {c - n21: v * den for c, v in row.items() if c >= n21}
-            b31 = b * den - sum(v * y21i[c] for c, v in row.items() if c < n21)
-            if r31 or b31:
-                rows31.append(r31); rhs31.append(b31)
-        del rows, rhs
-        nrows += len(rows31)
-        for pp in PRIMES:
-            eliminate(sts[pp], rows31, rhs31, pp)
-        del rows31, rhs31
+        prefix = csr_prefix(p, rho)
+        if not Path(f"{prefix}_rhs.npy").exists():
+            pickle_rows_to_csr(Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl", prefix)
+        indptr, indices, vals, rhs = load_csr(prefix)
+        n = len(rhs); nrows += n
+        for start in range(0, n, 1500):
+            stop = min(start + 1500, n)
+            lo, hi = int(indptr[start]), int(indptr[stop])
+            rowid = np.repeat(np.arange(stop - start), np.diff(indptr[start:stop + 1]).astype(np.int64))
+            cols = np.asarray(indices[lo:hi], dtype=np.int64); vs = np.asarray(vals[lo:hi], dtype=np.int64)
+            fixed = cols < n21
+            # 右辺：b·den − Σ_{c<n21} v·y21（Python の整数で桁あふれを避ける）
+            b = [int(v) * den for v in rhs[start:stop]]
+            for r, c, v in zip(rowid[fixed], cols[fixed], vs[fixed]):
+                b[int(r)] -= int(v) * y21i[int(c)]
+            for pp in PRIMES:
+                M = np.zeros((stop - start, ncols + 1))
+                M[rowid[~fixed], cols[~fixed] - n21] = (vs[~fixed] % pp) * (den % pp) % pp
+                M[:, ncols] = [bb % pp for bb in b]
+                eliminate_dense(sts[pp], M, pp)
         log(f"  ρ={rho} を取り込み ({time.time() - t0:.0f}s)")
     out = {"in_affine_space": True}
     for pp in PRIMES:
