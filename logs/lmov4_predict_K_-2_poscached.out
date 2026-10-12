@@ -1,0 +1,9 @@
+=== lmov4_predict pos-cached 2026-10-13 00:31:58 K_-2 S=False ===
+K_-2 pos（S False、不等式 34103、自由度 760）：実行可能 True（status 0）
+  有界 False、幅の例 [(None, None), (None, None), (None, None)] (226s)
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Not Set
