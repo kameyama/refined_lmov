@@ -210,7 +210,15 @@ def run(p):
     e211 = tuple(1 if i == idx[((2, 1, 1), 1)] else 0 for i in range(len(keys)))
     ncols = len(B21) + len(B31)
     rows, rhs = [], []
+    import pickle
+    cache_dir = Path("data/lmovstruct"); cache_dir.mkdir(parents=True, exist_ok=True)
     for rho, (ns, D) in fo.items():
+        cache = cache_dir / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl"      # 再開用：ρ ごとの剰余の行
+        if cache.exists():
+            rr_rows, rr_rhs = pickle.loads(cache.read_bytes())
+            rows += rr_rows; rhs += rr_rhs
+            log(f"  ρ={rho}: 剰余の式 {len(rr_rows)}（保存済み）")
+            continue
         # 定数項：既知の単項式 ＋ x₀ の寄与（dd 倍して整数）
         const = None
         for expo, n in ns.items():
@@ -232,18 +240,22 @@ def run(p):
             Pv = ns[e31] * L.from_dict(bold_to_small(v)) + ns[e211] * L.from_dict(bold_to_small(transpose_bold(v)))
             polys.append((Pv * L.from_dict({(0, 0, 0): dd})).to_dict())
         rr = remainder_rows(polys, D)
-        n_before = len(rows)
+        del polys
+        rr_rows, rr_rhs = [], []
         for key, r in rr.items():
             c0 = r.pop(0, 0)
             r2 = {j - 1: v for j, v in r.items()}
             if r2 or c0:
-                rows.append(r2)
-                rhs.append(-c0)
-        log(f"  ρ={rho}: 剰余の式 {len(rows) - n_before} ({time.time() - t0:.0f}s)")
+                rr_rows.append(r2)
+                rr_rhs.append(-c0)
+        del rr
+        cache.write_bytes(pickle.dumps((rr_rows, rr_rhs)))
+        rows += rr_rows; rhs += rr_rhs
+        log(f"  ρ={rho}: 剰余の式 {len(rr_rows)} ({time.time() - t0:.0f}s)")
     log(f"  消去：式 {len(rows)}、列 {ncols}")
     import pickle
     Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").write_bytes(pickle.dumps(
-        {"mons21": mons21, "mons31": mons31, "B21": B21, "B31": B31, "x021i": x021i, "x031i": x031i, "dd": dd, "rows": rows, "rhs": rhs,
+        {"mons21": mons21, "mons31": mons31, "B21": B21, "B31": B31, "x021i": x021i, "x031i": x031i, "dd": dd, "rows": None, "rhs": None,
          "small": small, "H": H, "boldd": boldd}))
     sols = []
     for pp in PRIMES:
@@ -303,6 +315,17 @@ def run(p):
             "x31": {",".join(map(str, m)): v for m, v in sorted(x31.items())}, "checks": checks, "seconds": time.time() - t0}
 
 
+def load_rows(p):
+    """ρ ごとに保存した剰余の行を集める。"""
+    import pickle
+    from rcsknots.partitions import partitions
+    rows, rhs = [], []
+    for rho in partitions(4):
+        rr_rows, rr_rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
+        rows += rr_rows; rhs += rr_rhs
+    return rows, rhs
+
+
 def nullspace_two_primes(rows, ncols, batch=1500):
     """法 p₁, p₂ の密な RREF から零空間の基底を求め、CRT と有理数の復元で整数ベクトルにする（自由な列が一致することを確かめる）。"""
     from lmov4_joint import dense_nullspace_modp
@@ -340,6 +363,8 @@ def positivity_stage(p, series=True, hat4=True, log=log):
     t0 = time.time()
     S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
     mons21, mons31, B21, B31, x021i, x031i, dd, rows, rhs, small, boldd = (S[k] for k in ("mons21", "mons31", "B21", "B31", "x021i", "x031i", "dd", "rows", "rhs", "small", "boldd"))
+    if rows is None:
+        rows, rhs = load_rows(p)
     ncols = len(B21) + len(B31)
     # 特解 y_p（法 p で解き、2 素数で復元）
     ys = []
@@ -641,6 +666,8 @@ def fix21_check(p, x21_pred, log=log):
     t0 = time.time()
     S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
     mons21, B21, x021i, dd, rows, rhs, B31 = (S[k] for k in ("mons21", "B21", "x021i", "dd", "rows", "rhs", "B31"))
+    if rows is None:
+        rows, rhs = load_rows(p)
     # y21：x21_pred = x021 + Σ y_j B21_j を有理数で解く（過剰決定、整合性を確かめる）
     n21 = len(B21)
     eqs = []
