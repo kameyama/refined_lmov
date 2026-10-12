@@ -3,6 +3,36 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 現在の状況（再開用、2026-10-12 21:40 更新）
+
+**目標（ユーザーの指示）**：unrefined の LMOV（t = q の彩色 HOMFLY-PT）のデータから refined の [2,1]・[3,1] を一意（高々 O(1)）に予想する。証明の優先順位は最後。外部のホモロジーの入力には頼らない。
+
+**確立したこと**
+1. [2,1] の一次の構成（U: t = q、T: 転置、E: EGP、U2: a = t²、H: hook、L: 3 箱の \hat f の Laurent 性、窓：(𝐚, 𝐪) は非 refined の台、𝐭 は予想 R）で一意に決まるのは三葉結び目と 4_1（K_{±1}）だけ。残る自由度は Φ·g（report.md D11）。
+2. \hat f の正値性（spin・genus・既約表示、framing を変えても）は上界を与えない（後退錐が同じ）。BPS 総数の最小化 ＋ framing の正値性 ＋ R で T(2,5) と予言 K_{±2} は一意、T(2,7) 以上と K_{±3} は多数の候補（D11「H11 の進展」）。
+3. 仮説 H_u（J 正規化の hook の Schur 係数の非負性）は偽：N_λ ≥ 0 ⇔ λ 長方形（D12）。規約の照合は GN の hook の Schur 係数と単項式倍で一致。
+4. 仮説 H_u″（P 正規化の hook の Schur 係数の 𝐪 → 0 の冪級数の非負性）は代数的な結び目の全ての非長方形 λ で成立（6 箱まで）、鏡像の向きでは不成立、4_1 の KN の候補と非代数的ケーブルで不成立。これを課す S は上界を与え、T(2,5) では S ＋ R で一意。T(2,7)・T(3,4) では有界だが広い（D12 の続き）。
+5. 4 箱の \hat f の公式（formula_n、T(2,3) の保存値と一致）。4 箱の Laurent 性は [3,1] 既知なら [2,1] の自由度の一部を削る（T(2,5) 20 → 12、T(2,7) 90 → 72）が、[3,1] も未知の連立では [2,1] を全く削らない（T(2,5) で零空間 1976、[2,1] は 20 のまま）。**4 箱の整数性だけでは [2,1] は決まらない。**
+6. 窓の規則 R（行ごとの 𝐭 の両端 = [λ_i] の行の min-plus・max-plus）は [2,1], [3,1], [2,1,1], [2,2] で 4 つのトーラス結び目で等号。
+
+**撤回したこと**：剰余の計算のバグ（D を共通の最小指数でずらしていた）による「[3,1] 既知で全て殺す」「連立の零空間 0」（commit 0009993 以前の記述）。修正と検証は eb168c1。
+
+**予言の状態**
+- K_2（5_2）の [2,1]：H11 の方法で一意（rCS 158 項、負 40）。H_u″ を満たす。4 箱の整数性と両立（[3,1] の系は無矛盾、零空間 395）。【予想】
+- K_{−2}（6_1）の [2,1]：H11 の方法で一意（226 項、負 47）だが H_u″ を破る（4_1 の KN の候補も破るので、負の側の根拠は無い）。【予想、弱い】
+- K_{±3}：候補 26・10 個以上。4_1 の [3,1]：4 箱の Laurent 性で 36 次元、正値性で非有界。
+- K_2 の [3,1]：4 箱の連立の零空間 395、正値性（\hat f・S）の多面体は有界だが広く未決。
+
+**実行中・再開の手順**
+- K_{−2} の一次の系（scripts/lmov4_predict.py −2、nohup、logs/lmov4_predict_K_-2.out）：剰余は 5 つの ρ とも data/lmovstruct/predict_rows_K_-2_*.pkl に保存済み。消去（式 24.4 万、列 3684）の途中。落ちたら同じコマンドで再開（剰余は読み飛ばす）。
+- 次：K_{−2} の正値性の段階（`lmov4_predict.py -2 pos`、S を外すなら `pos-cached`）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
+- 大きなキャッシュ：data/lmovstruct/lmov4_sys_K_*.pkl（0.4〜1.6 GB）、predict_rows_K_-2_*.pkl、lmov4_pos_K_*.pkl。git に入れない（.gitignore）。
+
+**次の候補（ユーザーの判断待ち）**
+1. K_{±2} の候補を 4 箱まで込みで絞る：H11 の方法（総数最小 ＋ framing）を 4 箱の \hat f にも課す。
+2. H_u″ の導出（GN の P̃ の行列要素と Mellit の定理の関係）。優先順位は最後。
+3. PR の作成（push は許可が要る）。
+
 ## 2026-10-12 D12 の続き：H_u″・段階 2・4 箱の Laurent 性（ユーザーの指示「1, 2, 3 へ進め」）
 
 **やったこと**：scripts/dgr_hu.py に `series`・`highbox`（冪級数の判定）、scripts/lmov21_hu.py（段階 2）、scripts/lmov21_h11.py に `--S`、bps.f_formulas を 4 箱へ拡張（Adams 像の記号 Cd）、scripts/lmov4_formula.py（N 箱の公式）、scripts/lmov4_joint.py（4 箱の Laurent 性による自由度の検査）。テスト tests/test_lmov21_hu.py（2 件）、tests/test_lmov4_formula.py（4 件、うち 1 件 results）。詳細は report.md D12「D12 の続き」。

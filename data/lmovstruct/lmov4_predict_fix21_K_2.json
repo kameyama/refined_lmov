@@ -1,0 +1,11 @@
+{
+ "in_affine_space": true,
+ "p1048573": {
+  "inconsistent": false,
+  "nullity": 395
+ },
+ "p1048571": {
+  "inconsistent": false,
+  "nullity": 395
+ }
+}
