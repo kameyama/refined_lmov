@@ -98,6 +98,48 @@ def remainder_rows(polys_small, D):
     return rows
 
 
+def dense_nullspace_modp(rows, ncols, p=1048573, batch=2000):
+    """法 p（< 2²⁰、float64 で厳密）の密な消去で零空間の基底を求める。行は {列: 係数}（整数）。
+    numpy の行列積で、まとまりごとに現在のピボット行（RREF）で簡約してから、まとまりの中で消去する。"""
+    import numpy as np
+    piv_cols = []                                            # ピボット列（挿入順）
+    B = np.zeros((0, ncols))                                  # RREF の行（ピボット列は単位ベクトル）
+    for start in range(0, len(rows), batch):
+        chunk = rows[start:start + batch]
+        M = np.zeros((len(chunk), ncols))
+        for i, (row, _) in enumerate(chunk):
+            for c, v in row.items():
+                M[i, c] = v % p
+        if len(piv_cols):
+            M = (M - (M[:, piv_cols] @ B) % p) % p             # 既存のピボットで簡約（M[:, piv] は簡約後 0）
+        # まとまりの中の消去
+        for i in range(len(chunk)):
+            nz = np.nonzero(M[i])[0]
+            if len(nz) == 0:
+                continue
+            c = int(nz[0])
+            inv = pow(int(M[i, c]), p - 2, p)
+            M[i] = (M[i] * inv) % p
+            # 他の行（まとまり内と B）から列 c を消す
+            col = M[:, c].copy(); col[i] = 0
+            M = (M - np.outer(col, M[i])) % p
+            if len(piv_cols):
+                B = (B - np.outer(B[:, c], M[i])) % p
+            B = np.vstack([B, M[i:i + 1]])
+            piv_cols.append(c)
+    pivset = set(piv_cols)
+    free = [c for c in range(ncols) if c not in pivset]
+    basis = []
+    for fc in free:
+        vec = {fc: 1}
+        for r, pc in enumerate(piv_cols):
+            v = int(B[r, fc])
+            if v:
+                vec[pc] = (-v) % p
+        basis.append(vec)
+    return basis
+
+
 def known31(K):
     t0 = time.time()
     small = reduced_4box(K)
@@ -121,7 +163,7 @@ def known31(K):
         allrows += [(r, 0) for r in rows.values() if r]
         log(f"  ρ={rho}: 剰余の式 {nz} ({time.time() - t0:.0f}s)")
         # 正解の検算：\\hat f_ρ（正解）が Laurent であること
-    rank, _ = LL.rank_nullity(allrows, ncols)
+    rank = ncols - len(dense_nullspace_modp(allrows, ncols)) if ncols > 100 else LL.rank_nullity(allrows, ncols)[0]
     log(f"{K}: 4 箱の Laurent 性（[3,1] 既知）が [2,1] の零空間 {ncols} のうち殺す次元 {rank}、残り {ncols - rank} ({time.time() - t0:.0f}s)")
     return {"nullity21": ncols, "rank_4box": rank, "remaining": ncols - rank}
 
@@ -228,19 +270,29 @@ def joint(K):
     e31 = tuple(1 if i == idx[((3, 1), 1)] else 0 for i in range(len(keys)))
     e211 = tuple(1 if i == idx[((2, 1, 1), 1)] else 0 for i in range(len(keys)))
     ncols = len(vecs21) + len(vecs31)
+    import pickle
+    cache = Path(f"data/lmovstruct/joint_rows_{K}.pkl")           # 再開用：ρ ごとの剰余の行を保存する
+    cached = pickle.loads(cache.read_bytes()) if cache.exists() else {}
     allrows = []
     for rho, (ns, D) in fo.items():
-        polys = []
-        base21 = ns[e21] * R[((1,), 1)]
-        for v in vecs21:
-            polys.append((base21 * L.from_dict(bold_to_small(v))).to_dict())
-        for v in vecs31:
-            P = ns[e31] * L.from_dict(bold_to_small(v)) + ns[e211] * L.from_dict(bold_to_small(transpose_bold(v)))
-            polys.append(P.to_dict())
-        rows = remainder_rows(polys, D)
-        allrows += [(r, 0) for r in rows.values() if r]
-        log(f"  ρ={rho}: 剰余の式 {len(rows)} ({time.time() - t0:.0f}s)")
-    basis = LL.nullspace_basis(allrows, ncols)
+        if str(rho) in cached:
+            rows_list = cached[str(rho)]
+        else:
+            polys = []
+            base21 = ns[e21] * R[((1,), 1)]
+            for v in vecs21:
+                polys.append((base21 * L.from_dict(bold_to_small(v))).to_dict())
+            for v in vecs31:
+                P = ns[e31] * L.from_dict(bold_to_small(v)) + ns[e211] * L.from_dict(bold_to_small(transpose_bold(v)))
+                polys.append(P.to_dict())
+            rows = remainder_rows(polys, D)
+            rows_list = [r for r in rows.values() if r]
+            cached[str(rho)] = rows_list
+            cache.write_bytes(pickle.dumps(cached))
+        allrows += [(r, 0) for r in rows_list]
+        log(f"  ρ={rho}: 剰余の式 {len(rows_list)} ({time.time() - t0:.0f}s)")
+    log(f"  消去：式 {len(allrows)}、列 {ncols}")
+    basis = dense_nullspace_modp(allrows, ncols)
     # [2,1] の座標への射影の階数
     proj = [({c: v for c, v in vec.items() if c < len(vecs21)}, 0) for vec in basis]
     rank21, _ = LL.rank_nullity(proj, len(vecs21))

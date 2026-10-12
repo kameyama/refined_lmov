@@ -3,6 +3,18 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
+## 2026-10-12 D12 の続き：H_u″・段階 2・4 箱の Laurent 性（ユーザーの指示「1, 2, 3 へ進め」）
+
+**やったこと**：scripts/dgr_hu.py に `series`・`highbox`（冪級数の判定）、scripts/lmov21_hu.py（段階 2）、scripts/lmov21_h11.py に `--S`、bps.f_formulas を 4 箱へ拡張（Adams 像の記号 Cd）、scripts/lmov4_formula.py（N 箱の公式）、scripts/lmov4_joint.py（4 箱の Laurent 性による自由度の検査）。テスト tests/test_lmov21_hu.py（2 件）、tests/test_lmov4_formula.py（4 件、うち 1 件 results）。詳細は report.md D12「D12 の続き」。
+
+**結果**
+- 負の符号の構造：N の行は既約、負は 𝐪⁶𝐭²(qt)^k の射線上。**P 正規化に戻した冪級数（𝐪 → 0）は代数的な結び目の全ての非長方形 λ で非負**（3 箱の全結び目、T(2,3) の 6 箱まで、T(2,5) の 5 箱、T(3,4) の 4 箱）【計算】。鏡像の向きでは負。4_1 の KN の候補は中央の行で両向きに負、非代数的ケーブルも負。→ 仮説 H_u″（P 正規化の hook の Schur 係数は冪級数として非負）。
+- 段階 2（H_u″ を課す）：T(2,5) は S だけで多面体が有界（整数解 2）、S ＋ R で 1 点（正解）【計算】。T(2,7), T(3,4) は有界だが幅が広く ≥ 100（framing・総数最小を足しても）。
+- 4 箱の Laurent 性：4 箱の公式を導出し T(2,3) の保存値と一致。**[3,1] を既知とすると T(2,5) の 20 次元、T(2,7) の 90 次元を全て殺す**【計算】。[3,1] も未知にした連立（T(2,5)：[3,1] の零空間 3960）は実行中（nohup、logs/lmov4_joint_T2_5.out）。
+- K_{±2} の予言と H_u″：K_2 は満たす、K_{−2} は破れる（4_1 も破れるので負の側の根拠は無い）。
+
+**次**：連立の結果で (a) [2,1] に残る自由度が 0 なら、4 箱の非 refined のデータ（K_{±1}, K_{±2} にある）と refined の長方形から [2,1]（と [3,1] の一部）を一次の条件だけで決める経路ができる。(b) 残るなら H_u″ と組み合わせる。
+
 ## 2026-10-12 D12：仮説 H_u（unreduced の hook の Schur 係数の正値性）の検査——不成立で停止（ユーザーの指示）
 
 **やったこと**：scripts/dgr_hu.py（check / highbox / convention）、tests/test_dgr_lmov.py に D12 の 2 件。記録 logs/dgr_hu.log、data/dgr_lmov/hu_check.json。詳細は report.md D12。
