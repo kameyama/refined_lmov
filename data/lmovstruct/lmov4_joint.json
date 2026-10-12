@@ -1,0 +1,24 @@
+{
+ "T2_5 known31": {
+  "nullity21": 20,
+  "rank_4box": 20,
+  "remaining": 0
+ },
+ "T2_7 known31": {
+  "nullity21": 90,
+  "rank_4box": 90,
+  "remaining": 0
+ },
+ "T3_4 known31": {
+  "nullity21": 560,
+  "rank_4box": 560,
+  "remaining": 0
+ },
+ "T2_5 joint": {
+  "nullity21": 20,
+  "n31": 8670,
+  "nullity31": 3960,
+  "joint_nullity": 0,
+  "remaining21": 0
+ }
+}
