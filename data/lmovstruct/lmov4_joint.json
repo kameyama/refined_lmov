@@ -8,5 +8,12 @@
   "nullity21": 90,
   "rank_4box": 18,
   "remaining": 72
+ },
+ "T2_5 joint": {
+  "nullity21": 20,
+  "n31": 8670,
+  "nullity31": 3960,
+  "joint_nullity": 1976,
+  "remaining21": 20
  }
 }
