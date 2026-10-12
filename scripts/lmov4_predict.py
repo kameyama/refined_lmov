@@ -620,7 +620,7 @@ if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "pos":
     res = positivity_stage(p)
     Path(f"data/lmovstruct/lmov4_predict_pos_K_{p}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
 
-if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", "pos-cached")):
+if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", "pos-cached", "fix21")):
     p = int(sys.argv[1])
     log(f"=== lmov4_predict {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
     res = run(p)
@@ -630,3 +630,71 @@ if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", 
         k21 = known21(p)
         got = {tuple(map(int, m.split(","))): v for m, v in res.get("x21", {}).items()}
         log(f"  既知の [2,1] と一致：{got == k21}")
+
+
+# ---- fix21：[2,1] を H11 の方法の予言に固定し、[3,1] の系が無矛盾か（4 箱の整数性の独立な検査） --------------------
+
+def fix21_check(p, x21_pred, log=log):
+    """保存した一次の系（lmov4_sys_K_<p>.pkl）で [2,1] を x21_pred に固定し、[3,1] の未知数だけの系の無矛盾性と零空間の次元を調べる。
+    無矛盾なら、x21_pred は（ある [3,1] と組んで）4 箱の \\hat f の Laurent 性を満たす。"""
+    import pickle
+    t0 = time.time()
+    S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
+    mons21, B21, x021i, dd, rows, rhs, B31 = (S[k] for k in ("mons21", "B21", "x021i", "dd", "rows", "rhs", "B31"))
+    # y21：x21_pred = x021 + Σ y_j B21_j を有理数で解く（過剰決定、整合性を確かめる）
+    n21 = len(B21)
+    eqs = []
+    for m in mons21:
+        eqs.append(([Fraction(B21[j].get(m, 0)) for j in range(n21)], Fraction(x21_pred.get(m, 0)) - Fraction(x021i.get(m, 0), dd)))
+    # ガウス消去
+    piv = []
+    M = [row[:] + [b] for row, b in eqs]
+    r = 0
+    for c in range(n21):
+        pr = next((i for i in range(r, len(M)) if M[i][c] != 0), None)
+        if pr is None:
+            continue
+        M[r], M[pr] = M[pr], M[r]
+        M[r] = [v / M[r][c] for v in M[r]]
+        for i in range(len(M)):
+            if i != r and M[i][c] != 0:
+                f = M[i][c]
+                M[i] = [a - f * b for a, b in zip(M[i], M[r])]
+        piv.append(c); r += 1
+    inconsistent = any(all(v == 0 for v in row[:n21]) and row[n21] != 0 for row in M)
+    if inconsistent or len(piv) < n21:
+        log(f"K_{p} fix21：予言が [2,1] の一次の解空間に無い（矛盾 {inconsistent}、階数 {len(piv)}/{n21}）")
+        return {"in_affine_space": False}
+    y21 = [M[i][n21] for i in range(n21)]
+    log(f"K_{p} fix21：y21 = {[str(v) for v in y21]}（dd = {dd}）")
+    # 4 箱の行：列 0..n21−1 を固定して右辺へ（行は dd 倍の系なので y21 もそのまま）
+    ncols = len(B31)
+    rows31, rhs31 = [], []
+    for row, b in zip(rows, rhs):
+        r31 = {c - n21: v for c, v in row.items() if c >= n21}
+        b31 = Fraction(b) - sum(Fraction(v) * y21[c] for c, v in row.items() if c < n21)
+        if r31 or b31:
+            rows31.append(r31); rhs31.append(b31)
+    den = 1
+    for b in rhs31:
+        den = den * b.denominator // gcd(den, b.denominator)
+    rows31 = [{c: v * den for c, v in r.items()} for r in rows31]
+    rhs31 = [int(b * den) for b in rhs31]
+    out = {"in_affine_space": True}
+    for pp in PRIMES:
+        y, nullity, bad = solve_modp(rows31, ncols, rhs31, pp)
+        log(f"  [3,1] の系（式 {len(rows31)}、列 {ncols}）法 {pp}：矛盾 {bad}、零空間 {nullity} ({time.time() - t0:.0f}s)")
+        out[f"p{pp}"] = {"inconsistent": bad, "nullity": nullity}
+        if bad:
+            break
+    return out
+
+
+if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "fix21":
+    p = int(sys.argv[1])
+    pred = json.load(open("data/lmovstruct/lmov21_h11_predict.json"))
+    key = [k for k in pred if k.startswith(f"K_{p} x=-10")][0]
+    x21 = {tuple(map(int, m.split(","))): v for m, v in pred[key]["face_solutions_rcs21"][0].items()}
+    log(f"=== lmov4_predict fix21 {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p}（H11 の予言 {len(x21)} 項）===")
+    res = fix21_check(p, x21)
+    Path(f"data/lmovstruct/lmov4_predict_fix21_K_{p}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
