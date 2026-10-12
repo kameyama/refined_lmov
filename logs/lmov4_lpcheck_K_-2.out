@@ -1,0 +1,22 @@
+K_-2: 不等式 34103、自由度 760、係数の最大 1、最小の非零 7.97e-06
+  方向 0 符号 +1 highs-ds: status 4 ((HiGHS Status 4: Solve error)) fun None (15s)
+  方向 0 符号 -1 highs-ds: status 4 ((HiGHS Status 4: Solve error)) fun None (16s)
+  方向 0 符号 +1 highs-ipm: status 4 ((HiGHS Status 4: Solve error)) fun None (15s)
+  方向 0 符号 -1 highs-ipm: status 4 ((HiGHS Status 4: Solve error)) fun None (15s)
+  方向 1 符号 +1 highs-ds: status 3 (The problem is unbounded. (HiGHS Status 10: model_) fun None (14s)
+  方向 1 符号 -1 highs-ds: status 4 ((HiGHS Status 4: Solve error)) fun None (16s)
+  方向 1 符号 +1 highs-ipm: status 3 (The problem is unbounded. (HiGHS Status 10: model_) fun None (13s)
+  方向 1 符号 -1 highs-ipm: status 4 ((HiGHS Status 4: Solve error)) fun None (16s)
+  方向 2 符号 +1 highs-ds: status 4 ((HiGHS Status 4: Solve error)) fun None (12s)
+  方向 2 符号 -1 highs-ds: status 3 (The problem is unbounded. (HiGHS Status 10: model_) fun None (12s)
+  方向 2 符号 +1 highs-ipm: status 4 ((HiGHS Status 4: Solve error)) fun None (12s)
+  方向 2 符号 -1 highs-ipm: status 3 (The problem is unbounded. (HiGHS Status 10: model_) fun None (12s)
+  箱 ±1e6 の中：status 0 fun -533102812.35471016 端に当たる変数 675
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
+Highs::returnFromOptimizeModel: return_status = -1 != 0 = run_return_status For model_status_ = Solve error
