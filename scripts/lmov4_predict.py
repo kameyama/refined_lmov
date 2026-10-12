@@ -487,7 +487,7 @@ def positivity_stage(p, series=True, hat4=True, log=log):
         for j, v in r.items():
             A[i, j] = v
     A = A.tocsr(); b = np.array([float(rr) for _, rr in ineqs])
-    Path(f"data/lmovstruct/lmov4_pos_K_{p}.pkl").write_bytes(pickle.dumps({"ineqs": ineqs, "V": V, "xp21i": xp21i, "xp31i": xp31i, "denp": denp}))
+    Path(f"data/lmovstruct/lmov4_pos_K_{p}.pkl").write_bytes(pickle.dumps({"ineqs": ineqs, "V": V, "xp21i": xp21i, "xp31i": xp31i, "denp": denp, "nhat": nhat, "nS": nS}))
     # 実行可能性と有界性（w は実数）。不等式は整数係数で大きいので、行を最大係数で正規化する
     scale = np.array([max(1.0, max(abs(float(v)) for v in r.values())) for r, _ in ineqs])
     An = sps.diags(1.0 / scale) @ A; bn = b / scale
@@ -539,13 +539,88 @@ def positivity_stage(p, series=True, hat4=True, log=log):
     return out
 
 
+def positivity_cached(p, use_S, log=log):
+    """保存した不等式（lmov4_pos_K_<p>.pkl）で、S を外した／入れた多面体の実行可能性・有界性・整数解を調べる。"""
+    import pickle
+    import scipy.sparse as sps
+    from scipy.optimize import Bounds, LinearConstraint, linprog, milp
+    t0 = time.time()
+    S = pickle.loads(Path(f"data/lmovstruct/lmov4_pos_K_{p}.pkl").read_bytes())
+    ineqs = S["ineqs"]
+    nhat = S.get("nhat", 5461)
+    if not use_S:
+        ineqs = ineqs[:nhat]
+    V, xp21i, xp31i, denp = S["V"], S["xp21i"], S["xp31i"], S["denp"]
+    d = len(V)
+    A = sps.lil_matrix((len(ineqs), d))
+    for i, (r, _) in enumerate(ineqs):
+        for j, v in r.items():
+            A[i, j] = v
+    A = A.tocsr(); b = np.array([float(rr) for _, rr in ineqs])
+    scale = np.array([max(1.0, max(abs(float(v)) for v in r.values())) for r, _ in ineqs])
+    An = sps.diags(1.0 / scale) @ A; bn = b / scale
+    r0 = linprog(np.zeros(d), A_ub=-An, b_ub=-bn, bounds=[(None, None)] * d, method="highs")
+    feas = r0.status == 0
+    log(f"K_{p} pos（S {use_S}、不等式 {len(ineqs)}、自由度 {d}）：実行可能 {feas}（status {r0.status}）")
+    out = {"nullity": d, "use_S": use_S, "feasible": feas}
+    if not feas:
+        return out
+    rng = np.random.default_rng(0)
+    bounded, widths = True, []
+    for _ in range(6):
+        c = rng.standard_normal(d)
+        w = []
+        for sg in (1, -1):
+            r = linprog(sg * c, A_ub=-An, b_ub=-bn, bounds=[(None, None)] * d, method="highs")
+            w.append(float(sg * r.fun) if r.status == 0 else None)
+        widths.append(w); bounded = bounded and all(v is not None for v in w)
+    out["bounded"] = bounded; out["widths"] = widths[:3]
+    log(f"  有界 {bounded}、幅の例 {[(None if a is None else round(a, 2), None if b_ is None else round(b_, 2)) for a, b_ in widths[:3]]} ({time.time() - t0:.0f}s)")
+    if bounded:
+        c = rng.integers(-30, 31, size=d).astype(float)
+        sols, lo = [], -np.inf
+        while len(sols) < 50:
+            rr = milp(c, constraints=[LinearConstraint(An, bn, np.inf), LinearConstraint(c.reshape(1, -1), lo, np.inf)],
+                      bounds=Bounds(np.full(d, -np.inf), np.full(d, np.inf)), integrality=np.ones(d), options={"time_limit": 1800})
+            if rr.x is None:
+                break
+            g = tuple(int(round(v)) for v in rr.x)
+            if g in sols:
+                break
+            sols.append(g); lo = float(c @ np.array(g)) + 1
+        out["count_w_integer"] = len(sols) if len(sols) < 50 else ">=50"
+        log(f"  w が整数の解 {out['count_w_integer']} 個 ({time.time() - t0:.0f}s)")
+        xs = []
+        for g in sols[:5]:
+            x21 = dict(xp21i); x31 = dict(xp31i)
+            for j, (v21, v31) in enumerate(V):
+                if g[j]:
+                    for k, v in v21.items():
+                        x21[k] = x21.get(k, 0) + g[j] * v * denp
+                    for k, v in v31.items():
+                        x31[k] = x31.get(k, 0) + g[j] * v * denp
+            ok = all(v % denp == 0 for v in list(x21.values()) + list(x31.values()))
+            xs.append({"integral": ok, "x21": {",".join(map(str, k)): v // denp for k, v in sorted(x21.items()) if v} if ok else None,
+                       "x31": {",".join(map(str, k)): v // denp for k, v in sorted(x31.items()) if v} if ok else None,
+                       "x31_terms": sum(1 for v in x31.values() if v), "x31_neg": sum(1 for v in x31.values() if v < 0)})
+        out["solutions"] = xs
+    return out
+
+
+if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "pos-cached":
+    p = int(sys.argv[1])
+    use_S = "--S" in sys.argv
+    log(f"=== lmov4_predict pos-cached {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} S={use_S} ===")
+    res = positivity_cached(p, use_S)
+    Path(f"data/lmovstruct/lmov4_predict_pos_K_{p}_S{int(use_S)}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
+
 if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "pos":
     p = int(sys.argv[1])
     log(f"=== lmov4_predict pos {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
     res = positivity_stage(p)
     Path(f"data/lmovstruct/lmov4_predict_pos_K_{p}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
 
-if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] == "pos"):
+if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", "pos-cached")):
     p = int(sys.argv[1])
     log(f"=== lmov4_predict {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
     res = run(p)

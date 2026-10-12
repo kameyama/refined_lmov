@@ -80,9 +80,10 @@ def nullspace21(K):
     return vecs, true21
 
 
-def remainder_rows(polys_small, D):
-    """polys_small：[{(e_A, e_Q, e_T): c}]（Laurent）。共通の単項式でずらして非負にし、D（L）で割った剰余を {単項式: {列: 係数}} にする。"""
-    ctx = flint.fmpz_mpoly_ctx.get(("A", "Q", "T"), "lex")
+def remainder_rows(polys_small, D, p=None):
+    """polys_small：[{(e_A, e_Q, e_T): c}]（Laurent）。共通の単項式でずらして非負にし、D（L）で割った剰余を {単項式: {列: 係数}} にする。
+    p を与えると法 p（nmod_mpoly）で計算する（係数が小さくなり速い。法 p で解く系に使う）。"""
+    ctx = flint.fmpz_mpoly_ctx.get(("A", "Q", "T"), "lex") if p is None else flint.nmod_mpoly_ctx.get(("A", "Q", "T"), modulus=p, ordering="lex")
     dd = D.to_dict()
     # D は自分の最小指数でずらして最小指数 0 にする（単項式倍は割り切れるかに無関係）。P は全ての多項式に共通の最小指数でずらす。
     # min(P') ≥ 0 = min(D') なら、Laurent の商 Q = P'/D' も min(Q) = min(P') − min(D') ≥ 0 で多項式になり、多項式としての剰余 0 ⇔ 割り切れる。
