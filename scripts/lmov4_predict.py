@@ -381,7 +381,9 @@ def positivity_stage(p, series=True, hat4=True, log=log):
             raise ValueError("特解の復元に失敗")
         yp[j] = f
     N = nullspace_two_primes(rows, ncols)
-    log(f"K_{p}: 連立の零空間 {len(N)}、特解の分母の最大 {max(f.denominator for f in yp.values())} ({time.time() - t0:.0f}s)")
+    M21 = np.array([[float(v.get(j, 0)) for j in range(len(B21))] for v in N]) if N else np.zeros((0, len(B21)))
+    rank21 = int(np.linalg.matrix_rank(M21)) if N and len(B21) else 0
+    log(f"K_{p}: 連立の零空間 {len(N)}、[2,1] への射影の次元 {rank21}（[2,1] 単独 {len(B21)}）、特解の分母の最大 {max(f.denominator for f in yp.values())} ({time.time() - t0:.0f}s)")
     # x 空間へ：x = (x0i + dd·Σ y B)/dd
     def to_x(yvec, scale):
         x21, x31 = {}, {}

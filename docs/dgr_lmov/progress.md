@@ -3,7 +3,7 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
-## 現在の状況（再開用、2026-10-12 21:40 更新）
+## 現在の状況（再開用、2026-10-12 23:40 更新）
 
 **目標（ユーザーの指示）**：unrefined の LMOV（t = q の彩色 HOMFLY-PT）のデータから refined の [2,1]・[3,1] を一意（高々 O(1)）に予想する。証明の優先順位は最後。外部のホモロジーの入力には頼らない。
 
@@ -24,8 +24,9 @@
 - K_2 の [3,1]：4 箱の連立の零空間 395、正値性（\hat f・S）の多面体は有界だが広く未決。
 
 **実行中・再開の手順**
-- K_{−2} の一次の系（scripts/lmov4_predict.py −2、nohup、logs/lmov4_predict_K_-2.out）：剰余は 5 つの ρ とも data/lmovstruct/predict_rows_K_-2_*.pkl に保存済み。消去（式 24.4 万、列 3684）の途中。落ちたら同じコマンドで再開（剰余は読み飛ばす）。
-- 次：K_{−2} の正値性の段階（`lmov4_predict.py -2 pos`、S を外すなら `pos-cached`）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
+- K_{−2} の一次の系は完了（2026-10-12 23:21、logs/lmov4_predict_K_-2.out、所要 2.3 時間、法 1048573）：[2,1] 単独の零空間 4、[3,1] 単独 3680、4 箱の Laurent 性までの連立で零空間 760、矛盾なし【計算】。系は data/lmovstruct/lmov4_sys_K_-2.pkl、剰余は predict_rows_K_-2_*.pkl。
+- 実行中：K_{−2} の正値性の段階（`PYTHONPATH=src:scripts nohup .venv/bin/python scripts/lmov4_predict.py -2 pos`、サンドボックス外、PID 69312、logs/lmov4_predict_K_-2_pos.out、23:37 開始）。連立の零空間の [2,1] への射影の次元もここでログに出す（追加）。K_2 の同じ段階は 73 分だったので 2〜3 時間の見込み。終わりの目印は「w が整数の解」の行。落ちたら同じコマンドで再開（特解と零空間の計算からやり直し、剰余は読み飛ばす）。
+- 次：正値性の段階が終わったら、S を外した版（`pos-cached`、S は K_{−2} で破れる見込み）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
 - 大きなキャッシュ：data/lmovstruct/lmov4_sys_K_*.pkl（0.4〜1.6 GB）、predict_rows_K_-2_*.pkl、lmov4_pos_K_*.pkl。git に入れない（.gitignore）。
 
 **次の候補（ユーザーの判断待ち）**
