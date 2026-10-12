@@ -147,9 +147,15 @@ def scale_int(x0):
     return d, {m: int(f * d) for m, f in x0.items()}
 
 
-def solve_modp(rows, ncols, rhs, p, batch=1500):
-    """A y = rhs（法 p）を密な消去で解く。返り値 (解 y または None, 零空間の次元, 矛盾か)。rows：[{列: 係数}]。"""
-    piv_cols, B = [], np.zeros((0, ncols + 1))
+def new_state(ncols):
+    """法 p の RREF の状態：ピボット列（挿入順）、RREF の行（最後の列は右辺）、矛盾の有無。"""
+    return {"piv": [], "B": np.zeros((0, ncols + 1)), "bad": False}
+
+
+def eliminate(st, rows, rhs, p, batch=1500):
+    """A y = rhs（法 p）の行を状態 st の RREF に取り込む（密な消去、まとまりごと）。rows：[{列: 係数}]。"""
+    ncols = st["B"].shape[1] - 1
+    piv_cols, B = st["piv"], st["B"]
     for start in range(0, len(rows), batch):
         chunk = rows[start:start + batch]
         M = np.zeros((len(chunk), ncols + 1))
@@ -163,7 +169,7 @@ def solve_modp(rows, ncols, rhs, p, batch=1500):
             nz = np.nonzero(M[i, :ncols])[0]
             if len(nz) == 0:
                 if M[i, ncols] % p:
-                    return None, None, True
+                    st["bad"] = True
                 continue
             c = int(nz[0])
             inv = pow(int(M[i, c]), p - 2, p)
@@ -174,11 +180,83 @@ def solve_modp(rows, ncols, rhs, p, batch=1500):
                 B = (B - np.outer(B[:, c], M[i])) % p
             B = np.vstack([B, M[i:i + 1]])
             piv_cols.append(c)
-    nullity = ncols - len(piv_cols)
+    st["B"] = B
+    return st
+
+
+def solution_of(st):
+    """RREF の状態から (特解 y（自由な変数は 0）, 零空間の次元, 矛盾か)。"""
+    ncols = st["B"].shape[1] - 1
+    if st["bad"]:
+        return None, None, True
     y = np.zeros(ncols, dtype=object)
-    for r, pc in enumerate(piv_cols):
-        y[pc] = int(B[r, ncols])                               # 自由な変数は 0
-    return y, nullity, False
+    for r, pc in enumerate(st["piv"]):
+        y[pc] = int(st["B"][r, ncols])
+    return y, ncols - len(st["piv"]), False
+
+
+def nullspace_of(st, p):
+    """RREF の状態から零空間の基底（{列: 係数} 法 p、自由な列ごとに 1 本）。"""
+    ncols = st["B"].shape[1] - 1
+    pivset = set(st["piv"])
+    basis = []
+    for fc in range(ncols):
+        if fc in pivset:
+            continue
+        vec = {fc: 1}
+        for r, pc in enumerate(st["piv"]):
+            v = int(st["B"][r, fc])
+            if v:
+                vec[pc] = (-v) % p
+        basis.append(vec)
+    return basis
+
+
+def solve_modp(rows, ncols, rhs, p, batch=1500):
+    """A y = rhs（法 p）を密な消去で解く。返り値 (解 y または None, 零空間の次元, 矛盾か)。"""
+    return solution_of(eliminate(new_state(ncols), rows, rhs, p, batch))
+
+
+def rref_path(p):
+    return Path(f"data/lmovstruct/lmov4_rref_K_{p}.pkl")
+
+
+def rref_rho(p, rho):
+    """ρ の剰余の行（predict_rows_K_<p>_<ρ>.pkl）を 2 つの素数の RREF に取り込み、状態を保存する。
+    行の辞書は巨大（1 ρ で数 GB）なので、ρ ごとに別プロセスで呼び、終わればメモリを OS に返す。"""
+    import pickle
+    S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
+    ncols = len(S["B21"]) + len(S["B31"])
+    del S
+    st = pickle.loads(rref_path(p).read_bytes()) if rref_path(p).exists() else {"done": [], "states": {pp: new_state(ncols) for pp in PRIMES}}
+    if rho in st["done"]:
+        return st
+    t0 = time.time()
+    rows, rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
+    for pp in PRIMES:
+        eliminate(st["states"][pp], rows, rhs, pp)
+    st["done"].append(rho)
+    rref_path(p).write_bytes(pickle.dumps(st))
+    log(f"  RREF に取り込み ρ={rho}：式 {len(rows)}、ピボット " + ", ".join(f"{len(st['states'][pp]['piv'])}" for pp in PRIMES) + f" ({time.time() - t0:.0f}s)")
+    return st
+
+
+def rref_stage(p):
+    """全ての ρ を（別プロセスで 1 つずつ）RREF に取り込み、状態を返す。保存済みの ρ は飛ばす。"""
+    import pickle
+    import subprocess
+    from rcsknots.partitions import partitions
+    for rho in partitions(4):
+        if rref_path(p).exists() and rho in pickle.loads(rref_path(p).read_bytes())["done"]:
+            continue
+        r = subprocess.run([sys.executable, __file__, str(p), "rref", "".join(map(str, rho))], cwd=Path.cwd())
+        if r.returncode:
+            raise RuntimeError(f"rref ρ={rho} が失敗（{r.returncode}）")
+    st = pickle.loads(rref_path(p).read_bytes())
+    for pp in PRIMES:
+        _, nullity, bad = solution_of(st["states"][pp])
+        log(f"  法 {pp}：矛盾 {bad}、零空間 {nullity}")
+    return st
 
 
 def crt_sym(r1, r2):
@@ -209,15 +287,15 @@ def run(p):
     e31 = tuple(1 if i == idx[((3, 1), 1)] else 0 for i in range(len(keys)))
     e211 = tuple(1 if i == idx[((2, 1, 1), 1)] else 0 for i in range(len(keys)))
     ncols = len(B21) + len(B31)
-    rows, rhs = [], []
     import pickle
     cache_dir = Path("data/lmovstruct"); cache_dir.mkdir(parents=True, exist_ok=True)
+    Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").write_bytes(pickle.dumps(
+        {"mons21": mons21, "mons31": mons31, "B21": B21, "B31": B31, "x021i": x021i, "x031i": x031i, "dd": dd, "rows": None, "rhs": None,
+         "small": small, "H": H, "boldd": boldd}))
     for rho, (ns, D) in fo.items():
         cache = cache_dir / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl"      # 再開用：ρ ごとの剰余の行
         if cache.exists():
-            rr_rows, rr_rhs = pickle.loads(cache.read_bytes())
-            rows += rr_rows; rhs += rr_rhs
-            log(f"  ρ={rho}: 剰余の式 {len(rr_rows)}（保存済み）")
+            log(f"  ρ={rho}: 剰余の式（保存済み）")
             continue
         # 定数項：既知の単項式 ＋ x₀ の寄与（dd 倍して整数）
         const = None
@@ -250,17 +328,13 @@ def run(p):
                 rr_rhs.append(-c0)
         del rr
         cache.write_bytes(pickle.dumps((rr_rows, rr_rhs)))
-        rows += rr_rows; rhs += rr_rhs
-        log(f"  ρ={rho}: 剰余の式 {len(rr_rows)} ({time.time() - t0:.0f}s)")
-    log(f"  消去：式 {len(rows)}、列 {ncols}")
-    import pickle
-    Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").write_bytes(pickle.dumps(
-        {"mons21": mons21, "mons31": mons31, "B21": B21, "B31": B31, "x021i": x021i, "x031i": x031i, "dd": dd, "rows": None, "rhs": None,
-         "small": small, "H": H, "boldd": boldd}))
+        del rr_rows, rr_rhs
+        log(f"  ρ={rho}: 剰余の式 ({time.time() - t0:.0f}s)")
+    log(f"  消去（ρ ごとに別プロセスで RREF へ）：列 {ncols}")
+    st = rref_stage(p)
     sols = []
     for pp in PRIMES:
-        y, nullity, bad = solve_modp(rows, ncols, rhs, pp)
-        log(f"  法 {pp}：矛盾 {bad}、零空間 {nullity}")
+        y, nullity, bad = solution_of(st["states"][pp])
         if bad or nullity:
             return {"p": p, "inconsistent": bad, "nullity": nullity}
         sols.append(y)
@@ -315,22 +389,10 @@ def run(p):
             "x31": {",".join(map(str, m)): v for m, v in sorted(x31.items())}, "checks": checks, "seconds": time.time() - t0}
 
 
-def load_rows(p):
-    """ρ ごとに保存した剰余の行を集める。"""
-    import pickle
-    from rcsknots.partitions import partitions
-    rows, rhs = [], []
-    for rho in partitions(4):
-        rr_rows, rr_rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
-        rows += rr_rows; rhs += rr_rhs
-    return rows, rhs
-
-
-def nullspace_two_primes(rows, ncols, batch=1500):
-    """法 p₁, p₂ の密な RREF から零空間の基底を求め、CRT と有理数の復元で整数ベクトルにする（自由な列が一致することを確かめる）。"""
-    from lmov4_joint import dense_nullspace_modp
+def nullspace_two_primes(st):
+    """法 p₁, p₂ の RREF（状態 st）の零空間の基底を、CRT と有理数の復元で整数ベクトルにする（次元が一致することを確かめる）。"""
     from lmov21_polytope import ratrec
-    bases = [dense_nullspace_modp([(r, 0) for r in rows], ncols, p=pp, batch=batch) for pp in PRIMES]
+    bases = [nullspace_of(st["states"][pp], pp) for pp in PRIMES]
     assert len(bases[0]) == len(bases[1]), "零空間の次元が素数で違う"
     out = []
     m = PRIMES[0] * PRIMES[1]
@@ -363,13 +425,13 @@ def positivity_stage(p, series=True, hat4=True, log=log):
     t0 = time.time()
     S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
     mons21, mons31, B21, B31, x021i, x031i, dd, rows, rhs, small, boldd = (S[k] for k in ("mons21", "mons31", "B21", "B31", "x021i", "x031i", "dd", "rows", "rhs", "small", "boldd"))
-    if rows is None:
-        rows, rhs = load_rows(p)
+    del rows, rhs
     ncols = len(B21) + len(B31)
-    # 特解 y_p（法 p で解き、2 素数で復元）
+    # 特解 y_p（RREF から。法 p で解き、2 素数で復元）
+    st = rref_stage(p)
     ys = []
     for pp in PRIMES:
-        y, nullity, bad = solve_modp(rows, ncols, rhs, pp)
+        y, nullity, bad = solution_of(st["states"][pp])
         assert not bad
         ys.append(y)
     from lmov21_polytope import ratrec
@@ -380,7 +442,8 @@ def positivity_stage(p, series=True, hat4=True, log=log):
         if f is None:
             raise ValueError("特解の復元に失敗")
         yp[j] = f
-    N = nullspace_two_primes(rows, ncols)
+    N = nullspace_two_primes(st)
+    del st
     M21 = np.array([[float(v.get(j, 0)) for j in range(len(B21))] for v in N]) if N else np.zeros((0, len(B21)))
     rank21 = int(np.linalg.matrix_rank(M21)) if N and len(B21) else 0
     log(f"K_{p}: 連立の零空間 {len(N)}、[2,1] への射影の次元 {rank21}（[2,1] 単独 {len(B21)}）、特解の分母の最大 {max(f.denominator for f in yp.values())} ({time.time() - t0:.0f}s)")
@@ -647,7 +710,10 @@ if __name__ == "__main__" and len(sys.argv) > 2 and sys.argv[2] == "pos":
     res = positivity_stage(p)
     Path(f"data/lmovstruct/lmov4_predict_pos_K_{p}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
 
-if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", "pos-cached", "fix21")):
+if __name__ == "__main__" and len(sys.argv) > 3 and sys.argv[2] == "rref":
+    rref_rho(int(sys.argv[1]), tuple(int(ch) for ch in sys.argv[3]))
+
+if __name__ == "__main__" and not (len(sys.argv) > 2 and sys.argv[2] in ("pos", "pos-cached", "fix21", "rref")):
     p = int(sys.argv[1])
     log(f"=== lmov4_predict {time.strftime('%Y-%m-%d %H:%M:%S')} K_{p} ===")
     res = run(p)
@@ -665,11 +731,11 @@ def fix21_check(p, x21_pred, log=log):
     """保存した一次の系（lmov4_sys_K_<p>.pkl）で [2,1] を x21_pred に固定し、[3,1] の未知数だけの系の無矛盾性と零空間の次元を調べる。
     無矛盾なら、x21_pred は（ある [3,1] と組んで）4 箱の \\hat f の Laurent 性を満たす。"""
     import pickle
+    from rcsknots.partitions import partitions
     t0 = time.time()
     S = pickle.loads(Path(f"data/lmovstruct/lmov4_sys_K_{p}.pkl").read_bytes())
-    mons21, B21, x021i, dd, rows, rhs, B31 = (S[k] for k in ("mons21", "B21", "x021i", "dd", "rows", "rhs", "B31"))
-    if rows is None:
-        rows, rhs = load_rows(p)
+    mons21, B21, x021i, dd, B31 = (S[k] for k in ("mons21", "B21", "x021i", "dd", "B31"))
+    del S
     # y21：x21_pred = x021 + Σ y_j B21_j を有理数で解く（過剰決定、整合性を確かめる）
     n21 = len(B21)
     eqs = []
@@ -696,26 +762,33 @@ def fix21_check(p, x21_pred, log=log):
         return {"in_affine_space": False}
     y21 = [M[i][n21] for i in range(n21)]
     log(f"K_{p} fix21：y21 = {[str(v) for v in y21]}（dd = {dd}）")
-    # 4 箱の行：列 0..n21−1 を固定して右辺へ（行は dd 倍の系なので y21 もそのまま）
-    ncols = len(B31)
-    rows31, rhs31 = [], []
-    for row, b in zip(rows, rhs):
-        r31 = {c - n21: v for c, v in row.items() if c >= n21}
-        b31 = Fraction(b) - sum(Fraction(v) * y21[c] for c, v in row.items() if c < n21)
-        if r31 or b31:
-            rows31.append(r31); rhs31.append(b31)
+    # 4 箱の行：列 0..n21−1 を固定して右辺へ（行は dd 倍の系なので y21 もそのまま）。y21 の分母 den を掛けて整数にし、ρ ごとに流して消去する
     den = 1
-    for b in rhs31:
-        den = den * b.denominator // gcd(den, b.denominator)
-    rows31 = [{c: v * den for c, v in r.items()} for r in rows31]
-    rhs31 = [int(b * den) for b in rhs31]
+    for v in y21:
+        den = den * v.denominator // gcd(den, v.denominator)
+    y21i = [int(v * den) for v in y21]
+    ncols = len(B31)
+    sts = {pp: new_state(ncols) for pp in PRIMES}
+    nrows = 0
+    for rho in partitions(4):
+        rows, rhs = pickle.loads((Path("data/lmovstruct") / f"predict_rows_K_{p}_{''.join(map(str, rho))}.pkl").read_bytes())
+        rows31, rhs31 = [], []
+        for row, b in zip(rows, rhs):
+            r31 = {c - n21: v * den for c, v in row.items() if c >= n21}
+            b31 = b * den - sum(v * y21i[c] for c, v in row.items() if c < n21)
+            if r31 or b31:
+                rows31.append(r31); rhs31.append(b31)
+        del rows, rhs
+        nrows += len(rows31)
+        for pp in PRIMES:
+            eliminate(sts[pp], rows31, rhs31, pp)
+        del rows31, rhs31
+        log(f"  ρ={rho} を取り込み ({time.time() - t0:.0f}s)")
     out = {"in_affine_space": True}
     for pp in PRIMES:
-        y, nullity, bad = solve_modp(rows31, ncols, rhs31, pp)
-        log(f"  [3,1] の系（式 {len(rows31)}、列 {ncols}）法 {pp}：矛盾 {bad}、零空間 {nullity} ({time.time() - t0:.0f}s)")
+        y, nullity, bad = solution_of(sts[pp])
+        log(f"  [3,1] の系（式 {nrows}、列 {ncols}）法 {pp}：矛盾 {bad}、零空間 {nullity} ({time.time() - t0:.0f}s)")
         out[f"p{pp}"] = {"inconsistent": bad, "nullity": nullity}
-        if bad:
-            break
     return out
 
 
