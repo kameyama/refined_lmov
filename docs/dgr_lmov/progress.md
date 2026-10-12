@@ -3,7 +3,7 @@
 この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
-## 現在の状況（再開用、2026-10-12 23:40 更新）
+## 現在の状況（再開用、2026-10-13 00:40 更新）
 
 **目標（ユーザーの指示）**：unrefined の LMOV（t = q の彩色 HOMFLY-PT）のデータから refined の [2,1]・[3,1] を一意（高々 O(1)）に予想する。証明の優先順位は最後。外部のホモロジーの入力には頼らない。
 
@@ -24,9 +24,10 @@
 - K_2 の [3,1]：4 箱の連立の零空間 395、正値性（\hat f・S）の多面体は有界だが広く未決。
 
 **実行中・再開の手順**
-- K_{−2} の一次の系は完了（2026-10-12 23:21、logs/lmov4_predict_K_-2.out、所要 2.3 時間、法 1048573）：[2,1] 単独の零空間 4、[3,1] 単独 3680、4 箱の Laurent 性までの連立で零空間 760、矛盾なし【計算】。系は data/lmovstruct/lmov4_sys_K_-2.pkl、剰余は predict_rows_K_-2_*.pkl。
-- 実行中：K_{−2} の正値性の段階（`PYTHONPATH=src:scripts nohup .venv/bin/python scripts/lmov4_predict.py -2 pos`、サンドボックス外、PID 69312、logs/lmov4_predict_K_-2_pos.out、23:37 開始）。連立の零空間の [2,1] への射影の次元もここでログに出す（追加）。K_2 の同じ段階は 73 分だったので 2〜3 時間の見込み。終わりの目印は「w が整数の解」の行。落ちたら同じコマンドで再開（特解と零空間の計算からやり直し、剰余は読み飛ばす）。
-- 次：正値性の段階が終わったら、S を外した版（`pos-cached`、S は K_{−2} で破れる見込み）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
+- K_{−2} の 4 箱の連立は完了（2026-10-13 00:27、logs/lmov4_predict_K_-2_pos.out）：零空間 760（2 素数で一致、矛盾なし）、**[2,1] への射影の次元 4 = [2,1] 単独の 4**。4 箱の整数性は K_{−2} でも [2,1] を削らない【計算】。正値性（\hat f ＋ S）は実行不能（S が K_{−2} で破れる）。RREF は data/lmovstruct/lmov4_rref_K_-2.pkl、不等式は lmov4_pos_K_-2.pkl、CSR は predict_csr_K_-2_*.npy。
+- **メモリの対策（2026-10-13、ユーザーの指摘：python が 50 GB）**：剰余の行を辞書で全部載せる作りを、ρ ごとに別プロセスで pickle をオペコードから CSR（numpy）に変換し、法 p の RREF だけを残して保存する作りに変えた（commit ec44eb8、193839b）。実測：以前 53 GB → 今 最大 5.7 GB、消去後 0.5〜0.8 GB、swap は増えない。新しい結び目でも run() はこの経路を通る。K_2・K_{−1} の古い系（lmov4_sys_K_2.pkl 1.7 GB、rows 入り）はそのまま（再実行するなら rows を None にして CSR に変換する）。
+- 実行中：K_{−2} の S なしの正値性（`lmov4_predict.py -2 pos-cached`、PID 79447、logs/lmov4_predict_K_-2_poscached.out、00:33 開始）。目印は「w が整数の解」か「有界 False」の行。
+- 次：pos-cached の結果を記録。非有界なら（K_{−1} と同じ見込み）、4 箱の \hat f にも framing・総数最小を課す版が要る（未実装）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
 - 大きなキャッシュ：data/lmovstruct/lmov4_sys_K_*.pkl（0.4〜1.6 GB）、predict_rows_K_-2_*.pkl、lmov4_pos_K_*.pkl。git に入れない（.gitignore）。
 
 **次の候補（ユーザーの判断待ち）**
