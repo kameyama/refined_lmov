@@ -1,8 +1,10 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
 ## 現在の状況（再開用、2026-10-14）
-- 開始。ユーザーの指示に従い、(1) unrefined の Kauffman の large N duality の文献調査、(2) 2018 年の試行錯誤（Dropbox の Mathematica ノートブック 42 本）のミスの調査、の順に進める。
-- ブランチ：claude/refined-kauffman-large-n-00d58e（worktree）。
+- K0（unrefined の構造と再現）と K1（2018 年の試行の監査）は済。結果は literature.md、conventions.md、past_attempt.md、research_plan.md。
+- 次は K2（refined unknot から構造を決める）。停止点：K2 の後。ユーザーの確認待ち。
+- ブランチ：claude/refined-kauffman-large-n-00d58e（worktree）。push と PR は未（外部送信の許可が必要）。
+- テスト：tests/test_rk_unrefined.py（約 12 秒）。
 
 ## 2026-10-14
 - ディレクトリ docs/refined_kauffman/ を作成（README.md、progress.md）。

@@ -81,10 +81,22 @@ log[1 + Σ_{(λ,μ)} H_{(λ,μ)} P̃_{λ^T} P̃_{μ^T}] = Σ_{d≥1} Σ_μ (1/d)
 - **composite vs adjoint（8/9）が破綻点を最初に特定**：Koike 型 dimcomp[{1},{1}] = P_1(t^ρ)² − 1 は t = q では SU(N) の随伴の量子次元と一致するが、refined では Macdonald の随伴 P_{(2,1^{N−2})}(t^ρ) = P_1 P_{1^{N−1}} − f^{(1^N)}_{(1),(1^{N−1})}、f = (1−q)(1−a)/((1−t)(1−qa/t))（a = t^N）と一致しない。Koike の交代和の係数 (−1)^{|U|} が refined では a 依存の (q,t) 係数に置き換わる、というのが正しい読みで、「LR 係数を Macdonald にするだけ」の持ち上げでは composite の refined 不変量は得られない。9/30 の composite for adjoint はこれを有限 N の計算で確定させた（§4.1 (B)）。
 - trefoil の composite ([1],[1])（unrefined）の照合では Stevan と Mariño が一致し、Ramadevi の式とは q の奇数冪の符号だけ違う（q^{1/2} → −q^{1/2} の規約差か転記ミス、未解決）。
 
-### 4.4 unrefined の部分（7 月）は正しい【計算】
+### 4.4 8 月中旬（composite dimeniton、composite q-brane、check、hat h 計算 (q-brane)、refined composite trefoil ([1],[1])、composite t-brane）の要点【読解＋補助エージェントの再計算】
+
+- **q-brane 版**：Z_H = Σ_{λ,μ} H_{(λ,μ)} m_λ m_μ P_λ(x;q,t) P_μ(x;q,t)、m_λ = (q/t)^{|λ|/2}/⟨P_λ,P_λ⟩（KN の (refined-GT1) の測度を λ, μ に別々に掛ける）。log の展開は Schur 基底、d は全部。ただし「refined g」の節では R_λ = Σ f^λ_{μν} H_{(μ,ν)} を LR で合成してから m_λ を掛けており、**composite の母関数の定義が同じノートブック内で 2 通り**（t = q でだけ一致）。
+- **composite 次元の候補**：(i) AS 流の Cauchy 核（dimAganagic、i ≤ 5 で打ち切り）は t = q でも一致せず不成立、(ii) Koike 型 P-skew（dimkanno = 後の dimcomp）、(iii)「積 − 跡」P_2 P_1 − P_1。(ii) と (iii) は t ≠ q で一致しない。
+- **composite unknot の h（q-brane）**：h_1 = 2(a^{1/2} − a^{−1/2})/(q^{1/2} − q^{−1/2})、h_2 = h_11 = −m_1²、3 箱 0【補助エージェントが独立実装で 3 点で再現】。すなわち Z_H(unknot) = exp(Σ_d (1/d)[2u_q(d) p_d − m_1(d)² p_d²])（Koike の母関数の持ち上げ、4 箱以上未確認）。\hat h_[2] = \hat h_[1,1] = (t^{1/2} − t^{−1/2})/(q^{1/2} − q^{−1/2}) で t = q で 1 だが Laurent 多項式でない。
+- **trefoil の composite ([1],[1])**：Rosso–Jones の Adams 作用を p_n → p_{kn} の**素朴なプレシズム（(q,t) を変えない）**で持ち上げた（本研究の docs/conventions.md §6 で誤りと確定している規約）。t = q では unrefined の CompositeHomfly と一致するが、t ≠ q では分母に (1 + t), (qt − 1)⁴ が残る。refined の値を独立な情報源（Cherednik–Elliot の composite 超多項式）と比べた箇所はない。
+- **Kauffman unknot（rKauff）の実装**：rkauf_λ = Σ_{μ∈{∅,[1]}} Σ_ν f^λ_{μν} u_ν（LR 係数を使用）。s_λ(z',1) = Σ_μ s_{λ/μ}(z') の持ち上げに必要なのは P-skew（b 因子付き）で、[2] で係数 1 と (1+q)(1−t)/(1−qt) の違いが出る（9 月の check kauf では SkewMacdonald（P-skew）に変わっている）。符号 (−1)^{(|μ|−ℓ(μ))/2} は μ = [2] で破綻。[1] の dimSO との比較は `/.` の優先順位で未判定。
+- **refined g（unknot）**：g_1 = m_1 = (t^{1/2} − t^{−1/2})/(q^{1/2} − q^{−1/2})、g_2 は (q − t) に比例して非零（分母 2, (1 + q), t）。補助エージェントの変種の試験では、K_λ を Littlewood の母関数 Σ_λ o_λ s_λ = Π_{i≤j}(1 − x_i x_j) Σ_ν s_ν(z',1) s_ν(x) の各因子を s → m_λ P_λ で持ち上げたもの（P-skew と同値）にし、composite の測度を λ, μ に別々に掛けると、unknot の F_K − ½F_H が 3 箱まで厳密に Σ_{d 奇数} (1/d) m_1(d) p_d になる【1 点＋t = q で確認、2 箱は恒等式 b_1²/b_2 + b_11/b_1² = 2 で導出】。これは Cauchy 型の恒等式で閉じているだけで（§4.1 (D) と同種）、refined の理論的入力（AS の D_N 次元）とは §4.1 (A) のとおり 2 箱で一致しない。
+- **t-brane 版（composite t-brane）**：基底 P_{λ^T}(−x;t,q)（測度なし、KN の (refined-GT2)）。h の式を導いただけ。
+- 評価順の問題：dimcomp の二重定義、未定義の IMt3 に出力がある（3 箱が 0 なのに非零の列ベクトル。古い出力）、trefoilcomp11 の参照。
+
+### 4.5 unrefined の部分（7 月）は正しい【計算】
 h_hat_fig8・g_hat fig8 の h_[2], \hat h_[2], \hat g_[2], \hat g_[1,1]（4_1）は NRZ 付録 C と一致し、本セッションの再計算（scripts/rk_unrefined_check.py）とも一致する。M_{RS}^{−1} の形（(t h_2 + t^{−1} h_11)/(t² − t^{−2})）、[1,1] を [2] から ν → −ν、t → t^{−1} で作る対称性も正しい（trefoil の Mariño (4.8) で検証）。
 
 ## 5. 判断
 
 - 試行は「unrefined の恒等式（Koike、Littlewood、Σ_{d 奇数}、½、M(q^{−1})）の s → P 置換」という一つの仮説の下で整合的に進められており、計算の不整合（§4.2）は結論を変えるほどではない。**本質的な失敗の原因は §4.1 (A)〜(C)**：refined の unknot（Kauffman 側・composite 側とも）が a の Laurent 多項式でないという理論側の事実を、Kauffman 側の仮説（多項式）が反映していなかったこと、そして refined の orientifold では ½ と Σ_{d 奇数} の構造自体が変わる（AS §7）ことを取り込んでいなかったこと。
-- 同じ方向で進めるなら、出発点は「unknot（AS の D_N Macdonald 次元と U(N) の composite Macdonald 次元、どちらも閉じた式）で refined の orientifold の開弦の構造を決める」ことである（research_plan.md K2）。
+- 試行の「うまくいった」部分（unknot で 2 箱 −1・3 箱 0、F_K − ½F_H が Σ_{d 奇数} m_1(d) p_d/d に閉じる）は、いずれも Cauchy 型の恒等式の s → P 置換で自動的に成り立つもので、refined の理論的入力を含まない。結び目で検証された refined の量は無い（trefoil の composite は素朴なプレシズムで、独立な照合なし）。
+- 同じ方向で進めるなら、出発点は「unknot（AS の D_N Macdonald 次元と U(N) の composite Macdonald 次元、どちらも閉じた式）で refined の orientifold の開弦の構造を決める」ことである（research_plan.md K2）。2018 年の仮説のうち残す価値があるのは、KN の q-brane / t-brane の基底と測度の扱い、composite の母関数の 2 つの定義（別々の測度か LR 合成後か）、Littlewood・Koike の母関数の因子ごとの持ち上げ、という「候補の集合」であり、それらを AS の次元で篩にかける。
