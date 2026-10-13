@@ -69,7 +69,19 @@ log[1 + Σ_{(λ,μ)} H_{(λ,μ)} P̃_{λ^T} P̃_{μ^T}] = Σ_{d≥1} Σ_μ (1/d)
 (i) **genus 展開の変数**：genusExpansion は単一の g = Q − 1/Q で展開（KN の (q^{1/2} − q^{−1/2})^g (t^{−1/2} − t^{1/2})^g と違う）。hat g 計算 (t-brane) の p = 1 では内部変数が漏れて失敗。
 (j) **4 箱はどこでも完走していない**。
 
-### 4.3 unrefined の部分（7 月）は正しい【計算】
+### 4.3 8 月前半（LR for Macdonald 1〜3、hat h 計算 (t-brane) 1〜2、transposition of composite、composite vs adjoint）の要点【読解】
+
+- **Macdonald の LR 係数 f^λ_{μν}(q,t)** は P_μ P_ν = Σ f^λ_{μν} P_λ を 3 箱まで Solve で求めたもの（例：f^{(1,1)}_{(1),(1)} = (1−q)(1+t)/(1−qt)、f^{(2,1)}_{(2),(1)} = (1−q²)(1−qt²)/((1−qt)(1−q²t))）。独立な検査は {1}×{1} だけ。
+- **composite の最初の実装 nakami2[R,S,U,V,W] = (−1)^{|U|} f^R_{UV} f^S_{U^T W} P_V(t^ρ) P_W(t^ρ)** は Koike の公式の s_{R/U} を Σ_V f^R_{UV} P_V と実装したもので、Macdonald では Q_{R/U} = Σ f P_V... ではなく P_{R/U} = Σ_V (b_U b_V/b_R) f^R_{UV} P_V なので、P と Q の正規化が混ざっている（2 箱では b が相殺し影響なし、3 箱で効く）。
+- **同一ノートブック内で composite ([1],[1]) の重みが 2 通り**（(q/t) b_1² と b_2）、2 箱は b 付き・3 箱は b 無しのコピー、など規約が定まっていない。plethystic log は Z を Macdonald 基底で展開しつつ log の係数を Schur 基底で取っている（h_11 = f^P_11 + (1 − c) f^P_2）。
+- **M 行列**：Mq2 = M^{MV}(t^{−1})/(t^{−1/2} − t^{1/2})、Mt2 = M^{MV}(q)/(q^{1/2} − q^{−1/2})（Mariño–Vafa の M を q または 1/t で評価して全体因子を落としたもの）。(q,t) 変形した M は試していない。
+- **検査はすべて t = q**（Mariño の構造の再現：2 箱 √q/(q−1)、3 箱 0）。refined で「0 になる」「整数になる」例は無い（hat h 計算 (t-brane)2 の 2 箱 = −1 は、composite の LR 係数を Schur に落としたハイブリッドで、定数なので情報が無い）。
+- **hat h 計算 (t-brane) の 3 箱はバグ**（R[…] で書いた h3 に H[…] 用の置換を適用し、出力に R が残る）。
+- **transposition of composite**：composite の転置対称性 (λ,μ;q,t) → (λ^T,μ^T;1/t,1/q) を unknot と trefoil で検査したが、比較した組の多くは転置対になっていない（(3,1)↔(2,1,1) だけが単項式 q^{20} を返し、整合的）。dimcomp[{1},{1}] は t のみに依存するので対称性を満たさない。
+- **composite vs adjoint（8/9）が破綻点を最初に特定**：Koike 型 dimcomp[{1},{1}] = P_1(t^ρ)² − 1 は t = q では SU(N) の随伴の量子次元と一致するが、refined では Macdonald の随伴 P_{(2,1^{N−2})}(t^ρ) = P_1 P_{1^{N−1}} − f^{(1^N)}_{(1),(1^{N−1})}、f = (1−q)(1−a)/((1−t)(1−qa/t))（a = t^N）と一致しない。Koike の交代和の係数 (−1)^{|U|} が refined では a 依存の (q,t) 係数に置き換わる、というのが正しい読みで、「LR 係数を Macdonald にするだけ」の持ち上げでは composite の refined 不変量は得られない。9/30 の composite for adjoint はこれを有限 N の計算で確定させた（§4.1 (B)）。
+- trefoil の composite ([1],[1])（unrefined）の照合では Stevan と Mariño が一致し、Ramadevi の式とは q の奇数冪の符号だけ違う（q^{1/2} → −q^{1/2} の規約差か転記ミス、未解決）。
+
+### 4.4 unrefined の部分（7 月）は正しい【計算】
 h_hat_fig8・g_hat fig8 の h_[2], \hat h_[2], \hat g_[2], \hat g_[1,1]（4_1）は NRZ 付録 C と一致し、本セッションの再計算（scripts/rk_unrefined_check.py）とも一致する。M_{RS}^{−1} の形（(t h_2 + t^{−1} h_11)/(t² − t^{−2})）、[1,1] を [2] から ν → −ν、t → t^{−1} で作る対称性も正しい（trefoil の Mariño (4.8) で検証）。
 
 ## 5. 判断
