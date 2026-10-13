@@ -4,14 +4,19 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 必要な彩色：|λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
 主眼：(1) 1703.05408 の結果の再現による規約の固定、(2) refined ケーブル公式（Rosso–Jones 型の Schur→Macdonald 持ち上げ）と DAHA（Cherednik–Danilenko）の照合、(3) 新しい結び目の refined BPS 不変量の正値性・整数性の判定（代数的 vs 非代数的、長方形 vs [2,1]）。
 
+# リポジトリの構成（2026-10-14 に整理）
+docs, src/rcsknots, scripts, tests, data, logs の各ディレクトリの中で、本研究（framed knot への拡張と正値性の検証）のファイルは `framed_knot/`、別の研究（DGR・四重次数型の構造と refined LMOV）のファイルは `dgr_lmov/` に置く（一覧は README.md の「構成」）。
+src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcsknots/dgr_lmov/ は別の研究だけが使うモジュール。data/cache/ は共有のキャッシュ（追跡しない）。
+スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（dgr_lmov のスクリプトは framed_knot のスクリプトも import する）。
+
 # セッション開始時に必ず行うこと
-1. docs/progress.md を読み、現在のステージと未完了の作業を把握する。
-2. 作業内容に応じて docs/research_plan.md（ステージ 0〜7 の計算計画）と docs/novelty_report.md（既知の結果と新規性の範囲）を参照する。
-3. 計算に入る前に docs/conventions.md の規約を確認する。
+1. docs/framed_knot/progress.md を読み、現在のステージと未完了の作業を把握する。
+2. 作業内容に応じて docs/framed_knot/research_plan.md（ステージ 0〜7 の計算計画）と docs/framed_knot/novelty_report.md（既知の結果と新規性の範囲）を参照する。
+3. 計算に入る前に docs/framed_knot/conventions.md の規約を確認する。
 4. 別の研究「DGR・四重次数型の構造と refined LMOV」（2026-10-11 開始）の作業では、docs/dgr_lmov/README.md を読み、そこに書いた規則に従う。正値性の扱いが本研究と異なり、この研究では open_problems.md §F は適用しない。その研究の進捗は docs/dgr_lmov/progress.md に書く。
 
 # 規約
-- 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/conventions.md に従う。
+- 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/framed_knot/conventions.md に従う。
 - 規約を変更する場合は、conventions.md に変更内容と理由を記録し、影響を受けるコードとテストを更新する。
 
 # 研究上のルール
@@ -23,7 +28,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 - 照合は tests/ の自動テストにする。対象は、1703.05408 の値の再現、t=q での colored HOMFLY との一致、ブレイドから計算した HOMFLY との一致、DAHA の明示例との一致、R↔Rᵀ の対称性。多項式は全係数を厳密に比較し、数値補間で得たものは補間に使っていない点で検証する。
 - tests/ は機能テストとする。コードが正しく動くことを、小さな入力（数秒程度）で確かめる。主要な結果は、コードとテストが信頼できることによって正しいと判断する。
   - 保存済みの大きな計算結果を判定し直すテストには `results` の印を付け、既定の実行から外す（pyproject.toml）。内容や理論に問題が出たときだけ `-m results` で実行する。
-  - 主要な結果は、計算時の判定とログを一次の記録として docs/RESULTS.md に整理する。
+  - 主要な結果は、計算時の判定とログを一次の記録として docs/framed_knot/RESULTS.md に整理する。
 - 正値性の判定で重視するのは、\hat f_ρ から得る refined LMOV 不変量の、G 展開の前（太字の係数 \hat𝐍_{ρ;i,j,k}）と後（\hat N_{ρ,g,β,J_r}）の両方での正整数係数性である。f^q, f^{\bar t} の係数は refined LMOV 不変量ではなく、補足にとどめる。
 - ヤング図 [1] は特別に扱う。
   - [1] では \hat f_{[1]} は原理的に rCS_{[1]} と同一になる（\hat f_{[1]} = (a^{1/2} − a^{−1/2}) rCS_{[1]}）。
@@ -37,8 +42,8 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
   - 再開：停止しても途中から再開できるようにする。彩色ごと・ρ ごと・素数ごと・評価点のまとまりごとなど細かい単位で結果を保存し、保存済みの単位は読み込んで飛ばす。
   - 分割と並列：独立な単位（結び目、彩色、ρ、素数、評価点のまとまり）に分け、CPU のコア数とメモリの範囲で並列に実行する。
   - 実行方法：ツールの背景実行の制限時間（最大 2 時間）を超える見込みなら、nohup などの独立プロセスで実行し、ログと完了の目印（最後の行など）を決めておく。
-- 非代数的なケーブルについて、DAHA の値を入力とする正値性の計算（3 箱への拡張や破れ方の分類を含む）は計画に入れない。理由は docs/open_problems.md D5。
-- 作業の区切りごとに docs/progress.md を更新する（日付、やったこと、結果、次にやること、未解決の問題）。
+- 非代数的なケーブルについて、DAHA の値を入力とする正値性の計算（3 箱への拡張や破れ方の分類を含む）は計画に入れない。理由は docs/framed_knot/open_problems.md D5。
+- 作業の区切りごとに docs/framed_knot/progress.md を更新する（日付、やったこと、結果、次にやること、未解決の問題）。
 - 停止点では、必ず作業を止めて報告し、確認を求める。停止点は次のとおり。
   - ステージ 0 の後（規約表の確定）
   - ステージ 2 の後（トーラス結び目での 1703.05408 の再現）
@@ -55,7 +60,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 - Python：.venv（Python 3.14.8、rcsknots は editable インストール）。テストは `.venv/bin/pytest` で実行する。
 - 環境の再構築は `just setup`、論文の取得は `just fetch-refs`、Wolfram スクリプトの実行は `just wolfram <file.wls>`（どちらもネットワークが要るのでサンドボックス外で動く just レシピ）。`just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
 - SageMath 10.9：conda 環境 `sage`。`/opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage` で実行する（`DOT_SAGE=$TMPDIR/dotsage` を付ける）。サンドボックス内で動く。
-- Wolfram Engine 15.0.0：`wolframscript` で使える。ただしサンドボックス内ではライセンスを読めず失敗するので、サンドボックス外で実行する。1703.05408 のノートブックは `NotebookImport[file, "Input" -> "HeldExpression"]` で入力セルを取り出して実行できる。読むだけなら `scripts/nb2txt.py` でテキスト化してもよい。
+- Wolfram Engine 15.0.0：`wolframscript` で使える。ただしサンドボックス内ではライセンスを読めず失敗するので、サンドボックス外で実行する。1703.05408 のノートブックは `NotebookImport[file, "Input" -> "HeldExpression"]` で入力セルを取り出して実行できる。読むだけなら `scripts/framed_knot/nb2txt.py` でテキスト化してもよい。
 - サンドボックスは `.git` への書き込みを拒否するので、git の書き込み操作はサンドボックス外で行う（`git -C <repo> ...`）。リモートは GitHub の https://github.com/kameyama/refined_lmov（origin、2026-10-07 にユーザーの指示で設定）。push は外部への送信なので、毎回事前に許可を得る。
 - リポジトリ直下に `refs/`（git の内部ディレクトリと同名）を作ると、サンドボックスの保護機能に作成を拒否され、後で削除される。文献は `references/` に置く。
 - ツールのバージョンと確認内容の詳細は README.md の「環境」節を参照。

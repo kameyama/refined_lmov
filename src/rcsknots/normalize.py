@@ -1,4 +1,4 @@
-"""Fix the monomial normalization of a refined invariant (docs/conventions.md §5).
+"""Fix the monomial normalization of a refined invariant (docs/framed_knot/conventions.md §5).
 
 Hypothesis (checked on all torus-knot data of the 1703.05408 notebook in Stage 2):
   (N1) at t = q the reduced invariant equals the framing-0 reduced colored HOMFLY-PT (DGR conventions);

@@ -2,15 +2,15 @@
 
 yui-kr の (i, j, k) は Poincaré 多項式 t^{(k−j)/2} q^i a^j（KnotInfo のブレイドのカイラリティ）。
 DGR の太字の変数では (e_𝐚, e_𝐪, e_𝐭) = (j, i, (j−k)/2)。正のブレイドの三葉結び目が、第 1 期の T(2,3) の
-superpolynomial 𝐚²𝐪⁻² + 𝐚²𝐪²𝐭² + 𝐚⁴𝐭³ になる（data/superpoly/T2_3.json）。
-[1] では \\hat f_{[1]} = (1 + 𝐚²𝐭)/(𝐚²𝐭) · P（scripts/superpoly_lmov.py で T(2,3) と代数的なケーブルについて確認した因子）。
+superpolynomial 𝐚²𝐪⁻² + 𝐚²𝐪²𝐭² + 𝐚⁴𝐭³ になる（data/framed_knot/superpoly/T2_3.json）。
+[1] では \\hat f_{[1]} = (1 + 𝐚²𝐭)/(𝐚²𝐭) · P（scripts/framed_knot/superpoly_lmov.py で T(2,3) と代数的なケーブルについて確認した因子）。
 """
 import json
 from pathlib import Path
 
 from rcsknots.bps import g_expand
 
-DATA = Path(__file__).resolve().parents[2] / "data/reference/yui_kr"
+DATA = Path(__file__).resolve().parents[2] / "data/framed_knot/reference/yui_kr"
 
 
 def load_homology():
