@@ -122,3 +122,33 @@ def dim_composite(lam, mu):
     assert e2 - e1 == c1, "前因子の指数が M の一次式でない"
     c0 = e0 - c1*M
     return sp.factor(res * t**c0 * A**c1)
+
+
+# ---- Koornwinder 多項式の主特殊化（van Diejen 1996、Sahi 1999；Rains–Warnaar 1506.02755 (6.?) の引用の形）----
+def _C0(lam, z):
+    return sp.prod([1 - z*q**(j-1)*t**(1-i) for i, row in enumerate(lam, 1) for j in range(1, row+1)])
+
+
+def _Cm(lam, z):
+    lamT = [sum(1 for x in lam if x > j) for j in range(lam[0])] if lam else []
+    return sp.prod([1 - z*q**(row-j)*t**(lamT[j-1]-i) for i, row in enumerate(lam, 1) for j in range(1, row+1)])
+
+
+def _Cp(lam, z):
+    lamT = [sum(1 for x in lam if x > j) for j in range(lam[0])] if lam else []
+    return sp.prod([1 - z*q**(row+j-1)*t**(2-lamT[j-1]-i) for i, row in enumerate(lam, 1) for j in range(1, row+1)])
+
+
+def koornwinder_eval(lam, tbar, U=U):
+    """K_λ(t_0(1, t, …, t^{n−1}); q, t; t_0, t_1, t_2, t_3)
+       = t^{n(λ)} (t_0 t^{n−1})^{−|λ|} (t^n, t_0t_1t^{n−1}, t_0t_2t^{n−1}, t_0t_3t^{n−1}; q,t)_λ / [C^−_λ(t) C^+_λ(t_0t_1t_2t_3 t^{2n−2}/q)]
+    を U = t^n の式として返す（t^{n−1} = U/t、t^{2n−2} = U²/t²）。tbar = (t_0, t_1, t_2, t_3)。"""
+    lam = tuple(x for x in lam if x > 0)
+    t0, t1, t2, t3 = tbar
+    n_lam = sum(i*row for i, row in enumerate(lam))
+    tn1 = U/t
+    res = t**n_lam * (t0*tn1)**(-sum(lam))
+    for a in (U, t0*t1*tn1, t0*t2*tn1, t0*t3*tn1):
+        res *= _C0(lam, a)
+    res /= _Cm(lam, t) * _Cp(lam, t0*t1*t2*t3*tn1**2/q)
+    return sp.factor(res)
