@@ -1,6 +1,6 @@
 # 未解決の問題：DGR・四重次数型の構造と refined LMOV（別の研究）
 
-2026-10-11 に docs/open_problems.md の §H から移した。番号 H1〜H8 はそのまま使い、H9〜H18 を追加した。
+2026-10-11 に docs/framed_knot/open_problems.md の §H から移した。番号 H1〜H8 はそのまま使い、H9〜H18 を追加した。
 
 ## H. DGR 型の構造の未解決（2026-10-11、report.md）
 

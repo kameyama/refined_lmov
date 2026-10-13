@@ -1,9 +1,11 @@
 # 進捗記録：DGR・四重次数型の構造と refined LMOV（別の研究）
 
-この研究の進捗だけを記録する（本研究の進捗は docs/progress.md）。新しいものを上に書く。
-2026-10-11 に docs/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
+この研究の進捗だけを記録する（本研究の進捗は docs/framed_knot/progress.md）。新しいものを上に書く。
+2026-10-11 に docs/framed_knot/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
 ## 現在の状況（再開用、2026-10-13 01:00 更新）
+
+- **リポジトリの整理（2026-10-14）**：この研究のコード・テスト・データ・ログは src/rcsknots/dgr_lmov/、scripts/dgr_lmov/、tests/dgr_lmov/、data/dgr_lmov/（lmovstruct/ を含む）、logs/dgr_lmov/ に移した。本研究の文書は docs/framed_knot/ にある。スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する。
 
 **目標（ユーザーの指示）**：unrefined の LMOV（t = q の彩色 HOMFLY-PT）のデータから refined の [2,1]・[3,1] を一意（高々 O(1)）に予想する。証明の優先順位は最後。外部のホモロジーの入力には頼らない。
 
@@ -24,12 +26,12 @@
 - K_2 の [3,1]：4 箱の連立の零空間 395、正値性（\hat f・S）の多面体は有界だが広く未決。
 
 **実行中・再開の手順**
-- K_{−2} の 4 箱の連立は完了（2026-10-13 00:27、logs/lmov4_predict_K_-2_pos.out）：零空間 760（2 素数で一致、矛盾なし）、**[2,1] への射影の次元 4 = [2,1] 単独の 4**。4 箱の整数性は K_{−2} でも [2,1] を削らない【計算】。正値性（\hat f ＋ S）は実行不能（S が K_{−2} で破れる）。RREF は data/lmovstruct/lmov4_rref_K_-2.pkl、不等式は lmov4_pos_K_-2.pkl、CSR は predict_csr_K_-2_*.npy。
+- K_{−2} の 4 箱の連立は完了（2026-10-13 00:27、logs/dgr_lmov/lmov4_predict_K_-2_pos.out）：零空間 760（2 素数で一致、矛盾なし）、**[2,1] への射影の次元 4 = [2,1] 単独の 4**。4 箱の整数性は K_{−2} でも [2,1] を削らない【計算】。正値性（\hat f ＋ S）は実行不能（S が K_{−2} で破れる）。RREF は data/dgr_lmov/lmovstruct/lmov4_rref_K_-2.pkl、不等式は lmov4_pos_K_-2.pkl、CSR は predict_csr_K_-2_*.npy。
 - **メモリの対策（2026-10-13、ユーザーの指摘：python が 50 GB）**：剰余の行を辞書で全部載せる作りを、ρ ごとに別プロセスで pickle をオペコードから CSR（numpy）に変換し、法 p の RREF だけを残して保存する作りに変えた（commit ec44eb8、193839b）。実測：以前 53 GB → 今 最大 5.7 GB、消去後 0.5〜0.8 GB、swap は増えない。新しい結び目でも run() はこの経路を通る。K_2・K_{−1} の古い系（lmov4_sys_K_2.pkl 1.7 GB、rows 入り）はそのまま（再実行するなら rows を None にして CSR に変換する）。
-- K_{−2} の S なしの正値性（pos-cached、00:32〜）：実行可能だが**非有界**【計算】。HiGHS の既定では Solve error（係数の比 1 : 8×10⁻⁶）で幅が取れなかったので、scripts/lmov4_lpcheck.py で単体法・内点法と ±10⁶ の箱の中の LP で判定し直した（12 本中 3 本が非有界で確定、箱では 675 変数が端）。K_{−1} も同じ方法で非有界を再確認（status 3）。
+- K_{−2} の S なしの正値性（pos-cached、00:32〜）：実行可能だが**非有界**【計算】。HiGHS の既定では Solve error（係数の比 1 : 8×10⁻⁶）で幅が取れなかったので、scripts/dgr_lmov/lmov4_lpcheck.py で単体法・内点法と ±10⁶ の箱の中の LP で判定し直した（12 本中 3 本が非有界で確定、箱では 675 変数が端）。K_{−1} も同じ方法で非有界を再確認（status 3）。
 - 実行中：なし。
 - 次（判断待ち）：K_{±2} の [3,1] を絞るには、4 箱の \hat f にも framing の正値性と BPS 総数の最小化（H11 の方法）を課す版が要る（未実装。760 次元の MILP になるので規模の見積もりが先）。1 本ずつ順に走らせる（ユーザーの指示、メモリ）。
-- 大きなキャッシュ：data/lmovstruct/lmov4_sys_K_*.pkl（0.4〜1.6 GB）、predict_rows_K_-2_*.pkl、lmov4_pos_K_*.pkl。git に入れない（.gitignore）。
+- 大きなキャッシュ：data/dgr_lmov/lmovstruct/lmov4_sys_K_*.pkl（0.4〜1.6 GB）、predict_rows_K_-2_*.pkl、lmov4_pos_K_*.pkl。git に入れない（.gitignore）。
 
 **次の候補（ユーザーの判断待ち）**
 1. K_{±2} の候補を 4 箱まで込みで絞る：H11 の方法（総数最小 ＋ framing）を 4 箱の \hat f にも課す。
@@ -38,7 +40,7 @@
 
 ## 2026-10-12 D12 の続き：H_u″・段階 2・4 箱の Laurent 性（ユーザーの指示「1, 2, 3 へ進め」）
 
-**やったこと**：scripts/dgr_hu.py に `series`・`highbox`（冪級数の判定）、scripts/lmov21_hu.py（段階 2）、scripts/lmov21_h11.py に `--S`、bps.f_formulas を 4 箱へ拡張（Adams 像の記号 Cd）、scripts/lmov4_formula.py（N 箱の公式）、scripts/lmov4_joint.py（4 箱の Laurent 性による自由度の検査）。テスト tests/test_lmov21_hu.py（2 件）、tests/test_lmov4_formula.py（4 件、うち 1 件 results）。詳細は report.md D12「D12 の続き」。
+**やったこと**：scripts/dgr_lmov/dgr_hu.py に `series`・`highbox`（冪級数の判定）、scripts/dgr_lmov/lmov21_hu.py（段階 2）、scripts/dgr_lmov/lmov21_h11.py に `--S`、bps.f_formulas を 4 箱へ拡張（Adams 像の記号 Cd）、scripts/dgr_lmov/lmov4_formula.py（N 箱の公式）、scripts/dgr_lmov/lmov4_joint.py（4 箱の Laurent 性による自由度の検査）。テスト tests/dgr_lmov/test_lmov21_hu.py（2 件）、tests/dgr_lmov/test_lmov4_formula.py（4 件、うち 1 件 results）。詳細は report.md D12「D12 の続き」。
 
 **結果**
 - 負の符号の構造：N の行は既約、負は 𝐪⁶𝐭²(qt)^k の射線上。**P 正規化に戻した冪級数（𝐪 → 0）は代数的な結び目の全ての非長方形 λ で非負**（3 箱の全結び目、T(2,3) の 6 箱まで、T(2,5) の 5 箱、T(3,4) の 4 箱）【計算】。鏡像の向きでは負。4_1 の KN の候補は中央の行で両向きに負、非代数的ケーブルも負。→ 仮説 H_u″（P 正規化の hook の Schur 係数は冪級数として非負）。
@@ -57,7 +59,7 @@
 
 ## 2026-10-12 D12：仮説 H_u（unreduced の hook の Schur 係数の正値性）の検査——不成立で停止（ユーザーの指示）
 
-**やったこと**：scripts/dgr_hu.py（check / highbox / convention）、tests/test_dgr_lmov.py に D12 の 2 件。記録 logs/dgr_hu.log、data/dgr_lmov/hu_check.json。詳細は report.md D12。
+**やったこと**：scripts/dgr_lmov/dgr_hu.py（check / highbox / convention）、tests/dgr_lmov/test_dgr_lmov.py に D12 の 2 件。記録 logs/dgr_lmov/dgr_hu.log、data/dgr_lmov/hu_check.json。詳細は report.md D12。
 
 **結果**
 - 規約の照合【計算】：T(2,3), T(2,5) の [2,1] で、N_λ = rCS^{red} × Π_{□≠(1,1)}（unknot の分子の因子）の a の行は、GN の f̃_{[2,1]} の hook の Schur 係数 × Π(1 − q^a t^{l+1}) に単項式倍（−(q/t)^{21/2}, −(q/t)^{16}）で一致（有理数の 3 点、全行で同じ比）。
@@ -76,7 +78,7 @@
 
 ## 2026-10-12 H11：framing の正値性と BPS 総数の最小化（ユーザーの指示「証明の優先順位を一番最後にせよ。unrefined から refined を一意（多くとも O(1)）に予想できることが最優先である。予想 H11 に進め」）
 
-**やったこと**：scripts/lmov21_h11.py（face / predict / framing / support）、tests/test_lmov21_h11.py（4 件）。記録 logs/lmov21_h11.log、data/lmovstruct/lmov21_h11_*.json。詳細は report.md D11「H11 の進展」。
+**やったこと**：scripts/dgr_lmov/lmov21_h11.py（face / predict / framing / support）、tests/dgr_lmov/test_lmov21_h11.py（4 件）。記録 logs/dgr_lmov/lmov21_h11.log、data/dgr_lmov/lmovstruct/lmov21_h11_*.json。詳細は report.md D11「H11 の進展」。
 
 **結果**
 - 正値性の多面体の後退錐（正の BPS 状態を足す方向）は framing を変えても同じ【導出】。BPS 状態の総数の最小化を課すと面は有界になり、既知の全例で正解が面の上にある【計算】。
@@ -94,19 +96,19 @@
 - 並行して進めていた 2 本の作業（3 箱の整数計画による検証と、一次の解析・既約表示）を一つのブランチに取り込み、文書を docs/dgr_lmov/ に一本化した。
   - report.md：§11〜§14（σ の辞書、既約表示、特殊化の点、種数 0）を追加。「3 箱」「T(2,5) の検証」と一次の解析の報告を一つの節 D11 に書き直した。
   - research_plan.md：D11 と S0〜S6 を追加し、状態の表を更新。open_problems.md：H8 を解決済みにし、H11 を書き直し、H13〜H18 を追加。novelty.md：§3 を追加。
-  - 削除した文書：docs/REPORT_dgr_lmov_spin.md、docs/REPORT_unrefined_to_refined.md、docs/research_plan_dgr_lmov.md（内容は上に統合）。docs/open_problems.md・novelty_report.md・progress.md 本体はこのディレクトリへの案内だけにした。conventions.md §19 は辞書として残し、参照先を直した。
+  - 削除した文書：docs/framed_knot/REPORT_dgr_lmov_spin.md、docs/framed_knot/REPORT_unrefined_to_refined.md、docs/framed_knot/research_plan_dgr_lmov.md（内容は上に統合）。docs/framed_knot/open_problems.md・novelty_report.md・progress.md 本体はこのディレクトリへの案内だけにした。conventions.md §19 は辞書として残し、参照先を直した。
 - 統合で直した不整合：
   - 「三葉結び目・4_1 では正値性が自由度を 0 に抑える」→ 正しくは Φ の次数が窓に収まらず g の変数が 0 個で、一次の条件だけで決まる（正値性は不要）。
   - t = q（Q = T）は 𝐭 = −1 と同じ特殊化である（「𝐭 = −1 の側ではない」とした記述を撤回）。
   - 解の差の t = q に由来する因子は Q − T = −𝐪(1+𝐭) であって q − t ではない。
   - 対称性の記号は σ に統一（W、DGR の φ と同じもの）。
-- 第 4 期 V2（三葉結び目でも一意に決まらない）との食い違いは窓の取り方で説明できることを、scripts/u3_21.py（EGP の積の範囲に margin 2）と build21（(𝐚, 𝐪) は非 refined の台）を比べて確認した。report.md D11「自由度の構造」に記録。
-- テスト：tests/test_dgr_lmov.py 33 件、tests/test_lmovstruct.py・test_lmov21_linear.py 38 件（results 印を含む）が通る。
+- 第 4 期 V2（三葉結び目でも一意に決まらない）との食い違いは窓の取り方で説明できることを、scripts/framed_knot/u3_21.py（EGP の積の範囲に margin 2）と build21（(𝐚, 𝐪) は非 refined の台）を比べて確認した。report.md D11「自由度の構造」に記録。
+- テスト：tests/dgr_lmov/test_dgr_lmov.py 33 件、tests/dgr_lmov/test_lmovstruct.py・test_lmov21_linear.py 38 件（results 印を含む）が通る。
 - **状態：D11 の停止点で停止中**。次の候補は H11（自由度を決める入力か上界型の仮定）、H12（予想 R の証明と 4 箱での確認）、H13（予想 S の証明）。
 
 ## 2026-10-11 D11：[2,1]・[3,1] の一次の解析（ユーザーの指示「目標は unrefined LMOV から仮定の下で refined LMOV を計算できるようになること。[2,1], [3,1] が構成できるか」「t = q か 𝐭 = −1 か」）
 
-**やったこと**：scripts/lmov21_linear.py（零空間の次元、法 p の疎な消去）、lmov21_polytope.py（正値性の多面体）、lmov31_linear.py（4_1 の [3,1]）、lmov21_predict_check.py。記録 logs/lmov21_linear*.log, lmov21_polytope.log, lmov31_linear.log、データ data/lmovstruct/lmov21_*.json, lmov31_linear.json。テスト tests/test_lmov21_linear.py。
+**やったこと**：scripts/dgr_lmov/lmov21_linear.py（零空間の次元、法 p の疎な消去）、lmov21_polytope.py（正値性の多面体）、lmov31_linear.py（4_1 の [3,1]）、lmov21_predict_check.py。記録 logs/dgr_lmov/lmov21_linear*.log, lmov21_polytope.log, lmov31_linear.log、データ data/dgr_lmov/lmovstruct/lmov21_*.json, lmov31_linear.json。テスト tests/dgr_lmov/test_lmov21_linear.py。
 
 **結果**（report.md D11）
 - 変数：(cov) の下で t = q（Q = T）と 𝐭 = −1 は同じ特殊化で、入力の情報は同じ。未知数と条件は太字で置くのが良い【導出】。
@@ -130,7 +132,7 @@
 - B・R の下でも T(2,5), T(2,7) は一意でない。T(2,5) の自由度は 2 次元で、正値性の領域は非有界な錐。
 - 選択の規則：L1 最小は T(2,5) で正解、T(2,7), T(3,4) で不正解。項数最小は T(2,5), T(2,7) で正解（T(2,7) は制限時間での最良解）。
 - ツイスト結び目 K_{±2}（L1 最小で選んだ解）は無効の印を付けた。K_{±3} は中止。
-- テスト：tests/test_dgr_lmov.py に 3 箱のテストを 5 件追加（予想 R、Φ が差を割り切ること、T(2,5) の選択）。
+- テスト：tests/dgr_lmov/test_dgr_lmov.py に 3 箱のテストを 5 件追加（予想 R、Φ が差を割り切ること、T(2,5) の選択）。
 
 **判断**：研究計画を変える必要がある事態として停止し、報告する。3 箱の予言（D11）は、見つけた構造だけでは決まらない（H11）。
 
@@ -141,11 +143,11 @@
 
 ## 2026-10-11 S0〜S6：既約表示・σ の辞書・特殊化の点・種数 0（ユーザーの指示「DGR や quadruply graded homology のような考え方を refined LMOV 不変量の既約表示や種数表示でできるか研究せよ」）
 
-**やったこと**：src/rcsknots/lmovstruct.py（行の抽出、σ、既約表示、特殊化、δ）、scripts/lmovstruct_survey.py（保存値 463 件、data/lmovstruct/survey.jsonl, survey.md、logs/lmovstruct_survey.log）、lmovstruct_knot_table.py（801 結び目の [1]）、lmovstruct_loci.py（特殊化の点の走査）。テスト tests/test_lmovstruct.py（7 件）、test_lmovstruct_results.py（results）。conventions.md §19 に辞書を転記。
+**やったこと**：src/rcsknots/dgr_lmov/lmovstruct.py（行の抽出、σ、既約表示、特殊化、δ）、scripts/dgr_lmov/lmovstruct_survey.py（保存値 463 件、data/dgr_lmov/lmovstruct/survey.jsonl, survey.md、logs/dgr_lmov/lmovstruct_survey.log）、lmovstruct_knot_table.py（801 結び目の [1]）、lmovstruct_loci.py（特殊化の点の走査）。テスト tests/dgr_lmov/test_lmovstruct.py（7 件）、test_lmovstruct_results.py（results）。conventions.md §19 に辞書を転記。
 
 **結果**（report.md §11〜§14）
 - σ: (a,q,t) ↦ (a,1/t,1/q) ＝ DGR の対称性 ＝ SU(2)_L の Weyl 反転で、G 展開が閉じること ⇔ \hat f の σ 不変性 ⇔ KN の整合条件 f^{\bar t} = M(q^{−1})\hat f【導出】。GT1 と GT2 が σ で移り合うことが D8 の「同値」の導出になる（H8 解決）。
-- 既約表示（spin 表示の各 (β, f) 行を SU(2)_L の指標 χ_j(w)、w = 𝐪²𝐭 にまとめ直したもの）の係数は、KN の G 展開前の正値性が成り立つ全件（data/bps 77 件、highbox 340 件、K7〜K9 の 3 箱、801 結び目の [1]）で非負、KN が破れる 35 件で破れる【計算】。[1] は GHM の sl₂（CG の単峰性）から定理【導出】。彩色は予想 S（H13）。
+- 既約表示（spin 表示の各 (β, f) 行を SU(2)_L の指標 χ_j(w)、w = 𝐪²𝐭 にまとめ直したもの）の係数は、KN の G 展開前の正値性が成り立つ全件（data/framed_knot/bps 77 件、highbox 340 件、K7〜K9 の 3 箱、801 結び目の [1]）で非負、KN が破れる 35 件で破れる【計算】。[1] は GHM の sl₂（CG の単峰性）から定理【導出】。彩色は予想 S（H13）。
 - a = t^N q^{−M} は Macdonald の unknot を gl(N|M) の (N|M)-hook に切り詰める点（DGR の d_N ↔ a = t^N、d_{−N} ↔ a = q^{−N}、d_0 ↔ a = t/q、GGS の d_{N|M}）【導出】。a = t, 1/q で |ρ| ≥ 2 の \hat f_ρ = 0 は §2 と同じ結論で、c = (t/q)^{δ/2} の閉じた形と 452 件での確認を加えた。
 - 種数 0（q = 1）は EGP の値だけでは決まらない（式に 1 位の極、ジェットが要る）【計算】。「種数 0 は P だけから決まる」という見込みは撤回（H14）。
 - 未判定：K10 の 3 箱（1200 万項、H16）。
@@ -153,10 +155,10 @@
 ## 2026-10-11 3 箱の公式を unreduced の短い式に作り直した（ユーザーの指示「3 箱の公式を unreduced の短い式に作り直して」）
 
 - dgr_box3._formula3 を、unreduced の C の短い式 \hat f_ρ = Σ_i k_{ρ,i}(q,t)·（C の単項式）を経由する形に置き換えた。sympy の式を flint の (分子, 分母) に直接変換する。
-- 導出時間：約 15 分 → 約 0.2 秒。旧版と全ての項で一致【計算】。キャッシュ data/dgr_lmov/formula3.json と試作 scripts/dgr_formula_short.py は削除した。
+- 導出時間：約 15 分 → 約 0.2 秒。旧版と全ての項で一致【計算】。キャッシュ data/dgr_lmov/formula3.json と試作 scripts/dgr_lmov/dgr_formula_short.py は削除した。
 - 遅かった原因は sympy の展開と約分（f^q を C の多項式に展開するだけで 2 分以上）。
 - 係数 k_{ρ,i} の表は report.md の「3 箱」の節。C_1·C_1(x²) の係数は 3 箱では全て 0。
-- テスト：tests/test_dgr_lmov.py の 3 箱のテスト 2 件が通る（13 秒）。
+- テスト：tests/dgr_lmov/test_dgr_lmov.py の 3 箱のテスト 2 件が通る（13 秒）。
 - 次：下の再開の手順 1, 2, 4（手順 3 は完了）。
 
 ## 2026-10-11 3 箱（途中、ユーザーの指示「3箱へ進め」。作業はユーザーの指示「現在までの進捗を再開可能な形で記録せよ」で中断）
@@ -167,9 +169,9 @@
 - \hat f の a 次数の偶奇の誤りを見つけて直した。修正前の結果は破棄した。
 
 **中断時点で裏で動いていた計算**（このセッションの裏の処理。セッションが終わると止まる可能性がある）
-1. ツイスト結び目の [2,1] の予言：`PYTHONPATH=src python scripts/dgr_box3_predict.py 1 -1 2 -2 3 -3`。
+1. ツイスト結び目の [2,1] の予言：`PYTHONPATH=src python scripts/dgr_lmov/dgr_box3_predict.py 1 -1 2 -2 3 -3`。
    - 保存済みは data/dgr_lmov/box3/K_1.json, K_-1.json。保存済みの p は読み飛ばすので、同じコマンドで再開できる。
-2. T(2,5) の検証：`PYTHONPATH=src python scripts/dgr_box3_check.py T2_5 1,1,1 5`。結果はファイルに保存しないので、やり直す。
+2. T(2,5) の検証：`PYTHONPATH=src python scripts/dgr_lmov/dgr_box3_check.py T2_5 1,1,1 5`。結果はファイルに保存しないので、やり直す。
 
 **再開するときの手順**
 1. 上の 1 を再実行し、K_{±2}, K_{±3} の [2,1] を得る。これらは refined の値が文献に無い予言の候補で、novelty.md で確認が要る。
@@ -208,8 +210,8 @@
 ## 2026-10-11 D7 の再実行：rCS_{[2]} ≥ 0 を課す（ユーザーの指示「rCS_[2] ≥ 0 を課して D7 を再実行せよ」）
 
 **やったこと**
-- scripts/dgr_d7_construct.py に rCS_{[2]} ≥ 0 と追加の特殊化を入れた。
-- scripts/dgr_d7_pos.py（V1〜V3）を 9 結び目で、scripts/dgr_d7_ablation.py（条件の切り分け）を 3 結び目で実行した。
+- scripts/dgr_lmov/dgr_d7_construct.py に rCS_{[2]} ≥ 0 と追加の特殊化を入れた。
+- scripts/dgr_lmov/dgr_d7_pos.py（V1〜V3）を 9 結び目で、scripts/dgr_lmov/dgr_d7_ablation.py（条件の切り分け）を 3 結び目で実行した。
 - genus 表示の条件は HiGHS の異常終了（SIGBUS）のため、条件にせず解で検査した。
 - テストは 24 件。
 
@@ -227,8 +229,8 @@
 ## 2026-10-11 文書の整理（ユーザーの指示「今回は研究自体が異なるので衝突しない。研究自体が異なることが明確になるようにディレクトリをわけてドキュメントを整理せよ」）
 
 - この研究の文書を docs/dgr_lmov/ に集めた。
-  - docs/dgr_lmov.md → report.md、docs/research_plan_dgr_lmov.md → research_plan.md（2026-10-12 の一本化で再度まとめ直した）。
-  - docs/progress.md の該当 6 節 → progress.md、open_problems.md §H → open_problems.md、novelty_report.md §11 → novelty.md。
+  - docs/dgr_lmov.md → report.md、docs/framed_knot/research_plan_dgr_lmov.md → research_plan.md（2026-10-12 の一本化で再度まとめ直した）。
+  - docs/framed_knot/progress.md の該当 6 節 → progress.md、open_problems.md §H → open_problems.md、novelty_report.md §11 → novelty.md。
   - 本体の文書には案内だけを残した。
 - README.md に、目的と本研究との規則の違いを書いた。本研究の §F（rCS に正値性を課さない）はこの研究には適用しない。refined LMOV の正値性は構成の条件に使ってよい。
 - research_plan.md の D7 の規則と、report.md の「D7 への含意」を、この方針に合わせて改めた。
@@ -237,7 +239,7 @@
 ## 2026-10-11 DGR・四重次数の構成の追跡（ユーザーの指示「DGR や quadruply の計算をいくつかの例でフォローし、そちらが一意に決まるか、条件の数やうまくいく理由の知見を得よ」）
 
 **やったこと**
-- [1]：yui-kr の HOMFLY-PT ホモロジーを正解とし、khoca・snappy で入力を計算した。23 結び目で DGR の条件を段階的に加えた整数計画を解いた（scripts/dgr_follow.py）。
+- [1]：yui-kr の HOMFLY-PT ホモロジーを正解とし、khoca・snappy で入力を計算した。23 結び目で DGR の条件を段階的に加えた整数計画を解いた（scripts/dgr_lmov/dgr_follow.py）。
 - S²：正解の P₂ から t_c 次数の微分の構造を探索し（dgr_s2_discover.py）、条件を段階的に加えた整数計画を 10 結び目で解いた（dgr_s2_follow.py。--spec は特殊化だけの版）。
 - テストは 23 件、11 秒。
 
@@ -255,9 +257,9 @@
 
 **やったこと**
 - H2：hook 性質を小文字の Adams 型の置き換え q' = q^{a+1}t^l, t' = q^a t^{l+1}（a = t/q 固定）に言い換え、GN の値で正規化によらず確認した（T(2,3) は 5 箱まで）。商 Λ/J の作用は、可換な 2 変数の量子トーラスにならない。H1 の節の u = t/q の核の誤りを訂正した。
-- D8：GT1/GT2 の逆解きを実装した（src/rcsknots/large_n_inverse.py）。
+- D8：GT1/GT2 の逆解きを実装した（src/rcsknots/dgr_lmov/large_n_inverse.py）。
 - D9：往復の照合で 20 結び目の全ての λ が一致した。
-- D7：2 箱の整数計画を作った（scripts/dgr_d7_construct.py）。
+- D7：2 箱の整数計画を作った（scripts/dgr_lmov/dgr_d7_construct.py）。
 - テストは 21 件、10 秒。
 
 **結果**（docs/dgr_lmov/report.md の H2, D8・D9, D7）
@@ -282,7 +284,7 @@
 
 ## 2026-10-11 H1：(S_{1|0}), (S_{0|1}) の導出（ユーザーの指示「H1 の導出から進めて」）
 
-**やったこと**：GN の構成で a = t（a = q⁻¹）の評価を 1 変数への評価として扱い、核と商の構造を調べた。検査は scripts/dgr_h1_lemma.py（有理数で厳密、logs/dgr_h1_lemma.log）、テストは 3 件を追加して計 18 件・7 秒。
+**やったこと**：GN の構成で a = t（a = q⁻¹）の評価を 1 変数への評価として扱い、核と商の構造を調べた。検査は scripts/dgr_lmov/dgr_h1_lemma.py（有理数で厳密、logs/dgr_lmov/dgr_h1_lemma.log）、テストは 3 件を追加して計 18 件・7 秒。
 
 **結果**（docs/dgr_lmov/report.md の D3 / H1）
 - 【導出】GN/CD の構成の全ての結び目（トーラス結び目と iterated torus 結び目）で、rCS_{[r]}|_{a=t} = c^r T_{[r]}^F、rCS_{[1^r]}|_{a=q^{-1}} = c'^r T_{[1^r]}^F。F は (N2') の F と一致する。
@@ -303,7 +305,7 @@
 **やったこと**
 - 計画書 docs/dgr_lmov/research_plan.md を作成した（段階 D0〜D6、停止点、記録の規則）。
 - 成果は docs/dgr_lmov/report.md の後半「計画の段階の記録」に、段階ごとに記録した。
-- 新しいコード：scripts/dgr_highbox.py, dgr_highbox_summary.py, dgr_d11_universal.py, dgr_twist_newton.py, dgr_unrefined.py。テストは 15 件、7 秒。
+- 新しいコード：scripts/dgr_lmov/dgr_highbox.py, dgr_highbox_summary.py, dgr_d11_universal.py, dgr_twist_newton.py, dgr_unrefined.py。テストは 15 件、7 秒。
 
 **結果**
 - D1【計算】：トーラス結び目の 4〜9 箱の全て（31 ファイル・340 件、data/dgr_lmov/highbox_summary.md）で、因子 D、商の両表示の正値性、d_{1|1} 後の最大 genus = |ρ|(g−1) − [ρ が行] が成り立った。新しい普遍因子は無い。
@@ -320,8 +322,8 @@
 ## 2026-10-11 DGR 型の構造（d_{n|m} の類似）を spin・genus 表示で（ユーザーの指示「DGR や quadruply graded homology のような考え方を refined LMOV invariant の spin 表示や genus 表示でできるか研究せよ」）
 
 **やったこと**
-- 既存のデータ（data/lmov の 21 結び目の |ρ| ≤ 3、ツイスト結び目と 10_124/10_139/10_152 の 2 箱、framing）を、GGS の d_{n|m}（a = t^n q^{−m}）の因子・特殊化の言葉で観察した。
-- コード `src/rcsknots/dgr.py`、一括実行 `scripts/dgr_lmov_survey.py`（206 秒、logs/dgr_lmov.log、data/dgr_lmov/summary.json）、テスト `tests/test_dgr_lmov.py`（13 件、10 秒）。
+- 既存のデータ（data/framed_knot/lmov の 21 結び目の |ρ| ≤ 3、ツイスト結び目と 10_124/10_139/10_152 の 2 箱、framing）を、GGS の d_{n|m}（a = t^n q^{−m}）の因子・特殊化の言葉で観察した。
+- コード `src/rcsknots/dgr_lmov/dgr.py`、一括実行 `scripts/dgr_lmov/dgr_lmov_survey.py`（206 秒、logs/dgr_lmov/dgr_lmov.log、data/dgr_lmov/summary.json）、テスト `tests/dgr_lmov/test_dgr_lmov.py`（13 件、10 秒）。
 - 文献調査（サブエージェント）：a = 1 の零点は既知（LM、Zhu 2105.02037 Thm 1.8）、a = q^{±1}・refined の a = t, q⁻¹・商の正値性は文献に見当たらない。
 
 **結果**（詳細と範囲は docs/dgr_lmov/report.md）

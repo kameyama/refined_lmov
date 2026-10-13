@@ -1,6 +1,6 @@
 # 新規性と既知の結果：DGR・四重次数型の構造と refined LMOV（別の研究）
 
-2026-10-11 に docs/novelty_report.md の §11 から移した。本研究で既知とされた結果（novelty_report.md）は、この研究でも成果として書かない。
+2026-10-11 に docs/framed_knot/novelty_report.md の §11 から移した。本研究で既知とされた結果（novelty_report.md）は、この研究でも成果として書かない。
 
 ## 1. 文献との関係（2026-10-11、文献確認はサブエージェントによる）
 

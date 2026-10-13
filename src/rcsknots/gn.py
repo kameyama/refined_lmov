@@ -4,7 +4,7 @@ Physical parameters (q, t) are those of 1703.05408.  GN's "tilde" operators are 
 (q, t_w = 1/t):  P̃_{kn,km} = φ ∘ P_{kn,km}(q, t) ∘ φ^{-1},  φ: p_k ↦ p_k / (1 − t^k).
 Vectors are kept in the modified Macdonald basis H̃_μ(q, t_w).
 
-Normalization found in Stage 2 (docs/conventions.md §6):
+Normalization found in Stage 2 (docs/framed_knot/conventions.md §6):
   the SYT formula (fix3) of GN, read in the fixed-point basis I_μ = H̃_μ / ∇_μ, equals c_k · P̃_{kn,km} with
   c_k = (−1)^{k−1} (1 − t_w^{−k}) / [k]_{q,t_w};  then P̃_{k,0} is exactly multiplication by φ(p_k).
 Evaluation: ε(f) = f[p_k ↦ (1 − a^k)/(1 − t^k)], i.e. ε(φ^{-1} f̃) = f̃[p_k ↦ 1 − a^k].

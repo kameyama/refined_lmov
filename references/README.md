@@ -41,8 +41,8 @@
 DOI・巻・頁は未確認（上の表で確認したと書いたものを除く）。
 
 派生ファイル：`1703.05408/nb-torus.txt`, `1703.05408/nb-non-torus.txt` は ancillary ノートブックを
-`scripts/nb2txt.py` でテキスト化したもの。再生成するには次を実行する：
+`scripts/framed_knot/nb2txt.py` でテキスト化したもの。再生成するには次を実行する：
 
 ```bash
-.venv/bin/python scripts/nb2txt.py references/1703.05408/src/anc/refined-LMOV-torus.nb > references/1703.05408/nb-torus.txt
+.venv/bin/python scripts/framed_knot/nb2txt.py references/1703.05408/src/anc/refined-LMOV-torus.nb > references/1703.05408/nb-torus.txt
 ```

@@ -2,7 +2,7 @@
 
 この研究の規則と、本研究（KN の検証）との違いは README.md。
 
-本研究の計画（docs/research_plan*.md）とは独立の、別の研究の計画。ユーザーの指示：
+本研究の計画（docs/framed_knot/research_plan*.md）とは独立の、別の研究の計画。ユーザーの指示：
 - 「DGR や quadruply graded homology のような考え方を refined LMOV invariant の spin 表示や genus 表示でできるか研究せよ」
 - 「今回の研究について既存の計画とは別に計画を用意し成果を記録しながら進めよ」
 - 「見つけた構造と unrefined lmov のデータから refined lmov が構成できるか。refined large N の式を逆向きに解いて refined lmov のデータから rCS が計算できるか。それが既存の rCS に一致するか。まだ計算されたことのない値はどうなるか。以上を計画に加えよ」（D7〜D10）
@@ -10,7 +10,7 @@
 - 「DGR や quadruply graded homology のような考え方を refined LMOV 不変量の既約表示や種数表示でできるか研究せよ」（S0〜S6：既約表示＝spin 表示の各行を SU(2)_L の指標にまとめ直した基底）
 
 - 成果の記録先（全てこのディレクトリ）：report.md（本文）、progress.md（区切りごと）、open_problems.md（未解決 H1〜H18）、novelty.md（新規性）。
-- コード：src/rcsknots/dgr.py, lmovstruct.py, large_n_inverse.py、scripts/dgr_*.py, lmov21_*.py, lmov31_linear.py, lmovstruct_*.py。テスト：tests/test_dgr_lmov.py, test_lmovstruct.py, test_lmov21_linear.py。
+- コード：src/rcsknots/dgr_lmov/dgr.py, lmovstruct.py, large_n_inverse.py、scripts/dgr_lmov/dgr_*.py, lmov21_*.py, lmov31_linear.py, lmovstruct_*.py。テスト：tests/dgr_lmov/test_dgr_lmov.py, test_lmovstruct.py, test_lmov21_linear.py。
 - 主張の分類は CLAUDE.md による：【導出】【計算（範囲）】【予想】【仮説】。
 
 ## 0. 現状（段階 D0、2026-10-11 済み）
@@ -44,7 +44,7 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
 ## 2. 段階
 
 ### D1：4 箱以上への拡張（計算）
-- 入力：本体のチェックアウトの data/highbox/（トーラス結び目の N = 4〜9 箱、git の外、1.1 GB）。読むだけで、書き換えない。
+- 入力：本体のチェックアウトの data/framed_knot/highbox/（トーラス結び目の N = 4〜9 箱、git の外、1.1 GB）。読むだけで、書き換えない。
 - 判定（ρ ごと）：
   1. d_{n|m}（n, m ≤ 2）の各因子で割り切れるか。
   2. 商 R_ρ の spin・genus 表示の負の項。
@@ -54,7 +54,7 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
 
 ### D2：d_{1|1} の普遍式と c_ρ（導出＋計算）
 - hook 性質を仮定すると、\hat f_ρ|_{d11} は A_K だけの普遍な式で決まる。
-  1. 2 箱は 2 箱の公式（scripts/v4_closed.py の formula）に hook 性質を代入して、記号的に求める。
+  1. 2 箱は 2 箱の公式（scripts/framed_knot/v4_closed.py の formula）に hook 性質を代入して、記号的に求める。
   2. 3 箱は src/rcsknots/bpsgen.py と同じ plethystic log を、A_K を記号のまま、または十分一般な A_K で行う。
 - 最大 genus を A_K の 𝐪 次数（= 2g）の関数として導き、c_ρ を説明する。
 - 普遍式を、D0 の実データの d_{1|1} 特殊化と全係数で照合する（テスト）。
@@ -89,7 +89,7 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
   4. d_{1|1} の普遍式（(b) のみ）。
   5. 2J_r の偶奇。
   6. 商 R_ρ（したがって \hat f_ρ）の両表示での非負性。
-- 手法：整数計画（既存の scripts/construct_superpolynomial.py, t4_ilp.py と同じ型）。解の数を数え、一意かどうか、一意でなければ解の空間の次元を記録する。
+- 手法：整数計画（既存の scripts/framed_knot/construct_superpolynomial.py, t4_ilp.py と同じ型）。解の数を数え、一意かどうか、一意でなければ解の空間の次元を記録する。
 - **rCS の正値性**（2026-10-11 改訂）：本研究の open_problems §F の規則（rCS の候補に正値性を課さない）は、この研究には適用しない（ユーザーの指示「今回は研究自体が異なるので衝突しない」）。Poincaré 多項式である対称表現などの rCS には正値性を課してよい。非長方形の rCS（[2,1] など）は負の係数をもつので、正値性は課さない（数学的な理由）。
 - **LMOV の正値性（条件 6）は条件に使ってよい**（2026-10-11、ユーザーの指示「この計画では refined LMOV に正値性は課して良い。今回は KN の検証をする計画ではなく新しい研究である」）。
   - この計画の目的は、構造から refined LMOV と rCS を構成することで、KN の予想の検証ではない。
@@ -109,14 +109,14 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
 - 出力：\hat f → rCS の関数と、GT1 / GT2 の一致の判定。
 
 ### D9：既存の rCS との照合（往復の検査）
-- 既存の rCS → \hat f（既存の計算）→ rCS（D8）の往復が、全係数で恒等になることを確かめる（実装の検査）。対象は data/lmov の 21 結び目の |λ| ≤ 3、トーラス結び目の 4〜9 箱。
+- 既存の rCS → \hat f（既存の計算）→ rCS（D8）の往復が、全係数で恒等になることを確かめる（実装の検査）。対象は data/framed_knot/lmov の 21 結び目の |λ| ≤ 3、トーラス結び目の 4〜9 箱。
 - D7 で構成した refined LMOV から D8 で作った rCS が、既存の rCS（EHA、DAHA、KNTZ の長方形、GNSSS の対称表現、KN の 4_1 の [2,1] の候補）と一致するかを確かめる。
   - 一致しなければ、どの条件が足りないかを記録する。
-- t = q で色付き HOMFLY-PT（ブレイド・ケーブルからの計算、data/x0 など）に戻ることも確かめる。
+- t = q で色付き HOMFLY-PT（ブレイド・ケーブルからの計算、data/framed_knot/x0 など）に戻ることも確かめる。
 
 ### D10：未計算の値の予言
 - 対象（入力が揃うものから）：
-  1. ツイスト結び目・ダブルツイスト結び目の rCS_{[2,1]}（open_problems §F）。t = q の [2,1] は data/x0 にある（|p| ≤ 10、24 結び目）。
+  1. ツイスト結び目・ダブルツイスト結び目の rCS_{[2,1]}（open_problems §F）。t = q の [2,1] は data/framed_knot/x0 にある（|p| ≤ 10、24 結び目）。
   2. 4_1 の rCS_{[3,1]}（4 箱、conventions §18 の弱い判定で未決）。
   3. 結び目表の結び目の 2 箱（非 refined の [2], [1,1] がケーブルから計算できるもの）。
 - 手順：D7 で refined LMOV を構成する → D8 で rCS を作る → 独立な検査（GT1/GT2 の一致、t = q、転置対称性、EGP、U(2) への簡約、Laurent 性）を適用する。
@@ -131,9 +131,9 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
 - 停止点：既知の結び目で一意に決まらず、正値性と選択の規則でも決まらないとき。
 
 ### S0〜S6：既約表示・σ・特殊化の点・種数 0（2026-10-11 追加、ユーザーの指示）
-- S0 道具：太字の \hat f からの (β, k, f) 行の抽出、既約表示（χ_j(w)、w = 𝐪²𝐭）への変換と逆変換、特殊化 a = t^N q^{−M}、δ、項数、単項式判定（src/rcsknots/lmovstruct.py、tests/test_lmovstruct.py）。
+- S0 道具：太字の \hat f からの (β, k, f) 行の抽出、既約表示（χ_j(w)、w = 𝐪²𝐭）への変換と逆変換、特殊化 a = t^N q^{−M}、δ、項数、単項式判定（src/rcsknots/dgr_lmov/lmovstruct.py、tests/dgr_lmov/test_lmovstruct.py）。
 - S1 [1]：801 結び目（yui-kr）で既約表示の非負性、δ の幅、a = t^N の構造。GHM・Chandler–Gorsky の主張を原典で確認し、[1] の非負性を「定理（GHM から）」か「計算」かに分類する。
-- S2 彩色：data/bps/（|ρ| ≤ 3）、data/highbox/（4〜9 箱）、K7〜K10 の 3 箱で既約表示の非負性・δ・特殊化。
+- S2 彩色：data/framed_knot/bps/（|ρ| ≤ 3）、data/framed_knot/highbox/（4〜9 箱）、K7〜K10 の 3 箱で既約表示の非負性・δ・特殊化。
 - S3 種数 0：refined EGP の下で \hat f_ρ(q = 1) を P から導く式を作り、保存値で照合する。
 - S4 微分：a = t^N q^{−M} の辞書と、\hat f_ρ が 0 になる点・縮退する点の走査。
 - S5 ミラーと hook：\hat f_{ρ^T} と \hat f_ρ の関係、GGS の彩色微分の点での縮退。
@@ -156,9 +156,9 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
 | D9 | 往復の照合は済み（20 結び目）。構成した LMOV からの照合は D7 待ち | report.md D8・D9 |
 | D11（3 箱・4 箱） | 停止（2026-10-11）：[2,1] は三葉結び目・4_1 では一次の条件（U, T, E, U2, L）だけで零空間 0・一意に正解。T(2,5) 以上では零空間が残り（T(2,5) 70、hook 込み 20。T(3,4) 850/560）、自由度は Φ·g、正値性の多面体は非有界、選択の規則（L1 最小）は T(2,7), T(3,4) で破れる。4_1 の [3,1] も零空間 70。予言には追加の入力か上界型の仮定が要る（H11, H18）。変数は太字で組む。予想 R・仮説 B（H12）。（2026-10-12）上界型の仮定として BPS 総数の最小化 ＋ framing の正値性を試し、T(2,5) と K_{±2} は一意、T(2,7) 以上は候補が多数残る | report.md D11「H11 の進展」 |
 | D10 | thin な 34 結び目で実施（2026-10-11）。トーラス・ツイスト・ダブルツイスト（10 個）は一意で既知と一致、6_2, 6_3 は 2 解（文献を含む）、他は 4〜10 解以上、8_20 は実行不能 | report.md の D10 |
-| S0 道具 | 済み（lmovstruct.py、tests/test_lmovstruct.py 7 件） | report.md §11 |
+| S0 道具 | 済み（lmovstruct.py、tests/dgr_lmov/test_lmovstruct.py 7 件） | report.md §11 |
 | S1 [1]（801 結び目） | 済み：既約表示は全て非負（GHM・CG から定理）、P(a=t) は全て単項式、δ の値の数は 705 個が 1・96 個が 2 | §12.3, §13.4 |
-| S2 彩色 | 済み：data/bps 112 件 ＋ highbox 340 件 ＋ K7〜K9 の 3 箱で、既約表示の非負性は KN の正値性と同じ 428 件で成立・同じ 35 件で破れ（予想 S）。K10 の 3 箱は未判定（H16） | §12.2 |
+| S2 彩色 | 済み：data/framed_knot/bps 112 件 ＋ highbox 340 件 ＋ K7〜K9 の 3 箱で、既約表示の非負性は KN の正値性と同じ 428 件で成立・同じ 35 件で破れ（予想 S）。K10 の 3 箱は未判定（H16） | §12.2 |
 | S3 種数 0 | 否定的に完了：q = 1 で 1 位の極があり、q = 1 の値（EGP）だけでは決まらない。ジェットの規則は t = q で成立、refined で破れる（H14） | §14、D11 |
 | S4 微分 | 済み（辞書と走査）：a = t^N q^{−M} ＝ gl(N\|M) の切り詰め、a = 1, t, 1/q で消滅（§2 と同じ結論）、a = t/q で強い縮退 | §11.3, §13 |
 | S5 ミラーと hook | 一部：4_1 の両手型の関係は \hat f_{ρ^T}(a,q,t) = \hat f_ρ(1/a,1/q,1/t)。一般の結び目で ρ ↔ ρ^T の関係は無い（M(t) が担う） | §13.3 |
@@ -177,5 +177,5 @@ D1 では D0 の結論が崩れなかったので、停止点には当たらな�
 
 ## 4. 記録の規則
 
-- 段階ごとに report.md に節を追加し、このディレクトリの progress.md に日付・やったこと・結果・次・未解決を書き、commit する（本体の docs/progress.md には書かない）。
+- 段階ごとに report.md に節を追加し、このディレクトリの progress.md に日付・やったこと・結果・次・未解決を書き、commit する（本体の docs/framed_knot/progress.md には書かない）。
 - 不一致は場当たり的に調整せず、原因を書く。特定できなければ「未解決」とする。
