@@ -1,0 +1,27 @@
+{
+ "x": 2367,
+ "eq": {
+  "rows": 3836,
+  "rank": 1815,
+  "nullity": 552,
+  "feasible": true
+ },
+ "eq+L": {
+  "rows": 51844,
+  "rank": 2239,
+  "nullity": 128,
+  "feasible": true
+ },
+ "eq+H": {
+  "rows": 4403,
+  "rank": 1989,
+  "nullity": 378,
+  "feasible": true
+ },
+ "eq+L+H": {
+  "rows": 52411,
+  "rank": 2297,
+  "nullity": 70,
+  "feasible": true
+ }
+}

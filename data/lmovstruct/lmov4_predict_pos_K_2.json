@@ -1,0 +1,9 @@
+{
+ "nullity": 397,
+ "feasible": true,
+ "bounded": true,
+ "n_hat_rows": 28286,
+ "n_S_rows": 20802,
+ "count_w_integer": 0,
+ "solutions": []
+}

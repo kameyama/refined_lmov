@@ -1,0 +1,18 @@
+{
+ "knot": "8_20",
+ "orientation_ok": true,
+ "window_t": [
+  -24,
+  9
+ ],
+ "feasible_sigmas": [],
+ "n_solutions": 0,
+ "delta_P1": [
+  0.0
+ ],
+ "all_solutions": [],
+ "n_coeffs_common": 0,
+ "n_coeffs_total": 0,
+ "genus_uniform_sign_all": [],
+ "seconds": 6
+}

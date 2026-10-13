@@ -1,0 +1,16 @@
+=== lmov21_polytope 2026-10-11 16:02:24 margin=0 hook=True ===
+  T2_3: 未知数 704、零空間 0（26s）
+=== lmov21_polytope 2026-10-11 16:03:04 margin=0 hook=True ===
+  T2_3: 未知数 704、零空間 0（27s）
+    spin σ=(1, 1, 1): 実行可能、幅 0
+    → 1 点：31 項、整数 True、式の検算 True、既知と一致 True
+    spin+genus σ=(1, 1, 1): 実行可能、幅 0
+    → 1 点：31 項、整数 True、式の検算 True、既知と一致 True
+    spin+genus+irr σ=(1, 1, 1): 実行可能、幅 0
+    → 1 点：31 項、整数 True、式の検算 True、既知と一致 True
+  T2_3: 完了（28s）
+  T2_5: 未知数 2184、零空間 20（120s）
+    spin σ=(1, 1, 1): 実行可能、幅 inf
+    spin+genus σ=(1, 1, 1): 実行可能、幅 inf
+    spin+genus+irr σ=(1, 1, 1): 実行可能、幅 inf
+  T2_5: 完了（128s）
