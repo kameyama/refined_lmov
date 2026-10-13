@@ -24,3 +24,15 @@
   - 2018 年 7 月のノートブック（h_hat_fig8, g_hat fig8）はこの NRZ の計算をなぞったもので、数値も一致する。
 - **refined unknot の極**【計算】（scripts/rk_refined_unknot_poles.py）：AS の SO(2N) refined unknot（D_N Macdonald の主特殊化）は [2] で分母 (1 − q t^{N−1})、[1,1] で (1 − q t^{2N−3})、[3] で (1 − q² t^{2N−3}) などの **N に依存する分母**をもち、a = t^{2N−1} の Laurent 多項式にならない（t = q では約分される）。U(N) の composite ([1],[1]) = (2,1^{N−2}) の A 型 Macdonald 次元も分母 (1 − q t^{N−1})（a = t^N で (t − qa)）をもつ。2018 年 9 月 30 日の composite for adjoint ノートブックが見つけた「真の refined composite unknot の分母 (t − qa)」はこれと一致【補助エージェントの読解＋本計算で確認】。
 - **AS §7 の閉弦の構造から読める示唆**【導出】：AS の自由エネルギーの oriented 部分 Σ_d (1/d) Q^d q^{−d/2}/((q^{d/2} − q^{−d/2})(t^d − t^{−d})) は、分母が (t^d − t^{−d}) = ((t²)^{d/2} − (t²)^{−d/2}) なので「(q, t²) の refined conifold」の形をしている（½ は現れない）。½F_cov ＋ unoriented の形に書き直すと、偶数 d の引き算に (1 + q^d)/(1 + t^d) の因子が付く（単純な d → 2d の置換ではない）。2018 年の試行は Σ_{d 奇数} と ½ を unrefined のまま置いたので、この構造を含んでいない。
+
+## 2026-10-14（K2、途中）
+- **閉じた式**【計算】（src/rcsknots/kauffman_refined.py）：AS の SO(2N) refined unknot dim_λ と計量 g_λ（D_N、AS (B.4)）を U = t^N の有理式として実装（dim は N = 5, 6 の積と一致を確認）。U(M) の composite [λ,μ] の Macdonald 次元（対称正規化）を、長方形の部分の積を列の対で伸縮させて A = t^M の有理式にし、M = 8, 9 の直接計算と 13 例で一致。
+  - dim_[2] の分母 (Uq − t)、dim_[1,1] の分母 (U²q − t³)；g_[2] は (Uq − t)²、g_[1,1] は (U²q − t³)² を分母にもつ。composite ([1],[1]) の分母 (Aq − t)、([2],[1]) は (Aq² − t)、([1],[1,1]) は (Aq − t²)。
+- **極の打ち消しの不可能性**【導出】：Z_G = Σ_λ dim_λ w_λ B_λ(v) で w_λ が U に依らなければ、2 次の [2] 成分の極 (Uq − t) と [1,1] 成分の極 (U²q − t³) は、composite ([1],[1]) の極 (Aq − t) 一つ（A は一つの値）では同時に打ち消せない。w_λ = 1/g_λ でも、(Uq² − t²), (Uq − t³) が composite の 2 箱の項には現れない。したがって「D_N の次元 × U に依らない重み」と「U(M) の composite 次元」の組み合わせでは、unknot の 2 箱で Laurent 多項式にならない。
+- **積の形の検査**【計算】（scripts/rk_k2_littlewood.py、有理点 2 点）：w ∈ {1, b^A_λ, (q/t)^{|λ|/2} b^A_λ, 1/g_λ, b^A_λ/g_λ}、基底 ∈ {Schur, P_λ(v;q,t), P_{λ^T}(−v;t,q)} の 15 通りすべてで、log Z_G の 3 次の p_1³, p_1p_2 の係数が 0 でない（積の形でない）。t = q では w = 1・Schur で 0（Littlewood の恒等式）になることを確認（検査の妥当性）。
+- **文献**：Rains–Warnaar 1506.02755（Memoirs AMS 270 (2021) 1317）と Lee–Rains–Warnaar 2007.03174（SIGMA 16 (2020) 142）を取得。
+  - (q,t)-Littlewood 恒等式（Macdonald の 4 つと Kawanaka の 1 つ）、有界版（長方形の D_n, B_n, C_n Macdonald 多項式を A 型 Macdonald で展開）。
+  - 辞書：P^{(D_n,D_n)}_λ(x;q,t) = P^{(B_n,B_n)}_λ(x;q,t,1)（ℓ(λ) < n）= Koornwinder K_λ(x;q,t; −1, −q^{1/2}, 1, q^{1/2})。AS の D_N Macdonald はこれ。
+  - LRW の GL(2n) ⊃ O(2n) 型の (q,t)-分岐則（長方形の λ）は K_μ(x;q,t; 1, −1, t^{1/2}, −t^{1/2}) を使う：**AS の D_N（±1, ±q^{1/2}）と境界パラメータの q ↔ t が違う**（t = q で一致）。
+  - 普遍指標の (q,t)-版は lifted Koornwinder 多項式 \tilde K_λ(x;q,t,T;t̄)（Rains 2005）。T = t^n で K_λ に戻る。T に極をもつ（Eq (2.?)：t_0t_1t_2t_3 = q^{1−â(s)} t^{l̂(s)+1} T^{−2}）。Cauchy 恒等式は双対型（Σ (−1)^{|λ|} \hat K_λ(x;t,q,T) \tilde K_{λ'}(y;q,t,T) = Π(1 − x_iy_j)）。
+- 次：Koornwinder 多項式の主特殊化（評価式）を両パラメータ（±1,±q^{1/2} と ±1,±t^{1/2}）で求め、AS の D_N の式を再現することを確認した上で、極の構造を composite 側と比べる。
