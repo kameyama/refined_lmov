@@ -50,7 +50,7 @@ log[1 + Σ_{(λ,μ)} H_{(λ,μ)} P̃_{λ^T} P̃_{μ^T}] = Σ_{d≥1} Σ_μ (1/d)
 
 (C) **Σ_{d 奇数} と ½ を unrefined のまま置いた**【読解＋AS §7 の導出】。AS の閉弦の結果では、oriented 部分の分母が (t^d − t^{−d}) で「(q, t²) の refined conifold」の形になり、½F_cov ＋ unoriented の形に書き直すと偶数 d の引き算に (1 + q^d)/(1 + t^d) の因子が付く。試行にはこの構造が無い。unknot の 1 箱までは影響しないが、2 箱以上の g_μ の定義式（½ の係数、d = 2 の項）に効く。
 
-(D) **Koike 型の refined composite は恒等式で unrefined に帰着する**【補助エージェントの導出、要再確認】。λ 側 (q,t)、μ 側 (t,q) の割り当て（composite q,t-brane）では Macdonald の Cauchy 恒等式により F^{comp} = Σ_d (1/d)[2u_d p_d − p_d²] となり、「h_[2] = h_[1,1] = −1、3 箱以上 0」は検証ではなく恒等式。同じ (q,t) の割り当て（hat h 計算 (t-brane)3）でも unknot・framing 0 では −1, 0 が出るが、これも Π(1 − v_i v_j) の undeformed 因子と整合しているだけで refined の情報を含まない。
+(D) **Koike 型の refined composite は恒等式で unrefined に帰着する**【補助エージェントの導出。本セッションで 2 箱まで記号計算で確認：log Z = 2u_1 p_1 + (u_2 p_2 − p_1²) + …】。λ 側 (q,t)、μ 側 (t,q) の割り当て（composite q,t-brane）では Macdonald の Cauchy 恒等式により F^{comp} = Σ_d (1/d)[2u_d p_d − p_d²] となり、「h_[2] = h_[1,1] = −1、3 箱以上 0」は検証ではなく恒等式。同じ (q,t) の割り当て（hat h 計算 (t-brane)3）でも unknot・framing 0 では −1, 0 が出るが、これも Π(1 − v_i v_j) の undeformed 因子と整合しているだけで refined の情報を含まない。
 
 (E) **skew Macdonald の正規化と ν^T 側の (q,t)↔(t,q)**【読解】。パッケージの SkewMacdonald は P 型（b 因子込み）で、LR 係数から作る Q 型とは (q − t) に比例してずれる（check LR for macdonald）。Koike の公式 Σ_ν (−1)^{|ν|} s_{λ/ν} s_{μ/ν^T} の s → P 置換では、双対 Cauchy 恒等式 Σ_ν P_ν(x;q,t) P_{ν^T}(−y;t,q) = Π(1 − x_i y_j) に合わせて ν^T 側を (t,q) にするのが自然で、冊によって割り当てが違う（§4.2 (b)）。試行で出た (q − t) 比例の残留（g_[1,1,1]、difference R and comp、SO(even) to SU の rkauf3）はこの種の差。
 
