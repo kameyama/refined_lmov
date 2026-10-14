@@ -27,3 +27,8 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 - virtual 正規化：Z~ := (Π_j y_j)^N Z。probe 側の基底は (Π y_j)^N K_{N^m−λ}(y) = Rains の virtual Koornwinder \hat K_λ(y; t,q, T = U)。Z~ は y の多項式で、U を形式変数として log を展開する。
 - 自由エネルギー：log Z~ = Σ L_{a…} y^a…、f = Möbius 反転（f_{ab} = Σ_{d|(a,b)} (μ(d)/d) L_{a/d,b/d}(q^d,t^d,U^d)）。
 - Kähler 変数：ν = (U²/t)^{1/2}（Mariño の ν、Q = U²/t）。Hopf 絡み目では ν~ = ν (q/t)^{1/2} = U q^{1/2}/t が現れる。z_q = q^{1/2} − q^{−1/2}。
+
+## trefoil（K3'、2026-10-14、仮説を含む）
+- AS 1202.4456 (6.15)/(6.17) は unknot で正規化した [1] の値。t = q で Mariño の F_{3_1} の鏡像 × ν^{−6}（ν = 1/𝐚）【計算】。
+- 標準 framing の unnormalized W_SO = (6.15) × r^{−5} s^{11} U^{−6} × unknot_SO（r = q^{1/2}, s = t^{1/2}）【仮説：t = 1 の極の打ち消しと最短性から】。T_[1] = q^{1/2} t^{N−1} に対し r^{−5}s^{11}U^{−6} = T_[1]^{−6}(q/t)^{1/2}。
+- oriented 部分：½h^{ref}_[1] = 𝒫_DGR の鏡像(𝐚_U,𝐪,𝐭) × (ν−ν^{−1})/(𝐪−𝐪^{−1})、𝐚_U² = A (t/q)^{1/2}、A = ν² = U²/t（unknot から）。
