@@ -33,11 +33,21 @@ Z_G = Σ_λ dim_λ w_λ B_λ(v)、Z_R = Σ_{λ,μ} H_{(λ,μ)}(A) w_λ w_μ B_λ
   - f_{11} = −f_{10} · z_q (ν~ − ν~^{−1})、z_q = q^{1/2} − q^{−1/2}、**ν~ = ν (q/t)^{1/2} = U q^{1/2}/t**。t = q では ν~ = ν で、Mariño の Hopf 絡み目 \hat g_{[1],[1]} = z(ν − ν^{−1})（0904.1088、Hopf 絡み目の例）と unknot 因子 f_{10} と符号を除いて一致する。refined では **Kähler 変数が q/t だけずれる**（Avetisyan–Mkrtchyan 型の量子シフトの開弦版）。
   - f_{1b} = f_{11} · χ_{b−1}(U/t)、χ_m(x) = x^m + x^{m−2} + … + x^{−m}（b ≤ 4）。
   - 全 (a,b)（a,b ≥ 1、≤ 4）で f_{ab} = (1 − q) × [q, t, U の整数係数 Laurent 多項式] / (1 − t)（(a,b) が共に偶数のときは /(1 − t²)）。**整数性は成り立つ**。t = q では f_{ab} は整数係数の Laurent 多項式（分母なし）。
-  - (a,b) ≥ 2 は 1 変数の probe では Sp(2) 指標（Chebyshev）で混ざるので、Mariño の [2], [1,1] との比較には probe 2 個（y_1, y_2、2 変数 Koornwinder）が要る。
+  - （訂正、§4.2）t = q での 1 変数 probe の基底は D_1 指標 y^m + y^{−m}（virtual 正規化で y^k）であり、f_{ab} は Schur 基底の f_{(a),b} そのもの。
 - 計算時間：A = B = 4 で約 1 分（sympy の有理関数体）。データ：data/refined_kauffman/hopf_f.pkl。
+
+### 4.2 K2'(b)：成分 1 に probe 無限個（Schur / Macdonald 基底での f_{R,b}）【計算】
+- S 行列の対称性 S_{λ'μ} = S_{μλ'} で成分 1 の和を双対 Cauchy 恒等式で縮約すると、成分 1 の probe を何個にしても多変数 Koornwinder は要らない：
+  Z~(P; z) = Σ_{k≤B} (−1)^k K_{1^k}(t^ρ) \hat K_{(k)}(z;U) exp(−Σ_d p_d^{(k)} P_d/d)、P_d = p_d(y)（形式変数）、p_d^{(k)} = Σ_i (x_i^d + x_i^{−d})|_{x = t^ρ q^{1^k}}。
+  これは Mariño の生成関数 Σ_R tr_R^{SO}(U) s_R(v)（0904.1088 (soperator)、probe は U(M)）の fermionic 版 exp(−Σ_d Tr U^d p_d(y)/d) に当たる（t = q では p_d → −p_d の違い、すなわち v → −v）【導出】。
+- 自由エネルギー log Z~ = Σ_d (1/d) Σ_{R,b} f_{R,b}(q^d,t^d,U^d) B_R(y^d) z^{bd} を |R| ≤ 4、b ≤ 2 で反転（src/rcsknots/kauffman_hopf.py の hopf_Ztilde_multi, plethystic_f、約 20 秒）。
+  - **Schur 基底**（B_R = s_R）：全 f_{R,b} が (1−q)/(1−t) × 整数係数 Laurent 多項式（b = 2 かつ |R| 偶数のときは /(1−t²)）。f_{(a),b} は 1 変数の f_{ab} と一致、f_{R,0} = 0 (|R| ≥ 2)。**整数性は Schur 基底で成り立つ**。
+  - **Macdonald 基底**（B_R = P_R(y; t, q)、Rains–Warnaar の極限基底）：f_{(1,1),1} の分母に (1 − qt)、f_{(1,1,1),1} に (1−qt)(1−q²t)、f_{(2,1),1} に (1−qt²) など余分な分母が出る。素朴な Macdonald 基底では整数性は成り立たない（KN の \hat f が M 行列による基底変換を要するのと同じ事情）。
+- t = q では f_{R,b} は分母なしの整数係数 Laurent 多項式。Mariño の \hat g_{[2],[1]}, \hat g_{[1,1],[1]} との係数ごとの対応には、彼の F_G = ½F_R + Σ_{d 奇数} g の分解（composite HOMFLY の h の引き算）と framing の整合が要るので未実施。
+- データ：data/refined_kauffman/hopf_f_multi.pkl。テスト：tests/test_rk_hopf.py::test_multi_probe_consistency。
 
 ## 5. 現時点の判断
 - Mariño 型（bosonic、½、Σ_{d 奇数}、固定した小さい表現）の refined 化は、AS の D_N 理論の unknot で既に閉じない（§3）。BC 型には bosonic な Cauchy 恒等式が無いので、小さい表現で彩色した Kauffman 側の母関数が積になる理由も無い。
 - 双対 Cauchy 型（§4）は数学的に整合し、第二量子化の積表示を unknot で満たす。probe 側の基底は U に依存する（virtual Koornwinder）が、virtual 正規化 y^N Z で U を形式変数にでき（§4.1）、unknot と Hopf 絡み目（probe 各 1 個、a,b ≤ 4）で **f_{ab} ∈ (1−q)/(1−t) · Z[q^±,t^±,U^±]（(偶,偶) は /(1−t²)）の整数性が成り立つ**。unknot は Mariño 型 (ν−ν^{−1})/z + 交差帽の −1、Hopf 絡み目の f_{11} は Mariño の \hat g_{[1],[1]} の ν → ν(q/t)^{1/2} による refined 化になる。
-- 残る未確認：(i) 2 箱以上の表現（probe 2 個）での整数性と Mariño の [2],[1,1] との対応、(ii) 結び目（trefoil）：AS の T 行列（framing 固有値）を双対 Cauchy 型に入れた計算、(iii) 正値性（refined BPS の抽出式は未定義）。
+- 残る未確認：(i) Mariño の \hat g_{[2],[1]}, \hat g_{[1,1],[1]} との係数ごとの対応（§4.2 で |R| ≤ 4 の整数性は確認済み）、(ii) 結び目（trefoil）：AS の T 行列（framing 固有値）を双対 Cauchy 型に入れた計算、(iii) 正値性（refined BPS の抽出式は未定義）。
 - 残る道（(a) は §4.1 で実施済み）：(a) Askey–Wilson / Koornwinder の係数を T の関数として閉じた形にし、Hopf 絡み目の log Z を T の冪級数として整数性を見る；(b) Avetisyan–Mkrtchyan 2205.12832 の閉弦の構造（交差帽ごとの Kähler 変数のずれ、Klein 瓶の分母 (t^n + t^{−n})）を開弦の Hopf 絡み目に合わせる；(c) B_n / C_n（Sp）型や (±q^{1/2}, ±t^{1/2}) 型で同じ計算を繰り返し、分母の構造がより単純な型があるかを見る。いずれも 1 件 30 分以内の記号計算で始められる。

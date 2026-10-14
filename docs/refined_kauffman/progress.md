@@ -58,4 +58,13 @@
 - 結果【計算】：f_{10} = −1 − (ν−ν^{−1})/(t^{1/2}−t^{−1/2})、f_{a0} = 0 (a ≥ 2)；f_{11} = −f_{10} z_q(ν~−ν~^{−1})、ν~ = U q^{1/2}/t（t = q で Mariño の \hat g_{[1],[1]} = z(ν−ν^{−1}) と unknot 因子・符号を除いて一致）；f_{1b} = f_{11} χ_{b−1}(U/t)；全 f_{ab} は (1−q)/(1−t)（(偶,偶) は /(1−t²)）× 整数係数 Laurent 多項式。t = q では分母なし。
 - テスト：tests/test_rk_askey_wilson.py（3 件）、tests/test_rk_hopf.py（2 件、A = B = 2、N = 3, 4 との照合と f_{10}, f_{11}, f_{12} の式）。
 - 停止点：K2'(a) の結果（Hopf 絡み目で整数性が成り立つ）。次の候補：(i) probe 2 個（2 変数 Koornwinder、Mimachi の (n,m) = (N,2)）で 2 箱の表現を分離し Mariño の [2],[1,1] と比較、(ii) trefoil（AS の T 行列）、(iii) 閉じた形 c_{2j}(n) の証明（Rains の二項公式）。
+- ユーザーの指示（2026-10-14）：(i) → (ii) の順で進める。
+
+## 2026-10-14（深夜 2）K2'(b)：成分 1 に probe 無限個
+- 訂正：K2'(a) の報告で「t = q の 1 変数 probe は Sp(2) 指標で混ざる」と書いたのは誤り。SO(2N) では Λ^k V（k < N）が既約なので、双対 Cauchy から K_{(m)}(y;q,q;t̄) = y^m + y^{−m}（D_1 指標）になり、virtual 正規化では y^k。Askey–Wilson の直接計算（K_{(2)} = y² + y^{−2}）と閉じた形（t = q で c_{2j} = 0）とも整合。report.md §4.1 を訂正。
+- S 行列の対称性で成分 1 の和を縮約すると、probe の数によらず 1 変数の \hat K_{(k)}(z) と冪和だけで Z~(P;z) が書ける（多変数 Koornwinder 不要）。|R| ≤ 4、b ≤ 2 で f_{R,b} を Schur 基底と Macdonald 基底で計算（約 20 秒）。
+- 結果【計算】：Schur 基底では全 f_{R,b} が (1−q)/(1−t)（b=2 かつ |R| 偶数は /(1−t²)）× 整数係数 Laurent 多項式。Macdonald 基底 P_R(y;t,q) では (1−qt), (1−q²t), (1−qt²) などの分母が出て整数性が破れる。f_{(a),b} = 1 変数の f_{ab}、f_{R,0} = 0（|R| ≥ 2）。report.md §4.2。
+- テスト：tests/test_rk_hopf.py::test_multi_probe_consistency（A = B = 2、約 3 秒）。
+- 次：(ii) trefoil。AS 1202.4456 §6 の (6.15)（T(2,3)、[1]、unknot で正規化）と T(2,2m+1) の一般式を使う。t = q で AS の値は Mariño の F_{3_1}(z,ν) の鏡像（ν → 1/ν、z → −z）× ν^{−6}（framing 6 単位）に一致【計算】。
+
 - 未解決：f_{ab} の (偶,偶) の分母 (1−t²) の意味（refined LMOV の分母の構造との対応）。正値性の判定基準（refined BPS の抽出式）は未定義。

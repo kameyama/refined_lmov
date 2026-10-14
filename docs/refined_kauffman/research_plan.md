@@ -36,7 +36,8 @@
 - 境界パラメータ：(±1, ±q^{1/2})（AS）と (±1, ±t^{1/2})（LRW）、(±q^{1/2}, ±t^{1/2})（LRW Conjecture 1.4）を unknot の 2〜3 箱で比べる。
 - 停止点：unknot の 2 箱で積表示が得られるか否かが決まったとき。
 - K2'(a)（2026-10-14 深夜、実施済み）：probe 側の Askey–Wilson 係数を U = t^N の閉じた形にし、virtual 正規化 y^N z^N Z で Hopf 絡み目の log Z を Q(q,t,U) の上で計算、Möbius 反転した f_{ab} の分母と整数性を見る。
-- K2'(b)（次）：probe 2 個（Mimachi の (n,m) = (N,2)、2 変数 Koornwinder K_{λ'}(y_1,y_2;t,q;t̄)）で 2 箱の表現を分離し、Mariño の \hat g_{[2],[1]}, \hat g_{[1,1],[1]} と比較する。2 変数の virtual Koornwinder の U 依存性の閉じた形が必要。
+- K2'(b)（2026-10-14、実施済み）：成分 1 の probe を無限個にしても S 行列の対称性で 1 変数の \hat K_{(k)}(z) と冪和に縮約できる（多変数 Koornwinder 不要）。|R| ≤ 4、b ≤ 2 で Schur 基底の整数性を確認（report.md §4.2）。Mariño の \hat g_{[2],[1]} との係数ごとの対応は未実施。
+- K3'（次、trefoil）：AS 1202.4456 (6.15), (6.17) の T(2,2m+1) の [1] を入力に、f_1 = −W_{[1]} の構造（refined の h/g 分解：½h^{ref}_[1] = A 型 refined CS の [1] に A = U²/t を入れたもの、g^{ref}_[1] = f_1 − ½h^{ref}_[1] が Laurent 多項式か＝refined Rudolph 性）を調べる。framing は refined Rosso–Jones（p_2 の Koornwinder 展開）で AS の式と合わせる。
 
 ### K3：結び目の refined 入力の整備
 - refined Kauffman：AS の SO(2N) refined CS の S, T 行列（D_N Macdonald 多項式、小さい N で数値的に）から trefoil の [1], [2], [1,1]。NRZ の対称表現の Kauffman ホモロジー（trefoil, 4_1）との関係（AS は「トーラス結び目では変数変換で結べない」）を記録。
@@ -62,4 +63,5 @@
 | K2 | 済・否定的（2026-10-14、progress.md） |
 | K2' | 済・条件付き（2026-10-14、report.md §4–5） |
 | K2'(a) | 済・肯定的（2026-10-14、report.md §4.1）：Hopf 絡み目（probe 各 1 個、a,b ≤ 4）で f_{ab} の整数性。次：probe 2 個、trefoil |
+| K2'(b) | 済・肯定的（2026-10-14、report.md §4.2）：probe 無限個、Schur 基底で |R| ≤ 4、b ≤ 2 の整数性。Macdonald 基底では破れる |
 | K3〜K5 | 未着手 |

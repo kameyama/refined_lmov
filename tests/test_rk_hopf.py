@@ -82,3 +82,20 @@ def test_unknot_and_hopf_fundamental():
     f11 = mobius_f(L, 1, 1)
     assert sp.simplify(f11 + f10 * zq * (nut - 1 / nut)) == 0
     assert sp.cancel(mobius_f(L, 1, 2) - f11 * (Us / ts + ts / Us)) == 0
+
+
+def test_multi_probe_consistency():
+    """成分 1 に probe 無限個（冪和）の生成関数：Schur 基底の f_{(a),b} が 1 変数 probe の f_{ab} に一致し、
+    unknot 部分 f_{R,0} は |R| ≥ 2 で 0。Macdonald 基底では f_{(1,1),1} の分母に (qt − 1) が現れる。"""
+    from rcsknots.kauffman_hopf import hopf_Ztilde_multi, log_coeffs_multi, plethystic_f
+    Lm = log_coeffs_multi(hopf_Ztilde_multi(2, 2), 2, 2)
+    fs = plethystic_f(Lm, 2, 2, "schur")
+    for a in (1, 2):
+        for b in (0, 1, 2):
+            assert sp.cancel(fs[((a,), b)].as_expr() - mobius_f(L, a, b)) == 0, (a, b)
+    assert fs[((1, 1), 0)] == 0 and fs[((2,), 0)] == 0
+    num, den = sp.fraction(sp.cancel(fs[((1, 1), 1)].as_expr()))
+    assert sp.factor(den).has(ts - 1) and not sp.factor(den).has(qs * ts - 1)
+    fm = plethystic_f(Lm, 2, 2, "macdonald")
+    num, den = sp.fraction(sp.cancel(fm[((1, 1), 1)].as_expr()))
+    assert sp.factor(den).has(qs * ts - 1)
