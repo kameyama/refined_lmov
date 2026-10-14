@@ -35,6 +35,8 @@
 - Kähler 変数のずれ：交差帽の数ごとに Q を量子シフトする（Avetisyan–Mkrtchyan 2205.12832 の閉弦の三重化の開弦版）【仮説】。
 - 境界パラメータ：(±1, ±q^{1/2})（AS）と (±1, ±t^{1/2})（LRW）、(±q^{1/2}, ±t^{1/2})（LRW Conjecture 1.4）を unknot の 2〜3 箱で比べる。
 - 停止点：unknot の 2 箱で積表示が得られるか否かが決まったとき。
+- K2'(a)（2026-10-14 深夜、実施済み）：probe 側の Askey–Wilson 係数を U = t^N の閉じた形にし、virtual 正規化 y^N z^N Z で Hopf 絡み目の log Z を Q(q,t,U) の上で計算、Möbius 反転した f_{ab} の分母と整数性を見る。
+- K2'(b)（次）：probe 2 個（Mimachi の (n,m) = (N,2)、2 変数 Koornwinder K_{λ'}(y_1,y_2;t,q;t̄)）で 2 箱の表現を分離し、Mariño の \hat g_{[2],[1]}, \hat g_{[1,1],[1]} と比較する。2 変数の virtual Koornwinder の U 依存性の閉じた形が必要。
 
 ### K3：結び目の refined 入力の整備
 - refined Kauffman：AS の SO(2N) refined CS の S, T 行列（D_N Macdonald 多項式、小さい N で数値的に）から trefoil の [1], [2], [1,1]。NRZ の対称表現の Kauffman ホモロジー（trefoil, 4_1）との関係（AS は「トーラス結び目では変数変換で結べない」）を記録。
@@ -58,5 +60,6 @@
 | K0 | 済（2026-10-14） |
 | K1 | 済・草稿（2026-10-14） |
 | K2 | 済・否定的（2026-10-14、progress.md） |
-| K2' | 済・条件付き（2026-10-14、report.md §4–5）。次の方向は停止点で確認 |
+| K2' | 済・条件付き（2026-10-14、report.md §4–5） |
+| K2'(a) | 済・肯定的（2026-10-14、report.md §4.1）：Hopf 絡み目（probe 各 1 個、a,b ≤ 4）で f_{ab} の整数性。次：probe 2 個、trefoil |
 | K3〜K5 | 未着手 |

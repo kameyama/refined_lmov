@@ -20,3 +20,10 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 ## refined（未確定）
 - 候補となる入力：AS 1202.4456 の SO(2N) refined CS（変数 q, t、N）、GW/NRZ の Kauffman 超多項式（λ, q, t）、Cherednik の B/C 型 hyperpolynomial、Cherednik–Elliot の composite 超多項式。
 - 注意（AS §7）：refined の orientifold では「偶数 d の引き算」の分母が (q^{d/2} − q^{−d/2})(t^{d/2} + t^{−d/2}) になり、q と t が混ざる。Σ_{d 奇数} を素朴に Macdonald 多項式に持ち上げる仮説は、この構造を見落とす可能性がある（2018 年の試行の検証項目）。
+
+## refined（双対 Cauchy 型、K2'、2026-10-14）
+- ホロノミー側：AS の D_N Macdonald = Koornwinder K_λ(x; q,t; 1,−1,q^{1/2},−q^{1/2})、unknot は x = t^ρ（x_i = t^{N−i}）での評価。U = t^N。
+- probe 側（probe m 個、変数 y_1..y_m）：K_{λ'}(y; t,q; 1,−1,q^{1/2},−q^{1/2})。核は Mimachi の双対 Cauchy 恒等式 Π_{i,j} x_i^{−1}(1 − x_i y_j)(1 − x_i/y_j)。
+- virtual 正規化：Z~ := (Π_j y_j)^N Z。probe 側の基底は (Π y_j)^N K_{N^m−λ}(y) = Rains の virtual Koornwinder \hat K_λ(y; t,q, T = U)。Z~ は y の多項式で、U を形式変数として log を展開する。
+- 自由エネルギー：log Z~ = Σ L_{a…} y^a…、f = Möbius 反転（f_{ab} = Σ_{d|(a,b)} (μ(d)/d) L_{a/d,b/d}(q^d,t^d,U^d)）。
+- Kähler 変数：ν = (U²/t)^{1/2}（Mariño の ν、Q = U²/t）。Hopf 絡み目では ν~ = ν (q/t)^{1/2} = U q^{1/2}/t が現れる。z_q = q^{1/2} − q^{−1/2}。

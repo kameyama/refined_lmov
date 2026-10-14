@@ -21,9 +21,23 @@ Z_G = Σ_λ dim_λ w_λ B_λ(v)、Z_R = Σ_{λ,μ} H_{(λ,μ)}(A) w_λ w_μ B_λ
 - unknot：Z(y) = ⟨Π x_i^{−1}(1 − x_i y_j^{±})⟩ = Π_{j}Π_{k=1}^{n} t^{−(n−k)}(1 − t^{n−k} y_j^{±}) = Π_j (y_j^{±};t)_∞/(U y_j^{±};t)_∞ × 単項式：AS (3.13) 型の第二量子化の積表示を自動的に満たす（½ も Σ_{d 奇数} も不要）【導出】。ただしこれは双対 Cauchy 恒等式の言い換えで、結び目の情報を含まない。
 - Hopf 絡み目（probe 各 1 個）：AS の S_{αβ}/S_{00} = K_α(t^ρ)K_β(t^ρ q^α) から
   Z(y,z) = Σ_{k=0}^{n} (−1)^k K_{1^k}(t^ρ) K_{(n−k)}(y;t,q;t̄) · z^{−n}Π_i(1 − z x_i)(1 − z/x_i)|_{x = t^ρ q^{1^k}}
-  を得た（直接の二重和と n = 2, 3 で一致【計算】）。y^n z^n Z(y,z) は n = 2, 3 で Q 上既約で、線形因子の積にならない。unrefined（t = q）でも既約なので、**有限 n での因数分解は判定基準にならない**【計算】。probe 側の K_{(n−k)}(y;t,q;t̄)（Askey–Wilson 多項式、次数 n−k）の低次の係数は Askey–Wilson の漸化式の係数の部分和で、t^n の有理式にならない。
+  を得た（直接の二重和と n = 2, 3 で一致【計算】）。y^n z^n Z(y,z) は n = 2, 3 で Q 上既約で、線形因子の積にならない。unrefined（t = q）でも既約なので、**有限 n での因数分解は判定基準にならない**【計算】。probe 側の K_{(n−k)}(y;t,q;t̄)（Askey–Wilson 多項式、次数 n−k）の係数は t^n の有理式になる（§4.1。当初「有理式にならない」と書いたのは漸化式の monic 化の誤りによる。2026-10-14 深夜に訂正）。
+
+### 4.1 K2'(a)：U = t^N を形式変数とした Hopf 絡み目【計算】
+- **probe 側の基底の閉じた形**：K_{(n)}(y; t,q; 1,−1,q^{1/2},−q^{1/2})（基底 t の Askey–Wilson 多項式、monic）の y^{n−2j} の係数は U_n = t^n の有理式
+  c_{2j}(n) = t^j (q/t;t²)_j/(t²;t²)_j · (1 − U_n)(1 + U_n t^{−2j}) Π_{i=1}^{j−1}(1 − U_n² t^{−2i}) / Π_{i=1}^{j}(1 − q U_n² t^{−2i−1})
+  【予想・計算】：有理数 (q,t) の 4 点で j ≤ 5、n ≤ 30 で漸化式と一致（scripts/rk_k2p_aw.py、tests/test_rk_askey_wilson.py）。U_n → 0 で (qy²;t²)_∞/(ty²;t²)_∞ の係数（Rains–Warnaar の極限）。分母 (1 − q t^{2n−2i−1}) は Askey–Wilson の abcd Q^{2n−•} 因子。
+- **virtual 正規化**：Z~(y,z) := y^N z^N Z(y,z) は y, z の多項式で Z~(0,0) = 1。y^N K_{(N−k)}(y) = y^k Σ_j c_{2j}(N−k) y^{2j} は Rains の virtual Koornwinder \hat K_{(k)}(y;t,q,T=U)。y^a の次数 a には k ≤ a しか寄与しないので、Z~ mod (y^{A+1}, z^{B+1}) は N によらない有限和になり、K_{1^k}(t^ρ)（評価式）、c_{2j}、z 側の積 exp(−Σ_d p_d z^d/d)（p_d は等比級数の和）から **Q(q,t,U) の元として**計算できる（src/rcsknots/kauffman_hopf.py）。U = t^N（N = 3..8）での直接計算と a+b ≤ 8 で全係数一致【計算】。
+- **unknot**：log Z~(y) = Σ_a L_{a0} y^a、Möbius 反転で f_{10} = (1 − U)(U + t)/(U(t − 1))、f_{a0} = 0 (a ≥ 2)。ν := (U²/t)^{1/2}（Mariño の ν、Q = U²/t）で f_{10} = −1 − (ν − ν^{−1})/(t^{1/2} − t^{−1/2})：**Mariño 型（(ν − ν^{−1})/z）の unknot と「−1」（交差帽、Mariño の g_{[1]} = 1 に対応）の和で、分母は (t^{1/2} − t^{−1/2}) のみ**【導出】（(y;t)_N (y/u;t)_N、u = t^{N−1} の log）。
+- **Hopf 絡み目（a, b ≤ 4）**：f_{ab} := Σ_{d|(a,b)} (μ(d)/d) L_{a/d,b/d}(q^d,t^d,U^d) について
+  - f_{11} = −f_{10} · z_q (ν~ − ν~^{−1})、z_q = q^{1/2} − q^{−1/2}、**ν~ = ν (q/t)^{1/2} = U q^{1/2}/t**。t = q では ν~ = ν で、Mariño の Hopf 絡み目 \hat g_{[1],[1]} = z(ν − ν^{−1})（0904.1088、Hopf 絡み目の例）と unknot 因子 f_{10} と符号を除いて一致する。refined では **Kähler 変数が q/t だけずれる**（Avetisyan–Mkrtchyan 型の量子シフトの開弦版）。
+  - f_{1b} = f_{11} · χ_{b−1}(U/t)、χ_m(x) = x^m + x^{m−2} + … + x^{−m}（b ≤ 4）。
+  - 全 (a,b)（a,b ≥ 1、≤ 4）で f_{ab} = (1 − q) × [q, t, U の整数係数 Laurent 多項式] / (1 − t)（(a,b) が共に偶数のときは /(1 − t²)）。**整数性は成り立つ**。t = q では f_{ab} は整数係数の Laurent 多項式（分母なし）。
+  - (a,b) ≥ 2 は 1 変数の probe では Sp(2) 指標（Chebyshev）で混ざるので、Mariño の [2], [1,1] との比較には probe 2 個（y_1, y_2、2 変数 Koornwinder）が要る。
+- 計算時間：A = B = 4 で約 1 分（sympy の有理関数体）。データ：data/refined_kauffman/hopf_f.pkl。
 
 ## 5. 現時点の判断
 - Mariño 型（bosonic、½、Σ_{d 奇数}、固定した小さい表現）の refined 化は、AS の D_N 理論の unknot で既に閉じない（§3）。BC 型には bosonic な Cauchy 恒等式が無いので、小さい表現で彩色した Kauffman 側の母関数が積になる理由も無い。
-- 双対 Cauchy 型（§4）は数学的に整合し、第二量子化の積表示を unknot で満たすが、probe 側の基底が U に依存し（virtual Koornwinder）、Laurent 多項式性による整数性の言い方が使えない。整数性の判定には Z 自体の積表示（Z = Π(1 − q^• t^• U^• y^•)^{±1}）を無限積として扱う必要があり、Hopf 絡み目でそれを判定する方法は未確立。
-- 残る道：(a) Askey–Wilson / Koornwinder の係数を T の関数として閉じた形にし（Rains の二項公式）、Hopf 絡み目の log Z を T の冪級数として整数性を見る；(b) Avetisyan–Mkrtchyan 2205.12832 の閉弦の構造（交差帽ごとの Kähler 変数のずれ、Klein 瓶の分母 (t^n + t^{−n})）を開弦の Hopf 絡み目に合わせる；(c) B_n / C_n（Sp）型や (±q^{1/2}, ±t^{1/2}) 型で同じ計算を繰り返し、分母の構造がより単純な型があるかを見る。いずれも 1 件 30 分以内の記号計算で始められる。
+- 双対 Cauchy 型（§4）は数学的に整合し、第二量子化の積表示を unknot で満たす。probe 側の基底は U に依存する（virtual Koornwinder）が、virtual 正規化 y^N Z で U を形式変数にでき（§4.1）、unknot と Hopf 絡み目（probe 各 1 個、a,b ≤ 4）で **f_{ab} ∈ (1−q)/(1−t) · Z[q^±,t^±,U^±]（(偶,偶) は /(1−t²)）の整数性が成り立つ**。unknot は Mariño 型 (ν−ν^{−1})/z + 交差帽の −1、Hopf 絡み目の f_{11} は Mariño の \hat g_{[1],[1]} の ν → ν(q/t)^{1/2} による refined 化になる。
+- 残る未確認：(i) 2 箱以上の表現（probe 2 個）での整数性と Mariño の [2],[1,1] との対応、(ii) 結び目（trefoil）：AS の T 行列（framing 固有値）を双対 Cauchy 型に入れた計算、(iii) 正値性（refined BPS の抽出式は未定義）。
+- 残る道（(a) は §4.1 で実施済み）：(a) Askey–Wilson / Koornwinder の係数を T の関数として閉じた形にし、Hopf 絡み目の log Z を T の冪級数として整数性を見る；(b) Avetisyan–Mkrtchyan 2205.12832 の閉弦の構造（交差帽ごとの Kähler 変数のずれ、Klein 瓶の分母 (t^n + t^{−n})）を開弦の Hopf 絡み目に合わせる；(c) B_n / C_n（Sp）型や (±q^{1/2}, ±t^{1/2}) 型で同じ計算を繰り返し、分母の構造がより単純な型があるかを見る。いずれも 1 件 30 分以内の記号計算で始められる。

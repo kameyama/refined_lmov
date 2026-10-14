@@ -50,3 +50,12 @@
 - Koornwinder 多項式を q-差分作用素の固有関数として実装（src/rcsknots/koornwinder.py、n = 2, 3）。van Diejen–Sahi の評価式と一致、Mimachi の双対 Cauchy 恒等式を (n,m) ≤ (3,2) で確認【計算】。tests/test_rk_koornwinder.py。
 - 双対 Cauchy 型の refined orientifold OV 核の定式化：AS 型（ホロノミー側）と LRW 型（probe 側）のパラメータが両側に現れること、unknot が第二量子化の積表示を自動的に満たすこと、Hopf 絡み目の明示式（scripts/rk_k2p_hopf.py、n = 2, 3 で直接の和と一致）。y^n z^n Z は n = 2, 3 で既約（t = q でも既約）。report.md §4–5 に整理。
 - 停止点：K2' の判定（unknot の 2 箱で整合する定式化）は「双対 Cauchy 型なら積表示として整合、Laurent 多項式性の意味では未定義」。次の方向は report.md §5。
+
+## 2026-10-14（深夜）K2'(a)：U を形式変数とした Hopf 絡み目
+- 訂正：Askey–Wilson 漸化式（src/rcsknots/askey_wilson.py）の monic 化が誤っていた（KS (3.1.4) の漸化式は p̃_n = p_n/(a^{−n}(ab,ac,ad;Q)_n) に対するもの）。修正後、固有関数として解いた Koornwinder と n ≤ 4 で一致。昨夜の report.md §4 の「係数は t^n の有理式にならない」はこの誤りによるもので、撤回（§4 に訂正を記した）。
+- probe 側の上位係数 c_{2j}(n) は U_n = t^n の有理式（有理補間、次数 (2j,2j)）。閉じた形（report.md §4.1）を 4 つの有理点で j ≤ 5、n ≤ 30 で確認【計算】。記号的な証明は未（【予想】扱い）。
+- Hopf 絡み目（probe 各 1 個）を virtual 正規化 Z~ = y^N z^N Z で Q(q,t,U) の上で計算（src/rcsknots/kauffman_hopf.py、scripts/rk_k2p_hopf_U.py、a,b ≤ 4、約 1 分）。U = t^N（N = 3..8）の直接計算と一致【計算】。
+- 結果【計算】：f_{10} = −1 − (ν−ν^{−1})/(t^{1/2}−t^{−1/2})、f_{a0} = 0 (a ≥ 2)；f_{11} = −f_{10} z_q(ν~−ν~^{−1})、ν~ = U q^{1/2}/t（t = q で Mariño の \hat g_{[1],[1]} = z(ν−ν^{−1}) と unknot 因子・符号を除いて一致）；f_{1b} = f_{11} χ_{b−1}(U/t)；全 f_{ab} は (1−q)/(1−t)（(偶,偶) は /(1−t²)）× 整数係数 Laurent 多項式。t = q では分母なし。
+- テスト：tests/test_rk_askey_wilson.py（3 件）、tests/test_rk_hopf.py（2 件、A = B = 2、N = 3, 4 との照合と f_{10}, f_{11}, f_{12} の式）。
+- 停止点：K2'(a) の結果（Hopf 絡み目で整数性が成り立つ）。次の候補：(i) probe 2 個（2 変数 Koornwinder、Mimachi の (n,m) = (N,2)）で 2 箱の表現を分離し Mariño の [2],[1,1] と比較、(ii) trefoil（AS の T 行列）、(iii) 閉じた形 c_{2j}(n) の証明（Rains の二項公式）。
+- 未解決：f_{ab} の (偶,偶) の分母 (1−t²) の意味（refined LMOV の分母の構造との対応）。正値性の判定基準（refined BPS の抽出式）は未定義。
