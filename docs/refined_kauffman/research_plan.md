@@ -29,6 +29,13 @@
 判定：unknot の \hat g, \hat h が（unrefined の \hat g_[1] = 1、\hat h_[2] = \hat h_[1,1] = −z^{−1}、他 0 を refined 化した形で）Laurent 多項式になる組み合わせがあるか。
 停止点：K2 の結果（できた／できない、どの仮説が残るか）を報告して確認を求める。
 
+### K2'：K2 の否定的な結論を受けた再定式化（2026-10-14 追加、deep research の報告に基づく）
+- 判定基準を第二量子化に移す：AS (3.13) に倣い、Kauffman 側の母関数（unknot）が Π(1 − q^• t^• Q^•)^{整数} の形（向き付け部分は t の偶数冪、固定面の部分は t の昇冪なし）に書けるかを判定する。½ と Σ_{d 奇数} は使わない。
+- 基底：A 型 Macdonald の代わりに lifted Koornwinder \tilde K_λ(x;q,t,T;t̄)（T = Kähler 変数）と Rains の lifted Cauchy 恒等式を使う。D_N の分母が C⁺ 因子（T の極）であること【計算】を利用して、分母を基底と計量に吸収できるかを調べる。
+- Kähler 変数のずれ：交差帽の数ごとに Q を量子シフトする（Avetisyan–Mkrtchyan 2205.12832 の閉弦の三重化の開弦版）【仮説】。
+- 境界パラメータ：(±1, ±q^{1/2})（AS）と (±1, ±t^{1/2})（LRW）、(±q^{1/2}, ±t^{1/2})（LRW Conjecture 1.4）を unknot の 2〜3 箱で比べる。
+- 停止点：unknot の 2 箱で積表示が得られるか否かが決まったとき。
+
 ### K3：結び目の refined 入力の整備
 - refined Kauffman：AS の SO(2N) refined CS の S, T 行列（D_N Macdonald 多項式、小さい N で数値的に）から trefoil の [1], [2], [1,1]。NRZ の対称表現の Kauffman ホモロジー（trefoil, 4_1）との関係（AS は「トーラス結び目では変数変換で結べない」）を記録。
 - refined composite：Cherednik–Elliot の composite DAHA 超多項式（trefoil の ([1],[1]) は本文に明示）。unreduced 化に必要な次元は K2 の結果に従う。
@@ -50,5 +57,6 @@
 |---|---|
 | K0 | 済（2026-10-14） |
 | K1 | 済・草稿（2026-10-14） |
-| K2 | 済・否定的（2026-10-14、progress.md）。次の方向は停止点で確認 |
+| K2 | 済・否定的（2026-10-14、progress.md） |
+| K2' | 未着手（deep research の報告を受けて追加） |
 | K3〜K5 | 未着手 |

@@ -28,6 +28,7 @@
 ## 2026-10-14（K2、途中）
 - **閉じた式**【計算】（src/rcsknots/kauffman_refined.py）：AS の SO(2N) refined unknot dim_λ と計量 g_λ（D_N、AS (B.4)）を U = t^N の有理式として実装（dim は N = 5, 6 の積と一致を確認）。U(M) の composite [λ,μ] の Macdonald 次元（対称正規化）を、長方形の部分の積を列の対で伸縮させて A = t^M の有理式にし、M = 8, 9 の直接計算と 13 例で一致。
   - dim_[2] の分母 (Uq − t)、dim_[1,1] の分母 (U²q − t³)；g_[2] は (Uq − t)²、g_[1,1] は (U²q − t³)² を分母にもつ。composite ([1],[1]) の分母 (Aq − t)、([2],[1]) は (Aq² − t)、([1],[1,1]) は (Aq − t²)。
+  - 訂正（2026-10-14 夕）：[3] の分母は (Uq² − t)（q²t^{N−1} = 1）であって (1 − q²t^{2N−3}) ではない。[2,1] は (U²q² − t³)、[1,1,1] は (U²q − t⁵)、[4] は (Uq² − t)(Uq³ − t)、[2,2] は (Uq − t²)(U²q² − t³)(U²q³ − t³)。
 - **極の打ち消しの不可能性**【導出】：Z_G = Σ_λ dim_λ w_λ B_λ(v) で w_λ が U に依らなければ、2 次の [2] 成分の極 (Uq − t) と [1,1] 成分の極 (U²q − t³) は、composite ([1],[1]) の極 (Aq − t) 一つ（A は一つの値）では同時に打ち消せない。w_λ = 1/g_λ でも、(Uq² − t²), (Uq − t³) が composite の 2 箱の項には現れない。したがって「D_N の次元 × U に依らない重み」と「U(M) の composite 次元」の組み合わせでは、unknot の 2 箱で Laurent 多項式にならない。
 - **積の形の検査**【計算】（scripts/rk_k2_littlewood.py、有理点 2 点）：w ∈ {1, b^A_λ, (q/t)^{|λ|/2} b^A_λ, 1/g_λ, b^A_λ/g_λ}、基底 ∈ {Schur, P_λ(v;q,t), P_{λ^T}(−v;t,q)} の 15 通りすべてで、log Z_G の 3 次の p_1³, p_1p_2 の係数が 0 でない（積の形でない）。t = q では w = 1・Schur で 0（Littlewood の恒等式）になることを確認（検査の妥当性）。
 - **文献**：Rains–Warnaar 1506.02755（Memoirs AMS 270 (2021) 1317）と Lee–Rains–Warnaar 2007.03174（SIGMA 16 (2020) 142）を取得。
@@ -39,3 +40,8 @@
 - **Koornwinder の主特殊化**【計算】（kauffman_refined.koornwinder_eval、van Diejen–Sahi の式）：パラメータ (1, −1, q^{1/2}, −q^{1/2})・評価点 (1, t, …, t^{n−1}) で AS の D_N の unknot と 6 つの λ で一致（辞書 P^{(D_n,D_n)} = K(±1, ±q^{1/2}) と実装の両方を確認）。LRW 型 (1, −1, t^{1/2}, −t^{1/2}) では [1^k] は極を持たず、[2] は qQ = 1、[3] は q³Q = 1、[2,1] は qQ = t に極（Q = U²/t）。
 - **2 箱の極の打ち消し**【計算、scripts/rk_k2_poles.py】：composite ([1],[1]) の寄与は v の p_1² 方向だけにあるので、打ち消しには Kauffman 側の [2] と [1,1] が同じ極を残数の比 f^{(1,1)}_{(1),(1)} でもつ必要がある。D_N では極の位置が違い（U = t/q と U² = t³/q）、LRW 型では [1,1] に極が無い。重み 1/g_λ（D_N の計量）と A = U/t では (Uq − t²) が共有されるが、(Uq² − t²), (Uq − t³) が残り、これらは composite の 3 箱の極の位置に一致する（次数が合わない）。**結論：AS の D_N 理論でも LRW 型でも、U(M) の composite の Macdonald 次元を v の積の基底で組み合わせる限り、unknot の 2 箱で Laurent 多項式にならない**【導出＋計算】。
 - K2 の停止点に到達（研究計画 §2）。
+
+## 2026-10-14（夕）deep research の報告の読解
+- ユーザーが deep research で得た文献調査の報告を docs/refined_kauffman/literature_deep_research_2026-10-14.md に保存（外部の要約、未検証）。要点：refined かつ開弦の orientifold の整数性を定式化した文献は無い（AS 自身が第一量子化は未定義と明言）。U(N) では KN（1703.05408）と Cheng–Sułkowski（2104.00713）が分母を Macdonald 基底・計量・refined holonomy に吸収する方式を確立。Avetisyan–Mkrtchyan（2205.12832、閉弦）は交差帽の数ごとに Kähler 変数の量子シフトが違う「三重化」を提案し、Klein 瓶の項の分母 (t^n + t^{−n}) を与える。Cherednik–Danilenko 1509.08351 は B/C/D の DAHA-hyperpolynomial の存在と対称性を未解決としている。Koornwinder 型（C^∨C_n）の refined CS は文献に無い。
+- **D_N の unknot の N 依存の分母は Koornwinder の評価式の C⁺ 因子（lifted Koornwinder の T の極）に由来する**【計算】：C⁺_λ(t₀t₁t₂t₃ t^{2n−2}/q) = Π_{(i,j)∈λ}(1 − q^{λ_i+j−1} t^{2n−i−λ'_j})（t₀t₁t₂t₃ = q）の因子のうち分子 (t^n, t₀t_r t^{n−1}; q,t)_λ で約分されないものが、[1]〜[4], [2,1], [1,1,1], [2,2] の分母と一致する（上の訂正を含む）。報告の「Q3 の推測」は [3] の分母の誤記（本セッションの以前の記録に由来）を除いて正しい。
+- 報告の推奨のうち、本研究で採用する順：(1) 整数性の判定基準を AS (3.13) 型の第二量子化（積表示）に移す、(2) Kauffman 側の母関数の基底を lifted Koornwinder（T を Kähler 変数）にして、Rains の lifted Cauchy 恒等式 Σ_λ (−1)^{|λ|} \hat K_λ(x;t,q,T) \tilde K_{λ'}(y;q,t,T) = Π(1 − x_i y_j) の上で組み直す、(3) 交差帽ごとの Kähler 変数のずれ（Avetisyan–Mkrtchyan）を開弦に持ち込む。いずれも【仮説】として研究計画 K2' に追加する。
