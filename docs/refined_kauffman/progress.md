@@ -1,10 +1,45 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-14）
-- K0（unrefined の構造と再現）と K1（2018 年の試行の監査）は済。結果は literature.md、conventions.md、past_attempt.md、research_plan.md。
-- 次は K2（refined unknot から構造を決める）。停止点：K2 の後。ユーザーの確認待ち。
-- ブランチ：claude/refined-kauffman-large-n-00d58e（worktree）。push と PR は未（外部送信の許可が必要）。
-- テスト：tests/test_rk_unrefined.py（約 12 秒）。
+## 現在の状況（再開用、2026-10-15 更新）
+
+### 環境
+- worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit 226ed88（K4'）。**push と PR は未（外部送信の許可が必要。ユーザーの指示があるまで push しない）**。
+- Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（23 件、約 30 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
+
+### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
+| 段階 | 結論 | 場所 |
+|---|---|---|
+| K0 | unrefined（Mariño）の構造を再現、文献の誤植 2 件 | report.md §1、literature.md |
+| K1 | 2018 年の試行の監査：構造的なミス (A)〜(F) | past_attempt.md |
+| K2 | Mariño 型の素朴な refined 化は unknot の 2 箱で閉じない（否定的） | report.md §3 |
+| K2' | 双対 Cauchy（t-brane、Mimachi）型の定式化。ホロノミー側 D_N Koornwinder (±1,±q^{1/2})、probe 側 K(y;t,q;±1,±q^{1/2})。unknot は自動的に積表示 | report.md §4、src/rcsknots/koornwinder.py |
+| K2'(a) | probe 側 Askey–Wilson 係数の U = t^N の閉じた形【予想・4 点で確認】。Hopf（probe 各 1 個）を Q(q,t,U) で計算、f_{ab} = (1−q)/(1−t)×整数 Laurent（a,b ≤ 4）。f_{11} = −f_{10} z_q(ν~−ν~^{−1})、ν~ = ν(q/t)^{1/2} | report.md §4.1、src/rcsknots/{askey_wilson,kauffman_hopf}.py |
+| K2'(b) | 成分 1 の probe を無限個にしても 1 変数に縮約可。Schur 基底で |R| ≤ 4 の整数性、Macdonald 基底では破れる | report.md §4.2 |
+| K3' | trefoil [1]：AS (6.15)/(6.17) を実装、t = q で Mariño の鏡像 × ν^{−6}。素朴な refined Rosso–Jones は AS と合わない。h/g 分解で g^{ref}_[1] が Laurent になるのは単項式 T_[1]^{−6}(q/t)^{1/2} のとき【仮説】 | report.md §6、src/rcsknots/kauffman_trefoil.py |
+| K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined 交差帽 = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
+
+### 重要な規約・事実（conventions.md に記載）
+- 変数：r = q^{1/2}、s = t^{1/2}、U = t^{N_D}（SO(2N_D)）、ν = U/√t（Mariño の ν、Q = ν² = U²/t）、A = ν² = t^{N_A}（被覆 U(N_A)、N_A = 2N_D − 1）、ν~ = ν(q/t)^{1/2}、z_q = r − 1/r、z_t = s − 1/s、G = z_q z_t。DGR：𝐪 = s、𝐭 = −r/s、𝐚 = ν、ν~ = −𝐚𝐭。
+- virtual 正規化 Z~ = (Πy)^N Z（y の多項式、U を形式変数にできる）。自由エネルギーは Schur 基底。
+- 交差帽部分 g は Σ_{d 奇数} の構造で定義（hopf_g_odd.pkl）。unknot では我々の正規化で交差帽項が全 d にわたる（(2,0) で −½）ので、AS の「半整数が oriented/unoriented の和で打ち消す」構造を和で扱う必要がある（未整理）。
+- データ：data/refined_kauffman/hopf_f.pkl（f_{ab}）、hopf_f_multi.pkl（Schur/Macdonald 基底の f_{R,b}）、hopf_g.pkl（全 d の g）、hopf_g_odd.pkl（Σ_{d 奇数} の g）、hopf_g_ref.pkl（(1+q^d)/(1+t^d) 規則の試み、失敗）。いずれも sympy の式の文字列。
+
+### これからやること（ユーザーと合意した順：(a) → (b) → (c)）
+(a) **refined の偶数 d の引き算の形**（K4' の未解決、数時間規模）
+  - 入力：hopf_g_odd.pkl の (2,2),(2,4),(4,4)、AS 1202.4456 §7 の閉弦の式（引き算の分母 (t^{d/2}+t^{−d/2})、= 倍化項 × (1+q^d)/(1+t^d)）。
+  - 既知：(2,2) の t = −1 の留数は z_q (z_q^+)² (ν~−ν~^{−1})(q^{−1/2}ν~ − q^{1/2}ν~^{−1})（z_q^+ = q^{1/2}+q^{−1/2}）で、倍化した g_{11} の形ではない（scratchpad の res22.py 相当、scripts/rk_k4_hopf_even.py が失敗した試み）。
+  - 方針：oriented（½f^{cov}）と unoriented を分けず、AS の (openunor) の形 ½[Σ N f^{or} + Σ c_2 f^{unor}(x²)] の refined 版として、総和 L_{22} の「半整数・(1+t) 分母の部分」を抽出し、閉弦の規則と整合する形（(1+q^d)/(1+t^d) に加えて ν~ のずれや composite の Adams c_2 の refined 版）を探す。unknot の (2,0) = −½ も同じ枠組みで整数になること。
+  - 判定：(2,2),(2,4),(4,4) が整数係数 Laurent になり、t = q で Mariño の構造に戻ること。結果は report.md §7 に追記。
+(b) **trefoil の 1^k（k ≥ 2）の refined SO(2N) 不変量**（30 分超の計算。実行前に見積もり・再開・分割の準備を progress.md に書く）
+  - 素朴な refined Rosso–Jones（p_2 の Koornwinder 展開 + T_μ）は AS の [1] と合わない（report.md §6）ので、AS §6 の SL(2,Z) の構成（有限レベル k、β = t の指数、S・T 行列と (q,t) LR 係数 N^k_{ij}）を小さい N と k で実装し、[1] で AS (6.15) を再現してから 1^k に進む。
+  - 得られたら：f_k = −W_{1^k} ×（virtual 正規化の probe 基底）で log Z~ を作り、(a) の定義で交差帽部分を分け、整数性と（結び目なので）正値性を DGR 変数で見る。[1] の単項式の仮説（§6）も 1^k の整合性で検証する。
+(c) push / PR はユーザーの指示があってから。
+
+### 未解決（docs に記録済み）
+- trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(2,2) 型の (1+t) 分母（(a)）。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
+- probe 側の閉じた形 c_{2j}(n) の証明（Rains の二項公式）は未。
 
 ## 2026-10-14
 - ディレクトリ docs/refined_kauffman/ を作成（README.md、progress.md）。
