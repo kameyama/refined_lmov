@@ -75,3 +75,12 @@
 - refined の h/g 分解（仮説）：g^{ref}_[1] = W_SO − ½h^{ref}（½h^{ref} は DGR の超多項式の鏡像に 𝐚_U² = ν²(t/q)^{1/2} を入れたもの × (ν−ν^{−1})/(𝐪−𝐪^{−1})）。t = 1 の極の打ち消しから (6.15) に掛ける単項式は r^{−5} s^{d} U^{−6}（d 奇数）に限られ、d = 11（T_[1]^{−6}(q/t)^{1/2}）で最短の 11 項。整数係数。t = q で (ν²−ν⁴)(𝐪²+1+𝐪^{−2}) + ν⁶（z の偶数冪のみ、N^{c=2}_{[1]} = 0 と整合）。report.md §6。
 - テスト：tests/test_rk_trefoil.py（3 件、約 1 秒）。
 - 停止点：trefoil [1] の整数性は仮説の単項式のもとで成立。未解決：余分な (q/t)^{1/2} の由来、refined Rosso–Jones が D 型で AS と合わない原因、1^k（k ≥ 2）の refined SO 不変量の計算法（SL(2,Z)、有限レベル）。
+
+## 2026-10-14（深夜 4）K4'：refined の交差帽展開
+- ユーザーの指示：refined の交差帽展開（c = 1, 2）を unknot・Hopf で定義し、正値性と DGR 変数での正整数性を見る項目を計画に追加（research_plan.md K4'）。効果の高い順に (1) unknot・Hopf [1],[1]、(2) trefoil [1]、(3) Hopf (a),(b)、(4) 結び目の 1^k。
+- 被覆（composite 表現の U(N) refined Hopf）を実装（kauffman_cover.py）。Pieri 係数の形を数値で特定、記号版（A = ν²）は有限 N と一致。unknot・[1],[1] の解析式と一致【計算】。
+- Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で ν の Laurent 多項式（有理補間）【計算】。
+- 記号計算：(1,b) は g_{1b} = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})、t は ν~ 経由のみ（refined 交差帽 = unrefined with ν → ν~）。(2,3),(3,3) などは Laurent・整数だが t 依存。(2,2),(2,4),(4,4) は 2(1+t), 4(1+t)(1+t²) の分母が残る（AS §7 の (t^{d/2}+t^{−d/2}) の開弦版）。閉弦の (1+q^d)/(1+t^d) 規則では解消しない。report.md §7。
+- 交差帽展開（G = z_q z_t の冪 + 奇数因子 X）を unknot・Hopf [1],[1]・trefoil [1] に適用（scripts/rk_k4_crosscap.py）：unknot は c=1 の −1、Hopf [1],[1] は X = z_q の c=2（±1）、trefoil の奇数部分は G 環に入らない（仮説依存）。
+- テスト：tests/test_rk_cover.py（5 件、約 6 秒）。
+- 未解決：refined の偶数 d の引き算の正しい形（(2,2) の留数を記録）、trefoil の単項式、結び目の 1^k。
