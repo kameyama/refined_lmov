@@ -24,7 +24,8 @@ Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果�
 | conventions.md | Kauffman 側の規約（変数、unknot、composite 表現、符号、framing） |
 | literature.md | 文献調査（unrefined の Kauffman large N duality、refined の候補、既知の結果の範囲） |
 | past_attempt.md | 2018 年の試行錯誤の整理（ノートブックごとの内容、仮説の式、検査の結果、ミスの候補と検証結果） |
-| report.md | 本文（結果と導出） |
+| report.md | 本文（K0〜K2' の結果と導出、現時点の判断） |
+| literature_deep_research_2026-10-14.md | 外部の deep research の報告（未検証の要約） |
 | progress.md | 進捗（日付ごと、新しいものが上） |
 | open_problems.md | 未解決 |
 
