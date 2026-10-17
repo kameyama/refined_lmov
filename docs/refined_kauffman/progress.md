@@ -1,11 +1,11 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-17 更新）
+## 現在の状況（再開用、2026-10-18 更新）
 
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照（K4'(a) まで済）。**push と PR は未（外部送信の許可が必要。ユーザーの指示があるまで push しない）**。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（24 件、約 30 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（27 件、約 45 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -34,7 +34,7 @@
 (c) push / PR はユーザーの指示があってから。
 
 ### 未解決（docs に記録済み）
-- trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）と C（凍結状態）の分離（(a) の残り）。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
+- trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
 - probe 側の閉じた形 c_{2j}(n) の証明（Rains の二項公式）は未。
 
 ## 2026-10-14
@@ -132,3 +132,11 @@
 - GN の正規化（conventions.md (N2')）では det との積が q^{2mn|λ|}（U(1) の framing、N に依らない）だけずれ、双対表現も単項式倍で一致【計算、N = 4, 5】。composite（λ − 1^N）の trefoil を GN で作るときはこの規則で補正する。K_{111}|D₃ = P_[2] + P_[2,2,2]|A₃（10 ⊕ 10̄）【計算】。
 - GN を sympy の field（q,t 記号）で動かすと [2,1,1] で HeuristicGCDFailed。記号的には点ごとの厳密計算＋補間が要る。
 - **(b) の実行可能性の結論**：1^k（k ≥ 2）の ν 依存性（整数性・正値性の判定に必要）には D_N の SL(2,Z)（有限レベル、可積分表現すべて・spinor 含む）か DAHA（一般の t では nonsymmetric Koornwinder の機械が必要）を N ≥ 6 程度まで動かす必要があり、本セッションの範囲を超える。N = 2, 3 の厳密値（GN）で固定 N の構造（全 d の分母、framing の走査）を見ることは数時間で可能だが、ν の構造は見えない。停止点として報告。
+
+## 2026-10-18　(a) の残り：E と C の分離（ユーザーの指示「4へ進め」）
+- 被覆をセクター別に分けた（kauffman_cover.cover_f_sym4：probe を x 側 y1 と 1/x 側 y2 に、成分 2 も同様。A = B = 4 は約 6 分、scripts/rk_k4_sector_cover.py、data/refined_kauffman/hopf_fcov_sector_A{2,4}.pkl）。セクター和 = 1 変数の f^{cov}、Ĩ 対称性を確認【計算】。
+- 最初の仮説「固定セクターの全状態が固有値 +1」（閉弦と同じ E = (1−t)f^{cov}_sec）は t = −1 の条件を満たさず否定【計算】。
+- E = P − 2Q（Q は固定セクターの状態の部分和）＋ t = −1 の条件：(2,2) で 16 解、(2,4) で 590 万解、(4,4) で ~10^{110}（いずれも矛盾は無い：t = −1 の留数は状態の台の上にある）。E_24 = E_22χ_1 の倍化の仮定は 16 解すべてと両立（選別しない）。
+- t = q で C = ĝ（Mariño）を加えて整数線形計画（scripts/rk_k4_fixed_sector.py、scipy の milp、約 10 分）：**(2,2) と (2,4) は一意**で積の形（E_22 = 候補 B、E_24 = E_22χ_1(ν~²/q)）。**(4,4) は不定**（164/180 変数が自由、Σ|E| 最小でも 74 が自由、倍化の仮定 4 種は不成立）。data/refined_kauffman/hopf_E_fixed.pkl（(4,4) は MILP の一つの解で、一意ではないので使わないこと）。
+- テスト：tests/test_rk_cover.py に 2 件（セクター別の被覆と P_22 の閉じた形、E_22 の一意性：約 15 秒）。
+- 停止点：(4,4) の E を決めるには Ĩ の作用を表現論的に（composite の (λ,λ) 型セクターでの swap の固有値、Koike の composite 指標のプレシズム）決める必要がある。次の候補：(i) その表現論的な構成、(ii) (b) の選択肢 1（N = 2, 3 の trefoil 1^k）、(iii) 区切りとして push/PR（許可が必要）。

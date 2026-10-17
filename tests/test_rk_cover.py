@@ -121,3 +121,55 @@ def test_hopf_crosscap_all_d_even_sector():
     E_m1 = sp.cancel(sp.cancel(R.subs(nu_, nut * s_ / r_)).subs(s_, sp.I))
     zq, zp = r_ - 1 / r_, r_ + 1 / r_
     assert sp.simplify(E_m1 - zq * zp**2 * (nut - 1 / nut) * (nut / r_ - r_ / nut)) == 0
+
+
+def test_sector_resolved_cover_and_fixed_sector_22():
+    """セクター別の被覆（probe を x 側と 1/x 側に分けた 4 変数）：セクター和が 1 変数の f^{cov} に等しく、Ĩ 対称 f(k,l,m,n) = f(l,k,n,m)。
+    (2,2) の固定セクター (1,1)×(1,1) の全状態数 P = (1−t)f^{cov}_{(11),(11)} = z_q³(ν~−ν~⁻¹)(t q^{−1/2}ν~ − q^{1/2}ν~⁻¹)、
+    候補 B の E_22 = −z_q(z_q^+)²(ν~−ν~⁻¹)(t q^{−1/2}ν~ + q^{1/2}ν~⁻¹) は (P − E)/2 が整数 Laurent（固定セクターの部分和）。"""
+    import sympy as sp
+    from rcsknots.kauffman_cover import cover_f_sym4, cover_f_sym, qs_, ss_, nus_
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    nut = sp.Symbol("nut")
+    sub = {qs_: r_**2, ss_: s_, nus_: nu_}
+    f4 = {k: v.subs(sub) for k, v in cover_f_sym4(2, 2).items()}
+    fc = {k: v.subs(sub) for k, v in cover_f_sym(2, 2).items()}
+    for (a, b), v in fc.items():
+        assert sp.cancel(sum(x for (k, l, m, n), x in f4.items() if k + l == a and m + n == b) - v) == 0
+    for (k, l, m, n), v in f4.items():
+        assert sp.cancel(v - f4[(l, k, n, m)]) == 0
+    t = s_**2; z, zp = r_ - 1 / r_, r_ + 1 / r_
+    P = sp.cancel(((1 - t) * f4[(1, 1, 1, 1)]).subs(nu_, nut * s_ / r_))
+    assert sp.simplify(P - z**3 * (nut - 1 / nut) * (t / r_ * nut - r_ / nut)) == 0
+    E = -z * zp**2 * (nut - 1 / nut) * (t / r_ * nut + r_ / nut)
+    Q = sp.cancel((P - E) / 2)
+    assert sp.simplify(Q - z * (nut - 1 / nut) * ((r_ + r_**-3) * t * nut + 2 * r_ / nut)) == 0
+
+
+def test_E22_unique_from_t_minus1_and_t_q():
+    """E_22 は固定セクター (1,1)×(1,1) の状態の和なので t（= s²）の 0, 1 次だけをもつ。
+    (i) t = −1 で E = 2(1+t)g_22、(ii) t = q で E = 2(1+q)(g_22 − ĝ_22)（ĝ は Mariño の交差帽 = g^{odd} の t = q）
+    の 2 条件から E = E_0 + t E_1 は一意に決まり、−z_q(z_q^+)²(ν~−ν~⁻¹)(t q^{−1/2}ν~ + q^{1/2}ν~⁻¹) に等しい。"""
+    import sympy as sp
+    from rcsknots.kauffman_cover import cover_f_sym, qs_, ss_, nus_
+    from rcsknots.kauffman_hopf import hopf_log_coeffs, mobius_f, qs, ts, Us
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    T = sp.Symbol("T")
+    L = hopf_log_coeffs(2, 2)
+    fc = cover_f_sym(2, 2)
+
+    def g_of(a, b):
+        fo = mobius_f(L, a, b).subs({qs: r_**2, ts: s_**2, Us: nu_ * s_})
+        return sp.cancel(fo - fc[(a, b)].subs({qs_: r_**2, ss_: s_, nus_: nu_}) / 2)
+
+    g22, g11 = g_of(2, 2), g_of(1, 1)
+    g11_x2 = g11.subs({r_: r_**2, s_: s_**2, nu_: nu_**2}, simultaneous=True)
+    g22_odd_tq = sp.cancel((g22 + g11_x2 / 2).subs(s_, r_))          # g^{odd}_22 = g_22 + ½ g^{odd}_11(x²)、t = q
+    R = sp.cancel(2 * (1 + s_**2) * g22)
+    Em1 = sp.cancel(R.subs(s_, sp.I))                                   # E_0 − E_1
+    Eq = sp.cancel(R.subs(s_, r_) - 2 * (1 + r_**2) * g22_odd_tq)        # E_0 + q E_1
+    E1 = sp.cancel((Eq - Em1) / (1 + r_**2)); E0 = sp.cancel(Em1 + E1)
+    E = E0 + s_**2 * E1
+    nut = nu_ * r_ / s_
+    zq, zp = r_ - 1 / r_, r_ + 1 / r_
+    assert sp.cancel(E - (-zq * zp**2 * (nut - 1 / nut) * (s_**2 / r_ * nut + r_ / nut))) == 0

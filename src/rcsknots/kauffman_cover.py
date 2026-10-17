@@ -211,3 +211,90 @@ def cover_f_sym(A_, B):
             tot += sp.Rational(mobius(d), d) * Le[(a // d, b // d)].subs({qs_: qs_**d, ss_: ss_**d, nus_: nus_**d}, simultaneous=True)
         out[(a, b)] = sp.cancel(tot)
     return out
+
+
+# ---------------------------------------------------------------------------
+# K4'(a)：セクター別の被覆。probe を x 側（y1, z1）と 1/x 側（y2, z2）に分け、
+#   Z^{cov}(y1,y2;z1,z2) = ⟨ Π_i(1 − y1 x_i)(1 − y2/x_i) · Π_i(1 − z1 x'_i)(1 − z2/x'_i) ⟩
+# の係数を (k,l,m,n)（= 成分 1 の (|R1|,|R2|)、成分 2 の (|S1|,|S2|)）で持つ。
+# 軌道体の作用 Ĩ は (k,l,m,n) → (l,k,n,m) なので、Ĩ で固定される 1 粒子状態は k = l, m = n のセクターにしかない。
+
+def _p_pm_sym(d, j, z0):
+    """(Σ_i x_i^d, Σ_i x_i^{−d})、x_i = ν s^{1−2i} q^{μ_i}（_p_d_sym の符号ごとの部分）。"""
+    out = []
+    for sign in (1, -1):
+        e = sign * d
+        nu_e, q_e = nuc**e, qc**e
+        tot = sum((nu_e * q_e * sc**(e * (1 - 2 * i)) for i in range(1, j + 1)), KC.zero)
+        ratio = sc**(-2 * e)
+        first = sc**(e * (1 - 2 * (j + 1)))
+        tot += nu_e * first * (1 - nuc**(-2 * e) * sc**(2 * e * (z0 + j))) / (1 - ratio)
+        tot += sum((nu_e / q_e * nuc**(-2 * e) * sc**e * sc**(2 * e * m) for m in range(0, z0)), KC.zero)
+        out.append(tot)
+    return out
+
+
+def _exp_series(g, B):
+    """exp(Σ_d g_d z^d) mod z^{B+1}。"""
+    f = [KC.one]
+    for m in range(1, B + 1):
+        f.append(sum((d * g[d] * f[m - d] for d in range(1, m + 1)), KC.zero) / m)
+    return f
+
+
+def cover_Z_sym4(A_, B):
+    """Z^{cov}(y1,y2;z1,z2) mod (y^{A_+1}, z^{B+1})：{(k,l,m,n): Q(q,s,ν) の元}（k+l ≤ A_、m+n ≤ B）。"""
+    Z = {}
+    for k in range(0, A_ + 1):
+        for l in range(0, A_ + 1 - k):
+            for j in range(0, k + 1):
+                z0 = l - k + j
+                if z0 < 0:
+                    continue
+                w = _psi_sym(k, j, z0) * _principal_sym(j, z0)
+                pp = {d: _p_pm_sym(d, j, z0) for d in range(1, B + 1)}
+                f1 = _exp_series({d: -pp[d][0] / d for d in pp}, B)
+                f2 = _exp_series({d: -pp[d][1] / d for d in pp}, B)
+                for m in range(B + 1):
+                    for n in range(B + 1 - m):
+                        Z[(k, l, m, n)] = Z.get((k, l, m, n), KC.zero) + (-1)**(k + l) * w * f1[m] * f2[n]
+    return Z
+
+
+def log_coeffs_sym4(Z, A_, B):
+    assert Z[(0, 0, 0, 0)] == KC.one
+    X = {key: v for key, v in Z.items() if key != (0, 0, 0, 0)}
+
+    def mul(P, Q):
+        R = {}
+        for k1, v1 in P.items():
+            for k2, v2 in Q.items():
+                key = tuple(a + b for a, b in zip(k1, k2))
+                if key[0] + key[1] <= A_ and key[2] + key[3] <= B:
+                    R[key] = R.get(key, KC.zero) + v1 * v2
+        return R
+
+    L = {}
+    P = dict(X)
+    for m in range(1, A_ + B + 1):
+        for key, v in P.items():
+            L[key] = L.get(key, KC.zero) + KC(sp.Rational((-1)**(m + 1), m)) * v
+        P = mul(P, X)
+    return L
+
+
+def cover_f_sym4(A_, B):
+    """f^{cov}_{(k,l),(m,n)}（全 d の Möbius 反転、sympy の式、記号 q, s, nu）。"""
+    L = log_coeffs_sym4(cover_Z_sym4(A_, B), A_, B)
+    Le = {key: v.as_expr() for key, v in L.items()}
+    out = {}
+    for key in Le:
+        g = 0
+        for x in key:
+            g = sp.gcd(g, x)
+        tot = 0
+        for d in sp.divisors(int(g)):
+            sub = tuple(x // d for x in key)
+            tot += sp.Rational(mobius(d), d) * Le[sub].subs({qs_: qs_**d, ss_: ss_**d, nus_: nus_**d}, simultaneous=True)
+        out[key] = sp.cancel(tot)
+    return out
