@@ -124,3 +124,11 @@
 - 先に試した閉弦の規則（引き算 × (1+q^d)/(1+t^d)）が失敗した理由：それは E_{22} = −(1+q)g_{11}(x²) を仮定するが、実際の E_{22}(−1) とは因子 (q − ν~²)/(q(1+ν~²)) だけ違う（開弦では固定される状態が倍化した交差帽と一致しない）。
 - テスト：tests/test_rk_cover.py::test_hopf_crosscap_all_d_even_sector（記号計算、約 1 秒）。docs：report.md §7、conventions.md、research_plan.md を更新。
 - 次：(b) trefoil の 1^k（SL(2,Z) の有限レベル実装）。(a) の結論により、結び目の判定基準は「全 d の f_a が (1−t^{e_a})f_a 整数 Laurent（e_a = 2 for a 偶数、1 for a 奇数）、g_a = f_a − ½f^{cov}_a が奇数 a で整数 Laurent、偶数 a で 2(1+t)g_a 整数 Laurent」。
+
+## 2026-10-17　(b) trefoil の 1^k：方法の検討
+- AS 1105.5117 §7.1：SU(N) の trefoil でも超多項式との比に √(q/t) が余る（AS 自身が「open flat coordinate のずれ」と注記）。§6 の仮説の単項式 T^{−6}(q/t)^{1/2} と同じ構造【文献】。
+- conventions.md §7 の記録：A 型でも素朴な refined Rosso–Jones（q,t 不変の Adams × T^{n/m}）は不成立。K3' の D 型の不一致は普遍的な現象で、A 型の正しい構成は GN の楕円 Hall 代数【確認】。
+- 【計算】SO(4) = SU(2)²、SO(6) = SU(4) で GN により AS (6.15) を厳密に再現（単項式 q^{−1}、q^{−1}t^{−4}）。(6.15)(N=2) = [SU(N) 式(N=2) の鏡像 × unknot]² も記号的に確認。tests/test_rk_trefoil.py に追加（4 件）。
+- GN の正規化（conventions.md (N2')）では det との積が q^{2mn|λ|}（U(1) の framing、N に依らない）だけずれ、双対表現も単項式倍で一致【計算、N = 4, 5】。composite（λ − 1^N）の trefoil を GN で作るときはこの規則で補正する。K_{111}|D₃ = P_[2] + P_[2,2,2]|A₃（10 ⊕ 10̄）【計算】。
+- GN を sympy の field（q,t 記号）で動かすと [2,1,1] で HeuristicGCDFailed。記号的には点ごとの厳密計算＋補間が要る。
+- **(b) の実行可能性の結論**：1^k（k ≥ 2）の ν 依存性（整数性・正値性の判定に必要）には D_N の SL(2,Z)（有限レベル、可積分表現すべて・spinor 含む）か DAHA（一般の t では nonsymmetric Koornwinder の機械が必要）を N ≥ 6 程度まで動かす必要があり、本セッションの範囲を超える。N = 2, 3 の厳密値（GN）で固定 N の構造（全 d の分母、framing の走査）を見ることは数時間で可能だが、ν の構造は見えない。停止点として報告。
