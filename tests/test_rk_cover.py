@@ -90,3 +90,34 @@ def test_hopf_crosscap_fundamental_sector():
         g = sp.cancel(fo - fc[(b, 1)].subs({qs_: r_**2, ss_: s_, nus_: nu_}) / 2)
         g = sp.cancel(g.subs(nu_, nut * s_ / r_))
         assert sp.cancel(g - zq * (nut - 1 / nut) * chi(b - 1, nut / r_)) == 0, b
+
+
+def test_hopf_crosscap_all_d_even_sector():
+    """全 d の交差帽部分 g_{ab} = f_{ab} − ½f^{cov}_{ab}（記号計算、a, b ≤ 2）：
+    (1,2) は整数 Laurent、(2,2) は分母がちょうど 2(1+t)（× 単項式）で 2(1+t)g_{22} は整数 Laurent、
+    E_{22}(t=−1) = [2(1+t)g_{22}]_{t=−1} = z_q (z_q^+)² (ν~−ν~⁻¹)(q^{−1/2}ν~ − q^{1/2}ν~⁻¹)。"""
+    import sympy as sp
+    from rcsknots.kauffman_cover import cover_f_sym, qs_, ss_, nus_
+    from rcsknots.kauffman_hopf import hopf_log_coeffs, mobius_f, qs, ts, Us
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    nut = sp.Symbol("nut")
+    L = hopf_log_coeffs(2, 2)
+    fc = cover_f_sym(2, 2)
+
+    def g_of(a, b):
+        fo = mobius_f(L, a, b).subs({qs: r_**2, ts: s_**2, Us: nu_ * s_})
+        return sp.cancel(fo - fc[(a, b)].subs({qs_: r_**2, ss_: s_, nus_: nu_}) / 2)
+
+    def laurent_int(e):
+        n, d = sp.fraction(sp.cancel(e))
+        return sp.Poly(d, r_, s_, nu_).is_monomial and all(c.is_integer for c in sp.Poly(sp.expand(n), r_, s_, nu_).coeffs())
+
+    assert laurent_int(g_of(1, 2))
+    g22 = g_of(2, 2)
+    den = sp.factor(sp.fraction(g22)[1])
+    assert sp.cancel(den / (2 * (1 + s_**2))).is_polynomial(s_) and sp.Poly(sp.cancel(den / (2 * (1 + s_**2))), r_, s_, nu_).is_monomial
+    R = sp.cancel(2 * (1 + s_**2) * g22)
+    assert laurent_int(R)
+    E_m1 = sp.cancel(sp.cancel(R.subs(nu_, nut * s_ / r_)).subs(s_, sp.I))
+    zq, zp = r_ - 1 / r_, r_ + 1 / r_
+    assert sp.simplify(E_m1 - zq * zp**2 * (nut - 1 / nut) * (nut / r_ - r_ / nut)) == 0

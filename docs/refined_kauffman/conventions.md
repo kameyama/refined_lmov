@@ -35,5 +35,7 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 
 ## 交差帽展開（K4'、2026-10-14）
 - 被覆：U(N_A) refined CS、A = ν² = U²/t = t^{N_A}（N_A = 2N_D − 1）、核 Π_i(1 − y x_i)(1 − y/x_i)（fermionic、composite）。oriented 部分 = ½F^{cov}。
-- 交差帽部分：g^{odd}_{ab} = L_{ab} − ½L^{cov}_{ab} − Σ_{d 奇数>1}(1/d) g^{odd}_{a/d,b/d}(x^d)（Mariño の Σ_{d 奇数}）。refined では偶数×偶数で (1+t^{d/2}) の分母が残る（未解決）。
+- 交差帽部分（2026-10-17 に全 d の定義へ変更、report.md §7）：g_{ab} := f_{ab} − ½ f^{cov}_{ab}（f, f^{cov} は全 d の Möbius 反転）。第二量子化（AS §3）の構造 g = ½E/(1+t) + C（E：Ĩ で固定される oriented 状態、(偶,偶) のみ；C：凍結した unoriented 状態）をもち、2(1+t)g は整数 Laurent。
+  Mariño 型の Σ_{d 奇数} の定義 g^{odd}_{ab} = L_{ab} − ½L^{cov}_{ab} − Σ_{d 奇数>1}(1/d) g^{odd}_{a/d,b/d}(x^d) とは g_{ab} = g^{odd}_{ab} − ½ g^{odd}_{a/2,b/2}(x²) で結ばれ、t = q では g^{odd} = Mariño の ĝ。refined では g^{odd} の (偶,偶) に (1+t^{d/2}) の分母が残るので、整数性の判定には全 d の g（と f 自身）を使う。
+  理由：refined の軌道体では z₂ → −z₂ が probe（t-brane）に沿い、固定される oriented 状態のモード射影が ½/(1+t) を生む（閉弦では AS §7 の (t^{d/2}+t^{−d/2}) の項）。E と C の分離は未確定（E(t=−1) だけが分離に依らない）。
 - 変数：z_q = q^{1/2}−q^{−1/2}、z_t = t^{1/2}−t^{−1/2}、G = z_q z_t、w = (q/t)^{1/2}、ν~ = ν w。DGR：𝐪 = t^{1/2}、𝐭 = −w、𝐚 = ν、ν~ = −𝐚𝐭。
