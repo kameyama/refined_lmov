@@ -34,7 +34,15 @@ def lp(e, gens=(r, s, nu)):
 
 def solve(a, b):
     sec = (a // 2, a // 2, b // 2, b // 2)
-    P = lp((1 - t) * f4[sec]); R = lp(2 * (1 + t) * g[(a, b)])
+    Eq_expr = sp.cancel((2 * (1 + t) * g[(a, b)] - 2 * (1 + t) * god[(a, b)]).subs(s, r))
+    out = solve_generic((1 - t) * f4[sec], 2 * (1 + t) * g[(a, b)], Eq_expr)
+    out["sec"] = sec
+    return out
+
+
+def solve_generic(P_expr, R_expr, Eq_expr):
+    """E = P − 2Q（Q は P の部分和）、t = −1 で E = R、t = q で E = Eq を整数線形計画で解き、一意性を調べる。"""
+    P = lp(P_expr); R = lp(R_expr)
     mons = sorted(P)
     idx = {m: i for i, m in enumerate(mons)}
     S = defaultdict(lambda: sp.Integer(0))
@@ -56,7 +64,7 @@ def solve(a, b):
             if np.any(row) or tv != 0:
                 rows.append(row); rhs.append(tv)
     # (ii) s = r：E|_{t=q} = R|_{t=q} − 2(1+q) g^{odd}|_{t=q} ⇔ Q|_{t=q} = (P − E)|_{t=q}/2
-    Eq = lp(sp.cancel((2 * (1 + t) * g[(a, b)] - 2 * (1 + t) * god[(a, b)]).subs(s, r)), (r, nu))
+    Eq = lp(Eq_expr, (r, nu))
     Pq = defaultdict(lambda: sp.Integer(0))
     for (x, y, z), v in P.items(): Pq[(x + y, z)] += v
     Qq = {k: (Pq.get(k, 0) - Eq.get(k, 0)) / 2 for k in set(Pq) | set(Eq)}
@@ -74,7 +82,7 @@ def solve(a, b):
     integ = np.ones(len(mons))
     res = milp(np.zeros(len(mons)), constraints=cons, bounds=Bounds(lo, hi), integrality=integ)
     if res.status != 0:
-        return dict(sec=sec, feasible=False, n=len(mons))
+        return dict(feasible=False, n=len(mons))
     # 一意性：各変数の最小と最大
     free = []
     for i in range(len(mons)):
@@ -85,7 +93,7 @@ def solve(a, b):
             free.append((mons[i], round(mn), round(mx)))
     Qsol = {m: int(round(res.x[idx[m]])) for m in mons}
     E = sum(P[m] * r**m[0] * s**m[1] * nu**m[2] for m in mons) - 2 * sum(Qsol[m] * r**m[0] * s**m[1] * nu**m[2] for m in mons)
-    return dict(sec=sec, feasible=True, n=len(mons), free=free, E=sp.expand(E))
+    return dict(feasible=True, n=len(mons), free=free, E=sp.expand(E))
 
 
 if __name__ == "__main__":

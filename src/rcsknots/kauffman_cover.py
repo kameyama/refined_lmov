@@ -298,3 +298,104 @@ def cover_f_sym4(A_, B):
             tot += sp.Rational(mobius(d), d) * Le[sub].subs({qs_: qs_**d, ss_: ss_**d, nus_: nus_**d}, simultaneous=True)
         out[key] = sp.cancel(tot)
     return out
+
+
+# ---------------------------------------------------------------------------
+# K4'(a)：成分 1 に probe を無限個（brane 側の冪和 p_d(Y)、image 側の冪和 p_d(Y')）、成分 2 は 1 変数（z1 = x 側、z2 = 1/x 側）。
+# Hopf の対称性で、composite の和を成分 2 の核 Π(1 − z1 x_i)(1 − z2/x_i) から取り、成分 1 は exp(−Σ_d [p_d(Y) p_d(x) + p_d(Y') p_d(1/x)]/d)。
+# 鍵は (μ, μ', k, l)：p_μ(Y) p_μ'(Y') z1^k z2^l。
+
+def _mul4(P, Q, A_, B):
+    R = {}
+    for (m1, m2, k1, l1), v1 in P.items():
+        for (n1, n2, k2, l2), v2 in Q.items():
+            if sum(m1) + sum(m2) + sum(n1) + sum(n2) <= A_ and k1 + k2 + l1 + l2 <= B:
+                key = (tuple(sorted(m1 + n1, reverse=True)), tuple(sorted(m2 + n2, reverse=True)), k1 + k2, l1 + l2)
+                R[key] = R.get(key, KC.zero) + v1 * v2
+    return R
+
+
+def _exp_two(c1, c2, A_):
+    """exp(Σ_d c1[d] p_d(Y) + c2[d] p_d(Y'))、全次数 ≤ A_。"""
+    out = {((), (), 0, 0): KC.one}
+    for side, coef in ((0, c1), (1, c2)):
+        for d, c in coef.items():
+            term = {((), (), 0, 0): KC.one}
+            acc = KC.one
+            for m in range(1, A_ // d + 1):
+                acc = acc * c / m
+                mu = (d,) * m
+                term[(mu, (), 0, 0) if side == 0 else ((), mu, 0, 0)] = acc
+            out = _mul4(out, term, A_, 0)
+    return out
+
+
+def cover_Z_multi(A_, B):
+    """Z^{cov}(Y, Y'; z1, z2)：{(μ, μ', k, l): Q(q,s,ν)}、|μ| + |μ'| ≤ A_、k + l ≤ B。"""
+    Z = {}
+    for k in range(0, B + 1):
+        for l in range(0, B + 1 - k):
+            for j in range(0, k + 1):
+                z0 = l - k + j
+                if z0 < 0:
+                    continue
+                w = _psi_sym(k, j, z0) * _principal_sym(j, z0)
+                pp = {d: _p_pm_sym(d, j, z0) for d in range(1, A_ + 1)}
+                ey = _exp_two({d: -pp[d][0] / d for d in pp}, {d: -pp[d][1] / d for d in pp}, A_)
+                for (m1, m2, _, _), v in ey.items():
+                    key = (m1, m2, k, l)
+                    Z[key] = Z.get(key, KC.zero) + (-1)**(k + l) * w * v
+    return Z
+
+
+def log_coeffs_multi(Z, A_, B):
+    one = ((), (), 0, 0)
+    assert Z[one] == KC.one
+    X = {key: v for key, v in Z.items() if key != one}
+    L, P = {}, dict(X)
+    for m in range(1, A_ + B + 1):
+        for key, v in P.items():
+            L[key] = L.get(key, KC.zero) + KC(sp.Rational((-1)**(m + 1), m)) * v
+        P = _mul4(P, X, A_, B)
+    return L
+
+
+def cover_f_multi(A_, B):
+    """log Z^{cov} = Σ_d (1/d) Σ f_{ρ,ρ',k,l}(x^d) s_ρ(Y^d) s_ρ'(Y'^d) z1^{kd} z2^{ld} を満たす f（sympy の式、記号 q, s, nu）。"""
+    from .characters import chi
+    from .partitions import partitions, z as z_lam
+    L = log_coeffs_multi(cover_Z_multi(A_, B), A_, B)
+    Le = {key: v.as_expr() for key, v in L.items()}
+
+    def ad(e, d):
+        return e.subs({qs_: qs_**d, ss_: ss_**d, nus_: nus_**d}, simultaneous=True)
+
+    f = {}
+    for n1 in range(A_ + 1):
+        for n2 in range(A_ + 1 - n1):
+            for k in range(B + 1):
+                for l in range(B + 1 - k):
+                    if n1 + n2 + k + l == 0:
+                        continue
+                    H = {(m1, m2): Le.get((m1, m2, k, l), 0) for m1 in partitions(n1) for m2 in partitions(n2)}
+                    g = 0
+                    for x in (n1, n2, k, l):
+                        g = sp.gcd(g, x)
+                    for d in sp.divisors(int(g)):
+                        if d == 1:
+                            continue
+                        for r1 in partitions(n1 // d):
+                            for r2 in partitions(n2 // d):
+                                fv = f.get((r1, r2, k // d, l // d))
+                                if not fv:
+                                    continue
+                                fa = ad(fv, d) / d
+                                for m1 in partitions(n1 // d):
+                                    for m2 in partitions(n2 // d):
+                                        c = sp.Rational(chi(r1, m1), z_lam(m1)) * sp.Rational(chi(r2, m2), z_lam(m2))
+                                        key = (tuple(d * x for x in m1), tuple(d * x for x in m2))
+                                        H[key] = H[key] - fa * c
+                    for r1 in partitions(n1):
+                        for r2 in partitions(n2):
+                            f[(r1, r2, k, l)] = sp.cancel(sum(chi(r1, m1) * chi(r2, m2) * H[(m1, m2)] for (m1, m2) in H))
+    return f

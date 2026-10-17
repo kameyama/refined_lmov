@@ -173,3 +173,37 @@ def test_E22_unique_from_t_minus1_and_t_q():
     nut = nu_ * r_ / s_
     zq, zp = r_ - 1 / r_, r_ + 1 / r_
     assert sp.cancel(E - (-zq * zp**2 * (nut - 1 / nut) * (s_**2 / r_ * nut + r_ / nut))) == 0
+
+
+def test_multi_probe_cover_and_adams_b2():
+    """成分 1 に probe 無限個の被覆（cover_f_multi(2,2)）：1 変数への特殊化が cover_f_sym4 に一致し、
+    Ĩ = ρ⊗ρ の入れ替え（Adams p_2 = s_[2] − s_[1,1]）の予言 E_[2],2 = −E_[1,1],2 = E_22 が成り立つ：
+    g_[2],2 + g_[1,1],2 と g_[2],2 − ½E_22/(1+t) は (1+t) の分母を持たない（SO 側は hopf_f_multi.pkl）。"""
+    import pickle, sympy as sp
+    from rcsknots.kauffman_cover import cover_f_multi, cover_f_sym4, qs_, ss_, nus_
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    sub = {qs_: r_**2, ss_: s_, nus_: nu_}
+    fm = {k: v.subs(sub) for k, v in cover_f_multi(2, 2).items()}
+    for (k, l, m, n), v in cover_f_sym4(2, 2).items():
+        assert sp.cancel(fm[((k,) if k else (), (l,) if l else (), m, n)] - v.as_expr().subs(sub)) == 0
+    half = {}
+    for (r1, r2, k, l), v in fm.items():
+        if sum(r1) + sum(r2) != 2 or k + l != 2:
+            continue
+        if r1 and r2:          # s_1 s_1 = s_2 + s_11
+            for R in ((2,), (1, 1)):
+                half[R] = half.get(R, 0) + v / 2
+        else:
+            R = r1 or r2
+            half[R] = half.get(R, 0) + v / 2
+    q_, t_, U_ = sp.symbols("q t U")
+    fSO = {k: sp.sympify(v, locals={"q": q_, "t": t_, "U": U_}).subs({q_: r_**2, t_: s_**2, U_: nu_ * s_})
+           for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_f_multi.pkl", "rb"))["schur"].items()}
+    g2, g11 = sp.cancel(fSO[((2,), 2)] - half[(2,)]), sp.cancel(fSO[((1, 1), 2)] - half[(1, 1)])
+    mono = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r_, s_, nu_).is_monomial
+    assert not mono(g2) and not mono(g11)
+    assert mono(g2 + g11)
+    nut = nu_ * r_ / s_
+    zq, zp = r_ - 1 / r_, r_ + 1 / r_
+    E22 = -zq * zp**2 * (nut - 1 / nut) * (s_**2 / r_ * nut + r_ / nut)
+    assert mono(g2 - E22 / (2 * (1 + s_**2)))
