@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（44 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（45 件、約 60 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -36,7 +36,7 @@
 |---|---|---|
 | A. **済（2026-10-18）**：T(2,2m+1)（m ≤ 5）の [1]。単項式は T^{−2(2m+1)}(q/t)^{δ/2}（AS の SU(N) と同じ形）、g^{ref} は整数 Laurent、t = q で N^{c=2} = 0 | — | report.md §6 |
 | B. **一部済（2026-10-18）**：定義を提案（report.md §8）。T(2,2m+1)（m ≤ 5）の [1] で、G 展開の後に ν^β ごとの符号がそろうか (𝐭² − 1)×符号のそろった形になる。残り：(𝐭² − 1) の意味、偶数セクター（E ≠ 0）と高い彩色への拡張、非トーラス結び目での検査（入力が無い） | — | report.md §8 |（2026-10-19：一様な規格化で述べ直し。SO(2) の点で 1、𝐭 について偶、c = 2 の符号は m によらない。固定 N の g は一様な規格化のときだけ q^{1/2} → −q^{1/2} で不変）
-| C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
+| C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |（2026-10-19：実行前の見積もりと計画を「続き 20」に記録、確認待ち）
 | D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
 | E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
 | F. **済（2026-10-19）**：(q/t)^{δ/2} は data（KN・DGR）の規格化と、行列式・荷電共役で不変な規格化との差（T(2,2m+1)、m ≤ 3） | — | report.md §6 |
@@ -359,4 +359,46 @@
   - (ii) T(2,7) でも同じ確認。data の彩色の追加で数分〜十数分の見込み。
   - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
   - (iv) 非トーラス結び目（例えば 4_1）の固定 N の入力を A 型の refined 不変量から作れるかの検討。
+
+## 2026-10-19（続き 19）T(2,7) と非トーラス結び目（ユーザーの指示「2,3,1の順で実行せよ」の 2 と 3）
+- **2：T(2,7)**
+  - 見積もり：GN の 1 彩色 3〜4 秒（[2,2], [3,1] で計測）。残り 7 彩色は数分の見込みで、実績は計 1.8 分（最大 [3,2,1] 31 秒）。解析は N = 2 で 56 秒、N = 3 で 217 秒。
+  - 【計算】T(2,5) と同じ項目がすべて成り立った（δ = 3）。logs/refined_kauffman/fixedN_hatted_T2_7.log。
+- **3：非トーラス結び目の検討**
+  - 入力：長方形の彩色は KNTZ の refined 公式（主プロジェクトの scripts/x1_check.triply）から作れる。trefoil で GN の data と全係数一致した。
+  - 名前と K_{m,n} の対応は KNTZ の TeX（arXiv から取得、Cyclotomic-Rectangular.tex :521-531）の図 1 で確認した。
+  - 可否の結論：
+    - N = 2 の SO 側だけの検査（3 箱まで）は、任意の二重ツイスト結び目でできる。
+    - 被覆は 4_1 の 2 箱だけ（[2,1] は KN の候補）。
+    - N = 3 と大きな N はできない。Gukov–Walcher の Kauffman superpolynomial は、AS によると refined SO の値と別物である。
+  - 【計算】4_1, 5_2, 6_1, 7_2, 7_4, 8_1, 8_3：
+    - data のずれの指数 c は [1] の superpolynomial の δ 次数に等しい（0 か 1、種数はすべて 1）。
+    - N = 2 の SO 側で、framing の走査が一意に β = c|μ|。f は整数で、SO の f̂ は全方向で整数 Laurent。
+    - 4_1 の被覆の 2 箱で、KN の [2,1] の候補は極の打ち消しと hatted の Laurent 性を満たした。
+    - 偶奇は (r, s) → (−r, −s) だけで成り立つ（r → −r 単独はトーラス結び目に固有）。
+  - データ：data/refined_kauffman/torus/{4_1,5_2,6_1,7_2,7_4,8_1,8_3}_*.json。4_1_21.json は KN の候補で、meta に確立していないと明記した。7_4 の [2,2,2], [1,1,1,1], [3,3] と 8_x の [2,2,2] 以降は作っていない（SMALL=1、N = 2 の検査に不要）。
+  - ログ：logs/refined_kauffman/{f41_fixedN,dt_fixedN_a,dt_fixedN_b,dt_fixedN_c}.log。
+  - テスト：tests/test_rk_trefoil.py::test_double_twist_offset_and_41_fixed_N（約 5 秒）。
+
+## 2026-10-19（続き 20）1：一般の N（タスク C）の実行前の見積もりと計画【停止点：確認待ち】
+- 目的：refined SO(2N) の torus 結び目 T(2,2m+1) の多箱（|R| ≤ 2〜3）の不変量を、ν を形式変数として得る。そうすれば ĝ_R を G 展開し、多箱の正値性（判定式の (c = 1)(c = 2)）を検査できる。固定 N（N = 2, 3）は A 型との同一視で済んでいるが、N ≥ 4（D_4 以上）は A 型にならない。
+- 経路の候補：
+  - (α) **Cherednik の DAHA-Jones 多項式を D_N で実装する**（1111.6195 の定義は任意の根系で成り立つ）。
+    - 同じ論文の Prop. SH-JONES（jones.tex :1056）の Gauss 変換による計算は k_ν = 0, 1（t = 1, q）に限られる。一般の t には、多項式表現（Demazure–Lusztig の T_i、π、X、Y）の上で τ± の作用を組み、γ̂(P_λ) を評価する必要がある。
+    - 段階：
+      1. A_1, A_2 で一般の t の DAHA-Jones を実装し、trefoil の [1], [2] を GN の data と照合する（1〜2 日）。
+      2. D_2, D_3 で本研究の固定 N の data（一様な規格化）と照合する（2〜3 日）。
+      3. D_4〜D_6 で λ ∈ {(1), (1,1), (2)} を計算する（計算は数時間〜数日の見込み、6 変数の Laurent 多項式と q, t の有理式）。
+      4. U = t^N で補間し、[1] を AS (6.15) と照合する（1〜2 日）。
+    - 危険：τ+ の作用（X の Gauss 函数による共役）の多項式表現での扱い、D_N の DAHA と Koornwinder (±1, ±q^{1/2}) の対応の規約、N についての安定性（D 型では未証明、AS の [1] の式が N に関して安定なのは支え）。
+  - (β) **有限レベルの refined SL(2,Z)（AS の方法）**：t = q^β（β は正の整数）、q は 1 の冪根でしか定義されない。多くの (レベル, β) で計算して q, t の有理式を再構成する。spinor を含む可積分表現の全体が要る。実装と補間で 1〜2 週間、危険は (α) より大きい。
+- 見積もり：(α) で合計 1〜3 週間（実装・検証が主で、計算そのものは各段階で数時間〜数日）。**24 時間を大きく超えるので、CLAUDE.md の規則に従い、実行前に確認を求める。**
+- 準備として決めておくこと（承認後）：
+  - 段階ごとの停止点：1 と 2 の照合が通らなければ止める。
+  - 中間結果の保存：data/refined_kauffman/daha/ に (根系, N, λ, 結び目) ごとに保存し、保存済みは飛ばす。
+  - 並列：N と λ ごとに独立に 8 並列で回す。
+  - 長時間の実行：nohup で回し、ログと完了の目印を logs/refined_kauffman/daha_*.log に置く。
+- 代わりの小さな候補（承認が無い場合）：
+  - 4_1 の被覆の 3 箱の極の条件から、未知の [3,1] に一次の条件を課す（主プロジェクトの f41_box4 と同じ問題を、orientifold の側から絞る）。
+  - 2 変数の f̂_{R,S} の Schur 基底での整数性。
 

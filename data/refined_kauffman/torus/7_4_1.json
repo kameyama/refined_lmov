@@ -1,0 +1,20 @@
+{
+ "knot": "7_4",
+ "color": "1",
+ "source": "KNTZ 1902.02275 refined (scripts/x1_check.triply), double twist K_{2,2}",
+ "reduced": true,
+ "framing": "0 (normalization (N1)+(N2))",
+ "variables": "A=a^(1/2), Q=q^(1/2), T=t^(1/2) of 1703.05408; exponents of (A,Q,T)",
+ "poly": {
+  "2,-1,-1": 1,
+  "2,0,0": -2,
+  "2,1,1": 1,
+  "4,0,-2": 2,
+  "4,1,-1": -2,
+  "4,2,0": 2,
+  "6,1,-3": 1,
+  "6,2,-2": -2,
+  "6,3,-1": 1,
+  "8,3,-3": -1
+ }
+}

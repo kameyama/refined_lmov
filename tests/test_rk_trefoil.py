@@ -317,3 +317,44 @@ def test_T25_fixed_N_uniform_hatted():
     finally:
         T2.KNOT, X.DELTA = old_knot, old_delta
         X.RP.cache_clear()
+
+
+def test_double_twist_offset_and_41_fixed_N():
+    """二重ツイスト結び目（scripts/rk_k5_41_data.py の data）：data の行列式表現のずれ (q/t)^c の c は [1] の superpolynomial の δ 次数
+    𝐚 + 𝐪/2 − 𝐭（5_2 で 1、6_1 で 0、ともに種数 1）。T(2,7) では c = 3。
+    4_1（c = 0）の固定 N = 2：SO 側の framing は走査で一意に 1、SO の f̂（|R| ≤ 3）は全方向で整数 Laurent。
+    被覆 U(3) の 2 箱（随伴 [2,1] は KN の候補）：随伴の framing は一意に 1、ĝ（|R| = 2）は Laurent、g は (r,s) → (−r,−s) で不変。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_2box as T2
+    import rk_k5_trefoil_3box as X
+    import rk_k5_dt_fixedN as D
+    from rk_k5_torus_fixedN_hatted import scan_rep
+    from fractions import Fraction
+    rr, ss = sp.symbols("r s", positive=True)
+    old_knot, old_delta = T2.KNOT, X.DELTA
+    try:
+        for knot, m, n, c in (("5_2", 2, 1, 1), ("6_1", -2, 1, 0)):
+            T2.KNOT = knot
+            assert D.delta_grading(m, n) == [c]
+            assert sp.simplify(T2.Rdata("11", 2) - (rr / ss)**(2 * c)) == 0
+        T2.KNOT = "T2_7"
+        assert sp.simplify(T2.Rdata("11", 2) - (rr / ss)**6) == 0
+        T2.KNOT, X.DELTA = "4_1", 0
+        X.RP.cache_clear()
+        N = 2
+        fr = X.so_uniform(N)
+        assert scan_rep(lambda f: X.so_Z(N, f), fr, (3, 3), 6, width=3) == [0]
+        F = X.plog(X.so_Z(N, fr))
+        assert all(v.is_integer_laurent() for k in (2, 3) for v in X.hatted(F, k).values())
+        assert scan_rep(lambda mm: X.cover_Z(N, mm, kmax=2, uniform=True), {(1,): X.ONE}, (1,), 0, width=3) == [0]
+        Fc = X.plog(X.cover_Z(N, {}, kmax=2, uniform=True), kmax=2)
+        G = {k: F.get(k, X.ZERO) - X.conv(Fraction(1, 2)) * Fc.get(k, X.ZERO) for k in set(F) | set(Fc) if sum(k) <= 2}
+        assert all(X.hatted_by_rho(G, 2).values())
+        for v in X.to_schur(G, 2).values():
+            e = v.to_sympy()
+            assert sp.cancel(e - e.subs({rr: -rr, ss: -ss}, simultaneous=True)) == 0
+    finally:
+        T2.KNOT, X.DELTA = old_knot, old_delta
+        X.RP.cache_clear()
+

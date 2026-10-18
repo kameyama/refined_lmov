@@ -6,11 +6,8 @@ import sys, time, pickle
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts")
 from fractions import Fraction
 import sympy as sp
-KNOT, DELTA = sys.argv[1], int(sys.argv[2])
 import rk_k5_trefoil_2box as T
-T.KNOT = KNOT
 import rk_k5_trefoil_3box as X
-X.DELTA = DELTA
 W, ZERO, ONE = X.W_, X.ZERO, X.ONE
 rr = sp.Symbol("r", positive=True)
 
@@ -27,7 +24,7 @@ def scan_rep(build, base, key, size, width=8):
     Bk = zdiff(build(one), Z0)
     if all(v.is_laurent() for v in Bk.values()):
         return "極なし"
-    c = DELTA * size
+    c = X.DELTA * size
     return [b for b in range(c - width, c + width + 1) if all((Z0.get(k, ZERO) + W**b * Bk.get(k, ZERO)).is_laurent() for k in set(Z0) | set(Bk))]
 
 
@@ -37,6 +34,8 @@ def parity_even(e):
 
 
 if __name__ == "__main__":
+    KNOT, DELTA = sys.argv[1], int(sys.argv[2])
+    T.KNOT, X.DELTA = KNOT, DELTA
     out = {}
     pairs = [p for p in X.UNIFORM_PAIRS]
     ratios = {}
