@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（31 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（32 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -32,13 +32,13 @@
 | タスク | 見込み | 有効性 |
 |---|---|---|
 | A. **済（2026-10-18）**：T(2,2m+1)（m ≤ 5）の [1]。単項式は T^{−2(2m+1)}(q/t)^{δ/2}（AS の SU(N) と同じ形）、g^{ref} は整数 Laurent、t = q で N^{c=2} = 0 | — | report.md §6 |
-| B. refined のクロスキャップ BPS 数の定義（正値性の判定式）。材料は g = ½E/(1+t) + C、(1,b) の「ν → ν~」、Adams の構造 | 中、1〜2 日 | 高：正値性を述べるのに必須。A のデータで試せる |
+| B. **一部済（2026-10-18）**：定義を提案（report.md §8）。T(2,2m+1)（m ≤ 5）の [1] で、G 展開の後に ν^β ごとの符号がそろうか (𝐭² − 1)×符号のそろった形になる。残り：(𝐭² − 1) の意味、偶数セクター（E ≠ 0）と高い彩色への拡張、非トーラス結び目での検査（入力が無い） | — | report.md §8 |
 | C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
 | D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
 | E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
 | F. √(q/t) の由来：A により (q/t)^{δ/2}（AS の SU(N)・KN の (N2') と同じ因子）と特定。物理的な由来は未解明 | 低い | 低い |
 | G. 研究計画 K3 の composite 入力（Cherednik–Elliot） | 中 | 低い：SO 側の 1^k が無いと使えない |
-推奨（2026-10-18 にユーザーへ提示）：A（済）→ B。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
+推奨（2026-10-18 にユーザーへ提示）：A（済）→ B（一部済）。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
 
 ### 未解決（docs に記録済み）
 - trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
@@ -179,3 +179,9 @@
 - テスト：tests/test_rk_trefoil.py::test_torus_family_framing_monomial（約 1 秒）。
 - 【計算・予想】refined でだけ現れる部分（𝐚 の奇数冪）は (−1)^{m+1}(𝐚²−𝐪²)(𝐭²−1)·単項式·Π_m、Π_m は係数 +1 の m(m+1)/2 項の閉じた形（m ≤ 3 から推測、m = 4, 5 で確認）。tests/test_rk_trefoil.py::test_torus_family_refined_only_part。
 - 次：B（refined のクロスキャップ BPS 数の定義）。A のデータ（T(2,2m+1) の g^{ref}、c = 1 の G 展開、c = 2 の (𝐚²−𝐪²)(𝐭²−1)Π_m の形）を試験台にする。
+
+## 2026-10-18（続き 5）タスク B：refined のクロスキャップ BPS 数の定義
+- PR #11 に 9e87c2e, dea8f25 を gh api で push（ユーザーの指示「ghでpushしてBへ進め」）。
+- 【計算】T(2,2m+1)（m ≤ 5）の c = 1 部分を ν^β ごとに分類：正の単項式（β = −(4m+2)）、(𝐭²−1)×正（m − 1 個、refined だけ）、負、正。混在は無い。G 展開の前は m ≥ 2 で混在（G 自身の符号の混在のため）。
+- 定義と予想を report.md §8、conventions.md に記録（【仮説】・【予想】）。tests/test_rk_trefoil.py::test_refined_crosscap_c1_blocks（約 3 秒）。
+- 停止点：判定式の候補はできたが、根拠はトーラス結び目の [1] だけ。次の候補：(i) 偶数セクター（2(1+t)g、E ≠ 0）の Hopf で同じ分類が成り立つか（(2,2),(2,4) の C は決まっている）、(ii) (𝐭²−1) の意味、(iii) 一般の N（C、規模大）。

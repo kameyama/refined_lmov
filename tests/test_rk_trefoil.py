@@ -98,3 +98,12 @@ def test_torus_family_refined_only_part():
         Pi, (Q, Tb, A) = Tf.refined_only_part(m)
         guess = sum(A**(2 * j) * Q**(2 * (m - 1 - j)) * Tb**(2 * j) * sum((Q**4 * Tb**2)**i for i in range(j + 1)) for j in range(m))
         assert sp.expand(Pi - guess) == 0
+
+
+def test_refined_crosscap_c1_blocks():
+    """B：T(2,5) の [1] の c = 1 部分（G = z_q z_t、W = (q/t)^{1/4} の多項式）を ν^β ごとに分けると、
+    unrefined の台のブロックは係数が同符号（+, −, +）、台の外のブロック（β = −8）は (𝐭² − 1) × 正の多項式。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k3_torus_family as Tf
+    assert Tf.c1_blocks(2) == {-10: "coherent+", -8: "tfactor+", -6: "coherent−", -4: "coherent+"}

@@ -72,3 +72,46 @@ def refined_only_part(m):
     odd = sp.expand((gb - gb.subs(A, -A)) / 2)
     pre = (A**2 - Q**2) * (Tb**2 - 1) * (-1)**(m + 1) * A**(-(4 * m + 1)) * Q**(-(2 * m - 1)) * Tb**(-3 * m)
     return sp.expand(sp.cancel(odd / pre)), (Q, Tb, A)
+
+
+def c1_blocks(m):
+    """c = 1 部分（G, W, ν；G = z_q z_t、W = (q/t)^{1/4}）の ν^β ごとのブロックを分類する：
+    'coherent±'（全係数が同符号）か 'tfactor±'（(W⁴ − 1) = (𝐭² − 1) で割り切れ、商の係数が同符号）か 'mixed'。"""
+    from rk_k4_crosscap import to_VW, split_parity, in_G, W, nu, G
+    E, _ = split_parity(to_VW(g_family(m, 7 * m + 4)))
+    P1 = sp.expand(in_G(E))
+    out = {}
+    for beta in sorted({t.as_coeff_exponent(nu)[1] for t in sp.Add.make_args(P1)}):
+        blk = sp.expand(P1.coeff(nu, beta))
+        cs = sp.Poly(sp.expand(blk * W**80), G, W).coeffs()
+        if all(c > 0 for c in cs) or all(c < 0 for c in cs):
+            out[beta] = "coherent" + ("+" if cs[0] > 0 else "−")
+            continue
+        quo = sp.cancel(blk / (W**4 - 1))
+        if sp.fraction(quo)[1].as_poly(G, W).is_monomial:
+            qc = sp.Poly(sp.expand(quo * W**80), G, W).coeffs()
+            if all(c > 0 for c in qc) or all(c < 0 for c in qc):
+                out[beta] = "tfactor" + ("+" if qc[0] > 0 else "−")
+                continue
+        out[beta] = "mixed"
+    return out
+
+
+def bold_blocks(m):
+    """G 展開の前：g^{ref}（太字 𝐪 = Q, 𝐭 = T, 𝐚 = A）の 𝐚 の偶数冪（c = 1）を 𝐚^β ごとに、c1_blocks と同じ基準で分類する（因子は 𝐭² − 1）。"""
+    Q, Tb, A = sp.symbols("Q T A")
+    gb = sp.expand(sp.cancel(g_family(m, 7 * m + 4).subs({r: -Tb * Q, U: A * Q}).subs(s, Q)))
+    even = sp.expand((gb + gb.subs(A, -A)) / 2)
+    out = {}
+    for beta in sorted({t.as_coeff_exponent(A)[1] for t in sp.Add.make_args(even)}):
+        blk = sp.expand(even.coeff(A, beta))
+        cs = sp.Poly(sp.expand(blk * Q**80 * Tb**80), Q, Tb).coeffs()
+        if all(c > 0 for c in cs) or all(c < 0 for c in cs):
+            out[beta] = "coherent" + ("+" if cs[0] > 0 else "−"); continue
+        quo = sp.cancel(blk / (Tb**2 - 1))
+        if sp.Poly(sp.fraction(quo)[1], Q, Tb).is_monomial:
+            qc = sp.Poly(sp.expand(quo * Q**80 * Tb**80), Q, Tb).coeffs()
+            if all(c > 0 for c in qc) or all(c < 0 for c in qc):
+                out[beta] = "tfactor" + ("+" if qc[0] > 0 else "−"); continue
+        out[beta] = "mixed"
+    return out
