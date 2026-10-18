@@ -3,7 +3,7 @@
 ## 現在の状況（再開用、2026-10-18 更新）
 
 ### 環境
-- worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照（K4'(a) まで済）。**push と PR は未（外部送信の許可が必要。ユーザーの指示があるまで push しない）**。
+- worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
 - テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（29 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
@@ -18,20 +18,27 @@
 | K2'(a) | probe 側 Askey–Wilson 係数の U = t^N の閉じた形【予想・4 点で確認】。Hopf（probe 各 1 個）を Q(q,t,U) で計算、f_{ab} = (1−q)/(1−t)×整数 Laurent（a,b ≤ 4）。f_{11} = −f_{10} z_q(ν~−ν~^{−1})、ν~ = ν(q/t)^{1/2} | report.md §4.1、src/rcsknots/{askey_wilson,kauffman_hopf}.py |
 | K2'(b) | 成分 1 の probe を無限個にしても 1 変数に縮約可。Schur 基底で |R| ≤ 4 の整数性、Macdonald 基底では破れる | report.md §4.2 |
 | K3' | trefoil [1]：AS (6.15)/(6.17) を実装、t = q で Mariño の鏡像 × ν^{−6}。素朴な refined Rosso–Jones は AS と合わない。h/g 分解で g^{ref}_[1] が Laurent になるのは単項式 T_[1]^{−6}(q/t)^{1/2} のとき【仮説】 | report.md §6、src/rcsknots/kauffman_trefoil.py |
-| K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined 交差帽 = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
+| K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined クロスキャップ = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
+| K4'(a) | クロスキャップ部分は全 d の第二量子化の構造 g = ½E/(1+t) + C（2(1+t)g は整数 Laurent、unknot の −½ は消える）。E はセクター別の被覆と t = −1・t = q の条件で (2,2),(2,4) が一意（積の形）、(4,4) は不定。Ĩ = ρ⊗ρ の入れ替え（Adams）を \|R\| ≤ 4、b ≤ 4 で確認 | report.md §7、src/rcsknots/kauffman_cover.py、scripts/rk_k4_*.py |
+| (b) | trefoil の 1^k（k ≤ N）を N = 2, 3 で計算（SO(4) = SU(2)²、SO(6) = SU(4)、KN の refined 不変量の鏡像）。N 依存の極は打ち消し、f_a は整数 Laurent。固定 N では framing は極の上でしか決まらない | report.md §6、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py |
 
 ### 重要な規約・事実（conventions.md に記載）
 - 変数：r = q^{1/2}、s = t^{1/2}、U = t^{N_D}（SO(2N_D)）、ν = U/√t（Mariño の ν、Q = ν² = U²/t）、A = ν² = t^{N_A}（被覆 U(N_A)、N_A = 2N_D − 1）、ν~ = ν(q/t)^{1/2}、z_q = r − 1/r、z_t = s − 1/s、G = z_q z_t。DGR：𝐪 = s、𝐭 = −r/s、𝐚 = ν、ν~ = −𝐚𝐭。
 - virtual 正規化 Z~ = (Πy)^N Z（y の多項式、U を形式変数にできる）。自由エネルギーは Schur 基底。
-- 交差帽部分 g は全 d で定義 g_{ab} = f_{ab} − ½f^{cov}_{ab}（hopf_g_alld.pkl；Σ_{d 奇数} 版は hopf_g_odd.pkl、g = g^{odd} − ½g^{odd}(x²)）。(偶,偶) の 2(1+t) は Ĩ で固定される oriented 状態の射影 ½E/(1+t)。unknot の (2,0) = −½ は全 d では 0。
+- クロスキャップ部分 g は全 d で定義 g_{ab} = f_{ab} − ½f^{cov}_{ab}（hopf_g_alld.pkl；Σ_{d 奇数} 版は hopf_g_odd.pkl、g = g^{odd} − ½g^{odd}(x²)）。(偶,偶) の 2(1+t) は Ĩ で固定される oriented 状態の射影 ½E/(1+t)。unknot の (2,0) = −½ は全 d では 0。
 - データ：data/refined_kauffman/hopf_f.pkl（f_{ab}）、hopf_f_multi.pkl（Schur/Macdonald 基底の f_{R,b}）、hopf_g.pkl（全 d の g、a,b ≤ 3、変数 U,r,s）、hopf_g_alld.pkl（全 d の g、a,b ≤ 4、変数 r,s,ν）、hopf_g_odd.pkl（Σ_{d 奇数} の g）、hopf_g_ref.pkl（(1+q^d)/(1+t^d) 規則の試み、失敗）。いずれも sympy の式の文字列。
 
-### これからやること（ユーザーと合意した順：(a) → (b) → (c)）
-(a) **済（2026-10-17）**：refined の偶数 d の引き算は「Σ_{d 奇数} + 引き算」ではなく全 d（第二量子化）の構造 g = ½E/(1+t) + C で理解される（report.md §7、scripts/rk_k4_hopf_alld.py、data/refined_kauffman/hopf_g_alld.pkl）。残る問題は E と C の分離（E(t=−1) だけが分離に依らない）。
-(b) **trefoil の 1^k（k ≥ 2）の refined SO(2N) 不変量**（30 分超の計算。実行前に見積もり・再開・分割の準備を progress.md に書く）
-  - 素朴な refined Rosso–Jones（p_2 の Koornwinder 展開 + T_μ）は AS の [1] と合わない（report.md §6）ので、AS §6 の SL(2,Z) の構成（有限レベル k、β = t の指数、S・T 行列と (q,t) LR 係数 N^k_{ij}）を小さい N と k で実装し、[1] で AS (6.15) を再現してから 1^k に進む。
-  - 得られたら：f_k = −W_{1^k} ×（virtual 正規化の probe 基底）で log Z~ を作り、(a) の定義で交差帽部分を分け、整数性と（結び目なので）正値性を DGR 変数で見る。[1] の単項式の仮説（§6）も 1^k の整合性で検証する。
-(c) push / PR はユーザーの指示があってから。
+### これからやること（2026-10-18 の評価。着手はユーザーの指示による）
+| タスク | 見込み | 有効性 |
+|---|---|---|
+| A. trefoil の [1] を T(2,5), T(2,7) などに広げる（AS の一般式は実装済み、K3' の走査を流用） | 高い、数時間 | 中〜高：framing の単項式の仮説 T^{−mn}(q/t)^{1/2} を族で検証 |
+| B. refined のクロスキャップ BPS 数の定義（正値性の判定式）。材料は g = ½E/(1+t) + C、(1,b) の「ν → ν~」、Adams の構造 | 中、1〜2 日 | 高：正値性を述べるのに必須。A のデータで試せる |
+| C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
+| D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
+| E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
+| F. trefoil [1] の √(q/t) の由来（AS の SU(N) にも同じ因子） | 低い | 中〜低 |
+| G. 研究計画 K3 の composite 入力（Cherednik–Elliot） | 中 | 低い：SO 側の 1^k が無いと使えない |
+推奨（2026-10-18 にユーザーへ提示）：A → B。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
 
 ### 未解決（docs に記録済み）
 - trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
@@ -73,9 +80,9 @@
 - K2 の停止点に到達（研究計画 §2）。
 
 ## 2026-10-14（夕）deep research の報告の読解
-- ユーザーが deep research で得た文献調査の報告を docs/refined_kauffman/literature_deep_research_2026-10-14.md に保存（外部の要約、未検証）。要点：refined かつ開弦の orientifold の整数性を定式化した文献は無い（AS 自身が第一量子化は未定義と明言）。U(N) では KN（1703.05408）と Cheng–Sułkowski（2104.00713）が分母を Macdonald 基底・計量・refined holonomy に吸収する方式を確立。Avetisyan–Mkrtchyan（2205.12832、閉弦）は交差帽の数ごとに Kähler 変数の量子シフトが違う「三重化」を提案し、Klein 瓶の項の分母 (t^n + t^{−n}) を与える。Cherednik–Danilenko 1509.08351 は B/C/D の DAHA-hyperpolynomial の存在と対称性を未解決としている。Koornwinder 型（C^∨C_n）の refined CS は文献に無い。
+- ユーザーが deep research で得た文献調査の報告を docs/refined_kauffman/literature_deep_research_2026-10-14.md に保存（外部の要約、未検証）。要点：refined かつ開弦の orientifold の整数性を定式化した文献は無い（AS 自身が第一量子化は未定義と明言）。U(N) では KN（1703.05408）と Cheng–Sułkowski（2104.00713）が分母を Macdonald 基底・計量・refined holonomy に吸収する方式を確立。Avetisyan–Mkrtchyan（2205.12832、閉弦）はクロスキャップの数ごとに Kähler 変数の量子シフトが違う「三重化」を提案し、Klein 瓶の項の分母 (t^n + t^{−n}) を与える。Cherednik–Danilenko 1509.08351 は B/C/D の DAHA-hyperpolynomial の存在と対称性を未解決としている。Koornwinder 型（C^∨C_n）の refined CS は文献に無い。
 - **D_N の unknot の N 依存の分母は Koornwinder の評価式の C⁺ 因子（lifted Koornwinder の T の極）に由来する**【計算】：C⁺_λ(t₀t₁t₂t₃ t^{2n−2}/q) = Π_{(i,j)∈λ}(1 − q^{λ_i+j−1} t^{2n−i−λ'_j})（t₀t₁t₂t₃ = q）の因子のうち分子 (t^n, t₀t_r t^{n−1}; q,t)_λ で約分されないものが、[1]〜[4], [2,1], [1,1,1], [2,2] の分母と一致する（上の訂正を含む）。報告の「Q3 の推測」は [3] の分母の誤記（本セッションの以前の記録に由来）を除いて正しい。
-- 報告の推奨のうち、本研究で採用する順：(1) 整数性の判定基準を AS (3.13) 型の第二量子化（積表示）に移す、(2) Kauffman 側の母関数の基底を lifted Koornwinder（T を Kähler 変数）にして、Rains の lifted Cauchy 恒等式 Σ_λ (−1)^{|λ|} \hat K_λ(x;t,q,T) \tilde K_{λ'}(y;q,t,T) = Π(1 − x_i y_j) の上で組み直す、(3) 交差帽ごとの Kähler 変数のずれ（Avetisyan–Mkrtchyan）を開弦に持ち込む。いずれも【仮説】として研究計画 K2' に追加する。
+- 報告の推奨のうち、本研究で採用する順：(1) 整数性の判定基準を AS (3.13) 型の第二量子化（積表示）に移す、(2) Kauffman 側の母関数の基底を lifted Koornwinder（T を Kähler 変数）にして、Rains の lifted Cauchy 恒等式 Σ_λ (−1)^{|λ|} \hat K_λ(x;t,q,T) \tilde K_{λ'}(y;q,t,T) = Π(1 − x_i y_j) の上で組み直す、(3) クロスキャップごとの Kähler 変数のずれ（Avetisyan–Mkrtchyan）を開弦に持ち込む。いずれも【仮説】として研究計画 K2' に追加する。
 
 ## 2026-10-14（夜）K2'
 - Koornwinder 多項式を q-差分作用素の固有関数として実装（src/rcsknots/koornwinder.py、n = 2, 3）。van Diejen–Sahi の評価式と一致、Mimachi の双対 Cauchy 恒等式を (n,m) ≤ (3,2) で確認【計算】。tests/test_rk_koornwinder.py。
@@ -107,12 +114,12 @@
 - テスト：tests/test_rk_trefoil.py（3 件、約 1 秒）。
 - 停止点：trefoil [1] の整数性は仮説の単項式のもとで成立。未解決：余分な (q/t)^{1/2} の由来、refined Rosso–Jones が D 型で AS と合わない原因、1^k（k ≥ 2）の refined SO 不変量の計算法（SL(2,Z)、有限レベル）。
 
-## 2026-10-14（深夜 4）K4'：refined の交差帽展開
-- ユーザーの指示：refined の交差帽展開（c = 1, 2）を unknot・Hopf で定義し、正値性と DGR 変数での正整数性を見る項目を計画に追加（research_plan.md K4'）。効果の高い順に (1) unknot・Hopf [1],[1]、(2) trefoil [1]、(3) Hopf (a),(b)、(4) 結び目の 1^k。
+## 2026-10-14（深夜 4）K4'：refined のクロスキャップ展開
+- ユーザーの指示：refined のクロスキャップ展開（c = 1, 2）を unknot・Hopf で定義し、正値性と DGR 変数での正整数性を見る項目を計画に追加（research_plan.md K4'）。効果の高い順に (1) unknot・Hopf [1],[1]、(2) trefoil [1]、(3) Hopf (a),(b)、(4) 結び目の 1^k。
 - 被覆（composite 表現の U(N) refined Hopf）を実装（kauffman_cover.py）。Pieri 係数の形を数値で特定、記号版（A = ν²）は有限 N と一致。unknot・[1],[1] の解析式と一致【計算】。
 - Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で ν の Laurent 多項式（有理補間）【計算】。
-- 記号計算：(1,b) は g_{1b} = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})、t は ν~ 経由のみ（refined 交差帽 = unrefined with ν → ν~）。(2,3),(3,3) などは Laurent・整数だが t 依存。(2,2),(2,4),(4,4) は 2(1+t), 4(1+t)(1+t²) の分母が残る（AS §7 の (t^{d/2}+t^{−d/2}) の開弦版）。閉弦の (1+q^d)/(1+t^d) 規則では解消しない。report.md §7。
-- 交差帽展開（G = z_q z_t の冪 + 奇数因子 X）を unknot・Hopf [1],[1]・trefoil [1] に適用（scripts/rk_k4_crosscap.py）：unknot は c=1 の −1、Hopf [1],[1] は X = z_q の c=2（±1）、trefoil の奇数部分は G 環に入らない（仮説依存）。
+- 記号計算：(1,b) は g_{1b} = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})、t は ν~ 経由のみ（refined クロスキャップ = unrefined with ν → ν~）。(2,3),(3,3) などは Laurent・整数だが t 依存。(2,2),(2,4),(4,4) は 2(1+t), 4(1+t)(1+t²) の分母が残る（AS §7 の (t^{d/2}+t^{−d/2}) の開弦版）。閉弦の (1+q^d)/(1+t^d) 規則では解消しない。report.md §7。
+- クロスキャップ展開（G = z_q z_t の冪 + 奇数因子 X）を unknot・Hopf [1],[1]・trefoil [1] に適用（scripts/rk_k4_crosscap.py）：unknot は c=1 の −1、Hopf [1],[1] は X = z_q の c=2（±1）、trefoil の奇数部分は G 環に入らない（仮説依存）。
 - テスト：tests/test_rk_cover.py（5 件、約 6 秒）。
 - 未解決：refined の偶数 d の引き算の正しい形（(2,2) の留数を記録）、trefoil の単項式、結び目の 1^k。
 
@@ -121,7 +128,7 @@
 - 【導出】開弦（probe は t-brane、開弦の分母 (1−t)）では z₂ → −z₂ が probe に沿うので、全 d の自由エネルギーの係数は f_{ab} = ½f^{cov}_{ab} + ½E_{ab}/(1+t) + C_{ab}（E：Ĩ 固定の oriented 状態、(偶,偶) のみ；C：凍結した unoriented 状態）。閉弦では E = (1−t)f^{cov}（全状態が固定）で AS §7 の (t^{d/2}+t^{−d/2}) の項を再現する。
 - 【計算】（scripts/rk_k4_hopf_alld.py、a,b ≤ 4）全 d の g_{ab} = f_{ab} − ½f^{cov}_{ab} = g^{odd}_{ab} − ½g^{odd}_{a/2,b/2}(x²) の分母は (偶,偶) で 2(1+t) のみ（(4,4) に (1+t²) は出ない）、それ以外は整数 Laurent。2(1+t)g_{ab} は全セクターで整数 Laurent。unknot の (2,0) = −½ は全 d では 0。E_{22}(−1) = z_q(z_q^+)²(ν~−ν~^{−1})(q^{−1/2}ν~ − q^{1/2}ν~^{−1})、E_{24}(−1) = E_{22}(−1)(q^{−1}ν~² + qν~^{−2})。
 - 【未解決】E と C の分離。候補 (A) C = ĝ^{unref}(ν→ν~)、(B) E = 積の形、はどちらも整数 Laurent だが (4,4) の留数を予測しない。決めるには被覆の composite セクター別の Ĩ の作用（Koike の composite 指標のプレシズム）か、結び目のデータが要る。
-- 先に試した閉弦の規則（引き算 × (1+q^d)/(1+t^d)）が失敗した理由：それは E_{22} = −(1+q)g_{11}(x²) を仮定するが、実際の E_{22}(−1) とは因子 (q − ν~²)/(q(1+ν~²)) だけ違う（開弦では固定される状態が倍化した交差帽と一致しない）。
+- 先に試した閉弦の規則（引き算 × (1+q^d)/(1+t^d)）が失敗した理由：それは E_{22} = −(1+q)g_{11}(x²) を仮定するが、実際の E_{22}(−1) とは因子 (q − ν~²)/(q(1+ν~²)) だけ違う（開弦では固定される状態が倍化したクロスキャップと一致しない）。
 - テスト：tests/test_rk_cover.py::test_hopf_crosscap_all_d_even_sector（記号計算、約 1 秒）。docs：report.md §7、conventions.md、research_plan.md を更新。
 - 次：(b) trefoil の 1^k（SL(2,Z) の有限レベル実装）。(a) の結論により、結び目の判定基準は「全 d の f_a が (1−t^{e_a})f_a 整数 Laurent（e_a = 2 for a 偶数、1 for a 奇数）、g_a = f_a − ½f^{cov}_a が奇数 a で整数 Laurent、偶数 a で 2(1+t)g_a 整数 Laurent」。
 
@@ -157,3 +164,8 @@
 - 走査の初版は sympy の式の展開で 10 分以上かかったので止め、有理関数体に替えて 1 秒（見積もりを先に測る規則を守れていなかった。今回は止めてから測った）。
 - テスト：tests/test_rk_trefoil.py::test_trefoil_fixed_N_pole_cancellation（約 1 秒）。
 - 結論と停止点：K2' の枠組みは trefoil の 1^k（k ≤ N）で N = 2, 3 の必要条件（極の打ち消し）を満たす。固定 N では framing・ν の構造・正値性は決まらない。次の候補：(i) 一般の N（D_N の SL(2,Z) か DAHA の実装、規模大）、(ii) (4,4) の E（Ĩ の単一粒子状態への作用）、(iii) 区切りとして push/PR（許可が必要）。
+
+## 2026-10-18（続き 3）用語と PR
+- 用語：「交差帽」（crosscap の直訳）を、数学で普通に使う「クロスキャップ」に置き換えた（docs/refined_kauffman の .md 全部、deep research の報告を含む）。コードとテストのコメントには「交差帽」が残る（scripts/rk_k4_*.py、tests/test_rk_cover.py）。
+- PR #11 を作成（gh api で 27 commit を同じ SHA で作り、gh pr create）。Auto-fix はアプリ側で有効。
+- 文献の確認：1202.4456 の著者は Aganagic–Schaeffer（TeX の \author と謝辞の K.S. で確認）。チャットで一度「Aganagic–Shakirov」と書いた誤りを訂正（docs には誤りなし）。

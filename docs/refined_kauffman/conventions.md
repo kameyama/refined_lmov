@@ -33,9 +33,9 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 - 標準 framing の unnormalized W_SO = (6.15) × r^{−5} s^{11} U^{−6} × unknot_SO（r = q^{1/2}, s = t^{1/2}）【仮説：t = 1 の極の打ち消しと最短性から】。T_[1] = q^{1/2} t^{N−1} に対し r^{−5}s^{11}U^{−6} = T_[1]^{−6}(q/t)^{1/2}。
 - oriented 部分：½h^{ref}_[1] = 𝒫_DGR の鏡像(𝐚_U,𝐪,𝐭) × (ν−ν^{−1})/(𝐪−𝐪^{−1})、𝐚_U² = A (t/q)^{1/2}、A = ν² = U²/t（unknot から）。
 
-## 交差帽展開（K4'、2026-10-14）
+## クロスキャップ展開（K4'、2026-10-14）
 - 被覆：U(N_A) refined CS、A = ν² = U²/t = t^{N_A}（N_A = 2N_D − 1）、核 Π_i(1 − y x_i)(1 − y/x_i)（fermionic、composite）。oriented 部分 = ½F^{cov}。
-- 交差帽部分（2026-10-17 に全 d の定義へ変更、report.md §7）：g_{ab} := f_{ab} − ½ f^{cov}_{ab}（f, f^{cov} は全 d の Möbius 反転）。第二量子化（AS §3）の構造 g = ½E/(1+t) + C（E：Ĩ で固定される oriented 状態、(偶,偶) のみ；C：凍結した unoriented 状態）をもち、2(1+t)g は整数 Laurent。
+- クロスキャップ部分（2026-10-17 に全 d の定義へ変更、report.md §7）：g_{ab} := f_{ab} − ½ f^{cov}_{ab}（f, f^{cov} は全 d の Möbius 反転）。第二量子化（AS §3）の構造 g = ½E/(1+t) + C（E：Ĩ で固定される oriented 状態、(偶,偶) のみ；C：凍結した unoriented 状態）をもち、2(1+t)g は整数 Laurent。
   Mariño 型の Σ_{d 奇数} の定義 g^{odd}_{ab} = L_{ab} − ½L^{cov}_{ab} − Σ_{d 奇数>1}(1/d) g^{odd}_{a/d,b/d}(x^d) とは g_{ab} = g^{odd}_{ab} − ½ g^{odd}_{a/2,b/2}(x²) で結ばれ、t = q では g^{odd} = Mariño の ĝ。refined では g^{odd} の (偶,偶) に (1+t^{d/2}) の分母が残るので、整数性の判定には全 d の g（と f 自身）を使う。
   理由：refined の軌道体では z₂ → −z₂ が probe（t-brane）に沿い、固定される oriented 状態のモード射影が ½/(1+t) を生む（閉弦では AS §7 の (t^{d/2}+t^{−d/2}) の項）。E と C の分離は未確定（E(t=−1) だけが分離に依らない）。
   E の決め方（2026-10-18）：E = P − 2Q（P = (1−t)f^{cov}_{固定セクター}、Q は Ĩ 固有値 −1 の状態の部分和）、t = −1 で E = 2(1+t)g、t = q で C = ĝ（Mariño）。(2,2),(2,4) で一意、(4,4) は未確定（report.md §7）。
