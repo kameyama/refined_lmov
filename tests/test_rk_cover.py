@@ -207,3 +207,18 @@ def test_multi_probe_cover_and_adams_b2():
     zq, zp = r_ - 1 / r_, r_ + 1 / r_
     E22 = -zq * zp**2 * (nut - 1 / nut) * (s_**2 / r_ * nut + r_ / nut)
     assert mono(g2 - E22 / (2 * (1 + s_**2)))
+
+
+def test_hopf_hatted_crosscap_invariants():
+    """B：Hopf の reformulated クロスキャップ不変量 ĝ_{R,[1]} = Σ_S M^{−1}_{RS}(q^{−1}) g_{S,1}（KN の M、Mariño の M_{RS} の refined 版）は、
+    hook R = (n−d, 1^d) で (−1)^d z_q (ν~ − ν~^{−1}) ν~^{2d−n+1}（t は ν~ = ν(q/t)^{1/2} だけを通る）。n = 2, 3（data/refined_kauffman/hopf_g_multi.pkl）。"""
+    import sys as _sys
+    import sympy as sp
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    from rk_b_hopf_hatted import hatted, r, s, nu
+    nut = nu * r / s
+    zq = r - 1 / r
+    for n in (2, 3):
+        for R, v in hatted(n).items():
+            d = len(R) - 1
+            assert sp.cancel(v - (-1)**d * zq * (nut - 1 / nut) * nut**(2 * d - n + 1)) == 0, R

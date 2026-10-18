@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（33 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（34 件、約 45 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -192,3 +192,9 @@
 - (2)【計算】(𝐚² − 𝐪²)：SO(2) で g^{ref} = (−𝐭)^m = (q/t)^{δ/2}（U(1) の自明さ、§6 の framing 因子そのもの）。(𝐭² − 1)：g^{ref} の 𝐭 の偶奇が m と同じ（g(−𝐭) = (−1)^m g(𝐭)）なので、𝐭 = −1 で消える部分は 𝐭 = ±1 で消える。m = 1..5 で確認。
 - テスト：tests/test_rk_trefoil.py::test_refined_crosscap_special_points（約 1 秒）。
 - 停止点：普遍的な因子は説明がついた。残る内容は商の符号がそろうこと（正値性）で、根拠はトーラス結び目の [1] だけ。次の候補：(i) 多 probe の Hopf に refined の framing を入れて 2 箱以上のセクターで判定式を検査（数時間）、(ii) 一般の N（C）。
+
+## 2026-10-18（続き 7）Hopf の hatted 不変量（ユーザーの指示「ghでpushして1へ進め」）
+- PR #11 に 10afd1c, e287486 を gh api で push。
+- 【訂正】前回の「2 箱以上は framing のずれで検査できない」は誤り。原因は Mariño の reformulation ĝ = M^{−1}g を飛ばしていたこと（0904.1088 で確認）。M は KN の M(q^{−1})（= Mariño の M_{RS}）。
+- 【計算】ĝ_{R,[1]}（|R| ≤ 4）：hook で (−1)^d z_q(ν~−ν~^{−1})ν~^{2d−n+1}、非 hook で 0。t は ν~ だけを通る。判定式どおり（c = 2、符号がそろう）。t = q で Mariño の Hopf の値（R ↔ R^T、符号 −1）。scripts/rk_b_hopf_hatted.py、tests/test_rk_cover.py::test_hopf_hatted_crosscap_invariants。
+- 残り：偶数×偶数（E ≠ 0）の hatted 不変量には成分 2 も多 probe の g_{R,S} が要る（被覆 cover_f_multi と SO 側の両方を 2 成分とも多 probe にする。見積もりは未）。
