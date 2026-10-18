@@ -156,6 +156,9 @@ $(4,4)$ は解が存在するが一意でない（固定セクターの単項式
 
 \subsection{Hopf の hatted 不変量}
 $\hat g_{R,[1]}$（$|R| \le 4$）は整数 Laurent で、hook $R = (n - d, 1^d)$ で $(-1)^d z_q (\tnu - \tnu^{-1}) \tnu^{2d - n + 1}$、hook でない $R$（[2,2]）で 0 \comp{}。$t = q$ で Mariño の $\hat g_{[2],[1]} = z(\nu^2 - 1)$, $\hat g_{[1,1],[1]} = z(\nu^{-2} - 1)$ に $R \leftrightarrow R^T$ と全体の符号 $-1$ で一致する。$|R| \le 4$, $|S| \le 2$ の $\hat C_{R,S}$ の refined だけの部分は、10 成分すべてで $(\tnu^2 - q)(q - t)$ で割り切れる \comp{}。
+成分 1 を多 probe（Schur 基底）、成分 2 を 2 箱にした $C_{R,S} = g_{R,S} - \tfrac12 E_{R,S}/(1+t)$ の hatted $\hat C = M^{-1}(q^{-1}) C\, M^{-1}(q^{-1})^T$ を、「$t = q$ の部分（$\tnu$ で表す）＋ refined だけの部分」に分けた結果を次の表に示す。符号は $z_q$ を除いた後の $\tnu$ の冪ごとの判定である \comp{}。値は付録 \ref{app:hopf} に載せた。
+\input{gen/hopf_hatted_table.tex}
+混在する 2 成分は転置の対で、$\tnu^2$ のブロックに $q^{1/2}(1 - t)$ が入って符号がそろわない（太字の $\ba$ の冪ごとでも同じ）\open。
 
 \section{トーラス結び目の [1]（K3$'$、タスク A）}
 \subsection{h/g 分解と framing}
@@ -340,6 +343,13 @@ $g^{\mathrm{true}}_{[1]}$（太字の変数）、$c = 1$ 部分の $G$ 展開、
 \subsection{DAHA：一般の $N$ の簡約した不変量}\label{app:daha}
 $R_\lambda(U) = T_\lambda^{-6} \times$ 鏡像$(Z)/K_\lambda(t^\rho)$（trefoil、一様な規格化）。$q, t$ の冪は半整数のこともある。
 \input{gen/daha.tex}
+
+\subsection{unknot と Hopf 絡み目（双対 Cauchy 型、全 $d$）}\label{app:hopf}
+unknot は $g_{10} = -1$、$g_{a0} = 0$（$a \ge 2$）。$(1, b)$ は $g_{1b} = z_q(\tnu - \tnu^{-1})\chi_{b-1}(\tnu/q^{1/2})$（$b \le 4$）、$E_{22}, E_{24}$ は §\ref{sec:crosscap} の式（いずれも生成時に保存済みのデータと照合した）。以下、閉じた形の無い $(2,2), (2,3), (3,3)$ と $C_{22}$ を $\tnu = \nu (q/t)^{1/2}$ で書く。$(2,4), (3,4), (4,4)$（216, 425, 928 項）は \texttt{data/refined\_kauffman/hopf\_g\_alld.pkl} にある。
+\input{gen/hopf_one_probe.tex}
+
+多 probe の hatted $\hat C_{R,S}$（$|R| \le 4$, $|S| \le 2$。入力は \texttt{data/refined\_kauffman/hopf\_g\_two\_multi\_42.pkl}）：
+\input{gen/hopf_hatted.tex}
 
 \subsection{大きな $N$ の 2 箱のクロスキャップ部分（太字の変数）}\label{app:largeN}
 \input{gen/largeN_2box.tex}

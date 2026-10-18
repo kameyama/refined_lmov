@@ -180,6 +180,79 @@ def gen_largeN():
     print("留数の式を確認", flush=True)
 
 
+# ---- 5. unknot と Hopf 絡み目（双対 Cauchy 型、全 d） ----
+def gen_hopf():
+    import rk_b_hatted_analyze as H
+    from rcsknots.partitions import partitions
+    from rcsknots.bps import M_matrix
+    from rk_b_hopf_ext import adams2
+    r, s, nu, nut = H.r, H.s, H.nu, H.nut
+    t, q = s**2, r**2
+    zq = r - 1 / r
+    loc = {"r": r, "s": s, "nu": nu}
+    QTN = [(r"\tnu", 1), ("q", 2), ("t", 2)]
+    tilde = lambda e: sp.cancel(sp.sympify(e, locals=loc).subs(nu, nut * s / r))   # ν = ν~ (t/q)^{1/2}
+    g = {k: tilde(v) for k, v in pickle.load(open("data/refined_kauffman/hopf_g_alld.pkl", "rb")).items()}
+    # 閉じた形の確認：unknot、(1,b)、E_22, E_24
+    assert g[(1, 0)] == -1 and all(g[(a, 0)] == 0 for a in (2, 3, 4))
+    chi = lambda m, x: sum(x**(m - 2 * i) for i in range(m + 1))
+    for b in (1, 2, 3, 4):
+        assert sp.cancel(g[(1, b)] - zq * (nut - 1 / nut) * chi(b - 1, nut / r)) == 0
+    zp = r + 1 / r
+    E = {k: tilde(v) for k, v in pickle.load(open("data/refined_kauffman/hopf_E_fixed.pkl", "rb")).items()}
+    E22 = -zq * zp**2 * (nut - 1 / nut) * (t * nut / r + r / nut)
+    assert sp.cancel(E[(2, 2)] - E22) == 0 and sp.cancel(E[(2, 4)] - E22 * (nut**2 / q + q / nut**2)) == 0
+    out = []
+    for ab in ((2, 2), (2, 3), (3, 3)):
+        e = g[ab] * (2 * (1 + t) if ab[0] % 2 == 0 and ab[1] % 2 == 0 else 1)
+        d = laurent(e, (nut, r, s))
+        lab = (r"$2(1 + t) g_{" if ab == (2, 2) else r"$g_{") + f"{ab[0]}{ab[1]}" + r"}$" + f"（{len(d)} 項、$\\tnu$ の冪ごと）："
+        out.append(grouped(d, 0, r"\tnu", QTN[1:], per=6, label=lab))
+    C22 = sp.cancel(g[(2, 2)] - E[(2, 2)] / (2 * (1 + t)))
+    d = laurent(C22, (nut, r, s))
+    out.append(grouped(d, 0, r"\tnu", QTN[1:], per=6, label=rf"$C_{{22}} = g_{{22}} - \tfrac12 E_{{22}}/(1+t)$（{len(d)} 項）："))
+    write("hopf_one_probe.tex", "\n".join(out))
+    # 多 probe の hatted Ĉ_{R,S}（rk_b_hatted_analyze と同じ手順）
+    gm = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open("data/refined_kauffman/hopf_g_two_multi_42.pkl", "rb")).items()}
+    Eraw = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open("data/refined_kauffman/hopf_E_fixed.pkl", "rb")).items()}
+    e11 = sp.sympify(pickle.load(open("data/refined_kauffman/hopf_eps_multi.pkl", "rb"))["eps_11_1"], locals=loc)
+    eps = {((1,), (1,)): Eraw[(2, 2)], ((2,), (1,)): Eraw[(2, 4)], ((1, 1), (1,)): e11, ((1,), (2,)): Eraw[(2, 4)], ((1,), (1, 1)): e11}
+    name = lambda R: "(" + ",".join(map(str, R)) + ")"
+    out, rows = [], []
+    for nR, nS in ((2, 2), (4, 2)):
+        PR, PS = partitions(nR), partitions(nS)
+        C = {}
+        for R in PR:
+            for S_ in PS:
+                Ev = sum(adams2(rho).get(R, 0) * adams2(sg).get(S_, 0) * eps[(rho, sg)] for rho in partitions(nR // 2) for sg in partitions(nS // 2))
+                C[(R, S_)] = sp.cancel(gm[(R, S_)] - Ev / (2 * (1 + t)))
+        MR, MS = M_matrix(nR, 1 / r).inv(), M_matrix(nS, 1 / r).inv()
+        Ch = MR * sp.Matrix([[C[(R, S_)] for S_ in PS] for R in PR]) * MS.T
+        for i, R in enumerate(PR):
+            for j, S_ in enumerate(PS):
+                w = sp.cancel(sp.cancel(Ch[i, j]).subs(nu, nut * s / r))
+                w0 = sp.cancel(w.subs(s, r))
+                diff = sp.cancel(w - w0)
+                w0s, k0 = H.strip_zq(w0)
+                lab = rf"$\hat C_{{{name(R)},{name(S_)}}}$"
+                ok0 = H.coherent_by_power(w0s, nut)
+                if diff == 0:
+                    rows.append(rf"{lab} & $z_q^{{{k0}}}$、{'そろう' if ok0 else '混在'} & 0 \\")
+                    body = laurent(w0s, (nut, r))
+                    out.append(grouped(body, 0, r"\tnu", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$（refined だけの部分は 0）"))
+                    continue
+                quo = sp.cancel(diff / ((nut**2 - q) * (q - t)))
+                qs_, kq = H.strip_zq(quo)
+                ok1 = H.coherent_by_power(qs_, nut)
+                rows.append(rf"{lab} & $z_q^{{{k0}}}$、{'そろう' if ok0 else '混在'} & $(\tnu^2 - q)(q - t) z_q^{{{kq}}}$、{'そろう' if ok1 else '\\textbf{混在}'} \\")
+                out.append(grouped(laurent(w0s, (nut, r)), 0, r"\tnu", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$"))
+                out.append(grouped(laurent(qs_, (nut, r, s)), 0, r"\tnu", QTN[1:], per=6,
+                                   label=rf"{lab}：refined だけの部分 $= (\tnu^2 - q)(q - t)\, z_q^{{{kq}}} \times$"))
+    write("hopf_hatted.tex", "\n".join(out))
+    write("hopf_hatted_table.tex", "\\begin{center}\n\\begin{tabular}{lll}\n\\toprule\n成分 & $t = q$ の部分（$\\tnu$ の冪ごとの符号） & refined だけの部分（商の符号） \\\\\n\\midrule\n"
+          + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{center}\n")
+
+
 if __name__ == "__main__":
     import rk_b_marino_tq as M
     assert all(M.compare().values())
@@ -187,3 +260,4 @@ if __name__ == "__main__":
     gen_torus_one_box()
     gen_daha()
     gen_largeN()
+    gen_hopf()
