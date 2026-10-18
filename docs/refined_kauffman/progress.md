@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（29 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（30 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -31,14 +31,14 @@
 ### これからやること（2026-10-18 の評価。着手はユーザーの指示による）
 | タスク | 見込み | 有効性 |
 |---|---|---|
-| A. trefoil の [1] を T(2,5), T(2,7) などに広げる（AS の一般式は実装済み、K3' の走査を流用） | 高い、数時間 | 中〜高：framing の単項式の仮説 T^{−mn}(q/t)^{1/2} を族で検証 |
+| A. **済（2026-10-18）**：T(2,2m+1)（m ≤ 5）の [1]。単項式は T^{−2(2m+1)}(q/t)^{δ/2}（AS の SU(N) と同じ形）、g^{ref} は整数 Laurent、t = q で N^{c=2} = 0 | — | report.md §6 |
 | B. refined のクロスキャップ BPS 数の定義（正値性の判定式）。材料は g = ½E/(1+t) + C、(1,b) の「ν → ν~」、Adams の構造 | 中、1〜2 日 | 高：正値性を述べるのに必須。A のデータで試せる |
 | C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
 | D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
 | E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
-| F. trefoil [1] の √(q/t) の由来（AS の SU(N) にも同じ因子） | 低い | 中〜低 |
+| F. √(q/t) の由来：A により (q/t)^{δ/2}（AS の SU(N)・KN の (N2') と同じ因子）と特定。物理的な由来は未解明 | 低い | 低い |
 | G. 研究計画 K3 の composite 入力（Cherednik–Elliot） | 中 | 低い：SO 側の 1^k が無いと使えない |
-推奨（2026-10-18 にユーザーへ提示）：A → B。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
+推奨（2026-10-18 にユーザーへ提示）：A（済）→ B。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
 
 ### 未解決（docs に記録済み）
 - trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
@@ -169,3 +169,12 @@
 - 用語：「交差帽」（crosscap の直訳）を、数学で普通に使う「クロスキャップ」に置き換えた（docs/refined_kauffman の .md 全部、deep research の報告を含む）。コードとテストのコメントには「交差帽」が残る（scripts/rk_k4_*.py、tests/test_rk_cover.py）。
 - PR #11 を作成（gh api で 27 commit を同じ SHA で作り、gh pr create）。Auto-fix はアプリ側で有効。
 - 文献の確認：1202.4456 の著者は Aganagic–Schaeffer（TeX の \author と謝辞の K.S. で確認）。チャットで一度「Aganagic–Shakirov」と書いた誤りを訂正（docs には誤りなし）。
+
+## 2026-10-18（続き 4）タスク A：T(2,2m+1) の [1]
+- PR #11 に 4a1a8a6 を gh api で push（ユーザーの指示「ghでpushしてAへ進め」）。
+- 【計算】m = 1..5 で g^{ref}_[1] を Laurent にする単項式を走査（scripts/rk_k3_torus_family.py、1 つの m に数十秒）：符号 +、U^{−2(2m+1)}、r^{−(3m+2)}、s の冪は偶奇だけ。
+- 【計算】s の冪は t = q の Kauffman 型の条件（r → −1/r 不変）で d = 7m+4 に決まる。単項式は T_[1]^{−2(2m+1)}(q/t)^{δ/2}（δ = m）で、AS 1105.5117 §7 の SU(N) の因子と同じ形【文献で確認】。K3' の「最短」で選んだ d = 11 はこの条件と一致。
+- 【計算】g^{ref} は整数 Laurent、t = q で z の奇数冪なし。クロスキャップ展開：c = 1 は G 環、c = 2 は (w − 1/w) で割れるが商は G 環に入らない。符号は混在。
+- 最初、t = q の対称性の判定を expand で書いて全 m で失敗（unknot の因子の分母のため）。cancel に直した。
+- テスト：tests/test_rk_trefoil.py::test_torus_family_framing_monomial（約 1 秒）。
+- 次：B（refined のクロスキャップ BPS 数の定義）。A のデータ（T(2,2m+1) の g^{ref}、c = 1 の G 展開）を試験台にする。

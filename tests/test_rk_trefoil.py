@@ -67,3 +67,22 @@ def test_trefoil_fixed_N_pole_cancellation():
         W = [sp.Integer(1), parts[1][0], sp.cancel(m2 * parts[2][0])]
         f = free_energy(2, W, 2)
         assert mono(f[2]) == expect
+
+
+def test_torus_family_framing_monomial():
+    """A：T(2,5) の [1]。g^{ref} を Laurent にし、t = q で Kauffman 型（r → −1/r 不変）にする単項式は
+    r^{−8} s^{18} U^{−10} = T_[1]^{−10} (q/t)^{δ/2}（δ = 2、T_[1] = q^{1/2}t^{N−1} = r U s^{−2}）。AS 1105.5117 の SU(N) の因子と同じ形。
+    t = q の g^{ref} は z の偶数冪だけ（N^{c=2} = 0）。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k3_torus_family as Tf
+    assert Tf.kauffman_q_power(2) == 0
+    Tm = r * U / s**2
+    assert sp.simplify(r**-8 * s**18 * U**-10 - Tm**-10 * (r / s)**2) == 0
+    g = Tf.g_family(2, 18)
+    assert is_laurent(g)
+    # d の偶奇を変えると Laurent でない
+    assert not is_laurent(sp.cancel(Tf.Z_V_T2(2) * r**-8 * s**19 * U**-10 * Tf.unknot_SO - Tf.h_half(2)))
+    Q, Tb, A = sp.symbols("Q T A")
+    gq = sp.expand(sp.cancel(g.subs({r: -Tb * Q, U: A * Q}).subs(s, Q)).subs(Tb, -1))
+    assert sp.expand(gq - gq.subs(Q, -1 / Q)) == 0
