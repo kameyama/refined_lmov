@@ -483,3 +483,12 @@
 - 載せた計算結果：Mariño の trefoil の ĝ_[2], ĝ_[1,1]（z⁹ の誤植を訂正した値）、T(2,2m+1)（m ≤ 3）の g^{true}_[1]・c = 1 の G 展開・Π_m、DAHA の R_(1), R_(2), R_(1,1)（U の係数）と被覆の随伴、大きな N の 2 箱の ĝ_(2) + ĝ_(1,1)・(1+t)(ĝ_(2) − ĝ_(1,1))・商と符号の表。
 - テスト：tests/test_rk_*.py の既定 55 件が通る（約 75 秒）。daha-fast の結果は未確認なので載せていない。
 - 再生成：`.venv/bin/python scripts/rk_report_tex.py` のあと docs/refined_kauffman/tex で lualatex を 2 回（TEXMFVAR を書き込める場所にする）。
+
+## 2026-10-19（続き 26）(a) 高速版の確認（daha-fast セッションの commit 3ed3257）
+- daha-fast は新しいファイルの追加だけ（src/rcsknots/daha_fast.py、scripts/rk_c_fast_daha_dn.py、tests/test_rk_daha_fast.py、docs/refined_kauffman/daha_fast.md、logs、data の新規 67 件）で、既存のファイルは変更していない。内容は docs/refined_kauffman/daha_fast.md。
+- 報告：trefoil の 3 箱は N = 8 で 24 秒、N = 9 で 43 秒（現行版は外挿で約 1.4 日、約 10 日）。trefoil の 3 箱を N = 2〜12、T(2,5) の 2 箱を N ≤ 14 で保存した。
+- このセッションでの独立な確認【計算】：
+  - tests/test_rk_daha_fast.py の 3 件が通る（5 秒）。
+  - 高速版で保存した 3 箱を現行版で計算し直して全係数一致：N = 4 の (1,1,1)（22 秒）、N = 5 の (2,1)（118 秒）。Z と K の両方。
+  - N ≤ 9 の現行版のデータから作った一般の N の式（R_(1), R_(2), R_(1,1)、data/refined_kauffman/daha/R_U_m1_2box.pkl）が、高速版の N = 10, 11, 12 の値を 9 件すべて全係数で予言した。
+- 次（未着手、ユーザーの確認待ち）：trefoil の 3 箱と T(2,5) の 2 箱の一般の N の補間、大きな N のクロスキャップ部分、述べ直しの判定式（(𝐭² − 1)(𝐚² − 𝐪²) で割り切れること）の 3 箱・T(2,5) での確認。どれも 1 件 30 分未満の見込み。
