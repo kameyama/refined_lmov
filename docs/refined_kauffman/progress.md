@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照（K4'(a) まで済）。**push と PR は未（外部送信の許可が必要。ユーザーの指示があるまで push しない）**。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（27 件、約 45 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（28 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -140,3 +140,11 @@
 - t = q で C = ĝ（Mariño）を加えて整数線形計画（scripts/rk_k4_fixed_sector.py、scipy の milp、約 10 分）：**(2,2) と (2,4) は一意**で積の形（E_22 = 候補 B、E_24 = E_22χ_1(ν~²/q)）。**(4,4) は不定**（164/180 変数が自由、Σ|E| 最小でも 74 が自由、倍化の仮定 4 種は不成立）。data/refined_kauffman/hopf_E_fixed.pkl（(4,4) は MILP の一つの解で、一意ではないので使わないこと）。
 - テスト：tests/test_rk_cover.py に 2 件（セクター別の被覆と P_22 の閉じた形、E_22 の一意性：約 15 秒）。
 - 停止点：(4,4) の E を決めるには Ĩ の作用を表現論的に（composite の (λ,λ) 型セクターでの swap の固有値、Koike の composite 指標のプレシズム）決める必要がある。次の候補：(i) その表現論的な構成、(ii) (b) の選択肢 1（N = 2, 3 の trefoil 1^k）、(iii) 区切りとして push/PR（許可が必要）。
+
+## 2026-10-18（続き）選択肢 1：Ĩ の作用の表現論的な検査（ユーザーの指示「1へ進め」）
+- 成分 1 に probe 無限個の被覆（kauffman_cover.cover_f_multi）を実装。1 変数への特殊化を確認（tests/test_rk_cover.py::test_multi_probe_cover_and_adams_b2）。
+- 【計算】Adams の予言（E_{R,b} = Σ c_{2;ρ}^R ε_{ρ,b}）が |R| ≤ 4、b ≤ 4 で成立。ε_{(1,1),(1)} は一意で積の形。ρ ⊢ 2、b = 2 の規則 P = P_22 X_ρ²、ε = ±E_22 ψ²X_ρ。
+- 【計算】b = 4 では ε_{(2),(2)}、ε_{(1,1),(2)} とも一意でない。Adams は E_44 を決める情報を加えない【導出】。
+- 実行の記録：cover_f_multi(4,4) 542 秒、SO multi(4,4) 757 秒（data/refined_kauffman/hopf_fcov_multi_A4B4.pkl、hopf_f_multi_A4B4.pkl に保存、logs/rk_k4_adams_b4.log）。
+  **見積もりの誤り**：計算部分だけを測り、後処理（全 59 鍵の g を sympy の式の cancel で約分）を測らなかったため、後処理が 10 時間止まった（CPU 95%、出力なし）。プロセスを停止し、必要な 11 鍵だけを有理関数体 Q(r,s,ν) で処理するように書き換えて 1 分で完了。今後、後処理も小さい例で時間を測ってから実行する。
+- 停止点：E_44 の決定には、Ĩ の単一粒子 BPS 状態への作用を直接構成する必要がある（Hopf のデータ・Adams・t = q の条件では足りない）。次の候補：(i) N = 2, 3 の trefoil 1^k（GN）、(ii) 区切りとして push/PR（許可が必要）。
