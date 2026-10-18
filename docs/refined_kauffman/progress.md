@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（45 件、約 60 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（50 件、約 60 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
