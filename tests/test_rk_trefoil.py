@@ -263,3 +263,20 @@ def test_torus_family_uniform_normalization():
     assert sp.cancel(lhs - WSO.subs({r: r_, s: s_, U: s_**4})) == 0
     assert is_laurent(WSO - (s / r)**m * Tf.h_half(m))
 
+
+
+def test_crosscap_criterion_uniform_normalization():
+    """タスク B の判定式を一様な規格化で（scripts/rk_b_uniform.py）。T(2,2m+1) の [1]（m = 1, 2）：
+    SO(2) の点で g^{true}_[1] = 1、𝐭 について偶、c = 2 = −(𝐚²−𝐪²)(𝐭²−1)𝐚^{−(4m+1)}𝐪^{−(2m−1)}𝐭^{−4m}Π_m（Π_m の係数は 1）、
+    c = 1 の G 展開は ν^β ごとに同符号か (𝐭²−1)×同符号。固定 N = 2 の g_R（|R| ≤ 3）は一様な規格化のときだけ r → −r で不変。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_b_uniform as B
+    for m in (1, 2):
+        so2, even_t, c2, Pi = B.check_one(m)
+        assert so2 == {1} and even_t and c2
+        assert set(sp.Poly(Pi, B.Q, B.Tb, B.A).coeffs()) == {1}
+    assert B.classify_c1(2) == {-10: "coherent+", -8: "tfactor+", -6: "coherent−", -4: "coherent+"}
+    par = B.fixedN_parity(2)
+    assert par["一様"] == (6, 6) and all(par["ĝ_R(−r) = (−1)^(|R|−1) ĝ_R(r)"].values())
+    assert all(par[k][0] < par[k][1] for k in ("被覆 m=1・SO 一様", "SO K3'・被覆 m=1", "SO K3'・被覆一様"))

@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（42 件、約 45 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（43 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -35,7 +35,7 @@
 | タスク | 見込み | 有効性 |
 |---|---|---|
 | A. **済（2026-10-18）**：T(2,2m+1)（m ≤ 5）の [1]。単項式は T^{−2(2m+1)}(q/t)^{δ/2}（AS の SU(N) と同じ形）、g^{ref} は整数 Laurent、t = q で N^{c=2} = 0 | — | report.md §6 |
-| B. **一部済（2026-10-18）**：定義を提案（report.md §8）。T(2,2m+1)（m ≤ 5）の [1] で、G 展開の後に ν^β ごとの符号がそろうか (𝐭² − 1)×符号のそろった形になる。残り：(𝐭² − 1) の意味、偶数セクター（E ≠ 0）と高い彩色への拡張、非トーラス結び目での検査（入力が無い） | — | report.md §8 |
+| B. **一部済（2026-10-18）**：定義を提案（report.md §8）。T(2,2m+1)（m ≤ 5）の [1] で、G 展開の後に ν^β ごとの符号がそろうか (𝐭² − 1)×符号のそろった形になる。残り：(𝐭² − 1) の意味、偶数セクター（E ≠ 0）と高い彩色への拡張、非トーラス結び目での検査（入力が無い） | — | report.md §8 |（2026-10-19：一様な規格化で述べ直し。SO(2) の点で 1、𝐭 について偶、c = 2 の符号は m によらない。固定 N の g は一様な規格化のときだけ q^{1/2} → −q^{1/2} で不変）
 | C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
 | D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
 | E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
@@ -321,4 +321,22 @@
   - (ii) T(2,5) の固定 N の 2 箱・3 箱で同じ構造（hatted の整数性）を確かめる。data（T2_5 の彩色）は一部ある。
   - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
   - (iv) 一般の N（C）。
+
+## 2026-10-19（続き 17）判定式を一様な規格化で作り直す（ユーザーの指示「１」）
+- 見積もり：[1] の族（m ≤ 5）は計 6 秒、固定 N の偶奇の比較は N = 2 で 5 秒、N = 3 で 14 秒（logs/refined_kauffman/b_uniform.log）。
+- 【計算】T(2,2m+1) の [1]（m = 1..5）、一様な規格化 g^{true} = (t/q)^{δ/2} g^{ref}：
+  - SO(2) の点で g^{true} = 1。𝐭 について偶。
+  - c = 2 部分 = −(𝐚² − 𝐪²)(𝐭² − 1) × 単項式 × Π_m で、符号は m によらない。
+  - c = 1 の G 展開の分類は以前と同じ。
+  - G 展開の係数は w² ↔ w^{−2} で対称でなく、SU(2)_R の指標には分解しない。
+- 【計算】固定 N の 2 箱・3 箱は、ν が q, t と混ざるので G 展開できない。代わりに偶奇を調べた。
+  - g_R（|R| ≤ 3）は、一様な規格化のときだけ r → −r で不変だった（ほかの 3 通りは 2/6）。
+  - ĝ_R の偶奇は (−1)^{|R|−1}（M の正規化から）。
+- 文書：report.md §8 に「一様な規格化での判定式」、conventions.md に判定式の述べ直しを書いた。
+- テスト：tests/test_rk_trefoil.py::test_crosscap_criterion_uniform_normalization（約 5 秒）。
+- 結論：一様な規格化では、判定式のうち規格化に関わる部分（SO(2) の点、𝐭 の偶奇）が単純な形 (1, 偶) になる。正値性の内容（c = 1 の G 展開、c = 2 の普遍的な因子 × 正）はそのまま残る。多箱の結び目の正値性は、大きな N の入力が無いので判定できない。
+- 次の候補：
+  - (i) 一般の N（C）：多箱の ν 依存性と正値性を見る唯一の道。規模は大きい。
+  - (ii) T(2,5) の固定 N の 2 箱・3 箱で、一様な規格化の hatted の整数性と偶奇を確かめる。data の彩色の追加が要る。
+  - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
 
