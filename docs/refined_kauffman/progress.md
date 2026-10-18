@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（34 件、約 45 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（35 件、約 50 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -213,3 +213,11 @@
   合計：開発 1.5〜2.5 日、計算は 1 時間以内。得られるもの：ĝ_{[2],[2]}, ĝ_{[2],[1,1]}, ĝ_{[1,1],[1,1]} と hatted の E（E ≠ 0 のセクターでの判定式の最初の検査）。
 - 拡張（|R|, |S| ≤ 4、E_44 を hatted の基底で）：K_λ（|λ| ≤ 4、12 の形）の閉じた形と、被覆の次数 4 の composite（Pieri の反復）が要る。開発 3〜5 日追加、危険大。計算は数時間の見込み（実行前に再開・分割の準備を書く）。
 - 位置づけ：判定式の検査の範囲を E ≠ 0 に広げるもので有効性は中。主要な制約（refined SO の結び目の入力がトーラス結び目の [1] しかない）は解消しない（それは C：一般の N の 1^k）。
+
+## 2026-10-18（続き 9）最小版：偶数×偶数の hatted 不変量（ユーザーの指示「ghでpushして最小版へ進め」）
+- PR #11 に 0904903 を gh api で push。
+- 実装：src/rcsknots/kauffman_hopf2.py（SO 側 so_f2：K_(1), K_(1,1), K_(2) の展開を評価の対称性で U の形式変数のまま；被覆側 cover_f2：成分 2 の brane・image 次数 ≤ 2）。計算は両方とも数秒（見積もりの「数分〜1 時間」より速い：遅い Koornwinder の解法を使わずに済んだ）。開発は見積もり（1.5〜2.5 日）より短い。
+- 【計算】成分 2 を 1 変数にすると既存の値に一致、g_{R,S} = g_{S,R}。Adams の予言（E_{RS} = ±ε）で偶数×偶数の C が Laurent。hatted の Ê は ∓z_q(ν~−ν~^{−1})(tq^{−1/2}ν~ + q^{1/2}ν~^{−1})、非対角 Ĉ は ν~ だけの関数、対角 Ĉ の refined だけの部分は (𝐚²−𝐪²)(𝐭²−1) × 冪ごとに符号のそろう多項式。
+- テスト：tests/test_rk_cover.py::test_two_multi_probe_hopf_even_sector（約 7 秒）。データ：data/refined_kauffman/hopf_f_two_multi.pkl, hopf_fcov_two_multi.pkl, hopf_g_two_multi.pkl。
+- 判定式の述べ直し（report.md §8）：「t = q の部分 ＋ 普遍的な因子 (𝐚²−𝐪²)(𝐭²−1) または (𝐭²−1) × 冪ごとに符号のそろう多項式」。
+- 次の候補：(i) 拡張版（|R|,|S| ≤ 4、E_44 の hatted 版）、(ii) 一般の N（C）。

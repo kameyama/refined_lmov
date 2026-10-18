@@ -222,3 +222,56 @@ def test_hopf_hatted_crosscap_invariants():
         for R, v in hatted(n).items():
             d = len(R) - 1
             assert sp.cancel(v - (-1)**d * zq * (nut - 1 / nut) * nut**(2 * d - n + 1)) == 0, R
+
+
+def test_two_multi_probe_hopf_even_sector():
+    """最小版：両成分とも多 probe（|R|, |S| ≤ 2）。成分 2 を 1 変数にすると既存の値（K2'(b) の f_{R,(b)}、cover_f_multi）に一致し、
+    g_{R,S} = g_{S,R}。偶数×偶数では Adams の予言 E_{R,S} = c_2^R c_2^S ε（ε = E_22）を引くと C が Laurent、
+    hatted の Ĉ_{[2],[1,1]} = z_q(ν~ − ν~^{−1})(ν~² − 1 + ν~^{−2})、Ê_{[2],[2]} = −z_q(ν~−ν~^{−1})(t q^{−1/2}ν~ + q^{1/2}ν~^{−1})。"""
+    import pickle
+    import sympy as sp
+    from rcsknots.kauffman_hopf2 import so_f2, cover_f2
+    from rcsknots.kauffman_hopf import qs, ts, Us
+    from rcsknots.kauffman_cover import qs_, ss_, nus_, cover_f_multi
+    from rcsknots.bps import M_matrix
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    q_, t_, U_ = sp.symbols("q t U")
+    fSO_raw = so_f2(2)
+    old = {k: sp.sympify(v, locals={"q": q_, "t": t_, "U": U_}) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_f_multi.pkl", "rb"))["schur"].items()}
+    for (R, b), v in old.items():
+        if sum(R) <= 2 and b <= 2:
+            assert sp.cancel(fSO_raw.get((R, (b,) if b else ()), 0) - v.subs({q_: qs, t_: ts, U_: Us})) == 0
+    fc_raw = cover_f2(2)
+    for (a1, a2, k, l), v in cover_f_multi(2, 2).items():
+        assert sp.cancel(fc_raw.get((a1, a2, (k,) if k else (), (l,) if l else ()), 0) - v) == 0
+    fSO = {k: v.subs({qs: r_**2, ts: s_**2, Us: nu_ * s_}) for k, v in fSO_raw.items()}
+    fc = {k: v.subs({qs_: r_**2, ss_: s_, nus_: nu_}) for k, v in fc_raw.items()}
+    LR = {((), ()): {(): 1}, ((1,), ()): {(1,): 1}, ((), (1,)): {(1,): 1}, ((1,), (1,)): {(2,): 1, (1, 1): 1},
+          ((2,), ()): {(2,): 1}, ((), (2,)): {(2,): 1}, ((1, 1), ()): {(1, 1): 1}, ((), (1, 1)): {(1, 1): 1}}
+    half = {}
+    for (a1, a2, b1, b2), v in fc.items():
+        if (a1, a2) not in LR or (b1, b2) not in LR:
+            continue
+        for R, x in LR[(a1, a2)].items():
+            for S_, y in LR[(b1, b2)].items():
+                half[(R, S_)] = half.get((R, S_), 0) + x * y * v / 2
+    g = {k: sp.cancel(v - half.get(k, 0)) for k, v in fSO.items()}
+    assert sp.cancel(g[((2,), (1, 1))] - g[((1, 1), (2,))]) == 0 and sp.cancel(g[((1,), (2,))] - g[((2,), (1,))]) == 0
+    E = {k: sp.sympify(v, locals={"r": r_, "s": s_, "nu": nu_}) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_E_fixed.pkl", "rb")).items()}
+    eps, t = E[(2, 2)], s_**2
+    sgn = {(2,): 1, (1, 1): -1}
+    mono = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r_, s_, nu_).is_monomial
+    parts = [(2,), (1, 1)]
+    C = {}
+    for R in parts:
+        for S_ in parts:
+            assert not mono(g[(R, S_)])
+            C[(R, S_)] = sp.cancel(g[(R, S_)] - sgn[R] * sgn[S_] * eps / (2 * (1 + t)))
+            assert mono(C[(R, S_)])
+    Minv = M_matrix(2, 1 / r_).inv()
+    Ch = Minv * sp.Matrix([[C[(R, S_)] for S_ in parts] for R in parts]) * Minv.T
+    Eh = Minv * sp.Matrix([[sgn[R] * sgn[S_] * eps for S_ in parts] for R in parts]) * Minv.T
+    nut = nu_ * r_ / s_
+    zq = r_ - 1 / r_
+    assert sp.cancel(Ch[0, 1] - zq * (nut - 1 / nut) * (nut**2 - 1 + nut**-2)) == 0
+    assert sp.cancel(Eh[0, 0] + zq * (nut - 1 / nut) * (t / r_ * nut + r_ / nut)) == 0
