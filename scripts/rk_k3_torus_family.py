@@ -115,3 +115,12 @@ def bold_blocks(m):
                 out[beta] = "tfactor" + ("+" if qc[0] > 0 else "−"); continue
         out[beta] = "mixed"
     return out
+
+
+def special_points(m):
+    """(SO(2) での値 g^{ref}(𝐚 = ±𝐪)、𝐭 → −𝐭 の偶奇の符号、すなわち g(−𝐭)/g(𝐭))。予想：((−𝐭)^m, (−1)^m)。"""
+    Q, Tb, A = sp.symbols("Q T A")
+    gb = sp.expand(sp.cancel(g_family(m, 7 * m + 4).subs({r: -Tb * Q, U: A * Q}).subs(s, Q)))
+    so2 = {sp.factor(sp.expand(gb.subs(A, sg * Q))) for sg in (1, -1)}
+    par = sp.cancel(gb.subs(Tb, -Tb) / gb)
+    return so2, par, (Q, Tb, A)

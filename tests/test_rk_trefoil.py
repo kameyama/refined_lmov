@@ -107,3 +107,13 @@ def test_refined_crosscap_c1_blocks():
     _sys.path.insert(0, str(ROOT / "scripts"))
     import rk_k3_torus_family as Tf
     assert Tf.c1_blocks(2) == {-10: "coherent+", -8: "tfactor+", -6: "coherent−", -4: "coherent+"}
+
+
+def test_refined_crosscap_special_points():
+    """B の因子の意味：T(2,5) の g^{ref}_[1] は SO(2)（𝐚 = ±𝐪、ν² = t）で (−𝐭)^m = (q/t)^{δ/2}（U(1) の自明さ）、
+    𝐭 → −𝐭 で (−1)^m 倍（だから t = q で消える部分は (𝐭² − 1) を因子にもつ）。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k3_torus_family as Tf
+    so2, par, (Q, Tb, A) = Tf.special_points(2)
+    assert so2 == {Tb**2} and par == 1

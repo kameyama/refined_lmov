@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（32 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（33 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -185,3 +185,10 @@
 - 【計算】T(2,2m+1)（m ≤ 5）の c = 1 部分を ν^β ごとに分類：正の単項式（β = −(4m+2)）、(𝐭²−1)×正（m − 1 個、refined だけ）、負、正。混在は無い。G 展開の前は m ≥ 2 で混在（G 自身の符号の混在のため）。
 - 定義と予想を report.md §8、conventions.md に記録（【仮説】・【予想】）。tests/test_rk_trefoil.py::test_refined_crosscap_c1_blocks（約 3 秒）。
 - 停止点：判定式の候補はできたが、根拠はトーラス結び目の [1] だけ。次の候補：(i) 偶数セクター（2(1+t)g、E ≠ 0）の Hopf で同じ分類が成り立つか（(2,2),(2,4) の C は決まっている）、(ii) (𝐭²−1) の意味、(iii) 一般の N（C、規模大）。
+
+## 2026-10-18（続き 6）B の続き：(1) 偶数セクターの Hopf、(2) (𝐭² − 1) の意味（ユーザーの指示「1、２へ進め」、push の指示は無し）
+- 汎用の分類器 scripts/rk_b_classify.py（式を c = 1/c = 2 に分け、ν^β ごとに coherent／tfactor／mixed）。
+- (1)【計算】Hopf：(0,1), (1,1) は分類どおり。2 箱以上は 1 変数 probe でも多 probe の Schur 基底でも G で書けない。t = q でも z の多項式になるのは自己共役な R だけ（q^{κ_R/2} の framing のずれ）。判定式の検査には多 probe の Hopf に refined の framing を入れる必要がある（未実施、数時間規模）。偶数セクターの C, E も同じ理由で検査できない。
+- (2)【計算】(𝐚² − 𝐪²)：SO(2) で g^{ref} = (−𝐭)^m = (q/t)^{δ/2}（U(1) の自明さ、§6 の framing 因子そのもの）。(𝐭² − 1)：g^{ref} の 𝐭 の偶奇が m と同じ（g(−𝐭) = (−1)^m g(𝐭)）なので、𝐭 = −1 で消える部分は 𝐭 = ±1 で消える。m = 1..5 で確認。
+- テスト：tests/test_rk_trefoil.py::test_refined_crosscap_special_points（約 1 秒）。
+- 停止点：普遍的な因子は説明がついた。残る内容は商の符号がそろうこと（正値性）で、根拠はトーラス結び目の [1] だけ。次の候補：(i) 多 probe の Hopf に refined の framing を入れて 2 箱以上のセクターで判定式を検査（数時間）、(ii) 一般の N（C）。
