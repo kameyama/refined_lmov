@@ -25,6 +25,10 @@ docs/paper/*.out
 docs/paper/*.toc
 docs/paper/*.fls
 docs/paper/*.fdb_latexmk
+docs/refined_kauffman/tex/*.aux
+docs/refined_kauffman/tex/*.log
+docs/refined_kauffman/tex/*.out
+docs/refined_kauffman/tex/*.toc
 
 # K10 の 3 箱の \hat f（363 MB）は xz で圧縮した data/lmov/K10_3.json.xz だけを git に入れる
 data/lmov/K10_3.json

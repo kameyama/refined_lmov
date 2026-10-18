@@ -476,3 +476,10 @@
 - テスト：tests/test_rk_daha.py に 3 件（Mariño の辞書、KN の枠、構造の判定は results の印）。既定 7 件、約 11 秒。
 - 未解決：多箱のクロスキャップの c = 1 部分の展開の変数（G 展開は 2 箱で使えない）、c = 1 部分の符号の規則、(1 + t) の留数の意味。
 - 次：daha-fast の報告を確認する。3 箱・T(2,5) の一般の N が得られれば、述べ直しの判定式（(𝐭² − 1)(𝐚² − 𝐪²) で割り切れること）を 3 箱と別の結び目で確かめる。
+
+## 2026-10-19（続き 25）TeX の報告書（ユーザーの指示「これまで計算した結果を確認したい。日本語のtexでまとめて報告せよ。実際に計算した結果も載せよ。」）
+- docs/refined_kauffman/tex/report.tex（lualatex、17 ページ、report.pdf）に K0〜タスク C (b) の結果をまとめた。
+- 付録の式は scripts/rk_report_tex.py が保存済みのデータとコードから生成する（docs/refined_kauffman/tex/gen/、15 秒）。生成時に Mariño との辞書、ĝ_(1) = −g^{true}_[1]、[1] の (N)(P)(c=2)（m ≤ 3）、(1+t) の留数の式を assert で確かめる。
+- 載せた計算結果：Mariño の trefoil の ĝ_[2], ĝ_[1,1]（z⁹ の誤植を訂正した値）、T(2,2m+1)（m ≤ 3）の g^{true}_[1]・c = 1 の G 展開・Π_m、DAHA の R_(1), R_(2), R_(1,1)（U の係数）と被覆の随伴、大きな N の 2 箱の ĝ_(2) + ĝ_(1,1)・(1+t)(ĝ_(2) − ĝ_(1,1))・商と符号の表。
+- テスト：tests/test_rk_*.py の既定 55 件が通る（約 75 秒）。daha-fast の結果は未確認なので載せていない。
+- 再生成：`.venv/bin/python scripts/rk_report_tex.py` のあと docs/refined_kauffman/tex で lualatex を 2 回（TEXMFVAR を書き込める場所にする）。

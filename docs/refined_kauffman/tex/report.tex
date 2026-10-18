@@ -1,0 +1,355 @@
+\documentclass[a4paper,10pt]{ltjsarticle}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs,array}
+\usepackage[hidelinks]{hyperref}
+\allowdisplaybreaks
+\sloppy
+
+\newcommand{\ba}{\bm{a}}
+\newcommand{\bq}{\bm{q}}
+\newcommand{\bt}{\bm{t}}
+\newcommand{\tnu}{\tilde\nu}
+\newcommand{\deriv}{\textbf{【導出】}}
+\newcommand{\comp}[1]{\textbf{【計算}\if\relax\detokenize{#1}\relax\else（#1）\fi\textbf{】}}
+\newcommand{\conj}{\textbf{【予想】}}
+\newcommand{\hyp}{\textbf{【仮説】}}
+\newcommand{\open}{\textbf{【未解決】}}
+
+\title{refined Kauffman 多項式の large $N$ duality\\計算結果の報告}
+\author{}
+\date{2026 年 10 月 19 日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+SO$(2N)$ の refined Chern--Simons 不変量（refined Kauffman 不変量）に対して、Mariño の Kauffman 多項式の large $N$ duality（0904.1088）の refined 版を定式化し、unknot、Hopf 絡み目、トーラス結び目 $T(2,2m+1)$、二重ツイスト結び目で検証した。
+主な結果は次のとおりである。
+(i) 双対 Cauchy（t-brane）型の生成関数で、unknot と Hopf 絡み目の reformulated 不変量が整数性をもつ。
+(ii) 全 $d$ の第二量子化の構造 $g = \tfrac12 E/(1+t) + C$ が成り立つ。
+(iii) 行列式と荷電共役で不変な「一様な規格化」のもとで、固定 $N$ の多箱の hatted 不変量が全方向で Laurent になり、整数性も（$|R| = 2$ のクロスキャップ部分では 2 倍で）成り立つ。
+(iv) DAHA-Jones 多項式で refined SO$(2N)$ の trefoil の 2 箱の不変量を一般の $N$ で求め、$t = q$ で Mariño の結果を全係数で再現した。
+(v) 多箱のクロスキャップ部分は、[1] で使った $G$ 展開の形をとらない。代わりに「$t = q$ の部分（$\tnu$ で表す）$+ (\bt^2 - 1)(\ba^2 - \bq^2) \times$ 商」の形が 2 箱で成り立つ。
+正値性は [1] の判定式（トーラス結び目）までで、多箱では未判定である。
+\end{abstract}
+
+\tableofcontents
+
+\section{この報告について}
+\begin{itemize}
+\item 主張はすべて \deriv（解析的に導出）、\comp{範囲}（計算機で確認）、\conj、\hyp のどれかに分類した。文献から直接取れなかった式には \hyp と書き、どの検証で裏付けたかを添えた。
+\item 付録 \ref{app:gen} の式は、保存済みのデータとコードから \texttt{scripts/rk\_report\_tex.py} で自動生成した（手で写していない）。生成時に、本文で述べた関係（Mariño との辞書、$\hat g_{(1)} = -g^{\mathrm{true}}_{[1]}$、[1] の判定式の各項目、留数の式）を確かめている。
+\item 主な実装は \texttt{src/rcsknots/}（\texttt{kauffman\_*.py}、\texttt{koornwinder.py}、\texttt{daha\_dn.py}、\texttt{flint\_rf*.py}）と \texttt{scripts/rk\_*.py}、テストは \texttt{tests/test\_rk\_*.py} にある。日々の記録は \texttt{docs/refined\_kauffman/progress.md}、要約は \texttt{report.md}、規約は \texttt{conventions.md} にある。
+\item テスト：\texttt{tests/test\_rk\_*.py} の既定の 55 件がすべて通る（約 75 秒、2026-10-19）。保存済みの大きな計算結果を判定し直す 3 件（\texttt{results} の印）は既定では実行しない。
+\item 並行して別のセッションで DAHA-Jones の高速な実装（タスク C の (a)）を進めている。その結果（$N \ge 10$ のデータなど）はまだ確認していないので、この報告には含めない。
+\end{itemize}
+
+\section{規約}\label{sec:conv}
+\subsection{変数}
+\begin{center}
+\small
+\begin{tabular}{>{$}l<{$}p{7.6cm}}
+\toprule
+\text{記号} & 意味 \\
+\midrule
+q,\ t & refined CS の変数。$r = q^{1/2}$, $s = t^{1/2}$ と書くこともある \\
+U = t^N & SO$(2N)$ の Kähler 変数（$N$ は D$_N$ のランク）。大きな $N$ では形式変数 \\
+\nu = U t^{-1/2} = t^{N-1/2} & Mariño の $\nu$（$t = q$ で $\nu = q^{N - 1/2}$、$Q = \nu^2 = U^2/t$） \\
+\tnu = \nu (q/t)^{1/2} = U q^{1/2}/t & Hopf 絡み目で現れる、ずれた Kähler 変数 \\
+A = \nu^2 = t^{N_A},\ N_A = 2N - 1 & 被覆（oriented 部分）U$(N_A)$ の Kähler 変数 \\
+(\bq, \bt, \ba) = (t^{1/2},\ -(q/t)^{1/2},\ \nu) & 太字の変数（DGR・Aganagic--Schaeffer 1202.4456 と同じ）。$q^{1/2} = -\bt\bq$ \\
+V = (qt)^{1/4},\ W = (q/t)^{1/4} & $q^{1/2} = VW$, $t^{1/2} = V/W$ \\
+z_q = q^{1/2} - q^{-1/2},\ z_t = t^{1/2} - t^{-1/2} & \\
+G = z_q z_t = V^2 + V^{-2} - W^2 - W^{-2} & $G$ 展開の変数 \\
+\sigma\colon q \mapsto t^{-1},\ t \mapsto q^{-1} & $V \mapsto V^{-1}$、$W$ と $\nu$ は固定。$G$ は不変 \\
+\bottomrule
+\end{tabular}
+\end{center}
+unrefined の Mariño の変数は $t_M = q^{1/2}$、$\nu_M = \nu$、$z = t_M - t_M^{-1} = z_q$ である。
+
+\subsection{reformulated 不変量}
+\begin{itemize}
+\item 生成関数（双対 Cauchy 型、§\ref{sec:dualcauchy}）：probe の変数 $Y = (y_1, y_2, \dots)$ に対し
+\[
+\tilde Z(Y) = \Bigl\langle \prod_{\alpha, i} (1 - y_\alpha x_i)(1 - y_\alpha / x_i) \Bigr\rangle_{\mathrm{SO}(2N)},\qquad
+\log \tilde Z = \sum_{d \ge 1} \frac1d \sum_R f_R(q^d, t^d, U^d)\, s_R(Y^d).
+\]
+被覆 U$(N_A)$ についても同じ核で $f^{\mathrm{cov}}_R$ を定める。
+\item クロスキャップ部分（全 $d$ の定義）：$g_R = f_R - \tfrac12 f^{\mathrm{cov}}_R$。
+\item hatted 不変量：$\hat g = M(q^{-1})^{-1} g$。2 箱では基底 $((2), (1,1))$ で
+\[
+M(q^{-1}) = \begin{pmatrix} q^{1/2} & -q^{-1/2} \\ -q^{-1/2} & q^{1/2} \end{pmatrix}
+\]
+であり、これは Mariño の $M_{RS} = \sum_\mu \chi_R(\mu)\chi_S(\mu) z_\mu^{-1} \prod_i (t_M^{\mu_i} - t_M^{-\mu_i})/(t_M - t_M^{-1})$（$t_M = q^{1/2}$）に等しい。冪和基底では $p_1^2$ 方向に $z_q$、$p_2$ 方向に $q^{1/2} + q^{-1/2}$ を掛ける。
+\item KN（1703.05408）の二つの枠：q 枠は Macdonald の Cauchy 核と $f^q = M(t) \hat f$、t 枠は双対 Cauchy 核と $f^{t} = M(q^{-1}) \hat f$。
+\end{itemize}
+
+\subsection{一様な規格化}
+U$(n)$ の data（KN の (N1)+(N2) の規格化）は、行列式表現と荷電共役について $(q/t)$ の冪だけずれる。そこで
+\[
+W_\mu = (t/q)^{\delta |\mu|/2}\, R^{\mathrm{data}}_\mu\, P_\mu(t^\rho)
+\]
+と置く。$\delta$ は [1] の superpolynomial の $\delta$ 次数 $\ba + \bq/2 - \bt$ で、$T(2,2m+1)$ では $\delta = m$ である。この規格化では行列式のずらし $\mu \to \mu + 1^n$ と荷電共役で $W$ が正確に不変になり、行列式表現は 1 になる（§\ref{sec:fixedN}）。以後、SO 側・被覆側ともこの規格化を既定とする。
+
+\section{unrefined の再現（K0）}
+\begin{itemize}
+\item Mariño 0904.1088 の reformulated 不変量 $g_R$, $h_R$ と $\hat g_R$, $\hat h_R$ を自前のコードで計算し、trefoil の $\hat g_{[2]}, \hat g_{[1,1]}$ が (4.8) に一致することを確かめた \comp{全係数}。
+\item 原論文の誤植：(4.8) の $\hat g_{[2]}$ の $z^9$ の項（印刷では $z^8$ の項と同じ係数）。正しくは $z^9(11\nu^{12} - 78\nu^{10} + 78\nu^8 - 11\nu^6)$ である（付録 \ref{app:unref}）。NRZ 1310.2240 (C.9) の表示式にも誤植がある。
+\item 4\_1 の $\hat h_{[2]}, \hat g_{[2]}, \hat g_{[1,1]}$ と $N^{c=0}$ の表が NRZ 1310.2240 付録 C に一致した \comp{全係数}。
+\item テスト：\texttt{tests/test\_rk\_unrefined.py}。
+\end{itemize}
+
+\section{refined の入力と Mariño 型の困難（K2）}
+\begin{itemize}
+\item Aganagic--Schaeffer（以下 AgSc、1202.4456）の SO$(2N)$ refined unknot $\dim_\lambda$ は、Koornwinder 多項式 $K_\lambda(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい \comp{van Diejen--Sahi の評価式で 6 つの $\lambda$、$q$-差分作用素で作った多項式で $N = 2, 3$}。
+\item $\dim_\lambda$ は $U$ の Laurent 多項式でなく、例えば [2] は $(1 - q t^{N-1})$、[1,1] は $(1 - q t^{2N-3})$、[3] は $(1 - q^2 t^{N-1})$ を分母にもつ \comp{$|\lambda| \le 4$ の 8 例}。$t = q$ では約分される。
+\item Mariño 型（bosonic な Cauchy 核、$\tfrac12$、$\sum_{d\ {\mathrm{odd}}}$）をそのまま refined にすると、2 箱で $U$ の極が打ち消さない。composite $([1],[1])$ の寄与は $p_1^2$ 方向だけにあるのに、D$_N$ の [2] と [1,1] は極の位置が違う（$U = t/q$ と $U^2 = t^3/q$）\comp{重み 5 通り × 基底 3 通り}。refined の Littlewood 恒等式の形も 3 次で成り立たない。
+\end{itemize}
+
+\section{双対 Cauchy（t-brane）型の定式化（K2$'$）}\label{sec:dualcauchy}
+\subsection{核と unknot}
+\begin{itemize}
+\item Mimachi の双対 Cauchy 恒等式 $\sum_{\lambda \subseteq m^n} (-1)^{|\lambda|} K_{m^n - \lambda}(x; q, t) K_{\lambda'}(y; t, q) = \prod_{i,j} x_i^{-1}(1 - x_i y_j^{\pm})$ を $(n, m) \le (3, 2)$ の 6 通りで確認した \comp{記号計算}。ホロノミー側は AgSc の D$_n$ 型（$\pm 1, \pm q^{1/2}$）、probe 側は $(q', t') = (t, q)$ に対する $(\pm 1, \pm t'^{1/2})$ 型で、二つの境界パラメータは核の両側に現れる \deriv。
+\item probe 側の基底の閉じた形：$K_{(n)}(y; t, q; 1, -1, q^{1/2}, -q^{1/2})$（monic な Askey--Wilson 多項式）の $y^{n - 2j}$ の係数は
+\[
+c_{2j}(n) = t^j \frac{(q/t; t^2)_j}{(t^2; t^2)_j} \cdot \frac{(1 - U_n)(1 + U_n t^{-2j}) \prod_{i=1}^{j-1} (1 - U_n^2 t^{-2i})}{\prod_{i=1}^{j} (1 - q U_n^2 t^{-2i-1})},\qquad U_n = t^n
+\]
+\conj \comp{有理点 4 つで $j \le 5$、$n \le 30$ を漸化式と比較}。
+\item virtual 正規化 $\tilde Z = y^N z^N Z$ は $y, z$ の多項式で、$U$ を形式変数のまま扱える。$U = t^N$（$N = 3, \dots, 8$）の直接計算と $a + b \le 8$ で全係数一致した \comp{}。
+\item unknot：$f_{10} = (1 - U)(U + t)/(U(t - 1))$、$f_{a0} = 0$（$a \ge 2$）。$\nu$ で書くと
+\[
+f_{10} = -1 - \frac{\nu - \nu^{-1}}{t^{1/2} - t^{-1/2}}
+\]
+で、Mariño 型の unknot $(\nu - \nu^{-1})/z$ とクロスキャップの $-1$（Mariño の $g_{[1]} = 1$ に対応）の和である \deriv。積表示は $\prod_j (y_j^{\pm}; t)_\infty / (U y_j^{\pm}; t)_\infty$ で、$\tfrac12$ も $\sum_{d\ {\mathrm{odd}}}$ も要らない。
+\end{itemize}
+
+\subsection{Hopf 絡み目}
+$f_{ab} = \sum_{d | (a, b)} (\mu(d)/d) L_{a/d, b/d}(q^d, t^d, U^d)$ について \comp{$a, b \le 4$}：
+\begin{itemize}
+\item $f_{11} = -f_{10} \cdot z_q (\tnu - \tnu^{-1})$。$t = q$ では Mariño の $\hat g_{[1],[1]} = z(\nu - \nu^{-1})$ と符号と unknot の因子を除いて一致する。refined では Kähler 変数が $\nu \to \tnu = \nu (q/t)^{1/2}$ とずれる。
+\item $f_{1b} = f_{11} \cdot \chi_{b-1}(U/t)$、$\chi_m(x) = x^m + x^{m-2} + \dots + x^{-m}$。
+\item 整数性：すべての $(a, b)$ で $f_{ab} = (1 - q)/(1 - t) \times$（整数係数 Laurent 多項式）（$(a,b)$ がともに偶数のときは $/(1 - t^2)$）。
+\item probe を無限個にした Schur 基底の $f_{R,b}$（$|R| \le 4$, $b \le 2$）でも同じ整数性が成り立つ。素朴な Macdonald 基底では $(1 - qt)$ などの余分な分母が出る。
+\end{itemize}
+
+\section{クロスキャップ展開（K4$'$）}\label{sec:crosscap}
+\subsection{全 $d$ の構造}
+AgSc §3 の M 理論の定義では、軌道体の作用が probe（t-brane）に沿う。被覆の 1 粒子状態に $\tilde I$ が作用し、$\tilde I$ で固定される状態だけが $1/(1 - t^2)$ を与える。したがって
+\[
+g_{ab} := f_{ab} - \tfrac12 f^{\mathrm{cov}}_{ab} = \tfrac12 \frac{E_{ab}}{1 + t} + C_{ab}
+\]
+で、$E$（$\tilde I$ で固定される oriented 状態）と $C$（凍結した unoriented 状態）は整数 Laurent \deriv。$E$ は（偶, 偶）のセクター以外で 0 である。Mariño の $\sum_{d\ {\mathrm{odd}}}$ の定義とは $g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
+\begin{itemize}
+\item 検証 \comp{Hopf、$a, b \le 4$}：全 $d$ の $g_{ab}$ の分母は（偶, 偶）で $2(1 + t) \times$ 単項式、それ以外は単項式。$2(1+t) g_{ab}$ は全セクターで整数 Laurent。$\sum_{d\ {\mathrm{odd}}}$ の定義で見えた $4(1+t)(1+t^2)$ は $(4,4)$ で打ち消す。
+\item 被覆（composite の refined Hopf）：$\tfrac12 f^{\mathrm{cov}}_{10} = -(\nu - \nu^{-1})/z_t$、$\tfrac12 f^{\mathrm{cov}}_{11} = (\nu - \nu^{-1})(\tnu - \tnu^{-1}) z_q / z_t$ \comp{記号版と有限 $N$}。
+\item $(1, b)$ セクター：$g_{1b} = z_q (\tnu - \tnu^{-1})\, \chi_{b-1}(\tnu / q^{1/2})$。$t$ は $\tnu$ を通してしか入らない \comp{$b \le 4$}。
+\end{itemize}
+
+\subsection{$E$ の決定}
+probe を $x$ 側と $1/x$ 側に分けたセクター別の被覆から、固定セクターの全状態の和 $P$ を作り、$E = P - 2Q$（$Q$ は $\tilde I$ の固有値 $-1$ の状態の和）と書いた。条件 (i) $t = -1$ で $E = 2(1+t) g$、(ii) $t = q$ で $C$ が Mariño の値、を整数線形計画で解くと \comp{}：
+\begin{align*}
+E_{22} &= -z_q (z_q^+)^2 (\tnu - \tnu^{-1})(t q^{-1/2} \tnu + q^{1/2} \tnu^{-1}),\quad z_q^+ = q^{1/2} + q^{-1/2}\quad(\text{一意}),\\
+E_{24} &= E_{22}\,(\tnu^2/q + q/\tnu^2)\quad(\text{一意}).
+\end{align*}
+$(4,4)$ は解が存在するが一意でない（固定セクターの単項式 180 個のうち 164 個が自由）\open。成分 1 を多 probe にすると、$\tilde I$ は「固定セクターの入れ替え＋Adams」として働き、$E_{R,S} = \sum_{\rho,\sigma \vdash 2} c^R_{2;\rho} c^S_{2;\sigma} \varepsilon_{\rho\sigma}$ が成り立つ \comp{$|R| \le 4$, $|S| \le 2$ の 10 セクター。$|R|, |S| \le 4$ では $t = -1$ での値（留数）が 25 組で整合}。
+
+\subsection{Hopf の hatted 不変量}
+$\hat g_{R,[1]}$（$|R| \le 4$）は整数 Laurent で、hook $R = (n - d, 1^d)$ で $(-1)^d z_q (\tnu - \tnu^{-1}) \tnu^{2d - n + 1}$、hook でない $R$（[2,2]）で 0 \comp{}。$t = q$ で Mariño の $\hat g_{[2],[1]} = z(\nu^2 - 1)$, $\hat g_{[1,1],[1]} = z(\nu^{-2} - 1)$ に $R \leftrightarrow R^T$ と全体の符号 $-1$ で一致する。$|R| \le 4$, $|S| \le 2$ の $\hat C_{R,S}$ の refined だけの部分は、10 成分すべてで $(\tnu^2 - q)(q - t)$ で割り切れる \comp{}。
+
+\section{トーラス結び目の [1]（K3$'$、タスク A）}
+\subsection{h/g 分解と framing}
+AgSc の $T(2,2m+1)$ の一般式（[1]、unknot で正規化）を入力とし、$f_1(K) = -W_{\mathrm{SO}}(K) = \tfrac12 h^{\mathrm{ref}}_{[1]} + g^{\mathrm{ref}}_{[1]}$、$\tfrac12 h^{\mathrm{ref}}_{[1]} = \mathcal{P}(\ba_U, \bq, \bt) (\nu - \nu^{-1})/(\bq - \bq^{-1})$（$\mathcal P$ は DGR の superpolynomial）と置いた \hyp。
+\begin{itemize}
+\item 単項式 $\pm r^c s^d U^e$ の走査 \comp{$m = 1, \dots, 5$}：$g^{\mathrm{ref}}_{[1]}$ が Laurent になるのは $e = -2(2m+1)$、$c = -(3m+2)$ に限られる。$d$ は「$t = q$ の極限が Kauffman 多項式の形」で一意に $d = 7m + 4$。単項式は $T_{[1]}^{-2(2m+1)} (q/t)^{\delta/2}$（$T_{[1]} = q^{1/2} t^{N-1}$、$\delta = m$）。
+\item 余分な $(q/t)^{\delta/2}$ は被覆側の規格化のずれで、一様な規格化では SO 側の単項式はちょうど $T_{[1]}^{-2(2m+1)}$ になる \comp{$m \le 3$}（§\ref{sec:fixedN}）。
+\item $t = q$ で AgSc (6.15) は Mariño の $F_{3_1}$ の鏡像 $\times\ \nu^{-6}$ \comp{}。SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で、Gorsky--Negut の構成と (6.15) が一致する \comp{有理点 2 つで厳密}。
+\end{itemize}
+
+\subsection{結果}
+一様な規格化での $g^{\mathrm{true}}_{[1]} = (t/q)^{\delta/2} g^{\mathrm{ref}}_{[1]}$ はすべて整数係数 Laurent（項数 11, 27, 49, 77, 111、$m = 1, \dots, 5$）で、次が成り立つ \comp{$m = 1, \dots, 5$}：
+\begin{itemize}
+\item (N) SO(2) の点 $\ba^2 = \bq^2$（$U = t$）で $g^{\mathrm{true}}_{[1]} = 1$。
+\item (P) $\bt \to -\bt$ で不変。
+\item ($c = 2$) $\ba$ の奇数冪の部分 $= -(\ba^2 - \bq^2)(\bt^2 - 1)\, \ba^{-(4m+1)} \bq^{-(2m-1)} \bt^{-4m}\, \Pi_m$、$\Pi_m = \sum_{j=0}^{m-1} \ba^{2j} \bq^{2(m-1-j)} \bt^{2j} \sum_{i=0}^{j} (\bq^4 \bt^2)^i$（$m(m+1)/2$ 項、係数はすべて $+1$）。閉じた形は $m \le 3$ から推測し $m = 4, 5$ で確認した \conj。
+\item ($c = 1$) $V$ の偶数冪の部分は $\sigma$ で対称で、$G$ と $W$ の多項式に書ける。$\nu^\beta$ ごとのブロックは次のどれか：$\nu^{-(4m+2)}$ は正の単項式、$\nu^{-4m}, \dots, \nu^{-(2m+4)}$ は $(\bt^2 - 1) \times$ 正、$\nu^{-(2m+2)}$ は係数がすべて負、$\nu^{-2m}$ はすべて正。
+\end{itemize}
+$m = 1, 2, 3$ の $g^{\mathrm{true}}_{[1]}$、$c = 1$ 部分の $G$ 展開、$\Pi_m$ を付録 \ref{app:torus} に載せた。$t = q$ では $z$ の奇数冪が消え、トーラス結び目の [1] で $N^{c=2} = 0$ という既知の事実と整合する。
+
+\section{refined のクロスキャップ BPS 数の判定式（タスク B）}\label{sec:criterion}
+\textbf{定義} \hyp：結び目 $K$ の [1] のクロスキャップ部分を、$v = (qt)^{1/2}$ の整数冪の部分（$c = 1$）と半整数冪の部分（$c = 2$）に分け、
+\[
+g^{c=1} = \sum_\beta \nu^\beta \sum_{g, J} N^{c=1}_{g, \beta, J}\, G^g w^{2J}\qquad (w = (q/t)^{1/2})
+\]
+と書く。$t = q$ で $\sum_J N^{c=1}_{g,\beta,J}$ は Mariño の $N^{c=1}_{g,\beta}$ に戻る。
+
+\textbf{予想（正値性の形）} \conj：(c = 1) $G$ 展開の後で $\nu^\beta$ ごとに同符号か $(\bt^2 - 1) \times$ 同符号、(c = 2) $-(\ba^2 - \bq^2)(\bt^2 - 1) \times$ 正の多項式。(N)(P) は規格化の検査で、(c = 1)(c = 2) が正値性の内容である。根拠はトーラス結び目 $T(2,2m+1)$（$m \le 5$）の [1] だけである。
+
+\textbf{述べ直し} \conj：Hopf の全セクターと結び目の [1] で共通に成り立つ形として、「$t = q$ の部分（$\tnu$ で表す）$+$ 普遍的な因子 $(\ba^2 - \bq^2)(\bt^2 - 1)$ $\times$ 冪ごとに符号のそろう多項式」がある。§\ref{sec:largeN} で、これが多箱で有効な形であることを見る。
+
+\section{固定 $N$ の多箱と一様な規格化}\label{sec:fixedN}
+\subsection{方法}
+固定 $N$ では、SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で、型 A の refined 不変量（KN の data、Gorsky--Negut の構成を有限体上で再構成）を入力にした。被覆は U$(N_A)$（U(3), U(5)）で、随伴・composite の彩色を新たに再構成した。framing の単項式は「極の打ち消し」と「$t = q$ で 1」で決める。
+
+\subsection{一様な規格化}
+\begin{itemize}
+\item data の規格化のずれ：$T(2,2m+1)$ の data は U$(n)$ の行列式表現で $R_{\det} = (q/t)^{\delta n/2}$。$W_\mu = (t/q)^{\delta|\mu|/2} R_\mu P_\mu(t^\rho)$ は行列式のずらしと荷電共役で正確に不変 \comp{trefoil で 16 組（U(2)〜U(5)）、$T(2,5)$・$T(2,7)$ で 13 組}。
+\item この規格化では、極の打ち消しと「$t = q$ で 1」で決まる framing の単項式が SO 側・被覆側とも\textbf{すべて 1} になる。framing の走査（他を一様な規格化に置き一つずつ $(t/q)^{\beta/2}$ に替える）では、$Z$（$|Y| \le 3$）を Laurent にする $\beta$ は全表現で一意に $\beta = \delta |\mu|$ である。
+\item 規格化のずれの指数は種数ではなく $\delta$ 次数で決まる：
+\begin{center}
+\begin{tabular}{lccccccccc}
+\toprule
+結び目 & $3_1$ & $T(2,5)$ & $T(2,7)$ & $4_1$ & $5_2$ & $6_1$ & $7_2$ & $7_4$ & $8_1, 8_3$\\
+\midrule
+ずれの指数 $c$ & 1 & 2 & 3 & 0 & 1 & 0 & 1 & 1 & 0\\
+\bottomrule
+\end{tabular}
+\end{center}
+二重ツイスト結び目 7 個はどれも種数 1 である \comp{}。
+\end{itemize}
+
+\subsection{結果}
+\begin{center}
+\begin{tabular}{p{2.6cm}p{2.2cm}p{9.6cm}}
+\toprule
+結び目 & 範囲 & 確認した内容 \\
+\midrule
+$3_1$ & $N = 2, 3$；$|R| \le 3$ & SO の $\hat f = M(q^{-1})^{-1} f$、被覆の $\hat f^{\mathrm{cov}}$（対角と $M \otimes M$）、クロスキャップの $\hat g$ が全方向で Laurent。$f$、SO の $\hat f$、$g_R$（$|R| = 1, 3$）、$\hat g_R$（$|R| = 3$）は整数、$|R| = 2$ は 2 倍で整数、$g_{(2)} + g_{(1,1)}$ は整数。$g_R$ は $r \to -r$ で不変（一様な規格化のときだけ）\\
+$T(2,5)$, $T(2,7)$ & $N = 2, 3$；$|R| \le 3$ & 上と同じ項目がすべて成立。$\hat g_R(-r) = (-1)^{|R|-1} \hat g_R(r)$\\
+二重ツイスト 7 個 & $N = 2$；$|R| \le 3$ & SO 側で $f$ は整数、$\hat f$ は全方向で整数 Laurent。$f, g$ は $(r,s) \to (-r,-s)$ でだけ不変\\
+$4_1$ の被覆 & $N = 2$；$|R| = 2$ & KN の [2,1] の候補で U(3) の極 $qt^2 = 1$ が打ち消し、$\hat f^{\mathrm{cov}}$・$\hat g$ は Laurent（候補の整合性の検査で、候補を確立するものではない）\\
+\bottomrule
+\end{tabular}
+\end{center}
+固定 $N$ では $\nu = t^{N - 1/2}$ が $q, t$ と混ざるので、$\nu^\beta$ ごとの $G$ 展開と正値性は判定できない。
+
+\section{一般の $N$：DAHA-Jones 多項式（タスク C）}\label{sec:largeN}
+\subsection{方法と検証}
+Cherednik 1111.6195 の DAHA-Jones 多項式を、一般の $t$ で D$_N$ と GL$_N$ の多項式表現の上で直接計算した（同論文の shift 作用素の方法は $t = 1, q$ に限る）。
+\begin{itemize}
+\item 規約：$(T_i - t^{1/2})(T_i + t^{-1/2}) = 0$、$T_i = t^{1/2} s_i + (t^{1/2} - t^{-1/2})(X_{\alpha_i} - 1)^{-1}(s_i - 1)$、評価 $\{H\} = (H \cdot 1)(q^{-\rho_k})$。ベクトル表現は minuscule なので $Y_{\varepsilon_1} = \pi_1 T_{u_1}$ で、$\pi_1(X_b) = q^{(\omega_{1*}, b)} X_{u_1^{-1} b}$（D$_N$：$\omega_{1*} = \varepsilon_1$、GL$_N$：$\omega_{1*} \equiv -\varepsilon_N$）。$\tau_-(X) = q^{1/2} Y X$、$\tau_+(Y) = q^{-1/2} X Y$、$T(2m+1, 2)$ は $\gamma = \tau_+^m \tau_-^2$。
+\item 検証 \comp{}：DAHA の関係式（D$_N$, GL$_N$、$N = 2, 3, 4$）、保存済みの D$_N$ の Macdonald 多項式が Macdonald 作用素の固有関数（$|\lambda| \le 2$）。
+\item 一様な規格化との関係 \comp{$N = 2, 3$、$\lambda = (1), (1,1), (2)$、$m = 1, 2$}：D$_N$ では $W_\lambda = T_\lambda^{-2n} \times$ 鏡像$(Z)$、$T_\lambda = q^{(\lambda,\lambda)/2} t^{(\lambda,\rho)}$、$n = 2m + 1$。GL$_N$ では $W_b = $ 鏡像$(Z/M_b)$、$M_b = q^{-3(b,b)} t^{-6(b,\rho) + 2|b|(N-1)}$（$N = 2, \dots, 5$ の 6 表現、随伴 $(1;1)$ も U(3), U(5) で一致）。DAHA-Jones は鉛直 framing の値で、一様な規格化は framing 0 の値として DAHA の側からも支持される。
+\end{itemize}
+
+\subsection{一般の $N$ の補間}
+$R_\lambda(N) = T_\lambda^{-6} \times$ 鏡像$(Z(N)) / K_\lambda(t^\rho)$ を $U = t^N$ の Laurent 多項式として Newton の差分商で補間した \comp{}。
+\begin{itemize}
+\item [1]：$U^{-5}$〜$U^{-2}$ の 4 項。$N = 2, \dots, 5$ から $N = 6, 7$ を予言し、AgSc (6.15) $\times\ T_{[1]}^{-6}$ に一致した。
+\item (1,1), (2)：$U^{-10}$〜$U^{-4}$ の 7 項。$N = 2, \dots, 8$ から $N = 9$ を、$N = 3, \dots, 9$ から $N = 2$ を予言した。\textbf{refined SO$(2N)$ の trefoil の 2 箱の不変量が一般の $N$ で得られた。}
+\item 被覆の随伴 $(1;1)$（GL$_N$、$N_A = 2, \dots, 11$）：$A^{1/2}$ の冪 $-10$〜$-4$ の 7 項で補間し、残りの 3 点ずつを予言した。
+\end{itemize}
+係数はすべて付録 \ref{app:daha} に載せた。
+
+\subsection{大きな $N$ の 2 箱のクロスキャップ部分}
+$g = f - \tfrac12 f^{\mathrm{cov}}$（全 $d$）を $U$ を形式変数のまま求めた \comp{}。
+\begin{itemize}
+\item $g_{(1)} = -g^{\mathrm{true}}_{[1]}$（$T(2,3)$）。
+\item $g_{(2)}, g_{(1,1)}$ の分母は $2 \times$ 単項式 $\times (1 + t)$ だけで、$N$ に依存する極はすべて消える。$g_{(2)} + g_{(1,1)}$ と $(1+t)(g_{(2)} - g_{(1,1)})$ は整数 Laurent。$(1+t)$ は $p_2$ 方向だけにあり、Adams の予言 $E_{(2)} = -E_{(1,1)}$ と一致する。
+\item $U = t^2, t^3$ で固定 $N$ の $g$ と全係数一致する。
+\item KN の二つの枠の整合：q 枠と t 枠の hatted 不変量は、SO・被覆・クロスキャップ部分のすべてで一致する。
+\end{itemize}
+
+\subsection{$t = q$ での Mariño との辞書}
+\begin{itemize}
+\item SO の $W_\lambda$ と被覆の $W_\mu$ は、Mariño の $G_\lambda, H_\mu$（標準 framing）の鏡像（$\nu \to 1/\nu$, $t_M \to 1/t_M$）に比 1 で一致する \comp{$\lambda, \mu = (1), (2), (1,1)$}。一様な規格化は $t = q$ でちょうど Mariño の標準 framing である。
+\item クロスキャップ：$g_{(1)} = -$鏡像$(g^{\mathrm{Mar}}_{[1]})$。2 箱は全 $d$ の $g$ を奇数 $d$ に直し（$g^{\mathrm{odd}}_{(2)} = g_{(2)} + \tfrac12 g_{(1)}(x^2)$、$g^{\mathrm{odd}}_{(1,1)} = g_{(1,1)} - \tfrac12 g_{(1)}(x^2)$）、unknot の値（$\mp \tfrac12$、$g_{(1)}({\mathrm{unknot}}) = -1$ の $d = 2$ の寄与）を引いて $M(q^{-1})^{-1}$ で hatted にすると、$-$鏡像$(\hat g^{\mathrm{Mar}}_R)$（$R$ はそのまま）になる \comp{全係数}。印刷された (4.8) の $\hat g_{[1,1]}$ とも直接一致した。
+\item 符号 $-1$ と、$g^{\mathrm{odd}}$ の段階の $R \leftrightarrow R^T$（$g^{\mathrm{odd}}_{(2)} = $ 鏡像$(g^{\mathrm{Mar}}_{[1,1]}) - \tfrac12$）が鏡像で $M(q^{-1}) \leftrightarrow M(q)$ となって打ち消すことは、双対 Cauchy（fermionic）の核の帰結である \deriv。
+\end{itemize}
+
+\subsection{極の構造}
+\begin{itemize}
+\item $\hat g_{(2)} + \hat g_{(1,1)}$ は整数 Laurent で、$(1+t)$ の極は $p_2$ 方向（差）だけにある \comp{}。
+\item Mariño の奇数 $d$ の規約を素朴な Adams（$q, t, U \to q^2, t^2, U^2$）で refined にすると $(1 + q)$ の極が加わる。refined では全 $d$ の規約が自然である（Hopf と同じ）\comp{}。
+\item $(1+t)$ の留数 \comp{}：
+\[
+\Bigl[\tfrac12 (t^{1/2} + t^{-1/2})(\hat g_{(2)} - \hat g_{(1,1)})\Bigr]_{t = -1}
+= -\frac{i\,(U^2 - 1)^2 (qU^2 - 1)(q^3 U^6 + q^3 U^4 - q U^2 + 1)}{2\, q^{9/2} U^{12}}
+\]
+（$t^{1/2} = i$）。$g_{(1)}$ の Adams 型の候補とは一致しない。
+\end{itemize}
+
+\subsection{$G$ 展開の対称性は 2 箱で成り立たない}
+\begin{itemize}
+\item [1] の $c = 1$ 部分は $\sigma$ で対称だが、2 箱では $\hat g_{(2)}$、$\hat g_{(1,1)}$、和、奇数 $d$ 版のどれでも $c = 1$ 部分が非対称 \comp{}。
+\item 分け方は原因でない：$V$ の偶奇と $\nu$ の偶奇は完全に連動する。$\sigma$ で固定する Kähler 変数を $U (rs)^c$ に変えても、[1] と 2 箱の両方で対称になる $c$ は無い（$U$ 固定では和の全体が $c = 2$ になり、$c = 1$ 部分は 0）\comp{$|c| \le 3$}。
+\item 和の非対称の部分は $(q - t)(\nu^2 q - t)(qt - 1) \times$ 多項式で、$t = q$ と $\nu^2 = t/q$ で消える（$(qt - 1)$ は $\sigma$ 反対称な関数に必ず付く因子）。
+\item SO の簡約した不変量 $R_\lambda$ には、$\sigma$・$q \leftrightarrow t$・鏡像のいずれに $\nu \to \pm \nu^{\pm 1} (rs)^{c_1} (r/s)^{c_2}$（$|c_1|, |c_2| \le 2$）と $R \leftrightarrow R^T$ を組み合わせても、比が単項式になる対称性が無い（[1] だけでも無い）\comp{}。type A の super-duality に当たるものが SO 側には無く、SO の $\hat f$ と $\hat g$ が $\sigma$ 対称になる理由は無い。被覆の $\hat f$ は $R$ ごとに $\sigma$ 対称である。
+\end{itemize}
+
+\subsection{述べ直しの判定式は 2 箱で成り立つ}
+refined だけの部分
+\[
+X = \hat g - \hat g\big|_{t = q}(\nu \to \tnu)
+\]
+は、$\hat g_{(1)}$、$\hat g_{(2)}$、$\hat g_{(1,1)}$、和のすべてで $(q - t)(\nu^2 - t)$ で割り切れる \comp{}。太字では $(\bt^2 - 1)(\ba^2 - \bq^2)$ と単項式の積で、結び目の [1] の $c = 2$ と Hopf の普遍的な因子と同じである。
+\begin{itemize}
+\item $(\nu^2 - t)$ で割り切れることは「SO(2) の点 $U = t$ で $\hat g$ が $t$ によらない」ことと同じである。$\tnu$ の代わりに $\nu$ のままでは割り切れない。
+\item 商の符号（太字、$\ba$ の冪ごと、項数と符号）：
+\input{gen/sign_table.tex}
+2 箱の和では $c = 2$（$\ba$ の偶数冪）の $\ba^{-10}, \ba^{-8}, \ba^{-6}, \ba^{-4}$ で符号がそろい（$+, -, +, -$）、$\ba^{-12}$ と、$c = 1$（奇数冪）のうち 2 項以上のブロックは混在する。商も $\sigma$ 対称でないので、$c = 1$ 部分を $G$ 展開してから符号を見る方法は使えない。
+\item 結論 \conj：多箱の refined クロスキャップ部分の構造は「$t = q$ の部分（$\tnu$ で表す）$+ (\bt^2 - 1)(\ba^2 - \bq^2) \times$ 商」であり、$G$ 展開（$\sigma$ 対称）の形ではない。商の $c = 1$ 部分の展開の変数と符号の規則は \open で、正値性は未判定である。
+\end{itemize}
+$\hat g_{(2)} + \hat g_{(1,1)}$、$(1+t)(\hat g_{(2)} - \hat g_{(1,1)})$、商を付録 \ref{app:largeN} に載せた。
+
+\section{整数性・正値性の現状}
+\begin{center}
+\begin{tabular}{p{3.2cm}p{3.6cm}p{8.2cm}}
+\toprule
+対象 & 整数性 & 正値性・符号 \\
+\midrule
+unknot, Hopf（$a, b \le 4$） & 成立 \comp{} & unrefined の段階で符号が混在（Mariño の $\hat g_{[1],[1]}$）。正値性は期待しない \\
+$T(2,2m+1)$ の [1]（大きな $N$） & 成立 \comp{$m \le 5$} & 判定式（§\ref{sec:criterion}）の (c = 1)(c = 2) が成立 \comp{$m \le 5$} \\
+$T(2,2m+1)$ の多箱（固定 $N = 2, 3$） & 全方向の hatted で成立 \comp{$m \le 3$, $|R| \le 3$} & 固定 $N$ では判定できない \\
+二重ツイスト 7 個（固定 $N = 2$） & SO 側の $\hat f$ で成立 \comp{$|R| \le 3$} & 判定できない \\
+trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数）\comp{} & $G$ 展開の形は不成立。述べ直しの形で普遍因子は成立、商の符号は一部のブロックだけでそろう \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{未解決の問題と次の段階}
+\begin{itemize}
+\item 多箱のクロスキャップの $c = 1$ 部分の展開の変数と符号の規則（$G$ 展開は 2 箱で使えない）。
+\item $(1+t)$ の留数（$\tilde I$ で固定される状態の数 $E$）の意味。Hopf の $(4,4)$ の $E$ も一意に決まっていない。
+\item 3 箱と $T(2,5)$ の一般の $N$：現在の方式では 1 件あたり 10 時間〜数日かかる見積もりで、高速な実装を別のセッションで作っている（未確認）。得られれば、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）を 3 箱と別の結び目で確かめる。
+\item 非トーラス結び目の refined SO の大きな $N$ の値は、refined CS の $S, T$ が使えないので入力が無い。
+\end{itemize}
+
+\appendix
+\section{生成した式}\label{app:gen}
+以下は \texttt{scripts/rk\_report\_tex.py} が保存済みのデータとコードから生成した式である。$[x^k]$ は $x^k$ の係数を表す。
+
+\subsection{unrefined：Mariño の trefoil の $\hat g$（標準 framing）}\label{app:unref}
+自前のコード（\texttt{scripts/rk\_unrefined\_check.py}）で計算した値。$\hat g_{[1,1]}$ は (4.8) の印刷値と全係数一致、$\hat g_{[2]}$ は $z^9$ の項以外が一致する。
+\input{gen/unrefined.tex}
+
+\subsection{トーラス結び目の [1]}\label{app:torus}
+$g^{\mathrm{true}}_{[1]}$（太字の変数）、$c = 1$ 部分の $G$ 展開、$c = 2$ の $\Pi_m$。
+\input{gen/torus_one_box.tex}
+
+\subsection{DAHA：一般の $N$ の簡約した不変量}\label{app:daha}
+$R_\lambda(U) = T_\lambda^{-6} \times$ 鏡像$(Z)/K_\lambda(t^\rho)$（trefoil、一様な規格化）。$q, t$ の冪は半整数のこともある。
+\input{gen/daha.tex}
+
+\subsection{大きな $N$ の 2 箱のクロスキャップ部分（太字の変数）}\label{app:largeN}
+\input{gen/largeN_2box.tex}
+
+\section*{参考文献}
+書誌は原典（arXiv の記載、TeX ソース）で確認したものだけを書いた。確認できなかったものはその旨を書いた。
+\begin{itemize}
+\item[{[KN]}] M.~Kameyama, S.~Nawata, ``Refined large N duality for knots'', arXiv:1703.05408.
+\item[{[Mar]}] M.~Mariño, ``String theory and the Kauffman polynomial'', Commun.\ Math.\ Phys.\ 298 (2010) 613--643, arXiv:0904.1088.
+\item[{[AgSc]}] M.~Aganagic, K.~Schaeffer, ``Orientifolds and the refined topological string'', JHEP 09 (2012) 084, arXiv:1202.4456.
+\item[{[AgSh]}] M.~Aganagic, S.~Shakirov, arXiv:1105.5117（題名・雑誌はこの報告では未確認）.
+\item[{[Ch]}] I.~Cherednik, ``Jones polynomials of torus knots via DAHA'', arXiv:1111.6195（掲載誌は未確認）.
+\item[{[GN]}] E.~Gorsky, A.~Negut, arXiv:1304.3328（題名・雑誌はこの報告では未確認）.
+\item[{[NRZ]}] S.~Nawata, P.~Ramadevi, Zodinmawia, ``Colored Kauffman homology and super-A-polynomials'', JHEP 1401 (2014) 126, arXiv:1310.2240.
+\item[{[GW]}] S.~Gukov, J.~Walcher, ``Matrix factorizations and Kauffman homology'', arXiv:hep-th/0512298（掲載誌は未確認）.
+\item[{[BFM]}] V.~Bouchard, B.~Florea, M.~Mariño, ``Topological open string amplitudes on orientifolds'', JHEP 0502:002, arXiv:hep-th/0411227.
+\item[{[KNTZ]}] arXiv:1902.02275（二重ツイスト結び目の長方形彩色。著者・題名はこの報告では未確認）.
+\item[{[AM]}] A.~Avetisyan, R.~Mkrtchyan, ``On refined Chern-Simons / topological string duality for classical gauge groups'', JHEP 11 (2022) 097, arXiv:2205.12832.
+\item[{[DGR]}] N.~Dunfield, S.~Gukov, J.~Rasmussen, arXiv:math/0505662（題名・雑誌はこの報告では未確認）.
+\item Mimachi（双対 Cauchy 恒等式）、Rains・Rains--Warnaar（virtual Koornwinder）、van Diejen--Sahi（Koornwinder の評価式）：書誌未確認。
+\end{itemize}
+
+\end{document}
