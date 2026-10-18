@@ -2,6 +2,7 @@
 import sys
 from pathlib import Path
 
+import pytest
 import sympy as sp
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,3 +101,38 @@ def test_large_N_two_box_crosscap():
     for k in ((1,), (2,), (1, 1)):
         fixed = sp.sympify(fx[2]["g_schur"][str(k)], locals={"r": rr, "s": ss})
         assert sp.cancel(g[k].to_sympy().subs(uu, ss**4) - fixed) == 0
+
+
+def test_large_N_two_box_marino_dictionary():
+    """t = q で Mariño 0904.1088 の trefoil（標準 framing）の鏡像に一致（scripts/rk_b_marino_tq.py）：SO の W_λ と被覆の W_μ は比 1、
+    g_(1) = −鏡像 g^Mar_[1]、奇数 d に直して unknot の値を引いた M(q^{−1})^{−1} g は −鏡像(ĝ^Mar_R)（(4.8)、誤植訂正済み）。"""
+    import rk_b_marino_tq as M
+    assert all(M.compare().values())
+
+
+def test_large_N_two_box_kn_frames():
+    """KN の二つの枠（q 枠：Macdonald の Cauchy 核と M(t)、t 枠：双対 Cauchy 核と M(q^{−1})）の hatted 不変量が、
+    大きな N の 2 箱の SO・被覆・クロスキャップ部分で一致する（scripts/rk_b_frames.py）。"""
+    import rk_b_frames as F
+    import rk_c_2box_largeN as L
+    from rcsknots.flint_rf3 import S
+    W, co = L.so_parts()
+    zt = 1 / S - S
+    ft = {k: zt * v for k, v in L.so_f(W, co).items()}
+    fct = {k: zt * v for k, v in L.cover_f().items()}
+    fq, fcq = F.so_q(W, co), F.cover_q()
+    gq = {k: fq[k] - L.half * fcq[k] for k in fq}
+    gt = {k: ft[k] - L.half * fct[k] for k in ft}
+    for A, B in ((fq, ft), (fcq, fct), (gq, gt)):
+        hq, ht = F.hatted(A, ss), F.hatted(B, 1 / rr)
+        assert all((hq[k] - ht[k]).is_zero() for k in hq)
+
+
+@pytest.mark.results
+def test_large_N_two_box_crosscap_structure():
+    """保存済みの大きな N の 2 箱の g（data/refined_kauffman/daha/largeN_2box_m1.pkl）の hatted ĝ（scripts/rk_b_2box_structure.py）：
+    c = 1 部分の V ↔ 1/V 対称は [1] だけで成立し 2 箱では不成立、refined だけの部分 ĝ − ĝ|_{t=q}(ν~) は全成分で (q − t)(ν² − t) で割り切れる。"""
+    import rk_b_2box_structure as B
+    G = B.ghat()
+    assert B.c1_symmetric(G[(1,)]) and not B.c1_symmetric(G["sum"])
+    assert all(B.divisible_universal(G[k]) for k in ((1,), (2,), (1, 1), "sum"))

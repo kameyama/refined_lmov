@@ -1,0 +1,7 @@
+SO の f：f̂^q = f̂^t [True, True, True]
+被覆の f^cov：f̂^q = f̂^t [True, True, True]
+クロスキャップ部分：ĝ^q = ĝ^t [True, True, True]
+   ĝ_(1,)：分母 r**4*u**6
+   ĝ_(2,)：分母 2*r**19*u**12*(s**2 + 1)
+   ĝ_(1, 1)：分母 2*r**17*u**12*(s**2 + 1)
+timeout 3000 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python   3.15s user 0.11s system 93% cpu 3.471 total
