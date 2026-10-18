@@ -1,0 +1,28 @@
+N=2 unknot：f^cov_(1) = −2P_[1]: True、f^cov_(2) = 0、f^cov_(1,1) = 0、g = {(1,): -1, (2,): 0, (1, 1): 0}
+N=2 被覆の m_adj = 1 で Laurent: False、m_adj = (t/q)^(N_A/2) で Laurent: True
+N=2 g_(1) + g^ref_[1](U = t^N) = 0
+N=2 m_(1) = s/r（K3'）：g の (Laurent, 整数, 2g 整数) = {(1,): (True, True, True), (2,): (True, False, True), (1, 1): (True, False, True)}、g_(2)+g_(1,1) 整数 = True
+    f の p_2 成分：1+q で割り切れる False、1+t で割り切れる False
+    f^cov の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    g の p_2 成分：1+q で割り切れる False、1+t で割り切れる False
+    ĝ = M^{-1}(q^{-1}) g の分母: [2*r**19*s**30*(r - 1)*(r + 1)*(r**2 + 1), 2*r**17*s**30*(r - 1)*(r + 1)*(r**2 + 1)]
+N=2 m_(1) = s**2/r**2（hatted）：g の (Laurent, 整数, 2g 整数) = {(1,): (True, True, True), (2,): (True, False, True), (1, 1): (True, False, True)}、g_(2)+g_(1,1) 整数 = True
+    f の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    f^cov の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    g の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    ĝ = M^{-1}(q^{-1}) g の分母: [2*r**19*s**28*(r - 1)*(r + 1), 2*r**17*s**28*(r - 1)*(r + 1)]
+  N=2: 4s
+N=3 unknot：f^cov_(1) = −2P_[1]: True、f^cov_(2) = 0、f^cov_(1,1) = 0、g = {(1,): -1, (2,): 0, (1, 1): 0}
+N=3 被覆の m_adj = 1 で Laurent: False、m_adj = (t/q)^(N_A/2) で Laurent: True
+N=3 g_(1) + g^ref_[1](U = t^N) = 0
+N=3 m_(1) = s/r（K3'）：g の (Laurent, 整数, 2g 整数) = {(1,): (True, True, True), (2,): (True, False, True), (1, 1): (True, False, True)}、g_(2)+g_(1,1) 整数 = True
+    f の p_2 成分：1+q で割り切れる False、1+t で割り切れる False
+    f^cov の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    g の p_2 成分：1+q で割り切れる False、1+t で割り切れる False
+    ĝ = M^{-1}(q^{-1}) g の分母: [2*r**19*s**54*(r - 1)*(r + 1)*(r**2 + 1), 2*r**17*s**54*(r - 1)*(r + 1)*(r**2 + 1)]
+N=3 m_(1) = s**2/r**2（hatted）：g の (Laurent, 整数, 2g 整数) = {(1,): (True, True, True), (2,): (True, False, True), (1, 1): (True, False, True)}、g_(2)+g_(1,1) 整数 = True
+    f の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    f^cov の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    g の p_2 成分：1+q で割り切れる True、1+t で割り切れる True
+    ĝ = M^{-1}(q^{-1}) g の分母: [2*r**19*s**52*(r - 1)*(r + 1), 2*r**17*s**52*(r - 1)*(r + 1)]
+  N=3: 6s

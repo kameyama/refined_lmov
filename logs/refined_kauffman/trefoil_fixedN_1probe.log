@@ -1,0 +1,26 @@
+N = 2、m_1 = s/r（1s）:
+  f_1: Laurent = True、整数係数 = True、項数 10
+  f_2: Laurent = True、整数係数 = True、項数 43
+  f_3: Laurent = True、整数係数 = True、項数 96
+  f_4: Laurent = True、整数係数 = True、項数 205
+N=3：W_1 == K3' の仮説の W_SO（(6.15)·T^{−6}(q/t)^{1/2}·unknot）: True
+N = 3、m_1 = s/r（45s）:
+  f_1: Laurent = True、整数係数 = True、項数 17
+  f_2: Laurent = True、整数係数 = True、項数 94
+  f_3: Laurent = True、整数係数 = True、項数 200
+  f_4: Laurent = True、整数係数 = True、項数 401
+  f_5: Laurent = True、整数係数 = True、項数 597
+  f_6: Laurent = True、整数係数 = True、項数 916
+N = 2、m_1 = s**2/r**2（0s）:
+  f_1: Laurent = True、整数係数 = True、項数 10
+  f_2: Laurent = True、整数係数 = True、項数 39
+  f_3: Laurent = True、整数係数 = True、項数 86
+  f_4: Laurent = True、整数係数 = True、項数 169
+N=3：W_1 == K3' の仮説の W_SO（(6.15)·T^{−6}(q/t)^{1/2}·unknot）: False
+N = 3、m_1 = s**2/r**2（9s）:
+  f_1: Laurent = True、整数係数 = True、項数 17
+  f_2: Laurent = True、整数係数 = True、項数 76
+  f_3: Laurent = True、整数係数 = True、項数 168
+  f_4: Laurent = True、整数係数 = True、項数 315
+  f_5: Laurent = True、整数係数 = True、項数 483
+  f_6: Laurent = True、整数係数 = True、項数 713

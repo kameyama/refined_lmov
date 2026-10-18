@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（37 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（38 件、約 60 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -21,7 +21,7 @@
 | K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined クロスキャップ = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
 | K4'(a) | クロスキャップ部分は全 d の第二量子化の構造 g = ½E/(1+t) + C（2(1+t)g は整数 Laurent、unknot の −½ は消える）。E はセクター別の被覆と t = −1・t = q の条件で (2,2),(2,4) が一意（積の形）、(4,4) は不定。Ĩ = ρ⊗ρ の入れ替え（Adams）を \|R\| ≤ 4、b ≤ 4 で確認 | report.md §7、src/rcsknots/kauffman_cover.py、scripts/rk_k4_*.py |
 | (b) | trefoil の 1^k（k ≤ N）を N = 2, 3 で計算（SO(4) = SU(2)²、SO(6) = SU(4)、KN の refined 不変量の鏡像）。N 依存の極は打ち消し、f_a は整数 Laurent。固定 N では framing は極の上でしか決まらない | report.md §6、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py |
-| (b') | trefoil の 2 箱（probe 2 個、Schur |R| ≤ 2）を N = 2, 3 で計算。Sym²V の f_(1,1) を Laurent にする m_(2) は一意（N=2：s^8 = m_(1,1)²、N=3：r^4 s^20）、f は整数 Laurent。M^{-1} f は (1+q) の分母が残る（被覆が要る） | report.md §6、scripts/rk_k5_trefoil_2box.py |
+| (b') | trefoil の 2 箱（probe 2 個、Schur |R| ≤ 2）を N = 2, 3 で計算。framing は「極 + t = q で 1」で決まり、m_(2) = (t/q)^2（一意）、f は整数 Laurent。被覆 U(3), U(5) で g = f − ½f^{cov}：2g 整数、半整数は p_2 方向だけ。ĝ = M^{-1}(q^{-1})g が Laurent になるのは m_(1) = t/q のときだけで、K3' の (t/q)^{1/2} と両立しない（未解決） | report.md §6、scripts/rk_k5_trefoil_2box{,_cover}.py |
 
 ### 重要な規約・事実（conventions.md に記載）
 - 変数：r = q^{1/2}、s = t^{1/2}、U = t^{N_D}（SO(2N_D)）、ν = U/√t（Mariño の ν、Q = ν² = U²/t）、A = ν² = t^{N_A}（被覆 U(N_A)、N_A = 2N_D − 1）、ν~ = ν(q/t)^{1/2}、z_q = r − 1/r、z_t = s − 1/s、G = z_q z_t。DGR：𝐪 = s、𝐭 = −r/s、𝐚 = ν、ν~ = −𝐚𝐭。
@@ -42,7 +42,7 @@
 推奨（2026-10-18 にユーザーへ提示）：A（済）→ B（一部済）。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
 
 ### 未解決（docs に記録済み）
-- trefoil [1] の余分な (q/t)^{1/2}（§6）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
+- trefoil [1] の余分な (q/t)^{1/2}（§6）。固定 N の 2 箱の hatted の Laurent 性はこれを外した m_(1) = t/q を要求し、大きな N の [1] の Laurent 性と両立しない（2026-10-19）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
 - probe 側の閉じた形 c_{2j}(n) の証明（Rains の二項公式）は未。
 
 ## 2026-10-14
@@ -260,4 +260,20 @@
 - テスト：tests/test_rk_trefoil.py::test_trefoil_fixed_N_two_probe（N = 2、約 4 秒）。
 - 結論：固定 N の 2 箱でも、極の打ち消しと整数性は成立する。ただし固定 N の f だけでは、hatted の検査（M^{-1} の (1+q)）も正値性も判定できない。
 - 次の候補：(i) 固定 N の被覆（U(3), U(5) の composite の trefoil、[2,1]・[2,1,1,1] など）で g = f − ½f^{cov} と ĝ を作り、ĝ が Laurent かを見る（GN の再構成が要る。実行前に見積もる）、(ii) 一般の N（C）。
+
+## 2026-10-19（続き 14）固定 N の被覆と hatted（ユーザーの指示「1」：前回の候補 (i)）
+- 見積もり：GN の [2,1,1,1]（SU(5) の随伴）は 2.4 秒。被覆の自由エネルギーは N ごとに約 1 秒。走査は N ごとに 1 分程度。いずれも 30 分の目安を大きく下回る。
+- 方法：U(N_A)（N_A = 3, 5）の核の |Y| ≤ 2 を Macdonald で展開した（Pieri の c, κ を確認）。荷電共役で W_μ̄ = W_μ と置いた（data の R_μ̄/R_μ が単項式であることを 4 組で確認）。
+- 【計算】
+  - unknot は g = (−1, 0, 0)。g_(1) は K3' の −g^{ref}_[1] に一致。
+  - 被覆の極は随伴だけ。単項式の族のうち t = q で 1 のもの (t/q)^{N_A/2} を採った。
+  - **framing の規則を追加**：極に加えて「t = q で 1」。SO 側は m_(1,1) = (t/q)^{N−1} になり、このとき m_(2) は一意に (t/q)^2（t = q で自動的に 1）。前回の m_(1,1) = s^4・s^16 はこの規則を満たさない。conventions.md「固定 N の framing」に記録した。
+  - 2g は整数 Laurent で、g_(2) + g_(1,1) は整数。半整数は p_2 方向だけ（Adams の予言と整合）。
+  - **hatted**：K3' の m_(1) = (t/q)^{1/2} では、g の p_2 成分が 1+q でも 1+t でも割り切れない。被覆の p_2 成分は割り切れるので、原因は SO 側である。
+  - m_(1) を走査すると、t = q で 1 かつ割り切れるのは t/q だけだった。このとき ĝ は z を除いて Laurent になり、SO 側の単項式はすべて (t/q)^{|μ|/2} の一様な形になる。
+  - ところが m_(1) = t/q では、大きな N の g^{ref}_[1] に 1/(1 − t) の極が残る。2 つの要請は両立しない（未解決、report.md §6）。
+- 検査の欠陥の修正：整数性の判定（scripts/rk_k5_trefoil_2box.py の stats、scripts/rk_k5_trefoil_fixedN.py）が分母の定数（2 など）を見ていなかった。修正後に前回の結論（f は整数）を再確認した。誤りは g の判定で見つかった（g_(2) は半整数）。
+- データ：data/refined_kauffman/trefoil_fixedN_2box.pkl（新しい framing で作り直し）、trefoil_fixedN_2box_g.pkl（2 案の g, ĝ）、trefoil_fixedN_f.pkl（1 probe、新しい framing）。ログ：logs/refined_kauffman/trefoil_fixedN_{2box,2box_cover,1probe}.log、gn_T2_3_2111.log。
+- テスト：tests/test_rk_trefoil.py::test_trefoil_fixed_N_two_probe（更新）、::test_trefoil_fixed_N_cover_and_hatted（新規、約 3 秒）。
+- 次の候補：(i) 3 箱（|R| = 3）で同じ検査をして、m_(1) の 2 案のどちらが残るかを見る。SO 側は D_N の K_λ（|λ| ≤ 3）が既にある。被覆は composite（|α|+|β| ≤ 3）の trefoil が要り、[3,1^{N_A−2}]・[2,2,1^{N_A−3}] などを GN で作る。実行前に見積もる。(ii) T(2,5) の固定 N の 2 箱で同じ緊張が出るか。(iii) 一般の N（C）。
 

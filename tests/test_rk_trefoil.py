@@ -120,9 +120,10 @@ def test_refined_crosscap_special_points():
 
 
 def test_trefoil_fixed_N_two_probe():
-    """固定 N の 2 箱（probe 2 個、Y の Schur |R| ≤ 2）。f_(1,1)（Sym²V、D_N の (2)）を Laurent にする framing 単項式は
-    N = 2 で m_(2) = s^8 = m_(1,1)²（SO(4) = SU(2)² の積の形）、N = 3 で m_(2) = r^4 s^20（scripts/rk_k5_trefoil_2box.py の走査で一意）。
-    近くの単項式・m_(2) = 1 では Laurent でない。f は整数係数で、f_(1), f_(2) は 1 probe の計算（別の展開）の f_1, f_2 と一致。"""
+    """固定 N の 2 箱（probe 2 個、Y の Schur |R| ≤ 2）。m_(1,1) = (t/q)^{N−1}（極の上の値に t = q で 1 の条件）のとき、
+    f_(1,1)（Sym²V、D_N の (2)）を Laurent にする m_(2) は (t/q)^2（scripts/rk_k5_trefoil_2box.py の走査で一意、t = q で自動的に 1）。
+    N = 2 では m_(2) = m_(1,1)²（SO(4) = SU(2)² の積の形）。近くの単項式・m_(2) = 1 では Laurent でない。
+    f は整数係数で、f_(1), f_(2) は 1 probe の計算（別の展開）の f_1, f_2 と一致。"""
     import sys as _sys
     _sys.path.insert(0, str(ROOT / "scripts"))
     import rk_k5_trefoil_2box as T2
@@ -142,3 +143,34 @@ def test_trefoil_fixed_N_two_probe():
     W = [sp.Integer(1), sp.cancel(T2.M1 * parts[1][0]), sp.cancel(T2.M11[N] * parts[2][0])]
     f1p = free_energy(N, W, 2)
     assert sp.cancel(f1p[1] - f[(1,)]) == 0 and sp.cancel(f1p[2] - f[(2,)]) == 0
+
+
+def test_trefoil_fixed_N_cover_and_hatted():
+    """固定 N の被覆 U(3)（N = 2）とクロスキャップ部分 g = f − ½f^{cov}（scripts/rk_k5_trefoil_2box_cover.py）。
+    unknot は g = (−1, 0, 0)。随伴の単項式 (t/q)^{3/2}（t = q で 1）で f^{cov} は Laurent、1 では Laurent でない。g_(1) は K3' の −g^{ref}_[1]。
+    2g は整数で g_(2) + g_(1,1) は整数（半整数は p_2 方向だけ：Adams の予言 E_(2) = −E_(1,1)）。
+    ĝ = M^{-1}(q^{-1}) g は m_(1) = t/q で z_q ĝ が Laurent、K3' の m_(1) = (t/q)^{1/2} では (1+q) の分母が残る。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_2box as T2
+    import rk_k5_trefoil_2box_cover as C2
+    from rcsknots.kauffman_knot import r as r_, s as s_
+    from rcsknots.bps import M_matrix
+    N = 2
+    fu = C2.cover_f(N, unknot=True)
+    gu = {R: sp.cancel(v - fu[R] / 2) for R, v in C2.so_f(N, unknot=True).items()}
+    assert gu == {(1,): -1, (2,): 0, (1, 1): 0}
+    assert not all(T2.laurent(v) for v in C2.cover_f(N).values())
+    Minv = M_matrix(2, 1 / r_).inv()
+    zq = r_ - 1 / r_
+    for m1, hatted_ok in ((T2.M1_HAT, True), (T2.M1, False)):
+        f, fc, g = C2.crosscap(N, m1)
+        assert all(T2.laurent(v) for v in fc.values())
+        assert C2.p2_divisible(fc, r_**2 + 1) and C2.p2_divisible(fc, s_**2 + 1)
+        assert all(T2.stats(2 * v)["integer"] for v in g.values())
+        assert T2.stats(g[(2,)] + g[(1, 1)])["integer"] and not T2.stats(g[(2,)])["integer"]
+        gh = Minv * sp.Matrix([g[(2,)], g[(1, 1)]])
+        assert all(T2.laurent(zq * gh[i]) for i in range(2)) == hatted_ok
+        assert C2.p2_divisible(g, r_**2 + 1) == hatted_ok
+    assert sp.cancel(C2.crosscap(N, T2.M1)[2][(1,)] + g_ref().subs({r: r_, s: s_, U: s_**4})) == 0
+

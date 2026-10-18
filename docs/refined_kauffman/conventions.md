@@ -33,6 +33,13 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 - 標準 framing の unnormalized W_SO = (6.15) × r^{−5} s^{11} U^{−6} × unknot_SO（r = q^{1/2}, s = t^{1/2}）【仮説：t = 1 の極の打ち消しと最短性から】。T_[1] = q^{1/2} t^{N−1} に対し r^{−5}s^{11}U^{−6} = T_[1]^{−6}(q/t)^{1/2}。
 - oriented 部分：½h^{ref}_[1] = 𝒫_DGR の鏡像(𝐚_U,𝐪,𝐭) × (ν−ν^{−1})/(𝐪−𝐪^{−1})、𝐚_U² = A (t/q)^{1/2}、A = ν² = U²/t（unknot から）。
 
+## 固定 N の framing（2026-10-19、report.md §6）
+- 固定 N（N = 2, 3）の trefoil では W_μ = m_μ R_μ K_μ(t^ρ)（R は data の鏡像）とし、単項式 m_μ を次の 2 条件で決める。
+  (i) N 依存の極の打ち消し（m_μ は極の上でしか決まらない）、(ii) t = q で m_μ = 1。
+  理由：data は t = q で framing 0 の HOMFLY に合わせてある。Spin(6) = SU(4)、SO(4) = SU(2)²、被覆 U(N_A) の framing 0 の不変量はそれぞれ一致する。
+- 結果：SO 側は m_(1,1) = (t/q)^{N−1}、m_(2) = (t/q)^2（走査で一意）、1 probe の m_2 = (t/q)^{N−1}、m_3 = m_1、m_3' = (t/q)^2 m_1。被覆は [1], [1,1], [2] で 1、随伴で (t/q)^{N_A/2}。荷電共役 W_μ̄ = W_μ。
+- m_(1)（ベクトル）は固定 N の極に関わらず、(i)(ii) では決まらない。K3' の値 (t/q)^{1/2}（大きな N の [1] の Laurent 性）と、hatted の値 t/q（固定 N の 2 箱で ĝ = M^{-1}(q^{-1}) g が Laurent）が両立しない。【未解決】既定は K3' の値で、両方で計算する。
+
 ## クロスキャップ展開（K4'、2026-10-14）
 - 被覆：U(N_A) refined CS、A = ν² = U²/t = t^{N_A}（N_A = 2N_D − 1）、核 Π_i(1 − y x_i)(1 − y/x_i)（fermionic、composite）。oriented 部分 = ½F^{cov}。
 - クロスキャップ部分（2026-10-17 に全 d の定義へ変更、report.md §7）：g_{ab} := f_{ab} − ½ f^{cov}_{ab}（f, f^{cov} は全 d の Möbius 反転）。第二量子化（AS §3）の構造 g = ½E/(1+t) + C（E：Ĩ で固定される oriented 状態、(偶,偶) のみ；C：凍結した unoriented 状態）をもち、2(1+t)g は整数 Laurent。

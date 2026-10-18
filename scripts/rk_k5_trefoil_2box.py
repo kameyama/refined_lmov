@@ -6,7 +6,12 @@ r"""N を固定した refined SO(2N) の trefoil の 2 箱（probe 2 個、Y の
   f_(2) は W_(2) を含まない（1 probe の計算の f_2 と同じもの）。新しいのは f_(1,1)（D_N の (2) = Sym²V − 1）。
   W_λ = m_λ R_λ K_λ(t^ρ)（R は data/torus・data/refined_kauffman/torus の reduced 不変量の鏡像 = AS の向き）。
   SO(6) = SU(4)：(1) = [1,1]、(1,1) = [2,1,1]、(2) = [2,2]。SO(4) = SU(2)²：(1) = [1]⊗[1]、(1,1) = [2]⊗∅ ⊕ ∅⊗[2]、(2) = [2]⊗[2]。
-  m_(1), m_(1,1) は 1 probe の計算（rk_k5_trefoil_fixedN.py）の値。m_(2) は f_(1,1) を Laurent にする ± r^α s^β を走査して決める。"""
+  framing の単項式 m_λ の決め方（docs/refined_kauffman/conventions.md「固定 N の framing」）：
+    (i) N 依存の極の打ち消し（m_(1,1), m_(2) は極の上で決まる）、(ii) t = q で 1（data は t = q で framing 0 の HOMFLY に合わせてあり、
+    Spin(6) = SU(4)・SO(4) = SU(2)² の framing 0 の不変量は一致する）。m_(1) は固定 N の極に関わらないので別に与える：
+    K3' の値 (t/q)^{1/2}（大きな N の [1] の Laurent 性）か、hatted の値 t/q（2 箱の ĝ の Laurent 性、rk_k5_trefoil_2box_cover.py）。
+  (i)+(ii) で m_(1,1) = (t/q)^{N−1}、m_(2) = (t/q)^2（走査で一意）。2026-10-18 の初版は (ii) を課さず、極の上で最も簡単な
+  m_(1,1) = s^4（N=2）・s^16（N=3）を使った（そのとき m_(2) = s^8・r^4 s^20）。"""
 import sys, json, time, pickle
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts")
 import sympy as sp
@@ -14,9 +19,11 @@ from rcsknots.kauffman_hopf2 import koornwinder_small
 from rcsknots.kauffman_hopf import qs, ts, Us
 from rcsknots.kauffman_knot import r, s
 
-M1 = r**-1 * s
-M11 = {2: s**4, 3: s**16}
-M2 = {2: s**8, 3: r**4 * s**20}      # 走査で一意（scan_m2）
+W_ = s / r                          # (t/q)^{1/2}
+M1 = W_                             # K3' の値
+M1_HAT = W_**2                      # hatted の値（t/q）
+M11 = {2: W_**2, 3: W_**4}          # (t/q)^{N−1}：極の上の値 s^4・s^16 に t = q で 1 の条件を課したもの
+M2 = {2: W_**4, 3: W_**4}           # (t/q)^2：走査で一意（scan_m2）
 
 
 def Rdata(c, Nsu):
@@ -61,11 +68,13 @@ def free_energy_2(N, W):
     return {(1,): f1, (2,): sp.cancel(H11 + H2), (1, 1): sp.cancel(H11 - H2)}
 
 
-def trefoil_W(N, m2):
+def trefoil_W(N, m2, m1=None, m11=None):
+    m1 = M1 if m1 is None else m1
+    m11 = M11[N] if m11 is None else m11
     if N == 3:
-        return {(1,): M1 * Rdata("11", 4) * unknot_K(3, (1,)), (1, 1): M11[3] * Rdata("211", 4) * unknot_K(3, (1, 1)),
+        return {(1,): m1 * Rdata("11", 4) * unknot_K(3, (1,)), (1, 1): m11 * Rdata("211", 4) * unknot_K(3, (1, 1)),
                 (2,): m2 * Rdata("22", 4) * unknot_K(3, (2,))}
-    return {(1,): M1 * Rdata("1", 2)**2 * unknot_K(2, (1,)), (1, 1): M11[2] * Rdata("2", 2) * unknot_K(2, (1, 1)),
+    return {(1,): m1 * Rdata("1", 2)**2 * unknot_K(2, (1,)), (1, 1): m11 * Rdata("2", 2) * unknot_K(2, (1, 1)),
             (2,): m2 * Rdata("2", 2)**2 * unknot_K(2, (2,))}
 
 
@@ -89,9 +98,11 @@ def scan_m2(N, s0s=(sp.Rational(3, 7), sp.Rational(5, 11)), arange=range(-12, 13
 
 
 def stats(e):
+    """Laurent 性と整数性。分母の単項式の係数（例えば 2）で分子を割ってから係数を見る。"""
     n, d = sp.fraction(sp.cancel(e))
-    cs = sp.Poly(sp.expand(n), r, s).coeffs()
-    return {"laurent": sp.Poly(d, r, s).is_monomial, "integer": all(c.is_integer for c in cs), "terms": len(cs),
+    D = sp.Poly(d, r, s)
+    cs = [c / D.LC() for c in sp.Poly(sp.expand(n), r, s).coeffs()]
+    return {"laurent": D.is_monomial, "integer": D.is_monomial and all(c.is_integer for c in cs), "terms": len(cs),
             "pos": sum(int(bool(c > 0)) for c in cs), "maxabs": max(abs(c) for c in cs)}
 
 
