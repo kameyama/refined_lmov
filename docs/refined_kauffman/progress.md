@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（30 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（31 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -177,4 +177,5 @@
 - 【計算】g^{ref} は整数 Laurent、t = q で z の奇数冪なし。クロスキャップ展開：c = 1 は G 環、c = 2 は (w − 1/w) で割れるが商は G 環に入らない。符号は混在。
 - 最初、t = q の対称性の判定を expand で書いて全 m で失敗（unknot の因子の分母のため）。cancel に直した。
 - テスト：tests/test_rk_trefoil.py::test_torus_family_framing_monomial（約 1 秒）。
-- 次：B（refined のクロスキャップ BPS 数の定義）。A のデータ（T(2,2m+1) の g^{ref}、c = 1 の G 展開）を試験台にする。
+- 【計算・予想】refined でだけ現れる部分（𝐚 の奇数冪）は (−1)^{m+1}(𝐚²−𝐪²)(𝐭²−1)·単項式·Π_m、Π_m は係数 +1 の m(m+1)/2 項の閉じた形（m ≤ 3 から推測、m = 4, 5 で確認）。tests/test_rk_trefoil.py::test_torus_family_refined_only_part。
+- 次：B（refined のクロスキャップ BPS 数の定義）。A のデータ（T(2,2m+1) の g^{ref}、c = 1 の G 展開、c = 2 の (𝐚²−𝐪²)(𝐭²−1)Π_m の形）を試験台にする。

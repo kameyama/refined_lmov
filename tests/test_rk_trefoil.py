@@ -86,3 +86,15 @@ def test_torus_family_framing_monomial():
     Q, Tb, A = sp.symbols("Q T A")
     gq = sp.expand(sp.cancel(g.subs({r: -Tb * Q, U: A * Q}).subs(s, Q)).subs(Tb, -1))
     assert sp.expand(gq - gq.subs(Q, -1 / Q)) == 0
+
+
+def test_torus_family_refined_only_part():
+    """A：g^{ref}_[1](T(2,2m+1)) の 𝐚 の奇数冪（t = q で消える refined の部分）は
+    (−1)^{m+1}(𝐚²−𝐪²)(𝐭²−1) 𝐚^{−(4m+1)}𝐪^{−(2m−1)}𝐭^{−3m} Π_m、Π_m = Σ_{j<m} 𝐚^{2j}𝐪^{2(m−1−j)}𝐭^{2j} Σ_{i≤j}(𝐪⁴𝐭²)^i（係数はすべて +1）。m = 2, 3。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k3_torus_family as Tf
+    for m in (2, 3):
+        Pi, (Q, Tb, A) = Tf.refined_only_part(m)
+        guess = sum(A**(2 * j) * Q**(2 * (m - 1 - j)) * Tb**(2 * j) * sum((Q**4 * Tb**2)**i for i in range(j + 1)) for j in range(m))
+        assert sp.expand(Pi - guess) == 0

@@ -63,3 +63,12 @@ def g_family(m, d):
     n = 2 * (2 * m + 1)
     mono = r**(-(3 * m + 2)) * s**d * U**(-n)
     return sp.cancel(Z_V_T2(m) * mono * unknot_SO - h_half(m))
+
+
+def refined_only_part(m):
+    """g^{ref}（太字 𝐪 = Q, 𝐭 = T, 𝐚 = A）の 𝐚 の奇数冪の部分を (𝐚²−𝐪²)(𝐭²−1) · (−1)^{m+1} 𝐚^{−(4m+1)} 𝐪^{−(2m−1)} 𝐭^{−3m} · Π_m に分け、Π_m を返す。"""
+    Q, Tb, A = sp.symbols("Q T A")
+    gb = sp.expand(sp.cancel(g_family(m, 7 * m + 4).subs({r: -Tb * Q, U: A * Q}).subs(s, Q)))
+    odd = sp.expand((gb - gb.subs(A, -A)) / 2)
+    pre = (A**2 - Q**2) * (Tb**2 - 1) * (-1)**(m + 1) * A**(-(4 * m + 1)) * Q**(-(2 * m - 1)) * Tb**(-3 * m)
+    return sp.expand(sp.cancel(odd / pre)), (Q, Tb, A)
