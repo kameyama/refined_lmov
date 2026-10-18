@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（35 件、約 50 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（36 件、約 65 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -221,3 +221,19 @@
 - テスト：tests/test_rk_cover.py::test_two_multi_probe_hopf_even_sector（約 7 秒）。データ：data/refined_kauffman/hopf_f_two_multi.pkl, hopf_fcov_two_multi.pkl, hopf_g_two_multi.pkl。
 - 判定式の述べ直し（report.md §8）：「t = q の部分 ＋ 普遍的な因子 (𝐚²−𝐪²)(𝐭²−1) または (𝐭²−1) × 冪ごとに符号のそろう多項式」。
 - 次の候補：(i) 拡張版（|R|,|S| ≤ 4、E_44 の hatted 版）、(ii) 一般の N（C）。
+
+## 2026-10-18（続き 10）拡張版（|R|, |S| ≤ 4）：S1 の準備（実行前に記録）
+- PR #11 に 3de70c5 を gh api で push（ユーザーの指示「ghでpushして1へ進め」）。
+- S1（D_N の K_λ、|λ| ≤ 4、U 形式）：評価の対称性で未定係数を決める（kauffman_hopf2.koornwinder_general）。x → −x の偶奇で未知数を減らした（K_λ には |μ| ≡ |λ| の S_μ だけ）。
+- 測定（1 コア）：|λ| ≤ 3 は数秒。sympy の体の Gauss の消去では (2,2)（未知数 5）が 465 秒、flint の Bareiss（分母を払って Cramer）でも 316 秒。(3,1)（未知数 6）は 1 コアで 30 分を超えても終わらない。最初の素朴な版（偶奇を使わない）は nmax = 4 で 30 分以内に終わらなかった（停止）。
+- 見積もり：行列式は Cramer の n + 1 個が独立なので 8 並列（コア 8、メモリ 8 GB、使用メモリは数十 MB）。(2,2) 約 1 分、(3,1) 10〜30 分、(4)（7×7）1〜3 時間。合計 1〜4 時間（24 時間の上限より十分小さい）。
+- 再開：λ ごとに data/refined_kauffman/koornwinder_DN/K_<λ>.pkl に保存し、再開時は読み込んで飛ばす。
+- 実行：scripts/rk_b_koornwinder_DN.py を nohup で独立に実行、ログ logs/rk_b_koornwinder_DN.log、完了の目印は最後の行「保存 完了」。検算：最小版の係数と一致、全 66 組の評価の対称性。
+- 並行して S2（被覆側の次数 4）を実装する。
+
+## 2026-10-18（続き 11）拡張版の途中経過
+- S1：K_λ を |λ| ≤ 3 まで数秒、(2,2) 119 秒、(3,1) 1063 秒（8 並列）。(4)（7×7 の行列式 8 個）は 1.5 時間を超えて計算中（data/refined_kauffman/koornwinder_DN/ に λ ごとに保存、再開可）。見積もり（1〜4 時間）の範囲内。
+- S2：被覆 Σ N N f^{cov}（|R|,|S| ≤ 4）は 3745 秒で完了（data/refined_kauffman/hopf_fcovLR_A4.pkl）。
+- S3 の一部（|R| ≤ 4, |S| ≤ 2、K_(4) を使わない）：SO 側 103 秒。Adams の予言は 10 セクターすべてで成立、hatted Ĉ の refined だけの部分は 10/10 で (ν~²−q)(q−t) で割り切れ、符号のそろい方は 8/10（転置の対 2 成分で破れ）。report.md §8。
+- テスト：tests/test_rk_cover.py::test_extension_building_blocks_evaluation_symmetry（約 15 秒）、results の印の test_saved_42_sectors_adams_and_hatted_factor（約 9 分）。
+- 残り：K_(4) の完了後に |R| = |S| = 4（ε_{ρσ}、ρ,σ ⊢ 2 が未知、E_44 を含む）。

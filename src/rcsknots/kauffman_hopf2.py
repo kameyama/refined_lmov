@@ -268,3 +268,300 @@ def cover_f2(AY):
                 tot += cc * h
             f[Rs] = sp.cancel(tot)
     return f
+
+
+# ---------------------------------------------------------------------------
+# 拡張版（|λ| ≤ nmax）：K_λ を S_μ = Π_i S_{μ_i}（|μ| ≤ |λ|）の多項式として評価の対称性で決める。
+#   K_λ = m^{GL}_λ(y) + Σ_{ν ⊢ |λ|, ν <lex λ} c_ν m^{GL}_ν(y) + Σ_{|μ| < |λ|} a_μ S_μ、y = (x_i, x_i^{−1})（m^{GL} は 2N 変数の単項対称関数、p_ρ(y) = S_ρ）。
+#   未知数の数 = それまでに決めた K の数（すべての小さい形と、同じ大きさで lex で小さい形）で、その点 t^ρ q^ν で
+#   K_λ(t^ρ q^ν) = K_λ(t^ρ) K_ν(t^ρ q^λ) / K_ν(t^ρ) を課す。
+def _order(nmax):
+    from .partitions import partitions
+    out = []
+    for n in range(nmax + 1):
+        out += list(reversed(partitions(n)))      # lex の昇順
+    return out
+
+
+def _eval_S(poly, nu, cache):
+    """poly = {μ: 係数}（S_μ の線形結合）を t^ρ q^ν で評価。"""
+    tot = K.zero
+    for mu, c in poly.items():
+        v = K.one
+        for d in mu:
+            key = (d, nu)
+            if key not in cache:
+                cache[key] = S(d, nu)
+            v *= cache[key]
+        tot += c * v
+    return tot
+
+
+def koornwinder_general(nmax, log=None, store=None, workers=1):
+    """{λ: {μ: 係数}}：K_λ の S_μ 表示（|λ| ≤ nmax）、と K_λ(t^ρ)。
+    store：保存先のディレクトリ（λ ごとに保存し、あれば読み込んで飛ばす）。workers > 1 なら行列式を並列に計算する。"""
+    import os, pickle
+    from .macdonald import m_in_p
+    order = _order(nmax)
+    Kr = {lam: K_rho(lam) for lam in order}
+    Kfun, cache = {(): {(): K.one}}, {}
+    for idx, lam in enumerate(order):
+        if lam == ():
+            continue
+        path = os.path.join(store, "K_" + "_".join(map(str, lam)) + ".pkl") if store else None
+        if path and os.path.exists(path):
+            Kfun[lam] = {mu: K.from_expr(sp.sympify(v, locals={"q": qs, "t": ts, "U": Us})) for mu, v in pickle.load(open(path, "rb")).items()}
+            if log:
+                log(f"{lam} 読み込み")
+            continue
+        n = sum(lam)
+        top = m_in_p(n)
+        # D_N のパラメータは x → −x で不変なので K_λ(−x) = (−1)^{|λ|} K_λ(x)：|μ| ≡ |λ| (mod 2) の S_μ だけが現れる
+        prev = [nu for nu in order[:idx] if (sum(nu) - n) % 2 == 0]   # 評価点 = 未知数の数
+        same = [nu for nu in prev if sum(nu) == n]
+        lower = [mu for mu in order if sum(mu) < n and (sum(mu) - n) % 2 == 0]
+        base = {rho: K(c) for rho, c in top[lam].items()}
+        unknown_funcs = [{rho: K(c) for rho, c in top[nu].items()} for nu in same] + [{mu: K.one} for mu in lower]
+        assert len(unknown_funcs) == len(prev), (lam, len(unknown_funcs), len(prev))
+        M, rhs = [], []
+        for nu in prev:
+            target = Kr[lam] * _eval_S(Kfun[nu], lam, cache) / Kr[nu]
+            rhs.append(target - _eval_S(base, nu, cache))
+            M.append([_eval_S(f, nu, cache) for f in unknown_funcs])
+        from .flint_solve import solve as _fsolve, solve_parallel as _psolve
+        if len(M) <= 2:
+            sol = _solve(M, rhs)
+        else:
+            sol = _psolve(M, rhs, K, workers) if workers > 1 else _fsolve(M, rhs, K)
+        poly = dict(base)
+        for f, c in zip(unknown_funcs, sol):
+            for mu, v in f.items():
+                poly[mu] = poly.get(mu, K.zero) + c * v
+        Kfun[lam] = {mu: v for mu, v in poly.items() if v != 0}
+        if path:
+            pickle.dump({mu: str(v.as_expr()) for mu, v in Kfun[lam].items()}, open(path, "wb"))
+        if log:
+            log(f"{lam} 済")
+    return Kfun, Kr, cache
+
+
+# ---------------------------------------------------------------------------
+# 拡張版の S2：被覆側（U(N_A)、A = ν² 形式）。成分 2 の brane・image を Z' = Z とおいた次数 ≤ AZ、成分 1 も Y' = Y。
+#   composite の P_{[α,β]} = P_α(x)P_β(1/x) + Σ_{k≥1} Σ c · T_{μ'ν'}（T_{μν} = p_μ(x)p_ν(1/x)、|μ'| = |α|−k、|ν'| = |β|−k）
+#   の c を評価の対称性 P_λ(t^ρ q^μ)P_μ(t^ρ) = P_μ(t^ρ q^λ)P_λ(t^ρ)（composite の点）で決める。P_{[α,β]}(t^ρ) は dim_composite。
+def _comp_point_pp(d, gam, dlt):
+    """x = t^ρ q^{[γ,δ]} での (Σ x_i^d, Σ x_i^{−d})。"""
+    return _pp(d, tuple(gam), tuple(-x for x in dlt))
+
+
+def _T_eval(mu, nu, gam, dlt, cache):
+    v = KC.one
+    for d in mu:
+        key = (d, gam, dlt)
+        if key not in cache:
+            cache[key] = _comp_point_pp(d, gam, dlt)
+        v *= cache[key][0]
+    for d in nu:
+        key = (d, gam, dlt)
+        if key not in cache:
+            cache[key] = _comp_point_pp(d, gam, dlt)
+        v *= cache[key][1]
+    return v
+
+
+def _dim_comp(alpha, beta):
+    from .kauffman_refined import dim_composite, q as qR, t as tR, A as AR
+    from .kauffman_cover import qs_, ss_, nus_
+    e = dim_composite(list(alpha), list(beta))
+    e = e.subs({qR: qs_, tR: ss_**2, AR: nus_**2})
+    return KC.from_expr(sp.powdenest(sp.expand_power_base(e, force=True), force=True))
+
+
+def composite_P(nmax):
+    """{(α, β): {(μ, ν): 係数}}（|α| + |β| ≤ nmax）と P_{[α,β]}(t^ρ)。"""
+    from .partitions import partitions
+    from .macdonald import macdonald_P
+    from .kauffman_cover import qs_ as _q, ss_ as _s, nus_ as _n
+    conv = lambda c: KC(c)
+    Pm = {n: macdonald_P(n, qc, sc**2, conv) for n in range(nmax + 1)}
+    comps = [(a, b) for n in range(nmax + 1) for na in range(n + 1) for a in partitions(na) for b in partitions(n - na)]
+    Pr = {c: (KC.one if c == ((), ()) else _dim_comp(*c)) for c in comps}
+    P, cache = {}, {}
+    for (al, be) in comps:
+        top = {}
+        for mu, x in Pm[sum(al)][al].items() if al else [((), KC.one)]:
+            for nu, y in Pm[sum(be)][be].items() if be else [((), KC.one)]:
+                top[(mu, nu)] = top.get((mu, nu), KC.zero) + x * y
+        lowers = [(g, d) for k in range(1, min(sum(al), sum(be)) + 1)
+                  for g in partitions(sum(al) - k) for d in partitions(sum(be) - k)]
+        if not lowers:
+            P[(al, be)] = top
+            continue
+        M, rhs = [], []
+        for (g, d) in lowers:                       # 評価点 = 下位の composite
+            target = Pr[(al, be)] * sum((c * _T_eval(mu, nu, al, be, cache) for (mu, nu), c in P[(g, d)].items()), KC.zero) / Pr[(g, d)]
+            rhs.append(target - sum((c * _T_eval(mu, nu, g, d, cache) for (mu, nu), c in top.items()), KC.zero))
+            M.append([_T_eval(mu, nu, g, d, cache) for (mu, nu) in lowers])
+        from .flint_solve import solve as _fsolve
+        sol = _fsolve(M, rhs, KC)
+        poly = dict(top)
+        for (mu, nu), c in zip(lowers, sol):
+            poly[(mu, nu)] = poly.get((mu, nu), KC.zero) + c
+        P[(al, be)] = poly
+    return P, Pr, cache
+
+
+def _mul2f(P, Q, AY, AZ, zero):
+    R = {}
+    for (a1, b1), v1 in P.items():
+        for (a2, b2), v2 in Q.items():
+            if sum(a1) + sum(a2) <= AY and sum(b1) + sum(b2) <= AZ:
+                key = (tuple(sorted(a1 + a2, reverse=True)), tuple(sorted(b1 + b2, reverse=True)))
+                R[key] = R.get(key, zero) + v1 * v2
+    return R
+
+
+def log2f(Z, AY, AZ, field):
+    X = {k: v for k, v in Z.items() if k != ((), ())}
+    L, P = {}, dict(X)
+    for m in range(1, AY + AZ + 1):
+        for k, v in P.items():
+            L[k] = L.get(k, field.zero) + v * field(sp.Rational((-1)**(m + 1), m))
+        P = _mul2f(P, X, AY, AZ, field.zero)
+    return L
+
+
+def _exp_ps(coef, A, field):
+    """exp(Σ_d coef[d] p_d) の {μ: 係数}（|μ| ≤ A）。"""
+    out = {(): field.one}
+    for d, c in coef.items():
+        term = {(): field.one}
+        acc = field.one
+        for m in range(1, A // d + 1):
+            acc = acc * c / m
+            term[(d,) * m] = acc
+        new = {}
+        for a, va in out.items():
+            for b, vb in term.items():
+                if sum(a) + sum(b) <= A:
+                    k = tuple(sorted(a + b, reverse=True))
+                    new[k] = new.get(k, field.zero) + va * vb
+        out = new
+    return out
+
+
+def cover_Z_LR(AY, AZ):
+    """被覆の Z^{cov}(Y, Y'=Y; Z, Z'=Z)：{(μY, μZ): KC}（Σ N N f^{cov} を直接与える母関数）。"""
+    from .partitions import partitions, z as z_lam
+    P, Pr, cache = composite_P(AZ)
+    comps = list(P)
+    # T_{μν} を composite の P で表す（ブロックごとに上位の行列を逆に解き、下位を再帰的に代入）
+    Tin = {}
+    blocks = sorted({(sum(a), sum(b)) for a, b in comps})
+    for (na, nb) in blocks:
+        cs = [(a, b) for a, b in comps if sum(a) == na and sum(b) == nb]
+        ts = [(mu, nu) for mu in (partitions(na) if na else [()]) for nu in (partitions(nb) if nb else [()])]
+        X = [[P[c].get(tk, KC.zero) for tk in ts] for c in cs]          # 行：composite、列：上位の T
+        # P_c − (下位の T の部分) = Σ_tk X[c][tk] T_tk  ⇒ T_tk = Σ_c Xinv[tk][c] (P_c − 下位_c)
+        from .flint_solve import solve as _fsolve
+        for j, tk in enumerate(ts):
+            e = [KC.one if i == j else KC.zero for i in range(len(ts))]
+            col = _fsolve([[X[c_i][t_i] for c_i in range(len(cs))] for t_i in range(len(ts))], e, KC) if len(ts) > 1 else [KC.one / X[0][0]]
+            expr = {}
+            for c_i, coeff in enumerate(col):
+                if coeff == 0:
+                    continue
+                c = cs[c_i]
+                expr[c] = expr.get(c, KC.zero) + coeff
+                for (mu, nu), v in P[c].items():
+                    if (sum(mu), sum(nu)) != (na, nb):
+                        for c2, w in Tin[(mu, nu)].items():
+                            expr[c2] = expr.get(c2, KC.zero) - coeff * v * w
+            Tin[tk] = {c: v for c, v in expr.items() if v != 0}
+    # 成分 2 の核：Σ_ρ ε_ρ p_ρ(Z)/z_ρ Π_i (p_{ρ_i}(x) + p_{ρ_i}(1/x))
+    import itertools
+    kern = {}                                                            # {composite: {ρ_Z: 係数}}
+    for n in range(AZ + 1):
+        for rho in (partitions(n) if n else [()]):
+            pref = KC((-1)**len(rho)) / KC(z_lam(rho)) if rho else KC.one
+            for choice in itertools.product((0, 1), repeat=len(rho)):
+                mu = tuple(sorted((d for d, c in zip(rho, choice) if c == 0), reverse=True))
+                nu = tuple(sorted((d for d, c in zip(rho, choice) if c == 1), reverse=True))
+                for comp, w in Tin[(mu, nu)].items():
+                    kern.setdefault(comp, {})
+                    kern[comp][rho] = kern[comp].get(rho, KC.zero) + pref * w
+    Z = {}
+    for comp, cz in kern.items():
+        al, be = comp
+        pp = {d: _comp_point_pp(d, al, be) for d in range(1, AY + 1)}
+        ey = _exp_ps({d: -(pp[d][0] + pp[d][1]) / d for d in pp}, AY, KC)
+        for muY, vy in ey.items():
+            for rhoZ, c in cz.items():
+                if c == 0:
+                    continue
+                key = (muY, rhoZ)
+                Z[key] = Z.get(key, KC.zero) + Pr[comp] * c * vy
+    return Z
+
+
+def cover_f_LR(AY, AZ):
+    """Σ N^R_{ρρ'} N^S_{σσ'} f^{cov}_{ρρ'σσ'}（sympy の式、記号 q, s, nu）。"""
+    from .kauffman_cover import qs_, ss_, nus_
+    Z = cover_Z_LR(AY, AZ)
+    assert Z[((), ())] == KC.one
+    L = log2f(Z, AY, AZ, KC)
+    ad = lambda e, d: e.subs({qs_: qs_**d, ss_: ss_**d, nus_: nus_**d}, simultaneous=True)
+    return plethystic2(L, AY, AZ, ad)
+
+
+def so_Z_general(AY, AZ, store="data/refined_kauffman/koornwinder_DN"):
+    """SO 側 Z~(Y; Z)、|μ_Y| ≤ AY、|μ_Z| ≤ AZ（K_λ は koornwinder_general の保存を使う）。"""
+    from .partitions import partitions, z as z_lam
+    Kf, Kr, cache = koornwinder_general(AZ, store=store, workers=8)
+    order = [lam for lam in _order(AZ)]
+    # S_ρ を K_λ で表す：K_λ = Σ_μ a_{λμ} S_μ を大きさの順に逆に解く
+    Sin = {(): {(): K.one}}
+    for n in range(1, AZ + 1):
+        lams = [lam for lam in order if sum(lam) == n]
+        rhos = list(reversed(partitions(n)))
+        X = [[Kf[lam].get(rho, K.zero) for rho in rhos] for lam in lams]
+        from .flint_solve import solve as _fsolve
+        for j, rho in enumerate(rhos):
+            e = [K.one if i == j else K.zero for i in range(len(rhos))]
+            col = _fsolve([[X[l_i][r_i] for l_i in range(len(lams))] for r_i in range(len(rhos))], e, K) if len(rhos) > 1 else [K.one / X[0][0]]
+            expr = {}
+            for l_i, coeff in enumerate(col):
+                if coeff == 0:
+                    continue
+                lam = lams[l_i]
+                expr[lam] = expr.get(lam, K.zero) + coeff
+                for mu, v in Kf[lam].items():
+                    if sum(mu) < n:
+                        for lam2, w in Sin[mu].items():
+                            expr[lam2] = expr.get(lam2, K.zero) - coeff * v * w
+            Sin[rho] = {lam: v for lam, v in expr.items() if v != 0}
+    kern = {}
+    for n in range(AZ + 1):
+        for rho in (partitions(n) if n else [()]):
+            pref = K((-1)**len(rho)) / K(z_lam(rho)) if rho else K.one
+            for lam, w in Sin[rho].items():
+                kern.setdefault(lam, {})
+                kern[lam][rho] = kern[lam].get(rho, K.zero) + pref * w
+    Z = {}
+    for lam, cz in kern.items():
+        ey = _exp_powersums({d: -S(d, lam) / d for d in range(1, AY + 1)}, AY)
+        for (muY, _), vy in ey.items():
+            for rhoZ, c in cz.items():
+                if c == 0:
+                    continue
+                key = (muY, rhoZ)
+                Z[key] = Z.get(key, K.zero) + Kr[lam] * c * vy
+    return Z
+
+
+def so_f_general(AY, AZ):
+    Z = so_Z_general(AY, AZ)
+    assert Z[((), ())] == K.one
+    L = log2f(Z, AY, AZ, K)
+    ad = lambda e, d: e.subs({qs: qs**d, ts: ts**d, Us: Us**d}, simultaneous=True)
+    return plethystic2(L, AY, AZ, ad)

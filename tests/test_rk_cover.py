@@ -275,3 +275,65 @@ def test_two_multi_probe_hopf_even_sector():
     zq = r_ - 1 / r_
     assert sp.cancel(Ch[0, 1] - zq * (nut - 1 / nut) * (nut**2 - 1 + nut**-2)) == 0
     assert sp.cancel(Eh[0, 0] + zq * (nut - 1 / nut) * (t / r_ * nut + r_ / nut)) == 0
+
+
+def test_extension_building_blocks_evaluation_symmetry():
+    """拡張版の部品：D_N の K_λ（|λ| ≤ 3）と U(N) の composite P_{[α,β]}（|α|+|β| ≤ 3）を評価の対称性で求めると、
+    解に使っていない組を含むすべての組で K_λ(t^ρq^ν)K_ν(t^ρ) = K_ν(t^ρq^λ)K_λ(t^ρ)（P も同様）が成り立つ。
+    随伴表現の展開は最小版の Pieri の値、主特殊化は dim_composite（K2）と一致。"""
+    from rcsknots.kauffman_hopf2 import koornwinder_general, _eval_S, _order, composite_P, _T_eval
+    from rcsknots.kauffman_cover import _psi_sym, _principal_sym, KC
+    Kf, Kr, cache = koornwinder_general(3)
+    order = _order(3)
+    for i, lam in enumerate(order):
+        for nu in order[i + 1:]:
+            assert _eval_S(Kf[lam], nu, cache) * Kr[nu] == _eval_S(Kf[nu], lam, cache) * Kr[lam]
+    P, Pr, cacheP = composite_P(3)
+    assert P[((1,), (1,))].get(((), ())) == -_psi_sym(1, 0, 0) / _psi_sym(1, 1, 1)
+    assert Pr[((1,), (1,))] == _principal_sym(1, 1)
+    comps = list(P)
+    for i, a in enumerate(comps):
+        for b in comps[i + 1:]:
+            la = sum((c * _T_eval(mu, nu, b[0], b[1], cacheP) for (mu, nu), c in P[a].items()), KC.zero) * Pr[b]
+            lb = sum((c * _T_eval(mu, nu, a[0], a[1], cacheP) for (mu, nu), c in P[b].items()), KC.zero) * Pr[a]
+            assert la == lb
+
+
+import pytest
+
+
+@pytest.mark.results
+def test_saved_42_sectors_adams_and_hatted_factor():
+    """保存済み（scripts/rk_b_hopf_ext.py 4 2）：|R| = 4, |S| = 2 の 10 セクターで、既知の ε_{(2),(1)}, ε_{(1,1),(1)} から
+    Adams で作った E を引くと C が Laurent、hatted の Ĉ の refined だけの部分は (ν~² − q)(q − t) で割り切れる。"""
+    import pickle
+    import sympy as sp
+    from rcsknots.partitions import partitions
+    from rcsknots.bps import M_matrix
+    _sys_path = str(ROOT / "scripts")
+    import sys as _s
+    _s.path.insert(0, _sys_path)
+    from rk_b_hopf_ext import adams2
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    loc = {"r": r_, "s": s_, "nu": nu_}
+    g = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_g_two_multi_42.pkl", "rb")).items()}
+    E1 = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_E_fixed.pkl", "rb")).items()}
+    e11 = sp.sympify(pickle.load(open(ROOT / "data/refined_kauffman/hopf_eps_multi.pkl", "rb"))["eps_11_1"], locals=loc)
+    eps = {(2,): E1[(2, 4)], (1, 1): e11}
+    t = s_**2
+    PR, PS = partitions(4), partitions(2)
+    mono = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r_, s_, nu_).is_monomial
+    C = {}
+    for R in PR:
+        for S_ in PS:
+            E = sum(adams2(rho).get(R, 0) * adams2((1,)).get(S_, 0) * eps[rho] for rho in partitions(2))
+            C[(R, S_)] = sp.cancel(g[(R, S_)] - E / (2 * (1 + t)))
+            assert mono(C[(R, S_)])
+    Ch = M_matrix(4, 1 / r_).inv() * sp.Matrix([[C[(R, S_)] for S_ in PS] for R in PR]) * M_matrix(2, 1 / r_).inv().T
+    nut = sp.Symbol("nut", positive=True)
+    for i in range(len(PR)):
+        for j in range(len(PS)):
+            w = sp.cancel(sp.cancel(Ch[i, j]).subs(nu_, nut * s_ / r_))
+            diff = sp.cancel(w - w.subs(s_, r_))
+            quo = sp.cancel(diff / ((nut**2 - r_**2) * (r_**2 - s_**2)))
+            assert sp.Poly(sp.fraction(quo)[1], r_, s_, nut).is_monomial
