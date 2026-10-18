@@ -48,3 +48,22 @@ def test_as_615_matches_gn_at_N2_N3():
         G4 = GN(qq, tt, tt**4, lambda x: x)
         v4 = G4.torus((1, 1), 2, 3) / G4.torus((1, 1), 1, 0)
         assert R(v4) == Z615.subs({r: R(rr), s: R(ss), U: R(ss)**6}) * R(rr)**-2 * R(ss)**-8
+
+
+def test_trefoil_fixed_N_pole_cancellation():
+    """(b)：N を固定した refined SO(2N) の trefoil（1^k、k ≤ N）。Z~ の N 依存の極が打ち消すには、reduced 不変量が極の上で単項式（倍）でなければならない。
+    SO(4) = SU(2)²：R_[2] は q t = 1（r = ±1/s）で s^{−4}；m_2 = s^4 で f_2 は整数 Laurent、m_2 = 1 では Laurent でない。
+    SO(6) = SU(4)：R_[2,1,1] は q t³ = 1（r = ±s^{−3}）で s^{−16}。R は data/refined_kauffman/torus の鏡像（AS の向き）。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_framing_scan as Fs
+    from rcsknots.kauffman_knot import free_energy, r as r_, s as s_
+    for sign in (1, -1):
+        assert sp.expand(Fs.Rdata("2", 2).subs(r_, sign / s_) - s_**-4) == 0
+        assert sp.expand(Fs.Rdata("211", 4).subs(r_, sign * s_**-3) - s_**-16) == 0
+    parts = Fs.setup(2)
+    mono = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r_, s_).is_monomial
+    for m2, expect in ((s_**4, True), (sp.Integer(1), False)):
+        W = [sp.Integer(1), parts[1][0], sp.cancel(m2 * parts[2][0])]
+        f = free_energy(2, W, 2)
+        assert mono(f[2]) == expect

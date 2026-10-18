@@ -1,0 +1,29 @@
+{
+ "knot": "T2_3",
+ "torus": [
+  2,
+  3
+ ],
+ "gn_slope": [
+  2,
+  -3
+ ],
+ "color": [
+  1
+ ],
+ "variables": "A=a^(1/2), Q=q^(1/2), T=t^(1/2) of 1703.05408; exponents of (A,Q,T)",
+ "reduced": true,
+ "framing": "0 (normalization (N1)+(N2), docs/conventions.md \u00a75)",
+ "monomial_applied": {
+  "sign": -1,
+  "a": "1",
+  "q": "3/2",
+  "t": "-3/2"
+ },
+ "seconds": 0.2,
+ "poly": {
+  "2,-1,-1": 1,
+  "2,1,1": 1,
+  "4,1,-1": -1
+ }
+}

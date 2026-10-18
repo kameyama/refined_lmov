@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照（K4'(a) まで済）。**push と PR は未（外部送信の許可が必要。ユーザーの指示があるまで push しない）**。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（28 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（29 件、約 40 秒）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -148,3 +148,12 @@
 - 実行の記録：cover_f_multi(4,4) 542 秒、SO multi(4,4) 757 秒（data/refined_kauffman/hopf_fcov_multi_A4B4.pkl、hopf_f_multi_A4B4.pkl に保存、logs/rk_k4_adams_b4.log）。
   **見積もりの誤り**：計算部分だけを測り、後処理（全 59 鍵の g を sympy の式の cancel で約分）を測らなかったため、後処理が 10 時間止まった（CPU 95%、出力なし）。プロセスを停止し、必要な 11 鍵だけを有理関数体 Q(r,s,ν) で処理するように書き換えて 1 分で完了。今後、後処理も小さい例で時間を測ってから実行する。
 - 停止点：E_44 の決定には、Ĩ の単一粒子 BPS 状態への作用を直接構成する必要がある（Hopf のデータ・Adams・t = q の条件では足りない）。次の候補：(i) N = 2, 3 の trefoil 1^k（GN）、(ii) 区切りとして push/PR（許可が必要）。
+
+## 2026-10-18（続き 2）(b) trefoil の 1^k を N = 2, 3 で（ユーザーの指示「2へ進め」）
+- 見積もり：GN の再構成は [2,1,1] 1 秒、[2,2,2] 8 秒（data/refined_kauffman/torus、scripts/rk_k5_trefoil_colors.py）。固定 N の自由エネルギーは N = 3、a ≤ 6 で 34 秒。
+- 【計算】data は DGR の向き（AS の鏡像）。A = a^{1/2} = s^N（最初 s^{2N} と誤って代入し、極の検査が全部失敗した。修正済み）。
+- 【導出】固定 N では Z~ の Laurent 性と f の整数 Laurent 性が同値で、内容は N 依存の極の打ち消し ⇔ reduced 不変量が極の上で単項式倍。
+- 【計算】SO(4)（[2] が q t = 1 で単項式）、SO(6)（[2,1,1] が q t³ = 1 で単項式、[1,1]・[2]・[2,2,2] が q t = 1 で互いに単項式倍）。条件を満たす framing で f_a は整数 Laurent（N = 2 は a ≤ 4、N = 3 は a ≤ 6、data/refined_kauffman/trefoil_fixedN_f.pkl）。m_1 = K3' の仮説の値。
+- 走査の初版は sympy の式の展開で 10 分以上かかったので止め、有理関数体に替えて 1 秒（見積もりを先に測る規則を守れていなかった。今回は止めてから測った）。
+- テスト：tests/test_rk_trefoil.py::test_trefoil_fixed_N_pole_cancellation（約 1 秒）。
+- 結論と停止点：K2' の枠組みは trefoil の 1^k（k ≤ N）で N = 2, 3 の必要条件（極の打ち消し）を満たす。固定 N では framing・ν の構造・正値性は決まらない。次の候補：(i) 一般の N（D_N の SL(2,Z) か DAHA の実装、規模大）、(ii) (4,4) の E（Ĩ の単一粒子状態への作用）、(iii) 区切りとして push/PR（許可が必要）。

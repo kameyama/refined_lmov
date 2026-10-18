@@ -66,7 +66,13 @@ Z_G = Σ_λ dim_λ w_λ B_λ(v)、Z_R = Σ_{λ,μ} H_{(λ,μ)}(A) w_λ w_μ B_λ
 - **(6.15) の独立な検証（2026-10-17）**【計算、tests/test_rk_trefoil.py】：SO(4) = SU(2)×SU(2)、SO(6) = SU(4)（D₂ = A₁×A₁、D₃ = A₃）なので、A 型の Gorsky–Negut（楕円 Hall 代数、src/rcsknots/gn.py、本研究で検証済み）で計算した trefoil は AS の SO(2N) の値に一致するはずである。実際、(6.15)（N = 2）= [GN の SU(2) [1]]² × q^{−1}、(6.15)（N = 3）= GN の SU(4) [1,1] × q^{−1}t^{−4}（有理点 2 つで厳密に一致）。AS の SU(N) の式（1105.5117）は SO(2N) の式と鏡像の関係にあり、(6.15)（N=2）= [SU(N) 式(N=2) の鏡像 × unknot]² が記号的に成り立つ。
 - **素朴な refined Rosso–Jones の失敗は普遍的**：本研究の docs/conventions.md §7 の記録のとおり、A 型でも「q,t を変えない Adams 展開 × T_ν^{n/m}」は AS/KN の値を単項式倍でも再現しない（正しい A 型の構成は GN の P_λ[p_k ↦ P_{kn,km}]·1）。したがって §6 の「refined Rosso–Jones が D 型で AS と合わない」は D 型固有の問題ではない。D 型には楕円 Hall 代数の類似が無いので、1^k（k ≥ 2）を一般の N で得るには AS の SL(2,Z)（有限レベル）か DAHA（Cherednik 1111.6195 の定義、Prop. SH-JONES の shift 作用素の方法は t = q, 1 のみ）が要る。
 - **余分な (q/t)^{1/2} の由来**：AS 1105.5117 §7.1 の SU(N) の trefoil でも、超多項式との比は √(q/t)·T_□^{−6} で「√(q/t) が余る（unrefined で消える）、brane の open flat coordinate V のずれに関係するはず」と明記されている。§6 の仮説の単項式 T_[1]^{−6}(q/t)^{1/2} はこれと同じ構造であり、AS の構成に内在する因子である（物理的な由来は AS でも未解明）。
-- **1^k（k ≥ 2）の見通し**：N = 2, 3 なら GN で厳密に計算できる（SO(6) の 1^2 = SU(4) の [2,1,1]、1^3 = [2] ⊕ [2,2,2]；SO(4) の 1^2 = (3,1) ⊕ (1,3)）。ν = t^{N−1/2} の依存性（LMOV 型の整数性・DGR 変数での正値性に必要）を 1^2 で決めるには N ≥ 6 程度までの値が要り、有限レベルの D_N の S 行列（可積分表現の数が爆発する）では届かない。未実施。
+- **1^k（k ≤ N）の固定 N の計算（2026-10-18）**【計算、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py】：SO(4) = SU(2)²、SO(6) = SU(4) の Λ^k V の trefoil を、KN の U(N) refined 不変量（data/refined_kauffman/torus、GN を有限体上で再構成、framing 0 の (N1)+(N2)、[2,1,1] と [2,2,2] を新たに計算）で作った。
+  Λ¹V = [1,1]、Λ²V = [2,1,1]、Λ³V = [2] ⊕ [2,2,2]（SO(4) は Λ¹V = [1]⊗[1]、Λ²V = [2]⊗∅ ⊕ ∅⊗[2]）。data は DGR の向きで、AS の向きはその鏡像（鏡像の [1,1] は (6.15) に単項式 r⁴s²⁶ で一致）。
+  W_{1^k} = m_k R_{1^k} K_{1^k}(t^ρ) を双対 Cauchy の Z~(y) = Σ_k (−1)^k W_{1^k}[y^N K_{(N−k)}(y;t,q)] に入れて f_a を求めた（unknot で f_1 = −1 − (ν−ν⁻¹)/z_t、f_{a≥2} = 0 を確認）。
+  - 固定 N では、Z~ の係数が Laurent なら plethystic log の f_a も自動的に整数係数 Laurent（Adams が Frobenius の持ち上げなので ½, ⅓ は打ち消す）。したがって固定 N の検査の内容は **N 依存の極（K_{1^k}(t^ρ) と Askey–Wilson 係数の (1 − q t^e)）の打ち消し**であり、それは「reduced 不変量が極の上で単項式（倍）になる」ことと同値【導出】。Hopf では固定 N で全分母が消えるので、(1+t) の構造は固定 N では見えない【計算】。
+  - SO(4)：R_[2] は q t = 1 で s^{−4}。SO(6)：R_[2,1,1] は q t³ = 1 で s^{−16}；q t = 1 では R_[1,1]、R_[2]、R_[2,2,2] の留数が同じ多項式 2s¹⁰ + s⁸ − 2s⁴ − s² + 1 に比例し、打ち消す単項式は一意（m_3 ≡ m_1、m_3' ≡ s⁸m_1、極の上で）。**いずれも成立**【計算】。
+  - この条件を満たす framing（m_1 = K3' の仮説の T_[1]^{−6}(q/t)^{1/2}、m_2 = s⁴（N=2）・s¹⁶（N=3）、m_3 = m_1、m_3' = s⁸m_1）で f_a（N=2 は a ≤ 4、N=3 は a ≤ 6）はすべて整数係数 Laurent【計算】。m_2 = 1 では f_2 は Laurent でない（検査は自明でない）。
+  - 限界：framing は極の上でしか決まらず、m_1 は固定 N では自由（K3' の単項式の仮説は固定 N では検証できない）。ν 依存性・正値性は見えない。一般の N には D_N の SL(2,Z)/DAHA が要る（未実施）。
 
 ## 7. refined の交差帽展開（K4'）
 実装：src/rcsknots/kauffman_cover.py（被覆の composite refined Hopf、有限 N と A = ν² の記号版）、scripts/rk_k4_*.py、tests/test_rk_cover.py。
