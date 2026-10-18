@@ -174,3 +174,42 @@ def test_trefoil_fixed_N_cover_and_hatted():
         assert C2.p2_divisible(g, r_**2 + 1) == hatted_ok
     assert sp.cancel(C2.crosscap(N, T2.M1)[2][(1,)] + g_ref().subs({r: r_, s: s_, U: s_**4})) == 0
 
+
+
+def test_flint_rf_basic():
+    """rcsknots.flint_rf.RF：約分・Laurent 判定・整数判定・Adams・sympy との往復。"""
+    from rcsknots.flint_rf import RF, R as R_, S as S_, from_sympy
+    rr, ss = sp.symbols("r s", positive=True)
+    e = from_sympy((rr**2 * ss - 1 / ss) / (1 + rr**2))
+    assert not e.is_laurent() and (e * (1 + R_**2)).is_laurent()
+    assert (e * (1 + R_**2)).is_integer_laurent() and not (e * (1 + R_**2) / 2).is_integer_laurent()
+    assert sp.simplify(e.adams(2).to_sympy() - ((rr**4 * ss**2 - ss**-2) / (1 + rr**4))) == 0
+    assert ((R_**2 - S_**2) / (R_ - S_) - (R_ + S_)).is_zero()
+
+
+def test_trefoil_fixed_N_three_box():
+    """固定 N = 2 の 3 箱（scripts/rk_k5_trefoil_3box.py、SO(4) = SU(2)² を型 A の経路で、被覆 U(3)）。
+    型 A の経路は 2 箱で D_N の経路と一致し、unknot の f_R（|R| = 2, 3）は SO・被覆とも 0。
+    被覆の (2;1), (11;1) の単項式は (t/q)^{3/2}（t = q で 1 の族で一意）。m_(1) = t/q のとき SO の [3]⊗[3], [3]⊗[1] は (t/q)^3, (t/q)^2
+    （どれも (t/q)^{|μ|/2}）で、SO の f̂ = M^{-1}(q^{-1}) f（|R| ≤ 3）は整数 Laurent。K3' の m_(1) = (t/q)^{1/2} では整数 Laurent でない。
+    g_R（|R| = 3）は整数 Laurent（奇数のセクターに E は無い）。被覆の f̂^{cov} は p_3 方向では Laurent、p_2 p_1・p_1³ 方向では Laurent でない。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_3box as X
+    import rk_k5_trefoil_2box as T2
+    import rk_k5_trefoil_2box_cover as C2
+    from rcsknots.flint_rf import from_sympy
+    N, W = 2, X.W_
+    fu, fcu = X.plog(X.so_Z(N, None, unknot=True)), X.plog(X.cover_Z(N, None, unknot=True))
+    assert all(v.is_zero() for k in (2, 3) for v in list(X.to_schur(fu, k).values()) + list(X.to_schur(fcu, k).values()))
+    F2 = X.plog(X.so_Z(N, X.so_framing(N, from_sympy(T2.M1), (X.ZERO, X.ZERO)), kmax=2), kmax=2)
+    old = C2.so_f(N)
+    assert all((X.to_schur(F2, sum(R_))[R_] - from_sympy(old[R_])).is_zero() for R_ in old)
+    assert X.scan_pairs(lambda ma, mb: X.cover_Z(N, {(1,): W**3, (2,): ma, (1, 1): mb}), rng=range(0, 7)) == [(3, 3)]
+    assert X.so_new_framing(N, W**2) == [(6, 4)]
+    for b1, ok in ((2, True), (1, False)):
+        new = (W**(b1 + 4), W**(b1 + 2))
+        F, Fc, G = X.crosscap3(N, W**b1, new)
+        assert all(v.is_integer_laurent() for k in (2, 3) for v in X.hatted(F, k).values()) == ok
+        assert all(v.is_integer_laurent() for v in X.to_schur(G, 3).values())
+    assert X.hatted_by_rho(Fc, 3) == {(3,): True, (2, 1): False, (1, 1, 1): False}
