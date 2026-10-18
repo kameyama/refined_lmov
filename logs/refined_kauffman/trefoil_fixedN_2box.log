@@ -1,0 +1,26 @@
+N=2 K_λ(t^ρ) = A 型の積・和: True
+N=2 unknot: f_(2) = 0、f_(1,1) = 0
+N=2 f_(1,1) を Laurent にする m_(2) = ±r^α s^β（|α| ≤ 12、|β| ≤ 50）: [(1, 0, 8)]
+N=2 f_(1,): {'laurent': True, 'integer': True, 'terms': 10, 'pos': 3, 'maxabs': 2}
+N=2 f_(2,): {'laurent': True, 'integer': True, 'terms': 42, 'pos': 20, 'maxabs': 12}
+N=2 f_(1, 1): {'laurent': True, 'integer': True, 'terms': 80, 'pos': 41, 'maxabs': 14}
+N=2 m_(2) = 1 での f_(1,1) の Laurent 性: False
+N=2 f_(1,) == 1 probe の f_1: True
+N=2 f_(2,) == 1 probe の f_2: True
+N=2 M(q^{-1})^{-1} f の分母: [r**15*s**30*(r - 1)*(r + 1)*(r**2 + 1), r**13*s**30*(r - 1)*(r + 1)*(r**2 + 1)]
+N=2 M(t)^{-1} f の分母: [r**16*s**27*(s - 1)*(s + 1)*(s**2 + 1), r**16*s**29*(s - 1)*(s + 1)*(s**2 + 1)]
+  N=2: 63s
+N=3 K_λ(t^ρ) = A 型の積・和: True
+N=3 unknot: f_(2) = 0、f_(1,1) = 0
+N=3 f_(1,1) を Laurent にする m_(2) = ±r^α s^β（|α| ≤ 12、|β| ≤ 50）: [(1, 4, 20)]
+N=3 f_(1,): {'laurent': True, 'integer': True, 'terms': 17, 'pos': 6, 'maxabs': 2}
+N=3 f_(2,): {'laurent': True, 'integer': True, 'terms': 91, 'pos': 44, 'maxabs': 13}
+N=3 f_(1, 1): {'laurent': True, 'integer': True, 'terms': 139, 'pos': 70, 'maxabs': 15}
+N=3 m_(2) = 1 での f_(1,1) の Laurent 性: False
+N=3 f_(1,) == 1 probe の f_1: True
+N=3 f_(2,) == 1 probe の f_2: True
+N=3 M(q^{-1})^{-1} f の分母: [r**11*s**54*(r - 1)*(r + 1)*(r**2 + 1), r**9*s**54*(r - 1)*(r + 1)*(r**2 + 1)]
+N=3 M(t)^{-1} f の分母: [r**12*s**51*(s - 1)*(s + 1)*(s**2 + 1), r**12*s**53*(s - 1)*(s + 1)*(s**2 + 1)]
+  N=3: 62s
+      126.65 real       111.55 user         2.19 sys
+time: sysctl kern.clockrate: Operation not permitted

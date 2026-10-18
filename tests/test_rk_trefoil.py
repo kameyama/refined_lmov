@@ -117,3 +117,28 @@ def test_refined_crosscap_special_points():
     import rk_k3_torus_family as Tf
     so2, par, (Q, Tb, A) = Tf.special_points(2)
     assert so2 == {Tb**2} and par == 1
+
+
+def test_trefoil_fixed_N_two_probe():
+    """固定 N の 2 箱（probe 2 個、Y の Schur |R| ≤ 2）。f_(1,1)（Sym²V、D_N の (2)）を Laurent にする framing 単項式は
+    N = 2 で m_(2) = s^8 = m_(1,1)²（SO(4) = SU(2)² の積の形）、N = 3 で m_(2) = r^4 s^20（scripts/rk_k5_trefoil_2box.py の走査で一意）。
+    近くの単項式・m_(2) = 1 では Laurent でない。f は整数係数で、f_(1), f_(2) は 1 probe の計算（別の展開）の f_1, f_2 と一致。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_2box as T2
+    import rk_k5_framing_scan as Fs
+    from rcsknots.kauffman_knot import free_energy, r as r_, s as s_
+    N = 2
+    assert sp.expand(T2.M2[N] - T2.M11[N]**2) == 0
+    fu = T2.free_energy_2(N, {lam: T2.unknot_K(N, lam) for lam in ((1,), (1, 1), (2,))})
+    assert fu[(2,)] == 0 and fu[(1, 1)] == 0
+    f = T2.free_energy_2(N, T2.trefoil_W(N, T2.M2[N]))
+    for R in ((1,), (2,), (1, 1)):
+        st = T2.stats(f[R])
+        assert st["laurent"] and st["integer"]
+    for m in (sp.Integer(1), T2.M2[N] * r_**2, T2.M2[N] / r_**2, T2.M2[N] * s_**2, T2.M2[N] / s_**2, -T2.M2[N]):
+        assert not T2.laurent(T2.free_energy_2(N, T2.trefoil_W(N, m))[(1, 1)])
+    parts = Fs.setup(N)
+    W = [sp.Integer(1), sp.cancel(T2.M1 * parts[1][0]), sp.cancel(T2.M11[N] * parts[2][0])]
+    f1p = free_energy(N, W, 2)
+    assert sp.cancel(f1p[1] - f[(1,)]) == 0 and sp.cancel(f1p[2] - f[(2,)]) == 0

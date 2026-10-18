@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（36 件、約 65 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（37 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -21,6 +21,7 @@
 | K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined クロスキャップ = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
 | K4'(a) | クロスキャップ部分は全 d の第二量子化の構造 g = ½E/(1+t) + C（2(1+t)g は整数 Laurent、unknot の −½ は消える）。E はセクター別の被覆と t = −1・t = q の条件で (2,2),(2,4) が一意（積の形）、(4,4) は不定。Ĩ = ρ⊗ρ の入れ替え（Adams）を \|R\| ≤ 4、b ≤ 4 で確認 | report.md §7、src/rcsknots/kauffman_cover.py、scripts/rk_k4_*.py |
 | (b) | trefoil の 1^k（k ≤ N）を N = 2, 3 で計算（SO(4) = SU(2)²、SO(6) = SU(4)、KN の refined 不変量の鏡像）。N 依存の極は打ち消し、f_a は整数 Laurent。固定 N では framing は極の上でしか決まらない | report.md §6、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py |
+| (b') | trefoil の 2 箱（probe 2 個、Schur |R| ≤ 2）を N = 2, 3 で計算。Sym²V の f_(1,1) を Laurent にする m_(2) は一意（N=2：s^8 = m_(1,1)²、N=3：r^4 s^20）、f は整数 Laurent。M^{-1} f は (1+q) の分母が残る（被覆が要る） | report.md §6、scripts/rk_k5_trefoil_2box.py |
 
 ### 重要な規約・事実（conventions.md に記載）
 - 変数：r = q^{1/2}、s = t^{1/2}、U = t^{N_D}（SO(2N_D)）、ν = U/√t（Mariño の ν、Q = ν² = U²/t）、A = ν² = t^{N_A}（被覆 U(N_A)、N_A = 2N_D − 1）、ν~ = ν(q/t)^{1/2}、z_q = r − 1/r、z_t = s − 1/s、G = z_q z_t。DGR：𝐪 = s、𝐭 = −r/s、𝐚 = ν、ν~ = −𝐚𝐭。
@@ -244,3 +245,19 @@
 - 【計算】g_{R,S} = g_{S,R}、奇数のセクターは Laurent、1 変数の値が hopf_g_alld（別の経路）と一致。4 箱×4 箱の 25 組の留数が Adams（4 つの ε_{ρσ}(−1)）で整合、ε_{(2),(2)}(−1) = E_44(−1)（1 変数）。data/refined_kauffman/hopf_g_two_multi_44.pkl、hopf_eps44_m1.pkl。
 - E_44 は依然として t = −1・t = q 以外では決まらない。テスト：results の印の test_saved_44_block_symmetry_and_adams_at_minus1。
 - 次の候補：(i) 4 方向の被覆（固定セクター）で ε_{ρσ} を部分和として絞る（被覆の (4,4) を 4 方向でやると鍵が 38×38、数時間〜の見込み、実行前に見積もる）、(ii) 一般の N（C）。
+
+## 2026-10-18（続き 13）固定 N の 2 箱（ユーザーの指示「Nを固定して2箱を小さく検証せよ。」）
+- 見積もり：1 回の自由エネルギーは約 1 秒、m_(2) の走査（±、|α| ≤ 12、|β| ≤ 50、s を 2 点に固定）は N ごとに約 1 分。全体で 127 秒（logs/refined_kauffman/trefoil_fixedN_2box.log）。メモリはサンドボックスで `time -l` の一部が失敗して未計測。
+- 方法：probe 2 個の Z~(Y) を D_N の K_(1), K_(1,1), K_(2) で展開した。W_λ = m_λ R_λ K_λ(t^ρ)、R は data の鏡像（AS の向き）。
+- 【導出】s_(2)(Y) ↔ Λ²V、s_(1,1)(Y) ↔ Sym²V なので、f_(2) は W_(2) を含まない。新しい検査は f_(1,1)（D_N の (2)）。
+- 【計算】
+  - f_(1), f_(2) は 1 probe の計算と全係数一致した。
+  - f_(1,1) を Laurent にする m_(2) は一意だった（N=2：s^8、N=3：r^4 s^20）。SO(4) では m_(1,1)² に等しく、SU(2)² の積と整合する。
+  - f はすべて整数係数の Laurent 多項式で、符号は混在する。
+  - M^{-1} f（M(q^{±1}), M(t^{±1})）は Laurent でない。p_2 成分が 1+q でも 1+t でも割り切れず、t = q では割り切れる。
+  - 保存先：data/refined_kauffman/trefoil_fixedN_2box.pkl。
+- 走査の初版（−A0/A1 を極の上で sp.solve）は解が空か nan になり、判定に使えなかった。s を固定した Laurent 性の篩に替えた。
+- テスト：tests/test_rk_trefoil.py::test_trefoil_fixed_N_two_probe（N = 2、約 4 秒）。
+- 結論：固定 N の 2 箱でも、極の打ち消しと整数性は成立する。ただし固定 N の f だけでは、hatted の検査（M^{-1} の (1+q)）も正値性も判定できない。
+- 次の候補：(i) 固定 N の被覆（U(3), U(5) の composite の trefoil、[2,1]・[2,1,1,1] など）で g = f − ½f^{cov} と ĝ を作り、ĝ が Laurent かを見る（GN の再構成が要る。実行前に見積もる）、(ii) 一般の N（C）。
+
