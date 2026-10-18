@@ -82,3 +82,18 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 - 既知：Mariño の予想（定式化と検証）、AS の SO(2N) refined CS と refined の large N（閉弦の自由エネルギーのみ）、GW の Kauffman 超多項式、NRZ の対称表現の refined Kauffman、Cherednik–Elliot の composite 超多項式。
 - Web 検索（2026-10-14、refined Kauffman large N / orientifold refined topological string knot / colored Kauffman homology annulus composite）の範囲では、**結び目の refined Kauffman 不変量に対する Mariño 型（g_R, h_R）の refined 版の定式化と検証は見つからなかった**。AS 自身が「refined では第 1 量子化の定義が無い」と書いている。
 - 本研究の新規性の候補：refined の g_ρ（unoriented 部分）と h_ρ（composite 部分）の定義、整数性と（何らかの）正値性の検証。
+
+## 4. U(N)/SU(N) 以外の refined CS の計算の範囲（2026-10-19 の調査）
+確認の度合い：【TeX】は references/ の原典の TeX で確認、【抄録】は arXiv の抄録（Web 検索の結果）で確認、【未確認】はそれ以外。
+| 文献 | 群 | 計算されているもの | 確認 |
+|---|---|---|---|
+| Aganagic–Schaeffer 1202.4456 | 単純レース型（ADE）で定義。計算は SO(2N) だけ | unknot、Hopf（V, V）、trefoil の V（一般の N、(6.15)）、trefoil のスピノル S（SO(4), SO(6), SO(8)）、T(2,2m+1) の V の一般式、T(3,4) の V（SO(4), SO(6)）、大きな N の閉弦の自由エネルギー。非単純レース型は脚注で「(2,0) 理論の外部自己同型のひねりで得られるはず」とするだけ | 【TeX】 |
+| Cherednik 1111.6195 | 任意の被約ルート系と C^∨C_1 | DAHA-Jones 多項式（トーラス結び目）。§Kauffman：C–D（部分的に B）型の hyper-polynomial（4 変数、予想と例、「最小の重みでも正値性はほとんど無い」）。§Exceptional：例外型（G_2 など）は t = q の値だけ、最も簡単なトーラス結び目、最小・準最小の重み | 【TeX】 |
+| Cherednik–Danilenko 1509.08351 | B, C, D | 「B, C, D 型の DAHA-hyperpolynomial の存在と対称性は未解決」、D 型の t = q が Kauffman 多項式に一致することは示された | 【TeX】 |
+| Cherednik–Elliot 1503.01441 | A（composite）、例外型 | composite DAHA 超多項式。最後の節で例外型の Deligne–Gross 系列の DAHA-hyperpolynomial を実験的に構成 | 【抄録】 |
+| Elliot–Gukov 1505.01635 | 例外型 | 例外型の結び目ホモロジーの微分の構造（トーラス結び目）、E_6 の hyperpolynomial | 【抄録】 |
+| Avetisyan–Mkrtchyan 2107.08679、2205.12832、2302.14319 | 任意（A, B, C, D、非単純レース型） | S³ の分配関数（閉弦）、refined 位相的弦との双対。結び目は無い | 【抄録】 |
+| Bishler–Mironov 2504.13831 | 単純レース型 | Macdonald 次元（q^ρ での値）の Vogel 普遍性 | 【抄録】 |
+| NRZ 1310.2240、Gukov–Walcher hep-th/0512298 | SO/Sp | Kauffman ホモロジー（refined CS とは別物と明記） | 【TeX】 |
+- 非トーラス結び目、高い彩色の一般の N の refined SO/Sp の結び目不変量、Sp の refined CS の結び目不変量は、今回の検索の範囲では見つからなかった。
+- 2605.12469（"A note on universality in refined Chern-Simons theory"）は題名だけを見た【未確認】。
