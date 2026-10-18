@@ -21,6 +21,7 @@ import rk_k5_trefoil_2box as T
 
 Q, Tt = R**2, S**2
 W_ = S / R                      # (t/q)^{1/2}
+DELTA = 1                       # 一様な規格化 (t/q)^{δ|μ|/2} の δ（T(2,2m+1) は δ = m）。結び目は T.KNOT
 ZERO = conv(0)
 
 
@@ -158,12 +159,13 @@ def comp_shift(alpha, NA):
     return tuple(sorted([a + 1 for a in alpha] + [1] * (NA - 1 - len(alpha)), reverse=True))
 
 
-def cover_parts(N, mc, unknot=False, uniform=False):
+def cover_parts(N, mc, unknot=False, uniform=False, mo=None):
     """uniform = True：一様な規則 W_μ = (t/q)^{|μ|/2} R_μ P_μ(t^ρ)（μ は U(N_A) の分割、composite は移した分割）。
     mc に与えた composite の単項式はそれを上書きする。uniform = False：普通の表現は m = 1、composite は mc。"""
     NA = 2 * N - 1
     one = (1,)
     mc = mc or {}
+    mo = mo or {}
 
     def Word(a):
         # 被覆は U(N_A)：ℓ(a) = N_A（N_A = 3 の (1,1,1) = det）も data の U(N_A) の値をそのまま使う
@@ -171,13 +173,14 @@ def cover_parts(N, mc, unknot=False, uniform=False):
             return ONE
         if unknot:
             return P_only(a, NA)
-        return (W_**sum(a) if uniform else ONE) * RP(a, NA)
+        m = mo[a] if a in mo else (W_**(DELTA * sum(a)) if uniform else ONE)
+        return m * RP(a, NA)
 
     def Wcomp(alpha):
         sh = comp_shift(alpha, NA)
         if unknot:
             return P_only(sh, NA)
-        m = mc[alpha] if alpha in mc else W_**sum(sh)
+        m = mc[alpha] if alpha in mc else W_**(DELTA * sum(sh))
         return m * RP(sh, NA)
 
     kappa = (1 - Tt**NA) * (1 - Q) / ((1 - Tt) * (1 - Q * Tt**(NA - 1)))
@@ -200,8 +203,8 @@ def cover_parts(N, mc, unknot=False, uniform=False):
     return Wc, kappa, d
 
 
-def cover_Z(N, mc, kmax=3, unknot=False, uniform=False):
-    Wc, _, _ = cover_parts(N, mc, unknot, uniform)
+def cover_Z(N, mc, kmax=3, unknot=False, uniform=False, mo=None):
+    Wc, _, _ = cover_parts(N, mc, unknot, uniform, mo)
     Zp = {(): ONE}
     for n in range(1, kmax + 1):
         for i in range(0, n + 1):
@@ -228,9 +231,9 @@ def _pmul2(a, b, dmax):
     return out
 
 
-def cover_Z2(N, mc, kmax=3, unknot=False, uniform=False):
+def cover_Z2(N, mc, kmax=3, unknot=False, uniform=False, mo=None):
     """⟨Π(1 − y_α x_i) Π(1 − y'_β / x_i)⟩ を Y, Y' の冪和の組 {(ρ, σ): 係数} で（|ρ| + |σ| ≤ kmax）。"""
-    Wc, _, _ = cover_parts(N, mc, unknot, uniform)
+    Wc, _, _ = cover_parts(N, mc, unknot, uniform, mo)
     Zp = {((), ()): ONE}
     for n in range(1, kmax + 1):
         for i in range(0, n + 1):
@@ -386,14 +389,19 @@ UNIFORM_PAIRS = [(3, (2, 2), (2,)), (3, (1, 1), (1,)), (4, (2, 2, 2), (2,)), (4,
 def uniform_ratio(n, a, b):
     """一様な規格化 (t/q)^{|μ|/2} R_μ の比（共役・行列式のずらしで 1 になるはず）。"""
     lab = lambda x: "".join(map(str, x))
-    Ra = from_sympy(T.Rdata(lab(a), n)) * W_**sum(a)
-    Rb = (from_sympy(T.Rdata(lab(b), n)) if b else ONE) * W_**sum(b)
+    Ra = from_sympy(T.Rdata(lab(a), n)) * W_**(DELTA * sum(a))
+    Rb = (from_sympy(T.Rdata(lab(b), n)) if b else ONE) * W_**(DELTA * sum(b))
     return Ra / Rb
 
 
-def so_uniform(N):
-    """一様な規格化の SO 側（m_μ = (t/q)^{|μ|/2}、μ は data の A 型の分割）。"""
-    return so_framing(N, W_**2, (W_**6, W_**6 if N == 3 else W_**4))
+def so_uniform(N, kmax=3):
+    """一様な規格化の SO 側（m_μ = (t/q)^{δ|μ|/2}、μ は data の A 型の分割：SU(4) の分割、SU(2)² の (a, b) は |μ| = a + b）。"""
+    size = (lambda rep: sum(rep)) if N == 3 else (lambda rep: rep[0] + rep[1])
+    reps = {() if N == 3 else (0, 0)}
+    for k in range(1, kmax + 1):
+        for coeffs in so_kernel(N, k).values():
+            reps |= set(coeffs)
+    return {rep: W_**(DELTA * size(rep)) for rep in reps}
 
 
 if __name__ == "__main__":

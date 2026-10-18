@@ -26,12 +26,15 @@ M11 = {2: W_**2, 3: W_**4}          # (t/q)^{N−1}：極の上の値 s^4・s^16
 M2 = {2: W_**4, 3: W_**4}           # (t/q)^2：走査で一意（scan_m2）
 
 
+KNOT = "T2_3"      # data の結び目（T2_5 なども可。lru_cache を使う側は同じプロセスで切り替えない）
+
+
 def Rdata(c, Nsu):
-    path = f"data/refined_kauffman/torus/T2_3_{c}.json"
+    path = f"data/refined_kauffman/torus/{KNOT}_{c}.json"
     try:
         d = json.load(open(path))
     except FileNotFoundError:
-        d = json.load(open(f"data/torus/T2_3_{c}.json"))
+        d = json.load(open(f"data/torus/{KNOT}_{c}.json"))
     A = s**Nsu
     return sp.expand(sum(v * A**(-int(k.split(",")[0])) * r**(-int(k.split(",")[1])) * s**(-int(k.split(",")[2])) for k, v in d["poly"].items()))
 

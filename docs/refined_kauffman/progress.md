@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（43 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（44 件、約 50 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -339,4 +339,24 @@
   - (i) 一般の N（C）：多箱の ν 依存性と正値性を見る唯一の道。規模は大きい。
   - (ii) T(2,5) の固定 N の 2 箱・3 箱で、一様な規格化の hatted の整数性と偶奇を確かめる。data の彩色の追加が要る。
   - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
+
+## 2026-10-19（続き 18）T(2,5) の固定 N の 2 箱・3 箱（ユーザーの指示「２」）
+- 見積もり：GN の T(2,5) は 1 彩色 2 秒（[2,2], [2,1,1] で計測）から、残り 7 彩色で数分と見積もった。実績は計 2.2 分（最大 [3,1,1,1] 56 秒、logs/refined_kauffman/gn_T2_5_3box.log）。解析は N = 2 で 16 秒、N = 3 で 54 秒。
+- 準備：
+  - scripts/rk_k5_trefoil_2box.py の data の結び目を KNOT で、scripts/rk_k5_trefoil_3box.py の一様な規格化の δ を DELTA で選べるようにした。
+  - so_uniform は核に現れる表現から W^{δ|μ|} を作る形にした（trefoil の値と一致を確認）。
+  - 被覆の普通の表現の単項式も上書きできるようにした（mo）。
+  - 解析の本体は scripts/rk_k5_torus_fixedN_hatted.py（引数：結び目と δ）。trefoil で回して以前の結果を再現した。
+- 【計算】T(2,5)、N = 2, 3、|R| ≤ 3：
+  - 一様な規格化の比が 13 組すべてで 1。
+  - framing の走査で、全表現の単項式が一意に (t/q)^{δ|μ|/2}。
+  - hatted は全方向で Laurent。整数性と偶奇は trefoil と同じ形。
+- データ：data/refined_kauffman/torus/T2_5_{22,211,31,222,2111,2211,3111,33,321}.json、data/refined_kauffman/{T2_3,T2_5}_fixedN_3box_g.pkl。ログ：logs/refined_kauffman/fixedN_hatted_{T2_3,T2_5}.log。
+- テスト：tests/test_rk_trefoil.py::test_T25_fixed_N_uniform_hatted（約 10 秒、結び目に依存するキャッシュを前後でクリア）。
+- 結論：一様な規格化の構造（framing が全部 1、全方向の hatted、偶奇）は δ = 2 でも成り立つ。
+- 次の候補：
+  - (i) 一般の N（C）。
+  - (ii) T(2,7) でも同じ確認。data の彩色の追加で数分〜十数分の見込み。
+  - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
+  - (iv) 非トーラス結び目（例えば 4_1）の固定 N の入力を A 型の refined 不変量から作れるかの検討。
 

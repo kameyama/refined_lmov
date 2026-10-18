@@ -280,3 +280,40 @@ def test_crosscap_criterion_uniform_normalization():
     par = B.fixedN_parity(2)
     assert par["一様"] == (6, 6) and all(par["ĝ_R(−r) = (−1)^(|R|−1) ĝ_R(r)"].values())
     assert all(par[k][0] < par[k][1] for k in ("被覆 m=1・SO 一様", "SO K3'・被覆 m=1", "SO K3'・被覆一様"))
+
+
+def test_T25_fixed_N_uniform_hatted():
+    """T(2,5)（δ = 2）の固定 N = 2 の 3 箱を一様な規格化 data × (t/q)^{|μ|} で（scripts/rk_k5_torus_fixedN_hatted.py）。
+    SO の f̂・被覆の f̂（対角）・ĝ が |R| ≤ 3 の全方向で Laurent、ĝ_R（|R| = 3）は整数、g_R は r → −r で不変、
+    被覆の composite (2;1) の単項式は走査で予言どおり (t/q)^4。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_2box as T2
+    import rk_k5_trefoil_3box as X
+    from fractions import Fraction
+    old_knot, old_delta = T2.KNOT, X.DELTA
+    try:
+        T2.KNOT, X.DELTA = "T2_5", 2
+        X.RP.cache_clear()
+        N, W = 2, X.W_
+        rr = sp.Symbol("r", positive=True)
+        F = X.plog(X.so_Z(N, X.so_uniform(N)))
+        Fc = X.plog(X.cover_Z(N, {}, uniform=True))
+        G = {k: F.get(k, X.ZERO) - X.conv(Fraction(1, 2)) * Fc.get(k, X.ZERO) for k in set(F) | set(Fc)}
+        for E in (F, Fc, G):
+            assert all(all(X.hatted_by_rho(E, k).values()) for k in (2, 3))
+        assert all(v.is_integer_laurent() for v in X.hatted(G, 3).values())
+        for k in (1, 2, 3):
+            for v in X.to_schur(G, k).values():
+                e = v.to_sympy()
+                assert sp.cancel(e - e.subs(rr, -rr)) == 0
+        # (2;1) の単項式を (t/q)^{β/2} に替えると、β = 8 のときだけ Z^cov が Laurent
+        def Zc(m):
+            return X.cover_Z(N, {(2,): m}, uniform=True)
+        Z0, Z1 = Zc(X.ZERO), Zc(X.ONE)
+        B = {k: Z1.get(k, X.ZERO) - Z0.get(k, X.ZERO) for k in set(Z0) | set(Z1)}
+        hits = [b for b in range(5, 12) if all((Z0.get(k, X.ZERO) + W**b * B.get(k, X.ZERO)).is_laurent() for k in B)]
+        assert hits == [8]
+    finally:
+        T2.KNOT, X.DELTA = old_knot, old_delta
+        X.RP.cache_clear()
