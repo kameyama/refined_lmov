@@ -42,7 +42,7 @@ SO$(2N)$ の refined Chern--Simons 不変量（refined Kauffman 不変量）に�
 \item 付録 \ref{app:gen} の式は、保存済みのデータとコードから \texttt{scripts/rk\_report\_tex.py} で自動生成した（手で写していない）。生成時に、本文で述べた関係（Mariño との辞書、$\hat g_{(1)} = -g^{\mathrm{true}}_{[1]}$、[1] の判定式の各項目、留数の式）を確かめている。
 \item 主な実装は \texttt{src/rcsknots/}（\texttt{kauffman\_*.py}、\texttt{koornwinder.py}、\texttt{daha\_dn.py}、\texttt{flint\_rf*.py}）と \texttt{scripts/rk\_*.py}、テストは \texttt{tests/test\_rk\_*.py} にある。日々の記録は \texttt{docs/refined\_kauffman/progress.md}、要約は \texttt{report.md}、規約は \texttt{conventions.md} にある。
 \item テスト：\texttt{tests/test\_rk\_*.py} の既定の 55 件がすべて通る（約 75 秒、2026-10-19）。保存済みの大きな計算結果を判定し直す 3 件（\texttt{results} の印）は既定では実行しない。
-\item 並行して別のセッションで DAHA-Jones の高速な実装（タスク C の (a)）を進めている。その結果（$N \ge 10$ のデータなど）はまだ確認していないので、この報告には含めない。
+\item DAHA-Jones の高速な実装（タスク C の (a)、\texttt{src/rcsknots/daha\_fast.py}）は別のセッションで完成し、このセッションで独立に確認した（§\ref{sec:largeN} の末尾）。それで得た 3 箱と $T(2,5)$ のデータの解析はまだ行っていない。
 \end{itemize}
 
 \section{規約}\label{sec:conv}
@@ -183,6 +183,8 @@ g^{c=1} = \sum_\beta \nu^\beta \sum_{g, J} N^{c=1}_{g, \beta, J}\, G^g w^{2J}\qq
 \]
 と書く。$t = q$ で $\sum_J N^{c=1}_{g,\beta,J}$ は Mariño の $N^{c=1}_{g,\beta}$ に戻る。
 
+\textbf{正値性の扱い}：unrefined のクロスキャップの BPS 数は整数だが、符号が $\beta$ によって変わる（例：Mariño の Hopf の $\hat g_{[1],[1]} = z(\nu - \nu^{-1})$ は $\beta = \pm 1$ で $\pm 1$）。refined では正値性を期待する。ただしこの $\beta$ ごとの符号 $\varepsilon_\beta$ があるので、refined の正値性は「各ブロックの係数が $\varepsilon_\beta$ と同じ符号にそろう」こととして定式化する（$\varepsilon_\beta$ が変数の取り替えで吸収できるかは未確定）。
+
 \textbf{予想（正値性の形）} \conj：(c = 1) $G$ 展開の後で $\nu^\beta$ ごとに同符号か $(\bt^2 - 1) \times$ 同符号、(c = 2) $-(\ba^2 - \bq^2)(\bt^2 - 1) \times$ 正の多項式。(N)(P) は規格化の検査で、(c = 1)(c = 2) が正値性の内容である。根拠はトーラス結び目 $T(2,2m+1)$（$m \le 5$）の [1] だけである。
 
 \textbf{述べ直し} \conj：Hopf の全セクターと結び目の [1] で共通に成り立つ形として、「$t = q$ の部分（$\tnu$ で表す）$+$ 普遍的な因子 $(\ba^2 - \bq^2)(\bt^2 - 1)$ $\times$ 冪ごとに符号のそろう多項式」がある。§\ref{sec:largeN} で、これが多箱で有効な形であることを見る。
@@ -292,13 +294,21 @@ X = \hat g - \hat g\big|_{t = q}(\nu \to \tnu)
 \end{itemize}
 $\hat g_{(2)} + \hat g_{(1,1)}$、$(1+t)(\hat g_{(2)} - \hat g_{(1,1)})$、商を付録 \ref{app:largeN} に載せた。
 
+\subsection{高速版の確認}
+高速版（Cherednik の反自己同型 $\varphi$ で $X$ と $Y$ を入れ替え、軌道の対称化と $\lambda$ の間の共有を使う）は現行版の作用素をそのまま使い、計算の順序だけを変えたものである。trefoil の 3 箱は $N = 8$ で 24 秒、$N = 9$ で 43 秒（現行版では外挿で約 1.4 日、約 10 日）。このセッションで次を確かめた \comp{全係数}：
+\begin{itemize}
+\item 高速版が保存した 3 箱を現行版で計算し直して一致（$N = 4$ の $(1,1,1)$、$N = 5$ の $(2,1)$、$Z$ と $K$ の両方）。
+\item $N \le 9$ の現行版のデータから作った一般の $N$ の式（$R_{(1)}, R_{(2)}, R_{(1,1)}$）が、高速版の $N = 10, 11, 12$ の値を 9 件すべて予言した。
+\end{itemize}
+
+
 \section{整数性・正値性の現状}
 \begin{center}
 \begin{tabular}{p{3.2cm}p{3.6cm}p{8.2cm}}
 \toprule
 対象 & 整数性 & 正値性・符号 \\
 \midrule
-unknot, Hopf（$a, b \le 4$） & 成立 \comp{} & unrefined の段階で符号が混在（Mariño の $\hat g_{[1],[1]}$）。正値性は期待しない \\
+unknot, Hopf（$a, b \le 4$） & 成立 \comp{} & refined の正値性（冪ごとの同符号）は部分的に成立：$\hat g_{R,[1]}$（$|R| \le 4$）は $\tnu$ の冪ごとに 1 項。$\hat C_{R,S}$（$|R| \le 4$, $|S| \le 2$）は $t = q$ の部分で 10/10、refined だけの部分で 8/10 そろい、$\hat C_{(3,1),(1,1)}$, $\hat C_{(2,1,1),(2)}$ で破れる \open \\
 $T(2,2m+1)$ の [1]（大きな $N$） & 成立 \comp{$m \le 5$} & 判定式（§\ref{sec:criterion}）の (c = 1)(c = 2) が成立 \comp{$m \le 5$} \\
 $T(2,2m+1)$ の多箱（固定 $N = 2, 3$） & 全方向の hatted で成立 \comp{$m \le 3$, $|R| \le 3$} & 固定 $N$ では判定できない \\
 二重ツイスト 7 個（固定 $N = 2$） & SO 側の $\hat f$ で成立 \comp{$|R| \le 3$} & 判定できない \\
@@ -311,7 +321,7 @@ trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数）\comp
 \begin{itemize}
 \item 多箱のクロスキャップの $c = 1$ 部分の展開の変数と符号の規則（$G$ 展開は 2 箱で使えない）。
 \item $(1+t)$ の留数（$\tilde I$ で固定される状態の数 $E$）の意味。Hopf の $(4,4)$ の $E$ も一意に決まっていない。
-\item 3 箱と $T(2,5)$ の一般の $N$：現在の方式では 1 件あたり 10 時間〜数日かかる見積もりで、高速な実装を別のセッションで作っている（未確認）。得られれば、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）を 3 箱と別の結び目で確かめる。
+\item 3 箱と $T(2,5)$ の一般の $N$：高速版で trefoil の 3 箱（$N \le 12$）と $T(2,5)$ の 2 箱（$N \le 14$）を計算・保存した。補間と大きな $N$ のクロスキャップ部分を作り、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）と符号の規則を 3 箱と別の結び目で確かめる（未着手）。
 \item 非トーラス結び目の refined SO の大きな $N$ の値は、refined CS の $S, T$ が使えないので入力が無い。
 \end{itemize}
 
