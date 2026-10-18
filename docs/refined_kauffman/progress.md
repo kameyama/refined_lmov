@@ -237,3 +237,10 @@
 - S3 の一部（|R| ≤ 4, |S| ≤ 2、K_(4) を使わない）：SO 側 103 秒。Adams の予言は 10 セクターすべてで成立、hatted Ĉ の refined だけの部分は 10/10 で (ν~²−q)(q−t) で割り切れ、符号のそろい方は 8/10（転置の対 2 成分で破れ）。report.md §8。
 - テスト：tests/test_rk_cover.py::test_extension_building_blocks_evaluation_symmetry（約 15 秒）、results の印の test_saved_42_sectors_adams_and_hatted_factor（約 9 分）。
 - 残り：K_(4) の完了後に |R| = |S| = 4（ε_{ρσ}、ρ,σ ⊢ 2 が未知、E_44 を含む）。
+
+## 2026-10-18（続き 12）拡張版の完了（|R|, |S| ≤ 4）
+- S1：K_(4)（7×7 の行列式 8 個、8 並列）は 18435 秒（約 5.1 時間）。見積もり（1〜4 時間）を超えた（行列式の大きさが 1 段で約 9 倍という見込みより伸びた：各プロセスの CPU 時間 158〜172 分）。全 66 組で評価の対称性が成立、最小版と一致。data/refined_kauffman/koornwinder_DN/。
+- S3：SO 側 so_f_general(4,4) は 3268 秒。**実行前に見積もりを書かなかった**（(3,3) の 109 秒から軽く見た。鍵の数 49 → 144 で、事後の見積もりは 15〜75 分）。規則の違反として記録する。
+- 【計算】g_{R,S} = g_{S,R}、奇数のセクターは Laurent、1 変数の値が hopf_g_alld（別の経路）と一致。4 箱×4 箱の 25 組の留数が Adams（4 つの ε_{ρσ}(−1)）で整合、ε_{(2),(2)}(−1) = E_44(−1)（1 変数）。data/refined_kauffman/hopf_g_two_multi_44.pkl、hopf_eps44_m1.pkl。
+- E_44 は依然として t = −1・t = q 以外では決まらない。テスト：results の印の test_saved_44_block_symmetry_and_adams_at_minus1。
+- 次の候補：(i) 4 方向の被覆（固定セクター）で ε_{ρσ} を部分和として絞る（被覆の (4,4) を 4 方向でやると鍵が 38×38、数時間〜の見込み、実行前に見積もる）、(ii) 一般の N（C）。

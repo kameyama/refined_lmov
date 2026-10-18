@@ -337,3 +337,34 @@ def test_saved_42_sectors_adams_and_hatted_factor():
             diff = sp.cancel(w - w.subs(s_, r_))
             quo = sp.cancel(diff / ((nut**2 - r_**2) * (r_**2 - s_**2)))
             assert sp.Poly(sp.fraction(quo)[1], r_, s_, nut).is_monomial
+
+
+@pytest.mark.results
+def test_saved_44_block_symmetry_and_adams_at_minus1():
+    """保存済み（scripts/rk_b_hopf_ext.py 4 4、rk_b_hopf_44.py）：|R|,|S| ≤ 4 で g_{R,S} = g_{S,R}、1 変数の g_{(a),(b)} が
+    hopf_g_alld（別の経路）と一致、4 箱×4 箱の 25 組の t = −1 の留数が Adams（ε_{ρσ}、ρ,σ ⊢ 2 の 4 つ）で整合し、
+    ε_{(2),(2)}(−1) が 1 変数の E_44(−1) に一致。"""
+    import sys as _s
+    _s.path.insert(0, str(ROOT / "scripts"))
+    import pickle
+    import sympy as sp
+    from rcsknots.partitions import partitions
+    from rk_b_hopf_ext import adams2
+    r_, s_, nu_ = sp.symbols("r s nu", positive=True)
+    nut = sp.Symbol("nut", positive=True)
+    loc = {"r": r_, "s": s_, "nu": nu_}
+    g = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_g_two_multi_44.pkl", "rb")).items()}
+    for (R, S_), v in g.items():
+        assert sp.cancel(v - g[(S_, R)]) == 0
+    galld = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_g_alld.pkl", "rb")).items()}
+    for (a, b), v in galld.items():
+        assert sp.cancel(g.get(((a,) if a else (), (b,) if b else ()), 0) - v) == 0
+    at_m1 = lambda e: sp.cancel(sp.cancel(sp.cancel(e).subs(nu_, nut * s_ / r_)).subs(s_, sp.I))
+    eps = {str(k): sp.sympify(v, locals={"r": r_, "nut": nut}) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_eps44_m1.pkl", "rb")).items()}
+    P2, P4 = partitions(2), partitions(4)
+    for R in P4:
+        for S_ in P4:
+            pred = sum(adams2(rho).get(R, 0) * adams2(sg).get(S_, 0) * eps[str((rho, sg))] for rho in P2 for sg in P2)
+            assert sp.cancel(pred - at_m1(2 * (1 + s_**2) * g[(R, S_)])) == 0
+    E1 = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open(ROOT / "data/refined_kauffman/hopf_E_fixed.pkl", "rb")).items()}
+    assert sp.cancel(eps[str(((2,), (2,)))] - at_m1(E1[(4, 4)])) == 0
