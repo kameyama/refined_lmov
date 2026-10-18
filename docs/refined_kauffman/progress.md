@@ -5,7 +5,7 @@
 ### 環境
 - worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
 - Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（40 件、約 45 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
+- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（42 件、約 45 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
 - 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
 
 ### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
@@ -22,6 +22,7 @@
 | K4'(a) | クロスキャップ部分は全 d の第二量子化の構造 g = ½E/(1+t) + C（2(1+t)g は整数 Laurent、unknot の −½ は消える）。E はセクター別の被覆と t = −1・t = q の条件で (2,2),(2,4) が一意（積の形）、(4,4) は不定。Ĩ = ρ⊗ρ の入れ替え（Adams）を \|R\| ≤ 4、b ≤ 4 で確認 | report.md §7、src/rcsknots/kauffman_cover.py、scripts/rk_k4_*.py |
 | (b) | trefoil の 1^k（k ≤ N）を N = 2, 3 で計算（SO(4) = SU(2)²、SO(6) = SU(4)、KN の refined 不変量の鏡像）。N 依存の極は打ち消し、f_a は整数 Laurent。固定 N では framing は極の上でしか決まらない | report.md §6、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py |
 | (b') | trefoil の 2 箱（probe 2 個、Schur |R| ≤ 2）を N = 2, 3 で計算。framing は「極 + t = q で 1」で決まり、m_(2) = (t/q)^2（一意）、f は整数 Laurent。被覆 U(3), U(5) で g = f − ½f^{cov}：2g 整数、半整数は p_2 方向だけ。ĝ = M^{-1}(q^{-1})g が Laurent になるのは m_(1) = t/q のときだけで、K3' の (t/q)^{1/2} と両立しない（未解決） | report.md §6、scripts/rk_k5_trefoil_2box{,_cover}.py |
+| 一様な規格化 | data の R_μ を (t/q)^{δ|μ|/2} 倍すると行列式・共役で不変になり、固定 N の framing は全部 1。K3' の (q/t)^{1/2}（タスク A の (q/t)^{δ/2}）は被覆側の規格化のずれだった。SO の f̂・被覆の f̂（対角・M⊗M）・ĝ が |R| ≤ 3 の全方向で Laurent | report.md §6、conventions.md「一様な規格化」 |
 | (b'') | trefoil の 3 箱（|R| ≤ 3）を N = 2, 3 で（SO は型 A の経路、被覆 U(3), U(5)）。framing は一意で、m_(1) = t/q のとき全部 (t/q)^{|μ|/2}。SO の f̂ = M^{-1}(q^{-1})f は m_(1) = t/q のときだけ整数 Laurent。g（|R| = 3）は整数。被覆は混ざった方向で hatted が閉じない | report.md §6、scripts/rk_k5_trefoil_3box.py、src/rcsknots/flint_rf.py |
 
 ### 重要な規約・事実（conventions.md に記載）
@@ -38,12 +39,12 @@
 | C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |
 | D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
 | E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
-| F. √(q/t) の由来：A により (q/t)^{δ/2}（AS の SU(N)・KN の (N2') と同じ因子）と特定。物理的な由来は未解明 | 低い | 低い |
+| F. **済（2026-10-19）**：(q/t)^{δ/2} は data（KN・DGR）の規格化と、行列式・荷電共役で不変な規格化との差（T(2,2m+1)、m ≤ 3） | — | report.md §6 |
 | G. 研究計画 K3 の composite 入力（Cherednik–Elliot） | 中 | 低い：SO 側の 1^k が無いと使えない |
 推奨（2026-10-18 にユーザーへ提示）：A（済）→ B（一部済）。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
 
 ### 未解決（docs に記録済み）
-- trefoil [1] の余分な (q/t)^{1/2}（§6）。固定 N の 2 箱・3 箱の構造（SO の f̂ の整数性など）はこれを外した m_(1) = t/q を要求し、大きな N の [1] の Laurent 性と両立しない（2026-10-19）。refined の被覆は混ざった方向で diagonal の hatted 構造をもたない。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
+- trefoil [1] の余分な (q/t)^{1/2}（§6）。→ 2026-10-19 に解決（被覆側の data の規格化のずれ、一様な規格化）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
 - probe 側の閉じた形 c_{2j}(n) の証明（Rains の二項公式）は未。
 
 ## 2026-10-14
@@ -301,5 +302,23 @@
   - (i) 大きな N の [1] の側を見直す。被覆の [1] の規格化 𝐚_U² = A(t/q)^{1/2} と、AS (6.15) と data の対応を、m_(1) = t/q の前提で調べる。計算は軽い。
   - (ii) 被覆の composite の hatted（M ⊗ M）を定義し、混ざった方向が閉じるかを見る。
   - (iii) T(2,5) の固定 N で同じ選択（t/q）が起きるかを確かめる。
+  - (iv) 一般の N（C）。
+
+## 2026-10-19（続き 16）大きな N の [1] の見直しと被覆の composite の hatted（ユーザーの指示「1と２へすすめ」）
+- 見積もり：GN の 3 彩色（U(5) の [1,1,1,1]・[1,1,1,1,1]・[2,2,2,2]）は計 32 秒。解析は N = 2 で 3 秒、N = 3 で 7 秒。
+- 着眼：被覆の普通の表現の framing は固定 N の極で決まらず、[1] は K3' に合わせて 1 と置いていた。K3' が大きな N で決めていたのは SO 側と被覆側の比だけである。
+- 【計算】
+  - 一様な規格化 W_μ = (t/q)^{δ|μ|/2} R_μ P_μ(t^ρ) で、共役・行列式のずらしの比が正確に 1 になった。trefoil で 16 組（U(2)〜U(5)）、T(2,5)・T(2,7) で 3 組ずつ。data の行列式表現は (q/t)^{δ n/2}。
+  - 一様な規格化では、固定 N の framing の単項式は SO 側・被覆側とも全部 1 になる。走査で決まる単項式は予言と一致した（SO の新しい表現、被覆の (2;1)・(11;1)）。
+  - 大きな N の [1]：一様な規格化での g は (t/q)^{1/2} g^{ref}（K3'）で、Laurent のまま。SO 側の単項式はちょうど T_[1]^{−6} で、固定 N = 2, 3 の data と全係数一致した。T(2,5)・T(2,7) でも T_[1]^{−2(2m+1)} で同様（タスク F の解決）。
+  - 被覆の 2 変数版（brane に Y、image に Y′）を作った（cover_Z2、plog2）。Y′ = Y に制限すると 1 変数版と一致した。
+  - 一様な規格化では、M ⊗ M の f̂_{ρ,σ}（|ρ| + |σ| ≤ 3）、対角の f̂^{cov}、SO の f̂、ĝ が全方向で Laurent になった。前回の混ざった方向の破れは、被覆の framing を 1 と置いたことによる。
+  - 整数性：SO の f̂_R・対角の f̂^{cov}_R・ĝ_R（|R| = 3）は整数、ĝ_R（|R| = 2）は 2ĝ が整数（E の ½）。
+- 文書：conventions.md に「一様な規格化」を既定として記録した。report.md §6 の K3'・タスク A・食い違いの項に解決を書いた。
+- テスト：tests/test_rk_trefoil.py::test_trefoil_uniform_normalization、::test_torus_family_uniform_normalization（計約 1 秒）。
+- 次の候補：
+  - (i) 一様な規格化で、トーラス結び目の [1] と 2 箱・3 箱の ĝ を G 展開し、正値性の判定式（タスク B）を作り直す。
+  - (ii) T(2,5) の固定 N の 2 箱・3 箱で同じ構造（hatted の整数性）を確かめる。data（T2_5 の彩色）は一部ある。
+  - (iii) 2 変数の f̂_{R,S} の Schur 基底での整数性。
   - (iv) 一般の N（C）。
 

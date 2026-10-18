@@ -1,36 +1,23 @@
+一様な規格化 (t/q)^(|μ|/2) R_μ の共役・行列式のずらしでの比: {'U(3) (2, 2)/(2,)': True, 'U(3) (1, 1)/(1,)': True, 'U(4) (2, 2, 2)/(2,)': True, 'U(4) (1, 1, 1)/(1,)': True, 'U(5) (1, 1, 1)/(1, 1)': True, 'U(5) (1, 1, 1, 1)/(1,)': True, 'U(5) (2, 2, 2, 2)/(2,)': True, 'U(2) (1, 1)/()': True, 'U(3) (1, 1, 1)/()': True, 'U(2) (2, 2)/()': True, 'U(5) (1, 1, 1, 1, 1)/()': True, 'U(4) (2, 1, 1, 1)/(1,)': True, 'U(4) (3, 1, 1, 1)/(2,)': True, 'U(4) (2, 2, 1, 1)/(1, 1)': True, 'U(3) (2, 1, 1)/(1,)': True, 'U(3) (2, 2, 2)/()': True}
 N=2 unknot：|R| = 2, 3 で SO・被覆とも f = 0: True
 N=2 2 箱：SO 側（型 A の経路）が D_N の経路と一致 True、被覆が 2 箱の実装と一致 True
 N=2 composite の分解 P_α(x)P_1(1/x) = P_(α;1) + d_α P_1（数値）: True
-N=2 被覆：(2;1), (11;1) の単項式 (t/q)^(β/2) の β = [(3, 3)]（(t/q)^(N_A/2) は β = 3）
-N=2 m_(1) = (t/q)^(-2/2)：新しい SO の β = (2, 0)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(-1/2)：新しい SO の β = (3, 1)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(0/2)：新しい SO の β = (4, 2)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(1/2)：新しい SO の β = (5, 3)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-    p 成分の割り切れ: {'(3,)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': True, '1+t+t²': False}, '(2, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}, '(1, 1, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}}
-N=2 m_(1) = (t/q)^(2/2)：新しい SO の β = (6, 4)、SO の f̂（|R| ≤ 3）は整数 Laurent True、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): True, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-    被覆の f̂^cov_ρ の Laurent 性（|R|=2）: {(2,): True, (1, 1): False}、SO の f̂_ρ: {(2,): True, (1, 1): True}
-    被覆の f̂^cov_ρ の Laurent 性（|R|=3）: {(3,): True, (2, 1): False, (1, 1, 1): False}、SO の f̂_ρ: {(3,): True, (2, 1): True, (1, 1, 1): True}
-    p 成分の割り切れ: {'(3,)': {'z_q': False, '1+q': False, '1+q+q²': True, 'z_t': True, '1+t': True, '1+t+t²': False}, '(2, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}, '(1, 1, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}}
-N=2 m_(1) = (t/q)^(3/2)：新しい SO の β = (7, 5)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(4/2)：新しい SO の β = (8, 6)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(5/2)：新しい SO の β = (9, 7)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=2 m_(1) = (t/q)^(6/2)：新しい SO の β = (10, 8)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-  N=2: 13s
+N=2 framing の走査（β は (t/q)^(β/2)）：SO の新しい表現 [(6, 4)]（予言 (6, 4)）、被覆（普通の表現は一様）の (2;1), (11;1) [(4, 4)]（予言 (4, 4)）
+N=2 SO f̂ の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=2 被覆 f̂（対角） の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=2 被覆 f̂（M⊗M） の Laurent 性: {(2, 0): {((2,), ()): True, ((1, 1), ()): True}, (1, 1): {((1,), (1,)): True}, (3, 0): {((3,), ()): True, ((2, 1), ()): True, ((1, 1, 1), ()): True}, (2, 1): {((2,), (1,)): True, ((1, 1), (1,)): True}}
+N=2 ĝ の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=2 整数性: {'SO f̂_R 整数': True, '被覆 f̂_R 整数': True, 'g_R 整数（|R|=3）': True, '2g_R 整数（|R|=2）': True, 'g_(2)+g_(1,1) 整数': True, 'ĝ_R 整数（|R|=3）': True, '2ĝ_R 整数（|R|=2）': True}
+N=2 比較：被覆の普通の表現を m = 1 とした場合の対角の f̂^cov: {2: {(2,): True, (1, 1): False}, 3: {(3,): True, (2, 1): False, (1, 1, 1): False}}
+  N=2: 3s
 N=3 unknot：|R| = 2, 3 で SO・被覆とも f = 0: True
 N=3 2 箱：SO 側（型 A の経路）が D_N の経路と一致 True、被覆が 2 箱の実装と一致 True
 N=3 composite の分解 P_α(x)P_1(1/x) = P_(α;1) + d_α P_1（数値）: True
-N=3 被覆：(2;1), (11;1) の単項式 (t/q)^(β/2) の β = [(5, 5)]（(t/q)^(N_A/2) は β = 5）
-N=3 m_(1) = (t/q)^(-2/2)：新しい SO の β = (2, 2)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(-1/2)：新しい SO の β = (3, 3)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(0/2)：新しい SO の β = (4, 4)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(1/2)：新しい SO の β = (5, 5)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-    p 成分の割り切れ: {'(3,)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}, '(2, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}, '(1, 1, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}}
-N=3 m_(1) = (t/q)^(2/2)：新しい SO の β = (6, 6)、SO の f̂（|R| ≤ 3）は整数 Laurent True、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): True, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-    被覆の f̂^cov_ρ の Laurent 性（|R|=2）: {(2,): True, (1, 1): False}、SO の f̂_ρ: {(2,): True, (1, 1): True}
-    被覆の f̂^cov_ρ の Laurent 性（|R|=3）: {(3,): True, (2, 1): False, (1, 1, 1): False}、SO の f̂_ρ: {(3,): True, (2, 1): True, (1, 1, 1): True}
-    p 成分の割り切れ: {'(3,)': {'z_q': False, '1+q': False, '1+q+q²': True, 'z_t': True, '1+t': True, '1+t+t²': False}, '(2, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}, '(1, 1, 1)': {'z_q': False, '1+q': False, '1+q+q²': False, 'z_t': False, '1+t': False, '1+t+t²': False}}
-N=3 m_(1) = (t/q)^(3/2)：新しい SO の β = (7, 7)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(4/2)：新しい SO の β = (8, 8)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(5/2)：新しい SO の β = (9, 9)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-N=3 m_(1) = (t/q)^(6/2)：新しい SO の β = (10, 10)、SO の f̂（|R| ≤ 3）は整数 Laurent False、g_R（|R|=3）は整数 Laurent True、ĝ_ρ の Laurent 性 {(3,): False, (2, 1): False, (1, 1, 1): False}、t = q で {(3,): True, (2, 1): True, (1, 1, 1): True}
-  N=3: 42s
+N=3 framing の走査（β は (t/q)^(β/2)）：SO の新しい表現 [(6, 6)]（予言 (6, 6)）、被覆（普通の表現は一様）の (2;1), (11;1) [(6, 6)]（予言 (6, 6)）
+N=3 SO f̂ の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=3 被覆 f̂（対角） の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=3 被覆 f̂（M⊗M） の Laurent 性: {(2, 0): {((2,), ()): True, ((1, 1), ()): True}, (1, 1): {((1,), (1,)): True}, (3, 0): {((3,), ()): True, ((2, 1), ()): True, ((1, 1, 1), ()): True}, (2, 1): {((2,), (1,)): True, ((1, 1), (1,)): True}}
+N=3 ĝ の Laurent 性: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+N=3 整数性: {'SO f̂_R 整数': True, '被覆 f̂_R 整数': True, 'g_R 整数（|R|=3）': True, '2g_R 整数（|R|=2）': True, 'g_(2)+g_(1,1) 整数': True, 'ĝ_R 整数（|R|=3）': True, '2ĝ_R 整数（|R|=2）': True}
+N=3 比較：被覆の普通の表現を m = 1 とした場合の対角の f̂^cov: {2: {(2,): True, (1, 1): False}, 3: {(3,): True, (2, 1): False, (1, 1, 1): False}}
+  N=3: 7s

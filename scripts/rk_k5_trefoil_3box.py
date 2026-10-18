@@ -158,21 +158,27 @@ def comp_shift(alpha, NA):
     return tuple(sorted([a + 1 for a in alpha] + [1] * (NA - 1 - len(alpha)), reverse=True))
 
 
-def cover_parts(N, mc, unknot=False):
+def cover_parts(N, mc, unknot=False, uniform=False):
+    """uniform = True：一様な規則 W_μ = (t/q)^{|μ|/2} R_μ P_μ(t^ρ)（μ は U(N_A) の分割、composite は移した分割）。
+    mc に与えた composite の単項式はそれを上書きする。uniform = False：普通の表現は m = 1、composite は mc。"""
     NA = 2 * N - 1
     one = (1,)
+    mc = mc or {}
 
     def Word(a):
         # 被覆は U(N_A)：ℓ(a) = N_A（N_A = 3 の (1,1,1) = det）も data の U(N_A) の値をそのまま使う
         if not a:
             return ONE
-        return P_only(a, NA) if unknot else RP(a, NA)
+        if unknot:
+            return P_only(a, NA)
+        return (W_**sum(a) if uniform else ONE) * RP(a, NA)
 
     def Wcomp(alpha):
         sh = comp_shift(alpha, NA)
         if unknot:
             return P_only(sh, NA)
-        return mc[alpha] * RP(sh, NA)
+        m = mc[alpha] if alpha in mc else W_**sum(sh)
+        return m * RP(sh, NA)
 
     kappa = (1 - Tt**NA) * (1 - Q) / ((1 - Tt) * (1 - Q * Tt**(NA - 1)))
     d = {al: (P_only(al, NA) * P_only(one, NA) - P_only(comp_shift(al, NA), NA)) / P_only(one, NA) for al in ((2,), (1, 1))}
@@ -194,8 +200,8 @@ def cover_parts(N, mc, unknot=False):
     return Wc, kappa, d
 
 
-def cover_Z(N, mc, kmax=3, unknot=False):
-    Wc, _, _ = cover_parts(N, mc, unknot)
+def cover_Z(N, mc, kmax=3, unknot=False, uniform=False):
+    Wc, _, _ = cover_parts(N, mc, unknot, uniform)
     Zp = {(): ONE}
     for n in range(1, kmax + 1):
         for i in range(0, n + 1):
@@ -208,6 +214,79 @@ def cover_Z(N, mc, kmax=3, unknot=False):
                             E = E + u * v * Wc(al, be)
                     padd(Zp, coefY, (-1)**n * E)
     return Zp
+
+
+# ---- 被覆の 2 変数版：brane に Y、image に Y' を付ける（composite の LMOV、M ⊗ M の判定用） ----
+def _pmul2(a, b, dmax):
+    out = {}
+    for (x1, x2), u in a.items():
+        for (y1, y2), v in b.items():
+            k = (tuple(sorted(x1 + y1, reverse=True)), tuple(sorted(x2 + y2, reverse=True)))
+            if sum(k[0]) + sum(k[1]) > dmax:
+                continue
+            out[k] = out.get(k, ZERO) + u * v
+    return out
+
+
+def cover_Z2(N, mc, kmax=3, unknot=False, uniform=False):
+    """⟨Π(1 − y_α x_i) Π(1 − y'_β / x_i)⟩ を Y, Y' の冪和の組 {(ρ, σ): 係数} で（|ρ| + |σ| ≤ kmax）。"""
+    Wc, _, _ = cover_parts(N, mc, unknot, uniform)
+    Zp = {((), ()): ONE}
+    for n in range(1, kmax + 1):
+        for i in range(0, n + 1):
+            for lam in (partitions(i) if i else [()]):
+                for mu in (partitions(n - i) if n - i else [()]):
+                    E = ZERO
+                    for al, u in schur_to_P(conjugate(lam) if lam else ()).items():
+                        for be, v in schur_to_P(conjugate(mu) if mu else ()).items():
+                            E = E + u * v * Wc(al, be)
+                    for x, u in schur_p(lam).items():
+                        for y, v in schur_p(mu).items():
+                            k = (x, y)
+                            Zp[k] = Zp.get(k, ZERO) + (-1)**n * u * v * E
+    return Zp
+
+
+def plog2(Zp, kmax=3):
+    """2 変数の全 d の plethystic log：F = Σ_d μ(d)/d ψ_d(log Z)（ψ_d：p_k(Y) → p_{dk}(Y)、p_k(Y') → p_{dk}(Y')、r → r^d、s → s^d）。"""
+    from sympy import mobius
+    X = {k: v for k, v in Zp.items() if k != ((), ())}
+    L, P_, n = {}, dict(X), 1
+    while P_:
+        padd(L, P_, conv(Fraction((-1)**(n + 1), n)))
+        P_ = _pmul2(P_, X, kmax)
+        n += 1
+    F = {}
+    for (a, b), v in L.items():
+        for d_ in range(1, kmax + 1):
+            if (sum(a) + sum(b)) * d_ > kmax:
+                continue
+            mu_ = int(mobius(d_))
+            if mu_ == 0:
+                continue
+            k = (tuple(x * d_ for x in a), tuple(x * d_ for x in b))
+            F[k] = F.get(k, ZERO) + conv(Fraction(mu_, d_)) * (v.adams(d_) if d_ > 1 else v)
+    return F
+
+
+def hatted2_by_rho(F2, i, j):
+    """f̂_{ρ,σ} = f_{ρ,σ}/(φ_ρ φ_σ) の Laurent 性（|ρ| = i、|σ| = j、冪和の係数）。"""
+    out = {}
+    for rho in (partitions(i) if i else [()]):
+        for sg in (partitions(j) if j else [()]):
+            v = F2.get((rho, sg), ZERO)
+            ph = (phi(rho) if rho else ONE) * (phi(sg) if sg else ONE)
+            out[(rho, sg)] = (v / ph).is_laurent()
+    return out
+
+
+def diag(F2):
+    """Y' = Y に制限した 1 変数の冪和の係数。"""
+    out = {}
+    for (a, b), v in F2.items():
+        k = tuple(sorted(a + b, reverse=True))
+        out[k] = out.get(k, ZERO) + v
+    return out
 
 
 # ---- plethystic log（全 d）と Schur 基底 ----
@@ -299,20 +378,38 @@ def at_t_eq_q(e):
     return from_sympy(e.to_sympy().subs(ss, rr))
 
 
+UNIFORM_PAIRS = [(3, (2, 2), (2,)), (3, (1, 1), (1,)), (4, (2, 2, 2), (2,)), (4, (1, 1, 1), (1,)), (5, (1, 1, 1), (1, 1)),
+                 (5, (1, 1, 1, 1), (1,)), (5, (2, 2, 2, 2), (2,)), (2, (1, 1), ()), (3, (1, 1, 1), ()), (2, (2, 2), ()), (5, (1, 1, 1, 1, 1), ()),
+                 (4, (2, 1, 1, 1), (1,)), (4, (3, 1, 1, 1), (2,)), (4, (2, 2, 1, 1), (1, 1)), (3, (2, 1, 1), (1,)), (3, (2, 2, 2), ())]
+
+
+def uniform_ratio(n, a, b):
+    """一様な規格化 (t/q)^{|μ|/2} R_μ の比（共役・行列式のずらしで 1 になるはず）。"""
+    lab = lambda x: "".join(map(str, x))
+    Ra = from_sympy(T.Rdata(lab(a), n)) * W_**sum(a)
+    Rb = (from_sympy(T.Rdata(lab(b), n)) if b else ONE) * W_**sum(b)
+    return Ra / Rb
+
+
+def so_uniform(N):
+    """一様な規格化の SO 側（m_μ = (t/q)^{|μ|/2}、μ は data の A 型の分割）。"""
+    return so_framing(N, W_**2, (W_**6, W_**6 if N == 3 else W_**4))
+
+
 if __name__ == "__main__":
     import math, random
     from rcsknots.macdonald import macdonald_P as _mP
     import rk_k5_trefoil_2box_cover as C
     out = {}
     W = W_
+    print("一様な規格化 (t/q)^(|μ|/2) R_μ の共役・行列式のずらしでの比:", {f"U({n}) {a}/{b}": uniform_ratio(n, a, b) == ONE for n, a, b in UNIFORM_PAIRS}, flush=True)
     for N in (2, 3):
         t0 = time.time()
         NA = 2 * N - 1
         # 検証：unknot、2 箱の再現、composite の分解
         fu, fcu = plog(so_Z(N, None, unknot=True)), plog(cover_Z(N, None, unknot=True))
         print(f"N={N} unknot：|R| = 2, 3 で SO・被覆とも f = 0: {all(v.is_zero() for k in (2, 3) for v in list(to_schur(fu, k).values()) + list(to_schur(fcu, k).values()))}", flush=True)
-        fr2 = {k: v for k, v in so_framing(N, from_sympy(T.M1), (ZERO, ZERO)).items()}
-        F2 = plog(so_Z(N, fr2, kmax=2), kmax=2)
+        F2 = plog(so_Z(N, so_framing(N, from_sympy(T.M1), (ZERO, ZERO)), kmax=2), kmax=2)
         old = C.so_f(N)
         Fc2 = plog(cover_Z(N, cover_framing(N), kmax=2), kmax=2)
         oldc = C.cover_f(N, {"adj": C.M_ADJ(N)})
@@ -329,32 +426,30 @@ if __name__ == "__main__":
             dv = sp.nsimplify(dd[al].to_sympy().subs({sp.Symbol("r", positive=True): sp.Rational(3, 7), sp.Symbol("s", positive=True): sp.Rational(2, 5)}))
             ok &= ev(al, x) * ev((1,), [1 / xi for xi in x]) == ev(comp_shift(al, NA), x) / math.prod(x) + Fraction(int(dv.p), int(dv.q)) * ev((1,), x)
         print(f"N={N} composite の分解 P_α(x)P_1(1/x) = P_(α;1) + d_α P_1（数値）: {ok}", flush=True)
-        # 被覆の新しい単項式
-        hc = scan_pairs(lambda ma, mb: cover_Z(N, {(1,): W**NA, (2,): ma, (1, 1): mb}))
-        print(f"N={N} 被覆：(2;1), (11;1) の単項式 (t/q)^(β/2) の β = {hc}（(t/q)^(N_A/2) は β = {NA}）", flush=True)
-        # m_(1) = (t/q)^(β1/2) ごとに：新しい SO の単項式、g の整数性、ĝ の Laurent 性
-        out[N] = {}
-        for b1 in range(-2, 7):
-            m1 = W**b1
-            hits = so_new_framing(N, m1)
-            if len(hits) != 1:
-                print(f"N={N} β1 = {b1}: SO の新しい単項式が一意でない {hits}", flush=True)
-                continue
-            new = tuple(W**b for b in hits[0])
-            F, Fc, G = crosscap3(N, m1, new)
-            g3 = to_schur(G, 3)
-            gp = p_components(g3, 3)
-            hat = {rho: (gp[rho] / phi(rho)).is_laurent() for rho in partitions(3)}
-            hat_q = {rho: (at_t_eq_q(gp[rho]) / at_t_eq_q(phi(rho))).is_laurent() for rho in partitions(3)}
-            so_hat = all(v.is_integer_laurent() for k in (2, 3) for v in hatted(F, k).values())
-            print(f"N={N} m_(1) = (t/q)^({b1}/2)：新しい SO の β = {hits[0]}、SO の f̂（|R| ≤ 3）は整数 Laurent {so_hat}、g_R（|R|=3）は整数 Laurent {all(v.is_integer_laurent() for v in g3.values())}、"
-                  f"ĝ_ρ の Laurent 性 {hat}、t = q で {hat_q}", flush=True)
-            if b1 == 2:
-                for k in (2, 3):
-                    print(f"    被覆の f̂^cov_ρ の Laurent 性（|R|={k}）: {hatted_by_rho(Fc, k)}、SO の f̂_ρ: {hatted_by_rho(F, k)}", flush=True)
-            if b1 in (1, 2):
-                out[N][b1] = {"new": hits[0], "g3": {str(k): str(v.to_sympy()) for k, v in g3.items()},
-                              "p_div": {str(rho): {nm: gp[rho].num_divisible(x) for nm, x in FACT.items()} for rho in partitions(3)}}
-                print(f"    p 成分の割り切れ: {out[N][b1]['p_div']}", flush=True)
+        # framing：「t = q で 1」の族の走査（一様な規格化の予言と比べる）
+        print(f"N={N} framing の走査（β は (t/q)^(β/2)）：SO の新しい表現 {so_new_framing(N, W**2)}（予言 {(6, 6) if N == 3 else (6, 4)}）、"
+              f"被覆（普通の表現は一様）の (2;1), (11;1) {scan_pairs(lambda ma, mb: cover_Z(N, {(2,): ma, (1, 1): mb}, uniform=True))}（予言 {(NA + 1, NA + 1)}）", flush=True)
+        # 一様な規格化での hatted
+        F = plog(so_Z(N, so_uniform(N)))
+        Fc = plog(cover_Z(N, {}, uniform=True))
+        G = {k: F.get(k, ZERO) - conv(Fraction(1, 2)) * Fc.get(k, ZERO) for k in set(F) | set(Fc)}
+        F2c = plog2(cover_Z2(N, {}, uniform=True))
+        res = {"SO f̂": {k: hatted_by_rho(F, k) for k in (2, 3)}, "被覆 f̂（対角）": {k: hatted_by_rho(Fc, k) for k in (2, 3)},
+               "被覆 f̂（M⊗M）": {ij: hatted2_by_rho(F2c, *ij) for ij in ((2, 0), (1, 1), (3, 0), (2, 1))}, "ĝ": {k: hatted_by_rho(G, k) for k in (2, 3)}}
+        for kname, v in res.items():
+            print(f"N={N} {kname} の Laurent 性: {v}", flush=True)
+        integ = {"SO f̂_R 整数": all(v.is_integer_laurent() for k in (2, 3) for v in hatted(F, k).values()),
+                 "被覆 f̂_R 整数": all(v.is_integer_laurent() for k in (2, 3) for v in hatted(Fc, k).values()),
+                 "g_R 整数（|R|=3）": all(v.is_integer_laurent() for v in to_schur(G, 3).values()),
+                 "2g_R 整数（|R|=2）": all((2 * v).is_integer_laurent() for v in to_schur(G, 2).values()),
+                 "g_(2)+g_(1,1) 整数": (to_schur(G, 2)[(2,)] + to_schur(G, 2)[(1, 1)]).is_integer_laurent(),
+                 "ĝ_R 整数（|R|=3）": all(v.is_integer_laurent() for v in hatted(G, 3).values()),
+                 "2ĝ_R 整数（|R|=2）": all((2 * v).is_integer_laurent() for v in hatted(G, 2).values())}
+        print(f"N={N} 整数性: {integ}", flush=True)
+        Fc_old = plog(cover_Z(N, cover_framing(N)))
+        print(f"N={N} 比較：被覆の普通の表現を m = 1 とした場合の対角の f̂^cov: {{2: {hatted_by_rho(Fc_old, 2)}, 3: {hatted_by_rho(Fc_old, 3)}}}", flush=True)
+        out[N] = {"g_schur": {str(R_): str(v.to_sympy()) for k in (1, 2, 3) for R_, v in to_schur(G, k).items()},
+                  "ghat_schur": {str(R_): str(v.to_sympy()) for k in (2, 3) for R_, v in hatted(G, k).items()},
+                  "fhat_SO": {str(R_): str(v.to_sympy()) for k in (2, 3) for R_, v in hatted(F, k).items()}}
         print(f"  N={N}: {time.time() - t0:.0f}s", flush=True)
     pickle.dump(out, open("data/refined_kauffman/trefoil_fixedN_3box_g.pkl", "wb"))

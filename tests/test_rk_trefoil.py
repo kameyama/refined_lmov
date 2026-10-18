@@ -213,3 +213,53 @@ def test_trefoil_fixed_N_three_box():
         assert all(v.is_integer_laurent() for k in (2, 3) for v in X.hatted(F, k).values()) == ok
         assert all(v.is_integer_laurent() for v in X.to_schur(G, 3).values())
     assert X.hatted_by_rho(Fc, 3) == {(3,): True, (2, 1): False, (1, 1, 1): False}
+
+
+def test_trefoil_uniform_normalization():
+    """一様な規格化 W_μ = (t/q)^{|μ|/2} R_μ P_μ(t^ρ)（R は data の trefoil）。共役・行列式のずらしで不変（U(3), U(4) の例）。
+    N = 2 でこの規格化を SO 側（SU(2)²）と被覆 U(3) の両方に使うと、composite の単項式は走査で予言どおり (t/q)^2、
+    SO の f̂・被覆の f̂（対角と M⊗M）・ĝ が |R| ≤ 3 の全方向で Laurent、ĝ_R（|R| = 3）は整数。
+    大きな N では W_SO = (6.15)·T_[1]^{−6}·unknot と (t/q)^{1/2}·½h^{ref} の差が Laurent で、(t/q)^{1/2} g^{ref}_[1]（K3'）に等しい。"""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k5_trefoil_3box as X
+    for n, a, b in ((3, (2, 2), (2,)), (3, (1, 1, 1), ()), (4, (2, 2, 2), (2,)), (4, (2, 1, 1, 1), (1,))):
+        assert X.uniform_ratio(n, a, b) == X.ONE
+    N = 2
+    assert X.scan_pairs(lambda ma, mb: X.cover_Z(N, {(2,): ma, (1, 1): mb}, uniform=True), rng=range(2, 7)) == [(4, 4)]
+    F = X.plog(X.so_Z(N, X.so_uniform(N)))
+    Fc = X.plog(X.cover_Z(N, {}, uniform=True))
+    from fractions import Fraction
+    G = {k: F.get(k, X.ZERO) - X.conv(Fraction(1, 2)) * Fc.get(k, X.ZERO) for k in set(F) | set(Fc)}
+    for E in (F, Fc, G):
+        assert all(all(X.hatted_by_rho(E, k).values()) for k in (2, 3))
+    F2c = X.plog2(X.cover_Z2(N, {}, uniform=True))
+    assert all(all(X.hatted2_by_rho(F2c, *ij).values()) for ij in ((1, 1), (2, 1)))
+    assert all(v.is_integer_laurent() for v in X.hatted(G, 3).values())
+    w = s / r
+    Tm = r * U / s**2
+    assert is_laurent(W_SO(Tm**-6) - w * h_half_ref())
+    assert sp.cancel(W_SO(Tm**-6) - w * h_half_ref() - w * g_ref()) == 0
+
+
+def test_torus_family_uniform_normalization():
+    """T(2,2m+1) の data は行列式で (q/t)^{δ n/2}（U(n) の det、δ = m）ずれる。一様な規格化 (t/q)^{δ|μ|/2} R_μ では
+    固定 N = 2 の SO のベクトル表現が AS の Z_V·T_[1]^{−2(2m+1)}·unknot に一致し、大きな N で W_SO(T^{−2(2m+1)}) − (t/q)^{δ/2}½h は Laurent（m = 2）。"""
+    import json
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import rk_k3_torus_family as Tf
+    import rk_k5_trefoil_2box as T2
+    from rcsknots.kauffman_knot import r as r_, s as s_
+
+    def Rk(c, n):
+        d = json.load(open(ROOT / f"data/torus/T2_5_{c}.json"))
+        return sp.expand(sum(v * (s_**n)**(-int(k.split(",")[0])) * r_**(-int(k.split(",")[1])) * s_**(-int(k.split(",")[2])) for k, v in d["poly"].items()))
+    m = 2
+    assert sp.simplify(Rk("11", 2) - (r_ / s_)**(2 * m)) == 0
+    Tm = r * U / s**2
+    WSO = Z_V_T2(m) * Tm**(-2 * (2 * m + 1)) * Tf.unknot_SO
+    lhs = (s_ / r_)**(2 * m) * Rk("1", 2)**2 * T2.unknot_K(2, (1,))
+    assert sp.cancel(lhs - WSO.subs({r: r_, s: s_, U: s_**4})) == 0
+    assert is_laurent(WSO - (s / r)**m * Tf.h_half(m))
+
