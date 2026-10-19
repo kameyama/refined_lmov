@@ -46,3 +46,8 @@ DOI・巻・頁は未確認（上の表で確認したと書いたものを除�
 ```bash
 .venv/bin/python scripts/nb2txt.py references/1703.05408/src/anc/refined-LMOV-torus.nb > references/1703.05408/nb-torus.txt
 ```
+| 2205.12832 | v2 | Avetisyan–Mkrtchyan, On refined Chern-Simons / topological string duality for classical gauge groups（arXiv のメタデータで確認） | — |
+| 2107.08679 | v1 | Avetisyan–Mkrtchyan, On partition functions of refined Chern-Simons theories on S³ | — |
+| 2302.14319 | v1 | Avetisyan–Mkrtchyan, Two-fold refinement of non simply laced Chern-Simons theories | — |
+| 2201.12264 | v2 | Kim–Wei, Refined topological vertex with ON-planes | — |
+| 1405.6019 | v2 | Piazzalunga–Uranga, M-theory interpretation of the real topological string | — |

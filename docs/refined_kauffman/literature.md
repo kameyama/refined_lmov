@@ -92,7 +92,10 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 | Cherednik–Danilenko 1509.08351 | B, C, D | 「B, C, D 型の DAHA-hyperpolynomial の存在と対称性は未解決」、D 型の t = q が Kauffman 多項式に一致することは示された | 【TeX】 |
 | Cherednik–Elliot 1503.01441 | A（composite）、例外型 | composite DAHA 超多項式。最後の節で例外型の Deligne–Gross 系列の DAHA-hyperpolynomial を実験的に構成 | 【抄録】 |
 | Elliot–Gukov 1505.01635 | 例外型 | 例外型の結び目ホモロジーの微分の構造（トーラス結び目）、E_6 の hyperpolynomial | 【抄録】 |
-| Avetisyan–Mkrtchyan 2107.08679、2205.12832、2302.14319 | 任意（A, B, C, D、非単純レース型） | S³ の分配関数（閉弦）、refined 位相的弦との双対。結び目は無い | 【抄録】 |
+| Avetisyan–Mkrtchyan 2205.12832（v2） | A, B, C, D | S³ の分配関数（閉弦）の多重サイン関数表示と GV 型の展開。D, C に c = 1（奇数の n）と「Klein 瓶」（c = 2、全 n、分子 q/t − t/q、y = 1 で 0）、B は c = 1 だけで分母に (t^{n/2} + t^{−n/2})。Kähler 変数の「三重化」τ₀, τ₁, τ₂。結び目は無い。本研究で Klein 瓶の項が全 n の凍結した状態＋不変な状態（AgSc §6 の形）の並べ替えであることを確認した（theory_orientifold_index.md §8） | 【TeX】 |
+| Avetisyan–Mkrtchyan 2107.08679、2302.14319 | 任意（非単純レース型を含む） | S³ の分配関数（閉弦）。結び目は無い | 【抄録】（TeX は取得済み、未読） |
+| Piazzalunga–Uranga 1405.6019（v2） | — | real topological string の M 理論の解釈。Ĩ で不変な状態だけが奇数の巻き付きで寄与し、real BPS 不変量は偶奇で重みを付けた差 n⁺ − n⁻。被覆の取っ手一つの捻ったトレースは −2 sinh（z 一つ）。refined は脚注で触れるだけ | 【TeX】 |
+| Kim–Wei 2201.12264（v2） | D 型の箙（5d） | ON 面（O5 の S 双対）のある 5-brane web の refined 位相的頂点。向き付けられない面は数えない（本研究の照合の対象外） | 【TeX、序論のみ】 |
 | Bishler–Mironov 2504.13831 | 単純レース型 | Macdonald 次元（q^ρ での値）の Vogel 普遍性 | 【抄録】 |
 | NRZ 1310.2240、Gukov–Walcher hep-th/0512298 | SO/Sp | Kauffman ホモロジー（refined CS とは別物と明記） | 【TeX】 |
 - 非トーラス結び目、高い彩色の一般の N の refined SO/Sp の結び目不変量、Sp の refined CS の結び目不変量は、今回の検索の範囲では見つからなかった。
