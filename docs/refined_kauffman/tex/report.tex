@@ -305,6 +305,98 @@ $\hat g_{(2)} + \hat g_{(1,1)}$、$(1+t)(\hat g_{(2)} - \hat g_{(1,1)})$、商�
 \end{itemize}
 
 
+\section{正値性の検討：符号の解釈、基底、二次量子化、被覆の分割（2026-10-19〜20）}\label{sec:positivity}
+\subsection{BPS 数の符号の解釈（文献）}
+\begin{itemize}
+\item unrefined の BPS 数は状態の数ではなく、$(-1)^F$ を付けた指数である。閉弦では $N^{s_L}_\beta = \sum_{s_R}(-1)^{2s_R}(2s_R+1)N^{s_L,s_R}_\beta$（AgSc §2）、KN では $n_{g,\beta} = \sum(-1)^{2J_r}(2J_r+1)(2S_R+1)\hat N_{g,\beta,J_r,S_R}$、$\hat N = \dim A \ge 0$。開弦の LMOV 不変量も $\hat N_{\mu,g,\beta} = \sum(-1)^{2J_r}\hat N_{\mu,g,\beta,J_r,S_R}$（KN）。【TeX で確認】
+\item トーラス結び目では、$\rho, g, \beta$ ごとに $2J_r$ の偶奇がそろい、$\hat N_{\rho,g,\beta} = \pm\sum_{J_r}\hat N_{\rho,g,\beta,J_r}$（KN）。$4_1$ では unrefined で打ち消しが起きる。
+\item orientifold：$c = 1$ の寄与の全体の符号は crosscap の符号の 2 通りの選び方（BFM hep-th/0411227）で、SO と Sp の違いに当たる（Mariño 0904.1088）。AgSc は、離散的なフラックスでフェルミオン数の割り当てが変わり得ること、orientifold が SU(2)$_L \times$ SU(2)$_R$ を U(1)$_1 \times$ U(1)$_2$ に壊すので unoriented の状態は完全なスピン多重項をなさなくてよいことを述べる。
+\item したがって refined のクロスキャップの正値性は「ブロックごとに $\varepsilon_\beta$ と同符号」として定式化する（§\ref{sec:criterion}）。$E = P - 2Q$ は $\tilde I$ を挿入したトレースで、refined でも符号付きである \deriv。非負であるべきは $P$ と $Q$ の方。
+\end{itemize}
+
+\subsection{SO$(2N)$ の rCS そのものの符号}
+一般の $N$ の trefoil を太字の変数で書くと \comp{}：
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+彩色 & 項数 & 正 & 負 \\
+\midrule
+$R_{(1)}$ & 9 & 5 & 4 \\
+$R_{(2)}$ & 55 & 29 & 26 \\
+$R_{(1,1)}$ & 44 & 24 & 20 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$(\ba, \bq, \bt)$ の符号の取り替えと全体の符号のどれでも同符号にならない（[1] でも $\bt^4\bq\ba^3$ と $-\bt^4\bq^{-1}\ba^3$ が $\bq^2$ だけ違う）。U(N) の [1] のトーラス結び目（superpolynomial、正）と違い、SO では [1] でも rCS は正でない。AgSc も「refined CS の指数は一般に負の符号を含む」、Cherednik も B, C, D 型の hyper-polynomial について「最小の重みでも正値性はほとんど無い」と書く。正値性を問うのは BPS の段階である。
+
+\subsection{自由エネルギーの右辺の基底の取り替え}
+$\log\tilde Z$ の右辺の Schur 基底 $s_R(Y)$ を別の基底に替えて、大きな $N$ の trefoil の 2 箱の $g$（全 $d$）を展開した \comp{}。
+\begin{center}
+\begin{tabular}{p{4.6cm}p{10.4cm}}
+\toprule
+基底 & 係数の分母（単項式以外） \\
+\midrule
+Schur、Hall--Littlewood（$t$, $q$） & 両方の係数に $(1+t)$ \\
+$P_\lambda(Y; q,t)$ & 両方に $(1+t)$、$P_{(1,1)}$ にさらに $(1 - qt)$ \\
+$P_\lambda(Y; t,q)$（双対 Cauchy の probe 側の基底） & $(1+t)$ は $P_{(2)}$ の係数だけ、$P_{(1,1)}$ の係数 $x_{(1,1)} = g_{(1,1)} + \frac{q-t}{1-qt}g_{(2)}$ は $(1-qt)$ だけ（$E_{(2)} = -E_{(1,1)}$ から \deriv） \\
+$Q_\lambda$、modified Macdonald $\tilde H$ & $(1-t)$, $(1-q)$, $(q-t)$ などが加わる \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item $E$ を含まない方向で、普遍因子で割った商の $\ba$ ブロックの符号：Schur の $\hat g_{(2)}+\hat g_{(1,1)}$ は 5/10、$P(Y;t,q)$ の $(1-qt)x_{(1,1)}/z_q$ は 8/11（$c = 1$ の奇数冪はすべてそろい、混在は $\ba^{-12}, \ba^{-10}, \ba^{-8}$ だけ）\comp{}。
+\item ただし改善はこの順序に限る。hatted にしてから $P$ 基底に替えると 0/11。Hopf の 2 箱 $\times$ 2 箱では $P$ 基底のほうが悪く（Schur の $\hat C$ は 4 成分ともそろう）、固定 $N$ の 3 箱では $P_{(2,1)}$ に $(1 - qt^2)$、$P_{(1,1,1)}$ に $(1-qt)(1-q^2t)$ の分母が出て整数性が壊れる \comp{$N = 2, 3$}。
+\item 結論：基底の取り替えだけで正値性が見えるという証拠にはならない。
+\end{itemize}
+
+\subsection{二次量子化の指数}
+積の形 $\tilde Z = \prod(1 - (\text{電荷の単項式})\cdot y^\alpha)^{-c}$（AgSc (3.13) 型）の指数 $c$ を調べた。$c_\mu = \sum_R K_{R\mu} f_R$（$Y$ の単項対称式の係数、$K$ は Kostka 数）で、$f$ の分母 $(1-t^p)$ を $t$ の冪級数（モードの塔）に展開した係数が電荷 $\nu^\beta t^{k/2} q^{a/2}$ ごとの「状態数 $\times (-1)^F$」である。$E$ と $C$ の分け方によらず決まる。
+\begin{itemize}
+\item SO の $f$ の分母は単項式 $\times (1-t)$（[1]）、$(1-t^2)$（2 箱）だけで、指数はすべて整数 \comp{}。$(1-t^2)$ は AgSc の「$\tilde I$ で固定される状態は $t$ の偶数か奇数のモードだけ」と合う。
+\item [1]（$M$ の変換が無いので $c$ がそのまま状態数）：符号が混在する $(\beta, k)$ ブロックの数 \comp{}
+\begin{center}
+\begin{tabular}{p{6.2cm}ccc}
+\toprule
+& $T(2,3)$ & $T(2,5)$ & $T(2,7)$ \\
+\midrule
+SO の $f$ & 0/20 & 3/33 & 10/48 \\
+$\nu^\beta$ ごとに $(q - t)$ の冪をくくり出した後 & 0/17 & 2/25 & 6/35 \\
+被覆の $f^{\rm cov}$ & 0/11 & 0/14 & 0/17 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$T(2,3)$ では $\nu^\beta$ ごとに符号が一つに決まる（$G$ 展開なしで $\varepsilon_\beta$ の型）。$T(2,5)$, $T(2,7)$ で混在するのは §\ref{sec:criterion} で $(\bt^2 - 1)$ が掛かるブロックで、$G$ 展開の後は「$(\bt^2-1) \times$ 正」に整理される（単項式で数えたための見かけの混在）。
+\item 2 箱：単項式の基底の指数（hatted にしない）は SO も被覆もほぼ全ブロックで混在する（SO の $m_{(1,1)}$ は 113/113）。被覆でも崩れるので、多箱の開弦ではこの指数は状態数ではなく、境界の巻き付きの構造 $M$ を外す必要がある。hatted にしてから展開すると、SO の $\hat f_{(2)}$ は 16/123、$\hat f_{(1,1)}$ は 15/110 のブロックで混在し、その多くは $\beta$ が奇数（被覆には偶数の $\beta$ しか無いので、クロスキャップだけから来る）。
+\end{itemize}
+
+\subsection{被覆の brane・image の分割と $M \otimes M$}
+大きな $N$ の被覆を brane（$Y$）と image（$Y'$）に分けた生成関数
+\[
+\tilde Z^{\rm cov} = 1 - W_{(1)}(p_1 + p_1') + \bigl[W_{(2)} e_2(Y) + W_{(1,1)} P_{(2)}(Y;t,q) + (Y \to Y')\bigr] + (W_{\rm adj} + \kappa)\, p_1(Y)p_1(Y') + \cdots
+\]
+を作った（$Y = Y'$ で 1 変数の結果に全成分一致）\comp{}。
+\begin{itemize}
+\item \textbf{brane--brane のセクター}（$\hat f_{(2)}, \hat f_{(1,1)}$、$M \otimes M$）は、KN の t 枠 $(t^{-1/2}-t^{1/2})\hat f$ で $G$ 展開でき、全 $\beta$ で符号がそろう（KN の正値性）。1 変数の対角の $M$ での $(1,1)$ の混在は、brane--image をまたぐ寄与から来ていた。
+\item \textbf{brane--image のセクター} $x = W_{\rm adj} + \kappa - W_{(1)}^2$：$(t^{-1/2}-t^{1/2})x/z_q$ が整数 Laurent で $\sigma$ 対称（$z_t$, $z_q \pm z_t$ では割り切れない）。$G$ 展開（$W = (q/t)^{1/4}$）の $\nu^\beta$ ごとの係数は
+\begin{align*}
+[\nu^{-12}]&\colon\ -W^{-18},\\
+[\nu^{-10}]&\colon\ -(W^4 - 1)(GW^2 + 2W^4 + 2)\,W^{-18},\\
+[\nu^{-8}]&\colon\ (G^2W^8 + 4GW^{10} + 3GW^6 - GW^2 + 3W^{12} + 7W^8 - 1)\,W^{-18},
+\end{align*}
+$\nu^{-6}, \nu^{-4}, \nu^0$ は同符号、$\nu^{-2}$ は混在。$W^4 - 1 = \bt^2 - 1$ なので、\textbf{向き付けられた被覆の brane--image のセクターが、クロスキャップと同じ普遍因子 $(\bt^2 - 1)$ をもつ}。
+\item brane--image の部分をクロスキャップ側に戻した $g' = \hat f_{\rm SO} - \tfrac12(\text{brane--brane} + \text{image--image})$ は $(1-t)$ の分母が残り、t 枠の因子を掛けても $\sigma$ 対称にならない。
+\end{itemize}
+
+\subsection{多重項の変数の探索}
+$\nu^\beta$ ごとのブロックを $(q^{1/2}, w)$（$w = (q/t)^{1/2}$）で書き、$w \to 1/w$、$w \to -1/w$、$q^{1/2} \to -q^{-1/2}$、$q^{1/2} \to q^{-1/2}$ の対称性（単項式倍まで）を調べた。2 箱の $\hat g_{(2)} + \hat g_{(1,1)}$ とその商、[1] の $T(2,3), T(2,5)$ のどれでも、項の少ない端のブロック以外は対称性が無い。$G$ 展開（$V$ と $W$ の両方を含む）に代わる単一の変数の多重項は見つからない \comp{}。
+
+\subsection{まとめ}
+\begin{itemize}
+\item 被覆（向き付けられた部分）の符号の破れは brane--image をまたぐセクターに限られ、brane--brane は KN の正値性を満たす。
+\item brane--image のセクターとクロスキャップは、どちらも普遍因子 $(\bt^2 - 1)$ をもち、どちらにも混在するブロックが残る。どちらも $\tilde I$（brane と image の入れ替え）に関わる部分である。
+\item 正値性は「brane--brane の被覆」と「brane--image $+$ クロスキャップ」に分けて判定するのが自然である \conj。後者の多重項の構造（$G$ に代わる展開）は \open。
+\end{itemize}
+
 \section{整数性・正値性の現状}
 \begin{center}
 \begin{tabular}{p{3.2cm}p{3.6cm}p{8.2cm}}
@@ -315,7 +407,7 @@ unknot, Hopf（$a, b \le 4$） & 成立 \comp{} & refined の正値性（冪ご�
 $T(2,2m+1)$ の [1]（大きな $N$） & 成立 \comp{$m \le 5$} & 判定式（§\ref{sec:criterion}）の (c = 1)(c = 2) が成立 \comp{$m \le 5$} \\
 $T(2,2m+1)$ の多箱（固定 $N = 2, 3$） & 全方向の hatted で成立 \comp{$m \le 3$, $|R| \le 3$} & 固定 $N$ では判定できない \\
 二重ツイスト 7 個（固定 $N = 2$） & SO 側の $\hat f$ で成立 \comp{$|R| \le 3$} & 判定できない \\
-trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数）\comp{} & $G$ 展開の形は不成立。述べ直しの形で普遍因子は成立、商の符号は一部のブロックだけでそろう \\
+trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数。二次量子化の指数も整数）\comp{} & $G$ 展開の形は不成立。述べ直しの形で普遍因子は成立、商の符号は一部のブロックだけでそろう。被覆は brane--brane で KN の正値性が成立、brane--image で $(\bt^2-1)$ と混在（§\ref{sec:positivity}） \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -323,8 +415,9 @@ trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数）\comp
 \section{未解決の問題と次の段階}
 \begin{itemize}
 \item 多箱のクロスキャップの $c = 1$ 部分の展開の変数と符号の規則（$G$ 展開は 2 箱で使えない）。
+\item brane--image のセクターとクロスキャップの多重項の構造（§\ref{sec:positivity}）。$E$ を非負の $P$ と $Q$ に分けること。
 \item $(1+t)$ の留数（$\tilde I$ で固定される状態の数 $E$）の意味。Hopf の $(4,4)$ の $E$ も一意に決まっていない。
-\item 3 箱と $T(2,5)$ の一般の $N$：高速版で trefoil の 3 箱（$N \le 12$）と $T(2,5)$ の 2 箱（$N \le 14$）を計算・保存した。補間と大きな $N$ のクロスキャップ部分を作り、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）と符号の規則を 3 箱と別の結び目で確かめる（未着手）。
+\item 3 箱と $T(2,5)$ の一般の $N$：高速版で trefoil の 3 箱（$N \le 12$）と $T(2,5)$ の 2 箱（$N \le 14$）を計算・保存した。補間と大きな $N$ のクロスキャップ部分（3 箱は被覆の composite $(2;1), (11;1)$ の一般の $N$ が要る）を作り、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）と符号の規則を 3 箱と別の結び目で確かめる（未着手）。
 \item 非トーラス結び目の refined SO の大きな $N$ の値は、refined CS の $S, T$ が使えないので入力が無い。
 \end{itemize}
 
