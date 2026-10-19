@@ -14,10 +14,10 @@ q, t = R * R, S * S
 half = conv(Fraction(1, 2))
 
 
-def cover_sectors():
-    w = S / R
-    Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam))) * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
-    radj = pickle.load(open("data/refined_kauffman/daha/Radj_A_m1.pkl", "rb"))
+def cover_sectors(m=1):
+    w = (S / R)**m                                     # (t/q)^{δ/2}、δ = m
+    Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), f"T2_{2*m+1}") * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
+    radj = pickle.load(open(f"data/refined_kauffman/daha/Radj_A_m{m}.pkl", "rb"))
     r_, s_ = sp.symbols("r s", positive=True)
     nu = L.nu
     Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu**j for j, v in radj.items()), conv(0))

@@ -33,8 +33,9 @@ def R_true(N, m, lam):
 
 
 def s_range(e):
-    P = sp.Poly(sp.expand(e * (rr * ss)**400), rr, ss)
-    degs = [mon[1] - 400 for mon in P.monoms()]
+    n, d = sp.fraction(sp.cancel(e))
+    (dm, _), = sp.Poly(d, rr, ss).terms()
+    degs = [mon[1] - dm[1] for mon in sp.Poly(sp.expand(n), rr, ss).monoms()]
     return min(degs), max(degs)
 
 
