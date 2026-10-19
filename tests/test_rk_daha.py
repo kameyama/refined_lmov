@@ -152,3 +152,21 @@ def test_general_N_three_box_tq_and_T25_universal_factor():
     f, fc, g = Bm.load(2)
     G = Bm.hat(g)
     assert all(B.divisible_universal(G[k]) for k in ((1,), (2,), (1, 1), "sum"))
+
+
+@pytest.mark.results
+def test_large_N_three_box_crosscap():
+    """保存済みの大きな N の trefoil の 3 箱のクロスキャップ部分（largeN_3box_m1.pkl）：U = t² で固定 N の g_R（|R| = 3）に一致し、
+    g_R は整数 Laurent（奇数のセクターに (1 + t) の極は無い）、ĝ_(2,1) の refined だけの部分は (q − t)(ν² − t) で割り切れる。"""
+    import pickle
+    import rk_b_3box_structure as B3
+    import rk_b_2box_structure as B
+    g = B3.load("g")
+    gs, gh = B3.schur(g, 3), B3.schur(g, 3, hat=True)
+    fx = pickle.load(open(ROOT / "data/refined_kauffman/T2_3_fixedN_3box_g.pkl", "rb"))
+    r, s, nu = B.r, B.s, B.nu
+    for R_, v in gs.items():
+        assert sp.Poly(sp.fraction(v)[1], r, s, nu).is_monomial
+        fixed = sp.sympify(fx[2]["g_schur"][str(R_)], locals={"r": rr, "s": ss})
+        assert sp.cancel(v.subs(nu, s**3) - fixed.subs({rr: r, ss: s})) == 0
+    assert B.divisible_universal(gh[(2, 1)])

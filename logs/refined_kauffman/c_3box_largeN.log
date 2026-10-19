@@ -1,0 +1,8 @@
+composite (2;1)：A^{1/2} の冪 -14〜-6（ノード N_A = [12, 13, 14, 15, 16, 17, 18, 19, 20]）、照合 {2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True, 11: True}
+composite (11;1)：A^{1/2} の冪 -14〜-6（ノード N_A = [12, 13, 14, 15, 16, 17, 18, 19, 20]）、照合 {3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True, 11: True}
+N = 2：SO の f 一致 True、被覆の f 一致 True、g_R（|R| = 3）一致 True
+N = 3：SO の f 一致 True、被覆の f 一致 True、g_R（|R| = 3）一致 True
+g_(3,)：分母 r**14*u**18、整数 Laurent True
+g_(2, 1)：分母 r**26*u**18、整数 Laurent True
+g_(1, 1, 1)：分母 r**48*u**18、整数 Laurent True
+timeout 3000 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python   235.53s user 1.26s system 99% cpu 3:57.13 total
