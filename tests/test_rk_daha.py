@@ -136,3 +136,19 @@ def test_large_N_two_box_crosscap_structure():
     G = B.ghat()
     assert B.c1_symmetric(G[(1,)]) and not B.c1_symmetric(G["sum"])
     assert all(B.divisible_universal(G[k]) for k in ((1,), (2,), (1, 1), "sum"))
+
+
+@pytest.mark.results
+def test_general_N_three_box_tq_and_T25_universal_factor():
+    """保存済みの一般の N の trefoil の 3 箱（R_U_m1_3, R_U_m1_111）は t = q で NRZ の [3] と F_[3](−ν, t^{−1}) の鏡像に比 1。
+    大きな N の T(2,5) の 2 箱の ĝ は、述べ直しの判定式の普遍因子 (q − t)(ν² − t) で全成分割り切れる。"""
+    import rk_c_check_tq as C
+    import rk_unrefined_check as rk
+    import rk_b_2box_structure as B
+    import rk_b_2box_structure_m as Bm
+    nu, t = C.nu, C.t
+    assert sp.cancel(C.R_tq((3,)) / C.mir(sp.cancel(rk.nrz_trefoil(3, nu, t, sp.Integer(-1))))) == 1
+    assert sp.cancel(C.R_tq((1, 1, 1)) / C.mir(sp.cancel(rk.nrz_trefoil(3, -nu, 1 / t, sp.Integer(-1))))) == 1
+    f, fc, g = Bm.load(2)
+    G = Bm.hat(g)
+    assert all(B.divisible_universal(G[k]) for k in ((1,), (2,), (1, 1), "sum"))

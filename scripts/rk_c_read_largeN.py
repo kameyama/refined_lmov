@@ -20,7 +20,7 @@ def read(m, lam):
     """窓 [j_min, j_max] を s の次数の最小・最大の N に対する傾きから決め（大きな N で 2N·j + 定数）、
     Newton の差分商で補間し（rk_c_interp.interpolate）、補間に使わない N で照合する。"""
     from rcsknots.flint_rf import from_sympy
-    avail = [N for N in range(2, 30) if I.load(N, m, lam) is not None]
+    avail = [N for N in range(max(2, len(lam)), 30) if I.load(N, m, lam) is not None]          # D_N で ℓ(λ) ≤ N
     rng = {N: I.s_range(I.R_true(N, m, lam)) for N in avail[-3:]}
     a, b, c3 = avail[-3:]
     jmin = (rng[c3][0] - rng[b][0]) // 2
