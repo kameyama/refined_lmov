@@ -31,7 +31,7 @@ SO$(2N)$ の refined Chern--Simons 不変量（refined Kauffman 不変量）に�
 (iii) 行列式と荷電共役で不変な「一様な規格化」のもとで、固定 $N$ の多箱の hatted 不変量が全方向で Laurent になり、整数性も（$|R| = 2$ のクロスキャップ部分では 2 倍で）成り立つ。
 (iv) DAHA-Jones 多項式で refined SO$(2N)$ の trefoil の 2 箱の不変量を一般の $N$ で求め、$t = q$ で Mariño の結果を全係数で再現した。
 (v) 多箱のクロスキャップ部分は、[1] で使った $G$ 展開の形をとらない。代わりに「$t = q$ の部分（$\tnu$ で表す）$+ (\bt^2 - 1)(\ba^2 - \bq^2) \times$ 商」の形が 2 箱で成り立つ。
-正値性は [1] の判定式（トーラス結び目）までで、多箱では未判定である。
+(vi) trefoil の 3 箱と $T(2,5)$ の 2 箱を一般の $N$ で求め、普遍因子が 3 箱（$E$ を含まないセクター）と別の結び目でも成り立つことを確かめた。(vii) orientifold の M 理論の指数から全 $d$ の構造を導き、$E$ と $C$ の分離は指数からは決まらないこと、正値性の判定は $E$ によらない方向で行えることを示した。正値性は [1] の判定式（トーラス結び目）までで、多箱では凍結した状態の多重項の基底が未解決のため未判定である。
 \end{abstract}
 
 \tableofcontents
@@ -397,6 +397,58 @@ $\nu^\beta$ ごとのブロックを $(q^{1/2}, w)$（$w = (q/t)^{1/2}$）で書
 \item 正値性は「brane--brane の被覆」と「brane--image $+$ クロスキャップ」に分けて判定するのが自然である \conj。後者の多重項の構造（$G$ に代わる展開）は \open。
 \end{itemize}
 
+\section{一般の $N$ の 3 箱・$T(2,5)$ と、orientifold の指数の理論（2026-10-20）}\label{sec:threebox}
+\subsection{一般の $N$ の補間（3 箱、$T(2,5)$）}
+補間の窓（$U$ の冪の範囲）は推測せず、$R_\lambda(N)$ の $s$ の次数の最小・最大が大きな $N$ で $2N j + $ 定数になることから決め、大きな $N$ をノードにして Newton の差分商で補間し、残りの $N$ で照合した \comp{}（\texttt{scripts/rk\_c\_read\_largeN.py}）。trefoil の [1] と 2 箱は既知の窓を自動で再現する。
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+結び目・表現 & $U$ の冪 & ノード & 照合 \\
+\midrule
+$T(2,5)$ の [1] & $U^{-9}$〜$U^{-4}$ & $N = 9$〜14 & $N = 2$〜8 で一致 \\
+$T(2,5)$ の (2), (1,1) & $U^{-18}$〜$U^{-8}$ & $N = 4$〜14 & $N = 2, 3$ で一致 \\
+trefoil の (3), (2,1), (1,1,1) & $U^{-15}$〜$U^{-6}$ & $N = 4$〜13 & $N = 2, 3$（(1,1,1) は $N = 3$）で一致 \\
+\bottomrule
+\end{tabular}
+\end{center}
+3 箱を $t = q$ にすると、[3] は NRZ の [3] 彩色の Kauffman 多項式の鏡像に、[1,1,1] は $F_{[3]}(-\nu, t^{-1})$ の鏡像に比 1 で一致する \comp{}。\textbf{refined SO$(2N)$ の trefoil の 3 箱の不変量が一般の $N$ で得られた。}
+
+\subsection{GL の DAHA の単項式の規則と被覆の composite}
+\begin{itemize}
+\item 一様な規格化との関係 $W_b = $ 鏡像$(Z_b/M_b)$ の単項式は $M_b = q^{-n(b,b)} t^{-2n(b,\rho) + (m+1)|b|(N-1)}$（$n = 2m+1$）\comp{$m = 1, 2$：普通の表現 9 例と随伴 U(3), U(5)}。
+\item 被覆の composite $(\alpha;1)$（$|\alpha| = 2$）：高速版を拡張し、$X^{-1}$ 側の対称化で作った $\hat\gamma'(p_1(Y))\cdot 1$ を $X$ 側の連鎖の出発点にして $\{\hat\gamma(P_\alpha(X) p_1(X^{-1}))\}$ を計算した。既約への分解 $P_\alpha(X)p_1(X^{-1}) = P_b + d_\alpha P_{(1)}$ の $d_\alpha$ と $K_b$ は、評価の乗法性と主特殊化の閉じた形 $\mathrm{ev}(P_\lambda) = P_\lambda(a = t^{-N}; q^{-1}, t^{-1})$ から求めた（小さな $N$ で多項式の分解と照合）。U(3) の [3,1], [2,2]、U(5) の [3,1,1,1], [2,2,1,1] の data と比 1 \comp{}。$N_A = 2$〜20 で計算し、$A^{1/2}$ の冪 $-14$〜$-6$ で補間した。
+\end{itemize}
+
+\subsection{大きな $N$ のクロスキャップ部分：$T(2,5)$ の 2 箱と trefoil の 3 箱}
+\begin{itemize}
+\item $T(2,5)$ の 2 箱：$g_{(2)}, g_{(1,1)}$ の分母は $2 \times$ 単項式 $\times (1+t)$ だけ、$g_{(2)} + g_{(1,1)}$ と $(1+t)(g_{(2)} - g_{(1,1)})$ は整数 Laurent、$U = t^2, t^3$ で固定 $N$ と全係数一致 \comp{}。
+\item trefoil の 3 箱：SO 側は核を D$_N$ の $K_\lambda$（$|\lambda| \le 3$、$U$ は形式変数）の逆行列で $K$ 基底に直し、被覆は普通の表現・随伴・composite から組み立てた。$U = t^2, t^3$ で SO の $f$、被覆の $f^{\mathrm{cov}}$、$g_R$（$|R| = 3$）が固定 $N$ と全係数一致。\textbf{$g_{(3)}, g_{(2,1)}, g_{(1,1,1)}$ は整数 Laurent で $(1+t)$ の極が無い}（奇数のセクターに $E$ が無いという予言どおり）\comp{}。
+\item \textbf{述べ直しの判定式の普遍因子 $(q - t)(\nu^2 - t)$（太字で $(\bt^2 - 1)(\ba^2 - \bq^2)$）は、$T(2,5)$ の 2 箱（全成分）と trefoil の 3 箱（$g_R$, $\hat g_R$ の全成分）でも割り切れる} \comp{}。trefoil の 2 箱だけの性質ではない。
+\item 符号：$c = 1$ 部分は 2 箱・3 箱とも $\sigma$ 対称でない。普遍因子で割った商の $\ba$ ブロックの符号は $T(2,5)$ の 2 箱の和で 6/18、trefoil の 3 箱で 2/15, 3/14, 2/13 しかそろわない。二次量子化の指数でも約 3〜4 割のブロックが混在する \comp{}。
+\item 被覆の brane・image の分割（$T(2,5)$）：brane--brane は $G$ 展開の後に全 $\beta$ でそろう（KN の正値性）。brane--image は $z_q$ で割ると $\sigma$ 対称で、$\nu^\beta$ のブロックは「そろう」か「$(\bt^2-1)\times$ そろう」で、中央の 4 ブロックだけ混在 \comp{}。trefoil と同じ構造。
+\end{itemize}
+
+\subsection{$E$ を固定セクターの状態に分ける試み}
+\begin{itemize}
+\item Hopf と同じく $E = P - 2Q$（$P = (1-t)x$ は brane--image のセクター、$0 \le Q_m/P_m \le 1$）と書き、(i) $C$ が整数 Laurent、(ii) $t = q$ で $E = -(1+q)(g_{(1)}(q^2, \nu^2) + 1)$（Mariño との辞書）を課したが、trefoil・$T(2,5)$ とも解が無い。範囲を外しても (i)(ii) を満たす $E$ は $P$ の単項式の台に収まらない \comp{}。
+\item $t = -1$ での比較：$P(-1) = (\nu^2-1)(\nu^2+1)(q-1)(q\nu^2-1)(q^3\nu^6 - q^3\nu^4 + q\nu^2 + 1)/(\nu^{12}q^5)$、必要な $E(-1) = (\nu^2+1)^2(q+1)(q\nu^2+1)(q^3\nu^6 - q^3\nu^4 - q\nu^2 - 1)/(\nu^{12}q^5)$。差の因子 $(x-1)$ が和の因子 $(x+1)$ に替わる形で、普遍因子 $(\nu^2 - t)$ は残る（Hopf の $z_q^2 \to -(z_q^+)^2$ と同じ型）\comp{}。$\tilde I$ はゼロモードのフェルミオン数の符号として働くと読めるが、残りの多項式は単項式の符号の付け替えでも $G$ の捻りでも決まらない（$T(2,5)$ では係数 2 が現れる）。これ以上の規則の探索は当てはめになるので止めた。
+\item Adams 型の候補 $E = F\cdot(\psi^2[g_{(1)}] + 1)$（AgSc の強い整数性の refined 化）も条件 (i) を満たさない \comp{}。
+\end{itemize}
+
+\subsection{orientifold の開弦の refined 指数}
+詳細は \texttt{docs/refined\_kauffman/theory\_orientifold\_index.md}。
+\begin{itemize}
+\item 商の一粒子状態を、$\tilde I$ で入れ替わる対（全モード）、$\tilde I$ で不変な状態（$(-1)^l\varepsilon = 1$ のモードだけ、$\sum t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$）、凍結した状態（モードなし）に分けると
+\[
+g = f - \tfrac12 f^{\mathrm{cov}} = \tfrac12\frac{E}{1+t} + C,\qquad E = \sum_{\text{不変}}\varepsilon\, m,\qquad C = \sum_{\text{凍結}} m
+\]
+が従う \deriv（仮定は AgSc (3.13) の積表示の一粒子版）。§\ref{sec:crosscap} で Hopf から帰納した全 $d$ の構造の導出である。
+\item $E$ と $C$ の分離は指数からは決まらない：凍結した状態 $m$ は、不変な状態 $m$ と $mt$ の組と指数の上で区別できない \deriv。決めるには状態の数か $\tilde I$ の幾何的な作用が要る。
+\item $E$ は $p_2$ 型の方向にしか入らないので、$p_1^n$ の方向（2 箱の和）と奇数のセクター（3 箱）は $E$ によらない。そこでの符号の混在は、\textbf{$E$ の不定性ではなく、凍結した状態の多重項の基底が正しくないこと}を示す \deriv。
+\item 手がかり：AgSc §4 の強い整数性の導出では、向き付けられない面の取っ手の因子は $(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$（「差 $\times$ 和」、反正則な対合の捻ったトレース）。
+\item 検査した展開の仮定（$c = 1$ は $\mathbb{Z}[G, w^\pm]$、$c = 2$ は $X\times\mathbb{Z}[G, w^\pm]$、$X \in \{z_q, z_t, (z_q\pm z_t)/2\}$）は [1] の $c = 1$ でしか成り立たない。[1] の $c = 2$ の余分の因子は普遍因子 $(\bt^2-1)(\ba^2-\bq^2)$ で、2 箱・3 箱の $c = 1$ は $G$ で書けない \comp{}。凍結した状態の refined の取っ手の因子を幾何から決めることが残る課題である \open。
+\end{itemize}
+
 \section{整数性・正値性の現状}
 \begin{center}
 \begin{tabular}{p{3.2cm}p{3.6cm}p{8.2cm}}
@@ -408,16 +460,17 @@ $T(2,2m+1)$ の [1]（大きな $N$） & 成立 \comp{$m \le 5$} & 判定式（�
 $T(2,2m+1)$ の多箱（固定 $N = 2, 3$） & 全方向の hatted で成立 \comp{$m \le 3$, $|R| \le 3$} & 固定 $N$ では判定できない \\
 二重ツイスト 7 個（固定 $N = 2$） & SO 側の $\hat f$ で成立 \comp{$|R| \le 3$} & 判定できない \\
 trefoil の 2 箱（大きな $N$） & 成立（$2\hat g$、和は整数。二次量子化の指数も整数）\comp{} & $G$ 展開の形は不成立。述べ直しの形で普遍因子は成立、商の符号は一部のブロックだけでそろう。被覆は brane--brane で KN の正値性が成立、brane--image で $(\bt^2-1)$ と混在（§\ref{sec:positivity}） \\
+trefoil の 3 箱・$T(2,5)$ の 2 箱（大きな $N$） & 成立（3 箱は $(1+t)$ の極なし）\comp{} & 普遍因子は成立。$G$ 展開の形は不成立、商の符号は大部分混在（§\ref{sec:threebox}） \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \section{未解決の問題と次の段階}
 \begin{itemize}
-\item 多箱のクロスキャップの $c = 1$ 部分の展開の変数と符号の規則（$G$ 展開は 2 箱で使えない）。
+\item 凍結した状態（向き付けられない面）の refined の取っ手の因子（「差 $\times$ 和」の refined 版）を幾何から決めること（§\ref{sec:threebox}）。多箱のクロスキャップの $c = 1$ 部分の展開の変数と符号の規則はこれに帰着する。
 \item brane--image のセクターとクロスキャップの多重項の構造（§\ref{sec:positivity}）。$E$ を非負の $P$ と $Q$ に分けること。
 \item $(1+t)$ の留数（$\tilde I$ で固定される状態の数 $E$）の意味。Hopf の $(4,4)$ の $E$ も一意に決まっていない。
-\item 3 箱と $T(2,5)$ の一般の $N$：高速版で trefoil の 3 箱（$N \le 12$）と $T(2,5)$ の 2 箱（$N \le 14$）を計算・保存した。補間と大きな $N$ のクロスキャップ部分（3 箱は被覆の composite $(2;1), (11;1)$ の一般の $N$ が要る）を作り、述べ直しの判定式（$(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れること）と符号の規則を 3 箱と別の結び目で確かめる（未着手）。
+\item $E$ と $C$ の分離の原理（指数からは決まらない、§\ref{sec:threebox}）。$T(2,5)$ の 3 箱（$m = 2$ の composite と 3 箱の D$_N$ が要る）。
 \item 非トーラス結び目の refined SO の大きな $N$ の値は、refined CS の $S, T$ が使えないので入力が無い。
 \end{itemize}
 
