@@ -90,7 +90,9 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 | Aganagic–Schaeffer 1202.4456 | 単純レース型（ADE）で定義。計算は SO(2N) だけ | unknot、Hopf（V, V）、trefoil の V（一般の N、(6.15)）、trefoil のスピノル S（SO(4), SO(6), SO(8)）、T(2,2m+1) の V の一般式、T(3,4) の V（SO(4), SO(6)）、大きな N の閉弦の自由エネルギー。非単純レース型は脚注で「(2,0) 理論の外部自己同型のひねりで得られるはず」とするだけ | 【TeX】 |
 | Cherednik 1111.6195 | 任意の被約ルート系と C^∨C_1 | DAHA-Jones 多項式（トーラス結び目）。§Kauffman：C–D（部分的に B）型の hyper-polynomial（4 変数、予想と例、「最小の重みでも正値性はほとんど無い」）。§Exceptional：例外型（G_2 など）は t = q の値だけ、最も簡単なトーラス結び目、最小・準最小の重み | 【TeX】 |
 | Cherednik–Danilenko 1509.08351 | B, C, D | 「B, C, D 型の DAHA-hyperpolynomial の存在と対称性は未解決」、D 型の t = q が Kauffman 多項式に一致することは示された | 【TeX】 |
-| Cherednik–Elliot 1503.01441 | A（composite）、例外型 | composite DAHA 超多項式。最後の節で例外型の Deligne–Gross 系列の DAHA-hyperpolynomial を実験的に構成 | 【抄録】 |
+| Cherednik–Elliot 1503.01441 | A（composite）、例外型 | composite DAHA 超多項式。序論に「composite の DAHA 超多項式は正値性をもたない（長方形でない図形や代数的でない結び目と同様）」「annulus の HOMFLY-PT ホモロジーとの関係は、例が無いので予想しない」とある。最後の節で例外型の Deligne–Gross 系列の DAHA-hyperpolynomial を実験的に構成 | 【TeX（序論）】 |
+| Queffelec–Rose–Sartori 1802.04131 | A | 環状の HOMFLY-PT（KR）ホモロジーの構成。composite のトーラス結び目の計算例は見つからなかった | 【検索結果のみ、未確認】 |
+| 2003.07836（Hopf superpolynomial from topological vertices） | A（composite） | Hopf 絡み目の composite の refined 不変量の正の表示。結び目は扱わない | 【検索結果の抄録のみ、未確認】 |
 | Elliot–Gukov 1505.01635 | 例外型 | 例外型の結び目ホモロジーの微分の構造（トーラス結び目）、E_6 の hyperpolynomial | 【抄録】 |
 | Avetisyan–Mkrtchyan 2205.12832（v2） | A, B, C, D | S³ の分配関数（閉弦）の多重サイン関数表示と GV 型の展開。D, C に c = 1（奇数の n）と「Klein 瓶」（c = 2、全 n、分子 q/t − t/q、y = 1 で 0）、B は c = 1 だけで分母に (t^{n/2} + t^{−n/2})。Kähler 変数の「三重化」τ₀, τ₁, τ₂。結び目は無い。本研究で Klein 瓶の項が全 n の凍結した状態＋不変な状態（AgSc §6 の形）の並べ替えであることを確認した（theory_orientifold_index.md §8） | 【TeX】 |
 | Avetisyan–Mkrtchyan 2107.08679、2302.14319 | 任意（非単純レース型を含む） | S³ の分配関数（閉弦）。結び目は無い | 【抄録】（TeX は取得済み、未読） |

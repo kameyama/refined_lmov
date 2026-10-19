@@ -674,3 +674,15 @@
 - 次の候補：
   - (i) 固定セクターの状態の空間を、指数でなく数として得る方法を探す。例：被覆の composite (1;1) の refined の composite DAHA の超多項式を、DGR 型のホモロジーの Poincaré 多項式（正の係数）として読む。
   - (ii) ここで止め、確立した結果をまとめる。
+
+## 2026-10-20（続き 40）固定セクターの状態の数を正の多項式から得る試み（ユーザーの指示「(i)を進めよ」）
+スクリプト：scripts/rk_b_adj_positivity.py。ログ：logs/refined_kauffman/b_adj_positivity.log。文書：theory_orientifold_index.md §10、literature.md §4。
+- 【計算】被覆の随伴 (1;1) の reduced な値 R_adj（大きな N、GL の DAHA）は、KN の太字変換を鏡像で当てても係数の符号が混在する。
+  - trefoil は 19 項中 7 項、T(2,5) は 56 項中 25 項が負。
+  - 単項式の偶奇の符号の規則（64 通り）では、どれも係数がそろわない。
+- 【文献、TeX】Cherednik–Elliot 1503.01441 の序論に、composite の DAHA 超多項式は正値性をもたず、annulus のホモロジーとの関係は予想しないとある。
+- 検索の範囲では、トーラス結び目の composite の環状 HOMFLY ホモロジー（Queffelec–Rose–Sartori 1802.04131 の構成）の計算例は見つからなかった。composite の正の表示は Hopf 絡み目（2003.07836）だけ。どちらも抄録のみで、未確認。
+- 結論：refined CS の composite の側からは、打ち消しの前の状態の数は得られない。ホモロジーの側の候補は、refined CS の値との関係が確立していない。E と C の分離（固定セクターの状態の空間）は、現時点の文献と道具では決められない【未解決】。
+- 次の候補：
+  - (a) 確立した結果のまとめに移る。
+  - (b) 逆向きの 2 本のケーブル（K ∪ K^r）の三重次数の KR ホモロジーを計算し、t = q で被覆の □⊗□̄ の値と合うかを見る。refined での対応は仮説になる。重く、見込みは低い。
