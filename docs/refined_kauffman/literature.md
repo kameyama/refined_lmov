@@ -115,3 +115,4 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
   - (B-ii) 結び目の p₂ 方向で E + 2(1+t)X ≡ 0 (mod z_q⁺) を満たす X があるはず。
 - 未確認のまま残っている点（報告の注意）：Ekholm・Georgieva の Kauffman skein 値の曲線計数の論文の有無、Rains の lifted Koornwinder への Macdonald 対合の具体式、Queffelec–Rose–Sartori の本文。Bu の自己双対構造が AgSc の Ĩ に当たるか。
 - 2026-10-21：Young 1603.05401 の序論・主結果・§3.4 と、Franzen–Young 1605.06596 を references/ に取得した（後者は未読）。Young の CoHM と本研究の E・C の対応は theory_orientifold_index.md §11.5。
+- 2026-10-21（案 B のため）：Oblomkov–Shende 1003.1568（Duke Math. J. 161 (2012) 1277–1303）、Oblomkov–Rasmussen–Shende 1201.2115（Geom. Topol. 22 (2018) 645–691）、Diaconescu–Shende–Vafa 1111.6533（Commun. Math. Phys. 319 (2013) 813–863）を取得し、要旨・主予想・次数の規約（ORS：t ↔ 重み、q ↔ 偏屈フィルトレーション）・DSV の反正則対合の構成を読んだ。本研究への当てはめは theory_orientifold_index.md §11.13。

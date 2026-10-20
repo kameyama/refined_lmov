@@ -263,3 +263,19 @@ V の偶奇で c = 1（偶）と c = 2（奇）に分け、c = 1 部分が Z[G, 
   - g^{Sp} は整数 Laurent、𝐭 → −𝐭 で不変、SO(2) の点 𝐚² = 𝐪² で −1（SO は +1）。
   - 案 D の目的だった C_{c=2} = ½(g^{SO} + g^{Sp}) は、𝐚 の奇数部分そのもの（−(𝐚²−𝐪²)(𝐭²−1)×正、§6）で、新しい情報は無い。しかし Sp の値が AM の定義から独立に SO と整合することは、AM の refined Sp(2N) が開弦でも整合する最初の確認である。
 - 未着手：Sp の 2 箱（C_N の P_{2ω₁}, P_{ω₂} が要る。E_{ω₂} は Cherednik (Evth) で明示的）。2 箱で g^{Sp}_R(𝐚) = −g^{SO}_R(−𝐚) が成り立てば E^{Sp} と E^{SO} の関係（E の 𝐚 の偶奇）が決まる。
+
+### 11.13 案 B：Hilbert scheme の模型と実構造（計画、2026-10-21）【文献＋予想】
+原典で確認したもの：Oblomkov–Shende 1003.1568（Conjecture 1：Σ_l q^{2l} χ(Hilb^l C) = (1−q²)^{−χ(C)} Π_i [(q/a)^{μ_i} P(L_i)]_{a=0}、refined punctual Hilbert scheme の生成元の数が a の次数）、Oblomkov–Rasmussen–Shende 1201.2115（Conjecture：HOMFLY ホモロジーの次元 = Hilbert scheme の重み多項式。**ホモロジー次数 t ↔ 重みの次数、q 次数 ↔ 偏屈フィルトレーション**、最低の a 次数の部分は compactified Jacobian のコホモロジー）、Diaconescu–Shende–Vafa 1111.6533（代数的な結び目の Lagrangian cycle を反正則対合 τ の固定点集合として構成、§4 で D2–D4 束縛状態のモジュライを Hilbert scheme に対応づける）。書誌は arXiv API で確認（OS：Duke Math. J. 161 (2012) 1277–1303、ORS：Geom. Topol. 22 (2018) 645–691、DSV：Commun. Math. Phys. 319 (2013) 813–863）。
+- 辞書（U(N)、KN の仮定 S_R = 0 のもと）【予想】：
+  | 幾何（ORS） | KN の量子数 | 本研究の変数 |
+  |---|---|---|
+  | 重みの次数（mixed Hodge） | −J₂（t 次数） | t = s² |
+  | 偏屈フィルトレーション | J₁（q 次数） | q = r² |
+  | 生成元の数（a 次数）、D2 電荷 | β | ν² |
+  KN が S_R を自明としたことは、ORS の側では「t 次数が重みの次数そのもの」であることに当たる。固定セクターで S_R が非自明に働く（§11.9 (B)）なら、ORS 型の模型に重みの次数とは別の次数（Ĩ と可換な U(1)_R の重み）が要る。
+- orientifold の模型【予想】：AgSc の I′（自由な反正則対合）は、DSV の τ（L_K を固定点集合として定める対合）とは別で、L_K を I′(L_K) に移す。brane–image の環状の弦は L_K ∪ I′(L_K) に境界をもつ I′ 不変な曲線で、対応する Hilbert scheme の側では、I′ が誘導する実構造の固定点（実点）に当たると考えられる。Ĩ の固有値は、実構造の作用（Young の σ 対称 quiver の自己双対表現に当たる）× e^{iπJ₂}。
+- 較正の対象（framed unknot、§11.8–§11.9）：P(x) = (1−A)(1−q)Σ_{k<x}(qA/t)^k、E(x) = (1+A)(1+q)Σ_{k<x}(−1)^k(qA/t)^k。unknot の曲線 C は滑らかな直線で Hilb^n(C) = Sym^n(C) ≅ C^n、C* の重みは 1..n。
+  - 検証の案：Sym^n(C) の C* 同変の重み多項式と、座標の複素共役で定まる実構造（実点は Sym^n(R) ≅ R^n）の固定点の重みから、P(x) と E(x) の x 個の塔（qA/t）^k と (−1)^k が出るかを調べる。塔の長さ x と framing x の対応（「x 点の Hilbert scheme まで」か「framing の捩れ」か）はこの段階で決める。
+  - 次に Hopf（E_22 が既知）、T(2,3)（C：y² = x³、Hilb の重み多項式は ORS §5 の T(k,n) の公式）。
+- 本研究の計算の道具でできること：ORS の T(2,2m+1) の公式（compactified Jacobian の perverse filtration、Haiman・Gordon–Stafford）は k = mn + 1 型で明示的なので、[1] の U(N) 側（brane–brane）で辞書を数値的に確かめることは可能。実構造の作用を Hilbert scheme に入れる部分は文献に無く、自分で構成する必要がある。
+- 結論：案 B は、固定セクターの (J₂, S_R) の分解を「Hilbert scheme のコホモロジーの重みの次数と、それとは別の実構造の作用」として求める計画である。指数では見えない情報（Young の ℤ₂ 同変な精密化）がここに入る。実行には実構造つきの Hilbert scheme の計算が要り、本セッションでは着手しない。

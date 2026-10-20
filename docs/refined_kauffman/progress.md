@@ -816,3 +816,8 @@
 - 【計算】AM の refined Sp(2N) = C_N(u = t²)。[1] のクロスキャップ部分は T(2,3), T(2,5) で g^{Sp}(𝐚) = −g^{SO}(−𝐚)。c = 1（𝐚 偶数冪）の符号反転が refined でも成立。theory §11.12。
 - テスト：tests/test_rk_daha_cn.py（3 件、1 秒）。
 - 次：Sp の 2 箱（C_N の Macdonald 多項式）、案 B（Hilbert scheme と実構造）。
+
+## 2026-10-21（続き 51）案 B の計画（ユーザーの指示「推奨の順に進めよ」の続き）
+- 文献を取得して原典で確認：OS 1003.1568、ORS 1201.2115、DSV 1111.6533（references/、書誌は arXiv API で確認）。
+- 辞書（ORS の重みの次数 ↔ −J₂、偏屈フィルトレーション ↔ J₁、a 次数 ↔ β）と、orientifold の実構造の模型、framed unknot での較正の対象を theory §11.13 に書いた。実構造つきの Hilbert scheme の計算は文献に無く、本セッションでは着手しない。
+- 案 A〜D の結果のまとめ：A は不成立（積に分配しない）、D は成功（refined Sp(2N) の [1]、g^{Sp}(𝐚) = −g^{SO}(−𝐚)）、B は計画のみ。
