@@ -92,7 +92,7 @@ SO の簡約した不変量 $R_\lambda$ には、$\sigma$・$q\leftrightarrow t$
 \end{compresult}
 A 型の super-duality に当たる対称性が SO 側には無いので、SO の $\hat f$ と $\hat g$ が $\sigma$ 対称になる理由は無い（被覆の $\hat f$ は $R$ ごとに $\sigma$ 対称である）。
 
-\subsection{refined Sp$(2N)$ の [1]}\label{sec:sp}
+\subsection{refined Sp$(2N)$ の [1] と 2 箱}\label{sec:sp}
 Avetisyan--Mkrtchyan \cite{AM22} の refined Chern--Simons の定義は、任意のルート系で $k_\alpha = y$ を一様にとり $q_\alpha = q^{(\alpha,\alpha)/2}$ とするもので、C$_N$ では長い根のパラメータが $u = t_{\mathrm{lng}} = t^2$ になる。
 Cherednik \cite{Cherednik11} §Kauffman の C$_n$ の DAHA（$t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$）を多項式表現の上で実装し、次を確かめた。
 % [D11]
@@ -109,6 +109,18 @@ g^{\mathrm{Sp}}_{[1]}(\ba, \bq, \bt) = -\,g^{\SO}_{[1]}(-\ba, \bq, \bt)
 \end{enumerate}
 \end{compresult}
 $c = 1$ を $\ba$ の偶数冪、$c = 2$ を奇数冪に割り当てているので、これは $C^{\mathrm{Sp}} = -C_{c=1} + C_{c=2}$、すなわち Mariño の「SO と Sp は $c = 1$ の項の符号が違う」が refined でもそのまま成り立つことを意味する。$c$ の割り当てを独立に裏付けるとともに、AM の refined Sp$(2N)$ が開弦でも整合する最初の確認である。
+
+2 箱でも同じ構造を確かめた。C$_N$ の Macdonald 多項式 $P_{2\varepsilon_1}$, $P_{\varepsilon_1+\varepsilon_2}$ を Macdonald 作用素の三角行列から求め、$N = 2, \dots, 9$ の値を $x = t^N$ の有理関数に補間した（$u = 1$ では D$_N$ の 2 箱に一致し、Cherednik の $\mathcal{H}^C_{3,2}(\omega_2)$ に単項式を除いて一致する）。
+% [D13]
+\begin{compresult}
+trefoil の refined Sp$(2N)$ の 2 箱で、
+\begin{enumerate}
+\item $g^{\mathrm{Sp}}_{(2)} + g^{\mathrm{Sp}}_{(1,1)}$ と $(1+t)(g^{\mathrm{Sp}}_{(2)} - g^{\mathrm{Sp}}_{(1,1)})$ は整数 Laurent 多項式で、SO と同じ全 $d$ の構造（命題~\ref{prop:trace}）をもつ。
+\item $E^{\mathrm{Sp}}(t{=}-1) = E^{\SO}(t{=}-1)$（全係数）。
+\item hatted の $p_1^2$ 成分 $(g_{(2)} + g_{(1,1)})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（[1] は $-$）。$p_2$ 成分と $g_R$ そのものには $\pm$ どちらの規則も成り立たず、転置 $R \to R^{T}$ を入れても成り立たない。
+\end{enumerate}
+\end{compresult}
+$E$ が Sp への射影で符号を変えないことは、unrefined の対応「Sp$(N) = \SO(-N)$ かつ $R \to R^{T}$」で $E_{(2)} = -E_{(1,1)}$ を使うと、符号反転と転置が打ち消して $E$ が不変になることと整合する。$p_2$ 方向には [1] の Adams 項 $\psi^2[g_{(1)}]$ が入り、$\psi^2$（$\nu \to \nu^2$）は $\ba \to -\ba$ と可換でないため、$f$, $g$ の段階では単純な規則にならない。
 
 \subsection{普遍因子}\label{sec:universal}
 % [D9]

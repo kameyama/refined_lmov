@@ -821,3 +821,10 @@
 - 文献を取得して原典で確認：OS 1003.1568、ORS 1201.2115、DSV 1111.6533（references/、書誌は arXiv API で確認）。
 - 辞書（ORS の重みの次数 ↔ −J₂、偏屈フィルトレーション ↔ J₁、a 次数 ↔ β）と、orientifold の実構造の模型、framed unknot での較正の対象を theory §11.13 に書いた。実構造つきの Hilbert scheme の計算は文献に無く、本セッションでは着手しない。
 - 案 A〜D の結果のまとめ：A は不成立（積に分配しない）、D は成功（refined Sp(2N) の [1]、g^{Sp}(𝐚) = −g^{SO}(−𝐚)）、B は計画のみ。
+
+## 2026-10-21（続き 52）案 D の 2 箱：refined Sp(2N) の trefoil の 2 箱（ユーザーの指示「1を進めよ」「続けよ」）
+- 【計算】C_N の Macdonald 多項式 P_(2), P_(1,1) を実装（daha_cn.py の two_box_P、評価公式の前の因子を q^{−(ρ_k,b)} に修正）。検証：固有関数（C_2, C_3）、u = 1 で D_N の 2 箱と一致、Cherednik の ℋ^C_{3,2}(ω₂) と単項式を除いて一致。
+- 【計算】N = 2..9（m = 1、最長 704 s）を x = t^N の有理関数に補間し、Sp（u = t²、ν = t^{N+1/2}）の large N の g_(2), g_(1,1) を得た（largeN_2box_sp_m1.pkl）。整数性は SO と同じ全 d の構造。**E^{Sp}(t=−1) = E^{SO}(t=−1)**。hatted の p₁² 成分で Sp(𝐚) = +SO(−𝐚)、p₂ 成分と g_R には ± も転置も成り立たない。theory §11.14、論文 §sec:sp、claims D13、tests/test_rk_sp_two_box.py（2 件、7 秒）。
+- 実行中：rk_d_sp_so_map.py（写像 {id, σ, 鏡像, q↔t} × ν の符号・逆数 × 転置 × 単項式倍の走査。ログ logs/refined_kauffman/d_sp_so_map.log。[1] は id・−ν・−1 のみ）。
+- 未解決：p₂ 方向の SO–Sp の関係（Adams 項 ψ² が 𝐚 → −𝐚 と可換でない）。m = 2 の Sp の 2 箱は N = 2..4 のみ（補間に足りない。N = 9 までで 1 N あたり最大 ~20 分の見込み）。
+- 次：案 B（Hilbert scheme と実構造）、または論文の仕上げ。

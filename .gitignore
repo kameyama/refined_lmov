@@ -62,3 +62,9 @@ docs/paper/ja/*.blg
 # 4 箱以上の計算結果（約 1.2 GB、scripts/highbox_torus.py で再計算できる。判定は data/highbox_summary.md とログ）
 data/highbox/
 data/lmovstruct/*.pkl
+docs/refined_kauffman/paper/ja/*.aux
+docs/refined_kauffman/paper/ja/*.log
+docs/refined_kauffman/paper/ja/*.out
+docs/refined_kauffman/paper/ja/*.toc
+docs/refined_kauffman/paper/ja/*.fls
+docs/refined_kauffman/paper/ja/*.fdb_latexmk

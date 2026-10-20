@@ -29,12 +29,14 @@ def _add(acc, poly, c=None):
 
 
 class CN:
-    def __init__(self, N):
+    def __init__(self, N, uhalf=None):
+        """uhalf：u^{1/2} を特殊化するとき（例：refined Sp(2N) は u = t² なので uhalf = S²）。None なら記号 U。"""
         self.N = N
+        self.uhalf = U if uhalf is None else uhalf
         e = lambda i: tuple(1 if j == i else 0 for j in range(N))
         self.alpha = [tuple(x - y for x, y in zip(e(i), e(i + 1))) for i in range(N - 1)] + [tuple(2 * x for x in e(N - 1))]
         self.alpha_sq = [2] * (N - 1) + [4]
-        self.tpar = [S] * (N - 1) + [U]                 # t_i^{1/2}
+        self.tpar = [S] * (N - 1) + [self.uhalf]        # t_i^{1/2}
         self.rho_sht = tuple(N - 1 - i for i in range(N))
         self.rho_lng = tuple(1 for _ in range(N))
         self.pos = set()
@@ -136,7 +138,7 @@ class CN:
     def evaluate(self, f):
         tot = ZERO
         for a, v in f.items():
-            tot = tot + v * S**(-2 * self._dot(a, self.rho_sht)) * U**(-self._dot(a, self.rho_lng))
+            tot = tot + v * S**(-2 * self._dot(a, self.rho_sht)) * self.uhalf**(-self._dot(a, self.rho_lng))
         return tot
 
     def apply_word(self, word, f):
@@ -174,3 +176,148 @@ def daha_jones_omega1(N, m, k=2):
     one = {tuple([0] * N): ONE}
     Z = D.evaluate(D.apply_word(D.gamma_X1(m, k), one))
     return Z, D.evaluate({D.e(0): ONE})
+
+
+# ---- 2 箱：γ̂(S_d)、Macdonald 作用素、P_{2ε_1}, P_{ε_1+ε_2} ----
+def _gamma_X(self, i, m, k):
+    """γ̂(X_{ε_{i+1}})（daha_dn.DN.gamma_X と同じ：X_{ε_{j+2}} = T_{j+1} X_{ε_{j+1}} T_{j+1}）。"""
+    w = self.gamma_X1(m, k)
+    for j in range(i):
+        w = [("T", j, 1)] + w + [("T", j, 1)]
+    return w
+
+
+def _inverse_word(word):
+    out = []
+    for op in reversed(word):
+        kind = op[0]
+        if kind == "c":
+            out.append(("c", 1 / op[1]))
+        elif kind == "X":
+            out.append(("X", op[1], -op[2]))
+        elif kind == "T":
+            out.append(("T", op[1], -op[2]))
+        elif kind == "Y":
+            out.append(("Y", -op[1]))
+    return out
+
+
+def _gamma_S(self, d, m, k, f):
+    """γ̂(S_d) f、S_d = Σ_i (X_{ε_i}^d + X_{−ε_i}^d)。"""
+    out = {}
+    for i in range(self.N):
+        w = _gamma_X(self, i, m, k)
+        wi = _inverse_word(w)
+        g1, g2 = f, f
+        for _ in range(d):
+            g1 = self.apply_word(w, g1)
+            g2 = self.apply_word(wi, g2)
+        _add(out, g1)
+        _add(out, g2)
+    return out
+
+
+def _Yi(self, i, h, inv):
+    """Y_{ε_{i+1}} = T_i^{−1} ⋯ T_1^{−1} Y_1 T_1^{−1} ⋯ T_i^{−1}（0 始まりの i）。"""
+    for j in reversed(range(i)):
+        h = self.T(j, h, inv=not inv)
+    h = self.Y1(h, inv=inv)
+    for j in range(i):
+        h = self.T(j, h, inv=not inv)
+    return h
+
+
+def macdonald_op(self, f):
+    """Σ_i (Y_{ε_i} + Y_{ε_i}^{−1}) f。"""
+    out = {}
+    for i in range(self.N):
+        _add(out, _Yi(self, i, f, False))
+        _add(out, _Yi(self, i, f, True))
+    return out
+
+
+CN.gamma_X = _gamma_X
+CN.gamma_S = _gamma_S
+CN.macdonald_op = macdonald_op
+
+
+def orbit_sums(D):
+    """S_1 = m_{ε_1}、S_2 = m_{2ε_1}、m_{ε_1+ε_2}、1 を X の Laurent 多項式として。"""
+    N = D.N
+    one = {tuple([0] * N): ONE}
+    S1, S2, m11 = {}, {}, {}
+    for i in range(N):
+        for sg in (1, -1):
+            _add(S1, {tuple(sg if j == i else 0 for j in range(N)): ONE})
+            _add(S2, {tuple(2 * sg if j == i else 0 for j in range(N)): ONE})
+    for i in range(N):
+        for j in range(i + 1, N):
+            for a_, b_ in ((1, 1), (1, -1), (-1, 1), (-1, -1)):
+                _add(m11, {tuple(a_ if k == i else (b_ if k == j else 0) for k in range(N)): ONE})
+    return one, S1, S2, m11
+
+
+def two_box_P(D):
+    """P_{2ε_1} = S_2 + a1 m_{ε_1+ε_2} + a0、P_{ε_1+ε_2} = m_{ε_1+ε_2} + c0 を、Macdonald 作用素の三角行列の固有ベクトルとして求める。
+    返り値：{"P2": (a1, a0), "P11": c0, "eig": {...}}（係数は RF）。"""
+    N = D.N
+    one, S1, S2, m11 = orbit_sums(D)
+    e2 = tuple(2 if j == 0 else 0 for j in range(N))
+    e11 = tuple(1 if j in (0, 1) else 0 for j in range(N))
+    e0 = tuple([0] * N)
+    def coords(g):
+        c2 = g.get(e2, ZERO); c11 = g.get(e11, ZERO); c0 = g.get(e0, ZERO)
+        return c2, c11, c0
+    M2, M11, M0 = D.macdonald_op(S2), D.macdonald_op(m11), D.macdonald_op(one)
+    l2, b11, b0 = coords(M2)          # M S2 = l2 S2 + b11 m11 + b0
+    _, l11, d0 = coords(M11)          # M m11 = l11 m11 + d0
+    _, _, l0 = coords(M0)             # M 1 = l0
+    c0 = d0 / (l11 - l0)              # P11 = m11 + c0：M P11 = l11 P11 ⟺ d0 + c0 l0 = l11 c0
+    a1 = b11 / (l2 - l11)             # P2 = S2 + a1 m11 + a0：M P2 = l2 P2
+    a0 = (b0 + a1 * d0) / (l2 - l0)
+    return {"P2": (a1, a0), "P11": c0, "eig": {"2": l2, "11": l11, "0": l0}}
+
+
+def P_poly(D, lam, coef):
+    one, S1, S2, m11 = orbit_sums(D)
+    if lam == (2,):
+        a1, a0 = coef["P2"]
+        out = dict(S2); _add(out, m11, a1); _add(out, one, a0)
+        return out
+    if lam == (1, 1):
+        out = dict(m11); _add(out, one, coef["P11"])
+        return out
+    if lam == (1,):
+        return S1
+    return one
+
+
+def gamma_P(D, lam, coef, m, k):
+    """γ̂(P_λ)·1。m_{ε_1+ε_2} = (S_1² − S_2)/2 − N、S_2 = m_{2ε_1}。"""
+    N = D.N
+    one = {tuple([0] * N): ONE}
+    half = conv(1) / conv(2)
+    gS1 = D.gamma_S(1, m, k, one)
+    gS1sq = D.gamma_S(1, m, k, gS1)
+    gS2 = D.gamma_S(2, m, k, one)
+    gm11 = {}
+    _add(gm11, gS1sq, half); _add(gm11, gS2, -half); _add(gm11, one, conv(-N))
+    if lam == (1,):
+        return gS1
+    if lam == (1, 1):
+        out = dict(gm11); _add(out, one, coef["P11"]); return out
+    if lam == (2,):
+        a1, a0 = coef["P2"]
+        out = dict(gS2); _add(out, gm11, a1); _add(out, one, a0); return out
+    return one
+
+
+def daha_jones_two_box(N, m, k=2, uhalf=None):
+    """{λ: (Z_λ, P_λ(q^{−ρ_k}))}（λ = (1), (2), (1,1)）と P の係数。uhalf で u^{1/2} を特殊化できる。"""
+    D = CN(N, uhalf)
+    coef = two_box_P(D)
+    out = {}
+    for lam in ((1,), (2,), (1, 1)):
+        Z = D.evaluate(gamma_P(D, lam, coef, m, k))
+        out[lam] = (Z, D.evaluate(P_poly(D, lam, coef)))
+    return out, coef
