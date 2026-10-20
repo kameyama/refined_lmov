@@ -1,0 +1,124 @@
+\section{一般の $N$ の多箱}\label{sec:generalN}
+
+\subsection{DAHA-Jones 多項式}
+refined SO$(2N)$ の多箱の値は、AgSc の SL$(2,\mathbb{Z})$ の計算では一般の $N$ で得られない。そこで Cherednik \cite{Cherednik11} の DAHA-Jones 多項式
+\[
+JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
+\]
+を、一般の $t$ で D$_N$ と GL$_N$ の多項式表現の上で直接計算する（同論文の shift 作用素の方法は $t = 1, q$ に限る）。
+
+規約は次のとおりである。
+\begin{itemize}
+\item $(T_i - t^{1/2})(T_i + t^{-1/2}) = 0$。評価は $\{H\} = (H\cdot 1)(q^{-\rho_k})$。
+\item ベクトル表現は minuscule なので $Y_{\varepsilon_1} = \pi_1 T_{u_1}$ で、$\pi_1(X_b) = q^{(\omega_{1*}, b)}X_{u_1^{-1}b}$（D$_N$：$\omega_{1*} = \varepsilon_1$、GL$_N$：$\omega_{1*} \equiv -\varepsilon_N$）。
+\item $\tau_-(X) = q^{1/2}YX$、$\tau_+(Y) = q^{-1/2}XY$。$T(2m+1, 2)$ は $\gamma = \tau_+^m\tau_-^2$。
+\end{itemize}
+計算の高速化には、反自己同型 $\varphi$ で $X$ と $Y$ を入れ替え、軌道の対称化と $\lambda$ の間の共有を使った。
+被覆の composite $(\alpha;1)$ は、$X^{-1}$ 側の対称化で作った $\hat\gamma'(p_1(Y))\cdot 1$ を $X$ 側の連鎖の出発点にして計算した。
+
+% [D1][D2][D3]
+\begin{compresult}[検証]\label{cr:daha}
+\begin{enumerate}
+\item D$_N$, GL$_N$（$N = 2, 3, 4$）で、DAHA の関係式（2 次、組紐、交差、$Y$ の可換性）が成り立つ。D$_N$ の Macdonald 多項式は Macdonald 作用素の固有関数である。
+\item D$_N$：$JD = T_\lambda^{-2n}\times$ 鏡像（一様な規格化の固定 $N$ の $W_\lambda$）。$T_\lambda = q^{(\lambda,\lambda)/2}t^{(\lambda,\rho)}$、$n = 2m+1$ で、確かめた範囲は $N = 2, 3$、$\lambda \in \{(1), (1,1), (2)\}$、$m = 1, 2$ である。$N = 4, 5$ の [1] は AgSc (6.15) の鏡像にちょうど一致する。
+\item GL$_N$：$W_b = $ 鏡像$(JD_b/M_b)$、$M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$。確かめた範囲は $m = 1, 2$ の普通の表現 9 例と、随伴・composite（U(3), U(5)）である。
+\item 高速版と現行版は、保存した値で全係数一致する。
+\end{enumerate}
+\end{compresult}
+
+\subsection{一般の $N$ の補間}
+簡約した不変量 $R_\lambda(N) = T_\lambda^{-2n}\times$ 鏡像$(JD(N))/K_\lambda(t^\rho)$ を、$U = t^N$ の Laurent 多項式として補間した。
+補間の窓は推測しない。$R_\lambda(N)$ の $s$ の次数の最小値・最大値が大きな $N$ で $2Nj + $（定数）になることから窓を決め、大きな $N$ をノードにして Newton の差分商で補間し、残りの $N$ で照合した。
+% [D4]
+\begin{compresult}\label{cr:interp}
+次の表の範囲で、補間に使わない $N$ の値を全係数で予言した。
+\begin{center}
+\footnotesize
+\begin{tabular}{llll}
+\toprule
+結び目・表現 & $U$（$A^{1/2}$）の冪 & ノード & 照合 \\
+\midrule
+trefoil の [1] & $U^{-5}$〜$U^{-2}$ & $N = 2$〜5 & $N = 6, 7$、AgSc (6.15) \\
+trefoil の (2), (1,1) & $U^{-10}$〜$U^{-4}$ & $N = 2$〜8 & $N = 9$（$N = 3$〜9 から $N = 2$） \\
+trefoil の (3), (2,1), (1,1,1) & $U^{-15}$〜$U^{-6}$ & $N = 4$〜13 & $N = 2, 3$ \\
+$T(2,5)$ の [1] & $U^{-9}$〜$U^{-4}$ & $N = 9$〜14 & $N = 2$〜8 \\
+$T(2,5)$ の (2), (1,1) & $U^{-18}$〜$U^{-8}$ & $N = 4$〜14 & $N = 2, 3$ \\
+被覆の随伴 $(1;1)$（trefoil） & $A^{1/2}$：$-10$〜$-4$ & $N_A = 2$〜11 のうち 7 点 & 残りの 3 点 \\
+被覆の随伴 $(1;1)$（$T(2,5)$） & $A^{1/2}$：$-18$〜$-8$ & $N_A = 14$〜24 & $N_A = 2$〜13 \\
+被覆の $(2;1), (1,1;1)$（trefoil） & $A^{1/2}$：$-14$〜$-6$ & $N_A = 12$〜20 & $N_A = 2$（$(1,1;1)$ は 3）〜11 \\
+\bottomrule
+\end{tabular}
+\end{center}
+3 箱を $t = q$ にすると、[3] は NRZ \cite{NRZ13} の [3] 彩色の Kauffman 多項式の鏡像に比 1 で一致する。
+\end{compresult}
+これで、refined SO$(2N)$ の trefoil の 2 箱・3 箱と $T(2,5)$ の 2 箱の不変量が一般の $N$ で得られた。
+trefoil の 2 箱の係数は付録 \ref{app:daha} に載せた。
+
+\subsection{大きな $N$ のクロスキャップ部分}
+3 箱の SO 側は、核を D$_N$ の $K_\lambda$（$|\lambda| \le 3$、$U$ は形式変数）の逆行列で $K$ 基底に直して求めた。被覆は、普通の表現・随伴・composite から組み立てた。
+% [D5][D6]
+\begin{compresult}\label{cr:largeN}
+\begin{enumerate}
+\item 2 箱（trefoil, $T(2,5)$）：$g_{(2)}, g_{(1,1)}$ の分母は $2\times$ 単項式 $\times(1+t)$ だけで、$N$ に依存する極はすべて消える。$g_{(2)} + g_{(1,1)}$ と $(1+t)(g_{(2)} - g_{(1,1)})$ は整数 Laurent である。$(1+t)$ は $p_2$ 方向だけにあり、命題 \ref{prop:alld} の $E_{(2)} = -E_{(1,1)}$ と一致する。
+\item 3 箱（trefoil）：$g_{(3)}, g_{(2,1)}, g_{(1,1,1)}$ は整数 Laurent で、$(1+t)$ の極は無い。奇数のセクターに $E$ が無いという命題 \ref{prop:alld} の予言どおりである。
+\item 検算として、$U = t^2, t^3$ で固定 $N$ の値と全係数一致する。
+\end{enumerate}
+\end{compresult}
+
+% [D8]
+KN の q 枠と t 枠の hatted 不変量は、2 箱の SO・被覆・クロスキャップ部分のすべてで一致する。
+
+\subsection{$t = q$ での Mariño との辞書}
+% [D7]
+\begin{compresult}\label{cr:marino}
+\begin{enumerate}
+\item SO の $W_\lambda$ と被覆の $W_\mu$ は、Mariño の $G_\lambda, H_\mu$（標準 framing）の鏡像（$\nu \to 1/\nu$, $t_M \to 1/t_M$）に比 1 で一致する（$\lambda, \mu \in \{(1), (2), (1,1)\}$）。
+\item クロスキャップ部分では $g_{(1)} = -$鏡像$(g^{\mathrm{Mar}}_{[1]})$ である。2 箱は次の手順で $-$鏡像$(\hat g^{\mathrm{Mar}}_R)$ になる。
+  \begin{itemize}
+  \item 全 $d$ の $g$ を奇数 $d$ に直す：$g^{\mathrm{odd}}_{(2)} = g_{(2)} + \tfrac12 g_{(1)}(x^2)$、$g^{\mathrm{odd}}_{(1,1)} = g_{(1,1)} - \tfrac12 g_{(1)}(x^2)$。
+  \item unknot の値 $\mp\tfrac12$ を引く。
+  \item $M(q^{-1})^{-1}$ で hatted にする。
+  \end{itemize}
+\item Mariño \cite{Marino09} の (4.8) の $\hat g_{[2]}$ には誤植がある（$z^9$ の項）。正しくは $z^9(11\nu^{12} - 78\nu^{10} + 78\nu^8 - 11\nu^6)$ である。
+\end{enumerate}
+\end{compresult}
+符号 $-1$ と $R \leftrightarrow R^T$ は、双対 Cauchy（fermionic）の核の帰結である。
+
+\subsection{$G$ 展開の破れ}
+% [D10]
+\begin{compresult}
+{[1]} の $c = 1$ 部分は $\sigma$ で対称だが、2 箱・3 箱では $c = 1$ 部分が対称にならない。対象は $\hat g_R$、和、奇数 $d$ 版のどれでも同じである。
+SO の簡約した不変量 $R_\lambda$ には、$\sigma$・$q\leftrightarrow t$・鏡像と、$\nu \to \pm\nu^{\pm1}(rs)^{c_1}(r/s)^{c_2}$（$|c_1|, |c_2| \le 2$）、$R \leftrightarrow R^T$ をどう組み合わせても、比が単項式になる対称性が無い。
+\end{compresult}
+A 型の super-duality に当たる対称性が SO 側には無いので、SO の $\hat f$ と $\hat g$ が $\sigma$ 対称になる理由は無い（被覆の $\hat f$ は $R$ ごとに $\sigma$ 対称である）。
+
+\subsection{普遍因子}\label{sec:universal}
+% [D9]
+\begin{compresult}\label{cr:universal}
+$w = (q/t)^{1/2}$ とし、refined だけの部分
+\[
+X_k = \hat g - \hat g\big|_{t=q}(\nu \to \nu w^k)
+\]
+が $(q - t)(\nu^2 - t)$ で割り切れる $k$ を $-3 \le k \le 3$ で調べた。割り切れるのは $k = +1$（$\nu w = \tnu$）だけである。
+対象は次のすべてである。
+\begin{itemize}
+\item [1]：$T(2,3)$, $T(2,5)$
+\item 2 箱の $\hat g_{(2)}, \hat g_{(1,1)}$ と和：$T(2,3)$, $T(2,5)$
+\item 3 箱の $\hat g_R$：trefoil
+\end{itemize}
+太字では $(q - t)(\nu^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$ で、[1] の $c = 2$ 部分と Hopf 絡み目の $\hat C_{R,S}$ の因子と同じである。
+\end{compresult}
+$(\nu^2 - t)$ で割り切れることは、「SO(2) の点 $U = t$ で $\hat g$ が $t$ によらない」ことと同じである。$\nu$ をずらさないと割り切れない。
+
+\begin{conjecture}\label{conj:structure}
+結び目の refined クロスキャップ部分は、どの彩色でも
+\[
+\hat g_R = \hat g_R\big|_{t=q}(\nu \to \tnu) + (\bt^2 - 1)(\ba^2 - \bq^2)\cdot(\text{整数係数の Laurent 多項式})
+\]
+の形をとる。
+\end{conjecture}
+
+\begin{remark}
+閉弦の凍結した状態と向き付けられた状態の電荷の比は $x^2/Q_0 = w^{-1}$ である（AgSc の規約、§\ref{sec:index}）。開弦では、クロスキャップの変数 $\tnu^2$ と被覆の変数 $\ba_U^2 = \nu^2w^{-1}$ の比が $w^3$ で、両者は一致しない。
+開弦と閉弦の変数の対応（$\nu^2$ と $Q$ か、$\nu^{-2}$ と $Q$ か）と開弦の規格化がまだ固定されていないので、この比較の結論は保留する。
+\end{remark}

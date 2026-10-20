@@ -1,0 +1,93 @@
+\section{orientifold の refined 指数と全 $d$ の構造}\label{sec:index}
+
+\subsection{設定}
+AgSc \cite{AgSc12} §3 にしたがい、M 理論を $X \times \mathrm{TN} \times S^1$ 上で $(q, t)$ で捻る。orientifold の作用 $\tilde I$ は、$X$ の反正則な対合 $I$ と、時空の $z_2 \to -z_2$ の組である。
+結び目 $K$ の probe は M5 brane で、$z_2$ 平面を張る（t-brane。開弦の分母が $1/(1-t)$ であることによる）。被覆には $L_K$ と像 $I(L_K)$ の 2 枚がある。
+被覆の一粒子状態の空間は $H_1 = H_{\mathrm{int}} \otimes F_{z_2}$ である。$F_{z_2}$ は $z_2$ 方向のモード $t^l$（$l \ge 0$）から成る。$\tilde I$ は $F_{z_2}$ に $(-1)^l$ で働く。
+
+\begin{hypothesis}[一粒子状態の分類]\label{hyp:classes}
+商の一粒子状態は被覆の $\tilde I$ の軌道で、AgSc の積表示 (3.13) のとおり次の 3 種に分かれる。
+\begin{enumerate}
+\item $\tilde I$ で入れ替わる対 $\{\psi, \tilde I\psi\}$：全モードの塔をもつ。
+\item $\tilde I\psi = \varepsilon\psi$（$\varepsilon = \pm 1$）：$(-1)^l\varepsilon = 1$ のモードだけをもつ。
+\item $z_2 = 0$ に凍結した状態：モードの塔をもたない。
+\end{enumerate}
+\end{hypothesis}
+
+\subsection{全 $d$ の構造}
+% [O1][O2]
+\begin{proposition}\label{prop:alld}
+仮説 \ref{hyp:classes} のもとで、状態の電荷を $m$ とすると
+\[
+g = f - \tfrac12 f^{\cov} = \frac12\,\frac{E}{1+t} + C,\qquad E = \sum_{\text{不変}} \varepsilon_\psi\, m_\psi,\qquad C = \sum_{\text{凍結}} m_\psi .
+\]
+$E$ は、$\tilde I$ で自分自身に移るセクター（brane と image を同数もつセクター）にだけ現れる。冪和の基底では $p_2$ 型の方向（Adams の $\psi^2$）にだけ入り、$E_{(2)} = -E_{(1,1)}$ である。
+\end{proposition}
+\begin{proof}
+被覆の指数は $f^{\cov} = \sum_{\text{対}} 2m/(1-t) + \sum_{\text{不変}} m/(1-t)$ である。
+商の指数は $f = \sum_{\text{対}} m/(1-t) + \sum_{\text{不変}} m \sum_{(-1)^l\varepsilon = 1} t^l + \sum_{\text{凍結}} m$ である。
+$\sum_{(-1)^l\varepsilon = 1} t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$ を代入すれば主張が従う。
+\end{proof}
+
+Mariño の $\sum_{d\ \mathrm{odd}}$ の定義 $g^{\mathrm{odd}}$ とは、$g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
+
+% [O4]
+\begin{compresult}
+Hopf 絡み目（$a, b \le 4$、§\ref{sec:hopf}）で、全 $d$ の $g_{ab}$ の分母は（偶, 偶）のセクターで $2(1+t)\times$ 単項式、それ以外で単項式である。
+$\sum_{d\ \mathrm{odd}}$ の定義で現れる $4(1+t)(1+t^2)$ は、全 $d$ の定義では打ち消す。
+\end{compresult}
+
+\subsection{$E$ と $C$ の分離の不定性}
+% [O3]
+\begin{proposition}\label{prop:EC}
+指数 $g$ からは $E(t = -1)$ しか決まらない。すなわち $E \to E + 2(1+t)X$, $C \to C - X$ で $g$ は変わらない。
+\end{proposition}
+\begin{proof}
+$\tfrac12 \cdot 2(1+t)X/(1+t) = X$ なので、$E$ の変化は $C$ の変化で打ち消す。
+状態の言葉では、凍結した状態 $m$ 一つの寄与は、$\varepsilon = +1$ の不変な状態 $m$, $m$, $mt$, $mt$ の寄与 $\tfrac12 (2m + 2mt)/(1+t) = m$ と区別できない。
+$t = -1$ での値 $E(-1) = [2(1+t)g]_{t=-1}$ だけが変わらない。
+\end{proof}
+
+% [O7]
+\begin{corollary}\label{cor:Efree}
+冪和の $p_1^n$ 方向と、箱の数が奇数のセクター（$E = 0$）は、$E$ によらない。これらの方向では、正値性を $E$ の不定性によらずに判定できる。
+\end{corollary}
+
+\subsection{閉弦での確認}
+% [O5]
+\begin{compresult}\label{cr:closed}
+D$_N$ の積表示 $Z = \prod_{m<\beta}\prod_{\alpha>0}(q^{-m/2}t^{-(\alpha,\rho)/2} - q^{m/2}t^{(\alpha,\rho)/2})$（$t = q^\beta$）から作った $-\log Z$ の $d$ 番目と、AgSc §6 の 3 項
+\[
+\frac{1}{2d}\frac{Q^d t^{d/2} q^{-d/2}}{z_q(q^d) z_t(t^d)} + \frac1d \frac{(Q t/q)^{d/2}}{z_q(q^d)} - \frac{1}{2d}\frac{Q^d t^{d/2}q^{-d/2}}{z_q(q^d)(t^{d/2} + t^{-d/2})},\qquad Q = t^{2N-1}
+\]
+との差は、$N$ の 1 次式（古典的な項と定数写像）だけである（$N = 2, \dots, 7$）。
+\end{compresult}
+AgSc の 3 項は、命題 \ref{prop:alld} の閉弦版である。P$^1$ は $\varepsilon = +1$ の不変な状態で、第 1 項と第 3 項の和が $z_2$ の偶数のモードだけの寄与になる。RP$^2$ は凍結した状態で、第 2 項に当たる。
+
+Avetisyan--Mkrtchyan \cite{AM22} は、同じ分配関数を多重サイン関数で書き、D・C 型の自由エネルギーを 3 種に整理した。奇数の $n$ の $c = 1$ の項、全 $n$ の「Klein 瓶」（$c = 2$）の項、Kähler 変数の「三重化」である。
+% [O6]
+\begin{proposition}\label{prop:AM}
+AM の変数 $(Q, T) = (q^{1/2}, t^{1/2})$ で、$X = e^{\tau_1/2}$, $e^{\tau_2} = X^2/Q$, $e^{\tau_0} = X^2 T/Q$ とする。このとき $n$ ごとの有理式として、次の恒等式が成り立つ。
+\[
+\underbrace{-\frac{X^{2n}}{2n(Q^{2n} - Q^{-2n})}}_{\text{奇数 $n$ に直す差}}
++ \underbrace{\frac{e^{n\tau_2}}{2n}\frac{Q^n T^{-n} - T^n Q^{-n}}{(Q^{2n} - Q^{-2n})(T^n + T^{-n})}}_{\text{Klein 瓶}}
+= -\frac{e^{n\tau_0}}{2n\,(Q^n - Q^{-n})(T^n + T^{-n})} .
+\]
+したがって AM の「奇数 $n$ の $c = 1$ ＋ Klein 瓶」は、全 $n$ の凍結した状態の項 $e^{n\tau_1/2}/(n(Q^n - Q^{-n}))$ と、$\varepsilon = +1$ の不変な状態の項の和に等しい。
+Klein 瓶の項とその分子 $q/t - t/q$ は独立な多重項ではない。奇数の $d$ で整理したときの $-\tfrac12\psi^2 C$ と $\tfrac12 E/(1+t)$ の差である（$E \ne \psi^2 C$）。
+\end{proposition}
+\begin{proof}
+左辺を通分すると、$X^{2n}$ の係数は $[-(T^n + T^{-n}) + Q^{-n}(Q^nT^{-n} - T^nQ^{-n})]/(\cdots) = -T^nQ^{-n}(Q^n + Q^{-n})/(\cdots)$ になり、$(Q^{2n} - Q^{-2n}) = (Q^n - Q^{-n})(Q^n + Q^{-n})$ で約分できる。
+\end{proof}
+
+\begin{remark}
+AM と AgSc の規約は、$(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ と全体の符号（$\log Z$ と $-\log Z$）で移り合う。凍結した状態と向き付けられた状態の電荷の比は、AgSc で $x^2/Q_0 = w^{-1}$、AM で $w$ である（$w = (q/t)^{1/2}$）。
+閉弦では状態が P$^1$ と RP$^2$ の二つだけで打ち消しが無いので、$E$ と $C$ は一意に決まる。命題 \ref{prop:EC} の不定性は、開弦で初めて問題になる。
+\end{remark}
+
+% [O8]
+\begin{remark}[取っ手の因子]
+AgSc §4 の強い整数性の導出に現れる「差 $\times$ 和」$(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ は、類 $\beta/2$ の $c = 1$ の寄与を $d$ を倍にして並べたときの $\psi^2 z$ である。これは取っ手一つの因子ではない。
+Piazzalunga--Uranga \cite{PU14} の M 理論の解釈では、$\tilde I$ で不変な被覆の取っ手一つの捻ったトレースは、同じ変数で $z$ 一つになる。
+refined では $G = z_q z_t = T_+T_-$、$T_\pm = (V - V^{-1}) \pm (W - W^{-1})$ と分解できる。ただし $T_\pm$ の多項式環は $G$ の環と同じ範囲しか表さない（§\ref{sec:positivity}）。
+\end{remark}

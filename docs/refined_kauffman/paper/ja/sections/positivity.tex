@@ -1,0 +1,82 @@
+\section{正値性の現状と障害}\label{sec:positivity}
+
+\subsection{符号の解釈}
+BPS 数は状態の数そのものではなく、$(-1)^F$ を付けた指数である。
+閉弦では $N^{s_L}_\beta = \sum_{s_R}(-1)^{2s_R}(2s_R + 1)N^{s_L,s_R}_\beta$（AgSc §2）、開弦の LMOV 不変量では $\hat N_{\mu,g,\beta} = \sum(-1)^{2J_r}\hat N_{\mu,g,\beta,J_r,S_R}$（KN）と書ける。
+KN の正値性は、refined にすると $(-1)^F$ の打ち消しが解けて、スピンで分けた状態の数 $\hat N_{\dots,J_r} \ge 0$ が見えることを指す。
+
+orientifold では、AgSc が指摘するとおり、$\tilde I$ が SU$(2)_L\times$SU$(2)_R$ を U$(1)_1\times$U$(1)_2$ に壊す。そのため、向き付けられない状態は完全なスピン多重項をなさなくてよい。
+また Piazzalunga--Uranga \cite{PU14} の解釈では、凍結した状態の数は orientifold の偶奇で重みを付けた差 $n^+ - n^-$ である。
+したがってクロスキャップの正値性は、適切な多重項の基底で、各ブロックの係数が unrefined の符号 $\varepsilon_\beta$ と同じ符号にそろうこととして問うべきである（§\ref{sec:criterion}）。
+unrefined で符号が混在することは、refined で正値性を期待しない理由にはならない。
+
+なお、SO$(2N)$ の refined CS 不変量そのものは、[1] でも太字の変数で正にならない（trefoil の $R_{(1)}$ は 9 項中 4 項が負）。Cherednik も、B, C, D 型について「最小の重みでも正値性はほとんど無い」と述べている。正値性を問うのは BPS の段階である。
+
+\subsection{多箱での符号}
+% [P2][P3]
+\begin{compresult}\label{cr:signs}
+普遍因子で割った商 $X_1/((\bt^2-1)(\ba^2-\bq^2))$ を太字の変数で書き、$\ba$ の冪ごとのブロックで符号がそろう数を数えた。
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+対象 & そろうブロック／全ブロック \\
+\midrule
+{[1]}（$T(2,2m+1)$、$m \le 5$） & すべて \\
+trefoil の 2 箱の和 $\hat g_{(2)} + \hat g_{(1,1)}$ & 5/10 \\
+$T(2,5)$ の 2 箱の和 & 6/18 \\
+trefoil の 3 箱 $\hat g_{(3)}, \hat g_{(2,1)}, \hat g_{(1,1,1)}$ & 2/15, 3/14, 2/13 \\
+\bottomrule
+\end{tabular}
+\end{center}
+次の取り替えでも、符号はそろわない。
+\begin{itemize}
+\item 自由エネルギーの右辺の基底：Hall--Littlewood、$P_\lambda(Y; q, t)$、$P_\lambda(Y; t, q)$、$Q_\lambda$、modified Macdonald。$P(Y;t,q)$ では 8/11 まで改善するが、Hopf と固定 $N$ の 3 箱では悪くなるか、整数性が壊れる。
+\item 二次量子化の指数：$\tilde Z$ の積表示の指数を、$t$ の冪級数（モードの塔）に展開した係数。2 箱・3 箱で約 3〜4 割のブロックが混在する。
+\item 多重項の変数：$(q^{1/2}, w)$ の対称性の探索。
+\end{itemize}
+\end{compresult}
+命題 \ref{prop:alld} と系 \ref{cor:Efree} により、2 箱の和と 3 箱の方向は $E$ によらない。したがってこの混在は $E$ の不定性によるものではなく、凍結した状態 $C$ の多重項の基底がまだ正しくないことを示す。
+
+\subsection{被覆の brane と image の分割}
+被覆を brane（$Y$）と image（$Y'$）に分けた生成関数を作ると、次が成り立つ（trefoil, $T(2,5)$）。
+\begin{itemize}
+\item brane--brane のセクターは、KN の t 枠 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開でき、全 $\beta$ で符号がそろう（KN の正値性）。
+\item brane--image のセクター $x = W_{\mathrm{adj}} + \kappa - W_{(1)}^2$ は、$(t^{-1/2} - t^{1/2})x/z_q$ が整数 Laurent で $\sigma$ 対称である。$\nu^\beta$ のブロックは「そろう」か「$(\bt^2 - 1)\times$ そろう」かのどちらかで、中央のブロックだけ混在する。
+\end{itemize}
+向き付けられた被覆の brane--image のセクターが、クロスキャップと同じ普遍因子 $(\bt^2 - 1)$ をもつ。
+brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の源）を含むセクターである。
+
+\subsection{$E$ と $C$ を分ける試み}
+命題 \ref{prop:EC} により、$E$ と $C$ の分離には指数以外の情報が要る。次の 3 つを試した。
+% [P4]
+\begin{compresult}\label{cr:EC}
+\begin{enumerate}
+\item \textbf{状態の部分和}：Hopf と同じく $E = P - 2Q$（$P = (1-t)x$）と書き、(i) $C$ が整数 Laurent、(ii) $t = q$ で $E = -(1+q)(g_{(1)}(q^2, \nu^2) + 1)$ を課した。trefoil・$T(2,5)$ とも解が無い。範囲を外しても、(i)(ii) を満たす $E$ は $P$ の単項式の台に収まらない。
+\item \textbf{Adams 型}：$E = F\cdot(\psi^2[g_{(1)}] + 1)$。$F$ は $(1+q)$, $(1+t)$, $(q+t)$, $(1+qt)$ とその単項式倍で、$\psi^2$ で $\nu^2$ に $(q/t)^{j/2}$（$|j| \le 2$）を掛ける場合も含めた。どれも (i) を満たさない。
+\item \textbf{捻ったトレース}：固定セクターの指数を $P = s z_q P_k$ と書き、$P_k$ の多重項（$G$ 展開の項、または単項式）ごとに $\tilde I$ の捻った指標をとる。境界の因子を $X$ として $E = sX\sum_m e_m\tilde b_m$、$|e_m| \le |c_m|$、$e_m \equiv c_m \pmod 2$ と置き、整数計画で解いた。捻りの規則は q 平面・t 平面の $\pi$ 回転と、単項式ごとの符号の 3 通りである。
+  \begin{itemize}
+  \item Hopf の $E_{22}, E_{24}$ は、$X = z_q$ と単項式ごとの符号で一意に再現される。
+  \item 結び目では、$t = q$ と $t = -1$ の目標値がどちらも $(1 + q)$ を含むので、$X = z_q$ では解が無い。境界の因子は和 $z_q^+$ でなければならない。
+  \item $X = z_q^+$ では、trefoil は一意に解けるが、解に規則性は見えない。$T(2,5)$ はどの規則でも解が無い。上限 $|c_m|$ をゆるめると、見えない不変な対が少なくとも 2 組要る。
+  \end{itemize}
+\end{enumerate}
+\end{compresult}
+不変な環状の弦では、$\tilde I$ が二つの境界（$L$ と $I(L)$）を入れ替えるので、境界のゼロモードの捻ったトレースが和になる、と解釈できる（予想）。Hopf の $E_{22}$ の $(z_q^+)^2$ は、入れ替わる境界の対が二つあることと合う。
+
+\subsection{composite の DAHA の非正値性}
+% [P5]
+固定セクターの状態は、被覆の随伴 $(1;1)$ の値 $R_{\mathrm{adj}}$ から来る。$R_{\mathrm{adj}}$ がホモロジーの Poincaré 多項式（係数が正）として読めれば、打ち消しの前の状態の数が得られるはずである。
+\begin{compresult}
+大きな $N$ の $R_{\mathrm{adj}}$（GL の DAHA）は、KN の太字変換を鏡像で当てても、係数の符号が混在する（trefoil は 19 項中 7 項、$T(2,5)$ は 56 項中 25 項が負）。
+単項式の偶奇によるどの符号の付け方（64 通り）でも、係数はそろわない。
+\end{compresult}
+これは Cherednik--Elliot \cite{CE15} の序論の記述「composite の DAHA 超多項式は正値性をもたない」と合う。
+環状の HOMFLY-PT ホモロジーとの関係は、同論文でも予想されていない。
+
+\subsection{まとめ}
+% [P6]
+\begin{itemize}
+\item [1]（トーラス結び目）では判定式（予想 \ref{conj:criterion}）が成り立ち、符号がそろう。
+\item 多箱では、普遍因子（予想 \ref{conj:structure}）は成り立つが、その商の符号はそろわない。
+\item 多箱の正値性は、凍結した状態の多重項の基底が決まるまで判定できない。$E$ と $C$ の分離が決まるまでも同様である。これらは指数からも、composite の DAHA からも決まらない。打ち消しの前の固定セクターの状態の空間を、幾何から求める必要がある \open。
+\end{itemize}
