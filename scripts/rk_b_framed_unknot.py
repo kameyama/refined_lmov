@@ -90,3 +90,34 @@ if __name__ == "__main__":
     for x in (1, 2, 3, 4):
         for variant in ("A", "B", "C"):
             solve_E(x, variant, quiet=(variant != "A"))
+
+
+def enumerate_E(x, max_states=14):
+    """条件 (ii) の形を仮定せず、E = P − 2Q（0 ≤ Q_m/P_m ≤ 1）の全候補について、
+    (i) (1+t) | 2(1+t)g_(2) − E と、(ii′) t = q で C = g_(2) − ½E/(1+t) が整数 Laurent、を数える。"""
+    import itertools
+    import rk_k4_fixed_sector as H
+    with contextlib.redirect_stdout(io.StringIO()):
+        g, xsec = run(x)
+    r, s, nu_ = H.r, H.s, H.nu
+    sub = lambda e: sp.cancel(e.subs({r_: r, s_: s}).subs(u_, nu_ * s))
+    g2 = sub(g[(2,)]); t_ = s**2
+    P = sp.cancel((1 - t_) * sub(xsec))
+    terms = [(m, c) for m, c in H.lp(P).items()]
+    if len(terms) > max_states:
+        print(f"framing {x}：単項式 {len(terms)} 個は全数には多い", flush=True); return None
+    R_ = sp.cancel(2 * (1 + t_) * g2)
+    ok = []
+    for choice in itertools.product(*[range(0, abs(int(c)) + 1) for _, c in terms]):
+        E = sum((c - 2 * sp.sign(c) * k) * r**m[0] * s**m[1] * nu_**m[2] for (m, c), k in zip(terms, choice))
+        ci = sp.Poly(sp.fraction(sp.cancel((R_ - E) / (1 + t_)))[1], r, s, nu_).is_monomial
+        if not ci:
+            continue
+        C = sp.cancel((g2 - E / (2 * (1 + t_))).subs(s, r))
+        cii = sp.Poly(sp.fraction(C)[1], r, nu_).is_monomial
+        if cii:
+            ok.append(sp.factor(E))
+    print(f"framing {x}：固定セクターの単項式 {len(terms)} 個、(i) と「t = q で C が整数」を満たす E の候補 {len(ok)} 個", flush=True)
+    for E in ok:
+        print(f"   E = {E}", flush=True)
+    return ok

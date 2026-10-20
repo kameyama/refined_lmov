@@ -88,8 +88,9 @@
 | P4 | 固定セクターの整数計画で E を決める試み：状態の部分和は trefoil で解なし（T(2,5) は未実行）。捻ったトレースは T(2,5) で解なし（指数の上限では少なくとも 2 組の隠れた対が要る）。結び目の E の境界因子は和 z_q^+ | CR | 捻りの規則（Hyp） | test_rk_twisted_multiplet（results）、theory §9 | 新規 |
 | P5 | 被覆の随伴 R_adj はどの偶奇の符号規則でも正にならない（Cherednik–Elliot の「composite の DAHA 超多項式は正値性をもたない」と一致） | CR ＋ K | — | scripts/rk_b_adj_positivity.py、1503.01441 序論 | 照合 |
 | P6 | 多箱の正値性は、凍結した状態の多重項の基底と E・C の分離が決まるまで判定できない | Rem（現状の結論） | O3, P2〜P5 | — | — |
-| P7 | framed unknot：x = 2, 4 で E が一意（E(x) = (ν²+1)(q+1)Σ(−1)^k(ν²q)^{x−1−k}t^k）、x = 1, 3 は条件 (ii) の形が未確定で解なし | CR | (ii) の形 A（仮説） | logs/b_framed_unknot.log、theory §11.8 | 新規 |
+| P7 | framed unknot：(i) と「t = q で C が整数」だけで x = 1, 2, 3 の E が一意（E(x) = (−1)^x(ν²+1)(q+1)Σ(−1)^k(ν²q)^{x−1−k}t^k）。x = 4 は (ii) の形 A で一意 | CR | — | logs/b_framed_unknot.log、test_rk_framed_unknot（x = 1 全数、x = 2 は results）、theory §11.8・§11.9 | 新規 |
 | P8 | Ĩ の符号は電荷だけの関数でない：unknot・Hopf (2,2) で成り立つ (−1)^{(j+l)/2} の規則は Hopf (2,4) と結び目で (i)(ii) を満たさない。E の決定には t 電荷の J₂/S_R への分解が要る | CR ＋ Rem | — | logs/b_sign_rule.log、theory §11.8 | 新規（否定的） |
+| P9 | [1] の c = 1 の ν^β ブロックの G の次数は brane–image の ν^{2β} ブロックの半分（全 β、T(2,3), T(2,5)）。[1] の凍結した状態は brane–image の環状の弦の商で、商の取っ手が G を担う | CR ＋ Conj | — | logs/b_one_box_vs_brane_image.log、theory §11.9 | 新規 |
 
 ## 7. 既知（成果として書かない）
 

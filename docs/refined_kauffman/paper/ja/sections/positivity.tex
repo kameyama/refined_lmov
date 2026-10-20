@@ -64,10 +64,14 @@ brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の�
 \begin{enumerate}
 \setcounter{enumi}{3}
 \item \textbf{境界因子を固定した整数計画}：境界因子を $z_q^+$ に固定し、モジュライ部分の $G$ 展開の多重項に取っ手の捻り $G\to X$（$X\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$）を当てても、$T(2,3)$, $T(2,5)$ で解が無い。
-\item \textbf{符号の規則}：framed unknot（framing $x$）では固定セクターの指数が $P(x) = (\nu^2-1)(q-1)\sum_{k<x}(\nu^2q)^{x-1-k}t^k$ の積になり、$x = 2, 4$ で $E$ は一意に $E(x) = (\nu^2+1)(q+1)\sum_{k<x}(-1)^k(\nu^2q)^{x-1-k}t^k$ と決まる（$x = 1, 3$ は条件 (ii) の形が未確定で解なし）。$\tilde I$ は $t$ の塔に $(-1)^k$（$e^{i\pi J_2}$）で働く。Hopf $(2,2)$ でも、$t$ と $\nu$ の指数の偶奇で符号を付ける規則が $E_{22}$ を再現する。しかし Hopf $(2,4)$ と結び目では、この型の規則（8 通りと基準のずれ 4 通り）はどれも (i)(ii) を満たさない。
+\item \textbf{framed unknot と符号の規則}：framed unknot（framing $x$）では固定セクターの指数が $P(x) = (\nu^2-1)(q-1)\sum_{k<x}(\nu^2q)^{x-1-k}t^k$ の積になる。条件 (ii) の形を仮定せず、(i) と「$t = q$ で $C$ が整数 Laurent」だけを課して全候補を数えると、$x = 1, 2, 3$ のすべてで $E$ は一意に
+\[
+E(x) = (-1)^x(\nu^2+1)(q+1)\sum_{k<x}(-1)^k(\nu^2q)^{x-1-k}t^k\times\text{単項式}
+\]
+と決まる。$\tilde I$ は $t$ の塔に $(-1)^k$（$e^{i\pi J_2}$）で働く。Hopf $(2,2)$ でも、$t$ と $\nu$ の指数の偶奇で符号を付ける規則が $E_{22}$ を再現する。しかし Hopf $(2,4)$ と結び目では、この型の規則（8 通りと基準のずれ 4 通り）も、符号と取っ手の捻りを組み合わせた 36 通りの規則も、どれも (i)(ii) を満たさない。
 \end{enumerate}
 \end{compresult}
-$\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_2$ の組み合わせだけである。したがって $E$ の決定には、固定セクターの状態の $t$ 電荷を $J_2$（$\tilde I$ で符号）と $S_R$（$\tilde I$ で不変）に分ける情報、すなわち KN の $\hat N_{\rho,g,\beta,J_r,S_R}$ に当たる打ち消しの前の状態数が要る。unknot ではすべて $J_2$、結び目では同じ電荷の状態に異なる符号が付く（計算）。これが命題 \ref{prop:EC} の不定性の、量子数による言い換えである。
+$\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_2$ の組み合わせだけである。したがって $E$ の決定には、固定セクターの状態の $t$ 電荷を $J_2$（$\tilde I$ で符号）と $S_R$（$\tilde I$ で不変）に分ける情報、すなわち KN の $\hat N_{\rho,g,\beta,J_r,S_R}$ に当たる打ち消しの前の状態数が要る。unknot ではすべて $J_2$、結び目では同じ電荷の状態に異なる符号が付く（計算）。KN の仮定（$S_R$ が BPS 状態に自明に働く）のもとでは符号が電荷の偶奇で決まるはずなので、結び目の brane--image のセクターでは $S_R$ が非自明に働くと考えられる（予想）。これが命題 \ref{prop:EC} の不定性の、量子数による言い換えである。
 
 \begin{remark}[refined の強い整数性]
 全 $d$ の形で $f = \tfrac12 f^{\cov} + \tfrac12 E/(1+t) + C$ が整数 Laurent であることは、不変な状態の指数 $P_{\mathrm{inv}}$ について $E \equiv P_{\mathrm{inv}} \pmod 2$（係数ごと）と同値である（$\tfrac12[P_{\mathrm{inv}}(1+t) + E(1-t)]/(1-t^2)$ が整数級数 $\Leftrightarrow P_{\mathrm{inv}} + E \equiv 0 \bmod 2$）。これは整数計画の制約 $e_m \equiv c_m \pmod 2$ そのものである。AgSc §4 の unrefined の形（向き付けられた $f_{\square,\square}$ と向き付けられない $f_\square(q^2)$ の mod 2 の一致）は、$t = q$ で $E$ と $C$ が条件 (ii) で混ざった後の影である。その形を素朴に当てた検査 $P \equiv g_{(1)}(q^2,t^2,\nu^2 w^j) \pmod 2$ は $t = q$ でも合わず、辞書が未確定なので refined についての判定はしていない。

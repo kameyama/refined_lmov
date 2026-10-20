@@ -15,3 +15,13 @@ def test_framed_unknot_x2_E_unique():
     E = res["E"].subs({F.r_: r, F.s_: s})
     expected = (nu**2 + 1) * (r**2 + 1) * (nu**2 * r**2 - s**2) / s**2
     assert sp.cancel(sp.sympify(str(E), locals={"r": r, "s": s, "nu": nu}) - expected) == 0
+
+
+def test_framed_unknot_x1_E_unique_by_enumeration():
+    """framing 1：(ii) の形を仮定せず、(i) と「t = q で C が整数」だけで E が一意（16 候補の全数）。"""
+    with contextlib.redirect_stdout(io.StringIO()):
+        ok = F.enumerate_E(1)
+    r, s, nu = sp.symbols("r s nu", positive=True)
+    assert len(ok) == 1
+    E = sp.sympify(str(ok[0]), locals={"r": r, "s": s, "nu": nu})
+    assert sp.cancel(E + (nu**2 + 1) * (r**2 + 1)) == 0

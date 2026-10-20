@@ -792,3 +792,10 @@
   - 符号の規則の検証（rk_b_sign_rule.py）：unknot・Hopf (2,2) で成り立つ「t と ν の指数の偶奇」の規則は、Hopf (2,4) と結び目では成り立たない。
   - 結論：E の決定には固定セクターの状態の t 電荷を J₂ と S_R に分ける情報が要り、指数からは得られない（theory §11.8）。
 - 3：論文の草稿に §11 の内容を反映（orientifold_index.tex に trace 表示と境界ゼロモードの規則、positivity.tex に強い整数性 E ≡ P (mod 2)・framed unknot・符号の規則の試み、claims.md に O9〜O11・P7・P8）。
+
+## 2026-10-21（続き 47）§11.8 の残り 3 件を実行（ユーザーの指示「残りも全て実行せよ」）
+文書：theory_orientifold_index.md §11.9・§11.10。スクリプト：rk_b_framed_unknot.py（enumerate_E）、rk_b_combined_rule.py、rk_b_one_box_vs_brane_image.py。ログ：b_framed_unknot.log、b_combined_rule.log、b_one_box_vs_brane_image.log。テスト：tests/test_rk_framed_unknot.py（x = 1 の全数を既定のテストに追加）。
+- (A)【計算】奇数の framing の unknot：(ii) の形を仮定せず「t = q で C が整数」だけを課すと、x = 1, 2, 3 で E は一意。E(x) = (−1)^x(ν²+1)(q+1)Σ_k(−1)^k(ν²q)^{x−1−k}t^k。奇数で解が無かったのは全体の符号 (−1)^x の違い。
+- (B)【計算】符号 ε(β,j) と取っ手の捻り X を組み合わせた 36 通りは、T(2,3)・T(2,5) で (i) も (ii) も満たさない。KN の S_R 自明の仮定のもとでは Ĩ の符号は偶奇で決まるはずなので、結び目の brane–image のセクターでは S_R が非自明に働くと考えられる【予想】。
+- (C)【計算】[1] の c = 1 の ν^β のブロックの G の次数は、brane–image の ν^{2β} のブロックの G の次数のちょうど半分（全 β）。[1] の凍結した状態は brane–image の環状の弦の商で、商の取っ手が G を担う。[1] の σ 対称性はこれで説明できる【予想】。多箱の非対称性は未説明。
+- 論文：§3 の σ 対称性の小節に (C) を、§7 に (A)(B) を反映。claims.md に P7 の更新と P9。
