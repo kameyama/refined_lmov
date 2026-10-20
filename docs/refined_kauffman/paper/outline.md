@@ -3,7 +3,7 @@
 もとにした文書：docs/refined_kauffman/report.md、tex/report.tex、theory_orientifold_index.md、progress.md（続き 1〜40）、literature.md、conventions.md。
 印は【導出】【計算】【予想】【仮説】（CLAUDE.md の分類）。主張の根拠と格付けは claims.md に置く。
 
-**決定事項（案。ユーザーの確認待ち）**
+**決定事項（2026-10-20、ユーザーの確認済み：「その方針で進めよ」）**
 - 論文は 1 本。本研究（docs/paper/、framed knot の KN）とは別の論文にする。
 - 準備の段階では日本語で書き、最終版は英語にする（docs/paper/ と同じ）。
 - 著者は 亀山昌也 の単著（docs/paper/ と同じ扱い）。2018 年のノートブックの試行は「著者が以前に行った計算」と書く。
@@ -79,4 +79,4 @@
 1. claims.md の各主張について、テストと記録を確かめる。
 2. 日本語の TeX 草稿（ja/main.tex、sections/）を書き、コンパイルする。
 3. references.bib を作る。原典で確認した文献だけを載せ、ほかは「未確認」と注記する。
-4. ユーザーの確認：決定事項（案）、題、英語版への移行の時期。
+4. 英語版：日本語の準備稿の推敲が済んでから作る。

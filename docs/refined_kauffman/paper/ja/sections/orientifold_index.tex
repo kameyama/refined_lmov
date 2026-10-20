@@ -21,13 +21,18 @@ AgSc \cite{AgSc12} §3 にしたがい、M 理論を $X \times \mathrm{TN} \time
 \[
 g = f - \tfrac12 f^{\cov} = \frac12\,\frac{E}{1+t} + C,\qquad E = \sum_{\text{不変}} \varepsilon_\psi\, m_\psi,\qquad C = \sum_{\text{凍結}} m_\psi .
 \]
-$E$ は、$\tilde I$ で自分自身に移るセクター（brane と image を同数もつセクター）にだけ現れる。冪和の基底では $p_2$ 型の方向（Adams の $\psi^2$）にだけ入り、$E_{(2)} = -E_{(1,1)}$ である。
 \end{proposition}
 \begin{proof}
 被覆の指数は $f^{\cov} = \sum_{\text{対}} 2m/(1-t) + \sum_{\text{不変}} m/(1-t)$ である。
 商の指数は $f = \sum_{\text{対}} m/(1-t) + \sum_{\text{不変}} m \sum_{(-1)^l\varepsilon = 1} t^l + \sum_{\text{凍結}} m$ である。
 $\sum_{(-1)^l\varepsilon = 1} t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$ を代入すれば主張が従う。
 \end{proof}
+
+\begin{remark}\label{rem:Esector}
+$\tilde I$ で不変な状態は、$\tilde I$ で自分自身に移るセクター（brane と image を同数もつセクター）にしか無い。したがって $E$ はそのセクターにだけ現れる。
+$\tilde I$ が brane と image の入れ替えとして働くなら、そのトレースは冪和の基底で $p_2$ 型の方向（Adams の $\psi^2$）に入り、$E_{(2)} = -E_{(1,1)}$ となる。
+この後半は導出ではなく、Hopf 絡み目（計算結果 \ref{cr:E22}）と結び目の 2 箱（計算結果 \ref{cr:largeN}）で確かめた性質である。
+\end{remark}
 
 Mariño の $\sum_{d\ \mathrm{odd}}$ の定義 $g^{\mathrm{odd}}$ とは、$g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
 
@@ -40,12 +45,16 @@ $\sum_{d\ \mathrm{odd}}$ の定義で現れる $4(1+t)(1+t^2)$ は、全 $d$ の
 \subsection{$E$ と $C$ の分離の不定性}
 % [O3]
 \begin{proposition}\label{prop:EC}
-指数 $g$ からは $E(t = -1)$ しか決まらない。すなわち $E \to E + 2(1+t)X$, $C \to C - X$ で $g$ は変わらない。
+整数係数の Laurent 多項式 $X$ について、$E \to E + 2(1+t)X$, $C \to C - X$ としても $g$ は変わらない。したがって $g$ から決まるのは $E$ の $2(1+t)$ を法とした類だけで、特に $E$ そのものは決まらない（$E(-1) = [2(1+t)g]_{t=-1}$ は決まる）。
 \end{proposition}
 \begin{proof}
 $\tfrac12 \cdot 2(1+t)X/(1+t) = X$ なので、$E$ の変化は $C$ の変化で打ち消す。
-状態の言葉では、凍結した状態 $m$ 一つの寄与は、$\varepsilon = +1$ の不変な状態 $m$, $m$, $mt$, $mt$ の寄与 $\tfrac12 (2m + 2mt)/(1+t) = m$ と区別できない。
-$t = -1$ での値 $E(-1) = [2(1+t)g]_{t=-1}$ だけが変わらない。
+状態の言葉では、次の二つの状態の組は、商の指数 $f$ と被覆の指数 $f^{\cov}$ の両方で区別できない。
+\begin{itemize}
+\item 凍結した状態 $m$ と、$\tilde I$ で入れ替わる対 $\{m\}$, $\{mt\}$。
+\item $\varepsilon = +1$ の不変な状態 $m$, $m$, $mt$, $mt$。
+\end{itemize}
+実際、$f^{\cov}$ への寄与はどちらも $2(m + mt)/(1-t)$、$f$ への寄与はどちらも $2m/(1-t)$ である。
 \end{proof}
 
 % [O7]
@@ -74,7 +83,7 @@ AM の変数 $(Q, T) = (q^{1/2}, t^{1/2})$ で、$X = e^{\tau_1/2}$, $e^{\tau_2}
 = -\frac{e^{n\tau_0}}{2n\,(Q^n - Q^{-n})(T^n + T^{-n})} .
 \]
 したがって AM の「奇数 $n$ の $c = 1$ ＋ Klein 瓶」は、全 $n$ の凍結した状態の項 $e^{n\tau_1/2}/(n(Q^n - Q^{-n}))$ と、$\varepsilon = +1$ の不変な状態の項の和に等しい。
-Klein 瓶の項とその分子 $q/t - t/q$ は独立な多重項ではない。奇数の $d$ で整理したときの $-\tfrac12\psi^2 C$ と $\tfrac12 E/(1+t)$ の差である（$E \ne \psi^2 C$）。
+Klein 瓶の項とその分子 $Q^n/T^n - T^n/Q^n$（AM の論文の変数では $q/t - t/q$）は、独立な多重項ではない。奇数の $d$ で整理したときの $-\tfrac12\psi^2 C$ と $\tfrac12 E/(1+t)$ の差である（$E \ne \psi^2 C$）。
 \end{proposition}
 \begin{proof}
 左辺を通分すると、$X^{2n}$ の係数は $[-(T^n + T^{-n}) + Q^{-n}(Q^nT^{-n} - T^nQ^{-n})]/(\cdots) = -T^nQ^{-n}(Q^n + Q^{-n})/(\cdots)$ になり、$(Q^{2n} - Q^{-2n}) = (Q^n - Q^{-n})(Q^n + Q^{-n})$ で約分できる。
@@ -89,5 +98,6 @@ AM と AgSc の規約は、$(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ と全体の
 \begin{remark}[取っ手の因子]
 AgSc §4 の強い整数性の導出に現れる「差 $\times$ 和」$(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ は、類 $\beta/2$ の $c = 1$ の寄与を $d$ を倍にして並べたときの $\psi^2 z$ である。これは取っ手一つの因子ではない。
 Piazzalunga--Uranga \cite{PU14} の M 理論の解釈では、$\tilde I$ で不変な被覆の取っ手一つの捻ったトレースは、同じ変数で $z$ 一つになる。
-refined では $G = z_q z_t = T_+T_-$、$T_\pm = (V - V^{-1}) \pm (W - W^{-1})$ と分解できる。ただし $T_\pm$ の多項式環は $G$ の環と同じ範囲しか表さない（§\ref{sec:positivity}）。
+refined では $G = z_q z_t = T_+T_-$、$T_\pm = (V - V^{-1}) \pm (W - W^{-1})$ と分解できる。ただし $T_\pm$ を使っても、$\sigma$ 対称でない $c = 1$ 部分は展開できるようにならない。
+$\mathbb{Z}[W^{\pm 2}][T_+, T_-] = \mathbb{Z}[W^{\pm2}][V - V^{-1}, W - W^{-1}]$ の元のうち $V$ の偶数冪の部分は、$(V - V^{-1})$ の偶数冪の和なので、$V \to V^{-1}$（$\sigma$）で不変だからである。
 \end{remark}

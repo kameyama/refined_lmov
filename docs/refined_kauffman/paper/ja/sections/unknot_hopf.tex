@@ -34,7 +34,7 @@ $a, b \le 4$ で次が成り立つ。
 \item $f_{11} = -f_{10}\, z_q(\tnu - \tnu^{-1})$、$f_{1b} = f_{11}\,\chi_{b-1}(U/t)$（$\chi_m(x) = x^m + x^{m-2} + \dots + x^{-m}$）。$t = q$ では Mariño の $\hat g_{[1],[1]} = z(\nu - \nu^{-1})$ に、符号と unknot の因子を除いて一致する。
 \end{enumerate}
 \end{compresult}
-refined では、Kähler 変数が $\nu \to \tnu = \nu (q/t)^{1/2}$ とずれる。これは AM の Kähler 変数の量子シフト（§\ref{sec:index}）の開弦版と見なせる。
+refined では、Kähler 変数が $\nu \to \tnu = \nu (q/t)^{1/2}$ とずれる。これは AM の Kähler 変数の量子シフト（§\ref{sec:index}）の開弦版である可能性がある（予想）。ただし閉弦とのずれの比は一致しておらず、結論は保留する（§\ref{sec:universal} の注意）。
 
 \subsection{クロスキャップ部分}
 被覆には、U$(N)$ の refined CS の composite 表現での Hopf 絡み目を使う。$\tfrac12 f^{\cov}_{10} = -(\nu - \nu^{-1})/z_t$、$\tfrac12 f^{\cov}_{11} = (\nu - \nu^{-1})(\tnu - \tnu^{-1})z_q/z_t$ である。
@@ -49,17 +49,17 @@ $t = q$ では Mariño の $\hat g_{[2],[1]} = z(\nu^2 - 1)$, $\hat g_{[1,1],[1]
 
 \subsection{$E$ の決定と Adams}
 probe を $x$ 側と $1/x$ 側に分けたセクター別の被覆から、固定セクター（$\tilde I$ で自分に移るセクター）の状態の和 $P$ を作る。
-$E = P - 2Q$（$Q$ は $\tilde I$ の固有値 $-1$ の状態の和、各単項式で $0 \le Q_m/P_m \le 1$）と書き、次の 2 条件を整数計画で課す。
+$E = P - 2Q$（$Q$ は $\tilde I$ の固有値 $-1$ の状態の和）と書く。$P$ の各単項式の係数を状態の数とみなし、$0 \le Q_m/P_m \le 1$ を課す（仮説。結び目では $P$ の係数の符号が混在するので、この仮説は使えない。§\ref{sec:positivity}）。そのうえで次の 2 条件を整数計画で課す。
 (i) $t = -1$ で $E = 2(1+t)g$。
 (ii) $t = q$ で $C$ が Mariño の値。
 % [H6][H7]
-\begin{compresult}\label{cr:E22}
+\begin{compresult}[上の仮説のもとで]\label{cr:E22}
 \begin{align*}
 E_{22} &= -z_q (z_q^+)^2(\tnu - \tnu^{-1})(t q^{-1/2}\tnu + q^{1/2}\tnu^{-1})\quad(\text{一意}),\\
 E_{24} &= E_{22}\,(\tnu^2/q + q/\tnu^2)\quad(\text{一意}).
 \end{align*}
 $(4,4)$ は解が存在するが一意でない（固定セクターの単項式 180 個のうち 164 個が自由）。
-成分 1 を多 probe にすると、$\tilde I$ は「固定セクターの入れ替え＋Adams」として働き、$E_{R,S} = \sum_{\rho, \sigma\vdash 2} c^R_{2;\rho}c^S_{2;\sigma}\,\varepsilon_{\rho\sigma}$ が成り立つ。確かめた範囲は、$|R| \le 4$, $|S| \le 2$ の 10 セクターと、$|R|, |S| \le 4$ の $t = -1$ での値 25 組である。
+成分 1 を多 probe にすると、$\tilde I$ は「固定セクターの入れ替え＋Adams」として働き、$E_{R,S} = \sum_{\rho, \sigma\vdash 2} c^R_{2;\rho}c^S_{2;\sigma}\,\varepsilon_{\rho\sigma}$ が成り立つ。確かめた範囲は、$|R| \le 4$, $|S| \le 2$ の 10 セクターと、$|R|, |S| \le 4$ の $t = -1$ での値である。後者では 25 組のうち 4 組から $\varepsilon_{\rho\sigma}(-1)$ を解き、残りの 21 組で一致した。
 \end{compresult}
 $P_{22} = z_q^3(\tnu - \tnu^{-1})(tq^{-1/2}\tnu - q^{1/2}\tnu^{-1})$ と比べると、$E_{22}$ は差の因子 $z_q^2$ を和の因子 $-(z_q^+)^2$ に替え、第 2 因子の符号を反転したものである。
 これは $\tilde I$ の捻ったトレースの形で、§\ref{sec:positivity} で結び目に当てる。
