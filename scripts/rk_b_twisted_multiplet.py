@@ -48,8 +48,10 @@ def twisted(key, twist):
         return r**key[1] * s**key[2] * nu**key[3]
     beta, g, j = key
     zq, zt, zqp, ztp = r - 1 / r, s - 1 / s, r + 1 / r, s + 1 / s
-    Gt = zqp * zt if twist == "A" else zq * ztp if twist == "B" else zq * zt
-    return nu**beta * Gt**g * (r / s)**(j // 2)
+    V2 = r * s                                              # (qt)^{1/2}
+    handle = {"A": zqp * zt, "B": zq * ztp, "mono": zq * zt, "G": zq * zt,
+              "Hq": zq, "Ht": zt, "Havg": (zq + zt) / 2, "Hqt": V2 - 1 / V2, "Hdiff": zqp - ztp}
+    return nu**beta * handle[twist]**g * (r / s)**(j // 2)
 
 
 def lp(e, gens):
@@ -132,7 +134,7 @@ def hopf():
         print(f"   条件 (i)+(ii)：{msg}", flush=True)
 
 
-def knot(m, twists=("A", "B", "mono")):
+def knot(m, twists=("A", "B", "mono"), pres=("z_q", "z_q^+")):
     import rk_b_knot_fixed_sector as K
     import rk_b_cover_split as C
     u = sp.Symbol("u", positive=True)
@@ -149,7 +151,7 @@ def knot(m, twists=("A", "B", "mono")):
     Eq = sp.cancel(-(1 + r**2) * (g1x2 + 1))
     print(f"T(2,{2*m+1})：G の多重項 {len(multG)}（係数が負 {sum(1 for v in multG.values() if v < 0)}）、Pk の単項式 {len(multM)}", flush=True)
     out = {}
-    for tw, pre in [(tw, pre) for tw in twists for pre in ("z_q", "z_q^+")]:
+    for tw, pre in [(tw, pre) for tw in twists for pre in pres]:
         mult = multM if tw == "mono" else multG
         pf = (r - 1 / r) if pre == "z_q" else (r + 1 / r)
         for lab, conds in (("(i)", [(R, {s: I})]), ("(ii)", [(Eq, {s: r})]), ("(i)+(ii)", [(R, {s: I}), (Eq, {s: r})])):

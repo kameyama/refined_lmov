@@ -779,3 +779,10 @@
 - 【文献＋解釈】Young の CoHM：M_Q が H_Q 上で自由でないことが E と C の不定性の代数的な形。loop quiver では決まる（unknot の多箱で E が一意になるはずという予言、未実施）。
 - 再考察の表は theory §11.6。
 - 次の候補：(a) 境界モードの規則を組み込んだ E の整数計画（モジュライ部分だけを未知にする）、(b) unknot の多箱で E が一意か、(c) [1] の c = 1 の σ 対称性の理由。
+
+## 2026-10-21（続き 45）§11 の (a)(b)(c) を順に実行（ユーザーの指示「全て順番に進めて報告せよ」）
+文書：theory_orientifold_index.md §11.7。スクリプト：rk_b_twisted_multiplet.py（取っ手の捻りを追加）、rk_b_framed_unknot.py、rk_b_strong_integrality_refined.py。ログ：b_twisted_multiplet_handle.log、b_framed_unknot.log、b_strong_integrality_refined.log。
+- (a)【計算】境界の因子を z_q^+ に固定し、取っ手の捻り G → X（5 候補）で E の整数計画を解いたが、T(2,3)・T(2,5) とも (i)+(ii) の解なし。モジュライ部分への Ĩ の作用は指数の多重項の符号の付け替えでは表せない。未知は H*(M) への Ĩ の作用に絞られた。
+- (b)【計算】unknot：framing 0 では E = C = 0 で予言は自明。framing x = 2 では (i)+(ii) の解が一意（E = (ν²+1)(q+1)(ν²q−t)/t、境界因子 z_q^+ は §11.3 どおり）。x = 1 は解なし（条件 (ii) の形と奇数の framing の符号が未確定、保留）。Young の「loop quiver では決まる」と整合。
+- (c)【導出】refined の強い整数性は E ≡ P_inv (mod 2)（整数計画の制約そのもの）。【計算】AgSc の unrefined の形を素朴に当てた mod 2 の検査は t = q でも合わず、辞書が未確定なので判定できない。[1] の σ 対称性は未解明のまま（予想のみ）。
+- 次の候補：(1) H*(M_{g,h,β}) への Ĩ の作用を、被覆の composite (1;1) のモジュライ（brane–image の環状の弦）の幾何から決める。(2) framing 1 の unknot の条件 (ii) を、Mariño–Vafa の framed unknot の unrefined の値から固定する。(3) 論文の草稿に §11 の内容（trace 表示、境界モードの規則）を加える。
