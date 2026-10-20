@@ -99,6 +99,18 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 | Piazzalunga–Uranga 1405.6019（v2） | — | real topological string の M 理論の解釈。Ĩ で不変な状態だけが奇数の巻き付きで寄与し、real BPS 不変量は偶奇で重みを付けた差 n⁺ − n⁻。被覆の取っ手一つの捻ったトレースは −2 sinh（z 一つ）。refined は脚注で触れるだけ | 【TeX】 |
 | Kim–Wei 2201.12264（v2） | D 型の箙（5d） | ON 面（O5 の S 双対）のある 5-brane web の refined 位相的頂点。向き付けられない面は数えない（本研究の照合の対象外） | 【TeX、序論のみ】 |
 | Bishler–Mironov 2504.13831 | 単純レース型 | Macdonald 次元（q^ρ での値）の Vogel 普遍性 | 【抄録】 |
+| Witten 1101.3216 | — | Fivebranes and Knots（Khovanov ホモロジーの 5-brane による構成。S 双対、T 双対、6 次元への二つの経路）。2026-10-21 にユーザーの指示で追加。references/1101.3216/ に取得済み。本文は未読 | 【arXiv API で題名・著者を確認、本文未読】 |
 | NRZ 1310.2240、Gukov–Walcher hep-th/0512298 | SO/Sp | Kauffman ホモロジー（refined CS とは別物と明記） | 【TeX】 |
 - 非トーラス結び目、高い彩色の一般の N の refined SO/Sp の結び目不変量、Sp の refined CS の結び目不変量は、今回の検索の範囲では見つからなかった。
 - 2605.12469（"A note on universality in refined Chern-Simons theory"）は題名だけを見た【未確認】。
+
+## 5. 正値性の障害（問題 A・B）についての deep research の報告（2026-10-21）
+- 指示：deep_research_prompt_AB.md。報告：literature_deep_research_2026-10-21_AB.md（外部の deep research の出力。確認の度合いは報告の中に書いてある。本研究で原典を確認するまでは未検証の要約として扱う）。
+- 報告の結論：A（向き付けられない面の refined 多重項）、B（E を決める原理）のどちらにも直接答える文献は見つからなかった。最も近いのは数学の orientifold Donaldson–Thomas 理論（Young 1408.4888・1603.05401、Franzen–Young 1605.06596、Bu 2503.20667）。Young 1603.05401 は「orientifold の不変量は通常の DT 不変量からは計算できず、Z₂ 同変な精密化が要る」と述べる（報告では原典本文で確認とされる）。
+- 報告が挙げる検証できる予言（いずれも報告の解釈で、文献の主張ではない）：
+  - (A-i) σ は太字で 𝐪 ↦ −(𝐪𝐭)^{−1}、𝐭・𝐚 固定。σ は R と R^T を対応づけるので、3 箱では自己転置の [2,1] だけが σ 対称になるはず。
+  - (A-ii) 普遍因子 (𝐚² − 𝐪²) は U = t（SO(2)）で消えるので、U = t で f_R, g_R は ν の置き換えを除いて t = q の値に一致するはず。
+  - (A-iii) c = 2 部分を普遍因子で割った正の多項式は 𝐪 について回文的のはず。
+  - (B-i) unknot の多箱（loop quiver）では Hopf の方法で E が一意に決まり、失敗は多頂点の quiver に当たる結び目から始まるはず。
+  - (B-ii) 結び目の p₂ 方向で E + 2(1+t)X ≡ 0 (mod z_q⁺) を満たす X があるはず。
+- 未確認のまま残っている点（報告の注意）：Ekholm・Georgieva の Kauffman skein 値の曲線計数の論文の有無、Rains の lifted Koornwinder への Macdonald 対合の具体式、Queffelec–Rose–Sartori の本文。Bu の自己双対構造が AgSc の Ĩ に当たるか。

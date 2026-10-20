@@ -27,6 +27,8 @@ Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果�
 | past_attempt.md | 2018 年の試行錯誤の整理（ノートブックごとの内容、仮説の式、検査の結果、ミスの候補と検証結果） |
 | report.md | 本文（K0〜K2' の結果と導出、現時点の判断） |
 | literature_deep_research_2026-10-14.md | 外部の deep research の報告（未検証の要約） |
+| deep_research_prompt_AB.md | 正値性の障害（A：凍結した状態の多重項、B：E と C の分離）についての deep research への指示（閉じた形） |
+| literature_deep_research_2026-10-21_AB.md | その報告（外部の deep research の出力、未検証の要約。要点は literature.md §5） |
 | progress.md | 進捗（先頭に再開用の「現在の状況」、その下に日付ごとの記録。記録は古いものが上で、新しいものは末尾に足す） |
 | theory_orientifold_index.md | orientifold の開弦の refined 指数の理論（全 d の構造、E と C の分離、閉弦との照合、捻ったトレース、§1〜§10） |
 | tex/report.tex, report.pdf | 計算結果の報告書（TeX、生成した式は tex/gen/） |

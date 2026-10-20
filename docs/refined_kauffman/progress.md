@@ -761,3 +761,10 @@
     - prop:alld の後半（p₂ 方向、E_(2) = −E_(1,1)）は注意に移し、計算で確かめた性質と明記した。
     - その他：Hopf の 25 組の照合の数え方、E_22 の一意性の前提（P の係数を状態の数とみなす仮説）、過大な表現（「示す」「決まらない」）、ν~ を AM の量子シフトの開弦版とする記述（予想に弱めた）、GL の単項式の規則の範囲、二次量子化の割合、Cherednik の引用、二重ツイスト結び目の範囲。
 - 草稿は 26 ページで、コンパイルは警告なし。
+
+## 2026-10-21（続き 43）deep research の報告の配置と、文献の追加（ユーザーの指示）
+- 報告（ユーザーが Downloads に置いたもの）を docs/refined_kauffman/literature_deep_research_2026-10-21_AB.md に配置した（指示は deep_research_prompt_AB.md）。要点と検証できる予言を literature.md §5 にまとめた。報告は外部の出力で、原典を確認するまでは未検証の要約として扱う。
+- 文献の一覧に Witten 1101.3216（Fivebranes and Knots）を追加した（literature.md §4、justfile の papers、references/README.md）。references/1101.3216/ に PDF と TeX を取得した。本文は未読。
+- 次の候補（判断待ち）：
+  - 報告の予言 (A-i)（[2,1] だけ σ 対称）、(A-ii)（U = t で t = q の値に一致）、(A-iii)（c = 2 の商の回文性）、(B-i)（unknot の多箱で E が一意）は、保存済みのデータで短い計算で検証できる。
+  - Young 1603.05401（orientifold DT、CoHM）の原典の確認。
