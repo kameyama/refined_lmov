@@ -88,7 +88,7 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 | 文献 | 群 | 計算されているもの | 確認 |
 |---|---|---|---|
 | Aganagic–Schaeffer 1202.4456 | 単純レース型（ADE）で定義。計算は SO(2N) だけ | unknot、Hopf（V, V）、trefoil の V（一般の N、(6.15)）、trefoil のスピノル S（SO(4), SO(6), SO(8)）、T(2,2m+1) の V の一般式、T(3,4) の V（SO(4), SO(6)）、大きな N の閉弦の自由エネルギー。非単純レース型は脚注で「(2,0) 理論の外部自己同型のひねりで得られるはず」とするだけ | 【TeX】 |
-| Cherednik 1111.6195 | 任意の被約ルート系と C^∨C_1 | DAHA-Jones 多項式（トーラス結び目）。§Kauffman：C–D（部分的に B）型の hyper-polynomial（4 変数、予想と例、「最小の重みでも正値性はほとんど無い」）。§Exceptional：例外型（G_2 など）は t = q の値だけ、最も簡単なトーラス結び目、最小・準最小の重み | 【TeX】 |
+| Cherednik 1111.6195 | 任意の被約ルート系と C^∨C_1 | DAHA-Jones 多項式（トーラス結び目）。§Kauffman：C–D（部分的に B）型の hyper-polynomial（4 変数、予想と例、「最小の重みでも正値性はほとんど無い」）。 2026-10-21 に §Kauffman を読んだ：C_n の twisted 設定（t = t_sht、u = t_lng）、u = 1 で D_n、E_{ω₁} = X_{ε₁}、E_ϑ の明示式 (Evth)、ℋ^C_{3,2}(ω₁)・ℋ^C_{7,2}(ω₁)・ℋ^C_{4,3}(ω₁)・ℋ^C_{3,2}(ω₂) の明示式、hyper-duality の予想。本研究の C_N の実装（daha_cn.py）はこの節の規約に従い、(super-c-2-3) を再現した。§Exceptional：例外型（G_2 など）は t = q の値だけ、最も簡単なトーラス結び目、最小・準最小の重み | 【TeX】 |
 | Cherednik–Danilenko 1509.08351 | B, C, D | 「B, C, D 型の DAHA-hyperpolynomial の存在と対称性は未解決」、D 型の t = q が Kauffman 多項式に一致することは示された | 【TeX】 |
 | Cherednik–Elliot 1503.01441 | A（composite）、例外型 | composite DAHA 超多項式。序論に「composite の DAHA 超多項式は正値性をもたない（長方形でない図形や代数的でない結び目と同様）」「annulus の HOMFLY-PT ホモロジーとの関係は、例が無いので予想しない」とある。最後の節で例外型の Deligne–Gross 系列の DAHA-hyperpolynomial を実験的に構成 | 【TeX（序論）】 |
 | Queffelec–Rose–Sartori 1802.04131 | A | 環状の HOMFLY-PT（KR）ホモロジーの構成。composite のトーラス結び目の計算例は見つからなかった | 【検索結果のみ、未確認】 |

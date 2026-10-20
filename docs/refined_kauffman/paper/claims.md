@@ -77,6 +77,8 @@
 | D8 | KN の q 枠と t 枠の hatted は 2 箱で一致 | CR | — | test_rk_daha::test_large_N_two_box_kn_frames | 新規 |
 | D9 | 普遍因子：ĝ − ĝ\|_{t=q}(ν → ν w^k) が (q − t)(ν² − t) で割り切れるのは k = +1 だけ（[1]、2 箱、3 箱、T(2,5) の 2 箱） | CR（k = −3..3） | — | test_rk_closed_orientifold::test_shift_direction_unique_for_trefoil_one_box、logs/refined_kauffman/b_shift_direction.log、results の test_general_N_three_box_tq_and_T25_universal_factor | 新規 |
 | D10 | 多箱の c = 1 部分は σ 対称でなく G 展開できない。SO の R_λ に super-duality に当たる対称性が無い | CR | — | report.md §9、scripts/rk_b_2box_structure.py | 新規（否定的） |
+| D11 | C_N の DAHA の実装：関係式、u = 1 で D_N と一致、Cherednik の ℋ^C_{3,2}(ω₁) と一致。ℋ^C_{5,2}(ω₁) は新規 | CR | Cherednik の C_n の規約 | test_rk_daha_cn、logs/d_cn_check.log、d_hyper_fit.log | 実装と T(5,2) は新規 |
+| D12 | refined Sp(2N) = C_N(u = t²)（AM の定義）の [1]：g^{Sp}(𝐚) = −g^{SO}(−𝐚)（T(2,3), T(2,5)）。c = 1 の符号反転が refined でも成立 | CR | SO の規約の較正、Sp の単項式の決め方 | test_rk_daha_cn::test_sp_one_box_is_minus_so_with_a_flipped、logs/d_sp_one_box.log、theory §11.12 | 新規（refined Sp の結び目不変量の最初の値） |
 
 ## 6. 正値性（§7）
 

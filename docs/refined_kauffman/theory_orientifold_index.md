@@ -247,3 +247,19 @@ V の偶奇で c = 1（偶）と c = 2（奇）に分け、c = 1 部分が Z[G, 
 - E が Laurent であるための条件は (0) R̃_adj(ν² = −t/q) = 1（κ̃ の極 1/(1+qA/t) の消去）と (0′) t = 1 の留数の消去（R̃_adj(t=1) = ±ψ²(W₁/qn)(t=1)、すなわち入れ替えのトレースで R_adj(t=1) = (W₁/qn)²(t=1) の交差項が消えて対角項が残ること）。
 - 結果：(0) は T(2,3)・T(2,5) で満たせる。(0′) は T(2,3) で満たせるが T(2,5) では満たせない。(0)+(0′) は両方で満たせず、(i)(ii) を加えても同じ。
 - 結論：R_adj·dim_adj の積の構造は Macdonald の指標の恒等式（composite の分解）の上のもので、Hilbert 空間のテンソル積ではない。Ĩ の捻りはこの積に分配しない。unknot で積の形が成り立ったのは、R_adj = T_adj^x が単項式だったためである。案 A は不成立。
+
+### 11.12 案 D：refined Sp(2N) の [1] と、SO との関係（2026-10-21）【計算】
+実装：src/rcsknots/daha_cn.py（C_N の DAHA の多項式表現、Cherednik 1111.6195 §Kauffman の twisted 設定。短い根 ±ε_i±ε_j、長い根 ±2ε_i、t = t_sht、u = t_lng）。スクリプト：rk_d_cn_check.py、rk_d_cn_omega1.py、rk_d_hyper_fit_rf.py、rk_d_hyper_fit.py、rk_d_sp_one_box.py。ログ：d_cn_check.log、d_hyper_fit.log、d_sp_one_box.log。テスト：tests/test_rk_daha_cn.py（3 件）。
+- 定義：AM 2205.12832 の (refCS) は任意のルート系で k_α = y を一様にとり q_α = q^{(α,α)/2} とする。C_N では t_lng = q^{2y} = t²、すなわち **refined Sp(2N) = C_N の DAHA で u = t²**。u = 1 は D_N（SO(2N)）に当たる（Cherednik (kauf)）。
+- 検証：C_2, C_3 の DAHA の関係式（2 次・組紐（4 項を含む）・交差・Y の可換性）。u = 1 で D_N の DAHA-Jones の [1] に比 1 で一致（N = 2, 3、T(3,2), T(5,2)）。Cherednik (super-c-2-3) の ℋ^C_{3,2}(ω₁) に a = −t^{m−1} で単項式 q³t^{4(m−1)}u² を除いて一致（m = 2, 3, 4）。
+- hyper-polynomial の復元（N = 2..7 で当てはめ、N = 8 で照合）：JD^{C_N}(ω₁)·q^{2m+1}t^{4m(N−1)}u^{m+1} = ℋ^C_{2m+1,2}(ω₁; q,t,u, a = −t^{N−1})。
+  - T(3,2)：Cherednik の式を再現。
+  - **T(5,2)（新規）**：ℋ^C_{5,2}(ω₁) = 1 + qt + q²t² + a(qt − qu + q²t² − q²tu) + a²(−qu + q²u − 2q²tu + q³tu − q³t²u) + a³(q²u² − q²tu − q³u² + q³tu + q³tu² − q³t²u) + a⁴(−q³u² + q³tu² + q⁴u² − q⁴tu²) + a⁵(q⁴u³ − q⁴tu²)。data/refined_kauffman/daha/cn_hyper_omega1_m2.pkl。
+- SO の規約の較正（一意）：W_SO = 鏡像[ℋ^C(u=1, a = −ν/s)]·dim_V^{SO}(ν)·(s/ν)^{2m}、g^{true}_[1] = W_SO − W^{cov}_1（鏡像：r, s, ν → 1/r, 1/s, 1/ν）。
+- Sp：ν = t^{N+1/2}（A = t^{2N+1} = ν²、被覆は U(2N+1)）、a = −t^{N−1} = −ν/s³、dim_V^{Sp} = Σ_{j=1}^{N}(t^j + t^{−j})。単項式は t = 1 の極の打ち消しと t = q での Kauffman の形から (s/ν)^{2m} に一意（SO と同じ形）。
+- **結果**：T(2,3)、T(2,5) で
+  **g^{Sp}_[1](𝐚, 𝐪, 𝐭) = −g^{SO}_[1](−𝐚, 𝐪, 𝐭)**（太字 𝐚 = ν、全係数で一致）。
+  - 本研究の c = 1（𝐚 の偶数冪）・c = 2（𝐚 の奇数冪）の割り当てで、C^{Sp} = −C_{c=1} + C_{c=2}。Mariño の「SO と Sp は c = 1 の項の符号が違う」が refined でもそのまま成り立ち、c の割り当て（𝐚 の偶奇）を独立に裏付ける。
+  - g^{Sp} は整数 Laurent、𝐭 → −𝐭 で不変、SO(2) の点 𝐚² = 𝐪² で −1（SO は +1）。
+  - 案 D の目的だった C_{c=2} = ½(g^{SO} + g^{Sp}) は、𝐚 の奇数部分そのもの（−(𝐚²−𝐪²)(𝐭²−1)×正、§6）で、新しい情報は無い。しかし Sp の値が AM の定義から独立に SO と整合することは、AM の refined Sp(2N) が開弦でも整合する最初の確認である。
+- 未着手：Sp の 2 箱（C_N の P_{2ω₁}, P_{ω₂} が要る。E_{ω₂} は Cherednik (Evth) で明示的）。2 箱で g^{Sp}_R(𝐚) = −g^{SO}_R(−𝐚) が成り立てば E^{Sp} と E^{SO} の関係（E の 𝐚 の偶奇）が決まる。
