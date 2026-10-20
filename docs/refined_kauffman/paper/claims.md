@@ -34,6 +34,10 @@
 | O6 | AM の D/C 型の「奇数 n の c = 1 ＋ Klein 瓶（c = 2）」は、全 n の凍結した状態＋不変な状態（ε = +1、z₂ の偶数モード）に恒等的に等しい。Klein 瓶の項は −½ψ²C と ½E/(1+t) の差 | Prop（有理式の恒等式） | AM (3.4)–(3.7) | test_rk_closed_orientifold::test_am_klein_bottle_is_frozen_plus_invariant、theory §8 | 新規と思われる（AM と AgSc の整理の関係） |
 | O7 | 正値性は E を含まない方向（p₁ⁿ、奇数のセクター）で E の不定性によらず判定できる | 系 | O1, O2 | theory §4 | 新規 |
 | O8 | AgSc §4 の「差 × 和」は ψ²z で、取っ手一つの因子ではない（PU の捻ったトレースは同じ変数で z 一つ） | Rem（文献の読み） | — | theory §5 の訂正 | — |
+| O9 | SO(2N) 版の trace 表示：g = ½Tr_{H₁^{cov}}(Ĩ·) + C。E は Witten の ζ 挿入のトレースの型、C は商の理論にしかない状態 | Prop | O1 | theory §11.2、草稿 prop:trace。Witten 1101.3216 §3.4・§5.1.4、AgSc 付録 A（原典で確認） | 新規（読み替え） |
+| O10 | 境界ゼロモードへの Ĩ の作用：E の境界因子 z_q^{n−1}(z_q^+)^n、P は z_q^{2n−1}。系：E は p₂ 型の方向だけ | Prop ＋ CR（Hopf (2,2),(2,4)、T(2,3),(2,5)、framed unknot x=2,4） | KN の境界ゼロモードの描像、Ĩ が L と I(L) の境界を入れ替えること | theory §11.3、test_rk_boundary_mode（2 件）、logs/b_boundary_mode_rule.log、b_framed_unknot.log | 新規 |
+| O11 | refined の強い整数性：全 d の f が整数 ⟺ E ≡ P_inv (mod 2) | Prop | O1 | theory §11.7 (c) | 新規 |
+| O12 | σ は SU(2)_ℓ（Lefschetz）の Weyl 反射。凍結した状態には Lefschetz が無いので C は σ 対称でなくてよい。[1] の σ 対称性は未説明 | Rem ＋ Conj | — | theory §11.4 | 新規（観察） |
 
 ## 3. unknot と Hopf 絡み目（§4）
 
@@ -84,6 +88,8 @@
 | P4 | 固定セクターの整数計画で E を決める試み：状態の部分和は trefoil で解なし（T(2,5) は未実行）。捻ったトレースは T(2,5) で解なし（指数の上限では少なくとも 2 組の隠れた対が要る）。結び目の E の境界因子は和 z_q^+ | CR | 捻りの規則（Hyp） | test_rk_twisted_multiplet（results）、theory §9 | 新規 |
 | P5 | 被覆の随伴 R_adj はどの偶奇の符号規則でも正にならない（Cherednik–Elliot の「composite の DAHA 超多項式は正値性をもたない」と一致） | CR ＋ K | — | scripts/rk_b_adj_positivity.py、1503.01441 序論 | 照合 |
 | P6 | 多箱の正値性は、凍結した状態の多重項の基底と E・C の分離が決まるまで判定できない | Rem（現状の結論） | O3, P2〜P5 | — | — |
+| P7 | framed unknot：x = 2, 4 で E が一意（E(x) = (ν²+1)(q+1)Σ(−1)^k(ν²q)^{x−1−k}t^k）、x = 1, 3 は条件 (ii) の形が未確定で解なし | CR | (ii) の形 A（仮説） | logs/b_framed_unknot.log、theory §11.8 | 新規 |
+| P8 | Ĩ の符号は電荷だけの関数でない：unknot・Hopf (2,2) で成り立つ (−1)^{(j+l)/2} の規則は Hopf (2,4) と結び目で (i)(ii) を満たさない。E の決定には t 電荷の J₂/S_R への分解が要る | CR ＋ Rem | — | logs/b_sign_rule.log、theory §11.8 | 新規（否定的） |
 
 ## 7. 既知（成果として書かない）
 

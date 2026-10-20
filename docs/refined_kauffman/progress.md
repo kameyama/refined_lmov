@@ -786,3 +786,9 @@
 - (b)【計算】unknot：framing 0 では E = C = 0 で予言は自明。framing x = 2 では (i)+(ii) の解が一意（E = (ν²+1)(q+1)(ν²q−t)/t、境界因子 z_q^+ は §11.3 どおり）。x = 1 は解なし（条件 (ii) の形と奇数の framing の符号が未確定、保留）。Young の「loop quiver では決まる」と整合。
 - (c)【導出】refined の強い整数性は E ≡ P_inv (mod 2)（整数計画の制約そのもの）。【計算】AgSc の unrefined の形を素朴に当てた mod 2 の検査は t = q でも合わず、辞書が未確定なので判定できない。[1] の σ 対称性は未解明のまま（予想のみ）。
 - 次の候補：(1) H*(M_{g,h,β}) への Ĩ の作用を、被覆の composite (1;1) のモジュライ（brane–image の環状の弦）の幾何から決める。(2) framing 1 の unknot の条件 (ii) を、Mariño–Vafa の framed unknot の unrefined の値から固定する。(3) 論文の草稿に §11 の内容（trace 表示、境界モードの規則）を加える。
+
+## 2026-10-21（続き 46）§11.7 の次の候補 1〜3 を順に実行（ユーザーの指示「順に実行せよ」）
+- 1・2【計算】framed unknot（x = 1..4、条件 (ii) の 3 つの形）：P(x) = (ν²−1)(q−1)Σ_k (ν²q)^{x−1−k}t^k の積の構造。偶数の x で E が一意（E(x) = (ν²+1)(q+1)Σ_k(−1)^k(ν²q)^{x−1−k}t^k）、奇数の x は解なし（(ii) の形は未解決）。Ĩ は塔の k 番目に (−1)^k で働く（e^{iπJ₂}）。
+  - 符号の規則の検証（rk_b_sign_rule.py）：unknot・Hopf (2,2) で成り立つ「t と ν の指数の偶奇」の規則は、Hopf (2,4) と結び目では成り立たない。
+  - 結論：E の決定には固定セクターの状態の t 電荷を J₂ と S_R に分ける情報が要り、指数からは得られない（theory §11.8）。
+- 3：論文の草稿に §11 の内容を反映（orientifold_index.tex に trace 表示と境界ゼロモードの規則、positivity.tex に強い整数性 E ≡ P (mod 2)・framed unknot・符号の規則の試み、claims.md に O9〜O11・P7・P8）。

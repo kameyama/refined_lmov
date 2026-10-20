@@ -58,24 +58,35 @@ def run(x):
     return out, sp.cancel(xsec.to_sympy())
 
 
-def solve_E(x):
+def solve_E(x, variant="A", quiet=False):
+    """variant：t = q の条件 (ii) の形。A：E = −(1+q)(g_(1)(q²,ν²) + 1)（結び目の形）、B：−(1+q) g_(1)(q²,ν²)、C：−(1+q)(g_(1)(q²,ν²) − 1)。"""
     import rk_k4_fixed_sector as H
-    g, xsec = run(x)
+    if quiet:
+        with contextlib.redirect_stdout(io.StringIO()):
+            g, xsec = run(x)
+    else:
+        g, xsec = run(x)
     r, s, nu_ = H.r, H.s, H.nu
     sub = lambda e: sp.cancel(e.subs({r_: r, s_: s}).subs(u_, nu_ * s))
     g = {k: sub(v) for k, v in g.items()}
     P = sp.cancel((1 - s**2) * sub(xsec))
     R_ = sp.cancel(2 * (1 + s**2) * g[(2,)])
     g1x2 = g[(1,)].subs({r: r**2, s: s**2, nu_: nu_**2}, simultaneous=True)
-    Eq = sp.cancel((-(1 + r**2) * (g1x2 + 1)).subs(s, r))
+    shift = {"A": 1, "B": 0, "C": -1}[variant]
+    Eq = sp.cancel((-(1 + r**2) * (g1x2 + shift)).subs(s, r))
     print(f"   P の分子の因子 {sp.factor(sp.fraction(P)[0])}", flush=True)
-    res = H.solve_generic(P, R_, Eq)
-    print(f"   固定セクターの単項式 {res['n']} 個、(i)+(ii) の解あり = {res['feasible']}" + (f"、一意でない変数 {len(res['free'])} 個" if res["feasible"] else ""), flush=True)
+    try:
+        res = H.solve_generic(P, R_, Eq)
+    except AssertionError as ex:
+        print(f"   (ii) の形 {variant}：{ex}（偶奇が合わないので不可）", flush=True)
+        return None
+    print(f"   (ii) の形 {variant}：固定セクターの単項式 {res['n']} 個、(i)+(ii) の解あり = {res['feasible']}" + (f"、一意でない変数 {len(res['free'])} 個" if res["feasible"] else ""), flush=True)
     if res["feasible"]:
         print(f"   E = {sp.factor(res['E'])}", flush=True)
     return res
 
 
 if __name__ == "__main__":
-    for x in (1, 2):
-        solve_E(x)
+    for x in (1, 2, 3, 4):
+        for variant in ("A", "B", "C"):
+            solve_E(x, variant, quiet=(variant != "A"))

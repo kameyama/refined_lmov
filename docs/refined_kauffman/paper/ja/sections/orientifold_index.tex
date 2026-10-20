@@ -29,10 +29,62 @@ $\sum_{(-1)^l\varepsilon = 1} t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$ を�
 \end{proof}
 
 \begin{remark}\label{rem:Esector}
-$\tilde I$ で不変な状態は、$\tilde I$ で自分自身に移るセクター（brane と image を同数もつセクター）にしか無い。したがって $E$ はそのセクターにだけ現れる。
+$\tilde I$ で不変な状態は、$\tilde I$ で自分自身に移るセクター（brane と image を同数もつセクター）にしか無い。したがって $E$ はそのセクターにだけ現れる（命題 \ref{prop:boundary} の系も参照）。
 $\tilde I$ が brane と image の入れ替えとして働くなら、そのトレースは冪和の基底で $p_2$ 型の方向（Adams の $\psi^2$）に入り、$E_{(2)} = -E_{(1,1)}$ となる。
-この後半は導出ではなく、Hopf 絡み目（計算結果 \ref{cr:E22}）と結び目の 2 箱（計算結果 \ref{cr:largeN}）で確かめた性質である。
+後半は Hopf 絡み目（計算結果 \ref{cr:E22}）と結び目の 2 箱（計算結果 \ref{cr:largeN}）で確かめた性質である。
 \end{remark}
+
+\subsection{trace 表示：Witten の二つの公式の SO$(2N)$ 版}
+Witten \cite{Witten11} は、Chern--Simons の分配関数を 5 次元（6 次元 $(2,0)$ 理論）の $Q$ コホモロジー上のトレース $Z^{\mathrm{CS}} = \mathrm{Tr}_{\mathcal K}\, q^{P}(-1)^{F}$ と書き（§4.1）、単純レースでない群については、大きい理論の空間で外部自己同型 $\zeta$ を挿入したトレースと、固定された理論の普通のトレースという二つの表示を与えた（§3.4）。
+D 型の $(2,0)$ 理論は、M5 brane を $X/\mathbb{Z}_2$（$\mathbb{Z}_2$ は法束に $-1$）に巻いて得られる（同論文 §5.1.4、\cite{AgSc12} 付録 A）。これが本論文の $\tilde I$ の 5-brane 側の起源である。
+% [O9]
+\begin{proposition}\label{prop:trace}
+仮説 \ref{hyp:classes} のもとで、商の一粒子の指数は被覆の射影 $P_+ = (1 + \tilde I)/2$ と凍結した状態の和で書け、
+\[
+g = f - \tfrac12 f^{\cov} = \tfrac12\,\mathrm{Tr}_{H_1^{\cov}}\bigl(\tilde I\cdot(\text{指数の重み})\bigr) + C
+\]
+である。右辺の第 1 項は $\tfrac12 E/(1+t)$ に等しい。
+\end{proposition}
+\begin{proof}
+$f = \mathrm{Tr}_{H_1^{\cov}}(P_+\cdot) + \sum_{\text{凍結}} m$ と、$\tilde I$ が不変な状態に $\varepsilon$、$z_2$ のモードに $(-1)^l$ で働くことから、$\mathrm{Tr}(\tilde I\cdot) = \sum_{\text{不変}}\varepsilon m\sum_l (-t)^l = E/(1+t)$。
+\end{proof}
+$E$ は Witten の「$\zeta$ を挿入したトレース」の型、$C$ は商の理論にしかない状態の寄与である。命題 \ref{prop:EC} の不定性は、一つの数を二つの表示に分ける仕方の不定性と読める。
+
+\subsection{境界ゼロモードへの $\tilde I$ の作用}
+KN \cite{KN17} §3.2 では、境界 $h$ 個の曲線の境界ゼロモード $d\theta_i$（$\sum_i d\theta_i = 0$）が hook 表現を張り、t-brane 枠では 1 モードあたり $(1 - q^{-1})$（規格化 $q^{1/2}$）を与える。
+% [O10]
+\begin{proposition}\label{prop:boundary}
+KN の境界ゼロモードの描像を仮定し、$\tilde I$ が $L$ の境界と $I(L)$ の境界を入れ替えるとする。$\tilde I$ 不変な曲線は $L$ と $I(L)$ の境界を同数 $n$ 組もち、対ごとに和 $d\theta_i + d\theta_i'$ は偶、差 $d\theta_i - d\theta_i'$ は奇である。拘束 $\sum d\theta = 0$ は偶のモードを一つ減らす。したがって
+\[
+E\ \text{の境界因子} = z_q^{\,n-1}(z_q^+)^{\,n},\qquad
+P := (1-t)f^{\cov}_{\text{固定セクター}}\ \text{の境界因子} = z_q^{\,2n-1}.
+\]
+系として、$E$ は brane と image の境界を同数もつセクター（$p_2$ 型の方向）にだけ現れる。
+\end{proposition}
+\begin{proof}
+奇のモードでは、$\tilde I$ を挿入したトレースで $(1 - q^{-1})$ が $(1 + q^{-1})$ に替わる。偶 $n-1$ 個、奇 $n$ 個を掛け合わせればよい。
+\end{proof}
+% [O10]
+\begin{compresult}\label{cr:boundary}
+保存済みのデータで、命題 \ref{prop:boundary} の予言がすべて一致した。
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+対象 & $n$ & $E$ の境界因子 & $P$ の境界因子 \\
+\midrule
+Hopf $(2,2)$, $(2,4)$ & 2 & $z_q(z_q^+)^2$ & $z_q^3$ \\
+$T(2,3)$, $T(2,5)$ の $p_2$ 方向 & 1 & $z_q^+$（整数計画は $z_q^+$ でなければ解なし） & $z_q$ \\
+framed unknot（framing 2, 4） & 1 & $z_q^+$ & $z_q$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{compresult}
+計算結果 \ref{cr:E22} の $E_{22}$ の $(z_q^+)^2$ と、§\ref{sec:positivity} の「結び目の境界因子は和でなければならない」は、この命題の帰結である。残る未知は、モジュライ空間の部分 $H^*(\mathcal{M}_{g,h,\beta})$ への $\tilde I$ の作用（$\beta$ ごとの符号 $\varepsilon$）である。
+
+\subsection{$\sigma$ 対称性の起源}
+$\sigma\colon q\mapsto t^{-1}, t\mapsto q^{-1}$ は、KN の変数 $q_\ell = (qt)^{1/2}$, $q_r = (q/t)^{1/2}$ では $q_\ell \mapsto q_\ell^{-1}$、$q_r$ 固定、すなわち Jacobian の Lefschetz 作用 SU$(2)_\ell$ の Weyl 反射である。
+KN の $\hat f$ の $\sigma$ 不変性は、取っ手のゼロモードが SU$(2)_\ell$ の二重項をなすこと（取っ手あたり $-(q_\ell + q_\ell^{-1}) + (q_r + q_r^{-1}) = G$）から来る。
+凍結した状態は向き付けられない面 $N = \hat\Sigma/I$ に巻いた M2 で、$N$ には複素構造が無く $H^1(N)$ に Lefschetz の $\mathfrak{sl}_2$ は働かない。したがって $C$ に $\sigma$ 対称性を期待する理由は無く、多箱の $c = 1$ 部分が $G$ 展開できないこと（§\ref{sec:generalN}）はこれで説明できる（予想）。[1] の $c = 1$ 部分が $\sigma$ 対称であることは、この見方では未説明である。
 
 Mariño の $\sum_{d\ \mathrm{odd}}$ の定義 $g^{\mathrm{odd}}$ とは、$g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
 
