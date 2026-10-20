@@ -1,0 +1,4 @@
+T(2,3)、s_W = +1：R_adj の単項式 19 個（Σ|c| = 27）。|e| ≤ |c|、e ≡ c (mod 2) で満たせる条件：{'(0)': True, '(0′)': True, '(0)+(0′)': False, '(0′)+(i)': False, '(0′)+(ii)': False, '(0′)+(i)+(ii)': False, '(0)+(0′)+(i)': False, 'all': False}
+T(2,3)、s_W = -1：R_adj の単項式 19 個（Σ|c| = 27）。|e| ≤ |c|、e ≡ c (mod 2) で満たせる条件：{'(0)': True, '(0′)': True, '(0)+(0′)': False, '(0′)+(i)': False, '(0′)+(ii)': False, '(0′)+(i)+(ii)': False, '(0)+(0′)+(i)': False, 'all': False}
+T(2,5)、s_W = +1：R_adj の単項式 56 個（Σ|c| = 99）。|e| ≤ |c|、e ≡ c (mod 2) で満たせる条件：{'(0)': True, '(0′)': False, '(0)+(0′)': False, '(0′)+(i)': False, '(0′)+(ii)': False, '(0′)+(i)+(ii)': False, '(0)+(0′)+(i)': False, 'all': False}
+T(2,5)、s_W = -1：R_adj の単項式 56 個（Σ|c| = 99）。|e| ≤ |c|、e ≡ c (mod 2) で満たせる条件：{'(0)': True, '(0′)': False, '(0)+(0′)': False, '(0′)+(i)': False, '(0′)+(ii)': False, '(0′)+(i)+(ii)': False, '(0)+(0′)+(i)': False, 'all': False}
