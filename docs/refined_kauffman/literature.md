@@ -99,7 +99,7 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 | Piazzalunga–Uranga 1405.6019（v2） | — | real topological string の M 理論の解釈。Ĩ で不変な状態だけが奇数の巻き付きで寄与し、real BPS 不変量は偶奇で重みを付けた差 n⁺ − n⁻。被覆の取っ手一つの捻ったトレースは −2 sinh（z 一つ）。refined は脚注で触れるだけ | 【TeX】 |
 | Kim–Wei 2201.12264（v2） | D 型の箙（5d） | ON 面（O5 の S 双対）のある 5-brane web の refined 位相的頂点。向き付けられない面は数えない（本研究の照合の対象外） | 【TeX、序論のみ】 |
 | Bishler–Mironov 2504.13831 | 単純レース型 | Macdonald 次元（q^ρ での値）の Vogel 普遍性 | 【抄録】 |
-| Witten 1101.3216 | — | Fivebranes and Knots（Khovanov ホモロジーの 5-brane による構成。S 双対、T 双対、6 次元への二つの経路）。2026-10-21 にユーザーの指示で追加。references/1101.3216/ に取得済み。本文は未読 | 【arXiv API で題名・著者を確認、本文未読】 |
+| Witten 1101.3216 | — | Fivebranes and Knots（Khovanov ホモロジーの 5-brane による構成。§2 4 次元からの CS、§3 S 双対、§4 T 双対と Khovanov ホモロジー、§5 top-down、§6 6 次元への別の経路）。**ユーザーの説明（2026-10-21）：KN 1703.05408 で BPS 状態の構造を理論的に考える際に参考にした重要論文。** KN の参考文献には入っていない（TeX の bbl で確認）ので、この役割はユーザーの説明だけが根拠である。本研究で BPS の構造（Ĩ の作用、凍結した状態、M2–M5 の束縛状態）を理論的に扱うときは、AgSc と並んでこの論文の 5-brane の設定（M5 が張る平面、境界条件）を参照する。references/1101.3216/ に取得済み。本文は未読 | 【arXiv API で題名・著者を確認、本文未読】 |
 | NRZ 1310.2240、Gukov–Walcher hep-th/0512298 | SO/Sp | Kauffman ホモロジー（refined CS とは別物と明記） | 【TeX】 |
 - 非トーラス結び目、高い彩色の一般の N の refined SO/Sp の結び目不変量、Sp の refined CS の結び目不変量は、今回の検索の範囲では見つからなかった。
 - 2605.12469（"A note on universality in refined Chern-Simons theory"）は題名だけを見た【未確認】。
