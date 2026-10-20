@@ -1,51 +1,96 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-18 更新）
+## 現在の状況（再開用、2026-10-21 更新）
 
-### 環境
-- worktree：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`、ブランチ `claude/refined-kauffman-large-n-00d58e`。最新 commit は git log を参照。**PR [kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11) を作成済み（2026-10-18、0e0e3ee まで。マージはユーザーが行う）**。以後の commit の push も外部送信なので、毎回ユーザーの許可を得る。SSH の `git push` はサンドボックスと auto mode の判定で通らないので、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作る方法を使った（手順：各 commit の変更ファイルを git/blobs で作り、親の tree を base_tree にして git/trees、作者・日時・メッセージを同じにして git/commits、最後に git/refs。blob・tree・commit の SHA がローカルと一致することを毎回確かめる。スクリプトはリポジトリに置いていない）。
-- Python は main checkout の `.venv`：`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`（rcsknots は main の src を向くので、スクリプト・テストは worktree の `src` を sys.path の先頭に入れている）。
-- テスト：`.venv/bin/pytest -q tests/test_rk_*.py`（50 件、約 60 秒；`-m results` の再検証 1 件は約 9 分）。スクリプトは worktree 直下で `python scripts/rk_*.py`。
-- 文献は `references/<arXiv id>/src/`（AS 1202.4456 は RefinedOrientifolds.tex、Mariño 0904.1088 は kauffmanpaper.tex）。過去のノートブック（Dropbox）は読むだけ。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜42）にある。
 
-### 済んだこと（詳細は report.md、各段階の状態は research_plan.md §3）
-| 段階 | 結論 | 場所 |
+### 1. 環境
+- **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`
+  - ブランチは `claude/refined-kauffman-large-n-00d58e`。
+  - main への直接の commit とローカルでのマージは禁止。
+- **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
+  - PR の head は 3de70c5。それ以降の **40 commit（最新 c9b847c、2026-10-20）は push していない**。
+  - push は外部送信なので、毎回ユーザーの許可を得る。
+  - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
+    - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
+    - 各段で SHA がローカルと一致することを確かめる。
+- **Python**：main checkout の `.venv` を使う（`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`）。
+  - worktree 直下から相対で書くと `../../../.venv/bin/python`。
+  - スクリプトは worktree の `src` と `scripts` を sys.path の先頭に入れている。
+- **テスト**：`../../../.venv/bin/pytest -q tests/test_rk_*.py`
+  - 既定の 58 件（約 72 秒）。
+  - `-m results` の 6 件（約 437 秒）。
+  - 2026-10-20 に全件通過。ログは logs/refined_kauffman/paper_tests_{default,results}.log。
+- **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
+  - ページを画像にするには gs を使う（pdftoppm は無い）。
+  - .aux/.log/.out/.toc は git で追跡しない。
+- **文献**：`references/<arXiv id>/src/`。取得は `just fetch-refs`（justfile の papers に一覧がある）、または `curl`（allowed_domains: arxiv.org）。書誌の確認は arXiv API（export.arxiv.org）で行う。
+- **Dropbox の 2018 年のノートブック**は読むだけで、書き換えない。
+
+### 2. 現在の段階：論文の草稿（日本語の準備稿）
+- 場所：`docs/refined_kauffman/paper/`
+  - `outline.md`：論文の軸、決定事項、章立て
+  - `claims.md`：主張の格付け表
+  - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（26 ページ）
+- **決定事項（2026-10-20、ユーザーが確認済み）**：
+  - 本研究の framed knot の論文（docs/paper/）とは別の 1 本にする。
+  - 日本語で準備し、最終版は英語にする。
+  - 著者は亀山昌也の単著。2018 年の試みは「著者が以前に行った計算」と書く。
+  - 正値性は「未解決」とし、障害の定式化を成果の一つにする。
+  - 題：「refined Kauffman 不変量の large N 双対：orientifold の refined 指数とクロスキャップの構造」。
+- **草稿の状態**：別のエージェントによる記録との照合（誤り 7 件、要確認 14 件）を反映済み（続き 42）。
+- 付録の式は `docs/refined_kauffman/tex/gen/*.tex`（`scripts/rk_report_tex.py` の生成物）をそのまま `\input` している。
+- 参考文献は `ja/sections/bibliography.tex`。書誌は arXiv API で確認済みで、掲載誌の無いものは「掲載誌未確認」と書いてある。
+- **次にやること（ユーザーの指示待ち）**：
+  1. 日本語の本文の推敲（読み手向けの説明、記号の統一）
+  2. 英語版の作成
+  3. PR #11 の更新（push の許可が要る）
+
+### 3. 主な結果（論文の主張。詳細は claims.md と theory_orientifold_index.md）
+| 主張 | 種別 | 場所 |
 |---|---|---|
-| K0 | unrefined（Mariño）の構造を再現、文献の誤植 2 件 | report.md §1、literature.md |
-| K1 | 2018 年の試行の監査：構造的なミス (A)〜(F) | past_attempt.md |
-| K2 | Mariño 型の素朴な refined 化は unknot の 2 箱で閉じない（否定的） | report.md §3 |
-| K2' | 双対 Cauchy（t-brane、Mimachi）型の定式化。ホロノミー側 D_N Koornwinder (±1,±q^{1/2})、probe 側 K(y;t,q;±1,±q^{1/2})。unknot は自動的に積表示 | report.md §4、src/rcsknots/koornwinder.py |
-| K2'(a) | probe 側 Askey–Wilson 係数の U = t^N の閉じた形【予想・4 点で確認】。Hopf（probe 各 1 個）を Q(q,t,U) で計算、f_{ab} = (1−q)/(1−t)×整数 Laurent（a,b ≤ 4）。f_{11} = −f_{10} z_q(ν~−ν~^{−1})、ν~ = ν(q/t)^{1/2} | report.md §4.1、src/rcsknots/{askey_wilson,kauffman_hopf}.py |
-| K2'(b) | 成分 1 の probe を無限個にしても 1 変数に縮約可。Schur 基底で |R| ≤ 4 の整数性、Macdonald 基底では破れる | report.md §4.2 |
-| K3' | trefoil [1]：AS (6.15)/(6.17) を実装、t = q で Mariño の鏡像 × ν^{−6}。素朴な refined Rosso–Jones は AS と合わない。h/g 分解で g^{ref}_[1] が Laurent になるのは単項式 T_[1]^{−6}(q/t)^{1/2} のとき【仮説】 | report.md §6、src/rcsknots/kauffman_trefoil.py |
-| K4' | 被覆（composite refined Hopf、A = ν²）を実装。Hopf の g_{ab} = f_{ab} − ½f^{cov}_{ab} は a,b ≤ 4 で Laurent。(1,b) は g = z_q(ν~−ν~^{−1})χ_{b−1}(ν~/q^{1/2})（refined クロスキャップ = unrefined with ν → ν~）。偶数×偶数は分母 2(1+t), 4(1+t)(1+t²) が残る（未解決） | report.md §7、src/rcsknots/kauffman_cover.py |
-| K4'(a) | クロスキャップ部分は全 d の第二量子化の構造 g = ½E/(1+t) + C（2(1+t)g は整数 Laurent、unknot の −½ は消える）。E はセクター別の被覆と t = −1・t = q の条件で (2,2),(2,4) が一意（積の形）、(4,4) は不定。Ĩ = ρ⊗ρ の入れ替え（Adams）を \|R\| ≤ 4、b ≤ 4 で確認 | report.md §7、src/rcsknots/kauffman_cover.py、scripts/rk_k4_*.py |
-| (b) | trefoil の 1^k（k ≤ N）を N = 2, 3 で計算（SO(4) = SU(2)²、SO(6) = SU(4)、KN の refined 不変量の鏡像）。N 依存の極は打ち消し、f_a は整数 Laurent。固定 N では framing は極の上でしか決まらない | report.md §6、src/rcsknots/kauffman_knot.py、scripts/rk_k5_*.py |
-| (b') | trefoil の 2 箱（probe 2 個、Schur |R| ≤ 2）を N = 2, 3 で計算。framing は「極 + t = q で 1」で決まり、m_(2) = (t/q)^2（一意）、f は整数 Laurent。被覆 U(3), U(5) で g = f − ½f^{cov}：2g 整数、半整数は p_2 方向だけ。ĝ = M^{-1}(q^{-1})g が Laurent になるのは m_(1) = t/q のときだけで、K3' の (t/q)^{1/2} と両立しない（未解決） | report.md §6、scripts/rk_k5_trefoil_2box{,_cover}.py |
-| 一様な規格化 | data の R_μ を (t/q)^{δ|μ|/2} 倍すると行列式・共役で不変になり、固定 N の framing は全部 1。K3' の (q/t)^{1/2}（タスク A の (q/t)^{δ/2}）は被覆側の規格化のずれだった。SO の f̂・被覆の f̂（対角・M⊗M）・ĝ が |R| ≤ 3 の全方向で Laurent | report.md §6、conventions.md「一様な規格化」 |
-| (b'') | trefoil の 3 箱（|R| ≤ 3）を N = 2, 3 で（SO は型 A の経路、被覆 U(3), U(5)）。framing は一意で、m_(1) = t/q のとき全部 (t/q)^{|μ|/2}。SO の f̂ = M^{-1}(q^{-1})f は m_(1) = t/q のときだけ整数 Laurent。g（|R| = 3）は整数。被覆は混ざった方向で hatted が閉じない | report.md §6、scripts/rk_k5_trefoil_3box.py、src/rcsknots/flint_rf.py |
+| 双対 Cauchy 核（t-brane）、一様な規格化 (t/q)^{δ\|μ\|/2}、reformulation は Mariño の M(q^{−1}) | 定式化＋計算 | report.md §4・§6、conventions.md |
+| 全 d の構造 g = f − ½f^{cov} = ½E/(1+t) + C（対・不変・凍結の分類） | 導出 | theory §2、草稿 §3 |
+| E と C の分離は指数からは決まらない（g から決まるのは E の 2(1+t) を法とした類だけ） | 導出 | 草稿 prop:EC（theory §3 は 10-20 に訂正済み） |
+| 閉弦：D_N の積表示と AgSc §6 は N の 1 次式を除いて一致（N = 2..7）。AM の Klein 瓶は凍結した状態と不変な状態の並べ替え | 計算＋導出 | theory §8、scripts/rk_b_closed_orientifold.py |
+| unknot・Hopf（a, b ≤ 4）の整数性、ν~ = ν(q/t)^{1/2}、E_22・E_24 の一意性 | 計算 | report.md §4・§7 |
+| T(2,2m+1) の [1]（m ≤ 5）：(N)(P)、c=2 の閉じた形 Π_m、c=1 の G 展開、判定式 | 計算＋予想 | report.md §8 |
+| DAHA-Jones（D_N, GL_N、一般の t）で、trefoil の 2・3 箱と T(2,5) の 2 箱を一般の N で計算。大きな N のクロスキャップは整数、(1+t) は p₂ 方向だけ、t = q で Mariño を再現 | 計算 | report.md §9、tex/report.tex §11・§12 |
+| 普遍因子：ĝ − ĝ\|_{t=q}(ν → νw^k) は k = +1 でだけ (q − t)(ν² − t) で割り切れる | 計算 | theory §8.3 |
+| 正値性：[1] は判定式が成立。多箱は商の符号が混在。障害は凍結した状態の多重項の基底と E・C の分離 | 計算＋未解決 | theory §4〜§10、草稿 §7 |
 
-### 重要な規約・事実（conventions.md に記載）
-- 変数：r = q^{1/2}、s = t^{1/2}、U = t^{N_D}（SO(2N_D)）、ν = U/√t（Mariño の ν、Q = ν² = U²/t）、A = ν² = t^{N_A}（被覆 U(N_A)、N_A = 2N_D − 1）、ν~ = ν(q/t)^{1/2}、z_q = r − 1/r、z_t = s − 1/s、G = z_q z_t。DGR：𝐪 = s、𝐭 = −r/s、𝐚 = ν、ν~ = −𝐚𝐭。
-- virtual 正規化 Z~ = (Πy)^N Z（y の多項式、U を形式変数にできる）。自由エネルギーは Schur 基底。
-- クロスキャップ部分 g は全 d で定義 g_{ab} = f_{ab} − ½f^{cov}_{ab}（hopf_g_alld.pkl；Σ_{d 奇数} 版は hopf_g_odd.pkl、g = g^{odd} − ½g^{odd}(x²)）。(偶,偶) の 2(1+t) は Ĩ で固定される oriented 状態の射影 ½E/(1+t)。unknot の (2,0) = −½ は全 d では 0。
-- データ：data/refined_kauffman/hopf_f.pkl（f_{ab}）、hopf_f_multi.pkl（Schur/Macdonald 基底の f_{R,b}）、hopf_g.pkl（全 d の g、a,b ≤ 3、変数 U,r,s）、hopf_g_alld.pkl（全 d の g、a,b ≤ 4、変数 r,s,ν）、hopf_g_odd.pkl（Σ_{d 奇数} の g）、hopf_g_ref.pkl（(1+q^d)/(1+t^d) 規則の試み、失敗）。いずれも sympy の式の文字列。
-
-### これからやること（2026-10-18 の評価。着手はユーザーの指示による）
-| タスク | 見込み | 有効性 |
+### 4. 試して失敗した方法（同じことを繰り返さないため）
+| 方法 | 結果 | 記録 |
 |---|---|---|
-| A. **済（2026-10-18）**：T(2,2m+1)（m ≤ 5）の [1]。単項式は T^{−2(2m+1)}(q/t)^{δ/2}（AS の SU(N) と同じ形）、g^{ref} は整数 Laurent、t = q で N^{c=2} = 0 | — | report.md §6 |
-| B. **一部済（2026-10-18）**：定義を提案（report.md §8）。T(2,2m+1)（m ≤ 5）の [1] で、G 展開の後に ν^β ごとの符号がそろうか (𝐭² − 1)×符号のそろった形になる。残り：(𝐭² − 1) の意味、偶数セクター（E ≠ 0）と高い彩色への拡張、非トーラス結び目での検査（入力が無い） | — | report.md §8 |（2026-10-19：一様な規格化で述べ直し。SO(2) の点で 1、𝐭 について偶、c = 2 の符号は m によらない。固定 N の g は一様な規格化のときだけ q^{1/2} → −q^{1/2} で不変）
-| C. 一般の N の 1^k（D 型の DAHA か有限レベルの SL(2,Z)） | 低い、数週間・危険大（B/C/D の DAHA 超多項式の存在・N に関する安定性は未解決） | 最も高い：ν の構造と正値性を見る唯一の道 |（2026-10-19：実行前の見積もりと計画を「続き 20」に記録、確認待ち）
-| D. (4,4) の E（Ĩ の単一粒子状態への作用の構成） | 低い、方法が見えていない | 中〜低 |
-| E. probe 側の係数 c_{2j}(n) の証明（Rains の二項公式） | 中、数日 | 低い：厳密さのため |
-| F. **済（2026-10-19）**：(q/t)^{δ/2} は data（KN・DGR）の規格化と、行列式・荷電共役で不変な規格化との差（T(2,2m+1)、m ≤ 3） | — | report.md §6 |
-| G. 研究計画 K3 の composite 入力（Cherednik–Elliot） | 中 | 低い：SO 側の 1^k が無いと使えない |
-推奨（2026-10-18 にユーザーへ提示）：A（済）→ B（一部済）。C は着手の判断をユーザーに仰ぐ。D〜G は保留。
+| Mariño 型（bosonic 核、½、Σ_{d 奇数}）の素朴な refined 化 | unknot の 2 箱で U の極が残る | report.md §3 |
+| 多箱の c=1 部分の G 展開 | σ 対称でなく展開できない。T_± を使っても同じ | report.tex §11、theory §8.2 |
+| 自由エネルギーの右辺の基底の取り替え、二次量子化の指数、多重項の変数の探索 | 符号はそろわない | 続き 28〜31 |
+| E = P − 2Q（状態の部分和）の整数計画 | trefoil で解なし（T(2,5) は未実行） | 続き 34 |
+| Adams 型の E、t = −1 の差→和の規則、G の捻り | 条件を満たさない。当てはめになるので打ち切った | 続き 35・36 |
+| 凍結した状態の展開の仮定（Z[G,w] と X×Z[G,w]） | [1] の c=1 だけ成立 | 続き 37 |
+| 多重項ごとの捻ったトレースの整数計画 | 結び目の境界の因子は z_q^+。trefoil は一意に解けるが、T(2,5) は解なし | 続き 39、theory §9 |
+| 被覆の随伴 R_adj を正の Poincaré 多項式として読む | どの符号規則でも正にならない（Cherednik–Elliot の記述と一致） | 続き 40、theory §10 |
 
-### 未解決（docs に記録済み）
-- trefoil [1] の余分な (q/t)^{1/2}（§6）。→ 2026-10-19 に解決（被覆側の data の規格化のずれ、一様な規格化）。refined Rosso–Jones が D 型で AS と合わない原因。(偶,偶) の E（Ĩ 固定状態）：(2,2),(2,4) は一意に決定（2026-10-18）、(4,4) は不定。Mariño の \hat g_{[2],[1]} との係数ごとの対応。正値性の判定式（refined BPS の抽出式）は未定義。
-- probe 側の閉じた形 c_{2j}(n) の証明（Rains の二項公式）は未。
+### 5. 未解決（論文の §8 にも記載）
+- 凍結した状態（向き付けられない面）の refined の取っ手の因子と、多重項の基底。
+- E と C の分離。固定セクターの状態の空間への Ĩ の作用を、指数ではなく幾何から求める必要がある。Hopf の (4,4) の E も未決定。
+- 普遍因子のずれの向き（k = +1）と、閉弦の Kähler の三重化との関係。開弦の比 w³ と閉弦の比 w^{−1} が合わず、保留している。
+- 非トーラス結び目の大きな N の値（入力が無い）。T(2,5) の 3 箱は、m = 2 の composite と D_N の 3 箱が要り、数時間〜半日の見込み。
+- 環状の HOMFLY ホモロジー（逆向きの 2 本のケーブル）と refined CS の composite の関係。未着手で、見込みは低い。
+
+### 6. 主なファイル
+- **文書**：
+  - report.md（K0〜K4' と多箱の詳細）
+  - tex/report.tex・report.pdf（計算結果の報告書。§11〜§12 に 10-20 までの結果）
+  - theory_orientifold_index.md（指数の理論 §1〜§10）
+  - literature.md（§4 に非 U(N) の rCS の文献）
+  - conventions.md
+- **コード**：
+  - src/rcsknots/：kauffman_*.py、koornwinder.py、daha_dn.py、daha_fast.py、flint_rf*.py
+  - scripts/：rk_*.py。rk_c_* は一般の N、rk_b_* は構造と正値性の解析、rk_k* は固定 N と Hopf
+- **データ**：
+  - data/refined_kauffman/daha/：R_U_m*_*.pkl（SO の一般の N）、Radj_A_m*.pkl、Rcomp_A_m1_*.pkl、largeN_2box_m{1,2}.pkl、largeN_3box_m1.pkl
+  - data/refined_kauffman/：hopf_*.pkl
 
 ## 2026-10-14
 - ディレクトリ docs/refined_kauffman/ を作成（README.md、progress.md）。
