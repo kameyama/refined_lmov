@@ -19,11 +19,10 @@ if __name__ == "__main__":
     print(f"SO 側 {time.time()-t0:.0f}s", flush=True)
     avail = [N for N in range(2, 20) if os.path.exists(os.path.join(T.OUT, f"cn_twobox_N{N}_m1.pkl"))]
     usub = s_**4
-    Rx = {lam: pickle.load(open(os.path.join(T.OUT, f"R_x_sp_m1_{''.join(map(str, lam))}.pkl"), "rb")) for lam in T.LAMS} if os.path.exists(os.path.join(T.OUT, "R_x_sp_m1_1.pkl")) else None
-    if Rx is None or not all(isinstance(v, dict) for v in Rx.values()):
-        Rx = {}
-        for lam in T.LAMS:
-            c_, nodes, ok = T.interp_laurent({N: T.R_of_N(N, lam, usub, 1) for N in avail}, avail); Rx[lam] = c_
+    Rx = {}
+    for lam in T.LAMS:                                               # R_x_sp_m1_*.pkl：{j: str}（変数 r, s）
+        d = pickle.load(open(os.path.join(T.OUT, f"R_x_sp_m1_{''.join(map(str, lam))}.pkl"), "rb"))
+        Rx[lam] = {j: T.from_sympy(sp.sympify(v, locals=T.loc)) for j, v in d.items()}
     cf = T.coef_functions2(avail, usub, 1)
     fsp, Wsp, cosp = T.assemble(1, Rx, cf, {lam: conv(1) for lam in T.LAMS})
     print(f"Sp 側 {time.time()-t0:.0f}s", flush=True)
