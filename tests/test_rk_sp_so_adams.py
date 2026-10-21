@@ -20,3 +20,8 @@ def test_sp_so_two_box_difference_is_adams_of_even_part():
     assert sp.cancel(f_sp["(2,)"] - neg(f_so["(2,)"]) - D) == 0
     assert sp.cancel(f_sp["(1, 1)"] - neg(f_so["(1, 1)"]) + D) == 0
     assert sp.cancel(g_sp["(2,)"] - neg(g_so["(2,)"]) - D) == 0
+    # 冪和の成分：Z₁₁ = (f_(2)+f_(1,1))/2 + f₁²/2 は Sp(𝐚) = SO(−𝐚)、Z₂ = (f_(2)−f_(1,1))/2 + ψ²[f₁]/2 は Sp(𝐚) = SO(−𝐚) + 1
+    Z2 = lambda f: sp.cancel((f["(2,)"] - f["(1, 1)"] + psi2(f["(1,)"])) / 2)
+    Z11 = lambda f: sp.cancel((f["(2,)"] + f["(1, 1)"] + f["(1,)"]**2) / 2)
+    assert sp.cancel(Z2(f_sp) - neg(Z2(f_so))) == 1
+    assert sp.cancel(Z11(f_sp) - neg(Z11(f_so))) == 0
