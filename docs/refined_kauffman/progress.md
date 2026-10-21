@@ -18,9 +18,8 @@
   - worktree 直下から相対で書くと `../../../.venv/bin/python`。
   - スクリプトは worktree の `src` と `scripts` を sys.path の先頭に入れている。
 - **テスト**：`../../../.venv/bin/pytest -q tests/test_rk_*.py`
-  - 既定の 58 件（約 72 秒）。
-  - `-m results` の 6 件（約 437 秒）。
-  - 2026-10-20 に全件通過。ログは logs/refined_kauffman/paper_tests_{default,results}.log。
+  - 既定の 70 件（約 175 秒。2026-10-21 に全件通過、logs/refined_kauffman/paper_tests_default_2026-10-21.log）。
+  - `-m results` の 7 件（約 7〜8 分の見込み。2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log）。
 - **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
   - .aux/.log/.out/.toc は git で追跡しない。
