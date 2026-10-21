@@ -101,7 +101,7 @@ Cherednik \cite{Cherednik11} §Kauffman の C$_n$ の DAHA（$t = t_{\mathrm{sht
 \item C$_2$, C$_3$ で DAHA の関係式が成り立つ。$u = 1$ で D$_N$ の DAHA-Jones の [1] に比 1 で一致する（$N = 2, 3$、$T(3,2)$, $T(5,2)$）。Cherednik の $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a)$ に $a = -t^{m-1}$ で単項式を除いて一致する（$m = 2, 3, 4$）。
 \item $N = 2, \dots, 8$ の値から hyper-polynomial $\mathcal{H}^C_{2m+1,2}(\omega_1)$ を $a$ の多項式として復元した。$T(5,2)$ の式は新しい。
 \item SO の規約：$W_{\SO} = $ 鏡像$[\mathcal{H}^C(u{=}1, a{=}-\nu/t^{1/2})]\cdot\dim_V^{\SO}(\nu)\cdot(t^{1/2}/\nu)^{2m}$ で、$g^{\mathrm{true}}_{[1]} = W_{\SO} - W^{\cov}_1$ が再現される（一意）。
-\item Sp：$\nu = t^{N+1/2}$（被覆は U$(2N+1)$）、$a = -t^{N-1}$、$u = t^2$。単項式は $t = 1$ の極の打ち消しと $t = q$ での Kauffman の形から SO と同じ $(t^{1/2}/\nu)^{2m}$ に決まり、$T(2,3)$, $T(2,5)$ で
+\item Sp：$\nu = t^{N+1/2}$（Kauffman 変数 $a = \nu^2 = t^{2N+1}$。被覆は SO と同じ $\nu$ の関数で取る）、$a = -t^{N-1}$、$u = t^2$。単項式は $t = 1$ の極の打ち消しと $t = q$ での Kauffman の形から SO と同じ $(t^{1/2}/\nu)^{2m}$ に決まり、$T(2,3)$, $T(2,5)$ で
 \[
 g^{\mathrm{Sp}}_{[1]}(\ba, \bq, \bt) = -\,g^{\SO}_{[1]}(-\ba, \bq, \bt)
 \]
@@ -111,16 +111,17 @@ g^{\mathrm{Sp}}_{[1]}(\ba, \bq, \bt) = -\,g^{\SO}_{[1]}(-\ba, \bq, \bt)
 $c = 1$ を $\ba$ の偶数冪、$c = 2$ を奇数冪に割り当てているので、これは $C^{\mathrm{Sp}} = -C_{c=1} + C_{c=2}$、すなわち Mariño の「SO と Sp は $c = 1$ の項の符号が違う」が refined でもそのまま成り立つことを意味する。$c$ の割り当てを独立に裏付けるとともに、AM の refined Sp$(2N)$ が開弦でも整合する最初の確認である。
 
 2 箱でも同じ構造を確かめた。C$_N$ の Macdonald 多項式 $P_{2\varepsilon_1}$, $P_{\varepsilon_1+\varepsilon_2}$ を Macdonald 作用素の三角行列から求め、$N = 2, \dots, 9$ の値を $x = t^N$ の有理関数に補間した（$u = 1$ では D$_N$ の 2 箱に一致し、Cherednik の $\mathcal{H}^C_{3,2}(\omega_2)$ に単項式を除いて一致する）。
-% [D13]
+% [D12][D13][D14]
 \begin{compresult}
 trefoil の refined Sp$(2N)$ の 2 箱で、
 \begin{enumerate}
 \item $g^{\mathrm{Sp}}_{(2)} + g^{\mathrm{Sp}}_{(1,1)}$ と $(1+t)(g^{\mathrm{Sp}}_{(2)} - g^{\mathrm{Sp}}_{(1,1)})$ は整数 Laurent 多項式で、SO と同じ全 $d$ の構造（命題~\ref{prop:trace}）をもつ。
 \item $E^{\mathrm{Sp}}(t{=}-1) = E^{\SO}(t{=}-1)$（全係数）。
 \item hatted の $p_1^2$ 成分 $(g_{(2)} + g_{(1,1)})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（[1] は $-$）。$g_R$ そのものは
-\[
-f^{\mathrm{Sp}}_{(2)}(\ba) - f^{\SO}_{(2)}(-\ba) = \psi^2[\delta], \quad f^{\mathrm{Sp}}_{(1,1)}(\ba) - f^{\SO}_{(1,1)}(-\ba) = -\psi^2[\delta], \quad \delta = \mathrm{even}_{\ba}\big(g^{\SO}_{(1)}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
-\]
+\begin{align*}
+f^{\mathrm{Sp}}_{(2)}(\ba) - f^{\SO}_{(2)}(-\ba) &= \psi^2[\delta], \qquad f^{\mathrm{Sp}}_{(1,1)}(\ba) - f^{\SO}_{(1,1)}(-\ba) = -\psi^2[\delta], \\
+\delta &= \mathrm{even}_{\ba}\big(g^{\SO}_{(1)}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
+\end{align*}
 を満たす（$g$ でも同じ。$\psi^2$ は $q, t, \ba^2$ を 2 乗する Adams 作用素）。
 \end{enumerate}
 \end{compresult}
