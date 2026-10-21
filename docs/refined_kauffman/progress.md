@@ -2,14 +2,14 @@
 
 ## 現在の状況（再開用、2026-10-21 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜52）にある。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜58）にある。
 
 ### 1. 環境
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`
   - ブランチは `claude/refined-kauffman-large-n-00d58e`。
   - main への直接の commit とローカルでのマージは禁止。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
-  - PR の head は 3de70c5。それ以降の **54 commit（最新 a7c5ac9、2026-10-21）は push していない**。
+  - PR の head は 3de70c5。それ以降の **74 commit（2026-10-21）は push していない**。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
     - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
@@ -31,7 +31,7 @@
 - 場所：`docs/refined_kauffman/paper/`
   - `outline.md`：論文の軸、決定事項、章立て
   - `claims.md`：主張の格付け表
-  - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（30 ページ）
+  - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（31 ページ）
 - **決定事項（2026-10-20、ユーザーが確認済み）**：
   - 本研究の framed knot の論文（docs/paper/）とは別の 1 本にする。
   - 日本語で準備し、最終版は英語にする。
@@ -859,3 +859,7 @@
 - 【計算】ORS のセル分解（Γ = ⟨2,3⟩）を実装し、T(2,3) の DGR の unreduced superpolynomial を l ≤ 8 で再現（辞書を数値的に固定）。rk_b_planB_cells.py、tests/test_rk_planB_cells.py。実装の注意：σ の巡回規則 a_{m+1} = a_1 + n、生成元の条件は g − h ∉ 𝔧（h ≤ g）。
 - 【計算】trefoil の固定セクターの指数 P = (1−t)x は (ν²−1)(q−1)(ν²−t)(ν²q−1)·N₈ の形（framed unknot と同じ境界因子）。P は被覆の [1] の ψ² と単純な関係に無い。theory §11.18。
 - 未実施：固定セクター P のセル模型、実構造（y → −y × 複素共役）の各セルへの符号。
+
+## 2026-10-21（続き 58）論文の仕上げ（1）：日本語稿の整合（ユーザーの指示「論文の仕上げ」）
+- 要旨（5 項目に。Sp と多箱の σ 分解を追加）、序論（結果の概要に §sec:sp と σ 分解、表に 3 箱の hatted と Sp の行）、§sec:index の σ 対称性の小節、§sec:generalN（3 箱の hatted の整数性、G 展開の破れの注記、Sp の被覆の規約）、§sec:positivity のまとめ、議論（多重項・Sp・B 型・Hilbert scheme の模型）、付録（daha_cn.py、rk_b_planB_cells.py）を更新。ORS を文献に追加（書誌確認済み）。印 [D12][D14][P11] を追加。はみ出し 0、未定義参照 0、31 ページ。
+- 残り：英語版（決定事項「最終版は英語にする」）。日本語稿は正値性が未解決のままの準備稿なので、英語化の時期は判断待ち。
