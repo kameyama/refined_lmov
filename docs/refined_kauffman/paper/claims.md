@@ -80,6 +80,7 @@
 | D11 | C_N の DAHA の実装：関係式、u = 1 で D_N と一致、Cherednik の ℋ^C_{3,2}(ω₁) と一致。ℋ^C_{5,2}(ω₁) は新規 | CR | Cherednik の C_n の規約 | test_rk_daha_cn、logs/d_cn_check.log、d_hyper_fit.log | 実装と T(5,2) は新規 |
 | D12 | refined Sp(2N) = C_N(u = t²)（AM の定義）の [1]：g^{Sp}(𝐚) = −g^{SO}(−𝐚)（T(2,3), T(2,5)）。c = 1 の符号反転が refined でも成立 | CR | SO の規約の較正、Sp の単項式の決め方 | test_rk_daha_cn::test_sp_one_box_is_minus_so_with_a_flipped、logs/d_sp_one_box.log、theory §11.12 | 新規（refined Sp の結び目不変量の最初の値） |
 | D13 | refined Sp(2N) の trefoil の 2 箱（C_N の P_{2ε₁}, P_{ε₁+ε₂}、評価公式、一般の N）：整数性は SO と同じ全 d の構造。E^{Sp}(t=−1) = E^{SO}(t=−1)。hatted の p₁² 成分で Sp(𝐚) = +SO(−𝐚)、p₂ 成分と g_R そのものには単純な符号規則が無い | CR | C_N の実装、T_λ^{−2n} の規格化（[1] で較正済み） | test_rk_sp_two_box、logs/d_sp_two_box_compare.log、theory §11.14 | 新規 |
+| D14 | SO と Sp の 2 箱の差：f^{Sp}_(2)(𝐚) − f^{SO}_(2)(−𝐚) = ψ²[δ]、(1,1) は −ψ²[δ]、δ = even_𝐚(g^{SO}_1) + 1 = (𝐚²−𝐪²)(𝐚²𝐭²−1)(𝐚²𝐪²𝐭²−1)/(𝐚⁶𝐪²𝐭⁴)。𝐚→−𝐚 と Adams 項の非可換性で p₂ 方向の差を説明 | CR（定数 1 = unknot は予想） | trefoil の m=1 | test_rk_sp_so_adams、theory §11.15 | 新規 |
 
 ## 6. 正値性（§7）
 

@@ -117,9 +117,14 @@ trefoil の refined Sp$(2N)$ の 2 箱で、
 \begin{enumerate}
 \item $g^{\mathrm{Sp}}_{(2)} + g^{\mathrm{Sp}}_{(1,1)}$ と $(1+t)(g^{\mathrm{Sp}}_{(2)} - g^{\mathrm{Sp}}_{(1,1)})$ は整数 Laurent 多項式で、SO と同じ全 $d$ の構造（命題~\ref{prop:trace}）をもつ。
 \item $E^{\mathrm{Sp}}(t{=}-1) = E^{\SO}(t{=}-1)$（全係数）。
-\item hatted の $p_1^2$ 成分 $(g_{(2)} + g_{(1,1)})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（[1] は $-$）。$p_2$ 成分と $g_R$ そのものには $\pm$ どちらの規則も成り立たず、転置 $R \to R^{T}$ を入れても成り立たない。
+\item hatted の $p_1^2$ 成分 $(g_{(2)} + g_{(1,1)})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（[1] は $-$）。$g_R$ そのものは
+\[
+f^{\mathrm{Sp}}_{(2)}(\ba) - f^{\SO}_{(2)}(-\ba) = \psi^2[\delta], \quad f^{\mathrm{Sp}}_{(1,1)}(\ba) - f^{\SO}_{(1,1)}(-\ba) = -\psi^2[\delta], \quad \delta = \mathrm{even}_{\ba}\big(g^{\SO}_{(1)}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
+\]
+を満たす（$g$ でも同じ。$\psi^2$ は $q, t, \ba^2$ を 2 乗する Adams 作用素）。
 \end{enumerate}
 \end{compresult}
+$p_2$ 方向の差は、[1] の規則が $\ba$ の偶数部分（$c = 1$）の符号だけを変えるのに対し、$d = 2$ の Adams 項 $\psi^2[\tfrac12(g_{(1)} + 1)]$ が $\ba \to -\ba$ を見ないことから生じる。定数 $1$ は unknot のクロスキャップの寄与と解釈できる。
 2 箱の計算は trefoil に限る（$T(2,5)$ は補間に $N \le 13$ が要り、現在の実装では計算量が大きすぎる）。
 $E$ が Sp への射影で符号を変えないことは、unrefined の対応「Sp$(N) = \SO(-N)$ かつ $R \to R^{T}$」で $E_{(2)} = -E_{(1,1)}$ を使うと、符号反転と転置が打ち消して $E$ が不変になることと整合する。$p_2$ 方向には [1] の Adams 項 $\psi^2[g_{(1)}]$ が入り、$\psi^2$（$\nu \to \nu^2$）は $\ba \to -\ba$ と可換でないため、$f$, $g$ の段階では単純な規則にならない。
 
