@@ -825,6 +825,6 @@
 ## 2026-10-21（続き 52）案 D の 2 箱：refined Sp(2N) の trefoil の 2 箱（ユーザーの指示「1を進めよ」「続けよ」）
 - 【計算】C_N の Macdonald 多項式 P_(2), P_(1,1) を実装（daha_cn.py の two_box_P、評価公式の前の因子を q^{−(ρ_k,b)} に修正）。検証：固有関数（C_2, C_3）、u = 1 で D_N の 2 箱と一致、Cherednik の ℋ^C_{3,2}(ω₂) と単項式を除いて一致。
 - 【計算】N = 2..9（m = 1、最長 704 s）を x = t^N の有理関数に補間し、Sp（u = t²、ν = t^{N+1/2}）の large N の g_(2), g_(1,1) を得た（largeN_2box_sp_m1.pkl）。整数性は SO と同じ全 d の構造。**E^{Sp}(t=−1) = E^{SO}(t=−1)**。hatted の p₁² 成分で Sp(𝐚) = +SO(−𝐚)、p₂ 成分と g_R には ± も転置も成り立たない。theory §11.14、論文 §sec:sp、claims D13、tests/test_rk_sp_two_box.py（2 件、7 秒）。
-- 実行中：rk_d_sp_so_map.py（写像 {id, σ, 鏡像, q↔t} × ν の符号・逆数 × 転置 × 単項式倍の走査。ログ logs/refined_kauffman/d_sp_so_map.log。[1] は id・−ν・−1 のみ）。
+- 【計算】写像の走査（rk_d_sp_so_map.py）：{id, σ, 鏡像, q↔t} × ν の符号・逆数 × 転置 × 単項式倍で結べるのは、[1] の g_R・f_R の (id, −ν, −1) と hatted の p₁² の (id, −ν, +1) だけ。2 箱の g_R・f_R と p₂ 成分は結べない。sympy の cancel が σ の写像で止まる（p₂、500 秒超）ため、判定を項の形の比較に書き換えた。
 - 未解決：p₂ 方向の SO–Sp の関係（Adams 項 ψ² が 𝐚 → −𝐚 と可換でない）。m = 2 の Sp の 2 箱は N = 2..4 のみ（補間に足りない。N = 9 までで 1 N あたり最大 ~20 分の見込み）。
 - 次：案 B（Hilbert scheme と実構造）、または論文の仕上げ。

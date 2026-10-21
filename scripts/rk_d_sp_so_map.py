@@ -25,12 +25,23 @@ MAPS = {"id": {}, "σ": {r_: 1 / s_, s_: 1 / r_}, "鏡像": {r_: 1 / r_, s_: 1 /
 NUS = {"ν": {}, "−ν": {nu: -nu}, "1/ν": {nu: 1 / nu}, "−1/ν": {nu: -1 / nu}}
 
 
-def is_mono(e):
-    n_, d_ = sp.fraction(sp.cancel(e))
-    try:
-        return sp.Poly(n_, r_, s_, nu).is_monomial and sp.Poly(d_, r_, s_, nu).is_monomial
-    except sp.PolynomialError:
-        return False
+def _shape(e):
+    """有理式 e = n/d の、単項式倍を除いた形：分子・分母それぞれの項を先頭項で正規化した集合。"""
+    n_, d_ = sp.fraction(sp.together(e))
+    out = []
+    for h in (n_, d_):
+        P = sp.Poly(sp.expand(h * (r_ * s_ * nu) ** 80), r_, s_, nu)
+        (e0, c0), *rest = P.terms()
+        out.append(frozenset((tuple(a - b for a, b in zip(ex, e0)), sp.nsimplify(c / c0)) for ex, c in P.terms()))
+    return tuple(out)
+
+
+def mono_ratio(X, Y):
+    """X = mono · Y なら X/Y の単項式（cancel を使わず、項の形の比較で判定）。違えば None。"""
+    sx, sy = _shape(X), _shape(Y)
+    if sx == sy:
+        return sp.factor(sp.cancel(X / Y))
+    return None
 
 
 def scan(lab, X_sp, X_so):
@@ -41,9 +52,9 @@ def scan(lab, X_sp, X_so):
             for k in X_sp:
                 for kp in X_so:
                     tgt = X_so[kp].subs({**msub, **nsub}, simultaneous=True)
-                    ratio = sp.cancel(X_sp[k] / tgt)
-                    if is_mono(ratio):
-                        hits.append((k, kp, mlab, nlab, sp.factor(ratio)))
+                    ratio = mono_ratio(X_sp[k], tgt)
+                    if ratio is not None:
+                        hits.append((k, kp, mlab, nlab, ratio))
     print(f"{lab}：{hits}", flush=True)
     return hits
 
