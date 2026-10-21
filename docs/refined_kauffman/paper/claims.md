@@ -95,7 +95,7 @@
 | P7 | framed unknot：(i) と「t = q で C が整数」だけで x = 1, 2, 3 の E が一意（E(x) = (−1)^x(ν²+1)(q+1)Σ(−1)^k(ν²q)^{x−1−k}t^k）。x = 4 は (ii) の形 A で一意 | CR | — | logs/b_framed_unknot.log、test_rk_framed_unknot（x = 1 全数、x = 2 は results）、theory §11.8・§11.9 | 新規 |
 | P8 | Ĩ の符号は電荷だけの関数でない：unknot・Hopf (2,2) で成り立つ (−1)^{(j+l)/2} の規則は Hopf (2,4) と結び目で (i)(ii) を満たさない。E の決定には t 電荷の J₂/S_R への分解が要る | CR ＋ Rem | — | logs/b_sign_rule.log、theory §11.8 | 新規（否定的） |
 | P9 | [1] の c = 1 の ν^β ブロックの G の次数は brane–image の ν^{2β} ブロックの半分（全 β、T(2,3), T(2,5)）。[1] の凍結した状態は brane–image の環状の弦の商で、商の取っ手が G を担う | CR ＋ Conj | — | logs/b_one_box_vs_brane_image.log、theory §11.9 | 新規 |
-| P10 | 多箱の c=1 の σ 非対称性の分解：(i) ν の偶奇で定義した c=1 には t=q で既に c=2（z 奇）が混ざる（p₂ 方向・(2,1)、閉じた形）、hatted の 2 箱は ν 奇が c=1。(ii) 正しい c=1 の σ 奇部分は 𝐪²(𝐭²−1)(V⁴−1) で割り切れ t=q で消える。σ 偶・奇の分解は半整数で、trefoil では σ 奇側の G 展開が全ブロックでそろう（交互）が T(2,5) では崩れる | CR（解釈は予想） | trefoil・T(2,5) の 2 箱、trefoil の 3 箱 | theory §11.16、b_multibox_sigma*.log | 新規 |
+| P10 | 多箱の c=1 の σ 非対称性の分解：(i) ν の偶奇で定義した c=1 には t=q で既に c=2（z 奇）が混ざる（p₂ 方向・(2,1)、閉じた形）、hatted では c=1 ↔ ν^β、β ≡ |R|−1 (mod 2)（[1] 偶、2 箱 奇、3 箱 偶）。冪和では p₂ を含む方向だけ逆。3 箱の ĝ_λ は U 一般で整数 Laurent。(ii) 正しい c=1 の σ 奇部分は 𝐪²(𝐭²−1)(V⁴−1) で割り切れ t=q で消える。σ 偶・奇の分解は半整数で、trefoil では σ 奇側の G 展開が全ブロックでそろう（交互）が T(2,5) では崩れる | CR（解釈は予想） | trefoil・T(2,5) の 2 箱、trefoil の 3 箱 | theory §11.16、b_multibox_sigma*.log | 新規 |
 
 ## 7. 既知（成果として書かない）
 

@@ -26,3 +26,20 @@ def test_two_box_sigma_structure():
     P = sp.Poly(sp.expand(n_), r_, s_, nu)
     assert sp.rem(P, sp.Poly(r_**2 - s_**2, r_, s_, nu)).is_zero
     assert sp.rem(P, sp.Poly(r_**2 * s_**2 - 1, r_, s_, nu)).is_zero
+
+
+def test_three_box_hatted_parity():
+    """trefoil の 3 箱（Schur に直した hatted）：整数 Laurent、t=q で ν 偶が q↔1/q 対称・ν 奇が反対称（theory §11.17）。"""
+    from rk_b_3box_hatted_norm import load3
+    from rcsknots.bps import M_matrix, partitions
+    u_ = sp.Symbol("u", positive=True)
+    P, S = load3()
+    parts = partitions(3)
+    hat = M_matrix(3, 1 / r_).inv() * sp.Matrix([S[l] for l in parts])
+    for h in hat:
+        h = sp.cancel(h)
+        n_, d_ = sp.fraction(h)
+        assert sp.Poly(d_, r_, s_, u_).is_monomial and sp.Poly(d_, r_, s_, u_).coeffs()[0] == 1
+        x = sp.cancel(h.subs(u_, nu * s_).subs(s_, r_))
+        ev, od = c1(x), sp.cancel(x - c1(x))
+        assert sp.cancel(ev - ev.subs(r_, 1 / r_)) == 0 and sp.cancel(od + od.subs(r_, 1 / r_)) == 0
