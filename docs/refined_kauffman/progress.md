@@ -2,14 +2,14 @@
 
 ## 現在の状況（再開用、2026-10-21 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜42）にある。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜52）にある。
 
 ### 1. 環境
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`
   - ブランチは `claude/refined-kauffman-large-n-00d58e`。
   - main への直接の commit とローカルでのマージは禁止。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
-  - PR の head は 3de70c5。それ以降の **40 commit（最新 c9b847c、2026-10-20）は push していない**。
+  - PR の head は 3de70c5。それ以降の **54 commit（最新 a7c5ac9、2026-10-21）は push していない**。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
     - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
@@ -31,7 +31,7 @@
 - 場所：`docs/refined_kauffman/paper/`
   - `outline.md`：論文の軸、決定事項、章立て
   - `claims.md`：主張の格付け表
-  - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（26 ページ）
+  - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（30 ページ）
 - **決定事項（2026-10-20、ユーザーが確認済み）**：
   - 本研究の framed knot の論文（docs/paper/）とは別の 1 本にする。
   - 日本語で準備し、最終版は英語にする。
