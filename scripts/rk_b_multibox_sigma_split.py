@@ -48,6 +48,8 @@ if __name__ == "__main__":
             cases.append(("ĝ2+ĝ11 の ν 奇（c=1）", c2((g2 + g11) / zq)))
         if f"diff{m}" in which:
             cases.append(("(1+t)(ĝ2−ĝ11) の ν 奇（c=1）", c2((1 + s_**2) * (g2 - g11) / (r_ + 1 / r_))))
+        if f"E{m}" in which:                                        # σ 共変な p₂ 方向：(1+t)(1+1/q)·(g2−g11)/z_q⁺ = E/q^{1/2}
+            cases.append(("E/q^{1/2} = (1+t)(g2−g11)/r の ν 奇（c=1）", c2((1 + s_**2) * (g2 - g11) / r_)))
         if f"even{m}" in which:
             cases.append(("ĝ2+ĝ11 の ν 偶（c=2）", c1((g2 + g11) / zq)))
         for lab, X in cases:
