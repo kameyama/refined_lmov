@@ -854,3 +854,8 @@
 ## 2026-10-21（続き 56）3 箱の hatted の規格化（ユーザーの指示）
 - 【訂正】続き 55 で「3 箱の hatted は t=q で有理関数」としたのは、largeN_3box_m1.pkl の g が冪和基底であるのを Schur と取り違えたため（rk_b_3box_structure.py と tests/test_rk_daha.py は正しく変換している。影響は続き 55 の 3 箱の行だけ）。theory §11.16 の表を訂正。
 - 【計算】Schur に直すと ĝ_λ（|λ| = 3）は refined でも U 一般で整数 Laurent。t = q では 3 つとも「ν 偶 = c 1、ν 奇 = c 2」。hatted の c の規則は β ≡ |R| − 1 (mod 2)（[1] 偶、2 箱 奇、3 箱 偶）。冪和では p₂ を含む方向だけ逆。Mariño の M_{RS} と KN の M_matrix(n, q^{−1/2}) の一致を n = 2, 3 で確認。theory §11.17、tests/test_rk_multibox_sigma.py に 3 箱の偶奇を追加。
+
+## 2026-10-21（続き 57）案 B の第一歩（ユーザーの指示「案 B（Hilbert scheme と実構造）」）
+- 【計算】ORS のセル分解（Γ = ⟨2,3⟩）を実装し、T(2,3) の DGR の unreduced superpolynomial を l ≤ 8 で再現（辞書を数値的に固定）。rk_b_planB_cells.py、tests/test_rk_planB_cells.py。実装の注意：σ の巡回規則 a_{m+1} = a_1 + n、生成元の条件は g − h ∉ 𝔧（h ≤ g）。
+- 【計算】trefoil の固定セクターの指数 P = (1−t)x は (ν²−1)(q−1)(ν²−t)(ν²q−1)·N₈ の形（framed unknot と同じ境界因子）。P は被覆の [1] の ψ² と単純な関係に無い。theory §11.18。
+- 未実施：固定セクター P のセル模型、実構造（y → −y × 複素共役）の各セルへの符号。
