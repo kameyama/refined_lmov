@@ -45,3 +45,23 @@ def test_hopf_sqrt_11_22():
     assert Cn.coeff(nut, -1) == -1 and Cn.coeff(nut, 1) == 1
     assert sp.cancel(Pn.coeff(nut, -2) / Cn.coeff(nut, -1)**2) == r
     assert sp.cancel(Pn.coeff(nut, 2) / Cn.coeff(nut, 1)**2) == s**2 / r
+
+
+def test_truncated_tower_contributions():
+    """長さ L の z₂ の塔：対は 0、J₂ の塔は ½ε[L]_{−t}（E 型の 2 項）、凍結は [L]_t（theory §12.5）。"""
+    import rk_f_frozen_towers as T
+    for L in (1, 2, 3, 5):
+        for eps in (1, -1):
+            assert T.truncated_tower_g(L, eps, "pair") == 0
+            j2 = T.truncated_tower_g(L, eps, "J2")
+            assert sp.expand(j2 * (1 + T.t) - sp.Rational(eps, 2) * (1 - (-T.t)**L)) == 0
+
+
+def test_trefoil_two_box_lowest_tower():
+    """trefoil の 2 箱 p₁² hatted の最低のブロック ν^{−11} の σ 非対称部分 = −(1 − q/t) w^{−9} t([6]_t + [5]_t)。"""
+    import rk_f_frozen_towers as T
+    r, s = F.r, F.s
+    blk = F.nu_blocks(F.parity_split(F.knot_two_box(1), False))[-11]
+    D = T.asym_rs(blk)
+    tw = sum(s**(2 * i) for i in range(6)) + sum(s**(2 * i) for i in range(5))
+    assert sp.expand(D + (1 - r**2 / s**2) * (r / s)**-9 * s**2 * tw) == 0
