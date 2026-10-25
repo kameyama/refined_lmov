@@ -1,0 +1,107 @@
+\section{正値性の現状と障害}\label{sec:positivity}
+
+\subsection{符号の解釈}
+BPS 数は状態の数そのものではなく、$(-1)^F$ を付けた指数である。
+閉弦では $N^{s_L}_\beta = \sum_{s_R}(-1)^{2s_R}(2s_R + 1)N^{s_L,s_R}_\beta$（AgSc §2）、開弦の LMOV 不変量では $\hat N_{\mu,g,\beta} = \sum(-1)^{2J_r}\hat N_{\mu,g,\beta,J_r,S_R}$（KN）と書ける。
+KN の正値性は、refined にすると $(-1)^F$ の打ち消しが解けて、スピンで分けた状態の数 $\hat N_{\dots,J_r} \ge 0$ が見えることを指す。
+
+orientifold では、AgSc が指摘するとおり、$\tilde I$ が SU$(2)_L\times$SU$(2)_R$ を U$(1)_1\times$U$(1)_2$ に壊す。そのため、向き付けられない状態は完全なスピン多重項をなさなくてよい。
+また Piazzalunga--Uranga \cite{PU14} の解釈では、凍結した状態の数は orientifold の偶奇で重みを付けた差 $n^+ - n^-$ である。
+したがってクロスキャップの正値性は、適切な多重項の基底で、各ブロックの係数が unrefined の符号 $\varepsilon_\beta$ と同じ符号にそろうこととして問うべきである（§\ref{sec:criterion}）。
+unrefined で符号が混在することは、refined で正値性を期待しない理由にはならない。
+
+なお、SO$(2N)$ の refined CS 不変量そのものは、[1] でも太字の変数で正にならない（trefoil の $R_{(1)}$ は 9 項中 4 項が負）。Cherednik \cite{Cherednik11} も、C--D（部分的に B）型の hyper-polynomial について「最小の重みでも正値性はほとんど無い」と述べている。正値性を問うのは BPS の段階である。
+
+\subsection{多箱での符号}
+% [P2][P3]
+\begin{compresult}\label{cr:signs}
+普遍因子で割った商 $X_1/((\bt^2-1)(\ba^2-\bq^2))$ を太字の変数で書き、$\ba$ の冪ごとのブロックで符号がそろう数を数えた。
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+対象 & そろうブロック／全ブロック \\
+\midrule
+{[1]}（$T(2,3)$, $T(2,5)$） & すべて \\
+trefoil の 2 箱の和 $\hat g_{(2)} + \hat g_{(1,1)}$ & 5/10 \\
+$T(2,5)$ の 2 箱の和 & 6/18 \\
+trefoil の 3 箱 $\hat g_{(3)}, \hat g_{(2,1)}, \hat g_{(1,1,1)}$ & 2/15, 3/14, 2/13 \\
+\bottomrule
+\end{tabular}
+\end{center}
+次の取り替えでも、符号はそろわない。
+\begin{itemize}
+\item 自由エネルギーの右辺の基底：Hall--Littlewood、$P_R(Y; q, t)$、$P_R(Y; t, q)$、$Q_R$、modified Macdonald。$P(Y;t,q)$ では 8/11 まで改善するが、Hopf と固定 $N$ の 3 箱では悪くなるか、整数性が壊れる。
+\item 二次量子化の指数：$\tilde Z$ の積表示の指数を、$t$ の冪級数（モードの塔）に展開した係数。混在するブロックの割合は、trefoil の 2 箱で約 13\%（123 中 16、110 中 15）、$T(2,5)$ の 2 箱で約 34\%、trefoil の 3 箱で 38〜44\% である。
+\item 多重項の変数：$(q^{1/2}, \qr)$ の対称性の探索。
+\end{itemize}
+\end{compresult}
+命題 \ref{prop:alld} と系 \ref{cor:Efree} により、2 箱の和と 3 箱の方向は $E$ によらない。したがってこの混在は $E$ の不定性によるものではない。凍結した状態 $C$ の多重項の基底がまだ正しくないためと考えられる（予想。正値性そのものが成り立たない可能性は排除していない）。
+
+多箱の $c = 1$ 部分が $\sigma$ 対称でない（$G$ 展開できない）理由は、次の二つに分けられる。
+% [P10]
+\begin{compresult}\label{cr:multibox-sigma}
+\begin{enumerate}
+\item $t = q$ では Mariño の $c$ の定義は $z = q^{1/2} - q^{-1/2}$ の偶奇（$c = 1$ が $z$ の偶数冪、$q \leftrightarrow 1/q$ で対称）であり、$\lambda$ の偶奇とは、冪和の成分で $p_2$ を含まない方向（[1]、$p_1^2$、$p_3$, $p_1^3$）で一致し、含む方向（$p_2$、$p_2 p_1$）で逆になる。hatted $\hat g_R = M(q^{-1})^{-1} g_R$ では、$c = 1$ は $\lambda^\beta$ の $\beta \equiv |R| - 1 \pmod 2$ の部分である（[1] は偶、2 箱は奇、3 箱は偶。trefoil の 3 箱の $\hat g_R$ は $U$ 一般で整数 Laurent 多項式で、3 つとも成り立つ）。$p_2$ 方向の $\lambda$ の偶数冪に混ざる $c = 2$ は閉じた形 $-2 z\,\delta|_{t=q}\,(q^{4n}-1)/(q-1) \times$（単項式、$T(2,5)$ では $\lambda^4 q + \lambda^2(q^2+q+1) + q$ を含む）をもつ（$n = 2m+1$、$\delta$ は \S\ref{sec:sp} のもの）。
+\item 正しく $c = 1$ を取っても refined では $\sigma$ 対称でない。前の因子、[1] の積や Adams 項の補正、転置では直らない。$\sigma$ 奇部分は $\bq^2(\bt^2 - 1)(V^4 - 1)$（$V^4 = qt$）で割り切れ、$t = q$ で消える。すなわち $\hat g^{c=1} = S + (\bt^2-1)(\ql - \ql^{-1})\,K'$（$S$, $K'$ は $\sigma$ 対称で $G$ 展開できる）。ただし $S$, $K'$ は半整数で、$G$ 展開のブロックの符号は trefoil の $K'$ 側で全ブロックそろう（$\beta$ で交互）が、$T(2,5)$ では崩れる。
+\end{enumerate}
+\end{compresult}
+因子 $(\bt^2 - 1)$ は $c = 2$ の普遍因子（SU(2)$_r$ の捻ったトレース）、$(\ql - \ql^{-1})$ は Lefschetz SU(2)$_\ell$ の Weyl 反射で奇である。多箱の $c = 1$ には「$\tilde I$ の捻りを受け、Lefschetz のスピンが奇」の状態が入り、[1] にはそれが無い。これは \S\ref{sec:EC} の「結び目の固定セクターでは $S_R$ が自明に働かない」の $G$ 展開側の表れと考えられる（予想）。
+
+\subsection{被覆の brane と image の分割}
+被覆を brane（$Y$）と image（$Y'$）に分けた生成関数を作ると、次が成り立つ（trefoil, $T(2,5)$）。
+\begin{itemize}
+\item brane--brane のセクターは、KN の t 枠 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開でき、全 $\beta$ で符号がそろう（KN の正値性）。
+\item brane--image のセクター $x = W_{\mathrm{adj}} + \kappa - W_{(1)}^2$ は、$(t^{-1/2} - t^{1/2})x/z_q$ が整数 Laurent で $\sigma$ 対称である。$\lambda^\beta$ のブロックの多くは「そろう」か「$(\bt^2 - 1)\times$ そろう」かのどちらかである。混在するのは、trefoil では $\lambda^{-8}$ と $\lambda^{-2}$、$T(2,5)$ では中央の $\lambda^{-16}$〜$\lambda^{-10}$ の 4 ブロックである。
+\end{itemize}
+向き付けられた被覆の brane--image のセクターが、クロスキャップと同じ普遍因子 $(\bt^2 - 1)$ をもつ。
+brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の源）を含むセクターである。
+
+\subsection{$E$ と $C$ を分ける試み}\label{sec:EC}
+命題 \ref{prop:EC} により、$E$ と $C$ の分離には指数以外の情報が要る。次の 3 つを試した。
+% [P4]
+\begin{compresult}\label{cr:EC}
+\begin{enumerate}
+\item \textbf{状態の部分和}：Hopf と同じく $E = P - 2Q$（$P = (1-t)x$）と書き、(i) $C$ が整数 Laurent、(ii) $t = q$ で $E = -(1+q)(g_{(1)}(q^2, \lambda^2) + 1)$ を課した。trefoil で解が無い（$T(2,5)$ では実行していない）。範囲を外しても、(i)(ii) を満たす $E$ は $P$ の単項式の台に収まらない。
+\item \textbf{Adams 型}：$E = F\cdot(\psi^2[g_{(1)}] + 1)$。$F$ は $(1+q)$, $(1+t)$, $(q+t)$, $(1+qt)$ とその単項式倍で、$\psi^2$ で $\lambda^2$ に $(q/t)^{j/2}$（$|j| \le 2$）を掛ける場合も含めた。どれも (i) を満たさない。
+\item \textbf{捻ったトレース}：固定セクターの指数を $P = t^{1/2} z_q P_k$ と書き、$P_k$ の多重項（$G$ 展開の項、または単項式）ごとに $\tilde I$ の捻った指標をとる。境界の因子を $X$ として $E = sX\sum_m e_m\tilde b_m$、$|e_m| \le |c_m|$、$e_m \equiv c_m \pmod 2$ と置き、整数計画で解いた。捻りの規則は仮説で、q 平面・t 平面の $\pi$ 回転と、単項式ごとの符号の 3 通りを試した。
+  \begin{itemize}
+  \item Hopf の $E_{22}, E_{24}$ は、$X = z_q$ と単項式ごとの符号で一意に再現される。
+  \item 結び目では、$t = q$ と $t = -1$ の目標値がどちらも $(1 + q)$ を含むので、$X = z_q$ では解が無い。境界の因子は和 $z_q^+$ でなければならない。
+  \item $X = z_q^+$ では、trefoil は一意に解けるが、解に規則性は見えない。$T(2,5)$ はどの規則でも解が無い。上限 $|c_m|$ をゆるめると、見えない不変な対が少なくとも 2 組要る。
+  \end{itemize}
+\end{enumerate}
+境界の因子が和になることは、命題 \ref{prop:boundary} で導出した。
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{境界因子を固定した整数計画}：境界因子を $z_q^+$ に固定し、モジュライ部分の $G$ 展開の多重項に取っ手の捻り $G\to X$（$X\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$）を当てても、$T(2,3)$, $T(2,5)$ で解が無い。
+\item \textbf{framed unknot と符号の規則}：framed unknot（framing $\mathsf{f}$）では固定セクターの指数が $P(\mathsf{f}) = (\lambda^2-1)(q-1)\sum_{k<\mathsf{f}}(\lambda^2q)^{\mathsf{f}-1-k}t^k$ の積になる。条件 (ii) の形を仮定せず、(i) と「$t = q$ で $C$ が整数 Laurent」だけを課して全候補を数えると、$\mathsf{f} = 1, 2, 3$ のすべてで $E$ は一意に
+\[
+E(x) = (-1)^x(\lambda^2+1)(q+1)\sum_{k<x}(-1)^k(\lambda^2q)^{x-1-k}t^k\times\text{単項式}
+\]
+と決まる。$\tilde I$ は $t$ の塔に $(-1)^k$（$e^{i\pi J_2}$）で働く。Hopf $(2,2)$ でも、$t$ と $\lambda$ の指数の偶奇で符号を付ける規則が $E_{22}$ を再現する。しかし Hopf $(2,4)$ と結び目では、この型の規則（8 通りと基準のずれ 4 通り）も、符号と取っ手の捻りを組み合わせた 36 通りの規則も、どれも (i)(ii) を満たさない。
+\end{enumerate}
+\end{compresult}
+$\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_2$ の組み合わせだけである。したがって $E$ の決定には、固定セクターの状態の $t$ 電荷を $J_2$（$\tilde I$ で符号）と $S_R$（$\tilde I$ で不変）に分ける情報、すなわち KN の $\hat N_{\rho,g,\beta,J_r,S_R}$ に当たる打ち消しの前の状態数が要る。unknot ではすべて $J_2$、結び目では同じ電荷の状態に異なる符号が付く（計算）。KN の仮定（$S_R$ が BPS 状態に自明に働く）のもとでは符号が電荷の偶奇で決まるはずなので、結び目の brane--image のセクターでは $S_R$ が非自明に働くと考えられる（予想）。これが命題 \ref{prop:EC} の不定性の、量子数による言い換えである。
+
+\begin{remark}[refined の強い整数性]
+全 $d$ の形で $f = \tfrac12 f^{\cov} + \tfrac12 E/(1+t) + C$ が整数 Laurent であることは、不変な状態の指数 $P_{\mathrm{inv}}$ について $E \equiv P_{\mathrm{inv}} \pmod 2$（係数ごと）と同値である（$\tfrac12[P_{\mathrm{inv}}(1+t) + E(1-t)]/(1-t^2)$ が整数級数 $\Leftrightarrow P_{\mathrm{inv}} + E \equiv 0 \bmod 2$）。これは整数計画の制約 $e_m \equiv c_m \pmod 2$ そのものである。AgSc §4 の unrefined の形（向き付けられた $f_{\square,\square}$ と向き付けられない $f_\square(q^2)$ の mod 2 の一致）は、$t = q$ で $E$ と $C$ が条件 (ii) で混ざった後の影である。その形を素朴に当てた検査 $P \equiv g_{(1)}(q^2,t^2,\lambda^2 w^j) \pmod 2$ は $t = q$ でも合わず、辞書が未確定なので refined についての判定はしていない。
+\end{remark}
+
+\subsection{composite の DAHA の非正値性}
+% [P5]
+固定セクターの状態は、被覆の随伴 $(1;1)$ の値 $R_{\mathrm{adj}}$ から来る。$R_{\mathrm{adj}}$ がホモロジーの Poincaré 多項式（係数が正）として読めれば、打ち消しの前の状態の数が得られるはずである。
+\begin{compresult}
+大きな $N$ の $R_{\mathrm{adj}}$（GL の DAHA）は、KN の太字変換を鏡像で当てても、係数の符号が混在する（trefoil は 19 項中 7 項、$T(2,5)$ は 56 項中 25 項が負）。
+単項式の偶奇によるどの符号の付け方（64 通り）でも、係数はそろわない。
+\end{compresult}
+これは Cherednik--Elliot \cite{CE15} の序論の記述「composite の DAHA 超多項式は正値性をもたない」と合う。
+環状の HOMFLY-PT ホモロジーとの関係は、同論文でも予想されていない。
+
+\subsection{まとめ}
+% [P6]
+\begin{itemize}
+\item [1]（トーラス結び目）では判定式（予想 \ref{conj:criterion}）が成り立ち、符号がそろう。
+\item 多箱では、普遍因子（予想 \ref{conj:structure}）は成り立つが、その商の符号はそろわない。
+\item 多箱の正値性は、凍結した状態の多重項の基底が決まるまで判定できない。$E$ と $C$ の分離が決まるまでも同様である。$E$ と $C$ の分離は指数からは決まらず（命題 \ref{prop:EC}）、composite の DAHA の値からも状態の数は得られなかった（計算）。打ち消しの前の固定セクターの状態の空間を、幾何から求める必要がある \open。
+\item 多箱の $c = 1$ の $\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(V^2-V^{-2})$ で割り切れる）に分かれる（計算結果 \ref{cr:multibox-sigma}）。後者の起源は、結び目の固定セクターで $S_R$ が非自明に働くことにあると考えられる（予想）。
+\end{itemize}

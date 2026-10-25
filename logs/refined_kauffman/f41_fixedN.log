@@ -1,0 +1,14 @@
+4_1 N=2 SO 側：framing の走査（予言 β = 0）: {(3, 1): [0], (1, 1): [0], (2, 0): [0], (0, 2): [0], (3, 3): [0], (2, 2): [0], (1, 3): [0]}
+4_1 N=2 SO 側：f 整数（|R| ≤ 3）: True
+4_1 N=2 SO 側：SO f̂ Laurent（全方向）: {2: {(2,): True, (1, 1): True}, 3: {(3,): True, (2, 1): True, (1, 1, 1): True}}
+4_1 N=2 SO 側：SO f̂_R 整数: True
+4_1 N=2 SO 側：f_R が r → −r で不変: [False, False, False, False, False, False]
+  (2s)
+4_1 N=2 被覆（[2,1] は KN の候補）：随伴（KN の候補）の framing の走査（予言 β = 0）: [0]
+4_1 N=2 被覆（[2,1] は KN の候補）：f^cov Laurent（|R| ≤ 2）: True
+4_1 N=2 被覆（[2,1] は KN の候補）：被覆 f̂ Laurent（|R| = 2）: {(2,): True, (1, 1): True}
+4_1 N=2 被覆（[2,1] は KN の候補）：g Laurent・整数・2g 整数（|R| = 2）: [(True, False, True), (True, False, True)]
+4_1 N=2 被覆（[2,1] は KN の候補）：g_(2)+g_(1,1) 整数: True
+4_1 N=2 被覆（[2,1] は KN の候補）：ĝ Laurent（|R| = 2）: {(2,): True, (1, 1): True}
+4_1 N=2 被覆（[2,1] は KN の候補）：g_R が r → −r で不変（|R| ≤ 2）: [False, False, False]
+  (3s)

@@ -1,0 +1,6 @@
+N=2 m=2 sp=True: 0.6s
+N=3 m=2 sp=True: 5.3s
+N=4 m=2 sp=True: 43.4s
+N=5 m=2 sp=True: 208.0s
+      208.72 real       203.56 user         2.02 sys
+time: sysctl kern.clockrate: Operation not permitted

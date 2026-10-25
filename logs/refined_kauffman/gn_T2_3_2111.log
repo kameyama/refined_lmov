@@ -1,0 +1,6 @@
+  axis q: exponents -16..-8 (probe N=64)
+  axis t: exponents 23..46 (probe N=128)
+  grid 9 x 24 = 216 points
+  159 terms, 1 prime, 1s
+2111 {'sign': -1, 'a': '5', 'q': '27/2', 't': '-87/2'} 2.4 s 159 項
+exit 0

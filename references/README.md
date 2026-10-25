@@ -46,3 +46,15 @@ DOI・巻・頁は未確認（上の表で確認したと書いたものを除�
 ```bash
 .venv/bin/python scripts/framed_knot/nb2txt.py references/1703.05408/src/anc/refined-LMOV-torus.nb > references/1703.05408/nb-torus.txt
 ```
+| 2205.12832 | v2 | Avetisyan–Mkrtchyan, On refined Chern-Simons / topological string duality for classical gauge groups（arXiv のメタデータで確認） | — |
+| 2107.08679 | v1 | Avetisyan–Mkrtchyan, On partition functions of refined Chern-Simons theories on S³ | — |
+| 2302.14319 | v1 | Avetisyan–Mkrtchyan, Two-fold refinement of non simply laced Chern-Simons theories | — |
+| 2201.12264 | v2 | Kim–Wei, Refined topological vertex with ON-planes | — |
+| 1405.6019 | v2 | Piazzalunga–Uranga, M-theory interpretation of the real topological string | — |
+| 1101.3216 | v1 | Witten, Fivebranes and Knots（arXiv のメタデータで確認） | — |
+| 1007.0263 | v1 | Krefl–Walcher, Extended holomorphic anomaly in gauge theory（Lett. Math. Phys. 95 (2011) 67–88、arXiv API で確認） | — |
+| 1010.2635 | v1 | Krefl–Walcher, Shift versus extension in refined partition functions（掲載誌未確認） | — |
+| 1709.01928 | v4 | Kim–Yagi, Topological vertex formalism with O5-plane（Phys. Rev. D 97 (2018) 026011） | — |
+| 2012.13303 | v2 | Hayashi–Zhu, More on topological vertex formalism for 5-brane webs with O5-plane（JHEP 04 (2021) 292） | — |
+| hep-th/0012136 | v1 | Sinha–Vafa, SO and Sp Chern-Simons at large N（掲載誌未確認） | — |
+| 0902.0616 | v1 | Krefl–Walcher, The real topological string on a local Calabi-Yau（掲載誌未確認） | — |

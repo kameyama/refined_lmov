@@ -1,0 +1,4 @@
+N=4 m=1 λ=(3,): 一致 Z True K True、現行 25.7s、高速 0.56s、最大 RSS 136MB
+N=4 m=1 λ=(2, 1): 一致 Z True K True、現行 25.4s、高速 0.02s、最大 RSS 136MB
+N=4 m=1 λ=(1, 1, 1): 一致 Z True K True、現行 25.5s、高速 0.01s、最大 RSS 136MB
+完了

@@ -1,0 +1,8 @@
+[1] T(2,3) g^true：{'z_q': 'G 展開できない（A False, B True）', 'z_t': 'G 展開できない（A False, B True）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B True）'}
+[1] T(2,5) g^true：{'z_q': 'G 展開できない（A False, B True）', 'z_t': 'G 展開できない（A False, B True）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B True）'}
+2 箱 T(2,3) ĝ_(2)+ĝ_(1,1)：{'z_q': 'G 展開できない（A False, B False）', 'z_t': 'G 展開できない（A False, B False）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B False）'}
+2 箱 T(2,5) ĝ_(2)+ĝ_(1,1)：{'z_q': 'G 展開できない（A False, B False）', 'z_t': 'G 展開できない（A False, B False）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B False）'}
+3 箱 trefoil ĝ_(3,)：{'z_q': 'G 展開できない（A False, B False）', 'z_t': 'G 展開できない（A False, B False）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B False）'}
+3 箱 trefoil ĝ_(2, 1)：{'z_q': 'G 展開できない（A False, B False）', 'z_t': 'G 展開できない（A False, B False）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B False）'}
+3 箱 trefoil ĝ_(1, 1, 1)：{'z_q': 'G 展開できない（A False, B False）', 'z_t': 'G 展開できない（A False, B False）', '(z_q−z_t)/2': 'G 展開できない（A False, B False）', '(z_q+z_t)/2': 'G 展開できない（A False, B False）'}
+timeout 3000 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python   331.02s user 2.69s system 98% cpu 5:38.79 total

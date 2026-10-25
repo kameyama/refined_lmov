@@ -1,0 +1,9 @@
+P の係数の符号：正 25 負 25
+t=−1（s=i）での R と P の (r,ν) の台：R だけにある 0 個
+(i)=True、(ii)=False：0≤Q/P≤1 で解あり False、範囲なし（整数）で解あり True
+   (ii) の Q|_{t=q} が整数: True
+   (ii) の Q|_{t=q} が整数: True
+(i)=False、(ii)=True：0≤Q/P≤1 で解あり True、範囲なし（整数）で解あり True
+   (ii) の Q|_{t=q} が整数: True
+   (ii) の Q|_{t=q} が整数: True
+(i)=True、(ii)=True：0≤Q/P≤1 で解あり False、範囲なし（整数）で解あり False

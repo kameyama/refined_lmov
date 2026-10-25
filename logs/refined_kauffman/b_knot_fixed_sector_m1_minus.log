@@ -1,0 +1,3 @@
+T(2,3)：P = (1 − t)x の分母 nu**12*r**10、項数 50
+   状態の単項式 50 個、解あり = False
+timeout 1700 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python    13.32s user 0.28s system 97% cpu 13.986 total

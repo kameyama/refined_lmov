@@ -1,0 +1,14 @@
+g_(2)+g_(1,1) 整数 Laurent: True ；(1+t)(g_(2)−g_(1,1)) 整数 Laurent: True
+R = (1,)：項数 Sp 11, SO 11；g^Sp(𝐚) = −g^SO(−𝐚)：True；𝐭 → −𝐭 不変 Sp True
+R = (2,)：項数 Sp 236, SO 232；g^Sp(𝐚) = −g^SO(−𝐚)：False；𝐭 → −𝐭 不変 Sp True
+R = (1, 1)：項数 Sp 380, SO 383；g^Sp(𝐚) = −g^SO(−𝐚)：False；𝐭 → −𝐭 不変 Sp True
+E を含まない方向 g_(2)+g_(1,1)：Sp(𝐚) = −SO(−𝐚)： False
+E^Sp(t=−1) = (nu**2 + 1)**2*(r**2 + 1)*(nu**2*r**2 + 1)*(nu**6*r**6 - nu**4*r**6 - nu**2*r**2 - 1)/(nu**12*r**10)
+E^SO(t=−1) = (nu**2 + 1)**2*(r**2 + 1)*(nu**2*r**2 + 1)*(nu**6*r**6 - nu**4*r**6 - nu**2*r**2 - 1)/(nu**12*r**10)
+   E^Sp(t=−1) = E^SO(t=−1)[ν→−ν] × 1
+   E^Sp(t=−1) = E^SO(t=−1)[ν→ν] × 1
+g^Sp_(2)(𝐚) = −g^SO_(1,1)(−𝐚): False
+g^Sp_(1,1)(𝐚) = −g^SO_(2)(−𝐚): False
+和の差 g^Sp_sum(𝐚) + g^SO_sum(−𝐚) の項数: 615
+hatted の p1² 成分: Sp(𝐚) = −SO(−𝐚)? False ; Sp(𝐚) = +SO(−𝐚)? True
+hatted の p2 成分: Sp(𝐚) = −SO(−𝐚)? False ; Sp(𝐚) = +SO(−𝐚)? False

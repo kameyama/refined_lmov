@@ -1,0 +1,25 @@
+  axis q: exponents -8..-4 (probe N=64)
+  axis t: exponents 22..44 (probe N=128)
+  grid 5 x 23 = 115 points
+  60 terms, 1 prime, 0s
+1111 {'sign': 1, 'a': '4', 'q': '6', 't': '-42'} 1.2 s 60 項
+real 2.13
+user 1.55
+sys 0.15
+  axis q: exponents -10..-5 (probe N=64)
+  axis t: exponents 35..70 (probe N=256)
+  grid 6 x 36 = 216 points
+  126 terms, 1 prime, 1s
+11111 {'sign': -1, 'a': '5', 'q': '15/2', 't': '-135/2'} 2.4 s 126 項
+real 2.90
+user 2.80
+sys 0.08
+  axis q: exponents -40..-20 (probe N=128)
+  axis t: exponents 44..88 (probe N=256)
+  grid 21 x 45 = 945 points
+  849 terms, 1 prime, 16s
+2222 {'sign': 1, 'a': '8', 'q': '36', 't': '-84'} 28.7 s 849 項
+real 29.18
+user 28.76
+sys 0.26
+完了

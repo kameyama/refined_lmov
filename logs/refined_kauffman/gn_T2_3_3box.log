@@ -1,0 +1,41 @@
+  axis q: exponents -26..-13 (probe N=64)
+  axis t: exponents 7..14 (probe N=64)
+  grid 14 x 8 = 112 points
+  75 terms, 1 prime, 0s
+31 {'sign': 1, 'a': '4', 'q': '24', 't': '-12'} 1.0 s 75 項
+real 1.92
+user 1.41
+sys 0.14
+  axis q: exponents -30..-15 (probe N=64)
+  axis t: exponents 24..48 (probe N=128)
+  grid 16 x 25 = 400 points
+  407 terms, 1 prime, 2s
+3111 {'sign': 1, 'a': '6', 'q': '27', 't': '-45'} 7.2 s 407 項
+real 7.73
+user 7.23
+sys 0.13
+  axis q: exponents -24..-12 (probe N=64)
+  axis t: exponents 27..54 (probe N=128)
+  grid 13 x 28 = 364 points
+  306 terms, 1 prime, 2s
+2211 {'sign': 1, 'a': '6', 'q': '21', 't': '-51'} 4.7 s 306 項
+real 5.20
+user 5.01
+sys 0.10
+  axis q: exponents -48..-24 (probe N=128)
+  axis t: exponents 15..30 (probe N=64)
+  grid 25 x 16 = 400 points
+  284 terms, 1 prime, 2s
+33 {'sign': 1, 'a': '6', 'q': '45', 't': '-27'} 5.5 s 284 項
+real 6.08
+user 5.87
+sys 0.10
+  axis q: exponents -36..-18 (probe N=128)
+  axis t: exponents 18..36 (probe N=128)
+  grid 19 x 19 = 361 points
+  327 terms, 1 prime, 2s
+321 {'sign': 1, 'a': '6', 'q': '33', 't': '-33'} 6.1 s 327 項
+real 6.66
+user 6.38
+sys 0.12
+完了

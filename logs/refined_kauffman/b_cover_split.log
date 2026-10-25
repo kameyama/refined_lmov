@@ -1,0 +1,8 @@
+Y = Y' で cover_f に一致（p1², p2, p1）: (True, True, True)
+被覆の M⊗M hatted f̂_brane (2)：Laurent False、整数 Laurent False
+被覆の M⊗M hatted f̂_brane (1,1)：Laurent False、整数 Laurent False
+被覆の M⊗M hatted f̂_brane–image (1),(1)：Laurent False、整数 Laurent False
+(1/s − s) f̂_brane (2)：分母 r**9*u**10、G 展開できる。ν^β ごとの符号：{-10: 'そろう', -8: 'そろう', -6: 'そろう', -4: 'そろう', -2: 'そろう'}
+(1/s − s) f̂_brane (1,1)：分母 r**7*u**10、G 展開できる。ν^β ごとの符号：{-10: 'そろう', -8: 'そろう', -6: 'そろう', -4: 'そろう', -2: 'そろう'}
+(1/s − s) f̂_brane–image (1),(1)：分母 r**10*u**12、G 展開できない
+timeout 900 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python   0.82s user 0.10s system 85% cpu 1.073 total

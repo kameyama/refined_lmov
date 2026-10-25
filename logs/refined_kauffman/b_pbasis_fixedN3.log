@@ -1,0 +1,15 @@
+F：N = 2、g の P_(3,)(Y;t,q) の係数：分母 r**14*s**38、整数 Laurent True
+F：N = 2、g の P_(2, 1)(Y;t,q) の係数：分母 r**26*s**42*(r*s**2 - 1)*(r*s**2 + 1)、整数 Laurent False
+F：N = 2、g の P_(1, 1, 1)(Y;t,q) の係数：分母 r**48*s**42*(r*s - 1)*(r*s + 1)*(r**2*s - 1)*(r**2*s + 1)、整数 Laurent False
+F：N = 2、比較：Schur 基底の g_R は整数 Laurent True
+F：N = 2、ĝ の P_(3,)(Y;t,q) の係数：分母 r**46*s**42、整数 Laurent True
+F：N = 2、ĝ の P_(2, 1)(Y;t,q) の係数：分母 r**46*s**42*(r*s**2 - 1)*(r*s**2 + 1)、整数 Laurent False
+F：N = 2、ĝ の P_(1, 1, 1)(Y;t,q) の係数：分母 r**46*s**42*(r*s - 1)*(r*s + 1)*(r**2*s - 1)*(r**2*s + 1)、整数 Laurent False
+F：N = 3、g の P_(3,)(Y;t,q) の係数：分母 r**14*s**72、整数 Laurent True
+F：N = 3、g の P_(2, 1)(Y;t,q) の係数：分母 r**26*s**78*(r*s**2 - 1)*(r*s**2 + 1)、整数 Laurent False
+F：N = 3、g の P_(1, 1, 1)(Y;t,q) の係数：分母 r**48*s**78*(r*s - 1)*(r*s + 1)*(r**2*s - 1)*(r**2*s + 1)、整数 Laurent False
+F：N = 3、比較：Schur 基底の g_R は整数 Laurent True
+F：N = 3、ĝ の P_(3,)(Y;t,q) の係数：分母 r**46*s**78、整数 Laurent True
+F：N = 3、ĝ の P_(2, 1)(Y;t,q) の係数：分母 r**46*s**78*(r*s**2 - 1)*(r*s**2 + 1)、整数 Laurent False
+F：N = 3、ĝ の P_(1, 1, 1)(Y;t,q) の係数：分母 r**46*s**78*(r*s - 1)*(r*s + 1)*(r**2*s - 1)*(r**2*s + 1)、整数 Laurent False
+timeout 580 /Users/masaya/projects/ai_research/refined_cs/.venv/bin/python -c  9.12s user 0.22s system 96% cpu 9.670 total

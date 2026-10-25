@@ -1,0 +1,24 @@
+N=2 K_λ(t^ρ) = A 型の積・和: True
+N=2 unknot: f_(2) = 0、f_(1,1) = 0
+N=2 f_(1,1) を Laurent にする m_(2) = ±r^α s^β（|α| ≤ 12、|β| ≤ 50）: [(1, -4, 4)]
+N=2 f_(1,): {'laurent': True, 'integer': True, 'terms': 10, 'pos': 3, 'maxabs': 2}
+N=2 f_(2,): {'laurent': True, 'integer': True, 'terms': 43, 'pos': 20, 'maxabs': 12}
+N=2 f_(1, 1): {'laurent': True, 'integer': True, 'terms': 90, 'pos': 45, 'maxabs': 16}
+N=2 m_(2) = 1 での f_(1,1) の Laurent 性: False
+N=2 f_(1,) == 1 probe の f_1: True
+N=2 f_(2,) == 1 probe の f_2: True
+N=2 M(q^{-1})^{-1} f の分母: [r**19*s**30*(r - 1)*(r + 1)*(r**2 + 1), r**17*s**30*(r - 1)*(r + 1)*(r**2 + 1)]
+N=2 M(t)^{-1} f の分母: [r**20*s**27*(s - 1)*(s + 1)*(s**2 + 1), r**20*s**29*(s - 1)*(s + 1)*(s**2 + 1)]
+  N=2: 68s
+N=3 K_λ(t^ρ) = A 型の積・和: True
+N=3 unknot: f_(2) = 0、f_(1,1) = 0
+N=3 f_(1,1) を Laurent にする m_(2) = ±r^α s^β（|α| ≤ 12、|β| ≤ 50）: [(1, -4, 4)]
+N=3 f_(1,): {'laurent': True, 'integer': True, 'terms': 17, 'pos': 6, 'maxabs': 2}
+N=3 f_(2,): {'laurent': True, 'integer': True, 'terms': 94, 'pos': 47, 'maxabs': 13}
+N=3 f_(1, 1): {'laurent': True, 'integer': True, 'terms': 157, 'pos': 75, 'maxabs': 19}
+N=3 m_(2) = 1 での f_(1,1) の Laurent 性: False
+N=3 f_(1,) == 1 probe の f_1: True
+N=3 f_(2,) == 1 probe の f_2: True
+N=3 M(q^{-1})^{-1} f の分母: [r**19*s**54*(r - 1)*(r + 1)*(r**2 + 1), r**17*s**54*(r - 1)*(r + 1)*(r**2 + 1)]
+N=3 M(t)^{-1} f の分母: [r**20*s**51*(s - 1)*(s + 1)*(s**2 + 1), r**20*s**53*(s - 1)*(s + 1)*(s**2 + 1)]
+  N=3: 70s

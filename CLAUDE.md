@@ -14,6 +14,7 @@ src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcskn
 2. 作業内容に応じて docs/framed_knot/research_plan.md（ステージ 0〜7 の計算計画）と docs/framed_knot/novelty_report.md（既知の結果と新規性の範囲）を参照する。
 3. 計算に入る前に docs/framed_knot/conventions.md の規約を確認する。
 4. 別の研究「DGR・四重次数型の構造と refined LMOV」（2026-10-11 開始）の作業では、docs/dgr_lmov/README.md を読み、そこに書いた規則に従う。正値性の扱いが本研究と異なり、この研究では open_problems.md §F は適用しない。その研究の進捗は docs/dgr_lmov/progress.md に書く。
+5. 第 3 の研究「refined Kauffman 多項式の large N duality」（2026-10-14 開始）の作業では、docs/refined_kauffman/README.md を読み、そこに書いた規則に従う。規約は docs/refined_kauffman/conventions.md、進捗は docs/refined_kauffman/progress.md に書く。過去の試行錯誤（Dropbox の Mathematica ノートブック）は読むだけで書き換えない。 この研究のファイルは docs/refined_kauffman/、scripts/refined_kauffman/、tests/refined_kauffman/、data/refined_kauffman/、logs/refined_kauffman/、src/rcsknots/refined_kauffman/（この研究だけが使うモジュール：Koornwinder・D_N/C_N の DAHA・flint の有理関数・Kauffman の各計算）に置く。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman` で実行する。
 
 # 規約
 - 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/framed_knot/conventions.md に従う。
