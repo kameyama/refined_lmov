@@ -69,3 +69,5 @@ docs/refined_kauffman/paper/ja/*.out
 docs/refined_kauffman/paper/ja/*.toc
 docs/refined_kauffman/paper/ja/*.fls
 docs/refined_kauffman/paper/ja/*.fdb_latexmk
+# 旧配置の途中データ（framed_knot の framing_newton の再生成物。追跡しない）
+data/framing/

@@ -16,8 +16,8 @@
     - 各段で SHA がローカルと一致することを確かめる。
 - **Python**：main checkout の `.venv` を使う（`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`）。
   - worktree 直下から相対で書くと `../../../.venv/bin/python`。
-  - スクリプトは worktree の `src` と `scripts` を sys.path の先頭に入れている。
-- **テスト**：`../../../.venv/bin/pytest -q tests/test_rk_*.py`
+  - スクリプトは worktree の `src` と `scripts/refined_kauffman` を sys.path の先頭に入れている。
+- **テスト**：`../../../.venv/bin/pytest -q tests/refined_kauffman`（2026-10-26 に main の整理（PR #10）に合わせて scripts/refined_kauffman/、tests/refined_kauffman/、src/rcsknots/refined_kauffman/ に移した。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman`）
   - 既定の 70 件（約 175 秒。2026-10-21 に全件通過、logs/refined_kauffman/paper_tests_default_2026-10-21.log）。
   - `-m results` の 7 件（約 7〜8 分の見込み。2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log）。
 - **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。

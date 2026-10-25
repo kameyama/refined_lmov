@@ -17,22 +17,28 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の r
 ```
 docs/framed_knot/     本研究の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）
 docs/dgr_lmov/        別の研究の文書（入口は README.md）
+docs/refined_kauffman/  第 3 の研究（refined Kauffman 多項式の large N 双対）の文書・論文（入口は README.md）
 references/           論文 PDF と TeX ソース（追跡しない。references/README.md に取得元）
 src/rcsknots/         計算コード（Python パッケージ。両方の研究で共有する）
 src/rcsknots/dgr_lmov/  別の研究だけが使うモジュール（dgr, lmovstruct, large_n_inverse）
+src/rcsknots/refined_kauffman/  第 3 の研究だけが使うモジュール（koornwinder, daha_dn, daha_cn, flint_rf*, kauffman_*）
 tests/framed_knot/    本研究の照合テスト（pytest）
 tests/dgr_lmov/       別の研究の照合テスト
+tests/refined_kauffman/  第 3 の研究の照合テスト
 scripts/framed_knot/  本研究の単発の計算・検証スクリプト
 scripts/dgr_lmov/     別の研究のスクリプト（framed_knot/ のスクリプトも import する）
+scripts/refined_kauffman/  第 3 の研究のスクリプト（rk_*.py）
 data/framed_knot/     本研究の計算結果（JSON と人が読める表）
 data/dgr_lmov/        別の研究の計算結果（lmovstruct/ を含む）
+data/refined_kauffman/  第 3 の研究の計算結果（daha/ の pkl など）
 data/cache/           途中結果のキャッシュ（追跡しない。両方の研究で共有する）
 logs/framed_knot/     本研究の検証ログ・実行時間とメモリの記録
 logs/dgr_lmov/        別の研究のログ
+logs/refined_kauffman/  第 3 の研究のログ
 notebooks/            試行用
 ```
 
-スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（スクリプトどうしの import はこのパスで解決する）。
+スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（第 3 の研究は `PYTHONPATH=src:scripts/refined_kauffman`）（スクリプトどうしの import はこのパスで解決する）。
 
 ## セットアップとテスト
 
