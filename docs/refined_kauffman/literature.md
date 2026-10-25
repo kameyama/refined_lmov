@@ -116,3 +116,20 @@ Web 検索（2026-10-14）の範囲では、Mariño の予想の完全な証明�
 - 未確認のまま残っている点（報告の注意）：Ekholm・Georgieva の Kauffman skein 値の曲線計数の論文の有無、Rains の lifted Koornwinder への Macdonald 対合の具体式、Queffelec–Rose–Sartori の本文。Bu の自己双対構造が AgSc の Ĩ に当たるか。
 - 2026-10-21：Young 1603.05401 の序論・主結果・§3.4 と、Franzen–Young 1605.06596 を references/ に取得した（後者は未読）。Young の CoHM と本研究の E・C の対応は theory_orientifold_index.md §11.5。
 - 2026-10-21（案 B のため）：Oblomkov–Shende 1003.1568（Duke Math. J. 161 (2012) 1277–1303）、Oblomkov–Rasmussen–Shende 1201.2115（Geom. Topol. 22 (2018) 645–691）、Diaconescu–Shende–Vafa 1111.6533（Commun. Math. Phys. 319 (2013) 813–863）を取得し、要旨・主予想・次数の規約（ORS：t ↔ 重み、q ↔ 偏屈フィルトレーション）・DSV の反正則対合の構成を読んだ。本研究への当てはめは theory_orientifold_index.md §11.13。
+
+## 6. 閉弦の refined orientifold と real topological string（2026-10-26、ユーザーの質問「refined の閉弦の orientifold GV の研究はあるか」）
+書誌は arXiv API（export.arxiv.org）で確認し、ソースを references/ に取得した。
+
+| 文献 | 書誌 | 内容（抄録と本文の確認範囲） | 本研究との関係 |
+|---|---|---|---|
+| Sinha–Vafa hep-th/0012136 | 掲載誌未確認 | SO(N)・Sp(N) CS の large N の閉弦双対を resolved conifold の orientifold と同定（unrefined） | Mariño・BFM の原型 |
+| Walcher 0712.2775 | 掲載誌未確認 | コンパクト CY の orientifold＋D-brane の位相的弦。BPS 展開が成り立つのは D-brane の電荷が O 面の電荷と等しいとき（tadpole 相殺） | unrefined |
+| Krefl–Walcher 0902.0616 | 掲載誌未確認 | local P² の real topological string：反正則対合で保たれるトーラス作用で局所化し、real topological vertex（固定脚が自明）を構成、拡張正則異常方程式と照合 | unrefined の orientifold の vertex |
+| **Krefl–Walcher 1007.0263** | Lett. Math. Phys. 95 (2011) 67–88 | Ω 背景の N=2 ゲージ理論の分配関数は β = −ε₁/ε₂ によらない（拡張）正則異常方程式を満たす。**§Orientifold：β = 2（ε₁ = −2ε₂）の理論は β = 1 の理論の「orientifold」**（real instanton：実構造 (z₁,z₂) → (z̄₂, z̄₁) で不変な固定点の寄与の平方根の和が、N_f = 0, 2, 4 で Z(ε, −2ε) に一致。奇数の N_f では不成立）。β 集団模型の β = 1/2, 2 ↔ SO, Sp に対応。「位相的 orientifold は β = 2 の理論の精密化に埋め込める」という予想を述べる | **unrefined の orientifold ＝ refined の特殊点 (β = 2)** という逆向きの関係。本研究の Kähler 変数のずれ ν → ν(q/t)^{1/2} や (𝐭² − 1) の因子との関係は未検討【予想】 |
+| Krefl–Walcher 1010.2635 | 掲載誌未確認 | 質量パラメータのシフトで Ω 背景の反転 (ε₁, ε₂) → (−ε₁, −ε₂) の ℤ₂ 対称性が回復し、正則異常方程式の「拡張」が消える | refined の変数のシフト（本研究の一様な規格化の (t/q)^{δ/2} と比較の余地）【予想】 |
+| Kim–Yagi 1709.01928 | Phys. Rev. D 97 (2018) 026011 | O5 面を含む 5-brane web の位相的頂点の規則（**unrefined のみ**。refined は今後の課題と明記） | 5d Sp(N)/SO(N) の分配関数＝orientifold の閉弦 |
+| **Hayashi–Zhu 2012.13303** | JHEP 04 (2021) 292 | O5 面の vertex の続き。§「refined」で O-vertex の refined 版 V_ν(t, q) を、2 つの Ω パラメータをもつ Nekrasov の摂動部分との比較で構成 | **refined の O 面つき vertex の最初の構成**（摂動部分）。AM 2205.12832 の閉弦の GV 型展開との照合先の候補 |
+| Kim–Wei 2201.12264（取得済み） | — | ON 面をもつ refined topological vertex | 同上 |
+| Krefl 1001.5031（未取得） | — | orientifold の壁越え現象 | — |
+
+まとめ：refined の閉弦の orientifold GV 不変量を定義したのは AgSc 1202.4456（M 理論の指数）で、AM 2205.12832 が古典群全体で分配関数を GV 型に展開した。ゲージ理論の側では Krefl–Walcher が「orientifold ＝ β = 2 の refined 理論」という関係を見つけており（N_f 偶数）、refined vertex の側では Hayashi–Zhu が O5 面の refined O-vertex を摂動部分で構成している。開弦（結び目）で refined の orientifold の BPS 不変量を扱った文献は見つからない。

@@ -866,3 +866,8 @@
 ## 2026-10-26（続き 59）論文の変数の統一（ユーザーの指示「変数が複雑過ぎるので統一せよ。基本は KN、Kauffman は NRZ」）
 - 論文の変数を KN（q, t, 太字 𝐪, 𝐭, q_ℓ, q_r, a = t^{N_A}）と NRZ（Kauffman 変数 λ、表現は R）に統一した。廃止：U, A, V, W, w, r, s, ν, ν̃（→ t^N, a, q_ℓ^{1/2}, q_r^{1/2}, q_r, q^{1/2}, t^{1/2}, λ, λ̃）。表現の λ, μ は R, S に、簡約した不変量 R_λ は 𝓡_R に、framed unknot の framing x は 𝖿 に、Cherednik の a は a_C に改名。SO 側の 𝐚 は AgSc の 𝐚 = λ のままとし、KN の被覆の 𝐚_KN = 𝐚 (t/q)^{1/4} で結ぶ（判断の理由は conventions.md）。
 - 生成付録（rk_report_tex.py）も同じ記号で再生成。31 ページ、未定義参照 0。コード・理論文書の内部変数は変更せず、対応表を conventions.md と論文の変数表に置いた。
+
+## 2026-10-26（続き 60）閉弦の refined orientifold の文献確認（ユーザーの指示「未確認の文献を確認せよ」）
+- arXiv API で書誌を確認し、ソースを取得：Sinha–Vafa hep-th/0012136、Walcher 0712.2775（書誌のみ）、Krefl–Walcher 0902.0616・1007.0263（LMP 95 (2011) 67–88）・1010.2635、Kim–Yagi 1709.01928（PRD 97 (2018) 026011）、Hayashi–Zhu 2012.13303（JHEP 04 (2021) 292）。literature.md §6、references/README.md、justfile の papers に追加。
+- 要点：Krefl–Walcher は「β = 2 の Ω 背景の理論 = β = 1 の理論の orientifold」（N_f = 0, 2, 4）を示し、位相的 orientifold を β = 2 の精密化に埋め込む予想を述べる。Hayashi–Zhu は O5 面の refined O-vertex を摂動部分で構成。開弦の refined orientifold の BPS 不変量の文献は無い。
+- 検討の余地【予想】：本研究の refined SO(2N) のデータを t = q²（β = 2）に特殊化したとき、unrefined の U(N) 側の量と結び付くか（Krefl–Walcher の関係の結び目版）。未着手。
