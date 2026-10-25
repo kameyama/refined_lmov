@@ -82,9 +82,9 @@ framed unknot（framing 2, 4） & 1 & $z_q^+$ & $z_q$ \\
 計算結果 \ref{cr:E22} の $E_{22}$ の $(z_q^+)^2$ と、§\ref{sec:positivity} の「結び目の境界因子は和でなければならない」は、この命題の帰結である。残る未知は、モジュライ空間の部分 $H^*(\mathcal{M}_{g,h,\beta})$ への $\tilde I$ の作用（$\beta$ ごとの符号 $\varepsilon$）である。
 
 \subsection{$\sigma$ 対称性の起源}
-$\sigma\colon q\mapsto t^{-1}, t\mapsto q^{-1}$ は、KN の変数 $q_\ell = (qt)^{1/2}$, $q_r = (q/t)^{1/2}$ では $q_\ell \mapsto q_\ell^{-1}$、$q_r$ 固定、すなわち Jacobian の Lefschetz 作用 SU$(2)_\ell$ の Weyl 反射である。
-KN の $\hat f$ の $\sigma$ 不変性は、取っ手のゼロモードが SU$(2)_\ell$ の二重項をなすこと（取っ手あたり $-(q_\ell + q_\ell^{-1}) + (q_r + q_r^{-1}) = G$）から来る。
-凍結した状態は向き付けられない面 $N = \hat\Sigma/I$ に巻いた M2 で、$N$ には複素構造が無く $H^1(N)$ に Lefschetz の $\mathfrak{sl}_2$ は働かない。したがって $C$ に $\sigma$ 対称性を期待する理由は無く、多箱の $c = 1$ 部分が $G$ 展開できないこと（§\ref{sec:generalN}）はこれで説明できる（予想）。[1] の $c = 1$ 部分が $\sigma$ 対称であることは、次の観察で説明できる（予想）。[1] の $c = 1$ 部分の $\nu^\beta$ のブロックの $G$ の次数は、brane--image のセクター $(t^{-1/2}-t^{1/2})x/z_q$ の $\nu^{2\beta}$ のブロックの $G$ の次数のちょうど半分である（$T(2,3)$, $T(2,5)$ のすべての $\beta$ で確認）。[1] の凍結した状態は brane--image の環状の弦の商（Möbius の帯）で、商の取っ手 $g$ 個が被覆の取っ手 $2g$ 個に当たり、商の取っ手が $G$ を担う。多箱の $c = 1$ 部分が $\sigma$ 対称でない理由は、計算結果 \ref{cr:multibox-sigma} で二つの成分（unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $(\bt^2-1)(V^2-V^{-2})$ で割り切れる $\sigma$ 奇部分）に分けた。後者の起源は未解明である。
+$\sigma\colon q\mapsto t^{-1}, t\mapsto q^{-1}$ は、KN の変数 $\ql = (qt)^{1/2}$, $\qr = (q/t)^{1/2}$ では $\ql \mapsto \ql^{-1}$、$\qr$ 固定、すなわち Jacobian の Lefschetz 作用 SU$(2)_\ell$ の Weyl 反射である。
+KN の $\hat f$ の $\sigma$ 不変性は、取っ手のゼロモードが SU$(2)_\ell$ の二重項をなすこと（取っ手あたり $-(\ql + \ql^{-1}) + (\qr + \qr^{-1}) = G$）から来る。
+凍結した状態は向き付けられない面 $N = \hat\Sigma/I$ に巻いた M2 で、$N$ には複素構造が無く $H^1(N)$ に Lefschetz の $\mathfrak{sl}_2$ は働かない。したがって $C$ に $\sigma$ 対称性を期待する理由は無く、多箱の $c = 1$ 部分が $G$ 展開できないこと（§\ref{sec:generalN}）はこれで説明できる（予想）。[1] の $c = 1$ 部分が $\sigma$ 対称であることは、次の観察で説明できる（予想）。[1] の $c = 1$ 部分の $\lambda^\beta$ のブロックの $G$ の次数は、brane--image のセクター $(t^{-1/2}-t^{1/2})x/z_q$ の $\lambda^{2\beta}$ のブロックの $G$ の次数のちょうど半分である（$T(2,3)$, $T(2,5)$ のすべての $\beta$ で確認）。[1] の凍結した状態は brane--image の環状の弦の商（Möbius の帯）で、商の取っ手 $g$ 個が被覆の取っ手 $2g$ 個に当たり、商の取っ手が $G$ を担う。多箱の $c = 1$ 部分が $\sigma$ 対称でない理由は、計算結果 \ref{cr:multibox-sigma} で二つの成分（unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $(\bt^2-1)(V^2-V^{-2})$ で割り切れる $\sigma$ 奇部分）に分けた。後者の起源は未解明である。
 
 Mariño の $\sum_{d\ \mathrm{odd}}$ の定義 $g^{\mathrm{odd}}$ とは、$g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
 
@@ -142,7 +142,7 @@ Klein 瓶の項とその分子 $Q^n/T^n - T^n/Q^n$（AM の論文の変数では
 \end{proof}
 
 \begin{remark}
-AM と AgSc の規約は、$(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ と全体の符号（$\log Z$ と $-\log Z$）で移り合う。凍結した状態と向き付けられた状態の電荷の比は、AgSc で $x^2/Q_0 = w^{-1}$、AM で $w$ である（$w = (q/t)^{1/2}$）。
+AM と AgSc の規約は、$(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ と全体の符号（$\log Z$ と $-\log Z$）で移り合う。凍結した状態と向き付けられた状態の電荷の比は、AgSc で $x^2/Q_0 = \qr^{-1}$、AM で $w$ である（$w = (q/t)^{1/2}$）。
 閉弦では状態が P$^1$ と RP$^2$ の二つだけで打ち消しが無いので、$E$ と $C$ は一意に決まる。命題 \ref{prop:EC} の不定性は、開弦で初めて問題になる。
 \end{remark}
 
@@ -150,6 +150,6 @@ AM と AgSc の規約は、$(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ と全体の
 \begin{remark}[取っ手の因子]
 AgSc §4 の強い整数性の導出に現れる「差 $\times$ 和」$(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ は、類 $\beta/2$ の $c = 1$ の寄与を $d$ を倍にして並べたときの $\psi^2 z$ である。これは取っ手一つの因子ではない。
 Piazzalunga--Uranga \cite{PU14} の M 理論の解釈では、$\tilde I$ で不変な被覆の取っ手一つの捻ったトレースは、同じ変数で $z$ 一つになる。
-refined では $G = z_q z_t = T_+T_-$、$T_\pm = (V - V^{-1}) \pm (W - W^{-1})$ と分解できる。ただし $T_\pm$ を使っても、$\sigma$ 対称でない $c = 1$ 部分は展開できるようにならない。
-$\mathbb{Z}[W^{\pm 2}][T_+, T_-] = \mathbb{Z}[W^{\pm2}][V - V^{-1}, W - W^{-1}]$ の元のうち $V$ の偶数冪の部分は、$(V - V^{-1})$ の偶数冪の和なので、$V \to V^{-1}$（$\sigma$）で不変だからである。
+refined では $G = z_q z_t = T_+T_-$、$T_\pm = (\ql^{1/2} - \ql^{-1/2}) \pm (\qr^{1/2} - \qr^{-1/2})$ と分解できる。ただし $T_\pm$ を使っても、$\sigma$ 対称でない $c = 1$ 部分は展開できるようにならない。
+$\mathbb{Z}[\qr^{\pm 1}][T_+, T_-] = \mathbb{Z}[\qr^{\pm1}][\ql^{1/2} - \ql^{-1/2}, \qr^{1/2} - \qr^{-1/2}]$ の元のうち $\ql$ の整数冪の部分は、$(\ql^{1/2} - \ql^{-1/2})$ の偶数冪の和なので、$\ql \to \ql^{-1}$（$\sigma$）で不変だからである。
 \end{remark}

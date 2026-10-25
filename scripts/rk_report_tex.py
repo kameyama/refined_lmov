@@ -7,7 +7,7 @@ import sympy as sp
 
 OUT = Path("docs/refined_kauffman/tex/gen")
 BOLD = [(r"\ba", 1), (r"\bq", 1), (r"\bt", 1)]          # (𝐚, 𝐪, 𝐭)
-QTU = [("q", 2), ("t", 2), ("U", 1)]                     # r = q^{1/2}, s = t^{1/2}, U
+QTU = [("q", 2), ("t", 2), ("t^N", 1)]                   # r = q^{1/2}, s = t^{1/2}, U = t^N（論文の変数、2026-10-26）
 
 
 def laurent(expr, gens):
@@ -82,7 +82,7 @@ def gen_unrefined():
     for R, lab in (((2,), r"\hat g_{[2]}"), ((1, 1), r"\hat g_{[1,1]}")):
         e = rk.z_expansion(ghM[R])                         # {(z の冪, ν の冪): 係数}
         d = {(k, Q): sp.Rational(c) for (k, Q), c in e.items()}
-        body.append(grouped(d, 0, "z", [(r"\nu", 1)], per=6, label=rf"${lab}$（$z = t_M - t_M^{{-1}}$ の冪ごと）："))
+        body.append(grouped(d, 0, "z", [(r"\lambda", 1)], per=6, label=rf"${lab}$（$z = t_M - t_M^{{-1}}$ の冪ごと、$\lambda$ は Mariño の $\nu$）："))
     write("unrefined.tex", "\n".join(body))
 
 
@@ -99,7 +99,7 @@ def gen_torus_one_box(ms=(1, 2, 3)):
         E, _ = split_parity(to_VW(g))
         P1 = sp.expand(in_G(E))
         dG = laurent(P1, (nu, G, W))
-        out.append(grouped(dG, 0, r"\nu", [("G", 1), ("W", 1)], per=6, label=rf"$m = {m}$：$c = 1$ 部分の $G$ 展開（$\nu^\beta$ ごと、$W = (q/t)^{{1/4}}$）"))
+        out.append(grouped(dG, 0, r"\lambda", [("G", 1), (r"\qr", 2)], per=6, label=rf"$m = {m}$：$c = 1$ 部分の $G$ 展開（$\lambda^\beta$ ごと、$\qr = (q/t)^{{1/2}}$）"))
         so2, even_t, c2, Pi = Bu.check_one(m)
         assert so2 == {1} and even_t and c2
         dP = laurent(Pi, (A, Q, T))
@@ -122,10 +122,10 @@ def gen_daha():
         for j in sorted(c):
             d = laurent(c[j].subs({sp.Symbol("r", positive=True): r, sp.Symbol("s", positive=True): s}), (r, s))
             ls = terms_lines(d, QTU[:2], per=6)
-            rows.append(rf"[U^{{{j}}}]\colon\ & {ls[0]}")
+            rows.append(rf"[(t^N)^{{{j}}}]\colon\ & {ls[0]}")
             rows += [rf"& \quad {l}" for l in ls[1:]]
         name = "(" + ",".join(map(str, lam)) + ")"
-        out.append(rf"$R_{{{name}}}(U)$（$U^j$ の係数）：" + "\n" + align(" \\\\\n".join(rows)))
+        out.append(rf"$\Rred_{{{name}}}(t^N)$（$(t^N)^j$ の係数）：" + "\n" + align(" \\\\\n".join(rows)))
     radj = pickle.load(open("data/refined_kauffman/daha/Radj_A_m1.pkl", "rb"))
     rows = []
     for j in sorted(radj):
@@ -133,7 +133,7 @@ def gen_daha():
         ls = terms_lines(d, QTU[:2], per=6)
         rows.append(rf"[A^{{{_exp(sp.Rational(j, 2))}}}]\colon\ & {ls[0]}")
         rows += [rf"& \quad {l}" for l in ls[1:]]
-    out.append(r"被覆の随伴 $(1;1)$ の $R_{\mathrm{adj}}$（$A^{1/2} = \nu$ の冪の係数）：" + "\n" + align(" \\\\\n".join(rows)))
+    out.append(r"被覆の随伴 $(1;1)$ の $\Rred_{\mathrm{adj}}$（$\lambda = t^{N_A/2}$ の冪の係数）：" + "\n" + align(" \\\\\n".join(rows)))
     write("daha.tex", "\n".join(out))
 
 
@@ -157,10 +157,10 @@ def gen_largeN():
     out.append(grouped(dD, 0, r"\ba", BOLD[1:], per=6, label=rf"$(1 + t)(\hat g_{{(2)}} - \hat g_{{(1,1)}})$（整数 Laurent、{len(dD)} 項）："))
     _, Qs = B.refined_only(G["sum"])
     dQ = laurent(bold(Qs), (A, Q, T))
-    out.append(grouped(dQ, 0, r"\ba", BOLD[1:], per=6, label=rf"和の商 $X/((q - t)(\nu^2 - t))$（{len(dQ)} 項）："))
+    out.append(grouped(dQ, 0, r"\ba", BOLD[1:], per=6, label=rf"和の商 $X/((q - t)(\lambda^2 - t))$（{len(dQ)} 項）："))
     _, Q1 = B.refined_only(G[(1,)])
     dQ1 = laurent(bold(Q1), (A, Q, T))
-    out.append(r"$\hat g_{(1)}$ の商：" + "\n" + align(r"X_{(1)}/((q - t)(\nu^2 - t)) &= " + " ".join(terms_lines(dQ1, BOLD, per=8))))
+    out.append(r"$\hat g_{(1)}$ の商：" + "\n" + align(r"X_{(1)}/((q - t)(\lambda^2 - t)) &= " + " ".join(terms_lines(dQ1, BOLD, per=8))))
     write("largeN_2box.tex", "\n".join(out))
     # 符号の表
     rows = []
@@ -190,7 +190,7 @@ def gen_hopf():
     t, q = s**2, r**2
     zq = r - 1 / r
     loc = {"r": r, "s": s, "nu": nu}
-    QTN = [(r"\tnu", 1), ("q", 2), ("t", 2)]
+    QTN = [(r"\tlam", 1), ("q", 2), ("t", 2)]
     tilde = lambda e: sp.cancel(sp.sympify(e, locals=loc).subs(nu, nut * s / r))   # ν = ν~ (t/q)^{1/2}
     g = {k: tilde(v) for k, v in pickle.load(open("data/refined_kauffman/hopf_g_alld.pkl", "rb")).items()}
     # 閉じた形の確認：unknot、(1,b)、E_22, E_24
@@ -206,11 +206,11 @@ def gen_hopf():
     for ab in ((2, 2), (2, 3), (3, 3)):
         e = g[ab] * (2 * (1 + t) if ab[0] % 2 == 0 and ab[1] % 2 == 0 else 1)
         d = laurent(e, (nut, r, s))
-        lab = (r"$2(1 + t) g_{" if ab == (2, 2) else r"$g_{") + f"{ab[0]}{ab[1]}" + r"}$" + f"（{len(d)} 項、$\\tnu$ の冪ごと）："
-        out.append(grouped(d, 0, r"\tnu", QTN[1:], per=6, label=lab))
+        lab = (r"$2(1 + t) g_{" if ab == (2, 2) else r"$g_{") + f"{ab[0]}{ab[1]}" + r"}$" + f"（{len(d)} 項、$\\tlam$ の冪ごと）："
+        out.append(grouped(d, 0, r"\tlam", QTN[1:], per=6, label=lab))
     C22 = sp.cancel(g[(2, 2)] - E[(2, 2)] / (2 * (1 + t)))
     d = laurent(C22, (nut, r, s))
-    out.append(grouped(d, 0, r"\tnu", QTN[1:], per=6, label=rf"$C_{{22}} = g_{{22}} - \tfrac12 E_{{22}}/(1+t)$（{len(d)} 項）："))
+    out.append(grouped(d, 0, r"\tlam", QTN[1:], per=6, label=rf"$C_{{22}} = g_{{22}} - \tfrac12 E_{{22}}/(1+t)$（{len(d)} 項）："))
     write("hopf_one_probe.tex", "\n".join(out))
     # 多 probe の hatted Ĉ_{R,S}（rk_b_hatted_analyze と同じ手順）
     gm = {k: sp.sympify(v, locals=loc) for k, v in pickle.load(open("data/refined_kauffman/hopf_g_two_multi_42.pkl", "rb")).items()}
@@ -239,17 +239,17 @@ def gen_hopf():
                 if diff == 0:
                     rows.append(rf"{lab} & $z_q^{{{k0}}}$、{'そろう' if ok0 else '混在'} & 0 \\")
                     body = laurent(w0s, (nut, r))
-                    out.append(grouped(body, 0, r"\tnu", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$（refined だけの部分は 0）"))
+                    out.append(grouped(body, 0, r"\tlam", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$（refined だけの部分は 0）"))
                     continue
                 quo = sp.cancel(diff / ((nut**2 - q) * (q - t)))
                 qs_, kq = H.strip_zq(quo)
                 ok1 = H.coherent_by_power(qs_, nut)
-                rows.append(rf"{lab} & $z_q^{{{k0}}}$、{'そろう' if ok0 else '混在'} & $(\tnu^2 - q)(q - t) z_q^{{{kq}}}$、{'そろう' if ok1 else '\\textbf{混在}'} \\")
-                out.append(grouped(laurent(w0s, (nut, r)), 0, r"\tnu", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$"))
-                out.append(grouped(laurent(qs_, (nut, r, s)), 0, r"\tnu", QTN[1:], per=6,
-                                   label=rf"{lab}：refined だけの部分 $= (\tnu^2 - q)(q - t)\, z_q^{{{kq}}} \times$"))
+                rows.append(rf"{lab} & $z_q^{{{k0}}}$、{'そろう' if ok0 else '混在'} & $(\tlam^2 - q)(q - t) z_q^{{{kq}}}$、{'そろう' if ok1 else '\\textbf{混在}'} \\")
+                out.append(grouped(laurent(w0s, (nut, r)), 0, r"\tlam", [("q", 2)], per=6, label=rf"{lab}：$t = q$ の部分 $= z_q^{{{k0}}} \times$"))
+                out.append(grouped(laurent(qs_, (nut, r, s)), 0, r"\tlam", QTN[1:], per=6,
+                                   label=rf"{lab}：refined だけの部分 $= (\tlam^2 - q)(q - t)\, z_q^{{{kq}}} \times$"))
     write("hopf_hatted.tex", "\n".join(out))
-    write("hopf_hatted_table.tex", "\\begin{center}\n\\begin{tabular}{lll}\n\\toprule\n成分 & $t = q$ の部分（$\\tnu$ の冪ごとの符号） & refined だけの部分（商の符号） \\\\\n\\midrule\n"
+    write("hopf_hatted_table.tex", "\\begin{center}\n\\begin{tabular}{lll}\n\\toprule\n成分 & $t = q$ の部分（$\\tlam$ の冪ごとの符号） & refined だけの部分（商の符号） \\\\\n\\midrule\n"
           + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{center}\n")
 
 
