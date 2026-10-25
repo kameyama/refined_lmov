@@ -1,14 +1,14 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-21 更新）
+## 現在の状況（再開用、2026-10-26 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜58）にある。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜63）にある。
 
 ### 1. 環境
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`
   - ブランチは `claude/refined-kauffman-large-n-00d58e`。
   - main への直接の commit とローカルでのマージは禁止。
-- **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
+- **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（MERGED、2026-10-26）。続き 63 以降は worktree `rename-literature-survey-doc-9cc5fc`（ブランチ `claude/kauffman-research-progress-c23e34`）で作業
   - 2026-10-26 にユーザーの許可を得て push した（`git push` をサンドボックス外で実行。gh api は不要だった）。origin/main（PR #10 の整理）を取り込み、研究別ディレクトリに再配置済み。PR #11 は MERGEABLE（続き 62）。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
@@ -71,7 +71,7 @@
 | 被覆の随伴 R_adj を正の Poincaré 多項式として読む | どの符号規則でも正にならない（Cherednik–Elliot の記述と一致） | 続き 40、theory §10 |
 
 ### 5. 未解決（論文の §8 にも記載）
-- 凍結した状態（向き付けられない面）の refined の取っ手の因子と、多重項の基底。
+- 凍結した状態（向き付けられない面）の refined の取っ手の因子と、多重項の基底。対になる取っ手は G（[1]、framed unknot、Hopf の両端で確認、続き 63）。自分自身に移る取っ手の多重項は未決：σ 非対称部分は Lefschetz の重みごとに (𝐭²−1)×整数多項式で t の有限の塔を含み、trefoil では同符号、T(2,5) では混在（theory §12）。
 - E と C の分離。固定セクターの状態の空間への Ĩ の作用を、指数ではなく幾何から求める必要がある。Hopf の (4,4) の E も未決定。
 - 普遍因子のずれの向き（k = +1）と、閉弦の Kähler の三重化との関係。開弦の比 w³ と閉弦の比 w^{−1} が合わず、保留している。
 - 非トーラス結び目の大きな N の値（入力が無い）。T(2,5) の 3 箱は、m = 2 の composite と D_N の 3 箱が要り、数時間〜半日の見込み。
@@ -81,12 +81,12 @@
 - **文書**：
   - report.md（K0〜K4' と多箱の詳細）
   - tex/report.tex・report.pdf（計算結果の報告書。§11〜§12 に 10-20 までの結果）
-  - theory_orientifold_index.md（指数の理論 §1〜§10）
+  - theory_orientifold_index.md（指数の理論 §1〜§12。§12 は凍結した状態の多重項の基底）
   - literature.md（§4 に非 U(N) の rCS の文献）
   - conventions.md
 - **コード**：
   - src/rcsknots/：kauffman_*.py、koornwinder.py、daha_dn.py、daha_fast.py、flint_rf*.py
-  - scripts/：rk_*.py。rk_c_* は一般の N、rk_b_* は構造と正値性の解析、rk_k* は固定 N と Hopf
+  - scripts/refined_kauffman/：rk_*.py。rk_c_* は一般の N、rk_b_* は構造と正値性の解析、rk_k* は固定 N と Hopf、rk_d_* は Sp、rk_e_* は Krefl–Walcher、rk_f_* は凍結した状態の基底
 - **データ**：
   - data/refined_kauffman/daha/：R_U_m*_*.pkl（SO の一般の N）、Radj_A_m*.pkl、Rcomp_A_m1_*.pkl、largeN_2box_m{1,2}.pkl、largeN_3box_m1.pkl
   - data/refined_kauffman/：hopf_*.pkl
@@ -880,3 +880,12 @@
 - ユーザーの許可を得て c8e1b1f（＋437fbce）を origin に push（`git push` をサンドボックス外で実行）。PR #11 が main と競合（.gitignore）していたので、app の同期ツールで origin/main（PR #10「リポジトリを framed_knot/ と dgr_lmov/ に整理」）を本ブランチに merge し、.gitignore は main 版＋refined_kauffman の行で解消（b3129a5）。
 - main の構成規則に合わせて再配置（dd5c428）：scripts/rk_*.py → scripts/refined_kauffman/、tests/test_rk_*.py → tests/refined_kauffman/、src/rcsknots/{askey_wilson, daha_cn, daha_dn, daha_fast, flint_rf, flint_rf3, flint_solve, kauffman_*, koornwinder} → src/rcsknots/refined_kauffman/、logs/ 直下の rk_*.log → logs/refined_kauffman/。import（rcsknots.X → rcsknots.refined_kauffman.X、相対 import は ..）、sys.path（scripts/refined_kauffman、framed_knot のスクリプトを使う 3 本は scripts/framed_knot も）、データのパス（data/torus 等 → data/framed_knot/…）、テストの ROOT（parents[2]）を更新。CLAUDE.md の項目 5、README の構成、付録を更新。
 - 検証：既定のテスト 70 件通過（logs/refined_kauffman/paper_tests_default_2026-10-26.log）、論文 31 ページ。merge（b3129a5、Auto-fix の権限）と再配置（dd5c428、468c168、ユーザーの許可）を push 済み。PR #11 は MERGEABLE。
+
+## 2026-10-26（続き 63）凍結した状態の refined の取っ手の因子と多重項の基底（ユーザーの指示「凍結した状態の refined の取っ手の因子と、多重項の基底を進めよ」）
+- 作業場所：worktree `rename-literature-survey-doc-9cc5fc`（ブランチ `claude/kauffman-research-progress-c23e34`）に origin/main（PR #11 マージ後）を取り込んで作業した。
+- 【導出】凍結した状態（電荷 β）の被覆は Ĩ 不変な曲線（電荷 2β）で、N のゼロモードは被覆の Ĩ 不変なモード。入れ替わる取っ手の対 → G、自分自身に移る取っ手 → σ 非対称の源、境界モードは h − 1 個で hatted が除く。hatted の c の規則 β ≡ |R| − 1 (mod 2) は β + |R| + c ≡ 0 (mod 2) の言い換え（theory §12.1）。
+- 【計算】framed unknot（𝖿 = 1..4）の 2 箱の p₁² 方向の凍結した状態（E を含まない）は、結び目の [1] と同じ判定式を全部満たす（c=1 は σ 対称で G 展開の符号がそろうか (𝐭²−1)×同符号、c=2 は −(𝐚²−𝐪²)(𝐭²−1)×正）。多箱で判定式を満たす最初の例。Hopf では C_11 ↔ P_22、C_22 ↔ P_44 の両端の β で P_{2β} = 単項式 × C_β²（平方根の構造）。theory §12.2、rk_f_frozen_basis.py、rk_f_hopf_sqrt.py。
+- 【計算】結び目の多箱のブロックを Lefschetz の重み m で分け、σ 非対称部分 d_m = c_m − c_{−m} を調べた。d_m は全対象で (1 − w²) で割り切れ（t = q で消えることの帰結）、商の符号は trefoil の 2 箱で全ブロック同符号（β で交互）、σ 対称部分 A⁻ も同符号で、全ブロックが基底 {G^g w^j} ∪ {(𝐭²−1) q_ℓ^m w^j} で同符号に展開できる。trefoil の 3 箱は非対称部分だけ同符号（A⁻ は中間で混在）、T(2,5) の 2 箱は中間の 4 ブロックで非対称部分も混在。非対称部分は q 電荷を固定した t の有限の塔を含む（例：trefoil 2 箱 ν^{−11}：−(1−w²)w^{−9}(2t + … + 2t⁵ + t⁶)）。theory §12.3。
+- 試して不採用：基底 {G^g w^j, z_q² G^g w^j, z_t² G^g w^j}（同種のモードの対）での同符号展開の整数計画（rk_f_frozen_basis.py --ilp）。結び目の σ 非対称なブロックではほぼ解なし（trefoil 2 箱 ν^{−5}、3 箱の両端だけ解あり）。
+- 記録：theory §12、claims P13、tests/refined_kauffman/test_rk_frozen_basis.py（3 件、42 秒）、logs/refined_kauffman/f_frozen_basis.log、f_hopf_sqrt.log。references/1202.4456/ に AgSc のソースを取得（未読。Ĩ の時空への作用の確認用）。
+- 次の候補：(1) σ 非対称部分の t の塔を「有限個の z₂ モードをもつ Ĩ 不変な状態」として全 d の構造に組み込めるか（E と C の中間の型）。(2) framed unknot の 4 箱の composite 固定セクター（(2;2) 型）を作り、2 箱の凍結した状態との β ↔ 2β の対応と平方根の構造を確かめる。(3) T(2,5) の中間ブロックの混在を、同じ β に寄与する曲線の分離（(J₂, S_R) の分解）で説明できるか。

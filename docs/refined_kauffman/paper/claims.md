@@ -106,3 +106,4 @@
 - AM 2205.12832 の閉弦の GV 型展開。
 - Cherednik の DAHA-Jones の定義。Cherednik–Danilenko の D 型の t = q。
 - KN 1703.05408 の M(x)、q 枠と t 枠。
+| P13 | 凍結した状態 ↔ 被覆の Ĩ 不変な曲線（β ↔ 2β）。framed unknot（𝖿 = 1..4）の 2 箱の p₁² 方向の凍結した状態は結び目の [1] と同じ判定式を満たす（c=1 は σ 対称で G 展開の符号が同符号か (𝐭²−1)×同符号、c=2 は −(𝐚²−𝐪²)(𝐭²−1)×正）。Hopf では両端の β で P_{2β} = 単項式 × C_β²。結び目の多箱の σ 非対称部分は Lefschetz の重み m ごとに (𝐭²−1) × 整数多項式で、trefoil の 2 箱では全ブロックが基底 {G^g w^j} ∪ {(𝐭²−1) q_ℓ^m w^j} で同符号（β で交互）、3 箱では非対称部分だけ同符号、T(2,5) の中間ブロックは混在。非対称部分は t の有限の塔を含む | CR（解釈は Conj） | trefoil・T(2,5) の 2 箱、trefoil の 3 箱、framed unknot、Hopf | theory §12、f_frozen_basis.log、f_hopf_sqrt.log、test_rk_frozen_basis | 新規 |
