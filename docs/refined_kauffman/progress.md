@@ -9,7 +9,7 @@
   - ブランチは `claude/refined-kauffman-large-n-00d58e`。
   - main への直接の commit とローカルでのマージは禁止。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
-  - 2026-10-26 にユーザーの許可を得て c8e1b1f まで push した（`git push` をサンドボックス外で実行。gh api は不要だった）。PR の head は c8e1b1f。
+  - 2026-10-26 にユーザーの許可を得て push した（`git push` をサンドボックス外で実行。gh api は不要だった）。origin/main（PR #10 の整理）を取り込み、研究別ディレクトリに再配置済み。PR #11 は MERGEABLE（続き 62）。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
     - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
@@ -879,4 +879,4 @@
 ## 2026-10-26（続き 62）push、main の取り込み、研究別ディレクトリへの再配置
 - ユーザーの許可を得て c8e1b1f（＋437fbce）を origin に push（`git push` をサンドボックス外で実行）。PR #11 が main と競合（.gitignore）していたので、app の同期ツールで origin/main（PR #10「リポジトリを framed_knot/ と dgr_lmov/ に整理」）を本ブランチに merge し、.gitignore は main 版＋refined_kauffman の行で解消（b3129a5）。
 - main の構成規則に合わせて再配置（dd5c428）：scripts/rk_*.py → scripts/refined_kauffman/、tests/test_rk_*.py → tests/refined_kauffman/、src/rcsknots/{askey_wilson, daha_cn, daha_dn, daha_fast, flint_rf, flint_rf3, flint_solve, kauffman_*, koornwinder} → src/rcsknots/refined_kauffman/、logs/ 直下の rk_*.log → logs/refined_kauffman/。import（rcsknots.X → rcsknots.refined_kauffman.X、相対 import は ..）、sys.path（scripts/refined_kauffman、framed_knot のスクリプトを使う 3 本は scripts/framed_knot も）、データのパス（data/torus 等 → data/framed_knot/…）、テストの ROOT（parents[2]）を更新。CLAUDE.md の項目 5、README の構成、付録を更新。
-- 検証：既定のテスト 70 件通過（logs/refined_kauffman/paper_tests_default_2026-10-26.log）、論文 31 ページ。merge と再配置の commit は未 push（許可待ち）。
+- 検証：既定のテスト 70 件通過（logs/refined_kauffman/paper_tests_default_2026-10-26.log）、論文 31 ページ。merge（b3129a5、Auto-fix の権限）と再配置（dd5c428、468c168、ユーザーの許可）を push 済み。PR #11 は MERGEABLE。
