@@ -875,3 +875,8 @@
 ## 2026-10-26（続き 61）Krefl–Walcher の関係の結び目版（ユーザーの指示）
 - 【計算】unrefined の Kauffman [1]（trefoil、T(2,5)）と refined U(N′) の [1]（DGR）の β = 1/2, 1, 2 への特殊化は、Wilson loop の段階でも自由エネルギーの形（g_[1] = P̄(β=2) − ½P̄(β=1)）でも、a = λ^k q^j の写像と単項式倍の範囲で一致しない（否定的）。theory §11.19、rk_e_krefl_walcher.py。
 - 読み：KW の関係は分配関数（閉弦）の性質で、Wilson loop には持ち上がらない（SO の指標と Macdonald 多項式の違い）【予想】。
+
+## 2026-10-26（続き 62）push、main の取り込み、研究別ディレクトリへの再配置
+- ユーザーの許可を得て c8e1b1f（＋437fbce）を origin に push（`git push` をサンドボックス外で実行）。PR #11 が main と競合（.gitignore）していたので、app の同期ツールで origin/main（PR #10「リポジトリを framed_knot/ と dgr_lmov/ に整理」）を本ブランチに merge し、.gitignore は main 版＋refined_kauffman の行で解消（b3129a5）。
+- main の構成規則に合わせて再配置（dd5c428）：scripts/rk_*.py → scripts/refined_kauffman/、tests/test_rk_*.py → tests/refined_kauffman/、src/rcsknots/{askey_wilson, daha_cn, daha_dn, daha_fast, flint_rf, flint_rf3, flint_solve, kauffman_*, koornwinder} → src/rcsknots/refined_kauffman/、logs/ 直下の rk_*.log → logs/refined_kauffman/。import（rcsknots.X → rcsknots.refined_kauffman.X、相対 import は ..）、sys.path（scripts/refined_kauffman、framed_knot のスクリプトを使う 3 本は scripts/framed_knot も）、データのパス（data/torus 等 → data/framed_knot/…）、テストの ROOT（parents[2]）を更新。CLAUDE.md の項目 5、README の構成、付録を更新。
+- 検証：既定のテスト 70 件通過（logs/refined_kauffman/paper_tests_default_2026-10-26.log）、論文 31 ページ。merge と再配置の commit は未 push（許可待ち）。
