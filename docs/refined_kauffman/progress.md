@@ -9,7 +9,7 @@
   - ブランチは `claude/refined-kauffman-large-n-00d58e`。
   - main への直接の commit とローカルでのマージは禁止。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（OPEN）
-  - PR の head は 3de70c5。それ以降の **74 commit（2026-10-21）は push していない**。
+  - 2026-10-26 にユーザーの許可を得て c8e1b1f まで push した（`git push` をサンドボックス外で実行。gh api は不要だった）。PR の head は c8e1b1f。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
     - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
