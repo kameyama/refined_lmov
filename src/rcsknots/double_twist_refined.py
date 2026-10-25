@@ -7,7 +7,7 @@ references/1902.02275/src/anc/HOMFLYPTinvariants.m（以下「パッケージ」
   本文の Tw の 𝐅(𝐚, 𝐭_c, 𝐭_r) とは q, t の符号と逆数が違う。
 - 三葉結び目の因子 reFtrefoil に (t/q)^{rs} が付く（本文の前因子 (−𝐭_r𝐭_c)^{−rs(sgn m + sgn n)/2} の代わり）。
 - 付録 A の P*_λ の定義の積 Π_{□∈μ} は Π_{□∈λ} の誤植（パッケージの xTableShift）。
-変数：計算の途中は (A, q, t, σ)、結果は (𝐚, 𝐐, 𝐭_r, 𝐭_c)（記号 a, Q, t_r, t_c）。照合は scripts/x1_check.py とテスト。
+変数：計算の途中は (A, q, t, σ)、結果は (𝐚, 𝐐, 𝐭_r, 𝐭_c)（記号 a, Q, t_r, t_c）。照合は scripts/framed_knot/x1_check.py とテスト。
 """
 from functools import lru_cache
 from itertools import product

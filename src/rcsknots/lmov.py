@@ -22,7 +22,7 @@ RHOS = [(1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1)]
 def load_lmov(name):
     out = {}
     for n in (1, 2, 3):
-        d = json.loads(Path(f"data/lmov/{name}_{n}.json").read_text())
+        d = json.loads(Path(f"data/framed_knot/lmov/{name}_{n}.json").read_text())
         for key, poly in d["f"].items():
             kind, rho = key.split("_")
             out[(kind, tuple(int(c) for c in rho))] = {tuple(map(int, k.split(","))): v for k, v in poly.items()}

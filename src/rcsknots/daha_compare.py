@@ -1,6 +1,6 @@
 """Compare our normalized refined invariants with DAHA superpolynomials (CD14) up to a monomial.
 
-DAHA variables: (q, t) are those of 1703.05408 and a_DAHA = −a_KN (docs/conventions.md §1.2).
+DAHA variables: (q, t) are those of 1703.05408 and a_DAHA = −a_KN (docs/framed_knot/conventions.md §1.2).
 """
 import sympy as sp
 

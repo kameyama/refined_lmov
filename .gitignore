@@ -1,4 +1,3 @@
-# 仮想環境・キャッシュ
 .venv/
 __pycache__/
 *.pyc
@@ -9,7 +8,7 @@ __pycache__/
 
 # 計算のキャッシュと大きな中間データ
 data/cache/
-data/samples/
+data/framed_knot/samples/
 *.npy
 *.npz
 
@@ -18,50 +17,52 @@ references/*
 !references/README.md
 
 
-# LaTeX の中間ファイル（docs/paper）
-docs/paper/*.aux
-docs/paper/*.log
-docs/paper/*.out
-docs/paper/*.toc
-docs/paper/*.fls
-docs/paper/*.fdb_latexmk
+# LaTeX の中間ファイル（docs/framed_knot/paper）
+docs/framed_knot/paper/*.aux
+docs/framed_knot/paper/*.log
+docs/framed_knot/paper/*.out
+docs/framed_knot/paper/*.toc
+docs/framed_knot/paper/*.fls
+docs/framed_knot/paper/*.fdb_latexmk
+
+# K10 の 3 箱の \hat f（363 MB）は xz で圧縮した data/framed_knot/lmov/K10_3.json.xz だけを git に入れる
+data/framed_knot/lmov/K10_3.json
+
+# framing を記号として扱う判定の途中の値（scripts/framed_knot/framing_newton.py が再生成する）
+data/framed_knot/framing/
+# K7〜K9 の 3 箱の \hat N（各 21〜32 MB）は xz で圧縮した .json.xz だけを git に入れる。.txt の表は git に入れない（scripts/framed_knot/export_bps.py で再生成）
+data/framed_knot/bps/K[789]_3.json
+data/framed_knot/bps/K[789]_21.json
+data/framed_knot/bps/K[789]_111.json
+data/framed_knot/bps/K[789]_3.txt
+data/framed_knot/bps/K[789]_21.txt
+data/framed_knot/bps/K[789]_111.txt
+# K10 の \hat N（2 箱は各 18 MB、3 箱は各 260 MB、.txt は最大 1.1 GB）。2 箱は .json.xz だけを git に入れる。3 箱も .json.xz（各 87〜90 MB）を git に入れる（2026-10-09、ユーザーの判断）
+data/framed_knot/bps/K10_2.json
+data/framed_knot/bps/K10_11.json
+data/framed_knot/bps/K10_3.json
+data/framed_knot/bps/K10_21.json
+data/framed_knot/bps/K10_111.json
+data/framed_knot/bps/K10_*.txt
+!data/framed_knot/bps/K10_1.txt
+docs/framed_knot/paper/ja/*.aux
+docs/framed_knot/paper/ja/*.log
+docs/framed_knot/paper/ja/*.fdb_latexmk
+docs/framed_knot/paper/ja/*.fls
+docs/framed_knot/paper/ja/*.out
+docs/framed_knot/paper/ja/*.toc
+docs/framed_knot/paper/ja/*.bbl
+docs/framed_knot/paper/ja/*.blg
+
+# 4 箱以上の計算結果（約 1.2 GB、scripts/framed_knot/highbox_torus.py で再計算できる。判定は data/framed_knot/highbox_summary.md とログ）
+data/framed_knot/highbox/
+data/dgr_lmov/lmovstruct/*.pkl
+
+# refined Kauffman の研究（docs/refined_kauffman）の LaTeX の中間ファイル
 docs/refined_kauffman/tex/*.aux
 docs/refined_kauffman/tex/*.log
 docs/refined_kauffman/tex/*.out
 docs/refined_kauffman/tex/*.toc
-
-# K10 の 3 箱の \hat f（363 MB）は xz で圧縮した data/lmov/K10_3.json.xz だけを git に入れる
-data/lmov/K10_3.json
-
-# framing を記号として扱う判定の途中の値（scripts/framing_newton.py が再生成する）
-data/framing/
-# K7〜K9 の 3 箱の \hat N（各 21〜32 MB）は xz で圧縮した .json.xz だけを git に入れる。.txt の表は git に入れない（scripts/export_bps.py で再生成）
-data/bps/K[789]_3.json
-data/bps/K[789]_21.json
-data/bps/K[789]_111.json
-data/bps/K[789]_3.txt
-data/bps/K[789]_21.txt
-data/bps/K[789]_111.txt
-# K10 の \hat N（2 箱は各 18 MB、3 箱は各 260 MB、.txt は最大 1.1 GB）。2 箱は .json.xz だけを git に入れる。3 箱も .json.xz（各 87〜90 MB）を git に入れる（2026-10-09、ユーザーの判断）
-data/bps/K10_2.json
-data/bps/K10_11.json
-data/bps/K10_3.json
-data/bps/K10_21.json
-data/bps/K10_111.json
-data/bps/K10_*.txt
-!data/bps/K10_1.txt
-docs/paper/ja/*.aux
-docs/paper/ja/*.log
-docs/paper/ja/*.fdb_latexmk
-docs/paper/ja/*.fls
-docs/paper/ja/*.out
-docs/paper/ja/*.toc
-docs/paper/ja/*.bbl
-docs/paper/ja/*.blg
-
-# 4 箱以上の計算結果（約 1.2 GB、scripts/highbox_torus.py で再計算できる。判定は data/highbox_summary.md とログ）
-data/highbox/
-data/lmovstruct/*.pkl
 docs/refined_kauffman/paper/ja/*.aux
 docs/refined_kauffman/paper/ja/*.log
 docs/refined_kauffman/paper/ja/*.out

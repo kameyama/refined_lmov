@@ -4,12 +4,12 @@
 
 ユーザーの依頼：「DGR や quadruply graded homology のような考え方を refined LMOV invariant の spin 表示や genus 表示でできるか研究せよ。同じ構造は成り立たないので、基本的には unrefined や refined の LMOV を観察して 0 から考えよ。」
 
-- 用語は docs/paper/notation.md に従う。
+- 用語は docs/framed_knot/paper/notation.md に従う。
   - spin 表示：genus 展開の前の \hat𝐍_{ρ;i,j,k}
   - genus 表示：展開の後の \hat𝐍_{ρ,g,β,F}
   - 変数は太字 (𝐚,𝐪,𝐭)、framing 0、a 次数のずらしは nontorus 規約。
-- コード：`src/rcsknots/dgr.py`（因子・特殊化の道具）、`src/rcsknots/lmovstruct.py`（既約表示・σ・特殊化の点、§11〜§14）、`src/rcsknots/large_n_inverse.py`（GT1/GT2 の逆解き）、`scripts/dgr_*.py`、`scripts/lmov21_*.py`, `scripts/lmov31_linear.py`, `scripts/lmovstruct_*.py`。
-- 記録：`logs/dgr_*.log`、`logs/lmov*.log`、`data/dgr_lmov/`、`data/lmovstruct/`。テスト：`tests/test_dgr_lmov.py`、`tests/test_lmovstruct.py`、`tests/test_lmov21_linear.py`（既定の実行に含まれる。保存値の再判定は `tests/test_lmovstruct_results.py` と results 印）。
+- コード：`src/rcsknots/dgr_lmov/dgr.py`（因子・特殊化の道具）、`src/rcsknots/dgr_lmov/lmovstruct.py`（既約表示・σ・特殊化の点、§11〜§14）、`src/rcsknots/dgr_lmov/large_n_inverse.py`（GT1/GT2 の逆解き）、`scripts/dgr_lmov/dgr_*.py`、`scripts/dgr_lmov/lmov21_*.py`, `scripts/dgr_lmov/lmov31_linear.py`, `scripts/dgr_lmov/lmovstruct_*.py`。
+- 記録：`logs/dgr_lmov/dgr_*.log`、`logs/dgr_lmov/lmov*.log`、`data/dgr_lmov/`、`data/dgr_lmov/lmovstruct/`。テスト：`tests/dgr_lmov/test_dgr_lmov.py`、`tests/dgr_lmov/test_lmovstruct.py`、`tests/dgr_lmov/test_lmov21_linear.py`（既定の実行に含まれる。保存値の再判定は `tests/dgr_lmov/test_lmovstruct_results.py` と results 印）。
 - 構成：§0〜§10 が最初の観察（|ρ| ≤ 3 と 2 箱）、§11〜§14 が σ の辞書・既約表示・特殊化の点・種数 0、後半が計画の段階 D1〜D11 の記録。
 - 印は CLAUDE.md の分類による：【導出】【計算（範囲）】【予想】【仮説】。
 
@@ -204,13 +204,13 @@ R_ρ = \hat f_ρ / D（[1] では \hat f_{[1]}/(1+𝐚²𝐭) = rCS_{[1]}）と�
 2. 商 R_ρ の正値性を、§3 の「自由加群」の形で説明すること。例えば R_ρ が何かの Poincaré 多項式になっているか。
 3. d_{1|1} の最大 genus の c_ρ の理由。4 箱（[2,2] は hook でない）での形。
 4. framing x で Σ ≠ 0 のときの正しい「自明な結び目の部分」の取り方（§4）。
-5. 4 箱以上（data/highbox、git の外）での §2〜§5 の確認。
+5. 4 箱以上（data/framed_knot/highbox、git の外）での §2〜§5 の確認。
 
 （1〜5 の現在の状態と、§11〜§14・D 段階で加わった問いは open_problems.md H1〜H18。）
 
 ## 11. 辞書：σ は SU(2)_L の Weyl 反転、G 展開が閉じる ⇔ σ 不変 ⇔ KN の整合条件【導出】
 
-コードは src/rcsknots/lmovstruct.py、テストは tests/test_lmovstruct.py（機能）と tests/test_lmovstruct_results.py（results 印）。保存値の調査は scripts/lmovstruct_survey.py（data/lmovstruct/survey.jsonl, survey.md）、801 結び目の [1] は scripts/lmovstruct_knot_table.py、特殊化の点の走査は scripts/lmovstruct_loci.py。辞書は conventions.md §19 にも転記した。
+コードは src/rcsknots/dgr_lmov/lmovstruct.py、テストは tests/dgr_lmov/test_lmovstruct.py（機能）と tests/dgr_lmov/test_lmovstruct_results.py（results 印）。保存値の調査は scripts/dgr_lmov/lmovstruct_survey.py（data/dgr_lmov/lmovstruct/survey.jsonl, survey.md）、801 結び目の [1] は scripts/dgr_lmov/lmovstruct_knot_table.py、特殊化の点の走査は scripts/dgr_lmov/lmovstruct_loci.py。辞書は conventions.md §19 にも転記した。
 
 ### 11.1 変数
 太字の単項式 𝐚^{2β} 𝐪^{2k} 𝐭^{f+k} = 𝐚^{2β} w^k 𝐭^f（w = 𝐪²𝐭）に (β, k, f) = (a 次数, SU(2)_L の重み, U(1)_R の電荷) を対応させる。KN の 2J_r は f。
@@ -231,7 +231,7 @@ R_ρ = \hat f_ρ / D（[1] では \hat f_{[1]}/(1+𝐚²𝐭) = rCS_{[1]}）と�
 KN の形 \hat f_ρ = Σ (−1)^{2J_r} \hat N (q^{1/2}−q^{−1/2})^g (t^{−1/2}−t^{1/2})^g (q/t)^{J_r−β/2} a^β は σ で項ごとに不変（2 つの因子が入れ替わり、q/t と a は不変）。逆に σ 不変なら各 (β, f) 行が w ↔ 1/w 対称で、G 展開（rcsknots.bps.g_expand の閉じる条件と同じ）が閉じる。
 さらに (refined-GT1) と (refined-GT2) は互いに σ の像である：KN の unreduced のミラー対称性 g_λ \bar{rCS}_λ(a,q,t) = (−1)^{|λ|} \bar{rCS}_{λ^T}(a,1/t,1/q) と P_λ(x; 1/t, 1/q) = P_λ(x; t, q)、g_λ(1/t,1/q) = (q/t)^{|λ|} g_λ(t,q)、g_{λ^T}(q,t) g_λ(t,q) = 1 から、GT1 に σ を施すと GT2 の x → (q/t)x になる。よって f^{\bar t}_μ = (t/q)^{|μ|} σ(f^q_μ)（KN の f^q の尺度 (t/q)^{|μ|/2} を除く）。
 f^q = M(t)\hat f、f^{\bar t} = M(q^{−1})\hat f、σ(M(t)) = M(1/q) なので、KN の整合条件 f^{\bar t} = M(q^{−1})\hat f は \hat f = σ(\hat f)（単項式倍を除く）と同値。これは D8 で見た「GT1 と GT2 は任意の \hat f で同値」の導出でもある（H8 の解決）。
-【計算】保存済み 452 件（data/bps/ の 112 件、data/highbox/ の 340 件）と K7〜K9 の 3 箱で \hat f_ρ(A,Q,T) = \hat f_ρ(A, 1/T, 1/Q) が単項式倍なしで厳密に成立（正値性が破れる非代数的なケーブルでも成立）。
+【計算】保存済み 452 件（data/framed_knot/bps/ の 112 件、data/framed_knot/highbox/ の 340 件）と K7〜K9 の 3 箱で \hat f_ρ(A,Q,T) = \hat f_ρ(A, 1/T, 1/Q) が単項式倍なしで厳密に成立（正値性が破れる非代数的なケーブルでも成立）。
 
 ### 11.3 特殊化の点（微分の対応物）と gl(N|M) の切り詰め
 DGR の d_N の次数（superpolynomial.tex:898-905）：N > 0 で (−2, 2N, −1)、d_0 は (−2, 0, −3)、N < 0 で (−2, 2N, −1+2N)。対 x, d_N x が 𝐚² = c 𝐪^m 𝐭^n で恒等的に打ち消す条件を解くと c = −1 で、§0 の u_{n|m} = −1 ⇔ a = t^n q^{−m} に戻る。unknot 側では次の切り詰めになる。
@@ -252,19 +252,19 @@ DGR の d_N の次数（superpolynomial.tex:898-905）：N > 0 で (−2, 2N, �
 ### 12.1 定義
 各 (β, f) 行 \hat f_{β,f}(w) = Σ_k c_k w^k は σ 不変性から w ↔ 1/w 対称なので、SU(2)_L の指標 χ_j(w) = w^{2j} + w^{2j−2} + … + w^{−2j} で一意に展開できる：
   \hat f_ρ = Σ_{β, j, f} N^{(s)}_{ρ;β,j,f} 𝐚^{2β} χ_j(w) 𝐭^f、 N^{(s)}_{ρ;β,j,f} = c_{2j} − c_{2j+2}。
-整数性は自動。非負 ⇔ 各行が k の偶奇ごとに |k| について単峰。KN の genus 表示 Σ \hat N G^g 𝐭^F 𝐚^{2β} とは G^g = Σ_i C(g,i)(−1)^{g−i} χ_{1/2}(w)^i χ_{1/2}(𝐭)^{g−i} で結ばれ、符号が混ざるので一方の非負性は他方を含意しない（例：G 自身は genus 表示では非負だが既約表示では χ_0 𝐭^{±1} の係数が −1。逆の例は tests/test_lmovstruct.py::test_spin_nonneg_is_not_implied_by_nonneg）。
+整数性は自動。非負 ⇔ 各行が k の偶奇ごとに |k| について単峰。KN の genus 表示 Σ \hat N G^g 𝐭^F 𝐚^{2β} とは G^g = Σ_i C(g,i)(−1)^{g−i} χ_{1/2}(w)^i χ_{1/2}(𝐭)^{g−i} で結ばれ、符号が混ざるので一方の非負性は他方を含意しない（例：G 自身は genus 表示では非負だが既約表示では χ_0 𝐭^{±1} の係数が −1。逆の例は tests/dgr_lmov/test_lmovstruct.py::test_spin_nonneg_is_not_implied_by_nonneg）。
 最大 genus g_max(β) の項は最大スピン j = g_max/2 の項に一対一に対応し、N^{(s)}_{β, g_max/2, F} = \hat N_{g_max, β, F}【導出：G^g の χ_{1/2}(w)^g の係数は +1】。
 spin 表示の正値性（G 展開前の \hat𝐍 ≥ 0）、genus 表示の正値性（\hat N ≥ 0）、既約表示の正値性（N^{(s)} ≥ 0）、商 R_ρ の正値性（§3）は互いに独立な主張である。
 
 ### 12.2 結果【計算】
 | 入力 | 件数 | KN の G 展開の前の正値性 | 既約表示の非負性 |
 |---|---|---|---|
-| data/bps/（\|ρ\| ≤ 3、21 結び目、非圧縮の 112 件） | 112 | 77 件で成立（破れは K2, K4, K5a, K5c, K6b の全 ρ と K5b の \|ρ\| ≥ 2） | 同じ 77 件で成立、同じ 35 件で破れ |
-| data/highbox/（トーラス結び目 8 個、4〜9 箱、340 件） | 340 | 全て成立 | 全て成立 |
+| data/framed_knot/bps/（\|ρ\| ≤ 3、21 結び目、非圧縮の 112 件） | 112 | 77 件で成立（破れは K2, K4, K5a, K5c, K6b の全 ρ と K5b の \|ρ\| ≥ 2） | 同じ 77 件で成立、同じ 35 件で破れ |
+| data/framed_knot/highbox/（トーラス結び目 8 個、4〜9 箱、340 件） | 340 | 全て成立 | 全て成立 |
 | 801 結び目の [1]（yui-kr） | 801 | 全て成立（命題 1） | 全て成立（P 自身も） |
 | K7, K8, K9 の 3 箱と K10 の [2], [1,1]（.xz、22〜35 万項） | 11 | 全て成立 | 全て成立 |
 
-K10 の 3 箱（1200 万項）は未判定（H16）。合計 463 件（data/lmovstruct/survey.jsonl）。
+K10 の 3 箱（1200 万項）は未判定（H16）。合計 463 件（data/dgr_lmov/lmovstruct/survey.jsonl）。
 
 ### 12.3 [1] は定理【導出】
 GHM 2103.01212 の Cor. (sl2 intro)（Lefshetz_revision_upd.tex:295-298）は y 化したホモロジー上の sl₂ 作用を与え、Chandler–Gorsky 2209.13058（main.tex:198）はその帰結として HHH(K) が Δ 次数と a 次数を保つ sl₂ 作用をもち、各 Δ 次数で q 次数 mod 4 ごとに対称かつ単峰であると述べる。
@@ -280,11 +280,11 @@ unrefined では既約表示（z² = χ_{1/2}(q^{1/2}) − 2 の代わりに χ_
 
 ### 13.1 彩色 d_1 の閉じた形
 §2 の (S_{1|0}) の c は、保存済みの全 22 結び目（トーラス結び目 9、ケーブル 13、r ≤ 3）で c = (t/q)^{δ/2}（δ は conventions.md §13 の種数型の量。T(2,3) で (t/q)^{1/2}、K1 で (t/q)^4）。c は (N1)(N2') の正規化で決まり、正規化前の値の a = t での振る舞いが M_□ の a^δ と打ち消す。
-\hat f_ρ(a = t) = 0（|ρ| ≥ 2）は data/bps 100 件、highbox 340 件、K7〜K9 の 3 箱の全件で成立。非代数的なケーブル（DAHA の値）でも成立する（切り詰めは入力の正値性と無関係）。a = q^{−1} は σ の像で全件 0。
+\hat f_ρ(a = t) = 0（|ρ| ≥ 2）は data/framed_knot/bps 100 件、highbox 340 件、K7〜K9 の 3 箱の全件で成立。非代数的なケーブル（DAHA の値）でも成立する（切り詰めは入力の正値性と無関係）。a = q^{−1} は σ の像で全件 0。
 逆に \hat f_ρ(a=t) = 0（全ての |ρ| ≥ 2）なら Z_K(a=t) は次数 1 の項の plethystic exponential で、c_1 = rCS_[1](a=t) が単項式なら c_r = c_1^r が従う。
 
 ### 13.2 d_0 の点 a = t/q（gl(1|1)）
-\hat f_ρ(a = t/q) は 0 ではないが項数が大きく減る（data/lmovstruct/loci.json：T(2,5) の [2] で 112 → 16、T(3,4) の [2] で 429 → 34、K1 の [2] で 4141 → 135、T(4,5) の 5 箱で約 0.4%）。三葉結び目では ρ = [2], [3]（|ρ| ≤ 3）と ρ = [4], [5]（highbox）で 0、非対称な ρ では 0 でない。
+\hat f_ρ(a = t/q) は 0 ではないが項数が大きく減る（data/dgr_lmov/lmovstruct/loci.json：T(2,5) の [2] で 112 → 16、T(3,4) の [2] で 429 → 34、K1 の [2] で 4141 → 135、T(4,5) の 5 箱で約 0.4%）。三葉結び目では ρ = [2], [3]（|ρ| ≤ 3）と ρ = [4], [5]（highbox）で 0、非対称な ρ では 0 でない。
 意味：a = t/q では hook の彩色だけが残り、KN の M(t)（hook の指標 B_σ）がちょうどこの構造を担う。t = q では a = 1（Alexander、gl(1|1)）に当たる。三葉結び目の対称な ρ で消える理由は未解明（H15。§5 の hook 型の普遍式から説明できる可能性）。
 
 ### 13.3 その他の点【計算：T(2,3), T(2,5), T(3,4), 4_1, K1 の |ρ| ≤ 3、𝐚² = ±𝐪^m𝐭^n、|m|, |n| ≤ 8】
@@ -309,9 +309,9 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D1：4 箱以上への拡張（トーラス結び目）
 
-コード `scripts/dgr_highbox.py`（入力は本体のチェックアウトの data/highbox/、git の外）、集計 `scripts/dgr_highbox_summary.py` → data/dgr_lmov/highbox_summary.md、ログ logs/dgr_highbox.log。
+コード `scripts/dgr_lmov/dgr_highbox.py`（入力は本体のチェックアウトの data/framed_knot/highbox/、git の外）、集計 `scripts/dgr_lmov/dgr_highbox_summary.py` → data/dgr_lmov/highbox_summary.md、ログ logs/dgr_lmov/dgr_highbox.log。
 
-**【計算】** T(2,3) は 4〜9 箱、T(2,5) は 4〜8 箱、T(2,7), T(2,9) は 4〜8 箱、T(3,4), T(3,5) は 4〜6 箱、T(3,7), T(4,5) は 4〜5 箱。全ての ρ で次が成り立った（data/highbox の 31 ファイル全て、計 340 個の (結び目, ρ)）。
+**【計算】** T(2,3) は 4〜9 箱、T(2,5) は 4〜8 箱、T(2,7), T(2,9) は 4〜8 箱、T(3,4), T(3,5) は 4〜6 箱、T(3,7), T(4,5) は 4〜5 箱。全ての ρ で次が成り立った（data/framed_knot/highbox の 31 ファイル全て、計 340 個の (結び目, ρ)）。
 1. \hat f_ρ は D = (1+u_{0|0})(1+u_{1|0})(1+u_{0|1}) で割り切れる。それ以外の d_{n|m}（n, m ≤ 2）は因子にならない。例外は T(2,3) の行 [n] の d_{1|1} で、下の 3 の予想の値が負（特殊化そのものが 0）になる場合にあたる。
 2. 商 R_ρ は spin 表示・genus 表示とも負の項が 0。
 3. d_{1|1} 後の R_ρ の最大 genus は |ρ|(g−1) − [ρ = [n]] に全て一致した。これは D2 の予想で、トーラス結び目は Σ = g なので行だけが落ちる。hook でない λ（[2,2], [3,2], [2,2,1], … 9 箱まで）を含む。
@@ -321,7 +321,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D2：d_{1|1} の普遍式と c_ρ（2 箱）
 
-コード `scripts/dgr_d11_universal.py`、テスト `tests/test_dgr_lmov.py` の D2 の 2 件。
+コード `scripts/dgr_lmov/dgr_d11_universal.py`、テスト `tests/dgr_lmov/test_dgr_lmov.py` の D2 の 2 件。
 
 **普遍式【導出（hook 性質を仮定）＋計算】**
 - \hat f_ρ は、入力（[2], [1,1], [1]², Adams の [1](q², t²)）の、a, q, t の有理式を係数とする多項式である。
@@ -352,7 +352,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 ## D3 / H1：(S_{1|0}), (S_{0|1}) の導出（2026-10-11、ユーザーの指示「H1 の導出から進めて」）
 
 対象は GN/CD の構成（src/rcsknots/gn.py）で計算される全ての結び目：トーラス結び目と、DAHA の反復による iterated torus 結び目（非代数的なケーブルを含む）。
-検査のコードは `scripts/dgr_h1_lemma.py`（q = 3/7, t = 5/11 の有理数で厳密に計算、記録 logs/dgr_h1_lemma.log）、テストは test_dgr_lmov.py の H1 の 3 件。
+検査のコードは `scripts/dgr_lmov/dgr_h1_lemma.py`（q = 3/7, t = 5/11 の有理数で厳密に計算、記録 logs/dgr_lmov/dgr_h1_lemma.log）、テストは test_dgr_lmov.py の H1 の 3 件。
 
 **設定**
 - GN の構成では \bar{rCS}_λ(T_{n,m}) = ε(P_λ[p_k ↦ P̃_{kn,km}]·1) である。
@@ -404,7 +404,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## H2：hook 性質（a = t/q）の構造（2026-10-11、ユーザーの指示「H2 の hook の商の構造を進め…」）
 
-コードは scripts/dgr_h2_hook.py（記録 logs/dgr_h2_hook.log）。補助の数値検査は q = 3/7, t = 5/11 の厳密な有理数で行った。
+コードは scripts/dgr_lmov/dgr_h2_hook.py（記録 logs/dgr_lmov/dgr_h2_hook.log）。補助の数値検査は q = 3/7, t = 5/11 の厳密な有理数で行った。
 
 **H1 の節の訂正**
 - 以前「補題 1, 2 は u = t/q でもそのまま成り立つ（核は μ ⊇ (2,2)）」と書いたが、不正確だった。
@@ -440,7 +440,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D4：商 R_ρ の意味
 
-**ツイスト結び目の全ての p【導出（GNSSS の予想式の入力のもとで）】**（`scripts/dgr_twist_newton.py`）
+**ツイスト結び目の全ての p【導出（GNSSS の予想式の入力のもとで）】**（`scripts/dgr_lmov/dgr_twist_newton.py`）
 - 主張：K_p（p ≠ 0）の R_{[2]}, R_{[1,1]} は、全ての p で spin 表示の係数が非負。
 - 根拠：\hat f_ρ(K_p) は p の符号ごとに 5 つの単項式の指数和で、D は p によらないので、R_ρ も同じ根の指数和になる。
   - 根の並び (1, X, X², Y, Ȳ) のニュートン形の係数 c_0..c_4 は、両方の符号・両方の ρ で全て負（全体の符号を除いて一様）。
@@ -452,7 +452,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D5：非 refined の側
 
-`scripts/dgr_unrefined.py`、記録 logs/dgr_unrefined.log。
+`scripts/dgr_lmov/dgr_unrefined.py`、記録 logs/dgr_lmov/dgr_unrefined.log。
 
 - t = q の商 Ru_ρ = R_ρ|_{𝐭=−1}/(1−𝐚²) を、genus 表示 Σ n_{g,β}𝐚^{2β}z^{2g}（z² = (𝐪−𝐪⁻¹)²、G = −z²）にした。
 - 【計算】2J_r の偶奇がそろう結び目（トーラス結び目、代数的なケーブル）では、t = q で F について和をとるときの打ち消しが 0。refined の genus 表示は、非 refined のものに F の次数を付けたものになる。
@@ -471,12 +471,12 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D8・D9：refined large N の式の逆解きと既存の rCS との照合（2026-10-11）
 
-コード：src/rcsknots/large_n_inverse.py（評価点で厳密に解く）、scripts/dgr_inverse_check.py（記録 logs/dgr_inverse_check.log）。
+コード：src/rcsknots/dgr_lmov/large_n_inverse.py（評価点で厳密に解く）、scripts/dgr_lmov/dgr_inverse_check.py（記録 logs/dgr_lmov/dgr_inverse_check.log）。
 
 - **逆解き**【導出＋実装】
   - GT1 では、f^q = M(t)\hat f を作り、f_formulas の記号式（\bar{rCS}_λ と Adams の像の多項式）を次数ごとの一次方程式として解く。|λ| ≤ 3。
   - GT2 は f^{\bar t} = M(q^{−1})\hat f から同様に解く。
-- **往復の照合【計算】**：data/lmov の 20 結び目（トーラス結び目 7、代数的ケーブル 6、4_1、非代数的ケーブル 6）の全ての λ（|λ| ≤ 3）で、GT1・GT2 から解いた rCS が既存の rCS（EHA, DAHA, KN のノートブック）に一致した。3 つの有理数の点での厳密な比較。
+- **往復の照合【計算】**：data/framed_knot/lmov の 20 結び目（トーラス結び目 7、代数的ケーブル 6、4_1、非代数的ケーブル 6）の全ての λ（|λ| ≤ 3）で、GT1・GT2 から解いた rCS が既存の rCS（EHA, DAHA, KN のノートブック）に一致した。3 つの有理数の点での厳密な比較。
 - **GT1 と GT2 は同値【計算】**
   - \hat f_{[2]}, \hat f_{[1,1]}, \hat f_{[3]}, \hat f_{[2,1]} に任意の単項式を足して摂動しても、GT1 と GT2 から解いた rCS は全ての λ で一致した。
   - したがって、GT2 は \hat f に対する独立な制約にならない。導出は §11.2（GT1 と GT2 は σ で移り合い、整合条件は \hat f の σ 不変性と同値）。
@@ -484,7 +484,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D7：非 refined のデータと構造からの refined LMOV の構成（2 箱、2026-10-11）——停止点
 
-コード：scripts/dgr_d7_construct.py（整数計画、scipy の milp/HiGHS）。
+コード：scripts/dgr_lmov/dgr_d7_construct.py（整数計画、scipy の milp/HiGHS）。
 
 **定式化**
 - 未知数は rCS_{[2]} の係数（整数、rCS に正値性は課さない）。rCS_{[1,1]} は転置で決める。
@@ -522,7 +522,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## DGR・四重次数の構成を例で追う：一意性と条件（2026-10-11、ユーザーの指示「DGR や quadruply の計算をいくつかの例でフォローし、そちらが一意に決まるか、条件の数やうまくいく理由の知見を得よ」）
 
-コード：scripts/dgr_follow.py（[1]、記録 logs/dgr_follow.log、data/dgr_lmov/follow/）、scripts/dgr_s2_discover.py（S² の構造の探索、logs/dgr_s2_discover.log）、scripts/dgr_s2_follow.py（S²、logs/dgr_s2_follow.log、--spec 版は logs/dgr_s2_follow_spec.log）。
+コード：scripts/dgr_lmov/dgr_follow.py（[1]、記録 logs/dgr_lmov/dgr_follow.log、data/dgr_lmov/follow/）、scripts/dgr_lmov/dgr_s2_discover.py（S² の構造の探索、logs/dgr_lmov/dgr_s2_discover.log）、scripts/dgr_lmov/dgr_s2_follow.py（S²、logs/dgr_lmov/dgr_s2_follow.log、--spec 版は logs/dgr_lmov/dgr_s2_follow_spec.log）。
 方法：
 - 正解を既知とし、条件を段階的に加えた整数計画で、非負の未知数（Poincaré 多項式の係数）を求める。
 - 最小の総階数、最小解の数（乱数の費用で 8 回解いて異なるものを数えた下限）、正解を含むかを記録した。
@@ -581,7 +581,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ## D7 の再実行：rCS_{[2]} ≥ 0 を課す（2026-10-11、ユーザーの指示「rCS_[2] ≥ 0 を課して D7 を再実行せよ」）
 
-コード：scripts/dgr_d7_pos.py（記録 logs/dgr_d7_pos.log、data/dgr_lmov/d7_pos.json）、scripts/dgr_d7_ablation.py（条件の切り分け、logs/dgr_d7_ablation.log）。
+コード：scripts/dgr_lmov/dgr_d7_pos.py（記録 logs/dgr_lmov/dgr_d7_pos.log、data/dgr_lmov/d7_pos.json）、scripts/dgr_lmov/dgr_d7_ablation.py（条件の切り分け、logs/dgr_lmov/dgr_d7_ablation.log）。
 規則：README.md のとおり、対称表現の rCS（Poincaré 多項式）に正値性を課してよい（本研究の §F は適用しない）。
 
 **条件の組**（全体の符号 σ の 4 通りを全て試し、各 σ で乱数の目的 10 回。異なる rCS_{[2]} を数えた下限）
@@ -633,9 +633,9 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 ## D10：thin な結び目の予言（2026-10-11、ユーザーの指示「D10 の予言を thin な結び目で進めよ」）
 
 コード：
-- scripts/dgr_d10_cables.sage：yui-kr のブレイドから結び目と (2, s)-ケーブルの HOMFLY-PT を計算（data/dgr_lmov/d10/homfly.txt）。
-- scripts/dgr_d10_predict.py：予言。記録 logs/dgr_d10_predict.log、結び目ごとに data/dgr_lmov/d10/<結び目>.json（全ての解を含む）。
-- scripts/dgr_no_6263.py：Nawata–Oblomkov の 6_2, 6_3 の式（照合用）。
+- scripts/dgr_lmov/dgr_d10_cables.sage：yui-kr のブレイドから結び目と (2, s)-ケーブルの HOMFLY-PT を計算（data/dgr_lmov/d10/homfly.txt）。
+- scripts/dgr_lmov/dgr_d10_predict.py：予言。記録 logs/dgr_lmov/dgr_d10_predict.log、結び目ごとに data/dgr_lmov/d10/<結び目>.json（全ての解を含む）。
+- scripts/dgr_lmov/dgr_no_6263.py：Nawata–Oblomkov の 6_2, 6_3 の式（照合用）。
 
 **方法（正解は使わない）**
 - refined の [1]：yui-kr の HOMFLY-PT ホモロジーの Poincaré 多項式 P₁。
@@ -685,7 +685,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 ### D10 の補足 2：6_2 で色付き Khovanov（A = Q² のホモロジーの形）を試す（2026-10-11、ユーザーの指示「6_2 で 1 と 2 を確かめて」）
 
-コード：scripts/dgr_kh2_test.py（記録 logs/dgr_kh2_test.log）、scripts/dgr_d7_construct.py の条件 (K)。
+コード：scripts/dgr_lmov/dgr_kh2_test.py（記録 logs/dgr_lmov/dgr_kh2_test.log）、scripts/dgr_lmov/dgr_d7_construct.py の条件 (K)。
 
 **方法**
 - 色付き Khovanov の実際の値は無いので、代理を使った。
@@ -709,11 +709,11 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 目標（ユーザーの指示）：「unrefined LMOV のデータから refined LMOV をいくつかの仮定の下で計算できるようになること。その仮定を見つけたい。特に重要なのはまだ数の少ない [2,1] や [3,1] のような不変量がこのアプローチで構成できるかどうかである」「unrefined の LMOV（t = q）ではなく 𝐭 = −1 の変数の方が良い可能性がある。どちらの変数が良いかも考えよ」。
 
 コード：
-- scripts/dgr_box3.py：3 箱の公式 formula3、\hat f の計算 hat3、rCS_{[2,1]} を未知数とする条件の組み立てと整数計画 build21、自由度の因子 phi21、小さい定式化 solve21_g、窓の規則 rcs_window21。
-- scripts/dgr_box3_check.py：既知の結び目での整数計画による一意性の判定。scripts/dgr_box3_predict.py：ツイスト結び目の予言（data/dgr_lmov/box3/、logs/dgr_box3_predict.log）。
-- scripts/lmov21_linear.py：一次の条件だけの零空間の次元（法 p = 2³¹−1 の疎な消去、一意なら整数で検算）。scripts/lmov21_polytope.py：零空間の座標での正値性の多面体。scripts/lmov21_predict_check.py：予言の検査。scripts/lmov31_linear.py：4_1 の [3,1]。
-- 記録：logs/lmov21_linear*.log、logs/lmov21_polytope.log、logs/lmov31_linear.log、data/lmovstruct/lmov21_linear*.json, lmov21_polytope.json, lmov31_linear.json、data/dgr_lmov/box3/check_*.json（整数計画で見つけた別解）。
-- テスト：tests/test_dgr_lmov.py（3 箱 7 件）、tests/test_lmov21_linear.py（3 件。三葉結び目の一意性は results 印）。
+- scripts/dgr_lmov/dgr_box3.py：3 箱の公式 formula3、\hat f の計算 hat3、rCS_{[2,1]} を未知数とする条件の組み立てと整数計画 build21、自由度の因子 phi21、小さい定式化 solve21_g、窓の規則 rcs_window21。
+- scripts/dgr_lmov/dgr_box3_check.py：既知の結び目での整数計画による一意性の判定。scripts/dgr_lmov/dgr_box3_predict.py：ツイスト結び目の予言（data/dgr_lmov/box3/、logs/dgr_lmov/dgr_box3_predict.log）。
+- scripts/dgr_lmov/lmov21_linear.py：一次の条件だけの零空間の次元（法 p = 2³¹−1 の疎な消去、一意なら整数で検算）。scripts/dgr_lmov/lmov21_polytope.py：零空間の座標での正値性の多面体。scripts/dgr_lmov/lmov21_predict_check.py：予言の検査。scripts/dgr_lmov/lmov31_linear.py：4_1 の [3,1]。
+- 記録：logs/dgr_lmov/lmov21_linear*.log、logs/dgr_lmov/lmov21_polytope.log、logs/dgr_lmov/lmov31_linear.log、data/dgr_lmov/lmovstruct/lmov21_linear*.json, lmov21_polytope.json, lmov31_linear.json、data/dgr_lmov/box3/check_*.json（整数計画で見つけた別解）。
+- テスト：tests/dgr_lmov/test_dgr_lmov.py（3 箱 7 件）、tests/dgr_lmov/test_lmov21_linear.py（3 件。三葉結び目の一意性は results 印）。
 
 ### 公式
 
@@ -748,7 +748,7 @@ refined EGP（rCS_λ(q=1) = Π rCS_{ω_i}^{λ_i − λ_{i+1}}）により q = 1 
 
 未知数：rCS_{[2,1]} の太字の係数 x_m。
 - 窓：(𝐚, 𝐪) は非 refined の [2,1] の台の箱（**打ち消しは 𝐭 の中だけで起きる**という仮定）。𝐭 は、既知の結び目では正解の範囲 ±3〜4（頑健性は 3 倍の窓で確認）、予言では下の「窓の規則」で決める。
-- 既知とするもの：refined の [1], [2], [1,1], [3], [1,1,1]（トーラス結び目は EHA、4_1 は KN のノートブック、ツイスト結び目は GNSSS/KNTZ の長方形の式）、非 refined の [2,1]（既知の結び目では正解の t = q、ツイスト結び目は 3 本ケーブルの逆解き data/x0/、Morozov の式と一致済み）。
+- 既知とするもの：refined の [1], [2], [1,1], [3], [1,1,1]（トーラス結び目は EHA、4_1 は KN のノートブック、ツイスト結び目は GNSSS/KNTZ の長方形の式）、非 refined の [2,1]（既知の結び目では正解の t = q、ツイスト結び目は 3 本ケーブルの逆解き data/framed_knot/x0/、Morozov の式と一致済み）。
 - 全体の符号 8 通りを試す。
 
 | 記号 | 仮定 | 一次式の形 | 出所 |
@@ -801,22 +801,22 @@ T, U2, H, E が既知の結び目（T(2,3), T(2,5), T(3,4), 4_1, K1）の正解�
 
 - 小文字では (q^{1/2}−t^{1/2})(t−1)(q−1)(1−qt²)(1−q²t)(a−t²)(a−q^{−2})[(a−t/q)]。t = q の条件から出る因子は Q − T = −𝐪(1+𝐭) であって q − t ではない（Q + T は条件に入らない）。
 - 逆に Φ·g はこれらの等式を全て満たすので、解は x = x_p + Φ·g（x_p は一つの解）。g は σ 対称で、Newton 多面体の加法性から g の単項式 e は e + NP(Φ) が x の窓に入るものに限られる。
-- Φ の 𝐚 の幅（u の 3 因子で 𝐚 の指数 6）は rCS_{[2,1]} の 𝐚 の幅に等しいので、**g は 𝐚 を含まない**。自由度は (𝐪, 𝐭) の 2 変数多項式 g だけ（scripts/dgr_box3.py の phi21、solve21_g。T(2,5) で変数 6.4 万 → 136、一意性の判定 63 秒 → 2 秒）。
+- Φ の 𝐚 の幅（u の 3 因子で 𝐚 の指数 6）は rCS_{[2,1]} の 𝐚 の幅に等しいので、**g は 𝐚 を含まない**。自由度は (𝐪, 𝐭) の 2 変数多項式 g だけ（scripts/dgr_lmov/dgr_box3.py の phi21、solve21_g。T(2,5) で変数 6.4 万 → 136、一意性の判定 63 秒 → 2 秒）。
 - 三葉結び目・4_1 では Φ の次数が窓に収まらず g の変数が 0 個になる。これが一次の条件だけで決まる理由で、正値性のおかげではない。T(2,5) 以上では g の居場所が残る。
-- 整数計画で見つけた T(2,5) の別解 3 個と正解の差が Φ で割り切れることはテストで確認した（tests/test_dgr_lmov.py::test_box3_phi_divides_differences）。
-- 第 4 期 V2（docs/REPORT_phase4.md）の「三葉結び目でも全ての条件で一意に決まらない（差 = 結び目によらない因子 × 自由な u）」との関係：同じ構造である。違いは窓で、第 4 期（scripts/u3_21.py）は EGP の積の範囲に 𝐚・𝐪・𝐭 の全方向で margin 2 を足した箱を使っていたため u に 𝐚 方向の居場所があった。ここでは (𝐚, 𝐪) を非 refined の台に固定している。したがって「三葉結び目で一意」は、この窓の仮定の下での主張である。
+- 整数計画で見つけた T(2,5) の別解 3 個と正解の差が Φ で割り切れることはテストで確認した（tests/dgr_lmov/test_dgr_lmov.py::test_box3_phi_divides_differences）。
+- 第 4 期 V2（docs/framed_knot/REPORT_phase4.md）の「三葉結び目でも全ての条件で一意に決まらない（差 = 結び目によらない因子 × 自由な u）」との関係：同じ構造である。違いは窓で、第 4 期（scripts/framed_knot/u3_21.py）は EGP の積の範囲に 𝐚・𝐪・𝐭 の全方向で margin 2 を足した箱を使っていたため u に 𝐚 方向の居場所があった。ここでは (𝐚, 𝐪) を非 refined の台に固定している。したがって「三葉結び目で一意」は、この窓の仮定の下での主張である。
 
 ### 整数計画による確認【計算】
 
-- 判定法：乱数の目的関数で整数計画を繰り返す方法は T(2,5)（変数 6.4 万）で 1 回 40 分以上かかる。代わりに整数の乱数ベクトル c をとり、c·x ≥ c·x₀ + 1 と c·x ≤ c·x₀ − 1 のそれぞれで実行可能性だけを解く（scripts/dgr_box3_check.py）。どちらも実行不能なら一意（c·(x − x₀) = 0 の解を除く確率的な判定）。1 方向あたり数十秒。あわせて正解が全ての条件を満たすこと（実行可能性）を確かめる。
+- 判定法：乱数の目的関数で整数計画を繰り返す方法は T(2,5)（変数 6.4 万）で 1 回 40 分以上かかる。代わりに整数の乱数ベクトル c をとり、c·x ≥ c·x₀ + 1 と c·x ≤ c·x₀ − 1 のそれぞれで実行可能性だけを解く（scripts/dgr_lmov/dgr_box3_check.py）。どちらも実行不能なら一意（c·(x − x₀) = 0 の解を除く確率的な判定）。1 方向あたり数十秒。あわせて正解が全ての条件を満たすこと（実行可能性）を確かめる。
 - 三葉結び目・4_1：条件 U, T, H, E, U2, L, P で一意（10・27 秒）、一次の解析と同じ解。実行可能な全体の符号は (1,1,1) だけ。
 - K_1（三葉結び目）、K_{−1}（4_1）：入力を GNSSS の [1], [2], [3] と X0 のケーブルの非 refined の [2,1] に替えても一意で、EHA・KN の候補に一致。\hat f の genus 表示は 3 つの ρ で一様な符号（条件にしていない）。
 - T(2,5)：一意でない。正解は全ての条件を満たすが、別解が少なくとも 3 個（data/dgr_lmov/box3/check_T2_5_*.json）。別解はこれまでに見つけた正値性の構造を全て満たす：genus 表示の正値性、普遍因子 D で割り切れること、商 R_ρ の両表示での正値性、2J_r の偶奇、d_{1|1} 後の最大 genus。違いが出たのは genus 表示の F = 2J_r の最小値（正解は F_min(g,β) = g + β − 4、別解はそれより 2〜3 低い）。
-- 誤りと訂正：最初の版では \hat f の a 次数の偶奇を分子の偶奇から決めていた。分母が A³ を含むので、正しくは分子 − 分母。修正前の T(2,5), T(3,4) の「実行不能」とツイスト結び目の予言は無効（logs/dgr_box3_predict.log に印）。修正後の三葉結び目・4_1 は修正前と同じく一意で正解に一致した。
+- 誤りと訂正：最初の版では \hat f の a 次数の偶奇を分子の偶奇から決めていた。分母が A³ を含むので、正しくは分子 − 分母。修正前の T(2,5), T(3,4) の「実行不能」とツイスト結び目の予言は無効（logs/dgr_lmov/dgr_box3_predict.log に印）。修正後の三葉結び目・4_1 は修正前と同じく一意で正解に一致した。
 
 ### 正値性では決まらない【計算】
 
-- 多面体（scripts/lmov21_polytope.py）：解空間 x = x₀ + K y（K は 2 つの素数で復元した整数基底、整数で検算）の上で \hat f_ρ = h₀ + Σ y_j h_j（厳密な割り算）。正値性は (i) spin 表示、(ii) genus 表示、(iii) 既約表示（§11）、全体の符号 8 通り。
+- 多面体（scripts/dgr_lmov/lmov21_polytope.py）：解空間 x = x₀ + K y（K は 2 つの素数で復元した整数基底、整数で検算）の上で \hat f_ρ = h₀ + Σ y_j h_j（厳密な割り算）。正値性は (i) spin 表示、(ii) genus 表示、(iii) 既約表示（§11）、全体の符号 8 通り。
   - T(2,3)：零空間 0 なので 1 点。3 表示とも正で正解。
   - T(2,5)（零空間 20、hook 込み）：(i), (i)+(ii), (i)+(ii)+(iii) のいずれでも多面体は非有界（乱数の 12 方向で幅 ∞）。非有界方向 d（3 本調べた）の rCS の方向は 448〜492 単項式で符号が混ざり、\hat f_ρ の像は 440〜608 単項式で**全て非負**、𝐭 は 1..25（正解の \hat f は 1..45）、δ は正解の範囲の内側、台は正解の台の内外に半分ずつ。
 - 条件 B, R（次の節）を加えた整数計画でも同じ：T(2,5) の解 8 個の g は全て g = 𝐪^{−12}𝐭⁶(α + β𝐭)（整数 α, β、正解は (0, 0)）で、正値性が (α, β) に課す領域は頂点 (−10, 10), (11, −11) をもつ非有界な錐。正解は境界の辺 α + β = 0 の上にあり、そこで \hat f の 174 個の係数が同時に 0 になる。辺の上では \hat f の係数の和は一定。
@@ -829,7 +829,7 @@ T, U2, H, E が既知の結び目（T(2,3), T(2,5), T(3,4), 4_1, K1）の正解�
 - **予想 R（rCS_λ の 𝐭 の両端の線）**：rCS_λ（太字）の 𝐚 の行ごとの 𝐭 の最低次と最高次は、行ごとの対称表現 [λ_i] のものの min-plus（最高次は max-plus）の積に等しい。例：floor(rCS_{[2,1]}) = floor(rCS_{[2]}) ⊕ floor(rCS_{[1]})、floor(rCS_{[1,1]}) = floor(rCS_{[1]}) ⊕ floor(rCS_{[1]})。Jacobi–Trudi の公式 s_λ = det(h_{λ_i−i+j}) の対角項が両端を支配すると考えると自然。σ で移した「列ごと」の版（方向 e_𝐭 − e_𝐪）は転置の不変性から従う。他の方向（e_𝐭 + c e_𝐪、c = ±1/2, 1, −3/2, −2）では成り立たない。
   - 確かめた範囲：トーラス結び目 9（T(2,3)〜T(2,11), T(3,4), T(3,5), T(3,7), T(4,5)）、4_1、代数的ケーブル K1, K3, K6a, K7, K8, K9 の [1,1], [2,1], [1,1,1]（最高次は 13 結び目の [2,1]）。全て等号（テスト test_box3_rcs_window_rule）。
   - 端の係数は行ごとの積そのものではない（重複度 2 が q 数 𝐪^{−1}+𝐪 になるような q 変形）。条件には位置だけを使う。全体の範囲の規則はこれの帰結。
-- **仮説 B（\hat f_ρ の 𝐭 の下端の線）**：\hat f_ρ の spin 表示で 𝐚 の行ごとの 𝐭 の最低次 floor_ρ(e_𝐚) は、floor_{[1]} の |ρ| 乗の min-plus の畳み込みを (e_𝐚, e_𝐭) → (e_𝐚 − 2, e_𝐭 + |ρ| − 2) と平行移動したもの（ρ によらない）。保存済みの 22 結び目（data/bps）のうち 19 結び目の 2・3 箱の全ての ρ で等号。**例外は 4_1 と、DAHA を入力にした非代数的なケーブル K5b, K5c**。genus 表示の版（F_min(g,β) − F_min(0,β) − g ≥ 0）は K2, K5c, K6b で破れる。𝐭 の上端には同じ規則はない（genus とともに伸びる）。例外があるので、一般の結び目（特にツイスト結び目の予言）の条件には使えない。
+- **仮説 B（\hat f_ρ の 𝐭 の下端の線）**：\hat f_ρ の spin 表示で 𝐚 の行ごとの 𝐭 の最低次 floor_ρ(e_𝐚) は、floor_{[1]} の |ρ| 乗の min-plus の畳み込みを (e_𝐚, e_𝐭) → (e_𝐚 − 2, e_𝐭 + |ρ| − 2) と平行移動したもの（ρ によらない）。保存済みの 22 結び目（data/framed_knot/bps）のうち 19 結び目の 2・3 箱の全ての ρ で等号。**例外は 4_1 と、DAHA を入力にした非代数的なケーブル K5b, K5c**。genus 表示の版（F_min(g,β) − F_min(0,β) − g ≥ 0）は K2, K5c, K6b で破れる。𝐭 の上端には同じ規則はない（genus とともに伸びる）。例外があるので、一般の結び目（特にツイスト結び目の予言）の条件には使えない。
 
 ### 選択の規則は成り立たない【計算】（条件 B, R の下、solve21_g）
 
@@ -859,7 +859,7 @@ T, U2, H, E が既知の結び目（T(2,3), T(2,5), T(3,4), 4_1, K1）の正解�
 
 ### 4_1 の [3,1]（4 箱）【計算】
 
-scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型、EGP（Q = ±1, T = ±1）、U(2)（A = ±T²））に、4 箱の \hat f_ρ（ρ ⊢ 4、5 個）の Laurent 性を**因子ごとの代入**で一次式にして加えた（補助変数なし。未知数は rCS_{[3,1]} の係数 2367 個、窓は f41_box4 の margin 0）。
+scripts/dgr_lmov/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型、EGP（Q = ±1, T = ±1）、U(2)（A = ±T²））に、4 箱の \hat f_ρ（ρ ⊢ 4、5 個）の Laurent 性を**因子ごとの代入**で一次式にして加えた（補助変数なし。未知数は rCS_{[3,1]} の係数 2367 個、窓は f41_box4 の margin 0）。
 分母 D = (Q∓1)²(Q²+1)(T∓1)²(T²+1)(QT∓1)²(QT³∓1)(Q²T²+1)(Q³T∓1)。重複度 2 の因子は横断方向の微分も課す。hook は a = t/q で c³·A_K(𝐪⁴𝐭², 𝐭)（§5 の式の [3,1] への適用、arm = 2）。
 
 | 条件 | 式 | 階数 | 零空間 | 実行可能 |
@@ -888,7 +888,7 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
 
 ### H11 の進展：framing の正値性と BPS 状態の総数の最小化で自由度を殺す（2026-10-12、ユーザーの指示「証明の優先順位を一番最後にせよ。unrefined から refined を一意（多くとも O(1)）に予想できることが最優先である。予想 H11 に進め」）
 
-コード：scripts/lmov21_h11.py（`face`：既知の結び目で最適面の上の整数解を列挙、`predict`：ツイスト結び目の予言、`framing`：framed \hat f の符号、`support`：台の規則の検査）。記録 logs/lmov21_h11.log、データ data/lmovstruct/lmov21_h11_face.json（既知の結び目）、lmov21_h11_predict.json（予言と候補の rCS_{[2,1]}）、lmov21_h11_framing_T2_5.json。テスト tests/test_lmov21_h11.py（4 件、T(2,7) は results 印）。
+コード：scripts/dgr_lmov/lmov21_h11.py（`face`：既知の結び目で最適面の上の整数解を列挙、`predict`：ツイスト結び目の予言、`framing`：framed \hat f の符号、`support`：台の規則の検査）。記録 logs/dgr_lmov/lmov21_h11.log、データ data/dgr_lmov/lmovstruct/lmov21_h11_face.json（既知の結び目）、lmov21_h11_predict.json（予言と候補の rCS_{[2,1]}）、lmov21_h11_framing_T2_5.json。テスト tests/dgr_lmov/test_lmov21_h11.py（4 件、T(2,7) は results 印）。
 
 **考え方**
 - 残る自由度 Δ = Φ·g に対し、正値性だけでは多面体が非有界だった（「正値性では決まらない」の節）。非有界の方向は Δ\hat f ≥ 0（正の BPS 状態を足す方向）で、framing を変えても Δ\hat f^{(x)} = 𝐭^{5x}Δ\hat f^{(0)}（[2,1] の framing の因子は 𝐭⁵、conventions §17）なので、framing の正値性を足しても多面体の後退錐は変わらない【導出】。
@@ -932,7 +932,7 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
 
 **判断**
 - 「3 箱の構造 ＋ 窓 R ＋ 全ての framing の正値性 ＋ 総数の最小化」で一意に決まるのは、既知では T(2,5) まで、予言では K_{±2} まで。T(2,7), T(3,4) では 100 個以上、K_{±3} では 10〜26 個以上の候補が残り、O(1) にならない。
-- K_{±2} の予言は、以前に無効とした L1 最小の解と一致した（独立な 2 つの選択の原理が同じ解を指す）。ただし L1 最小は面の上でも T(2,7) で破れるので、この一致は裏付けではなく整合性の確認にとどまる。K_{±2} の予言は【予想】（下の仮定 1〜5 の下。data/lmovstruct/lmov21_h11_predict.json）。
+- K_{±2} の予言は、以前に無効とした L1 最小の解と一致した（独立な 2 つの選択の原理が同じ解を指す）。ただし L1 最小は面の上でも T(2,7) で破れるので、この一致は裏付けではなく整合性の確認にとどまる。K_{±2} の予言は【予想】（下の仮定 1〜5 の下。data/dgr_lmov/lmovstruct/lmov21_h11_predict.json）。
 - 残る自由度は正解の台の内側で状態を動かすもので、LMOV 側の正値性・個数の原理では見えない。次の候補は、4 箱の \hat f の Laurent 性（[2,1] が C_{21}C_1 で一次に入る。[3,1], [2,1,1] を未知のまま連立）と、ホモロジー側の入力（H11）。
 
 **仮定の一覧（この構成で使うもの）**
@@ -955,7 +955,7 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
 - reduced は unreduced ÷ unknot_λ。unknot_λ の分子 Π_□(t^{l'} − a q^{a'}) は太字で Π_□(𝐪^{2l'} + 𝐚²𝐪^{2a'}𝐭^{2a'+1})（全て正。[2,1] では (1 + 𝐚²𝐭)(𝐪² + 𝐚²𝐭)(1 + 𝐚²𝐪²𝐭³)）、分母は Π_□(1 − q^{a(□)} t^{l(□)+1})。
 - **仮説 H_u**：N_λ := rCS^{red}_λ × Π_{□≠(1,1)}（分子の因子）の太字の係数は非負（単項式倍と全体の符号を除く）。[1] では N = rCS_{[1]} で、P̃_{n,m}·1 の Schur 正値性（Mellit の定理）から正。[2], [1,1] も reduced が正なので自明。
 
-コード：scripts/dgr_hu.py（`check`：保存済みの reduced から |λ| ≤ 3、`highbox`：GN から rCS_λ を補間して 4 箱以上、`convention`：GN の hook の Schur 係数との照合）。記録 logs/dgr_hu.log、data/dgr_lmov/hu_check.json。テスト tests/test_dgr_lmov.py の D12 の 2 件。
+コード：scripts/dgr_lmov/dgr_hu.py（`check`：保存済みの reduced から |λ| ≤ 3、`highbox`：GN から rCS_λ を補間して 4 箱以上、`convention`：GN の hook の Schur 係数との照合）。記録 logs/dgr_lmov/dgr_hu.log、data/dgr_lmov/hu_check.json。テスト tests/dgr_lmov/test_dgr_lmov.py の D12 の 2 件。
 
 **規約の照合【計算】**：T(2,3), T(2,5) の [2,1] で、N の a の各行（小文字 a の冪で並べたもの）と (−1)^s c_s Π_□(1 − q^{a(□)} t^{l(□)+1})（c_s は gn.py の f̃_{[2,1]} の hook (6−s, 1^s) の Schur 係数、GN の傾き (2, −3), (2, −5)）の比は、有理数の 3 つの評価点で全ての行について同じ値で、単項式 −Q^{21}T^{−21}（T(2,3)）、−Q^{32}T^{−32}（T(2,5)）、すなわち −(q/t)^{21/2}, −(q/t)^{16} に等しい。c_k の正規化を含めて N の行は hook の Schur 係数 × Π(1 − q^a t^{l+1}) である。
 
@@ -989,7 +989,7 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
 
 ### D12 の続き：仮説 H_u″（P 正規化の hook の Schur 係数の冪級数の非負性）と 4 箱の Laurent 性（2026-10-12、ユーザーの指示「1, 2, 3 へ進め」）
 
-**1. 負の符号の構造【計算】**（scripts/dgr_hu.py `series`、`series-highbox`、logs/dgr_hu.log、data/dgr_lmov/hu_series.json）
+**1. 負の符号の構造【計算】**（scripts/dgr_lmov/dgr_hu.py `series`、`series-highbox`、logs/dgr_lmov/dgr_hu.log、data/dgr_lmov/hu_series.json）
 - N_{[2,1]} の a の各行（= J 正規化の hook の Schur 係数、単項式倍）は既約で、負の項は 𝐪⁶𝐭²·(𝐪⁴𝐭²)^k = 𝐪⁶𝐭²·(qt)^k の射線上にある（T(2,3), T(2,5)）。
 - **P 正規化に戻す**：行を Π_□(1 − q^{a(□)} t^{l(□)+1}) = (1 − 𝐪²)²(1 − 𝐪⁶𝐭²) で割った冪級数（𝐪 → 0 の向き）は、代数的な結び目の全てで非負：
   トーラス結び目 9、代数的ケーブル 6 の [2,1]（負 0、行の 𝐪 の幅 ＋ 40 次まで）、T(2,3) の 4〜6 箱、T(2,5) の 4〜5 箱、T(3,4) の 4 箱の全ての非長方形 λ（負 0）。
@@ -999,7 +999,7 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
   導出は未着手（証明は最後。GN の構成では c_s は P̃ の行列要素の有理式で、分母は Macdonald の norm）。
 - K_{±2} の予言（H11 の方法）に当てる：K_2 は満たす（負 0）、K_{−2} は 4 行で負 18 個。4_1（K_{−1}）が破れるので、負の側のツイスト結び目に H_u″ がそのまま成り立つ根拠は無い。
 
-**2. H_u″ を未知数に課す（段階 2）【計算】**（scripts/lmov21_hu.py、scripts/lmov21_h11.py の `--S`、logs/lmov21_hu.log）
+**2. H_u″ を未知数に課す（段階 2）【計算】**（scripts/dgr_lmov/lmov21_hu.py、scripts/dgr_lmov/lmov21_h11.py の `--S`、logs/dgr_lmov/lmov21_hu.log）
 - S：N(x) = x·(𝐪² + 𝐚²𝐭)(1 + 𝐚²𝐪²𝐭³) の冪級数（打ち切り：𝐪 の次数 ≤ N の最大次数 ＋ 40）の係数 ≥ 0 は x の一次不等式。x = x_p + Φ·g で g に課す。
 
 | 結び目 | 条件 | 多面体 | 整数解 |
@@ -1014,16 +1014,16 @@ scripts/lmov31_linear.py。f41_box4 の一次の系（t = q、転置、両手型
 
 - S は \hat f の正値性と違って**上界を与える**（多面体が有界になる。後退錐が消える）。T(2,5) では一意だが、大きい結び目では多面体が広く、整数点が多数残る。
 
-**3. 4 箱の Laurent 性【計算】**（scripts/lmov4_formula.py、scripts/lmov4_joint.py、scripts/lmov4_predict.py、logs/lmov4_joint.log、logs/lmov4_predict.log）
-- 4 箱の公式 \hat f_ρ = Σ_i k_{ρ,i}·（C の単項式）/ D_ρ を bps.f_formulas(4)（Adams 像 C_2(x²), C_11(x²), C_1(x²) の記号を追加）と M(t)⁻¹ から導いた（17 秒）。T(2,3) の 4 箱の保存値（data/highbox）と 5 つの ρ で全係数一致。
+**3. 4 箱の Laurent 性【計算】**（scripts/dgr_lmov/lmov4_formula.py、scripts/dgr_lmov/lmov4_joint.py、scripts/dgr_lmov/lmov4_predict.py、logs/dgr_lmov/lmov4_joint.log、logs/dgr_lmov/lmov4_predict.log）
+- 4 箱の公式 \hat f_ρ = Σ_i k_{ρ,i}·（C の単項式）/ D_ρ を bps.f_formulas(4)（Adams 像 C_2(x²), C_11(x²), C_1(x²) の記号を追加）と M(t)⁻¹ から導いた（17 秒）。T(2,3) の 4 箱の保存値（data/framed_knot/highbox）と 5 つの ρ で全係数一致。
 - [2,1] は 4 箱の \hat f に C_{21}·C_1 の項で一次に入る。Laurent 性 ⇔ 分子が D_ρ で割り切れる ⇔ 剰余（単一の多項式による割り算、線形）が 0。
 - **訂正（2026-10-12）**：最初の実装は剰余を取る前に D を共通の最小指数でずらしていたため、Laurent の商が負の指数をもつ場合に割り切れることを検出できなかった（D·X の剰余が非零）。この版で出した「[3,1] 既知で T(2,5), T(2,7), T(3,4) の自由度を全て殺す」「T(2,5) の連立の零空間 0」は**無効**。D は自分の最小指数でずらし、P は共通の最小指数でずらす版に直し（D·X の剰余 0、正解の分子の剰余 0 を確認）、以下はやり直した結果。
 - [3,1] を既知としたとき、4 箱の Laurent 性が [2,1] の零空間（3 箱の全ての一次の条件の下）のうち殺す次元：T(2,5) は 20 のうち 8（残り 12）、T(2,7) は 90 のうち 18（残り 72）【計算】。T(3,4)：未実施。
 - **[3,1]（と転置の [2,1,1]）も未知数にした連立（T(2,5)）**：[3,1] の未知数 8670、一次の条件（t = q、EGP の両側、U(2)、hook）の零空間 3960。4 箱の Laurent 性（剰余の式 18.8 万）を連立した零空間は 1976 次元で、**[2,1] の座標への射影は 20 次元のまま（[2,1] は全く決まらない）**【計算：法 p = 1048573 の密な消去、2 時間 9 分】。[3,1] の自由度が [2,1] の変化を補償する。
 - 結論：4 箱の Laurent 性は、[3,1] が既知なら [2,1] の自由度の一部（T(2,5) で 8/20、T(2,7) で 18/90）を削るが、[3,1] が未知なら [2,1] に対する条件にならない。unrefined → refined の [2,1] の一次の構成は、4 箱を足しても閉じない。
-- ツイスト結び目の経路（scripts/lmov4_predict.py：[2,1]・[3,1] の一次の条件の解空間を求め、4 箱の Laurent 性を連立して法 p の密な消去で解く）：K_1（三葉結び目）では系は無矛盾で零空間 0、[2,1] は EHA に一致、[3,1] も GN の T(2,3) の値に一致（下記）、3 箱・4 箱の \hat f は全て正【計算】。
-- **K_{−2}（6_1）の 4 箱の連立（2026-10-13）【計算：法 1048573, 1048571、剰余の式 24.4 万、列 3684】**：[2,1] 単独の零空間 4、[3,1] 単独 3680、連立の零空間 760（両素数で一致、矛盾なし）、**[2,1] への射影の次元は 4 のまま**。K_2（連立 397、[2,1] 2 のまま）、T(2,5)（1976、20 のまま）と同じく、4 箱の整数性は [2,1] を削らない。残る 760 次元に 3 箱・4 箱の \hat f の spin 表示の非負性（不等式 34103）と S（27261）を課すと**実行不能**（K_{−2} では S が成り立たない。4_1 と同じ）。S を外した多面体（\hat f の非負性だけ）は実行可能で**非有界**（HiGHS は方向の多くで Solve error を返すが、単体法・内点法で 12 本中 3 本が status 3、±10⁶ の箱の中の LP は 675 変数が端に当たる。scripts/lmov4_lpcheck.py）。K_{−1} の [3,1] と同じく、\hat f の正値性は 4 箱でも上界を与えない。
-- 計算の注意（2026-10-13）：剰余の行（1 ρ で非零 1 億個）を Python の辞書で全部メモリに載せると 53 GB（8 GB のマシン）になった。行は ρ ごとに pickle をオペコードから読んで CSR の numpy 配列に変換し、法 p の RREF（高々 3684 行）だけを残す形に直した（メモリ 1〜6 GB、tests/test_lmov4_predict.py）。
+- ツイスト結び目の経路（scripts/dgr_lmov/lmov4_predict.py：[2,1]・[3,1] の一次の条件の解空間を求め、4 箱の Laurent 性を連立して法 p の密な消去で解く）：K_1（三葉結び目）では系は無矛盾で零空間 0、[2,1] は EHA に一致、[3,1] も GN の T(2,3) の値に一致（下記）、3 箱・4 箱の \hat f は全て正【計算】。
+- **K_{−2}（6_1）の 4 箱の連立（2026-10-13）【計算：法 1048573, 1048571、剰余の式 24.4 万、列 3684】**：[2,1] 単独の零空間 4、[3,1] 単独 3680、連立の零空間 760（両素数で一致、矛盾なし）、**[2,1] への射影の次元は 4 のまま**。K_2（連立 397、[2,1] 2 のまま）、T(2,5)（1976、20 のまま）と同じく、4 箱の整数性は [2,1] を削らない。残る 760 次元に 3 箱・4 箱の \hat f の spin 表示の非負性（不等式 34103）と S（27261）を課すと**実行不能**（K_{−2} では S が成り立たない。4_1 と同じ）。S を外した多面体（\hat f の非負性だけ）は実行可能で**非有界**（HiGHS は方向の多くで Solve error を返すが、単体法・内点法で 12 本中 3 本が status 3、±10⁶ の箱の中の LP は 675 変数が端に当たる。scripts/dgr_lmov/lmov4_lpcheck.py）。K_{−1} の [3,1] と同じく、\hat f の正値性は 4 箱でも上界を与えない。
+- 計算の注意（2026-10-13）：剰余の行（1 ρ で非零 1 億個）を Python の辞書で全部メモリに載せると 53 GB（8 GB のマシン）になった。行は ρ ごとに pickle をオペコードから読んで CSR の numpy 配列に変換し、法 p の RREF（高々 3684 行）だけを残す形に直した（メモリ 1〜6 GB、tests/dgr_lmov/test_lmov4_predict.py）。
 
 **判断（訂正後）**
 - 「符号が入る前の正値性」は H_u（J 正規化、多項式）では偽、H_u″（P 正規化、冪級数）では代数的な結び目で成立し、[2,1] の構成の上界になる。ただし大きい結び目では単独では決まらない。

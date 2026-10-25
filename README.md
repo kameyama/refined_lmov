@@ -4,24 +4,35 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の r
 トーラス結び目からその**ケーブル**（iterated torus 結び目）に拡張する研究リポジトリ。
 対象は |λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
 
-- 研究計画：[docs/research_plan.md](docs/research_plan.md)
-- 新規性の確認：[docs/novelty_report.md](docs/novelty_report.md)
-- 規約：[docs/conventions.md](docs/conventions.md)
-- 進捗：[docs/progress.md](docs/progress.md)
-- 結果のレポート：[docs/REPORT.md](docs/REPORT.md)
+- 研究計画：[docs/framed_knot/research_plan.md](docs/framed_knot/research_plan.md)
+- 新規性の確認：[docs/framed_knot/novelty_report.md](docs/framed_knot/novelty_report.md)
+- 規約：[docs/framed_knot/conventions.md](docs/framed_knot/conventions.md)
+- 進捗：[docs/framed_knot/progress.md](docs/framed_knot/progress.md)
+- 結果のレポート：[docs/framed_knot/REPORT.md](docs/framed_knot/REPORT.md)
 
 ## 構成
 
+2 つの研究のファイルを、各ディレクトリの中で `framed_knot/`（本研究：framed knot への拡張と正値性の検証）と `dgr_lmov/`（別の研究：DGR・四重次数型の構造と refined LMOV）に分けて置く。
+
 ```
-docs/            研究計画・新規性報告・規約・進捗・文献メモ（docs/literature/<arXiv id>.md）
-references/      論文 PDF と TeX ソース（追跡しない。references/README.md に取得元）
-src/rcsknots/    計算コード（Python パッケージ）
-tests/           照合テスト（pytest）
-scripts/         単発の計算・検証スクリプト
-data/            計算結果（JSON と人が読める表）
-logs/            検証ログ・実行時間とメモリの記録
-notebooks/       試行用
+docs/framed_knot/     本研究の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）
+docs/dgr_lmov/        別の研究の文書（入口は README.md）
+references/           論文 PDF と TeX ソース（追跡しない。references/README.md に取得元）
+src/rcsknots/         計算コード（Python パッケージ。両方の研究で共有する）
+src/rcsknots/dgr_lmov/  別の研究だけが使うモジュール（dgr, lmovstruct, large_n_inverse）
+tests/framed_knot/    本研究の照合テスト（pytest）
+tests/dgr_lmov/       別の研究の照合テスト
+scripts/framed_knot/  本研究の単発の計算・検証スクリプト
+scripts/dgr_lmov/     別の研究のスクリプト（framed_knot/ のスクリプトも import する）
+data/framed_knot/     本研究の計算結果（JSON と人が読める表）
+data/dgr_lmov/        別の研究の計算結果（lmovstruct/ を含む）
+data/cache/           途中結果のキャッシュ（追跡しない。両方の研究で共有する）
+logs/framed_knot/     本研究の検証ログ・実行時間とメモリの記録
+logs/dgr_lmov/        別の研究のログ
+notebooks/            試行用
 ```
+
+スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（スクリプトどうしの import はこのパスで解決する）。
 
 ## セットアップとテスト
 
