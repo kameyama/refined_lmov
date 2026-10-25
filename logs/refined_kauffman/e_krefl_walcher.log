@@ -1,0 +1,43 @@
+== T(2,3)：Kauffman の [1]（unreduced）= (lambda + q)*(lambda*q - 1)*(lambda**3*q**4 + lambda**3 + lambda**2*q**3 - lambda**2*q - lambda*q**4 + lambda*q**2 - lambda - q**3 + q)/(lambda**6*q**2*(q - 1)*(q + 1))
+   簡約 = q**2/lambda**2 + 1/(lambda**2*q**2) + q/lambda**3 - 1/(lambda**3*q) - q**2/lambda**4 + lambda**(-4) - 1/(lambda**4*q**2) - q/lambda**5 + 1/(lambda**5*q)
+   一致（β, k, j, 鏡像, 対象, 比）： なし
+== T(2,5)：Kauffman の [1]（unreduced）= (lambda + q)*(lambda*q - 1)*(lambda**5*q**8 + lambda**5*q**4 + lambda**5 + lambda**4*q**7 - lambda**4*q**5 + lambda**4*q**3 - lambda**4*q - lambda**3*q**8 + lambda**3*q**6 - 2*lambda**3*q**4 + lambda**3*q**2 - lambda**3 - lambda**2*q**7 + 2*lambda**2*q**5 - 2*lambda**2*q**3 + lambda**2*q - lambda*q**6 + 2*lambda*q**4 - lambda*q**2 - q**5 + q**3)/(lambda**10*q**4*(q - 1)*(q + 1))
+   簡約 = q**4/lambda**4 + lambda**(-4) + 1/(lambda**4*q**4) + q**3/lambda**5 - q/lambda**5 + 1/(lambda**5*q) - 1/(lambda**5*q**3) - q**4/lambda**6 + q**2/lambda**6 - 2/lambda**6 + 1/(lambda**6*q**2) - 1/(lambda**6*q**4) - q**3/lambda**7 + 2*q/lambda**7 - 2/(lambda**7*q) + 1/(lambda**7*q**3) - q**2/lambda**8 + 2/lambda**8 - 1/(lambda**8*q**2) - q/lambda**9 + 1/(lambda**9*q)
+   一致（β, k, j, 鏡像, 対象, 比）： なし
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6/scripts/rk_e_krefl_walcher.py", line 50, in <module>
+    if is_mono(sp.cancel(X / Pk)):
+               ~~~~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 7410, in cancel
+    c, (P, Q) = 1, F.cancel(G)
+                   ~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2325, in cancel
+    _, p, q = f.cofactors(g)
+              ~~~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2241, in cofactors
+    h, cff, cfg = f._gcd(g)
+                  ~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2274, in _gcd
+    return f._gcd_ZZ(g)
+           ~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2279, in _gcd_ZZ
+    return heugcd(f, g)
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  [Previous line repeated 1 more time]
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 118, in heugcd
+    raise HeuristicGCDFailed('no luck')
+sympy.polys.polyerrors.HeuristicGCDFailed: no luck
+   一致（β, k, j, 鏡像, 対象, 比）： なし
+   一致（β, k, j, 鏡像, 対象, 比）： なし
+T(2,3)：g_[1]|_(t=q) = ±(P̄(a², β=2) − c·P̄(a, β=1)) × 単項式 の一致： なし
+   g_[1]|_(t=q) = -(lambda**4*q**4 + lambda**4*q**2 + lambda**4 - lambda**2*q**4 - lambda**2*q**2 - lambda**2 + q**2)/(lambda**6*q**2)
+T(2,5)：g_[1]|_(t=q) = ±(P̄(a², β=2) − c·P̄(a, β=1)) × 単項式 の一致： なし
+   g_[1]|_(t=q) = -(lambda**6*q**8 + lambda**6*q**6 + lambda**6*q**4 + lambda**6*q**2 + lambda**6 - lambda**4*q**8 - lambda**4*q**6 - lambda**4*q**4 - lambda**4*q**2 - lambda**4 + q**4)/(lambda**10*q**4)

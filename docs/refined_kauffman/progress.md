@@ -871,3 +871,7 @@
 - arXiv API で書誌を確認し、ソースを取得：Sinha–Vafa hep-th/0012136、Walcher 0712.2775（書誌のみ）、Krefl–Walcher 0902.0616・1007.0263（LMP 95 (2011) 67–88）・1010.2635、Kim–Yagi 1709.01928（PRD 97 (2018) 026011）、Hayashi–Zhu 2012.13303（JHEP 04 (2021) 292）。literature.md §6、references/README.md、justfile の papers に追加。
 - 要点：Krefl–Walcher は「β = 2 の Ω 背景の理論 = β = 1 の理論の orientifold」（N_f = 0, 2, 4）を示し、位相的 orientifold を β = 2 の精密化に埋め込む予想を述べる。Hayashi–Zhu は O5 面の refined O-vertex を摂動部分で構成。開弦の refined orientifold の BPS 不変量の文献は無い。
 - 検討の余地【予想】：本研究の refined SO(2N) のデータを t = q²（β = 2）に特殊化したとき、unrefined の U(N) 側の量と結び付くか（Krefl–Walcher の関係の結び目版）。未着手。
+
+## 2026-10-26（続き 61）Krefl–Walcher の関係の結び目版（ユーザーの指示）
+- 【計算】unrefined の Kauffman [1]（trefoil、T(2,5)）と refined U(N′) の [1]（DGR）の β = 1/2, 1, 2 への特殊化は、Wilson loop の段階でも自由エネルギーの形（g_[1] = P̄(β=2) − ½P̄(β=1)）でも、a = λ^k q^j の写像と単項式倍の範囲で一致しない（否定的）。theory §11.19、rk_e_krefl_walcher.py。
+- 読み：KW の関係は分配関数（閉弦）の性質で、Wilson loop には持ち上がらない（SO の指標と Macdonald 多項式の違い）【予想】。
