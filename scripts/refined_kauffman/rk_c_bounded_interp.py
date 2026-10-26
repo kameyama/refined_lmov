@@ -105,9 +105,10 @@ def _bounds(T, used, al, mode, Ns=None):
     return out
 
 
-def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None):
+def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None, partial=False):
     """T：{N: R(N) の項}。used の N で解く。戻り値 ({j: {(α, β): 係数}} または None, 状態, 未知数の総数)。
     Ns：帯を取る N（既定は使う最小の N。小さい N は打ち消しで s の次数の範囲が狭く、帯の仮定が破れることがある）。
+    partial = True なら、一意でないときも一意に決まった α の部分を返す。
     info にリストを渡すと、α ごとに (α, U の冪の範囲, 未知数, 階数) を追記する。"""
     alphas = sorted({a for N in used for a, _ in T[N]})
     sol = defaultdict(dict)
@@ -157,7 +158,7 @@ def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None):
             if v != 0:
                 j, be = var[c]
                 sol[j][(al, be)] = Fraction(int(v.p), int(v.q))
-    return (sol, "一意", nvar) if unique else (None, "一意でない", nvar)
+    return (sol, "一意", nvar) if unique else ((sol if partial else None), "一意でない", nvar)
 
 
 def predict(sol, N):

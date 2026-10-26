@@ -1,0 +1,11 @@
+λ=(4,)：使う N = [2, 3, 4, 5, 6, 7, 8]（帯 N=2）、一意、使わない N での照合 {9: True, 10: True, 11: True}
+   保存：data/refined_kauffman/daha/R_U_m1_4.pkl（U^-20〜U^-8）
+λ=(2, 2)：使う N = [2, 3, 4, 5, 6, 7, 8]（帯 N=4）、一意、使わない N での照合 {9: True, 10: True, 11: True}
+   保存：data/refined_kauffman/daha/R_U_m1_22.pkl（U^-20〜U^-8）
+λ=(3, 1)：使う N = [2, 3, 4, 5, 6, 7, 8, 9]（帯 N=4）、一意、使わない N での照合 {10: True, 11: True}
+   保存：data/refined_kauffman/daha/R_U_m1_31.pkl（U^-20〜U^-8）
+λ=(2, 1, 1)：使う N = [3, 4, 5, 6, 7, 8, 9, 10, 11]（帯 N=5）、一意、使わない N での照合 {}
+λ=(1, 1, 1, 1)：使う N = [4, 5, 6, 7, 8, 9, 10, 11]（帯 N=5）、一意でない、使わない N での照合 {}
+[1^4] の符号 ν → 1ν：r^-8 の部分は U^-19〜U^-8、N = [4, 5, 6, 7, 8, 9, 10, 11] の全データとの照合 {4: False, 5: False, 6: False, 7: False, 8: False, 9: False, 10: False, 11: False}
+[1^4] の符号 ν → -1ν：r^-8 の部分は U^-16〜U^-8、N = [4, 5, 6, 7, 8, 9, 10, 11] の全データとの照合 {4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True, 11: True}
+   保存：data/refined_kauffman/daha/R_U_m1_1111.pkl（U^-20〜U^-8。r^{−8} の部分は t = q から）
