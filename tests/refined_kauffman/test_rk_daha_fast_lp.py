@@ -25,3 +25,30 @@ def test_composite22_matches_rf_version():
             V = L.basis_values(N, P2, P2, final=final)
             for ab, old in olds.items():
                 assert (L.composite_raw(N, *ab, V) - old).is_zero(), (N, final, ab)
+
+
+def test_composite22_decomposition_and_normalization():
+    """二つの評価から解いた分解の係数が多項式の分解と一致し（N = 3）、規格化した値が KN の data と比 1（U(4) の [3,1], [2,2]）。"""
+    import sympy as sp
+    import rk_c_composite22_run as C
+    import rk_k5_trefoil_2box as T
+    from rcsknots.refined_kauffman.daha_dn import GLN, gl_P_poly, gl_adj_poly
+    from rcsknots.refined_kauffman.daha_fast import solve_symmetric, poly_mul, gl_adj_fast
+    N = 3
+    D = GLN(N)
+    inv = lambda f: {tuple(-x for x in a): v for a, v in f.items()}
+    for alpha, beta in (((2,), (2,)), ((2,), (1, 1))):
+        b = C.bvec(N, alpha, beta); k = -min(b)
+        Pb = {tuple(x - k for x in a): v for a, v in gl_P_poly(D, tuple(x + k for x in b if x + k > 0)).items()}
+        lhs = poly_mul(gl_P_poly(D, alpha), inv(gl_P_poly(D, beta)))
+        sol = solve_symmetric(D, lhs, {"b": Pb, "adj": gl_adj_poly(D), "0": {tuple([0] * N): RFm.ONE}})
+        c1, c0, Kb, _ = C.decomposition(N, alpha, beta)
+        assert sol["b"] == RFm.conv(1) and (sol["adj"] - c1).is_zero() and (sol["0"] - c0).is_zero()
+        assert (D.evaluate(Pb) - Kb).is_zero()
+    N = 4
+    V = L.basis_values(N, C.P2, C.P2)
+    Zadj = gl_adj_fast(N, 1)
+    for ab, sh in ((((2,), (1, 1)), "31"), (((1, 1), (1, 1)), "22")):
+        Rb, _ = C.reduced(N, V, *ab, Zadj)
+        W = (C.ss / C.rr)**(sum(int(c) for c in sh)) * T.Rdata(sh, N)
+        assert sp.cancel(Rb / W) == 1
