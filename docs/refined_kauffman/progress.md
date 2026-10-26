@@ -964,3 +964,9 @@
   - 最低のブロック = −s^{20} r^{−41} Σ_{i,j=0}^{11} q^{max(i,j)} t^{min(i,j)}（t = q で完全平方 [12]_q²）。
 - 注意（別件）：scripts/refined_kauffman/rk_c_3box_largeN.py の cover_parts は `from rcsknots import kauffman_refined` のままで、再配置（続き 62）の後は import に失敗するはず（モジュールは rcsknots.refined_kauffman.kauffman_refined）。今回は使っていないので直していない。
 - 次の候補：(1) 凍結した状態の t の塔を、被覆の状態への Ĩ の作用の分け方（固定セクターの状態の Ĩ 固有値）として、Hopf (4,4) と同じ整数計画で調べる（4P の両端のブロックは状態の数が少ない）。(2) 最低のブロックの Σ q^{max}t^{min} の幾何的な意味（Hilb² / Sym² 型の模型）。
+
+## 2026-10-26（続き 69）凍結した状態の t の塔を、被覆の固定セクターへの Ĩ の作用の分け方として調べる（ユーザーの指示）
+- 実装：scripts/refined_kauffman/rk_f_twisted22.py（§9 の整数計画を brane n・image n の固定セクターに）、rk_f_twisted22_maps.py（refined の ψ² 型の候補の写像とずれの走査）。tests/refined_kauffman/test_rk_frozen_basis.py に 1 件追加（22 秒）。ログ：logs/refined_kauffman/f_twisted22.log。
+- 【計算】n = 1（(1),(1)）：(i)+(ii) で E が一意（§9 の 34 変数の結果を再現）。n = 2（(2,2)）：t = −1 の条件 (i) には SO の 4 箱が要り使えないので (ii) だけで解いた。解はあるがほとんど決まらない（ν^{−24} で 78 中 74 が自由）。
+- 【計算】refined の ψ² 型の分け方（凍結した状態の t の塔が t² の刻みの塔に移る形）は、t = q で ψ² に戻る 9 通りの写像と (s/r)^j のずれのどれでも、ほとんどのブロックで偶奇・|e| ≤ |c|・台の条件を破る（n = 1 で 7 中 2〜3、n = 2 で 12 中 0〜1）。n = 1 の一意な E も ψ² 型ではない。結論：凍結した状態の t の塔は、この形の Ĩ の分け方からは得られない（否定的）。theory §12.7、claims P16。
+- 次の候補：n = 2 で E を決めるための SO の 4 箱（D_N の DAHA、大きな N、p_(2,2) 方向）の見積もり。daha_fast.md の 4 箱の見積もり（RF 版で N = 8 に 15 分・2 GB）は、D_N の LP 版（約分なし）を作れば大きく縮む見込み。補間に要る N の数は窓の確認から決める。

@@ -65,3 +65,19 @@ def test_trefoil_two_box_lowest_tower():
     D = T.asym_rs(blk)
     tw = sum(s**(2 * i) for i in range(6)) + sum(s**(2 * i) for i in range(5))
     assert sp.expand(D + (1 - r**2 / s**2) * (r / s)**-9 * s**2 * tw) == 0
+
+
+def test_twisted22_lowest_block_n1():
+    """brane–image (1),(1) の最低のブロック ν^{−12}：条件 (ii) だけの整数計画は一意に解け、
+    refined の ψ² 型の候補 −(1+q)ψ²[g_(1) + 1] は (s/r)² のずれで条件を満たす（theory §12.7）。"""
+    import rk_f_twisted22 as T
+    import rk_b_twisted_multiplet as TM
+    r, s = T.r, T.s
+    P, Fv = T.sectors()[1]
+    Pk = sp.cancel(P / (s * T.zq))
+    mult = TM.monomials(T.block(Pk, -12))
+    Et = sp.cancel(-(1 + r**2) * T.psi2(Fv))
+    res = TM.solve(mult, lambda k: s * T.zqp * TM.twisted(k, "mono"), [(sp.cancel(T.block(Et, -12).subs(s, r)), {s: r})])
+    assert res["feasible"] and not res["free"]
+    cand = TM.monomials(sp.expand(sp.cancel(T.block(Et, -12) / (s * T.zqp)) * (s / r)**2))
+    assert set(cand) == set(mult) and all((cand[m] - mult[m]) % 2 == 0 and abs(cand[m]) <= abs(mult[m]) for m in cand)
