@@ -52,3 +52,15 @@ def test_composite22_decomposition_and_normalization():
         Rb, _ = C.reduced(N, V, *ab, Zadj)
         W = (C.ss / C.rr)**(sum(int(c) for c in sh)) * T.Rdata(sh, N)
         assert sp.cancel(Rb / W) == 1
+
+
+def test_composite22_decomposition_closed_form_in_A():
+    """A = t^{N_A} の閉じた形の分解の係数・次元（rk_f_cover_fixed22.decomposition_A）が、N ごとの式と A = t^N で一致（N = 5）。"""
+    import sympy as sp
+    import rk_c_composite22_run as C
+    import rk_f_cover_fixed22 as F
+    N = 5
+    for ab in (((2,), (2,)), ((2,), (1, 1)), ((1, 1), (1, 1))):
+        cA, cN = F.decomposition_A(*ab), C.decomposition(N, *ab)
+        for a, b in zip(cA[:3], cN[:3]):
+            assert sp.cancel(a.to_sympy().subs(F.u_, F.s_**(N + 1)) - b.to_sympy()) == 0

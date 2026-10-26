@@ -952,3 +952,15 @@
   - 補間：ノード N = 6〜12（[2;11] は 7〜12）、補間に使わない N = 4, 5（[2;11] は 4〜6）と、補間の外側の N = 13, 14 で全係数一致。
   - 保存：data/refined_kauffman/daha/V22_N{N}_m1.pkl（基底の値）、Rcomp22_N{N}_m1_{α}_{β}.pkl（簡約した値、N = 4〜14）、Rcomp22_A_m1_{α}_{β}.pkl（U = t^N の係数）。ログ：logs/refined_kauffman/c_composite22_run.log、c_composite22_window.log。
 - 次：計画の 4（被覆の brane 2・image 2 の固定セクターの組み立てと、§12.5 の予想・平方根の構造の検証）。
+
+## 2026-10-26（続き 68）被覆の brane 2・image 2 の固定セクター（計画の 4）（ユーザーの指示「計画の 4 に進んで」）
+- 実装：scripts/refined_kauffman/rk_f_cover_fixed22.py（分解の係数と次元を A = t^{N_A} の閉じた形に、⟨P_λ P_μ^∨⟩（|λ|, |μ| ≤ 2）、二変数の冪和の対数、固定セクター P、analyze）。tests/refined_kauffman/test_rk_daha_fast_lp.py に 1 件追加（計 4 件、2 秒）。データ：data/refined_kauffman/daha/largeN_cover_fixed22_m1.pkl。ログ：logs/refined_kauffman/f_cover_fixed22.log。
+- 検算【計算】：A の閉じた形の c₁, c₀, K_b が N ごとの式と N = 5, 7 で一致。(1),(1) の成分が既存の brane–image の x に一致。
+- 結果【計算】（theory §12.6、claims P15）：
+  - 4P/z_q³ の ν のブロックは 12 個すべて σ 対称で G 展開できる。符号は両端でそろい中間で混在。
+  - 凍結した状態の σ 非対称な t の塔に当たるものは被覆の側に無い。§12.5 の予想（被覆に t² の刻みの多重項）は素朴な形では支持されない（否定的）。
+  - 平方根の構造（P_{2β} = 単項式 × C_β²）は [1] の最低のブロックだけで成り立ち、2 箱ではどのブロックでも成り立たない。
+  - G の次数の 2 倍の関係（凍結した状態の ℓ 重みの最大 × 2 = 被覆の G の次数）は 6 ブロック中 5 で成立（β = −9 で 1 ずれる）。
+  - 最低のブロック = −s^{20} r^{−41} Σ_{i,j=0}^{11} q^{max(i,j)} t^{min(i,j)}（t = q で完全平方 [12]_q²）。
+- 注意（別件）：scripts/refined_kauffman/rk_c_3box_largeN.py の cover_parts は `from rcsknots import kauffman_refined` のままで、再配置（続き 62）の後は import に失敗するはず（モジュールは rcsknots.refined_kauffman.kauffman_refined）。今回は使っていないので直していない。
+- 次の候補：(1) 凍結した状態の t の塔を、被覆の状態への Ĩ の作用の分け方（固定セクターの状態の Ĩ 固有値）として、Hopf (4,4) と同じ整数計画で調べる（4P の両端のブロックは状態の数が少ない）。(2) 最低のブロックの Σ q^{max}t^{min} の幾何的な意味（Hilb² / Sym² 型の模型）。
