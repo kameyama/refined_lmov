@@ -1,8 +1,8 @@
 r"""SO の 4 箱（trefoil、m = 1）の大きな N の reduced 不変量 R_λ(U) = Σ_j c_j U^j を、rk_c_bounded_interp の一次方程式（仮定 A＋B、mode "alpha"）で
 決め、使わない N すべてで全係数一致したものだけ data/refined_kauffman/daha/R_U_m1_{λ}.pkl（{j: c_j の文字列}）に保存する（progress.md 続き 71）。
 3 箱では、同じ方法の解が従来の方法（N = 4〜13 の Vandermonde）の R_U_m1_{λ}.pkl と一致するかを確かめる。
-(1,1,1,1) で一意に決まらない r^{−8} の部分は、t = q（NRZ 1310.2240 の [1^4] 彩色の Kauffman 多項式、rk_c_check_tq と同じ対応）から作り、
-使う N すべての方程式を満たすかを確かめる（tq1111）。
+(1,1,1,1) は N = 4〜12 で一意に決まる。N = 4〜11 では r^{−8} の部分が一意に決まらず、その部分を t = q（NRZ 1310.2240 の [1^4] 彩色の
+Kauffman 多項式、rk_c_check_tq と同じ対応）から作り、N = 4〜11 の方程式と N = 12 を満たすかを確かめた（tq1111。N = 4〜12 の解と一致）。
 使い方：python rk_c_4box_largeN.py [3box | tq1111]"""
 import sys, os, pickle
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
@@ -13,7 +13,7 @@ OUT = "data/refined_kauffman/daha"
 r, s = sp.symbols("r s", positive=True)
 
 # λ: (使う N の最小, 最大, 帯を取る N_s)
-CFG4 = {(4,): (2, 8, 2), (2, 2): (2, 8, 4), (3, 1): (2, 9, 4), (2, 1, 1): (3, 11, 5), (1, 1, 1, 1): (4, 11, 5)}
+CFG4 = {(4,): (2, 8, 2), (2, 2): (2, 8, 4), (3, 1): (2, 9, 4), (2, 1, 1): (3, 11, 5), (1, 1, 1, 1): (4, 12, 5)}
 CFG3 = {(3,): (2, 6, 2), (2, 1): (2, 8, 4), (1, 1, 1): (3, 9, 4)}
 
 
@@ -34,7 +34,7 @@ def tq1111(al_free=-8):
     """(1,1,1,1)：r^{al_free} 以外を一次方程式で、r^{al_free} を t = q から決め、使う N すべてで照合する。"""
     from fractions import Fraction
     import rk_c_check_tq as C, rk_unrefined_check as rk
-    lam = (1, 1, 1, 1); a, b, Ns = CFG4[lam]
+    lam = (1, 1, 1, 1); a, _, Ns = CFG4[lam]; b = 11              # N ≤ 11 では r^{−8} の部分が一意に決まらない
     T = _T(lam)
     _, d = B.slopes(T)
     used = [N for N in sorted(T) if a <= N <= b]
