@@ -64,3 +64,16 @@ def test_composite22_decomposition_closed_form_in_A():
         cA, cN = F.decomposition_A(*ab), C.decomposition(N, *ab)
         for a, b in zip(cA[:3], cN[:3]):
             assert sp.cancel(a.to_sympy().subs(F.u_, F.s_**(N + 1)) - b.to_sympy()) == 0
+
+
+def test_dn_lp_matches_rf_version():
+    """D_N の約分なしの版（daha_fast_lp.dn_jones、評価の汎関数）が旧版（daha_fast.daha_jones_fast）と全係数一致（N = 2, 3、|λ| ≤ 4）。"""
+    from rcsknots.refined_kauffman.daha_fast import Fast, _with_rho2, daha_jones_fast, partitions
+    from rcsknots.refined_kauffman.daha_dn import DN
+    for N in (2, 3):
+        lams = [l for n in range(1, 5) for l in partitions(n) if len(l) <= N]
+        new = L.dn_jones(N, lams)
+        F = Fast(_with_rho2(DN(N)), 1)
+        for lam in lams:
+            Z, K = daha_jones_fast(N, lam, 1, F=F)
+            assert (new[lam][0] - Z).is_zero() and (new[lam][1] - K).is_zero(), (N, lam)

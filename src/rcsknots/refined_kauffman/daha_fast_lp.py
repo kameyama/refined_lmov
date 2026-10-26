@@ -7,7 +7,7 @@ r"""daha_fast（GL_N）の係数を Laurent 多項式（flint_lp.LP、約分な�
   ev_p ∘ T_j^{±1} は ev_p と ev_{s_j p} の一次結合（Demazure–Lusztig の式）。係数は p^{α_j} を含む有理関数になるので RF で持つ。"""
 from collections import defaultdict
 
-from .daha_dn import GLN, _add
+from .daha_dn import DN, GLN, _add
 from .daha_fast import orbit_chain, partitions
 from .flint_lp import LP, R, S, ONE, ZERO, _mono
 from . import flint_rf as RFm
@@ -21,6 +21,7 @@ class GLNLP(GLN):
     def __init__(self, N):
         super().__init__(N)
         self.rho2 = tuple(N - 1 - 2 * i for i in range(N))
+        self.kappa = tuple(2 if j == N - 1 else 0 for j in range(N))     # π_1^{−1}(X_a) = r^{(κ, u_1 a)} X_{u_1 a}
 
     def T(self, i, f, inv=False):
         out = _add({}, self.s_op(i, f), S)
@@ -38,6 +39,28 @@ class GLNLP(GLN):
             for a, v in f.items():
                 b = self._mat_apply(self.u1, a)
                 _add(out, {b: v * R ** (2 * b[-1])})
+        return out
+
+
+class DNLP(DN):
+    """D_N の多項式表現（係数 LP）。T と π_1 だけを LP の定数で書き直す（daha_dn.DN と同じ規約）。"""
+
+    def __init__(self, N):
+        super().__init__(N)
+        self.rho2 = tuple(2 * x for x in self.rho)
+        self.kappa = tuple(-2 if j == 0 else 0 for j in range(N))        # π_1^{−1}(X_a) = r^{−2 (u_1 a)_1} X_{u_1 a}
+
+    T = GLNLP.T
+
+    def pi1(self, f, inv=False):
+        out = {}
+        if not inv:
+            for a, v in f.items():
+                _add(out, {self._mat_apply(self.u1inv, a): v * R ** (2 * a[0])})
+        else:
+            for a, v in f.items():
+                b = self._mat_apply(self.u1, a)
+                _add(out, {b: v * R ** (-2 * b[0])})
         return out
 
 
@@ -118,21 +141,13 @@ def _pt_mono(p, c):
 
 
 def _start_point(D):
-    """ev ∘ π_1^{−1}：X_c ↦ ev(q^{(…)} X_{u_1 c})。π_1^{−1}(X_c) = r^{2(u_1 c)_N} X_{u_1 c}、ev(X_b) = s^{−(b, 2ρ)}。
-    c ↦ r^{2(u_1 c)_N} s^{−(u_1 c, 2ρ)} は c について乗法的なので点 p_0 の評価：p_0 の第 j 座標 = (r^{2 (u_1)_{N,j}}, s^{−Σ_i 2ρ_i (u_1)_{i,j}})。"""
-    N = D.N
-    U = D.u1
-    a = tuple(2 * U[N - 1][j] for j in range(N))
-    b = tuple(-sum(D.rho2[i] * U[i][j] for i in range(N)) for j in range(N))
-    return (a, b)
+    """ev ∘ π_1^{−1} の点：ev の点（a = 0、b = −2ρ）に π_1^{−1} の双対を当てたもの。"""
+    return next(iter(_pi1inv_dual(D, {(tuple([0] * D.N), tuple(-x for x in D.rho2)): RFm.conv(1)})))
 
 
 def _reflect_pt(D, j, p):
-    """s_j p（座標 j と j+1 の入れ替え）。"""
-    a, b = list(p[0]), list(p[1])
-    a[j], a[j + 1] = a[j + 1], a[j]
-    b[j], b[j + 1] = b[j + 1], b[j]
-    return (tuple(a), tuple(b))
+    """s_j p：(s_j p)^c = p^{s_j c} = r^{(s_j a, c)} s^{(s_j b, c)}（s_j は直交な対合）。"""
+    return (D.reflect(j, p[0]), D.reflect(j, p[1]))
 
 
 def _T_dual(D, j, phi, inv):
@@ -194,12 +209,13 @@ def _pairwise_sum(ps):
 
 
 def _pi1inv_dual(D, phi):
-    """φ ↦ φ ∘ π_1^{−1}。ev_p(π_1^{−1} X_c) = r^{2(u_1 c)_N} p^{u_1 c}：点 p′ で p′^c = r^{2(u_1 c)_N} p^{u_1 c}。"""
+    """φ ↦ φ ∘ π_1^{−1}。π_1^{−1}(X_c) = r^{(κ, u_1 c)} X_{u_1 c} なので ev_p ∘ π_1^{−1} は点 p′、
+    p′ の指数 a′ = u_1^T (a + κ)、b′ = u_1^T b。"""
     N = D.N
     U = D.u1
     out = {}
     for p, c in phi.items():
-        a = tuple(2 * U[N - 1][j] + sum(p[0][i] * U[i][j] for i in range(N)) for j in range(N))
+        a = tuple(sum((p[0][i] + D.kappa[i]) * U[i][j] for i in range(N)) for j in range(N))
         b = tuple(sum(p[1][i] * U[i][j] for i in range(N)) for j in range(N))
         q_ = (a, b)
         out[q_] = out.get(q_, RFm.conv(0)) + c
@@ -237,3 +253,28 @@ def composite_raw(N, alpha, beta, V):
             if not xc.is_zero() and not yc.is_zero():
                 tot = tot + xc * yc * V[(mu, nu)]
     return tot
+
+
+def dn_jones(N, lams, m=1, k=2, final="functional"):
+    """D_N の {(Z_λ, K_λ)}（daha_fast.daha_jones_fast と同じ値）。基底の値 V[ν] = {γ̂(H_ν)}（|ν| ≤ max |λ|）を LP で、
+    K_λ を H_ν で展開した RF の係数との一次結合で作る。"""
+    from .daha_dn import K_poly
+    from .daha_fast import Fast, _with_rho2, solve_symmetric, h_basis, partitions as parts
+    Drf = _with_rho2(DN(N))
+    Frf = Fast(Drf, m, k)
+    F = FastLP(DNLP(N), m, k, 1, final=final)
+    nmax = max(sum(l) for l in lams)
+    V = {}
+    for n in range(nmax + 1):
+        for nu in parts(n):
+            V[nu] = F.value(nu)
+    out = {}
+    for lam in lams:
+        Kp = K_poly(Drf, lam)
+        x = solve_symmetric(Drf, Kp, h_basis(Frf, range(sum(lam) + 1)))
+        Z = RFm.conv(0)
+        for nu, c in x.items():
+            if not c.is_zero():
+                Z = Z + c * V[nu]
+        out[lam] = (Z, Drf.evaluate(Kp))
+    return out
