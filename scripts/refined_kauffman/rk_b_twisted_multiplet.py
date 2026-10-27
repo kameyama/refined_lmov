@@ -81,8 +81,9 @@ def solve(mult, basis_fn, conds, uniq=True):
     keys = sorted(mult)
     basis = [basis_fn(k) for k in keys]
     A, bv = [], []
-    for target, sub in conds:
-        a, b = rows_for(basis, target, sub)
+    for target, sub, *w in conds:                         # w(key)：この条件での基底の重み（0 ならこの条件に入らない）
+        bs = [b * w[0](k) if w else b for k, b in zip(keys, basis)]
+        a, b = rows_for(bs, target, sub)
         A += a; bv += b
     n = len(keys)
     # e_m = c_m − 2 y_m、y_m ∈ [min(0, c_m), max(0, c_m)]（|e_m| ≤ |c_m| と偶奇）
