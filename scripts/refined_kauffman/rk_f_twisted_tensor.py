@@ -249,6 +249,136 @@ def lower_series(m=2):
               f"上のブロックの一意でない変数 {sum(1 for i in nfree if i >= ng)}/{nf}", flush=True)
 
 
+def knot_rule(m=2, use=("i", "ii"), save=False):
+    """T(2,2m+1) の n = 1：下の系列（ν^{−(6+2k)}、k < 2m、Sym^k V）と、k = 2m のブロックの正の部分（T(2,5) では t³V）に
+    V の対合 diag(1, 1, −1) の誘導作用 e = σ_g (−1)^{q の指数} c を課し（σ_g は群ごと）、残りは一般の e で解く。
+    一意なら E と、全単項式で「e = σ (−1)^q (c − 2p)」（p は Ĩ で入れ替わる対の数、σ はブロックと正負の部分ごと）の形かを表示する。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    import rk_f_frozen_basis as FB
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    mult = TM.monomials(N)
+    g = K.load_g(m)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    col = {k: i for i, k in enumerate(keys)}
+    kk = lambda k: (-k[-1] - 6) // 2                                      # ブロックの番号 k
+    qe = lambda k: (k[1] + 4 + 2 * kk(k)) // 2                             # q の指数（r^{−(4+2k)} で正規化）
+    grp = lambda k: (kk(k), "+" if mult[k] > 0 else "−")                   # 符号の群：ブロックと正負の部分
+    fixed = [k for k in keys if kk(k) < 2 * m or (kk(k) == 2 * m and mult[k] > 0)]
+    free = [k for k in keys if k not in fixed]
+    gl = sorted({grp(k) for k in fixed}); gi = {g_: i for i, g_ in enumerate(gl)}
+    ng, nf = len(gl), len(free)
+    Mx = np.zeros((len(b), ng + nf)); rhs = b.copy()
+    for k in fixed:
+        v = float(mult[k]) * (-1)**qe(k); rhs -= A[:, col[k]] * v; Mx[:, gi[grp(k)]] += -2 * v * A[:, col[k]]
+    for j, k in enumerate(free):
+        rhs -= A[:, col[k]] * float(mult[k]); Mx[:, ng + j] = -2 * A[:, col[k]]
+    cf = np.array([float(mult[k]) for k in free])
+    bnd = Bounds(np.concatenate([np.zeros(ng), np.minimum(0, cf)]), np.concatenate([np.ones(ng), np.maximum(0, cf)]))
+    cons = LinearConstraint(Mx, rhs - 1e-9, rhs + 1e-9)
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(ng + nf))
+    res = opt(np.zeros(ng + nf))
+    tag = f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}"
+    if res.status != 0:
+        print(f"{tag}：解なし", flush=True); return None
+    nfree = []
+    for i in range(ng + nf):
+        cc = np.zeros(ng + nf); cc[i] = 1
+        if round(opt(cc).fun) != round(-opt(-cc).fun): nfree.append(i)
+    print(f"{tag}：解あり、一意でない 符号の群 {sum(1 for i in nfree if i < ng)}/{ng}、一般の変数 {sum(1 for i in nfree if i >= ng)}/{nf}", flush=True)
+    if nfree:
+        return None
+    x = np.round(res.x)
+    e = {}
+    for k in fixed:
+        e[k] = int(mult[k] * (-1)**qe(k) * (1 - 2 * x[gi[grp(k)]]))
+    for j, k in enumerate(free):
+        e[k] = int(mult[k] - 2 * x[ng + j])
+    # 符号の規則の確認：群ごとに σ = e (−1)^q / c の符号がそろうか（|e| < |c| は入れ替わる対を含む）
+    sig = {}
+    for k in keys:
+        if e[k] != 0:
+            sig.setdefault(grp(k), set()).add(int(np.sign(e[k] * (-1)**qe(k) / mult[k])))
+    pairs = sum((abs(int(mult[k])) - abs(e[k])) // 2 for k in keys)
+    print(f"   全単項式で σ_g = sign(e (−1)^q / c) が群ごとにそろう：{all(len(v) == 1 for v in sig.values())}"
+          f"（σ：{', '.join(f'k={g_[0]}{g_[1]}:{list(v)[0]:+d}' for g_, v in sorted(sig.items()) if len(v) == 1)}）、"
+          f"入れ替わる対の数 Σ(|c| − |e|)/2 = {pairs}（その単項式：{[(kk(k), qe(k), k[2] // 2, int(mult[k]), e[k]) for k in keys if abs(e[k]) < abs(mult[k])]}）", flush=True)
+    for name, ex in (("(−1)^q", qe), ("(−1)^t", lambda k: k[2] // 2)):
+        sg = {}
+        for k in keys:
+            if e[k] != 0:
+                sg.setdefault(grp(k), set()).add(int(np.sign(e[k] * (-1)**ex(k) / mult[k])))
+        print(f"   {name} で σ がそろう群：{[f'k={g_[0]}{g_[1]}' for g_, v in sorted(sg.items()) if len(v) == 1]}、"
+              f"そろわない群：{[f'k={g_[0]}{g_[1]}' for g_, v in sorted(sg.items()) if len(v) > 1]}", flush=True)
+    E = sp.expand(pre * sum(v * TM.twisted(k, "mono") for k, v in e.items()))
+    if save:
+        pickle.dump({"E": str(E), "e": {str(k): v for k, v in e.items()}}, open(f"{OUT}/twisted_E_n1_m{m}.pkl", "wb"))
+        print(f"   保存：{OUT}/twisted_E_n1_m{m}.pkl", flush=True)
+    return E
+
+
+def full_rule(m=2, use=("i",)):
+    """全ブロックに符号の規則を課す：e_m = σ_g (−1)^{d_m} sign(c_m) w_m、0 ≤ w_m ≤ |c_m|、w_m ≡ c_m (mod 2)
+    （|c| − w は Ĩ で入れ替わる対）。d_m は k ≤ 2m で q の指数、k > 2m で t の指数。σ_g は群（ブロックと c の符号）ごと。
+    σ_g w_m の積は z_g ∈ {0,1} と v_m = z_g w_m（McCormick の不等式）で線形にする。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    mult = TM.monomials(N)
+    g = K.load_g(m)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    n = len(keys)
+    kk = lambda k: (-k[-1] - 6) // 2
+    d = lambda k: (k[1] + 4 + 2 * kk(k)) // 2 if kk(k) <= 2 * m else k[2] // 2
+    grp = lambda k: (kk(k), int(np.sign(float(mult[k]))))
+    gl = sorted({grp(k) for k in keys}); gi = {g_: i for i, g_ in enumerate(gl)}; ng = len(gl)
+    sgn = np.array([float(np.sign(float(mult[k]))) * (-1)**d(k) for k in keys])
+    cab = np.array([abs(float(mult[k])) for k in keys])
+    # 変数 [y (n), v (n), z (ng)]：w = |c| − 2y、e = sgn (w − 2v)
+    nv = 2 * n + ng
+    rowsA, lo_, hi_ = [], [], []
+    # 等式：A e = b → A diag(sgn) (|c| − 2y − 2v) = b
+    AS = A * sgn
+    Aeq = np.hstack([-2 * AS, -2 * AS, np.zeros((len(b), ng))]); beq = b - AS @ cab
+    cons = [LinearConstraint(Aeq, beq - 1e-9, beq + 1e-9)]
+    # McCormick：v ≤ w = |c| − 2y、v ≤ |c| z、v ≥ w − |c|(1 − z)
+    Ms = []
+    for i, k in enumerate(keys):
+        gj = 2 * n + gi[grp(k)]
+        r1 = np.zeros(nv); r1[n + i] = 1; r1[i] = 2; Ms.append((r1, -np.inf, cab[i]))            # v + 2y ≤ |c|
+        r2 = np.zeros(nv); r2[n + i] = 1; r2[gj] = -cab[i]; Ms.append((r2, -np.inf, 0))          # v − |c| z ≤ 0
+        r3 = np.zeros(nv); r3[n + i] = 1; r3[i] = 2; r3[gj] = -cab[i]; Ms.append((r3, 0, np.inf))  # v + 2y − |c| z ≥ 0
+    cons.append(LinearConstraint(np.array([x[0] for x in Ms]), [x[1] for x in Ms], [x[2] for x in Ms]))
+    bnd = Bounds(np.zeros(nv), np.concatenate([np.floor(cab / 2), cab, np.ones(ng)]))
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(nv))
+    res = opt(np.zeros(nv))
+    tag = f"T(2,{2 * m + 1}) 全ブロックに規則、条件 {'+'.join(use)}"
+    if res.status != 0:
+        print(f"{tag}：解なし", flush=True); return
+    def e_of(x):
+        return np.round(sgn * (cab - 2 * x[:n] - 2 * x[n:2 * n]))
+    e0 = e_of(res.x)
+    nfree = 0
+    for i in range(n):           # e_i の最小と最大（e は y, v の線形関数）
+        cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]
+        if round(opt(cc).fun) != round(-opt(-cc).fun): nfree += 1
+    print(f"{tag}：解あり、e が一意でない単項式 {nfree}/{n}、入れ替わる対の数 {int(sum(cab - np.abs(e0)) // 2)}", flush=True)
+
+
 def n1_partial():
     """n = 1、捻り (t − ν²)(ν² + 1)(q + 1)(ν²q + 1)：(i) だけ、(i) ＋ (ii) の β 奇の部分、(i) ＋ (ii)。"""
     import rk_b_knot_fixed_sector as K
@@ -312,7 +442,13 @@ def n2(all_inv=False):
 
 if __name__ == "__main__":
     ai = "--all-inv" in sys.argv
-    if sys.argv[1] == "lower":
+    if sys.argv[1] == "full":
+        for m_ in (1, 2):
+            for use in (("i",), ("i", "ii")):
+                full_rule(m_, use)
+    elif sys.argv[1] == "rule":
+        knot_rule(1, save=False); knot_rule(2, ("i",)); knot_rule(2, save=True)
+    elif sys.argv[1] == "lower":
         lower_series(1); lower_series(2)
     elif sys.argv[1] == "n1partial":
         n1_partial()
