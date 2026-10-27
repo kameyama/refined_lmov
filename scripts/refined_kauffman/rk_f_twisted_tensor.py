@@ -341,16 +341,27 @@ def full_rule(m=2, use=("i",)):
             "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
     pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
     keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
-    n = len(keys)
     kk = lambda k: (-k[-1] - 6) // 2
     d = lambda k: (k[1] + 4 + 2 * kk(k)) // 2 if kk(k) <= 2 * m else k[2] // 2
     grp = lambda k: (kk(k), int(np.sign(float(mult[k]))))
-    gl = sorted({grp(k) for k in keys}); gi = {g_: i for i, g_ in enumerate(gl)}; ng = len(gl)
+    res = rule_milp(keys, mult, A, b, grp, d)
+    tag = f"T(2,{2 * m + 1}) 全ブロックに規則、条件 {'+'.join(use)}"
+    if res is None:
+        print(f"{tag}：解なし", flush=True); return
+    print(f"{tag}：解あり、e が一意でない単項式 {res['nfree']}/{len(keys)}、入れ替わる対の数 {res['pairs']}（最小 {res['min_pairs']}）", flush=True)
+
+
+def rule_milp(keys, mult, A, b, grp, d, pairs=True, uniq=True, minp=True):
+    """符号の規則 e_m = σ_g (−1)^{d_m} sign(c_m) w_m、0 ≤ w_m ≤ |c_m|、w_m ≡ c_m (mod 2) の下で A e = b を解く
+    （|c| − w は Ĩ で入れ替わる対、pairs=False なら w = |c|）。σ_g は群 grp(k) ごと。
+    σ_g w_m の積は z_g ∈ {0,1} と v_m = z_g w_m（McCormick の不等式）で線形にする。
+    解が無ければ None、あれば e、（uniq なら）e が一意でない単項式、入れ替わる対の数、（minp なら）対の数の最小。"""
+    n = len(keys)
+    gl = sorted({grp(k) for k in keys}, key=str); gi = {g_: i for i, g_ in enumerate(gl)}; ng = len(gl)
     sgn = np.array([float(np.sign(float(mult[k]))) * (-1)**d(k) for k in keys])
     cab = np.array([abs(float(mult[k])) for k in keys])
     # 変数 [y (n), v (n), z (ng)]：w = |c| − 2y、e = sgn (w − 2v)
     nv = 2 * n + ng
-    rowsA, lo_, hi_ = [], [], []
     # 等式：A e = b → A diag(sgn) (|c| − 2y − 2v) = b
     AS = A * sgn
     Aeq = np.hstack([-2 * AS, -2 * AS, np.zeros((len(b), ng))]); beq = b - AS @ cab
@@ -363,20 +374,72 @@ def full_rule(m=2, use=("i",)):
         r2 = np.zeros(nv); r2[n + i] = 1; r2[gj] = -cab[i]; Ms.append((r2, -np.inf, 0))          # v − |c| z ≤ 0
         r3 = np.zeros(nv); r3[n + i] = 1; r3[i] = 2; r3[gj] = -cab[i]; Ms.append((r3, 0, np.inf))  # v + 2y − |c| z ≥ 0
     cons.append(LinearConstraint(np.array([x[0] for x in Ms]), [x[1] for x in Ms], [x[2] for x in Ms]))
-    bnd = Bounds(np.zeros(nv), np.concatenate([np.floor(cab / 2), cab, np.ones(ng)]))
+    bnd = Bounds(np.zeros(nv), np.concatenate([np.floor(cab / 2) if pairs else np.zeros(n), cab, np.ones(ng)]))
     opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(nv))
     res = opt(np.zeros(nv))
-    tag = f"T(2,{2 * m + 1}) 全ブロックに規則、条件 {'+'.join(use)}"
     if res.status != 0:
-        print(f"{tag}：解なし", flush=True); return
-    def e_of(x):
-        return np.round(sgn * (cab - 2 * x[:n] - 2 * x[n:2 * n]))
-    e0 = e_of(res.x)
-    nfree = 0
-    for i in range(n):           # e_i の最小と最大（e は y, v の線形関数）
-        cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]
-        if round(opt(cc).fun) != round(-opt(-cc).fun): nfree += 1
-    print(f"{tag}：解あり、e が一意でない単項式 {nfree}/{n}、入れ替わる対の数 {int(sum(cab - np.abs(e0)) // 2)}", flush=True)
+        return None
+    e0 = np.round(sgn * (cab - 2 * res.x[:n] - 2 * res.x[n:2 * n]))
+    free = None
+    if uniq:
+        free = []
+        for i in range(n):           # e_i の最小と最大（e は y, v の線形関数）
+            cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]
+            if round(opt(cc).fun) != round(-opt(-cc).fun): free.append(keys[i])
+    cc = np.zeros(nv); cc[:n] = 1                                     # 入れ替わる対の数 Σ y の最小
+    return dict(e={k: int(e0[i]) for i, k in enumerate(keys)}, free=free, nfree=None if free is None else len(free),
+                pairs=int(sum(cab - np.abs(e0)) // 2), min_pairs=round(opt(cc).fun) if minp else None)
+
+
+def n2_rule(uniq=True):
+    """n = 2（trefoil）の N_λ に n = 1 の符号の規則を課し、t = −1 の条件（i22 + i4）だけで解く（progress.md 続き 76）。
+    部分（λ、ν のブロック、c の符号）ごとに e = σ (−1)^{q の指数} sign(c) w か σ (−1)^{t の指数} sign(c) w を選ぶ
+    （w ≤ |c| は入れ替わる対を許す）。(1) 部分ごとに一つだけ規則を課して（他の単項式は一般の e）q・t の可否を調べ、
+    (2) 一方だけ可の部分はそれに固定し、両方可の部分は組を全部試し、(3) 全部分に規則を課した解の一意性と対の数の最小を調べる。"""
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in ("i22", "i4")})
+    part = lambda k: (k[0], k[-1], int(np.sign(float(mult[k]))))
+    parts = sorted({part(k) for k in keys}, key=lambda x: (x[0], -x[1], -x[2]))
+    exps = {"q": lambda k: k[2] // 2, "t": lambda k: k[3] // 2}
+
+    def run(assign, uniq_=False, minp=False):
+        grp = lambda k: part(k) if part(k) in assign else k               # 規則の無い単項式は自分だけの群（一般の e と同じ）
+        d = lambda k: exps[assign[part(k)]](k) if part(k) in assign else 0
+        return rule_milp(keys, mult, A, b, grp, d, True, uniq_, minp)
+
+    base = run({}, minp=True)
+    print(f"規則なし（t = −1 だけ）：入れ替わる対の数の最小 {base['min_pairs']}（状態の数 {sum(abs(int(v)) for v in mult.values())}）", flush=True)
+    ok = {}
+    for p_ in parts:
+        n_ = sum(1 for k in keys if part(k) == p_)
+        ok[p_] = ["q"] if n_ == 1 else [x for x in ("q", "t") if run({p_: x}) is not None]   # 単項式 1 個では q と t は σ に吸収される
+        print(f"λ = {p_[0]}、ν^{p_[1]}、c の符号 {p_[2]:+d}（単項式 {n_}）：規則 {'・'.join(ok[p_]) or 'なし'}", flush=True)
+    if any(not v for v in ok.values()):
+        print("規則を課せない部分がある", flush=True); return None
+    both = [p_ for p_ in parts if len(ok[p_]) == 2]
+    feas = []
+    for ch in itertools.product("qt", repeat=len(both)):
+        assign = {p_: ok[p_][0] for p_ in parts if len(ok[p_]) == 1} | dict(zip(both, ch))
+        if run(assign) is not None:
+            feas.append((ch, assign))
+    print(f"両方可の部分 {len(both)} 個の組 {2 ** len(both)} 通りのうち解ありは {len(feas)} 通り", flush=True)
+    for i, p_ in enumerate(both):
+        print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}：解ありの組での選択 {sorted({ch[i] for ch, _ in feas})}", flush=True)
+    out = []
+    for ch, assign in feas:
+        res = run(assign, False, True)
+        out.append((res["min_pairs"], ch, assign))
+        print(f"   組 {''.join(ch)}：入れ替わる対の数の最小 {res['min_pairs']}", flush=True)
+    if uniq and out:
+        mp, ch, assign = min(out)
+        t0 = time.time()
+        res = run(assign, True)
+        print(f"対の数の最小が最も小さい組 {''.join(ch)} の一意性：e が一意でない単項式 {res['nfree']}/{len(keys)}（{time.time() - t0:.0f} 秒）", flush=True)
+        for bk in sorted({(k[0], k[-1]) for k in keys}, key=lambda x: (x[0], -x[1])):
+            n_ = sum(1 for k in keys if (k[0], k[-1]) == bk)
+            print(f"   λ = {bk[0]}、ν^{bk[1]}：一意でない {sum(1 for k in res['free'] if (k[0], k[-1]) == bk)}/{n_}", flush=True)
+    return out
 
 
 def n1_partial():
@@ -446,6 +509,8 @@ if __name__ == "__main__":
         for m_ in (1, 2):
             for use in (("i",), ("i", "ii")):
                 full_rule(m_, use)
+    elif sys.argv[1] == "n2rule":
+        n2_rule("--nouniq" not in sys.argv)
     elif sys.argv[1] == "rule":
         knot_rule(1, save=False); knot_rule(2, ("i",)); knot_rule(2, save=True)
     elif sys.argv[1] == "lower":

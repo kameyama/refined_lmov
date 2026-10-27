@@ -23,3 +23,18 @@ def test_all_invariant_solve():
     res = TT.solve(mult, basis, [(1 + r**2, {})], all_inv=True)
     assert res["feasible"] and not res["free"]
     assert res["e"] == {("mono", 0, 0, 0): 1, ("mono", 2, 0, 0): 1}
+
+
+def test_rule_milp_sign_rule_and_pairs():
+    import numpy as np
+    # 同じ群の 2 単項式、d = 0, 1：e = (σ, −σ)·w。条件 e_a = 1 → σ = 1、e_b = −1（一意）
+    keys = ["a", "b"]
+    mult = {"a": 1, "b": 1}
+    res = TT.rule_milp(keys, mult, np.array([[1.0, 0.0]]), np.array([1.0]), lambda k: 0, lambda k: keys.index(k))
+    assert res["e"] == {"a": 1, "b": -1} and res["free"] == [] and res["min_pairs"] == 0
+    # 規則に反する条件 e_a + e_b = 2 は解なし
+    assert TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([2.0]), lambda k: 0, lambda k: keys.index(k)) is None
+    # c = 2 の単項式で e = 0：入れ替わる対が 1 個。対を許さなければ解なし
+    res = TT.rule_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: 0, lambda k: 0)
+    assert res["e"] == {"c": 0} and res["pairs"] == 1 and res["min_pairs"] == 1
+    assert TT.rule_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: 0, lambda k: 0, pairs=False) is None
