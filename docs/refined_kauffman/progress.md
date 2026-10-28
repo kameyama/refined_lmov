@@ -1,15 +1,16 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-26 更新）
+## 現在の状況（再開用、2026-10-28 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜64）にある。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜76）にある。
 
 ### 1. 環境
-- **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/dgr-quadruply-graded-lomv-2a7fb6`
-  - ブランチは `claude/refined-kauffman-large-n-00d58e`。
+- **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`
+  - ブランチは `claude/kauffman-research-progress-c23e34`（続き 63 以降）。続き 62 までは worktree `dgr-quadruply-graded-lomv-2a7fb6`（ブランチ `claude/refined-kauffman-large-n-00d58e`）。
   - main への直接の commit とローカルでのマージは禁止。
-- **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（MERGED、2026-10-26）。続き 63 以降は worktree `rename-literature-survey-doc-9cc5fc`（ブランチ `claude/kauffman-research-progress-c23e34`）で作業
-  - 2026-10-26 にユーザーの許可を得て push した（`git push` をサンドボックス外で実行。gh api は不要だった）。origin/main（PR #10 の整理）を取り込み、研究別ディレクトリに再配置済み。PR #11 は MERGEABLE（続き 62）。
+- **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（続き 62 まで、MERGED、2026-10-26）。
+  - 続き 63〜76 の commit（2026-10-28 時点で origin/main に無いもの 17 個）は push していない。push と PR の作成はユーザーの許可待ち。
+  - 前回の push は `git push` をサンドボックス外で実行した（gh api は不要だった）。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
     - 手順：blobs → trees（base_tree は親）→ commits（作者・日時・メッセージを同じに）→ refs。
@@ -18,7 +19,7 @@
   - worktree 直下から相対で書くと `../../../.venv/bin/python`。
   - スクリプトは worktree の `src` と `scripts/refined_kauffman` を sys.path の先頭に入れている。
 - **テスト**：`../../../.venv/bin/pytest -q tests/refined_kauffman`（2026-10-26 に main の整理（PR #10）に合わせて scripts/refined_kauffman/、tests/refined_kauffman/、src/rcsknots/refined_kauffman/ に移した。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman`）
-  - 既定の 70 件（約 175 秒。2026-10-21 に全件通過、logs/refined_kauffman/paper_tests_default_2026-10-21.log）。
+  - 既定の 91 件（約 200 秒。2026-10-28 に全件通過）。
   - `-m results` の 7 件（約 7〜8 分の見込み。2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log）。
 - **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
@@ -44,6 +45,25 @@
   1. 日本語の本文の推敲（読み手向けの説明、記号の統一）
   2. 英語版の作成
   3. PR #11 の更新（push の許可が要る）
+
+### 2′. 進行中の研究の線：E の決定（続き 65〜76、theory §12.6〜§12.12）
+- 目標：多箱の自由エネルギーの分解 g = f − ½f^{cov} = ½E/(1+t) + C のうち、E を状態の数と Ĩ の作用から決める。
+- 入力（計算済み）：
+  - trefoil の composite (2;2) 型（被覆、大きな N、続き 65〜68）。
+  - SO の 4 箱の R_λ(U)（続き 70〜71）。
+  - 条件 (i)（t = −1、SO の 4 箱）と (ii)（t = q）。
+- 経過：
+  - 指数の台の上の整数計画では解が無かった（続き 72・73）。
+  - 固定セクターの因数分解へのテンソル積の捻りで解が出た（続き 74）。
+  - N の下の系列 Sym^k V（V = 1 + t + qt）に対合 diag(1,1,−1)、上の系列に双対の対合を課すと、n = 1 の E が決まった。trefoil は (i) だけで、T(2,5) は (i)+(ii) で一意（続き 75）。
+  - 同じ規則は n = 2 の N_λ にはそのままでは合わない。t = −1 だけで決まるのは 84/950 単項式で、入れ替わる対が 2845 個以上要る。下の端は Sym W（W = 1 + q² + q²t²）（続き 76）。
+- 次の候補（続き 76 の末尾）：
+  - (1) N_λ の生成関数で V と W の系列を同定する。
+  - (2) W 側に q² の指数の偶奇の規則を課す。
+  - (3) T(2,5) で (ii) を要らなくする根拠を探す。
+  - (4) T(2,7) で照合する（2 箱のデータの作成から必要。実行前に見積もる）。
+- コード：rk_f_twisted_tensor.py（n1・n2・rule・full・n2rule）、rk_f_twisted22_lam.py。
+- データ：data/refined_kauffman/daha/twisted_E_n1_m2.pkl（T(2,5) の一意な E）など。
 
 ### 3. 主な結果（論文の主張。詳細は claims.md と theory_orientifold_index.md）
 | 主張 | 種別 | 場所 |
@@ -72,7 +92,9 @@
 
 ### 5. 未解決（論文の §8 にも記載）
 - 凍結した状態（向き付けられない面）の refined の取っ手の因子と、多重項の基底。対になる取っ手は G（[1]、framed unknot、Hopf の両端で確認、続き 63）。自分自身に移る取っ手の多重項は未決：σ 非対称部分は Lefschetz の重みごとに (𝐭²−1)×整数多項式で t の有限の塔を含み、trefoil では同符号、T(2,5) では混在（theory §12）。t の塔は有限個の z₂ モードをもつ Ĩ 不変な状態では説明できず（指数では E と C に吸収、p₁² 方向に寄与しない）、凍結した状態の内部の多重項（続き 64、theory §12.5）。
-- E と C の分離。固定セクターの状態の空間への Ĩ の作用を、指数ではなく幾何から求める必要がある。Hopf の (4,4) の E も未決定。
+- E と C の分離。固定セクターの状態の空間への Ĩ の作用を、指数ではなく幾何から求める必要がある。
+  - n = 1 は符号の規則で決まった（§2′）。
+  - n = 2 と Hopf の (4,4) の E は未決定。
 - 普遍因子のずれの向き（k = +1）と、閉弦の Kähler の三重化との関係。開弦の比 w³ と閉弦の比 w^{−1} が合わず、保留している。
 - 非トーラス結び目の大きな N の値（入力が無い）。T(2,5) の 3 箱は、m = 2 の composite と D_N の 3 箱が要り、数時間〜半日の見込み。
 - 環状の HOMFLY ホモロジー（逆向きの 2 本のケーブル）と refined CS の composite の関係。未着手で、見込みは低い。
@@ -86,7 +108,7 @@
   - conventions.md
 - **コード**：
   - src/rcsknots/：kauffman_*.py、koornwinder.py、daha_dn.py、daha_fast.py、flint_rf*.py
-  - scripts/refined_kauffman/：rk_*.py。rk_c_* は一般の N、rk_b_* は構造と正値性の解析、rk_k* は固定 N と Hopf、rk_d_* は Sp、rk_e_* は Krefl–Walcher、rk_f_* は凍結した状態の基底
+  - scripts/refined_kauffman/：rk_*.py。rk_c_* は一般の N、rk_b_* は構造と正値性の解析、rk_k* は固定 N と Hopf、rk_d_* は Sp、rk_e_* は Krefl–Walcher、rk_f_* は凍結した状態の基底と E の決定（rk_f_twisted*）
 - **データ**：
   - data/refined_kauffman/daha/：R_U_m*_*.pkl（SO の一般の N）、Radj_A_m*.pkl、Rcomp_A_m1_*.pkl、largeN_2box_m{1,2}.pkl、largeN_3box_m1.pkl
   - data/refined_kauffman/：hopf_*.pkl
