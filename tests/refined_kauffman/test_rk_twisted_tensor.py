@@ -150,3 +150,41 @@ def test_row_min_matches_rule_milp():
         res = TT.rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, uniq=False)
         assert res["min_pairs"] == mp
         assert TT.rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, ranges=keys) == rg
+
+
+def test_hidden_milp():
+    import numpy as np
+    # c = (1, 0)：e_a = 1, e_b = 2 を求めると、b に見えない対が 1 個要る
+    mult = {"a": 1}
+    best, e, h = TT.hidden_milp(["a", "b"], mult, np.eye(2), np.array([1.0, 2.0]))
+    assert (best, e, h) == (1, {"a": 1, "b": 2}, {"a": 0, "b": 1})
+    # e_a + e_b = 3：Σh = 1 の解は (1, 2) と (3, 0)
+    A, b = np.array([[1.0, 1.0]]), np.array([3.0])
+    assert TT.hidden_milp(["a", "b"], mult, A, b)[0] == 1
+    assert TT.hidden_milp(["a", "b"], mult, A, b, max_h=1, ranges=["a", "b"], hrange=["b"]) == {"a": (1, 3), "b": (0, 2), ("h", "b"): (0, 1)}
+
+
+def test_pairs_onehot_matches_row_min():
+    # 1 行の問題：0/1 変数の定式化と動的計画法の対の最小が一致する。届かない S は解なし
+    import numpy as np
+    keys = ["a", "b", "c"]; mult = {"a": 3, "b": -1, "c": 2}; w = [1, -1, 1]
+    A = np.array([w], float)
+    for S in (6, 2, 0, -1, 7):
+        best, _ = TT.row_min([mult[k] for k in keys], w, S)
+        st, val, _ = TT.pairs_onehot(keys, mult, A, np.array([float(S)]))
+        assert val == best
+
+
+def test_n2_quotient_rows_equivalent():
+    # 割った形の条件の階数が元の条件と同じ（(i) 154、(ii) 142、(i)+(ii) 285）で、続き 79 の e が (i) を満たす
+    import numpy as np, pickle, os
+    Q = TT.n2_quotient()
+    mult, _ = TT.n2_setup()
+    keys = sorted(mult)
+    ranks = [np.linalg.matrix_rank(TT.quotient_rows(keys, Q, use)[0]) for use in (("i22", "i4"), ("ii",), ("i22", "i4", "ii"))]
+    assert ranks == [154, 142, 285]
+    path = "data/refined_kauffman/daha/twisted_n2_pattern.pkl"
+    if os.path.exists(path):
+        e0 = pickle.load(open(path, "rb"))["e"]
+        A, b = TT.quotient_rows(keys, Q, ("i22", "i4"))
+        assert np.abs(A @ np.array([e0[k] for k in keys], float) - b).max() < 1e-9

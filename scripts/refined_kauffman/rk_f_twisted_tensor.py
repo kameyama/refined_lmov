@@ -794,6 +794,190 @@ def n2_rows():
     return S, rg
 
 
+def hidden_milp(keys, mult, A, b, max_h=None, ranges=None, hrange=None, time_limit=None):
+    """P に見えない対（ボソンとフェルミオンの打ち消し）h_m ≥ 0 を許した整数計画：e_m ≡ c_m (mod 2)、|e_m| ≤ |c_m| + 2h_m、A e = b。
+    c_m = 0（N の台の外）の単項式も変数にできる。既定では Σh の最小と (e, h) を返す（解なしは None）。
+    max_h：Σh ≤ max_h を加える。ranges（単項式の列）：各単項式の e の (最小, 最大)。hrange（単項式の列）：各単項式の h の (最小, 最大)。"""
+    n = len(keys)
+    cs = np.array([float(mult.get(k, 0)) for k in keys]); ca = np.abs(cs)
+    # 変数 [k (n)、h (n)]：e = c + 2k
+    I_ = np.eye(n)
+    cons = [LinearConstraint(np.hstack([2 * A, np.zeros_like(A)]), b - A @ cs - 1e-7, b - A @ cs + 1e-7),
+            LinearConstraint(np.vstack([np.hstack([2 * I_, -2 * I_]), np.hstack([-2 * I_, -2 * I_])]), -np.inf, np.concatenate([ca - cs, ca + cs]))]
+    if max_h is not None:
+        cons.append(LinearConstraint(np.concatenate([np.zeros(n), np.ones(n)])[None, :], -np.inf, max_h))
+    big = 10**4
+    bnd = Bounds(np.concatenate([-big * np.ones(n), np.zeros(n)]), big * np.ones(2 * n))
+    opts = {"time_limit": time_limit} if time_limit else {}
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(2 * n), options=opts)
+    col = {k: i for i, k in enumerate(keys)}
+    if ranges is not None or hrange is not None:
+        out = {}
+        for k in ranges or []:
+            cc = np.zeros(2 * n); cc[col[k]] = 1
+            lo_, hi_ = opt(cc), opt(-cc)
+            out[k] = (round(cs[col[k]] + 2 * lo_.fun), round(cs[col[k]] - 2 * hi_.fun))
+        for k in hrange or []:
+            cc = np.zeros(2 * n); cc[n + col[k]] = 1
+            out[("h",) + tuple(k)] = (round(opt(cc).fun), round(-opt(-cc).fun))
+        return out
+    res = opt(np.concatenate([np.zeros(n), np.ones(n)]))
+    if res.x is None:
+        return None
+    x = np.round(res.x)
+    return round(res.fun), {k: int(cs[i] + 2 * x[i]) for i, k in enumerate(keys)}, {k: int(x[n + i]) for i, k in enumerate(keys)}
+
+
+def n2_quotient():
+    """n = 2 の条件を前因子と境界の因子で割った形（theory §12.17）。E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e m のとき、
+    (i22) Σ_λ Σ e m|_{s=i} = Gs、(i4) Σ_λ χ_λ Σ e m|_{s=i} = Gd、(ii) Σ_λ Σ e m|_{s=r} = H（どれも Laurent 多項式、割り算は単射なので元の条件と同値）。
+    {"i22": {(r の指数, ν の指数): 整数}, "i4": …, "ii": …} を返す（s = i の値は i で割った実数部分。sympy の約分が重いので data/cache に保存）。"""
+    import rk_f_twisted22_lam as L
+    path = "data/cache/twisted_n2_quotient.pkl"
+    if os.path.exists(path):
+        return pickle.load(open(path, "rb"))
+    _, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    W22, W4 = L.W22.subs(L._r, r), L.W4.subs(L._r, r)
+    X = {"i22": sp.cancel(conds["i22"][0].subs(s, I) / (pre.subs(s, I) * W22 * I)),
+         "i4": sp.cancel(conds["i4"][0].subs(s, I) / (pre.subs(s, I) * W4 * I)),
+         "ii": sp.cancel(conds["ii"][0].subs(s, r) / (pre.subs(s, r) * W22))}
+    out = {}
+    for name, x in X.items():
+        d_ = TM.lp(sp.expand(x), (r, nu))
+        assert all(sp.im(v) == 0 and sp.re(v) == int(sp.re(v)) for v in d_.values()), name
+        out[name] = {k: int(sp.re(v)) for k, v in d_.items() if v != 0}
+    os.makedirs("data/cache", exist_ok=True)
+    pickle.dump(out, open(path, "wb"))
+    return out
+
+
+def quotient_rows(keys, Q, use=("i22", "i4", "ii")):
+    """割った形の条件の行列（整数）。keys は (λ, "mono", a, b, c)、s の指数 b は奇数。s = i の値は i で割って (−1)^{(b−1)/2}。"""
+    import rk_f_twisted22_lam as L
+    rows_, b_ = [], []
+    for name in use:
+        idx = {}
+        for k in keys:
+            mo = (k[2] + k[3], k[4]) if name == "ii" else (k[2], k[4])
+            idx.setdefault(mo, [])
+        for mo in Q[name]:
+            idx.setdefault(mo, [])
+        col = {k: i for i, k in enumerate(keys)}
+        A = {mo: np.zeros(len(keys)) for mo in idx}
+        for k in keys:
+            if name == "ii":
+                A[(k[2] + k[3], k[4])][col[k]] += 1
+            else:
+                A[(k[2], k[4])][col[k]] += (-1)**((k[3] - 1) // 2) * (L.CHI[k[0]][(2,)] if name == "i4" else 1)
+        for mo, row in A.items():
+            rows_.append(row); b_.append(float(Q[name].get(mo, 0)))
+    return np.array(rows_), np.array(b_)
+
+
+def n2_ii():
+    """n = 2（trefoil）に (ii)（t = q）を加える（theory §12.17、progress.md 続き 81）。割った形の条件（n2_quotient）はブロック ν^c ごとに閉じるので、
+    ブロックごとに (1) N の台の上で (i)+(ii) の一次方程式と見えない対 h の最小を、(ii) の目標 H と −H で調べ、(2) 交点 q = t = −1 での一致と
+    ν^{−24} の H と (i) から決まる値の比、(3) 一次方程式で解の無いブロックに、箱の中の単項式 1 個を足して解けるか、
+    (4) h = 0 で解のあるブロックの対の最小と一意性（(i) だけの場合と比べる）、(5) h > 0 が要るブロックの見えない対の置き場所 を求める。"""
+    import rk_f_twisted22_lam as L
+    Q = n2_quotient()
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c, sg=1: {n_: {mo: (sg if n_ == "ii" else 1) * v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+
+    def lin(keys, Qc, use=("i22", "i4", "ii")):
+        A, b = quotient_rows(keys, Qc, use); x = np.linalg.lstsq(A, b, rcond=None)[0]
+        return float(np.abs(A @ x - b).max()) < 1e-6
+    poly = lambda d: sum((v * R**a for (a, _), v in d.items()), sp.Integer(0))
+    print("(2) 交点 r = s = i（q = t = −1）での (i) と (ii) の一致（ブロックごと）：", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        Qc = Qb(c)
+        gi = sp.expand(poly(Qc["i22"]).subs(R, I) * I)            # Σ_λ Σ e m|_{r=s=i}（i22 は i で割ってある）
+        print(f"   ν^{c}：Σ_λ G_λ(i) = {gi}、H(i) = {sp.expand(poly(Qc['ii']).subs(R, I))}", flush=True)
+    keys24 = sorted(k for k in mult if k[-1] == -24)
+    A, b = quotient_rows(keys24, Qb(-24), ("i22", "i4"))
+    fixed24 = rule_milp(keys24, mult, A, b, lambda k: k, lambda k: 0, max_pairs=0, ranges=keys24)
+    assert all(v[0] == v[1] for v in fixed24.values())
+    E24 = sum(fixed24[k][0] * R**(k[2] + k[3]) for k in keys24)
+    N24 = sum(int(mult[k]) * R**(k[2] + k[3]) for k in keys24)
+    print(f"   ν^-24：(i) と |e| ≤ |c| で e は全部決まる。H / Σ_λ E(q,q) = {sp.factor(poly(Qb(-24)['ii']) / E24)}、"
+          f"Σ_λ E(q,q) / Σ_λ N(q,q) = {sp.factor(E24 / N24)}（R = r、q = R²）", flush=True)
+    print("(1) N の台の上：一次方程式と見えない対の最小", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        out = []
+        for sg in (1, -1):
+            A, b = quotient_rows(keys, Qb(c, sg))
+            res = hidden_milp(keys, mult, A, b, time_limit=300)
+            out.append(f"{'+' if sg > 0 else '−'}H：一次 {'○' if lin(keys, Qb(c, sg)) else '×'}、Σh の最小 {res[0] if res else '解なし'}")
+        print(f"   ν^{c}（単項式 {len(keys)}）：" + "、".join(out), flush=True)
+
+    def box(c, d=0):
+        out = set()
+        for lab in L.LAMS:
+            ks = [k for k in mult if k[0] == lab and k[-1] == c]
+            if not ks:
+                continue
+            for a in range(min(k[2] for k in ks) - 2 * d, max(k[2] for k in ks) + 2 * d + 1, 2):
+                for b_ in range(min(k[3] for k in ks) - 2 * d, max(k[3] for k in ks) + 2 * d + 1, 2):
+                    out.add((lab, "mono", a, b_, c))
+        return sorted(out)
+    print("(3) 一次方程式で解の無いブロック：箱（ブロックの r, s の指数の範囲）の中の単項式 1 個を N の台に足して解けるか", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        if lin(keys, Qb(c)):
+            continue
+        ext = [m for m in box(c) if m not in mult and lin(keys + [m], Qb(c))]
+        print(f"   ν^{c}：足す候補 {sum(1 for m in box(c) if m not in mult)} 個中 {len(ext)} 個で解ける：" + " ".join(f"λ={m[0]} r^{m[2]}s^{m[3]}" for m in ext), flush=True)
+    print("   見えない対を箱を広げた台（N の台の外では c = 0）に許したときの Σh の最小（全ブロックの和）：", flush=True)
+    for d in (0, 1, 2):
+        tot, where = 0, []
+        for c in sorted({k[-1] for k in mult}, reverse=True):
+            keys = box(c, d); A, b = quotient_rows(keys, Qb(c))
+            best, e, h = hidden_milp(keys, mult, A, b)
+            tot += best; where += [k for k in keys if h[k]]
+        print(f"   箱を {d} 段広げる：Σh の最小 {tot}、置き場所（一例）：" + " ".join(f"λ={k[0]} ν^{k[-1]} r^{k[2]}s^{k[3]}" for k in where), flush=True)
+    print("(4) 入れ替わる対の最小（pairs_onehot、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        if not lin(keys, Qb(c)):
+            continue
+        out = []
+        for use in (("i22", "i4"), ("i22", "i4", "ii")):
+            A, b = quotient_rows(keys, Qb(c), use)
+            st, val, bd = pairs_onehot(keys, mult, A, b, time_limit=300)
+            out.append(f"{'(i)' if len(use) == 2 else '(i)+(ii)'} " + ("解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"))
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：" + "、".join(out), flush=True)
+    print("(5) N の台の上で見えない対が要るブロック：Σh が最小の解の集合で、h > 0 になりうる単項式と、必ず h > 0 の単項式", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c))
+        res = hidden_milp(keys, mult, A, b)
+        if res is None or res[0] == 0:
+            continue
+        hr = hidden_milp(keys, mult, A, b, max_h=res[0], hrange=keys)
+        may = [k for k in keys if hr[("h",) + k][1] > 0]
+        forced = [k for k in keys if hr[("h",) + k][0] > 0]
+        print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
+    return Q
+
+
+def pairs_onehot(keys, mult, A, b, time_limit=None):
+    """入れ替わる対 Σ (|c| − |e|)/2 の最小を、各単項式の値 e ∈ {−|c|, …, |c|} を 0/1 変数で選ぶ形で解く（rule_milp の McCormick より緩和が強い）。
+    (状態, 最小値または見つけた解の値, 下界) を返す。状態 0 は最適、1 は時間切れ。解なしは (状態, None, None)。"""
+    var = [(i, v) for i, k in enumerate(keys) for v in range(-abs(int(mult[k])), abs(int(mult[k])) + 1, 2)]
+    n, nv = len(keys), len(var)
+    E, M, cost = np.zeros((n, nv)), np.zeros((n, nv)), np.zeros(nv)
+    for j, (i, v) in enumerate(var):
+        E[i, j] = 1; M[i, j] = v; cost[j] = (abs(int(mult[keys[i]])) - abs(v)) // 2
+    res = milp(cost, constraints=[LinearConstraint(E, 1, 1), LinearConstraint(A @ M, b - 1e-7, b + 1e-7)], bounds=Bounds(0, 1),
+               integrality=np.ones(nv), options={"time_limit": time_limit} if time_limit else {})
+    if res.x is None:
+        return res.status, None, None
+    return res.status, round(res.fun), round(res.mip_dual_bound) if res.mip_dual_bound is not None else None
+
+
 def n1_partial():
     """n = 1、捻り (t − ν²)(ν² + 1)(q + 1)(ν²q + 1)：(i) だけ、(i) ＋ (ii) の β 奇の部分、(i) ＋ (ii)。"""
     import rk_b_knot_fixed_sector as K
@@ -959,6 +1143,8 @@ if __name__ == "__main__":
         n2_series()
     elif sys.argv[1] == "n2rule":
         n2_rule("--nouniq" not in sys.argv)
+    elif sys.argv[1] == "n2ii":             # (ii)（t = q）を加える：割った形の条件でブロックごとに診断
+        n2_ii()
     elif sys.argv[1] == "n2rows":           # 条件 (i) は行ごとの交代和だけを決める：対の最小化を行ごとに解く
         n2_rows()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
