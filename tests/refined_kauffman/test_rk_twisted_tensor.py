@@ -61,3 +61,20 @@ def test_greedy_cells_and_mirror():
     # V = 1 + t + qt は鏡映 (q, t) → (1/t, 1/q) で自己双対、1 + t は双対でない
     assert TT.mirror_sign({(0, 0, 0): 1, (0, 2, 0): 1, (2, 2, 0): 1}) == {0: "+"}
     assert TT.mirror_sign({(0, 0, 0): 1, (0, 2, 0): 1}) == {0: "×"}
+
+
+def test_choice_milp_selects_pattern():
+    import numpy as np
+    keys = ["a", "b"]
+    mult = {"a": 1, "b": 1}
+    A, b = np.eye(2), np.array([1.0, -1.0])
+    same = [{"a": 1, "b": 1}, {"a": -1, "b": -1}]
+    alt = [{"a": 1, "b": -1}, {"a": -1, "b": 1}]
+    part = lambda k: "p"
+    # 同符号の型だけでは e = (1, −1) を作れない（c が奇数なので w = 1）
+    assert TT.choice_milp(keys, mult, A, b, part, {"p": same}) is None
+    mp, chosen, e = TT.choice_milp(keys, mult, A, b, part, {"p": same + alt})
+    assert mp == 0 and chosen["p"] == 2 and e == {"a": 1, "b": -1}
+    # c = 2 で e = 0：入れ替わる対が 1 個
+    mp, _, e = TT.choice_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: "p", {"p": [{"c": 1}]})
+    assert mp == 1 and e == {"c": 0}
