@@ -9,7 +9,7 @@ r"""固定セクターの因数分解に Ĩ がテンソル積で働くとした
   n = 2：P̂_λ = s(t − ν²)(ν² − 1)(ν²q − 1)·N_λ（境界のモードは hatted で除いてある、rk_f_twisted22_lam）、
     E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e^λ_m m、条件は rk_f_twisted22_lam と同じ（i22, i4, ii）。因子が ν のブロックをまたぐので全体で解く。
 使い方：python rk_f_twisted_tensor.py n1 | n2 [--all-inv] | n2series（N_λ の系列の同定）（--all-inv：N の全状態が不変、e = ±c）。"""
-import sys, io, contextlib, pickle, itertools, time
+import sys, os, io, contextlib, pickle, itertools, time
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import numpy as np
 import sympy as sp
@@ -351,11 +351,14 @@ def full_rule(m=2, use=("i",)):
     print(f"{tag}：解あり、e が一意でない単項式 {res['nfree']}/{len(keys)}、入れ替わる対の数 {res['pairs']}（最小 {res['min_pairs']}）", flush=True)
 
 
-def rule_milp(keys, mult, A, b, grp, d, pairs=True, uniq=True, minp=True):
+def rule_milp(keys, mult, A, b, grp, d, pairs=True, uniq=True, minp=True, max_pairs=None, ranges=None, samples=None, flip=None):
     """符号の規則 e_m = σ_g (−1)^{d_m} sign(c_m) w_m、0 ≤ w_m ≤ |c_m|、w_m ≡ c_m (mod 2) の下で A e = b を解く
     （|c| − w は Ĩ で入れ替わる対、pairs=False なら w = |c|）。σ_g は群 grp(k) ごと。
     σ_g w_m の積は z_g ∈ {0,1} と v_m = z_g w_m（McCormick の不等式）で線形にする。
-    解が無ければ None、あれば e、（uniq なら）e が一意でない単項式、入れ替わる対の数、（minp なら）対の数の最小。"""
+    解が無ければ None、あれば e、（uniq なら）e が一意でない単項式、入れ替わる対の数、（minp なら）対の数の最小。
+    max_pairs：Σ y ≤ max_pairs を加える。ranges（単項式の列）：その各単項式の e の最小と最大 {単項式: (最小, 最大)} だけを返す。
+    samples = (個数, 乱数の種)：Σ r_m e_m（r_m は ±1 の乱数）を最小にする解を個数だけ求め、e の列を返す（解の集合の標本）。
+    flip = {単項式: ±1}：Σ flip_m e_m を最小にする解（flip_m = sign(e0_m) なら、なるべく多くの符号を反転させる）の (最小値, e) を返す。"""
     n = len(keys)
     gl = sorted({grp(k) for k in keys}, key=str); gi = {g_: i for i, g_ in enumerate(gl)}; ng = len(gl)
     sgn = np.array([float(np.sign(float(mult[k]))) * (-1)**d(k) for k in keys])
@@ -373,9 +376,36 @@ def rule_milp(keys, mult, A, b, grp, d, pairs=True, uniq=True, minp=True):
         r1 = np.zeros(nv); r1[n + i] = 1; r1[i] = 2; Ms.append((r1, -np.inf, cab[i]))            # v + 2y ≤ |c|
         r2 = np.zeros(nv); r2[n + i] = 1; r2[gj] = -cab[i]; Ms.append((r2, -np.inf, 0))          # v − |c| z ≤ 0
         r3 = np.zeros(nv); r3[n + i] = 1; r3[i] = 2; r3[gj] = -cab[i]; Ms.append((r3, 0, np.inf))  # v + 2y − |c| z ≥ 0
+    if max_pairs is not None:
+        r4 = np.zeros(nv); r4[:n] = 1; Ms.append((r4, -np.inf, max_pairs))
     cons.append(LinearConstraint(np.array([x[0] for x in Ms]), [x[1] for x in Ms], [x[2] for x in Ms]))
     bnd = Bounds(np.zeros(nv), np.concatenate([np.floor(cab / 2) if pairs else np.zeros(n), cab, np.ones(ng)]))
     opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(nv))
+    if ranges is not None:
+        col = {k: i for i, k in enumerate(keys)}; out = {}
+        for k in ranges:
+            i = col[k]; cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]     # e_i − sgn|c| の係数
+            lo_, hi_ = opt(cc), opt(-cc)
+            if lo_.status != 0 or hi_.status != 0:
+                return None
+            out[k] = (round(sgn[i] * cab[i] + lo_.fun), round(sgn[i] * cab[i] - hi_.fun))
+        return out
+    if flip is not None:
+        col = {k: i for i, k in enumerate(keys)}; cc = np.zeros(nv); const = 0.0
+        for k, f in flip.items():
+            i = col[k]; cc[i] = -2 * sgn[i] * f; cc[n + i] = -2 * sgn[i] * f; const += f * sgn[i] * cab[i]
+        res = opt(cc)
+        if res.status != 0:
+            return None
+        x = res.x
+        return round(const + res.fun), {k: int(round(sgn[i] * (cab[i] - 2 * x[i] - 2 * x[n + i]))) for i, k in enumerate(keys)}
+    if samples is not None:
+        rng = np.random.default_rng(samples[1]); out = []
+        for _ in range(samples[0]):
+            rr = rng.choice([-1.0, 1.0], n); cc = np.zeros(nv); cc[:n] = -2 * sgn * rr; cc[n:2 * n] = -2 * sgn * rr
+            x = opt(cc).x
+            out.append({k: int(round(sgn[i] * (cab[i] - 2 * x[i] - 2 * x[n + i]))) for i, k in enumerate(keys)})
+        return out
     res = opt(np.zeros(nv))
     if res.status != 0:
         return None
@@ -453,9 +483,10 @@ def n2_rule(uniq=True, opts=("q", "t"), uniform=False):
     return out
 
 
-def choice_milp(keys, mult, A, b, part, pats, minimize_pairs=True):
+def choice_milp(keys, mult, A, b, part, pats, minimize_pairs=True, max_pairs=None, ranges=None, log=None):
     """部分ごとに符号の型 π（pats[部分] の ±1 の辞書の列）を一つ選び、e_m = π_m sign(c_m) w_m、w_m = |c_m| − 2y_m で A e = b を解く。
-    v_{m,π} = u_{p,π} w_m（McCormick）で線形にする。入れ替わる対の数 Σ y を最小にし、(最小値, 選んだ型の番号, e) を返す。解なしは None。"""
+    v_{m,π} = u_{p,π} w_m（McCormick）で線形にする。入れ替わる対の数 Σ y を最小にし、(最小値, 選んだ型の番号, e) を返す。解なしは None。
+    max_pairs：Σ y ≤ max_pairs を加える。ranges（単項式の列）：その各単項式について e の最小と最大を求め、{単項式: (最小, 最大)} を返す。"""
     n = len(keys)
     cab = np.array([abs(float(mult[k])) for k in keys]); sc = np.array([float(np.sign(float(mult[k]))) for k in keys])
     plist = sorted(pats, key=str)
@@ -483,13 +514,30 @@ def choice_milp(keys, mult, A, b, part, pats, minimize_pairs=True):
         row([(vi, 1), (u, -cab[i])], -np.inf, 0)                      # v ≤ |c| u
         row([(vi, 1), (i, 2)], -np.inf, cab[i])                        # v ≤ w = |c| − 2y
         row([(vi, 1), (i, 2), (u, -cab[i])], 0, np.inf)                # v ≥ w − |c|(1 − u)
+    if max_pairs is not None:
+        row([(i, 1) for i in range(n)], -np.inf, max_pairs)
     cons = [LinearConstraint(Aeq, b - 1e-9, b + 1e-9), LinearConstraint(np.array(rows_), lo, hi)]
     ub = np.zeros(nv); ub[:n] = np.floor(cab / 2)
     for k_, vi in uidx.items(): ub[vi] = 1
     for (i, j), vi in vidx.items(): ub[vi] = cab[i]
+    opt = lambda cc: milp(cc, constraints=cons, bounds=Bounds(np.zeros(nv), ub), integrality=np.ones(nv))
+    if ranges is not None:
+        col = {k: i for i, k in enumerate(keys)}
+        out = {}
+        for c_, k in enumerate(ranges):
+            i = col[k]; cc = np.zeros(nv)
+            for j in range(len(pats[part(k)])):
+                cc[vidx[(i, j)]] = sc[i] * pats[part(k)][j][k]               # e_k = Σ_π sign(c) π v
+            lo_, hi_ = opt(cc), opt(-cc)
+            if lo_.status != 0 or hi_.status != 0:
+                return None
+            out[k] = (round(lo_.fun), round(-hi_.fun))
+            if log and (c_ + 1) % 100 == 0:
+                log(f"   e の範囲：{c_ + 1}/{len(ranges)}")
+        return out
     cc = np.zeros(nv)
     if minimize_pairs: cc[:n] = 1
-    res = milp(cc, constraints=cons, bounds=Bounds(np.zeros(nv), ub), integrality=np.ones(nv))
+    res = opt(cc)
     if res.status != 0:
         return None
     x = np.round(res.x)
@@ -533,6 +581,122 @@ def n2_choice(opts=("0", "q", "t", "qt"), by="sign"):
         pr = sum(abs(int(mult[k])) - abs(e[k]) for k in ks) // 2
         print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}（単項式 {len(ks)}）：選択 {names[p_][chosen[p_]]}、対 {pr}", flush=True)
     return res
+
+
+def _n2_model():
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in ("i22", "i4")})
+    return mult, keys, A, b
+
+
+def _n2_sample(arg):
+    mp, k_, seed = arg
+    mult, keys, A, b = _n2_model()
+    return rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, samples=(k_, seed))
+
+
+def _n2_range(arg):
+    mp, key = arg
+    mult, keys, A, b = _n2_model()
+    return rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, ranges=[key])
+
+
+def n2_pattern():
+    """n = 2（trefoil）、t = −1 だけ、規則なし：入れ替わる対の数が最小の解の集合で、各単項式の e の範囲を求め（data に保存して再開できる）、
+    符号の型 e/c を (q, t) の格子で表示し、一意に決まる単項式で規則 0・q・t・q+t が部分ごとに成り立つかを調べる（theory §12.15、progress.md 続き 79）。"""
+    path = f"{OUT}/twisted_n2_pattern.pkl"
+    mult, keys, A, b = _n2_model()
+    pats = {k: [{k: 1}, {k: -1}] for k in keys}
+    st = pickle.load(open(path, "rb")) if os.path.exists(path) else {}
+    if "mp" not in st:
+        t0 = time.time()
+        st["mp"], _, st["e"] = choice_milp(keys, mult, A, b, lambda k: k, pats)
+        pickle.dump(st, open(path, "wb"))
+        print(f"規則なしの対の数の最小 {st['mp']}（{time.time() - t0:.0f} 秒）", flush=True)
+    if "samples" not in st:                                              # (1) 標本：解の間で e が違えば一意でない
+        import multiprocessing as mp_                                    # ProcessPoolExecutor はサンドボックスで使えない
+        t0 = time.time()
+        with mp_.get_context("fork").Pool(8) as ex:
+            got = ex.map(_n2_sample, [(st["mp"], 2, seed) for seed in range(8)])
+        st["samples"] = [st["e"]] + [x for g_ in got for x in g_]
+        pickle.dump(st, open(path, "wb"))
+        print(f"標本の解 {len(st['samples'])} 個（{time.time() - t0:.0f} 秒）", flush=True)
+    var = {k for k in keys if len({e_[k] for e_ in st["samples"]}) > 1}
+    # (2) 行空間：単位ベクトル e_m が A の行空間にあれば、A e = b だけで e_m が決まる
+    _, sv, Vt = np.linalg.svd(A, full_matrices=True)
+    rank = int((sv > 1e-8 * sv[0]).sum()); Nul = Vt[rank:].T
+    lin = {k for i, k in enumerate(keys) if np.abs(Nul[i]).max() < 1e-8}
+    print(f"A の階数 {rank}（単項式 {len(keys)}）、標本で e が変わる単項式 {len(var)}、一次方程式だけで決まる単項式 {len(lin)}", flush=True)
+    st.setdefault("rg", {})
+    for k in lin:
+        st["rg"][k] = (st["e"][k], st["e"][k])
+    for k in var:
+        vs = [e_[k] for e_ in st["samples"]]
+        st["rg"].setdefault(k, (min(vs), max(vs)))                       # 一意でないことだけが確か（範囲は下限）
+    # (3) まとめて反転：未判定の集合 U で Σ_{m∈U} sign(e0_m) e_m を最小にする。反転した単項式は一意でない。
+    #     反転が無く、U の全単項式で |e0| = |c| かつ最小値 = Σ|c| なら、各項が上限にあるので U は全部一意（証明）。
+    e0 = st["e"]
+    U = [k for k in keys if k not in st["rg"] and abs(e0[k]) == abs(int(mult[k]))]
+    t0 = time.time()
+    while U:
+        val, e1 = rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=st["mp"], flip={k: int(np.sign(e0[k])) for k in U})
+        moved = [k for k in U if e1[k] != e0[k]]
+        print(f"   まとめて反転：U {len(U)} 個、反転 {len(moved)}、最小値 {val}、Σ|c| {sum(abs(int(mult[k])) for k in U)}（{time.time() - t0:.0f} 秒）", flush=True)
+        for k in moved:
+            st["rg"][k] = (min(e0[k], e1[k]), max(e0[k], e1[k]))
+        pickle.dump(st, open(path, "wb"))
+        if not moved:
+            assert val == sum(abs(int(mult[k])) for k in U)
+            for k in U:
+                st["rg"][k] = (e0[k], e0[k])
+            break
+        U = [k for k in U if k not in moved]
+    todo = [k for k in keys if k not in st["rg"]]                        # |e0| < |c| の単項式：1 個ずつ正確に
+    print(f"1 個ずつの判定が要る単項式 {len(todo)}", flush=True)
+    for k in todo:
+        st["rg"].update(rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=st["mp"], ranges=[k]))
+        pickle.dump(st, open(path, "wb"))
+    mp, e, rg = st["mp"], st["e"], st["rg"]
+    fixed = [k for k in keys if rg[k][0] == rg[k][1]]
+    print(f"規則なし、対の数 {mp} の解：e が一意な単項式 {len(fixed)}/{len(keys)}、"
+          f"そのうち e = c が {sum(1 for k in fixed if rg[k][0] == mult[k])}、e = −c が {sum(1 for k in fixed if rg[k][0] == -mult[k])}", flush=True)
+    # 格子：行 = q の指数、列 = t の指数。記号は e/c の符号（+：e = c、−：e = −c、小文字 p/m：|e| < |c| で同符号/逆符号、0：e = 0）。
+    # 一意でない単項式は記号の後に ?（最小の解の e で表示）
+    sym = lambda k, v: "0" if v == 0 else ("+" if v == mult[k] else "−" if v == -mult[k] else ("p" if v * mult[k] > 0 else "m"))
+    part = lambda k: (k[0], k[-1], int(np.sign(float(mult[k]))))
+    for bk in sorted({(k[0], k[-1]) for k in keys}, key=lambda x: (x[0], -x[1])):
+        ks = [k for k in keys if (k[0], k[-1]) == bk]
+        a0 = min(k[2] for k in ks); b0 = min(k[3] for k in ks)
+        g = {((k[2] - a0) // 2, (k[3] - b0) // 2): k for k in ks}
+        A_ = max(a for a, _ in g); B_ = max(b_ for _, b_ in g)
+        nf = sum(1 for k in ks if k in fixed)
+        print(f"λ = {bk[0]}、ν^{bk[1]}（r^{a0} s^{b0}、一意 {nf}/{len(ks)}）", flush=True)
+        for a in range(A_ + 1):
+            print("   " + " ".join((sym(g[(a, b_)], e[g[(a, b_)]]) + ("" if g[(a, b_)] in fixed else "?")).ljust(2)
+                                   if (a, b_) in g else ". " for b_ in range(B_ + 1)), flush=True)
+    # 一意な単項式で、部分ごとに e/c の符号が σ(−1)^d の形か
+    exps = {"0": lambda k: 0, "q": lambda k: k[2] // 2, "t": lambda k: k[3] // 2, "qt": lambda k: k[2] // 2 + k[3] // 2}
+    print("一意で e ≠ 0 の単項式だけで、部分（λ、ブロック、c の符号）ごとに e/c の符号 = σ(−1)^d が成り立つ規則 d", flush=True)
+    for p_ in sorted({part(k) for k in keys}, key=lambda x: (x[0], -x[1], -x[2])):
+        ks = [k for k in fixed if part(k) == p_ and rg[k][0] != 0]
+        ok = [o for o, d in exps.items() if len({int(np.sign(rg[k][0] / mult[k])) * (-1)**d(k) for k in ks}) <= 1]
+        print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}：一意 {len(ks)}/{sum(1 for k in keys if part(k) == p_)}、成り立つ規則 {'・'.join(ok) if ks else '（一意な単項式なし）'}", flush=True)
+    # λ = (2) の r^a s^b ν^c と λ = (1,1) の r^{a+4} s^b ν^c（§12.13 で N が一致する低い q の領域）で e も一致するか
+    pr = [(k, ("11",) + k[1:2] + (k[2] + 4,) + k[3:]) for k in keys if k[0] == "2"]
+    pr = [(k, k2) for k, k2 in pr if k2 in mult and mult[k] == mult[k2] and k in fixed and k2 in fixed]
+    print(f"λ = (2) と q^(−2)·λ = (1,1) で c が等しく両方一意な単項式 {len(pr)}、そのうち e も等しい {sum(1 for k, k2 in pr if rg[k] == rg[k2])}", flush=True)
+    for lab in ("2", "11"):
+        cnt = {"下": [0, 0], "上": [0, 0]}
+        for c in {k[-1] for k in keys if k[0] == lab}:
+            ks = [k for k in keys if k[0] == lab and k[-1] == c]
+            mid = (min(k[2] for k in ks) + max(k[2] for k in ks)) / 2
+            for k in ks:
+                h = "下" if k[2] <= mid else "上"; cnt[h][0] += k in fixed; cnt[h][1] += 1
+        print(f"λ = {lab}：一意な単項式は q の指数がブロックの下半分で {cnt['下'][0]}/{cnt['下'][1]}、上半分で {cnt['上'][0]}/{cnt['上'][1]}", flush=True)
+    must = [k for k in keys if max(abs(rg[k][0]), abs(rg[k][1])) < abs(int(mult[k]))]
+    print("どの解でも入れ替わる対を含む単項式（λ、ν、r、s の指数、c、e）：" + "、".join(f"{k[0]} ν^{k[-1]} r^{k[2]} s^{k[3]} c={int(mult[k])} e={rg[k][0]}" for k in must), flush=True)
+    return st
 
 
 def n1_partial():
@@ -700,6 +864,8 @@ if __name__ == "__main__":
         n2_series()
     elif sys.argv[1] == "n2rule":
         n2_rule("--nouniq" not in sys.argv)
+    elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
+        n2_pattern()
     elif sys.argv[1] == "n2choice":         # 部分ごとの規則の選択も変数にして対の数を最小にする
         n2_choice(tuple(sys.argv[2].split(",")), sys.argv[3] if len(sys.argv) > 3 else "sign")
     elif sys.argv[1] == "n2tower":           # 塔のセルの規則（0, q, t, qt）と、鏡映で対称な規則（0, qt）だけの場合

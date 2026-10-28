@@ -78,3 +78,47 @@ def test_choice_milp_selects_pattern():
     # c = 2 で e = 0：入れ替わる対が 1 個
     mp, _, e = TT.choice_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: "p", {"p": [{"c": 1}]})
     assert mp == 1 and e == {"c": 0}
+
+
+def test_choice_milp_ranges():
+    import numpy as np
+    # e_a + e_b = 0、c = (1, 1)：e = (1, −1) か (−1, 1)。対の数 0 のままどちらも可なので範囲は (−1, 1)
+    keys = ["a", "b"]; mult = {"a": 1, "b": 1}
+    pats = {k: [{k: 1}, {k: -1}] for k in keys}
+    rg = TT.choice_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), lambda k: k, pats, max_pairs=0, ranges=keys)
+    assert rg == {"a": (-1, 1), "b": (-1, 1)}
+    # e_a = 1 を加えると一意
+    rg = TT.choice_milp(keys, mult, np.array([[1.0, 1.0], [1.0, 0.0]]), np.array([0.0, 1.0]), lambda k: k, pats, max_pairs=0, ranges=keys)
+    assert rg == {"a": (1, 1), "b": (-1, -1)}
+
+
+def test_rule_milp_ranges():
+    import numpy as np
+    keys = ["a", "b"]; mult = {"a": 1, "b": 1}
+    own = lambda k: k
+    rg = TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), own, lambda k: 0, max_pairs=0, ranges=keys)
+    assert rg == {"a": (-1, 1), "b": (-1, 1)}
+    rg = TT.rule_milp(keys, mult, np.array([[1.0, 1.0], [1.0, 0.0]]), np.array([0.0, 1.0]), own, lambda k: 0, max_pairs=0, ranges=keys)
+    assert rg == {"a": (1, 1), "b": (-1, -1)}
+    # c = 2、条件なし：対 0 なら e = ±2、対 1 まで許すと e = 0 も入るが範囲は (−2, 2) のまま
+    assert TT.rule_milp(["c"], {"c": 2}, np.zeros((1, 1)), np.array([0.0]), own, lambda k: 0, max_pairs=0, ranges=["c"]) == {"c": (-2, 2)}
+
+
+def test_rule_milp_samples():
+    import numpy as np
+    # e_a + e_b = 0、c = (1, 1)：解は (1, −1) と (−1, 1) の 2 個。標本はどちらかで、条件を満たす
+    keys = ["a", "b"]; mult = {"a": 1, "b": 1}
+    sm = TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), lambda k: k, lambda k: 0, max_pairs=0, samples=(6, 0))
+    assert len(sm) == 6 and all(x in ({"a": 1, "b": -1}, {"a": -1, "b": 1}) for x in sm)
+    assert len({tuple(x.values()) for x in sm}) == 2
+
+
+def test_rule_milp_flip():
+    import numpy as np
+    keys = ["a", "b"]; mult = {"a": 1, "b": 1}
+    # e_a + e_b = 0：e0 = (1, −1) から両方の反転 (−1, 1) が可能
+    val, e = TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), lambda k: k, lambda k: 0, max_pairs=0, flip={"a": 1, "b": -1})
+    assert val == -2 and e == {"a": -1, "b": 1}
+    # e_a = 1 も課すと反転できず、最小値 = Σ|c| = 2（全部一意の証明）
+    val, e = TT.rule_milp(keys, mult, np.array([[1.0, 1.0], [1.0, 0.0]]), np.array([0.0, 1.0]), lambda k: k, lambda k: 0, max_pairs=0, flip={"a": 1, "b": -1})
+    assert val == 2 and e == {"a": 1, "b": -1}
