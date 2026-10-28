@@ -38,3 +38,26 @@ def test_rule_milp_sign_rule_and_pairs():
     res = TT.rule_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: 0, lambda k: 0)
     assert res["e"] == {"c": 0} and res["pairs"] == 1 and res["min_pairs"] == 1
     assert TT.rule_milp(["c"], {"c": 2}, np.array([[1.0]]), np.array([0.0]), lambda k: 0, lambda k: 0, pairs=False) is None
+
+
+def test_greedy_cells_and_mirror():
+    # 重み q, t, qt の 3 方向の弦の積 [2]_q [2]_t [6]_qt（r² = q、s² = t）：貪欲法は 3 セルを選び、最も長い qt が最初
+    box = {}
+    for a in range(3):
+        for b in range(3):
+            for c in range(7):
+                k = (2 * (a + c), 2 * (b + c), 0); box[k] = box.get(k, 0) + 1
+    cand = [(x, y, 0, sg) for x in (0, 2, 4) for y in (0, 2, 4) if (x, y) != (0, 0) for sg in (1, -1)]
+    cost = lambda P: sum(abs(v) for v in P.values())
+    seq, _ = TT.greedy_cells(box, cand, cost)
+    assert [x for x, _, _ in seq] == [(2, 2, 0, -1), (0, 2, 0, -1), (2, 0, 0, -1)]
+    # 単体の形（次数の和 ≤ 4）の打ち切りでは qt は選ばれない
+    simplex = {}
+    for a in range(5):
+        for b in range(5 - a):
+            for c in range(5 - a - b):
+                k = (2 * (a + c), 2 * (b + c), 0); simplex[k] = simplex.get(k, 0) + 1
+    assert {x[:2] for x, _, _ in TT.greedy_cells(simplex, cand, cost)[0]} == {(0, 2), (2, 0)}
+    # V = 1 + t + qt は鏡映 (q, t) → (1/t, 1/q) で自己双対、1 + t は双対でない
+    assert TT.mirror_sign({(0, 0, 0): 1, (0, 2, 0): 1, (2, 2, 0): 1}) == {0: "+"}
+    assert TT.mirror_sign({(0, 0, 0): 1, (0, 2, 0): 1}) == {0: "×"}

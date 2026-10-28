@@ -8,7 +8,7 @@ r"""固定セクターの因数分解に Ĩ がテンソル積で働くとした
     因子の捻りの 16 通り（各因子の ±）を全部試す。
   n = 2：P̂_λ = s(t − ν²)(ν² − 1)(ν²q − 1)·N_λ（境界のモードは hatted で除いてある、rk_f_twisted22_lam）、
     E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e^λ_m m、条件は rk_f_twisted22_lam と同じ（i22, i4, ii）。因子が ν のブロックをまたぐので全体で解く。
-使い方：python rk_f_twisted_tensor.py n1 | n2 [--all-inv]（--all-inv：N の全状態が不変、e = ±c）。"""
+使い方：python rk_f_twisted_tensor.py n1 | n2 [--all-inv] | n2series（N_λ の系列の同定）（--all-inv：N の全状態が不変、e = ±c）。"""
 import sys, io, contextlib, pickle, itertools, time
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import numpy as np
@@ -471,6 +471,100 @@ def n1_partial():
                               + ("解なし" if sig is None else "解あり、σ = " + " ".join(f"ν^{g[1]}:{v}" for g, v in sig.items())), flush=True)
 
 
+def times(P, a, b, c, sg=-1):
+    """P·(1 + sg r^a s^b ν^c)。P は {(r, s, ν の指数): 係数}。"""
+    out = dict(P)
+    for (x, y, z), v in P.items():
+        k = (x + a, y + b, z + c); out[k] = out.get(k, 0) + sg * v
+        if out[k] == 0: del out[k]
+    return out
+
+
+def greedy_cells(P, cand, cost, steps=6):
+    """(1 + sg m)（cand の (a, b, c, sg)）を cost が減る限り貪欲に掛ける。選んだ因子と、各段の cost を返す。"""
+    seq = []
+    for _ in range(steps):
+        best = min(cand, key=lambda x: cost(times(P, *x)))
+        P2 = times(P, *best)
+        if cost(P2) >= cost(P):
+            break
+        seq.append((best, cost(P), cost(P2))); P = P2
+    return seq, P
+
+
+def mirror_sign(P):
+    """ν のブロックごとの (q, t) → (t^{−1}, q^{−1}) の対称性：単項式のずらしの後に +P、−P、どちらでもない（×）。"""
+    out = {}
+    for c in sorted({k[2] for k in P}, reverse=True):
+        g = {k[:2]: v for k, v in P.items() if k[2] == c}
+        m = {(-b, -a): v for (a, b), v in g.items()}
+        sh = lambda h: {(a - min(x for x, _ in h), b - min(y for _, y in h)): v for (a, b), v in h.items()}
+        g, m = sh(g), sh(m)
+        out[c] = "+" if m == g else ("−" if m == {k: -v for k, v in g.items()} else "×")
+    return out
+
+
+def n2_series():
+    """N_λ（n = 2、trefoil）の系列の同定（theory §12.13、progress.md 続き 77）。
+    (a) ν 方向の系列：端から 4 ブロックの状態数を減らす (1 − ν^{∓2} r^a s^b) を貪欲に探す（n = 1 の T(2,5) を対照にする）。
+    (b) ブロックの中の塔：(1 ± m)、m = q^a t^b（a, b ≤ 2）を貪欲に探す。
+    (c) 鏡映 (q, t) → (t^{−1}, q^{−1})。(d) 端のブロックの閉じた形。(e) λ = (2) と q^{−2}·λ = (1,1) の差。"""
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    st = lambda P, lim=lambda c: True: sum(abs(v) for k, v in P.items() if lim(k[2]))
+    nu_cand = lambda dc: [(a, b, dc, -1) for a in range(-14, 15, 2) for b in range(-14, 15, 2)]
+    nm = lambda a, b: (f"q{'²' if a == 4 else ''}" if a else "") + (f"t{'²' if b == 4 else ''}" if b else "")
+
+    def nu_series(P, tag):
+        top, bot = max(k[2] for k in P), min(k[2] for k in P)
+        for dc, lim, end in ((-2, lambda c: c > top - 8, "上"), (2, lambda c: c < bot + 8, "下")):
+            seq, _ = greedy_cells(P, nu_cand(dc), lambda X: st(X, lim))
+            print(f"  {tag}、{end}の端から：" + (" ".join(f"(1 − ν^{dc} r^{a} s^{b})[{c0}→{c1}]" for (a, b, _, _), c0, c1 in seq) or "なし"), flush=True)
+
+    print("(a) ν 方向の系列（端から 4 ブロックの状態数）", flush=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(2)
+    P1 = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N1 = sp.cancel(P1 / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    nu_series({k[1:]: int(v) for k, v in TM.monomials(N1).items()}, "対照 n = 1 の T(2,5)")
+    mult, _ = n2_setup()
+    N = {lab: {k[2:]: int(v) for k, v in mult.items() if k[0] == lab} for lab in ("2", "11")}
+    tower = lambda P: times(times(times(P, 2, 0, 0), 0, 2, 0), 2, 2, 0)          # ×(1 − q)(1 − t)(1 − qt)
+    for lab, P in N.items():
+        nu_series(P, f"N_{lab}")
+        nu_series(tower(P), f"N_{lab}(1 − q)(1 − t)(1 − qt)")
+    print("(b) ブロックの中の塔 (1 ± q^a t^b) と (c) 鏡映", flush=True)
+    cand = [(a, b, 0, sg) for a in (0, 2, 4) for b in (0, 2, 4) if (a, b) != (0, 0) for sg in (1, -1)]
+    for lab, P in N.items():
+        mir = mirror_sign(P)
+        for c in sorted({k[2] for k in P}, reverse=True):
+            g = {k: v for k, v in P.items() if k[2] == c}
+            seq, _ = greedy_cells(g, cand, st)
+            print(f"  λ = {lab}、ν^{c}：鏡映 {mir[c]}、{st(g)} → {seq[-1][2] if seq else st(g)}  "
+                  + "".join(f"(1{'+' if x[3] > 0 else '−'}{nm(x[0], x[1])})" for x, _, _ in seq), flush=True)
+        print(f"  N_{lab} の状態数 {st(P)} → ×(1 − q)(1 − t)(1 − qt) で {st(tower(P))}", flush=True)
+    print("(d) 端のブロック", flush=True)
+    blk = lambda lab, c: sp.expand(sum(v * r**k[0] * s**k[1] for k, v in N[lab].items() if k[2] == c))
+    V, Vp, W = 1 + t + q * t, 1 + q + q * t, 1 + q**2 + q**2 * t**2
+    h = lambda k, x: sp.expand(sum(x[0]**i * x[1]**j * x[2]**(k - i - j) for i in range(k + 1) for j in range(k + 1 - i)))
+    print(f"  N_2 の ν^-8 = r^-7 s^3 (t − q)：{sp.expand(blk('2', -8) - r**-7 * s**3 * (t - q)) == 0}、"
+          f"ν^-10 = r^-11 s^3 (t − q) V V′：{sp.expand(blk('2', -10) - r**-11 * s**3 * (t - q) * V * Vp) == 0}", flush=True)
+    for lab, K, a0 in (("2", 5, -41), ("11", 4, -37)):
+        ok = sp.expand(blk(lab, -24) + r**a0 * s**17 * (1 + q * t) * h(K, (1, q**2, q**2 * t**2))) == 0
+        print(f"  N_{lab} の ν^-24 = −r^{a0} s^17 (1 + qt) h_{K}(W) = −r^{a0} s^17 (1 + qt) ψ²h_{K}(V′)：{ok}", flush=True)
+    print("(e) λ = (2) と q^{−2}·λ = (1,1) の差（ブロックごとの状態数、差の q の指数の範囲は N_11 の範囲と比べる）", flush=True)
+    for c in sorted({k[2] for k in N["2"]}, reverse=True):
+        g2 = {k[:2]: v for k, v in N["2"].items() if k[2] == c}
+        g11 = {k[:2]: v for k, v in N["11"].items() if k[2] == c}
+        D = {(a + 4, b): v for (a, b), v in g2.items()}
+        for k, v in g11.items():
+            D[k] = D.get(k, 0) - v
+        D = {k: v for k, v in D.items() if v}
+        rng = lambda g: (min(a for a, _ in g) // 2, max(a for a, _ in g) // 2) if g else None
+        print(f"  ν^{c}：差 {sum(abs(v) for v in D.values())}（N_2 {sum(abs(v) for v in g2.values())}、N_11 {sum(abs(v) for v in g11.values())}）、"
+              f"r の指数/2 の範囲：差 {rng(D)}、N_11 {rng(g11)}", flush=True)
+
+
 def n2(all_inv=False):
     import rk_f_twisted22_lam as L
     bl = L.blocks()
@@ -509,6 +603,8 @@ if __name__ == "__main__":
         for m_ in (1, 2):
             for use in (("i",), ("i", "ii")):
                 full_rule(m_, use)
+    elif sys.argv[1] == "n2series":
+        n2_series()
     elif sys.argv[1] == "n2rule":
         n2_rule("--nouniq" not in sys.argv)
     elif sys.argv[1] == "rule":
