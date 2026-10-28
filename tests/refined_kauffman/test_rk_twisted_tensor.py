@@ -188,3 +188,31 @@ def test_n2_quotient_rows_equivalent():
         e0 = pickle.load(open(path, "rb"))["e"]
         A, b = TT.quotient_rows(keys, Q, ("i22", "i4"))
         assert np.abs(A @ np.array([e0[k] for k in keys], float) - b).max() < 1e-9
+
+
+def test_crosscap_split():
+    # c = 1 は β ≡ n − 1 (mod 2)。和は元に戻り、n = 1 と n = 2 で偶奇の役が入れ替わる
+    nu = TT.nu
+    F = 3 * nu**-4 + 5 * nu**-3 - nu**2 + 7 * nu
+    c1, c2 = TT.crosscap_split(F, 1)
+    assert sp.expand(c1 - (3 * nu**-4 - nu**2)) == 0 and sp.expand(c2 - (5 * nu**-3 + 7 * nu)) == 0
+    d1, d2 = TT.crosscap_split(F, 2)
+    assert sp.expand(d1 - c2) == 0 and sp.expand(d2 - c1) == 0
+
+
+def test_n1_crosscap_c2_vanishes_at_tq():
+    # n = 1（trefoil）：(ii) の F = g_(1) + 1 の c = 2 部分は 0 でないが、t = q で消える（theory §12.18）
+    import rk_b_knot_fixed_sector as K
+    r, s = TT.r, TT.s
+    c1, c2 = TT.crosscap_split(sp.cancel(K.load_g(1)[(1,)] + 1), 1)
+    assert sp.cancel(c2) != 0 and sp.cancel(c2.subs(s, r)) == 0 and sp.cancel(c1.subs(s, r)) != 0
+
+
+def test_n2_quotient_c_intersection():
+    # (ii′) の割った形の目標は (i22) の目標と交点 q = t = −1 で全ブロック一致し、(ii) とは ν^{−24} で全体の符号が逆
+    Q, Q0 = TT.n2_quotient("c"), TT.n2_quotient()
+    R = sp.Symbol("R")
+    poly = lambda d, c: sum((v * R**a for (a, b), v in d.items() if b == c), sp.Integer(0))
+    for c in sorted({k[1] for k in Q["i22"]} | {k[1] for k in Q["ii"]}):
+        assert sp.expand(poly(Q["i22"], c).subs(R, sp.I) * sp.I - poly(Q["ii"], c).subs(R, sp.I)) == 0
+    assert sp.expand(poly(Q["ii"], -24) + poly(Q0["ii"], -24)) == 0

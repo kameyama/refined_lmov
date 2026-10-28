@@ -828,20 +828,34 @@ def hidden_milp(keys, mult, A, b, max_h=None, ranges=None, hrange=None, time_lim
     return round(res.fun), {k: int(cs[i] + 2 * x[i]) for i, k in enumerate(keys)}, {k: int(x[n + i]) for i, k in enumerate(keys)}
 
 
-def n2_quotient():
+def crosscap_split(F, n):
+    """凍結した状態 F（brane n の p₁ⁿ 方向）を c = 1 と c = 2 の部分に分ける。hatted の規則 β ≡ n − 1 (mod 2) が c = 1（progress 続き 56）。"""
+    Fn = sp.expand(sp.cancel(F * nu**60))
+    part = lambda par: sum((m for m in sp.Add.make_args(Fn) if sp.degree(m, nu) % 2 == par), sp.Integer(0)) / nu**60
+    return part((n - 1) % 2), part(n % 2)
+
+
+def n2_quotient(form="F"):
     """n = 2 の条件を前因子と境界の因子で割った形（theory §12.17）。E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e m のとき、
     (i22) Σ_λ Σ e m|_{s=i} = Gs、(i4) Σ_λ χ_λ Σ e m|_{s=i} = Gd、(ii) Σ_λ Σ e m|_{s=r} = H（どれも Laurent 多項式、割り算は単射なので元の条件と同値）。
+    form = "F"：(ii) は −(1 + q)ψ²[F]（§12.7）、"c"：−(1 + q)ψ²[F^{c=1} − F^{c=2}]（c = 2 の部分の符号を反転、theory §12.18）。
     {"i22": {(r の指数, ν の指数): 整数}, "i4": …, "ii": …} を返す（s = i の値は i で割った実数部分。sympy の約分が重いので data/cache に保存）。"""
     import rk_f_twisted22_lam as L
-    path = "data/cache/twisted_n2_quotient.pkl"
+    import rk_f_twisted22 as T2
+    path = "data/cache/twisted_n2_quotient" + ("" if form == "F" else "_" + form) + ".pkl"
     if os.path.exists(path):
         return pickle.load(open(path, "rb"))
     _, conds = n2_setup()
     pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
     W22, W4 = L.W22.subs(L._r, r), L.W4.subs(L._r, r)
+    if form == "F":
+        Eq = conds["ii"][0]
+    else:
+        c1, c2 = crosscap_split(T2.sectors()[2][1], 2)
+        Eq = -(1 + q) * T2.psi2(c1 - c2)
     X = {"i22": sp.cancel(conds["i22"][0].subs(s, I) / (pre.subs(s, I) * W22 * I)),
          "i4": sp.cancel(conds["i4"][0].subs(s, I) / (pre.subs(s, I) * W4 * I)),
-         "ii": sp.cancel(conds["ii"][0].subs(s, r) / (pre.subs(s, r) * W22))}
+         "ii": sp.cancel(Eq.subs(s, r) / (pre.subs(s, r) * W22))}
     out = {}
     for name, x in X.items():
         d_ = TM.lp(sp.expand(x), (r, nu))
@@ -961,6 +975,100 @@ def n2_ii():
         forced = [k for k in keys if hr[("h",) + k][0] > 0]
         print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
     return Q
+
+
+def n1_crosscap():
+    """n = 1 で (ii) の F の c = 2 部分が t = q で消えること、したがって (ii′)（c = 2 の符号を反転）でも (i)+(ii) の解が変わらないこと（theory §12.18）。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    psi2 = lambda e: e.subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True)
+    for m in (1, 2):
+        with contextlib.redirect_stdout(io.StringIO()):
+            sec = C.cover_sectors(m)
+        P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+        mult = TM.monomials(sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1))))
+        g = K.load_g(m)
+        c1, c2 = crosscap_split(sp.cancel(g[(1,)] + 1), 1)
+        pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+        sols = {}
+        for lab, Fp in (("(ii)", c1 + c2), ("(ii′)", c1 - c2)):
+            conds = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1), "ii": (sp.cancel(-(1 + q) * psi2(Fp)), {s: r}, lambda k: 1)}
+            keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), conds)
+            sols[lab] = freedom(mult, A, b)
+        a, b_ = sols["(ii)"], sols["(ii′)"]
+        print(f"T(2,{2 * m + 1})：F^(c=2)|_(t=q) = {sp.cancel(c2.subs(s, r))}、F^(c=2) の項数 {len(sp.Add.make_args(sp.expand(sp.cancel(c2 * nu**60))))}；"
+              f"(i)+(ii) 一意でない {len(a['free'])}/{a['n']}、(i)+(ii′) 一意でない {len(b_['free'])}/{b_['n']}、"
+              f"一意な変数の値が一致 {all(a['e'][k] == b_['e'][k] for k in a['e'] if k not in a['free'])}、自由な変数の集合が一致 {a['free'] == b_['free']}", flush=True)
+
+
+def onehot_ranges(keys, mult, A, b, max_pairs, time_limit=60):
+    """入れ替わる対が max_pairs 以下の解の集合で、各単項式の e の範囲 [最小, 最大]（0/1 変数の定式化。時間切れは None）。"""
+    var = [(i, v) for i, k in enumerate(keys) for v in range(-abs(int(mult[k])), abs(int(mult[k])) + 1, 2)]
+    n, nv = len(keys), len(var)
+    E, M, cost = np.zeros((n, nv)), np.zeros((n, nv)), np.zeros(nv)
+    for j, (i, v) in enumerate(var):
+        E[i, j] = 1; M[i, j] = v; cost[j] = (abs(int(mult[keys[i]])) - abs(v)) // 2
+    cons = [LinearConstraint(E, 1, 1), LinearConstraint(A @ M, b - 1e-7, b + 1e-7), LinearConstraint(cost[None, :], 0, max_pairs + 0.5)]
+    out = {}
+    for i, k in enumerate(keys):
+        lo_hi = []
+        for sg in (1, -1):
+            res = milp(sg * M[i], constraints=cons, bounds=Bounds(0, 1), integrality=np.ones(nv), options={"time_limit": time_limit})
+            lo_hi.append(round(sg * res.fun) if res.status == 0 else None)
+        out[k] = tuple(lo_hi)
+    return out
+
+
+def n2_iic():
+    """n = 2 の (ii) を (ii′) E|_(t=q) = −(1 + q)ψ²[F^{c=1} − F^{c=2}] に替えて、§12.17（n2_ii）と同じ診断をする（theory §12.18、progress 続き 82）。"""
+    import rk_f_twisted22_lam as L
+    print("(0) n = 1：", flush=True)
+    n1_crosscap()
+    Q, Q0 = n2_quotient("c"), n2_quotient()
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c: {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+    poly = lambda d: sum((v * R**a for (a, _), v in d.items()), sp.Integer(0))
+    blocks = sorted({k[-1] for k in mult}, reverse=True)
+    print("(1) 交点 r = s = i（q = t = −1）での (i) と (ii′) の一致、(ii′) と (ii) の目標の差 H′ − H（ブロックごと）：", flush=True)
+    for c in blocks:
+        Qc = Qb(c)
+        gi, hi = sp.expand(poly(Qc["i22"]).subs(R, I) * I), sp.expand(poly(Qc["ii"]).subs(R, I))
+        dH = sp.factor(poly(Qc["ii"]) - poly({mo: v for mo, v in Q0["ii"].items() if mo[1] == c}))
+        print(f"   ν^{c}：Σ_λ G_λ(i) = {gi}、H′(i) = {hi}、一致 {sp.simplify(gi - hi) == 0}；H′ − H = {dH}", flush=True)
+    print("(2) N の台の上：一次方程式、見えない対の最小", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c)); x = np.linalg.lstsq(A, b, rcond=None)[0]
+        ok = float(np.abs(A @ x - b).max()) < 1e-6
+        res = hidden_milp(keys, mult, A, b, time_limit=300) if ok else None
+        print(f"   ν^{c}（単項式 {len(keys)}、状態 {sum(abs(int(mult[k])) for k in keys)}）：一次 {'○' if ok else '×'}、Σh の最小 {res[0] if res else '—'}", flush=True)
+    print("(3) 入れ替わる対の最小（pairs_onehot、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）と、対が最小の解での e の範囲（単項式 150 以下のブロック）", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        out = []
+        for use in (("i22", "i4"), ("i22", "i4", "ii")):
+            A, b = quotient_rows(keys, Qb(c), use)
+            st, val, bd = pairs_onehot(keys, mult, A, b, time_limit=300)
+            out.append(f"{'(i)' if len(use) == 2 else '(i)+(ii′)'} " + ("解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"))
+        msg = ""
+        if val is not None and st == 0 and len(keys) <= 150:
+            rg = onehot_ranges(keys, mult, A, b, val)
+            fixed = [k for k, v in rg.items() if v[0] is not None and v[0] == v[1]]
+            msg = f"；対が最小の解で一意な単項式 {len(fixed)}/{len(keys)}" + ("（時間切れあり）" if any(None in v for v in rg.values()) else "")
+        print(f"   ν^{c}：" + "、".join(out) + msg, flush=True)
+    print("(4) 見えない対が要るブロック：Σh が最小の解の集合で、必ず h > 0 の単項式", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c))
+        res = hidden_milp(keys, mult, A, b)
+        if res is None or res[0] == 0:
+            continue
+        hr = hidden_milp(keys, mult, A, b, max_h=res[0], hrange=keys)
+        may = [k for k in keys if hr[("h",) + k][1] > 0]
+        forced = [k for k in keys if hr[("h",) + k][0] > 0]
+        print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
 
 
 def pairs_onehot(keys, mult, A, b, time_limit=None):
@@ -1145,6 +1253,8 @@ if __name__ == "__main__":
         n2_rule("--nouniq" not in sys.argv)
     elif sys.argv[1] == "n2ii":             # (ii)（t = q）を加える：割った形の条件でブロックごとに診断
         n2_ii()
+    elif sys.argv[1] == "n2iic":            # (ii′)：c = 2 の部分の符号を反転した (ii) で同じ診断
+        n2_iic()
     elif sys.argv[1] == "n2rows":           # 条件 (i) は行ごとの交代和だけを決める：対の最小化を行ごとに解く
         n2_rows()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
