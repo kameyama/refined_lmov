@@ -122,3 +122,31 @@ def test_rule_milp_flip():
     # e_a = 1 も課すと反転できず、最小値 = Σ|c| = 2（全部一意の証明）
     val, e = TT.rule_milp(keys, mult, np.array([[1.0, 1.0], [1.0, 0.0]]), np.array([0.0, 1.0]), lambda k: k, lambda k: 0, max_pairs=0, flip={"a": 1, "b": -1})
     assert val == 2 and e == {"a": 1, "b": -1}
+
+
+def test_row_min():
+    # c = (3, 1)、w = (1, −1)：S = 2 は対なしで (3, 1) の 1 通り、S = 0 は対 1 個で (±1, ±1)、S = 6 は届かない
+    assert TT.row_min([3, 1], [1, -1], 2) == (0, [{3}, {1}])
+    assert TT.row_min([3, -1], [1, -1], 0) == (1, [{-1, 1}, {-1, 1}])
+    assert TT.row_min([3, 1], [1, -1], 6) == (None, None)
+
+
+def test_row_min_matches_rule_milp():
+    # 2 行（a, b, c と d, e）の条件で、行ごとの動的計画法と全体の整数計画の、対の最小と e の範囲が一致する
+    import numpy as np
+    rng = np.random.default_rng(1)
+    keys = list("abcde"); rows_ = {"a": 0, "b": 0, "c": 0, "d": 1, "e": 1}
+    for _ in range(3):
+        mult = {k: int(rng.choice([-1, 1]) * rng.integers(1, 5)) for k in keys}
+        w = {k: int(rng.choice([-1, 1])) for k in keys}
+        e0 = {k: int(rng.choice(range(-abs(c), abs(c) + 1, 2))) for k, c in mult.items()}
+        A = np.array([[float(w[k]) if rows_[k] == j else 0.0 for k in keys] for j in (0, 1)])
+        b = A @ np.array([float(e0[k]) for k in keys])
+        mp, rg = 0, {}
+        for j in (0, 1):
+            ks = [k for k in keys if rows_[k] == j]
+            best, vals = TT.row_min([mult[k] for k in ks], [w[k] for k in ks], int(b[j]))
+            mp += best; rg.update({k: (min(v), max(v)) for k, v in zip(ks, vals)})
+        res = TT.rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, uniq=False)
+        assert res["min_pairs"] == mp
+        assert TT.rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, ranges=keys) == rg

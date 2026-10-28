@@ -699,6 +699,101 @@ def n2_pattern():
     return st
 
 
+def row_min(cs, w, S):
+    """1 行の問題：e_m ∈ {−|c_m|, −|c_m| + 2, …, |c_m|}、Σ w_m e_m = S（w_m = ±1）で、入れ替わる対 Σ (|c_m| − |e_m|)/2 を最小にする。
+    前向きと後ろ向きの動的計画法。(対の最小, [各単項式の、最小の解での e の値の集合]) を返す。S に届かなければ (None, None)。"""
+    opts = [[(x, (abs(c) - abs(x)) // 2) for x in range(-abs(c), abs(c) + 1, 2)] for c in cs]
+
+    def sweep(order, start, sg):
+        tabs = [start]
+        for i in order:
+            nx = {}
+            for s_, p in tabs[-1].items():
+                for x, dp in opts[i]:
+                    k = s_ + sg * w[i] * x
+                    if p + dp < nx.get(k, 1 << 30): nx[k] = p + dp
+            tabs.append(nx)
+        return tabs
+    n = len(cs)
+    F = sweep(range(n), {0: 0}, 1)                          # F[i]：最初の i 個の和 → 対の最小
+    if S not in F[n]:
+        return None, None
+    B = sweep(range(n - 1, -1, -1), {S: 0}, -1)[::-1]      # B[i]：i 番目以降で S に届く残り → 対の最小
+    best = F[n][S]
+    vals = [{x for s_, p in F[i].items() for x, dp in opts[i]
+             if p + dp + B[i + 1].get(s_ + w[i] * x, 1 << 30) == best} for i in range(n)]
+    return best, vals
+
+
+def n2_rows():
+    """n = 2（trefoil）、t = −1 だけ、規則なし（theory §12.16、progress.md 続き 80）：条件 (i) は行（λ、ν のブロック、r の指数）ごとの
+    交代和 S = Σ_m (−1)^{(s_m − 1)/2} e_m だけを決める（行空間が一致することを階数で確かめる）。したがって入れ替わる対の最小化は行ごとに
+    独立な問題（row_min）に分かれる。各単項式の e の範囲を求めて、続き 79 の整数計画の結果（data の twisted_n2_pattern.pkl）と比べ、
+    一意性が行の形（飽和 |S| = Σ|c|、対なしの符号の解が 1 通り）でどう決まるかを集計する。"""
+    from collections import defaultdict
+    t0 = time.time()
+    mult, keys, A, b = _n2_model()
+    assert all(k[3] % 2 for k in keys)
+    w = lambda k: (-1)**((k[3] - 1) // 2)                       # s = i で s^{k[3]} = i·w
+    rows_ = defaultdict(list)
+    for k in keys:
+        rows_[(k[0], k[-1], k[2])].append(k)
+    rl = sorted(rows_)
+    col = {k: i for i, k in enumerate(keys)}
+    R = np.zeros((len(rl), len(keys)))
+    for j, rw in enumerate(rl):
+        for k in rows_[rw]:
+            R[j, col[k]] = w(k)
+    rk = lambda M: np.linalg.matrix_rank(M, tol=1e-8 * np.linalg.norm(M, 2))
+    print(f"行の数 {len(rl)}、A の階数 {rk(A)}、交代和の行列 R の階数 {rk(R)}、[A; R] の階数 {rk(np.vstack([A, R]))}（{time.time() - t0:.0f} 秒）", flush=True)
+    Sf = R @ np.linalg.lstsq(A, b, rcond=None)[0]               # 行空間が一致すれば A e = b の解によらない
+    S = {rw: int(round(v)) for rw, v in zip(rl, Sf)}
+    assert np.abs(Sf - np.round(Sf)).max() < 1e-6
+    rg, mp, info = {}, 0, {}
+    for rw in rl:
+        ks = rows_[rw]
+        best, vals = row_min([int(mult[k]) for k in ks], [w(k) for k in ks], S[rw])
+        mp += best
+        for k, v in zip(ks, vals):
+            rg[k] = (min(v), max(v))
+        cab = sum(abs(int(mult[k])) for k in ks)
+        info[rw] = dict(n=len(ks), cab=cab, pairs=best, sat=abs(S[rw]) == cab, nu=sum(len(v) == 1 for v in vals))
+    fixed = {k for k in keys if rg[k][0] == rg[k][1]}
+    print(f"行ごとの対の最小の和 {mp}、e が一意な単項式 {len(fixed)}/{len(keys)}（{time.time() - t0:.0f} 秒）", flush=True)
+    path = f"{OUT}/twisted_n2_pattern.pkl"
+    if os.path.exists(path):
+        st = pickle.load(open(path, "rb"))
+        same = st["mp"] == mp and all((st["rg"][k][0] == st["rg"][k][1]) == (k in fixed) and (k not in fixed or st["rg"][k] == rg[k]) for k in keys)
+        print(f"続き 79 の整数計画（対の最小 {st['mp']}、一意 {sum(1 for k in keys if st['rg'][k][0] == st['rg'][k][1])}）と、最小・一意性・一意な値が一致：{same}", flush=True)
+    full = [rw for rw in rl if info[rw]["nu"] == info[rw]["n"]]
+    print(f"全単項式が一意な行 {len(full)}/{len(rl)}：飽和（e = sign(S)(−1)^((s−1)/2)|c|）{sum(1 for rw in full if info[rw]['sat'])}、"
+          f"飽和でないが対の最小の解が 1 通り {sum(1 for rw in full if not info[rw]['sat'])}"
+          f"（うち対を含む {sum(1 for rw in full if info[rw]['pairs'])}）", flush=True)
+    print(f"一意な単項式 {len(fixed)} のうち、全単項式が一意な行にあるもの {sum(info[rw]['n'] for rw in full)}、"
+          f"一部だけ一意な行にあるもの {sum(info[rw]['nu'] for rw in rl if rw not in full)}", flush=True)
+    for lo, hi in ((1, 5), (6, 20), (21, 60), (61, 200), (201, 10**6)):
+        rs = [rw for rw in rl if lo <= info[rw]["cab"] <= hi]
+        print(f"   行の状態数 Σ|c| が {lo}〜{hi}：行 {len(rs)}、全部一意な行 {sum(1 for rw in rs if rw in full)}、"
+              f"一意な単項式 {sum(info[rw]['nu'] for rw in rs)}/{sum(info[rw]['n'] for rw in rs)}", flush=True)
+    # λ = (2) の行 (ν^c, r^a) と λ = (1,1) の行 (ν^c, r^{a+4})：N の行と S が同じなら行の問題が同じ
+    same_row = lambda rw: (("11", rw[1], rw[2] + 4) in rows_ and S[rw] == S[("11", rw[1], rw[2] + 4)]
+                           and {k[3]: int(mult[k]) for k in rows_[rw]} == {k[3]: int(mult[k]) for k in rows_[("11", rw[1], rw[2] + 4)]})
+    sr = [rw for rw in rl if rw[0] == "2" and same_row(rw)]
+    print(f"λ = (2) と q^(−2)·λ = (1,1) で N の行と S がともに等しい行 {len(sr)}（λ = (2) の行 {sum(1 for rw in rl if rw[0] == '2')}）、"
+          f"そのブロックごとの q の冪：" + "、".join(f"ν^{c} {sorted((rw[2] - min(k[2] for k in keys if k[0] == '2' and k[-1] == c)) // 2 for rw in sr if rw[1] == c)}"
+                                                   for c in sorted({rw[1] for rw in sr}, reverse=True)), flush=True)
+    pr = [(k, ("11",) + k[1:2] + (k[2] + 4,) + k[3:]) for k in keys if k[0] == "2"]
+    pr = [(k, k2) for k, k2 in pr if k2 in mult and mult[k] == mult[k2] and k in fixed and k2 in fixed]
+    diff = [k for k, k2 in pr if rg[k] != rg[k2]]
+    print(f"c が等しく両方一意な単項式の組 {len(pr)}：同じ行の問題に入るもの {sum(1 for k, _ in pr if same_row((k[0], k[-1], k[2])))}、"
+          f"e が違うもの {len(diff)}（" + "、".join(f"ν^{k[-1]} r^{k[2]} s^{k[3]}：行の問題が同じ {same_row((k[0], k[-1], k[2]))}" for k in diff) + "）", flush=True)
+    print("ブロックごとの行（q の冪の順）：S = E(q, −1) の行の値、Σ|c|、対の最小、一意な単項式/単項式", flush=True)
+    for bk in sorted({rw[:2] for rw in rl}, key=lambda x: (x[0], -x[1])):
+        rs = sorted(rw for rw in rl if rw[:2] == bk)
+        print(f"   λ = {bk[0]}、ν^{bk[1]}：" + " ".join(f"[{S[rw]},{info[rw]['cab']},{info[rw]['pairs']},{info[rw]['nu']}/{info[rw]['n']}]" for rw in rs), flush=True)
+    return S, rg
+
+
 def n1_partial():
     """n = 1、捻り (t − ν²)(ν² + 1)(q + 1)(ν²q + 1)：(i) だけ、(i) ＋ (ii) の β 奇の部分、(i) ＋ (ii)。"""
     import rk_b_knot_fixed_sector as K
@@ -864,6 +959,8 @@ if __name__ == "__main__":
         n2_series()
     elif sys.argv[1] == "n2rule":
         n2_rule("--nouniq" not in sys.argv)
+    elif sys.argv[1] == "n2rows":           # 条件 (i) は行ごとの交代和だけを決める：対の最小化を行ごとに解く
+        n2_rows()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
         n2_pattern()
     elif sys.argv[1] == "n2choice":         # 部分ごとの規則の選択も変数にして対の数を最小にする
