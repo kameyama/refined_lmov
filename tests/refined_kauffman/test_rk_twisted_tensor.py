@@ -314,3 +314,17 @@ def test_rule_milp_fix():
     # c = 3 の単項式を e = 1 に固定：対 1 個（規則 e = σ sign(c) w、w = |c| − 2y）
     res = TT.rule_milp(["c"], {"c": 3}, np.zeros((1, 1)), np.array([0.0]), lambda k: 0, lambda k: 0, fix={"c": 1})
     assert res["e"] == {"c": 1} and res["pairs"] == 1
+
+
+def test_principle_reproduces_unique_E():
+    """状態の空間の同定（principle、続き 89）が T(2,3)・T(2,5) の一意な E（続き 75、(i)+(ii) から決めたもの）を
+    条件を入力にせずに再現し、条件 (i)・(ii) を満たす。"""
+    import io, contextlib, pickle
+    for m in (1, 2):
+        with contextlib.redirect_stdout(io.StringIO()):
+            E, e, ok = TT.principle(m, verbose=False)
+        assert ok == {"i": True, "ii": True}
+        saved = pickle.load(open(f"data/refined_kauffman/daha/twisted_E_n1_m{m}.pkl", "rb"))
+        Es = sp.sympify(saved["E"], locals={"r": TT.r, "s": TT.s, "nu": TT.nu})
+        pre = TT.s**2 * (TT.t - TT.nu**2) * (TT.nu**2 + 1) * (TT.q + 1) * (TT.nu**2 * TT.q + 1)
+        assert sp.expand(E * pre - Es) == 0

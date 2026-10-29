@@ -1673,6 +1673,84 @@ def n1_free_set(m=3, use=("i", "ii")):
     return ok
 
 
+def principle(m=2, verbose=True, save=False):
+    """n = 1 の E を、規則ではなく状態の空間の同定から作る（続き 89）：
+      下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
+      移り目 k = 2m：Sym^{2m} V（同じ ε）から S ⊗ S（S は簡約 superpolynomial）を引く。Ĩ は因子の入れ替えで、トレースは ψ²S = S(q², t²)。
+      上の系列 k = K − j（K = 4m−1）：−t^{K−2j}·[Sym^j V + (q − t) R_j]。Sym^j V のセルは ε = −(−1)^{b+c}（下の双対、全体の符号 −）。
+        補正 (q − t) R_j は対の状態 (q·m, −t·m) の和で、R_m = t^{m−1}（1 状態）、R_{m+1} = t^{m−2}(S′ ⊗ S′ + t²)（S′ は T(2,2m−3) の簡約 superpolynomial）。
+        Ĩ は S′ ⊗ S′ の入れ替え（トレース ψ²S′）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
+    作った E が N の台の上で |e| ≤ |c|、e ≡ c (mod 2) を満たすか、条件 (i)・(ii) を満たすか、保存した一意な E と一致するかを調べる。
+    save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。"""
+    import rk_f_frozen_basis as FB
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    blocks_ = FB.nu_blocks(N)
+    K = 4 * m - 1
+    superpoly = lambda m_: sum(q**i * t**i for i in range(m_ + 1)) + sum(q**i * t**(i + 1) for i in range(m_))
+    S = superpoly(m)
+    psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]   # 1^a t^b (qt)^c
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+    E = sp.Integer(0)
+    for b_, blk in blocks_.items():
+        k = (-b_ - 6) // 2
+        nk = sp.expand(blk * r**(4 + 2 * k))
+        if k <= 2 * m:
+            Ek = sum((-1)**(a_ + b_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+            if k == 2 * m:
+                assert sp.expand(nk - (sym(k) - S**2)) == 0, "移り目 ≠ Sym^{2m}V − S²"
+                Ek = Ek - psi2(S)
+            else:
+                assert sp.expand(nk - sym(k)) == 0, f"k={k} ≠ Sym^k V"
+        else:
+            j = K - k
+            D = sp.expand(nk / (-t**(K - 2 * j)) - sym(j))
+            R = sp.cancel(D / (q - t))
+            assert sp.expand(R * (q - t) - D) == 0, f"k={k}：Sym^j V との差が (q − t) で割れない"
+            Ek = sum(-(-1)**(b_ + c_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(j))
+            if j < m:
+                assert R == 0, f"k={k}（j={j} < m）：補正 {R} ≠ 0"
+                Rp = sp.Integer(0)
+            elif j == m:
+                assert sp.expand(R - t**(m - 1)) == 0, f"k={k}（j=m）：補正 {R} ≠ t^(m−1)"
+                Rp = -(-1)**m * t**(m - 1)
+            elif j == m + 1:
+                Sp = superpoly(m - 2)
+                assert sp.expand(R - t**(m - 2) * (Sp**2 + t**2)) == 0, f"k={k}（j=m+1）：補正 {R} ≠ t^(m−2)(S′² + t²)"
+                Rp = (-1)**m * t**(m - 2) * (psi2(Sp) + t**2)
+            else:
+                raise NotImplementedError(f"k={k}（j={j} > m+1）の補正の構造は未同定")
+            if verbose:
+                print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
+                      f"E の補正 (q − t)·R′、R′ = {sp.expand(Rp).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
+            Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
+        E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
+    E = sp.expand(E)
+    e = TM.monomials(E)
+    bad = [k_ for k_ in e if k_ not in mult]
+    viol = [(k_, int(mult[k_]), int(e.get(k_, 0))) for k_ in mult if abs(e.get(k_, 0)) > abs(mult[k_]) or (e.get(k_, 0) - mult[k_]) % 2]
+    pairs = sum((abs(int(mult[k_])) - abs(int(e.get(k_, 0)))) // 2 for k_ in mult)
+    print(f"T(2,{2 * m + 1})：原理から作った E は N の台の外の単項式 {len(bad)} 個、|e| ≤ |c|・偶奇の違反 {len(viol)} 個 {viol[:6]}、入れ替わる対 {pairs}", flush=True)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    ok = {}
+    for name in ("i", "ii"):
+        keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {name: allc[name]})
+        ev = np.array([float(e.get(k_, 0)) for k_ in keys])
+        res = A @ ev - b
+        ok[name] = bool(np.max(np.abs(res)) < 1e-9)
+        print(f"   条件 ({name})：{'満たす' if ok[name] else '満たさない（最大のずれ ' + str(np.max(np.abs(res))) + '）'}", flush=True)
+    f_ = f"{OUT}/twisted_E_n1_m{m}.pkl"
+    if os.path.exists(f_) and not save:
+        saved = pickle.load(open(f_, "rb"))
+        Es = sp.sympify(saved["E"], locals={"r": r, "s": s, "nu": nu})
+        print(f"   保存した一意な E（{f_}）と一致：{sp.expand(E * pre - Es) == 0}", flush=True)
+    if save:
+        pickle.dump({"E": str(sp.expand(E * pre)), "e": {str(k_): int(v) for k_, v in e.items()}, "origin": "principle（続き 89）"}, open(f_, "wb"))
+        print(f"   保存：{f_}", flush=True)
+    return E, e, ok
+
+
 if __name__ == "__main__":
     ai = "--all-inv" in sys.argv
     ms = [int(x) for x in sys.argv[2:] if x.isdigit()]              # rule・full・lower：m を指定できる（T(2,2m+1)。既定は 1, 2）
@@ -1720,6 +1798,9 @@ if __name__ == "__main__":
     elif sys.argv[1] == "n1freeset":        # 一意でない単項式の値の組み合わせのうち実現できるもの（m を指定）
         for m_ in ms or (3,):
             n1_free_set(m_)
+    elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存）
+        for m_ in ms or (1, 2, 3):
+            principle(m_, save="--save" in sys.argv)
     elif sys.argv[1] == "scan":             # k ≥ 2m のブロックごとに (−1)^q / (−1)^t を選ぶ全通り（m を指定）
         for m_ in ms or (1, 2):
             for use in (("i",), ("i", "ii")):

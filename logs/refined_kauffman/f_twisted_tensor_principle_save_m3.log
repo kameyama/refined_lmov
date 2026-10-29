@@ -1,0 +1,9 @@
+  k=7（j=4）：Sym^4 V との差 (q − t)·R、R = t*(q**2*t**2 + 2*q*t**2 + 2*q*t + 2*t**2 + 2*t + 1)、E の補正 (q − t)·R′、R′ = -q**2*t**3 - 2*t**3 - t
+  k=8（j=3）：Sym^3 V との差 (q − t)·R、R = t**2、E の補正 (q − t)·R′、R′ = t**2
+  k=9（j=2）：Sym^2 V との差 (q − t)·R、R = 0、E の補正 (q − t)·R′、R′ = 0
+  k=10（j=1）：Sym^1 V との差 (q − t)·R、R = 0、E の補正 (q − t)·R′、R′ = 0
+  k=11（j=0）：Sym^0 V との差 (q − t)·R、R = 0、E の補正 (q − t)·R′、R′ = 0
+T(2,7)：原理から作った E は N の台の外の単項式 0 個、|e| ≤ |c|・偶奇の違反 0 個 []、入れ替わる対 16
+   条件 (i)：満たす
+   条件 (ii)：満たす
+   保存：data/refined_kauffman/daha/twisted_E_n1_m3.pkl
