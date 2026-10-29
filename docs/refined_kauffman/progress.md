@@ -8,8 +8,10 @@
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`
   - ブランチは `claude/kauffman-research-progress-c23e34`（続き 63 以降）。続き 62 までは worktree `dgr-quadruply-graded-lomv-2a7fb6`（ブランチ `claude/refined-kauffman-large-n-00d58e`）。
   - main への直接の commit とローカルでのマージは禁止。
+  - この worktree が無くなっていたら、push 済みのブランチから作り直す（main checkout で `git -C /Users/masaya/projects/ai_research/refined_cs worktree add <場所> claude/kauffman-research-progress-c23e34`、サンドボックス外）。
+  - data/cache/（追跡しない）の n2_quotient のキャッシュ（twisted_n2_quotient*.pkl）などは、無ければ初回の実行で作り直される（数分）。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（続き 62 まで、MERGED、2026-10-26）。
-  - 続き 63〜86 の commit（28 個）は 2026-10-30 にブランチ claude/kauffman-research-progress-c23e34 として origin に push した（先頭 4ba396b）。PR はユーザーの指示でまだ作っていない（作成は毎回許可を得る）。
+  - 続き 63〜86 の commit（28 個）は 2026-10-30 にブランチ claude/kauffman-research-progress-c23e34 として origin に push した（先頭 4ba396b）。その後の push の記録の commit（90dc666）は未 push。PR はユーザーの指示でまだ作っていない（作成は毎回許可を得る）。
   - 前回の push は `git push` をサンドボックス外で実行した（gh api は不要だった）。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
@@ -21,6 +23,11 @@
 - **テスト**：`../../../.venv/bin/pytest -q tests/refined_kauffman`（2026-10-26 に main の整理（PR #10）に合わせて scripts/refined_kauffman/、tests/refined_kauffman/、src/rcsknots/refined_kauffman/ に移した。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman`）
   - 既定の 110 件（約 315 秒。2026-10-30 に全件通過）。
   - `-m results` の 8 件（2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log。2026-10-30 に追加した test_cover_parts_sum は 21 分で通過、logs/refined_kauffman/test_cover_parts_sum.log）。
+- **実行上の注意**（2026-10-29〜30 に分かったこと）：
+  - git の書き込み（commit・push）はサンドボックス外で `git -C <worktree> ...` として実行する。push は `git push` をサンドボックス外で実行すれば通る。
+  - `/usr/bin/time -l` はサンドボックス内では最大メモリの行を出さず、終了コードが 1 になる。完了の目印は "real" の行にする（"maximum resident" を待つと終わらない）。
+  - `ps`・`pkill` はサンドボックス外で実行する。
+  - 30 分を超える計算は、実行前に見積もりと再開の準備を progress に書く（CLAUDE.md）。
 - **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
   - .aux/.log/.out/.toc は git で追跡しない。
@@ -44,7 +51,7 @@
 - **次にやること（ユーザーの指示待ち）**：
   1. 日本語の本文の推敲（読み手向けの説明、記号の統一）
   2. 英語版の作成
-  3. PR #11 の更新（push の許可が要る）
+  3. 続き 63 以降の新しい PR の作成（ブランチは push 済み。PR の作成はユーザーの許可が要る。PR #11 はマージ済み）
 
 ### 2′. 進行中の研究の線：E の決定（続き 65〜86、theory §12.6〜§12.22）
 - 目標：多箱の自由エネルギーの分解 g = f − ½f^{cov} = ½E/(1+t) + C のうち、E を状態の数と Ĩ の作用から決める。
@@ -67,6 +74,7 @@
   - 平方の構造は ν^{−12}・t = q に限られる。ν^{−14} 以下の N_λ(q, q) は平方でも X_λ の倍数でもなく、ν の級数全体の平方根は Laurent でない。一般の t では N_λ は既約である。X_λ は g_λ の t = q での ν^{−3} の係数と単項式の違いしかない（X_2 = (q + q^{−1})X_11）（続き 84）。
   - N を積の部分 −Y_λ(ν)Y_λ(−ν)（image の側に符号 (−1)^c）と残りに分けた。(ii′) の目標は [3]_q で割り切れ、(q + q^{−1}) : 1 で λ ごとに分けられる。積の部分は ν^{−12} を完全に、ν^{−14} を大部分説明するが、ν^{−16} で残りに奇数の係数が現れ、λ ごとの目標は偶奇で解なしになる（続き 85）。
   - 合成表現の相関関数の項（R_b K_b、c₁W_adj、c₀）と低い次数の積は、どれも単独では整数の状態の数にならず、4 項の和で初めて Laurent になる。大きな N の展開の最高次は c₀・低次（ν^{−6}）、c₁（ν^{−8}）、合成表現（ν^{−10}）の順。Koike の分解は指標の分解で、状態の分解としては読めない（続き 86）。
+- **再開の時点の状態（2026-10-30）**：動いている計算は無い。続き 83〜86 で積の構造・skew 型の線を調べ、続き 86 で区切った。次の方針はユーザーの判断待ち（第一候補は (2‴) の T(2,5) の照合で、見積もりから始める）。
 - 次の候補（続き 86 の末尾）：
   - (2″) 低いブロックで解を選ぶ原理。積の構造は ν^{−14} まで（続き 85）、相関関数の項は状態の分解にならない（続き 86）ので、この線はいったん区切る。ν^{−22} の見えない対の原因（(ii′) の形か台の端か）。
   - (2‴) ε = (−1)^c の物理的な導出（Ĩ の H¹ のゼロモードへの持ち上げの符号）を詰める。T(2,5) の n = 2 で (ii′) を照合する（2 箱・4 箱のデータの作成から必要。実行前に見積もる）。
