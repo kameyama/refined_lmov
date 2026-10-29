@@ -1,0 +1,5 @@
+項ごとの (2,2) 成分：1 秒
+項の和が log Z の (2,2) 成分に一致: True
+保存：data/refined_kauffman/daha/largeN_cover_fixed22_lam_parts_m1.pkl（119 秒）
+      119.37 real       113.18 user         1.74 sys
+time: sysctl kern.clockrate: Operation not permitted

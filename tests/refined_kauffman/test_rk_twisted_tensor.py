@@ -2,6 +2,7 @@
 import sys
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import numpy as np
+import pytest
 import sympy as sp
 import rk_f_twisted_tensor as TT
 import rk_b_twisted_multiplet as TM
@@ -273,3 +274,31 @@ def test_n2_skew_parts():
         # 偶奇：R_λ の係数は ν^{−14} まですべて偶数、ν^{−16} で初めて奇数が現れる（λ ごとの目標が e ≡ c と両立しなくなる）
         odd = lambda e: [x for x in sp.Poly(sp.expand(e * r**80), r).coeffs() if x % 2] if e != 0 else []
         assert not odd(P["R"][lab][-14]) and odd(P["R"][lab][-16])
+
+
+def test_c1_c0_unrefined():
+    # 合成表現の相関関数 ⟨P_α P_β^∨⟩ = W_{[α;β]} + c₁W_adj + c₀ の係数は、t = q で Koike の公式の値（c₁ = 1、c₀ = 1 または 0）になる。
+    # 一般の t では A の有理式（分母に 1 − q^a A/t^b 型の因子）（theory §12.22）
+    import rk_f_cover_fixed22 as CF
+    u = sp.Symbol("u", positive=True)
+    for key, want in ((((2,), (2,)), (1, 1)), (((2,), (1, 1)), (1, 0)), (((1, 1), (1, 1)), (1, 1))):
+        c1, c0, _, _ = CF.decomposition_A(*key)
+        f = lambda e: sp.cancel(e.to_sympy().subs(u, nu * s).subs(s, r))
+        assert (f(c1), f(c0)) == want
+        assert sp.fraction(sp.cancel(c1.to_sympy().subs(u, nu * s)))[1].has(nu)
+
+
+@pytest.mark.results
+def test_cover_parts_sum():
+    # 保存済みの項ごとの寄与（rk_f_twisted22_lam.cover_parts）の和が N_λ に一致し、真部分集合の和は Laurent でない（theory §12.22）
+    import itertools
+    Np = TT.n2_parts_N()
+    mult, _ = TT.n2_setup()
+    names = ("comp", "c1", "c0", "low")
+    for lab in ("2", "11"):
+        N = sum(int(c) * r**k[2] * s**k[3] * nu**k[4] for k, c in mult.items() if k[0] == lab)
+        assert sp.expand(sp.cancel(sum(Np[(n, lab)] for n in names)) - N) == 0
+        for k in (1, 2, 3):
+            for sub in itertools.combinations(names, k):
+                e = sp.cancel(sum(Np[(n, lab)] for n in sub))
+                assert not sp.Poly(sp.fraction(e)[1], r, s, nu).is_monomial

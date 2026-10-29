@@ -1254,6 +1254,84 @@ def n2_skew(cs=None):
         print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：{fmt(*st)}（{time.time() - t0:.0f} 秒）", flush=True)
 
 
+def n2_parts_N():
+    """被覆の (2,2) 成分の項ごとの N_λ への寄与（theory §12.22）。rk_f_twisted22_lam.cover_parts の P̂_λλ を n2_setup と同じ因子で割る。
+    {(項, λ): 有理式} を返す（項は comp・c1・c0・low）。"""
+    import rk_f_twisted22_lam as L
+    d = pickle.load(open(L.PARTS, "rb"))
+    den = s * (t - nu**2) * (nu**2 - 1) * (nu**2 * q - 1)
+    return {k: sp.cancel(sp.sympify(v, locals={"r": r, "s": s, "nu": nu}) / den) for k, v in d.items()}
+
+
+def nu_series(e, lo, gens):
+    """有理式 e の ν^{−1} の級数（ν = ∞ のまわり）の係数 {c: ν^c の係数}（c ≥ lo）。係数は gens の有理式。"""
+    x = sp.Symbol("x")
+    n_, d_ = sp.fraction(sp.cancel(sp.together(e.subs(nu, 1 / x))))
+    Pn, Pd = sp.Poly(sp.expand(n_), x), sp.Poly(sp.expand(d_), x)
+    m = min(k for (k,) in Pd.monoms())
+    dc = {k - m: v for (k,), v in Pd.terms()}
+    nc = {k: v for (k,), v in Pn.terms()}
+    out, cs = {}, []
+    for k in range(0, max(nc) + 1 + 60):
+        c = sp.cancel((nc.get(k, 0) - sum(dc.get(j, 0) * cs[k - j] for j in range(1, k + 1))) / dc[0])
+        cs.append(c)
+        if -(k - m) < lo:
+            break
+        out[-(k - m)] = c
+    return out
+
+
+def n2_parts():
+    """被覆の (2,2) 成分の項（comp：R_b K_b、c1：c₁W_adj、c0：c₀、low：低い次数の積と Adams の項）が、それぞれ状態の数として読めるかを調べる
+    （theory §12.22）。(1) 一般の t：N_λ への寄与の ν^{−1} の級数の最高次、(2) 一般の t：ν を含む分母の因子と、項の真部分集合の和が Laurent か、
+    (3) t = q の c₁・c₀、(4) t = q の hatted な P̂_λλ の各項の分母、(5) t = q の N_λ のブロックごとに Laurent な係数を持つ項の数。"""
+    import rk_f_twisted22_lam as L
+    import rk_f_cover_fixed22 as CF
+    Np = n2_parts_N()
+    names = ("comp", "c1", "c0", "low")
+    x = sp.Symbol("x")
+    print("(1) 一般の t：N_λ への寄与の ν^{-1} の級数の最高次（N の最上部は ν^-8）", flush=True)
+    for lab in ("2", "11"):
+        tops = {}
+        for nm in names:
+            n_, d_ = sp.fraction(sp.cancel(sp.together(Np[(nm, lab)].subs(nu, 1 / x))))
+            tops[nm] = min(k for (k,) in sp.Poly(sp.expand(d_), x).monoms()) - min(k for (k,) in sp.Poly(sp.expand(n_), x).monoms())
+        print(f"   λ = {lab}：" + "、".join(f"{nm} ν^{v}" for nm, v in tops.items()), flush=True)
+    print("(2) 一般の t：ν を含む分母の因子（± の組は + だけ書く）と、項の真部分集合の和", flush=True)
+    for lab in ("2", "11"):
+        for nm in names:
+            fs = [f for f, m in sp.factor_list(sp.fraction(Np[(nm, lab)])[1])[1] if f.has(nu) and f != nu and sp.Poly(f, nu).degree() > 0]
+            fs = sorted({sp.expand(f) for f in fs if sp.Poly(f, nu).coeffs()[-1] > 0 or sp.Poly(f, nu).degree() == 0}, key=str)
+            print(f"   λ = {lab}、{nm}：{fs}", flush=True)
+        lau_sub = []
+        for k in (1, 2, 3):
+            for sub in itertools.combinations(names, k):
+                e = sp.cancel(sum(Np[(n_, lab)] for n_ in sub))
+                if sp.Poly(sp.fraction(e)[1], r, s, nu).is_monomial:
+                    lau_sub.append("+".join(sub))
+        tot = sp.cancel(sum(Np[(n_, lab)] for n_ in names))
+        print(f"   λ = {lab}：Laurent な真部分集合の和 {lau_sub or 'なし'}、4 項の和は Laurent {sp.Poly(sp.fraction(tot)[1], r, s, nu).is_monomial}", flush=True)
+    print("(3) t = q の c₁・c₀", flush=True)
+    u_ = sp.Symbol("u", positive=True)
+    for key in (((2,), (2,)), ((2,), (1, 1)), ((1, 1), (1, 1))):
+        c1, c0, _, _ = CF.decomposition_A(*key)
+        f = lambda e: sp.factor(sp.cancel(e.to_sympy().subs(u_, nu * s).subs(s, r)))
+        print(f"   {key}：c₁ = {f(c1)}、c₀ = {f(c0)}", flush=True)
+    print("(4) t = q の hatted な P̂_λλ の各項の分母", flush=True)
+    d = pickle.load(open(L.PARTS, "rb"))
+    for lab in ("2", "11"):
+        for nm in names:
+            e = sp.cancel(sp.sympify(d[(nm, lab)], locals={"r": r, "s": s, "nu": nu}).subs(s, r))
+            print(f"   λ = {lab}、{nm}：{sp.factor(sp.fraction(e)[1])}", flush=True)
+    print("(5) t = q の N_λ：ν^-6〜ν^-24 のブロックで Laurent な係数を持つ項の数", flush=True)
+    for lab in ("2", "11"):
+        cnt = {}
+        for nm in names:
+            ser = nu_series(Np[(nm, lab)].subs(s, r), -24, (r,))
+            cnt[nm] = sum(1 for c, v in ser.items() if v != 0 and sp.Poly(sp.fraction(sp.cancel(v))[1], r).is_monomial)
+        print(f"   λ = {lab}：" + "、".join(f"{nm} {v}" for nm, v in cnt.items()), flush=True)
+
+
 def n2_hidden22():
     """ν^{−22} で (i)+(ii′) に必要な見えない対の候補（theory §12.19）：Σh が最小の解で h > 0 になりうる単項式、その e の範囲、
     同じ行（λ、r の冪）の単項式と、解での (i) の行の交代和。"""
@@ -1451,6 +1529,8 @@ if __name__ == "__main__":
         n2_square()
     elif sys.argv[1] == "n2skew":            # 積の部分と残りへの分解、λ ごとの目標（引数でブロックを指定すると (2) だけ）
         n2_skew([int(x) for x in sys.argv[2:]] or None)
+    elif sys.argv[1] == "n2parts":           # 被覆の (2,2) 成分の項ごとの N への寄与
+        n2_parts()
     elif sys.argv[1] == "n2h22":             # ν^{−22} の見えない対の候補
         n2_hidden22()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性

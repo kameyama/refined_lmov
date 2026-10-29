@@ -2,7 +2,7 @@
 
 ## 現在の状況（再開用、2026-10-30 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜85）にある。
+新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜86）にある。
 
 ### 1. 環境
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`
@@ -19,8 +19,8 @@
   - worktree 直下から相対で書くと `../../../.venv/bin/python`。
   - スクリプトは worktree の `src` と `scripts/refined_kauffman` を sys.path の先頭に入れている。
 - **テスト**：`../../../.venv/bin/pytest -q tests/refined_kauffman`（2026-10-26 に main の整理（PR #10）に合わせて scripts/refined_kauffman/、tests/refined_kauffman/、src/rcsknots/refined_kauffman/ に移した。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman`）
-  - 既定の 109 件（約 310 秒。2026-10-30 に全件通過）。
-  - `-m results` の 7 件（約 7〜8 分の見込み。2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log）。
+  - 既定の 110 件（約 315 秒。2026-10-30 に全件通過）。
+  - `-m results` の 8 件（2026-10-20 に 6 件通過、logs/refined_kauffman/paper_tests_results.log。2026-10-30 に追加した test_cover_parts_sum は 21 分で通過、logs/refined_kauffman/test_cover_parts_sum.log）。
 - **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
   - .aux/.log/.out/.toc は git で追跡しない。
@@ -46,7 +46,7 @@
   2. 英語版の作成
   3. PR #11 の更新（push の許可が要る）
 
-### 2′. 進行中の研究の線：E の決定（続き 65〜85、theory §12.6〜§12.21）
+### 2′. 進行中の研究の線：E の決定（続き 65〜86、theory §12.6〜§12.22）
 - 目標：多箱の自由エネルギーの分解 g = f − ½f^{cov} = ½E/(1+t) + C のうち、E を状態の数と Ĩ の作用から決める。
 - 入力（計算済み）：
   - trefoil の composite (2;2) 型（被覆、大きな N、続き 65〜68）。
@@ -66,12 +66,13 @@
   - 上のブロックの対の増加を切り分けた。(ii′) だけ・(i) だけの最小はどちらも小さく（ν^{−12} で 26・4）、増加は両者を同時に満たすことから来る（61）。台を箱に広げて見えない対を許すと一部減る（61 → 39）が主因ではない。ν^{−12} では t = q で N_λ = −X_λ²、(ii′) の目標 H′ = Σ_λ ψ²[X_λ]（X ⊗ X の入れ替えのトレース）で、入れ替えの描像は対 148 個、λ ごとの条件と (i) の両立で最小 94。対の最小の原理のほうが自然でない、と予想した。ν^{−22} の見えない対の候補 4 個はすべてブロックの下端の角にある（続き 83）。
   - 平方の構造は ν^{−12}・t = q に限られる。ν^{−14} 以下の N_λ(q, q) は平方でも X_λ の倍数でもなく、ν の級数全体の平方根は Laurent でない。一般の t では N_λ は既約である。X_λ は g_λ の t = q での ν^{−3} の係数と単項式の違いしかない（X_2 = (q + q^{−1})X_11）（続き 84）。
   - N を積の部分 −Y_λ(ν)Y_λ(−ν)（image の側に符号 (−1)^c）と残りに分けた。(ii′) の目標は [3]_q で割り切れ、(q + q^{−1}) : 1 で λ ごとに分けられる。積の部分は ν^{−12} を完全に、ν^{−14} を大部分説明するが、ν^{−16} で残りに奇数の係数が現れ、λ ごとの目標は偶奇で解なしになる（続き 85）。
-- 次の候補（続き 85 の末尾）：
-  - (2″) 低いブロックで解を選ぶ原理。積の構造は ν^{−14} までなので、低いブロックは brane と image をつなぐ状態として扱う。合成表現の相関関数の c₁W_adj・c₀ の項（Koike の σ ≠ ∅）から状態の入り方を読む。ν^{−22} の見えない対の原因（(ii′) の形か台の端か）。
+  - 合成表現の相関関数の項（R_b K_b、c₁W_adj、c₀）と低い次数の積は、どれも単独では整数の状態の数にならず、4 項の和で初めて Laurent になる。大きな N の展開の最高次は c₀・低次（ν^{−6}）、c₁（ν^{−8}）、合成表現（ν^{−10}）の順。Koike の分解は指標の分解で、状態の分解としては読めない（続き 86）。
+- 次の候補（続き 86 の末尾）：
+  - (2″) 低いブロックで解を選ぶ原理。積の構造は ν^{−14} まで（続き 85）、相関関数の項は状態の分解にならない（続き 86）ので、この線はいったん区切る。ν^{−22} の見えない対の原因（(ii′) の形か台の端か）。
   - (2‴) ε = (−1)^c の物理的な導出（Ĩ の H¹ のゼロモードへの持ち上げの符号）を詰める。T(2,5) の n = 2 で (ii′) を照合する（2 箱・4 箱のデータの作成から必要。実行前に見積もる）。
   - (3) 中間ブロックの分子（×(1 − q)(1 − t)(1 − qt) の後）と塔の打ち切りの規則を同定する。
   - (4) T(2,5) で (ii) を要らなくする根拠を探す。T(2,7) で照合する（2 箱のデータの作成から必要。実行前に見積もる）。
-- コード：rk_f_twisted_tensor.py（n1・n2・rule・full・n2rule・n2series・n2tower・n2choice・n2pattern・n2rows・n2ii・n2iic・n2split・n2h22・n2square・n2skew）、rk_f_twisted22_lam.py。
+- コード：rk_f_twisted_tensor.py（n1・n2・rule・full・n2rule・n2series・n2tower・n2choice・n2pattern・n2rows・n2ii・n2iic・n2split・n2h22・n2square・n2skew・n2parts）、rk_f_twisted22_lam.py（parts）。
 - データ：data/refined_kauffman/daha/twisted_E_n1_m2.pkl（T(2,5) の一意な E）、twisted_n2_pattern.pkl（n = 2 の対が最小の解と e の範囲）など。
 
 ### 3. 主な結果（論文の主張。詳細は claims.md と theory_orientifold_index.md）
@@ -1391,3 +1392,21 @@
 - 次の手順の案：
   - (a) 低いブロックを brane と image をつなぐ状態として扱う。合成表現の相関関数 ⟨P_α P_β^∨⟩ = W_{[α;β]} + c₁W_adj + c₀ の c₁・c₀ の項（Koike の σ ≠ ∅ に当たる）から、どの状態がどのブロックに入るかを読む。
   - (b) 対の最小の原理と (ii′) の組み合わせ（続き 82）に戻り、T(2,5) の n = 2 で (ii′) を照合する。
+
+## 2026-10-30（続き 86）c₁・c₀ の項を読む（ユーザーの選択「c₁・c₀ の項を読む」、続き 85 の次の候補 (a)）
+- スクリプト：
+  - rk_f_twisted22_lam.py の cover_parts（parts）：log Z の (2,2) 成分を comp・c1・c0・low の 4 項に分けて保存する（119 秒）。
+  - rk_f_cover_fixed22.py の cover_Z に pair の引数を加えた。
+  - rk_f_twisted_tensor.py の n2_parts_N・nu_series・n2_parts（n2parts、22 分。大半は 14 通りの部分和の約分）。
+- ログ：logs/refined_kauffman/f_twisted22_parts.log、f_twisted_tensor_n2parts.log。データ：data/refined_kauffman/daha/largeN_cover_fixed22_lam_parts_m1.pkl。
+- テスト：test_c1_c0_unrefined（既定）、test_cover_parts_sum（results の印、保存済みのデータの判定）。
+- 結果（theory §12.22）：
+  - 【計算】4 項の和は log Z の (2,2) 成分と N_λ に一致する。どの項も単独では Laurent でなく、真部分集合の和（14 通り）もすべて Laurent でない。
+  - 【計算】一般の t で、ν^{−1} の級数の最高次は comp ν^{−10}、c1 ν^{−8}、c0・low ν^{−6}。N の最上部 ν^{−8} は打ち消しの結果で、合成表現の項が最上部を担うわけではない。
+  - 【計算】ν を含む分母の因子（1 − q^a A/t^b 型）が項を鎖のようにつなぐ（comp–c1、comp–c0、c1–c0、c0–low）。
+  - 【計算】t = q では c₁ = 1、c₀ = 1 または 0（unrefined の Koike）。hatted な各項は ν について Laurent になるが、q の分母（(1 − q)^k(1 + q)^k）が残る。N_λ のどのブロックでも、どの項の係数も Laurent でない。
+- 結論：
+  - 【計算】Koike の σ ごとの項は、単独では整数の状態の数にならない。
+  - 【予想】Koike の分解は指標の分解で、BPS 状態の分解ではない。被覆の状態を積の部分とつなぐ状態に分ける原理は、相関関数の項からは読めない。
+  - 【未解決】低いブロックで解を選ぶ原理。極を持つ部分を項の間で配り直す方法は、一意でなく場当たり的な調整になるので試していない。
+- 次の手順の案：skew 型・積の構造の線（続き 83〜86）はここで区切る。続き 82 の (ii′) と対の最小の原理に戻り、T(2,5) の n = 2 で (ii′) を照合する（2 箱・4 箱のデータの作成から必要。実行前に見積もる）。

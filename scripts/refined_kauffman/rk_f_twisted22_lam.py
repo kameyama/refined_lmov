@@ -53,6 +53,54 @@ def cover():
     print(f"保存：{COVER}（{time.time() - t0:.0f} 秒）", flush=True)
 
 
+PARTS = f"{OUT}/largeN_cover_fixed22_lam_parts_m1.pkl"
+
+
+def cover_parts():
+    """被覆の (2,2) 成分を項ごとに分ける（theory §12.22）。|α| = |β| = 2 の ⟨P_α P_β^∨⟩ = R_b K_b + c₁ W_adj + c₀ は log Z の (2,2) 成分に線形に入る。
+    comp：R_b K_b（合成表現、Koike の σ = ∅）、c1：c₁ W_adj（σ = (1)）、c0：c₀（σ = (2), (1,1)）、low：log が引く低い次数の積と Adams の項。
+    各項の hatted な成分 P̂_λλ を cover() と同じ規格化で作り、和が cover() の値に一致することを確かめて保存する。"""
+    import rk_f_cover_fixed22 as CF
+    t0 = time.time()
+    pair = CF.pair_values()
+    t, zq = CF.t, CF.R - 1 / CF.R
+    phi = {(1, 1): zq, (2,): CF.R + 1 / CF.R}
+    kappa = (1 - CF.A) * (1 - CF.q) / ((1 - t) * (1 - CF.q * CF.A / t))
+    Wadj = pair[((1,), (1,))] - kappa
+    big = [k for k in pair if sum(k[0]) == 2 and sum(k[1]) == 2]
+    parts = {"comp": {}, "c1": {}, "c0": {}}
+    for k in big:
+        key = k if k != ((1, 1), (2,)) else ((2,), (1, 1))
+        tag = f"{''.join(map(str, key[0]))}_{''.join(map(str, key[1]))}"
+        Rb = CF.load_poly_A(os.path.join(OUT, f"Rcomp22_A_m1_{tag}.pkl"), 2)
+        c1, c0, Kb, _ = CF.decomposition_A(*key)
+        parts["comp"][k], parts["c1"][k], parts["c0"][k] = Rb * Kb, c1 * Wadj, c0
+        assert (parts["comp"][k] + parts["c1"][k] + parts["c0"][k] - pair[k]).is_zero()
+    rs = ((1, 1), (2,))
+    a = {}
+    for name, pp in parts.items():
+        Z = CF.cover_Z(pp)
+        a[name] = {(rho, sig): Z.get((rho, sig), CF.ZERO) for rho in rs for sig in rs}
+    low = {k: v for k, v in pair.items() if k not in big}
+    Lg = CF.log2(CF.cover_Z(low))
+    x11 = Lg[((1,), (1,))]
+    a["low"] = {(rho, sig): Lg.get((rho, sig), CF.ZERO) for rho in rs for sig in rs}
+    a["low"][((2,), (2,))] = a["low"][((2,), (2,))] - CF.half * x11.adams(2)
+    print(f"項ごとの (2,2) 成分：{time.time() - t0:.0f} 秒", flush=True)
+    _, _, Lfull = CF.fixed_sector()
+    tot = {k: sum((a[n][k] for n in a), CF.ZERO) for k in a["low"]}
+    tot[((2,), (2,))] = tot[((2,), (2,))] + CF.half * x11.adams(2)
+    print("項の和が log Z の (2,2) 成分に一致:", all((tot[k] - Lfull.get(k, CF.ZERO)).is_zero() for k in tot), flush=True)
+    out = {}
+    for name in a:
+        ah = {k: (1 - t) * v / (zq * phi[k[0]] * phi[k[1]]) for k, v in a[name].items()}
+        Mh = schur_split(ah)
+        for lab in LAMS:
+            out[(name, lab)] = str(CF.to_rs_nu(Mh[(lab, lab)])[0])
+    pickle.dump(out, open(PARTS, "wb"))
+    print(f"保存：{PARTS}（{time.time() - t0:.0f} 秒）", flush=True)
+
+
 # ---- 整数計画 ---------------------------------------------------------------------------------------
 _r = sp.Symbol("r", positive=True)                     # rk_f_twisted22.r と同じ記号
 W22 = (_r - 1 / _r) * (_r + 1 / _r)**2                    # p_2² 方向の捻った境界の因子 z_q (z_q^+)²（§12.7 の B_tw）
@@ -181,6 +229,8 @@ def diagnose(ks):
 if __name__ == "__main__":
     if sys.argv[1] == "cover":
         cover()
+    elif sys.argv[1] == "parts":
+        cover_parts()
     elif sys.argv[1] == "diagnose":
         diagnose([int(a) for a in sys.argv[2:]])
     else:

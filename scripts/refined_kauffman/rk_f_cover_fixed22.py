@@ -146,8 +146,8 @@ def mul2(A_, B_, cap=(2, 2)):
     return out
 
 
-def cover_Z():
-    pair = pair_values()
+def cover_Z(pair=None):
+    pair = pair_values() if pair is None else pair
     PY = {(): {(): ONE}}
     for n in (1, 2):
         for lam, v in macdonald_P(n, t, q, conv).items():           # P_λ(Y; t, q) の冪和表示
