@@ -1195,6 +1195,65 @@ def n2_square():
           f"X_2 = (q + q^{{-1}}) X_11：{sp.cancel(X['2'] - (r**2 + r**-2) * X['11']) == 0}", flush=True)
 
 
+def n2_skew_parts():
+    """(ii′) の目標の λ ごとの分け方と、N の積の部分（theory §12.21）。H′ のブロック ν^{2k} = ψ²[Φ_k] とし、Φ は ψ²[[3]_q] で割り切れるので
+    Y_(2) = (q + q^{−1})Φ/[3]_q、Y_(11) = Φ/[3]_q とおく（ν^{−12} では Y_λ = X_λ）。積の部分は −Y_λ(ν)Y_λ(−ν)（brane の状態 ⊗ 符号 (−1)^c を付けた image の状態）。
+    {"Y": {λ: {k: Y_λ の ν^k の係数}}, "R": {λ: {c: N_λ(q, q) + [Y_λ(ν)Y_λ(−ν)]_c}}, "N": {λ: {c: N_λ(q, q)}}} を返す。"""
+    import rk_f_twisted22_lam as L
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    three = (r**4 + r**2 + 1) / r**2
+    Phi = {}
+    for c in range(-12, -25, -2):
+        H = sum(v * r**a for (a, cc), v in Q["ii"].items() if cc == c)
+        assert all(a % 2 == 0 for (a, cc) in Q["ii"] if cc == c)
+        Phi[c // 2] = sp.cancel(sp.expand(H.subs(r, sp.sqrt(r))) / three)
+        assert sp.Poly(sp.fraction(Phi[c // 2])[1], r).is_monomial
+    w = {"2": r**2 + r**-2, "11": sp.Integer(1)}
+    out = {"Y": {}, "R": {}, "N": {}}
+    for lab in L.LAMS:
+        Y = {k: sp.expand(w[lab] * v) for k, v in Phi.items()}
+        out["Y"][lab] = Y
+        out["N"][lab], out["R"][lab] = {}, {}
+        for c in range(-8, -25, -2):
+            Nq = sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in mult if k[0] == lab and k[-1] == c))
+            out["N"][lab][c] = Nq
+            out["R"][lab][c] = sp.expand(Nq + sum(sp.Integer(-1)**(c - i) * Y[i] * Y[c - i] for i in Y if (c - i) in Y))
+    return out
+
+
+def n2_skew(cs=None):
+    """N を積の部分 −Y_λ(ν)Y_λ(−ν) と残り R_λ に分け（n2_skew_parts）、λ ごとの目標 E_λ(q, q) = ψ²[Y_λ]（積の部分の入れ替えのトレース、
+    残りのトレースは 0）を (i) と合わせてブロックごとに解く（theory §12.21）。cs はブロック ν^c の c のリスト（再開用）。"""
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    P = n2_skew_parts()
+    l1 = lambda e: sum(abs(x) for x in sp.Poly(sp.expand(e * r**80), r).coeffs()) if e != 0 else 0
+    fmt = lambda st, val, bd: "解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"
+    if cs is None:
+        print("(1) 積の部分を引いた残り R_λ = N_λ(q, q) + Y_λ(ν)Y_λ(−ν)（係数の絶対値の和、N → R）", flush=True)
+        for c in range(-12, -25, -2):
+            print(f"   ν^{c}：" + "、".join(f"λ = {lab} {l1(P['N'][lab][c])} → {l1(P['R'][lab][c])}" for lab in P["N"]), flush=True)
+        for lab in P["R"]:
+            print(f"   λ = {lab} の ν^{{-14}}：R = {sp.factor(P['R'][lab][-14])}", flush=True)
+        # ψ²[Y] ≡ Y² (mod 2) なので、λ ごとの目標が e ≡ c (mod 2) と両立するには R_λ の係数がすべて偶数であることが要る
+        odd = lambda e: sum(1 for x in sp.Poly(sp.expand(e * r**80), r).coeffs() if x % 2) if e != 0 else 0
+        print("   R_λ の奇数の係数の数：" + "、".join(f"ν^{c} ({odd(P['R']['2'][c])}, {odd(P['R']['11'][c])})" for c in range(-12, -25, -2)), flush=True)
+        print("(2) (i) + λ ごとの E_λ(q, q) = ψ²[Y_λ]：入れ替わる対の最小（0/1 変数、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+        cs = list(range(-8, -25, -2))
+    for c in cs:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}, ("i22", "i4"))
+        rows_, rhs = [], []
+        for lab, Y in P["Y"].items():
+            T_ = TM.lp(sp.expand(Y[c // 2].subs(r, r**2)), (r,)) if (c // 2) in Y else {}
+            for d in sorted({k[2] + k[3] for k in keys if k[0] == lab} | {a for (a,) in T_}):
+                rows_.append([1.0 if (k[0] == lab and k[2] + k[3] == d) else 0.0 for k in keys]); rhs.append(float(T_.get((d,), 0)))
+        t0 = time.time()
+        st = pairs_onehot(keys, mult, np.vstack([A, rows_]), np.concatenate([b, rhs]), time_limit=300)
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：{fmt(*st)}（{time.time() - t0:.0f} 秒）", flush=True)
+
+
 def n2_hidden22():
     """ν^{−22} で (i)+(ii′) に必要な見えない対の候補（theory §12.19）：Σh が最小の解で h > 0 になりうる単項式、その e の範囲、
     同じ行（λ、r の冪）の単項式と、解での (i) の行の交代和。"""
@@ -1390,6 +1449,8 @@ if __name__ == "__main__":
         n2_split()
     elif sys.argv[1] == "n2square":          # ν^{−12} の平方の構造が広がるか
         n2_square()
+    elif sys.argv[1] == "n2skew":            # 積の部分と残りへの分解、λ ごとの目標（引数でブロックを指定すると (2) だけ）
+        n2_skew([int(x) for x in sys.argv[2:]] or None)
     elif sys.argv[1] == "n2h22":             # ν^{−22} の見えない対の候補
         n2_hidden22()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性

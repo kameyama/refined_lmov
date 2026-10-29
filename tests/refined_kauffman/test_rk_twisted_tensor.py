@@ -258,3 +258,18 @@ def test_pairs_onehot_extra():
     A, b = np.array([[1.0, 0.0], [0.0, 1.0]]), np.array([3.0, 2.0])
     assert TT.pairs_onehot(keys, mult, A, b)[1] is None
     assert TT.pairs_onehot(keys, mult, A, b, extra=1)[1] == 2
+
+
+def test_n2_skew_parts():
+    # (ii′) の目標は ψ²[[3]_q] で割り切れ、Y_(2) = (q + q^{−1})Φ/[3]_q、Y_(11) = Φ/[3]_q。積の部分 −Y_λ(ν)Y_λ(−ν) は
+    # ν^{−12} で N_λ(q, q) に一致し、ν^{−14} では残りの係数の絶対値の和が小さい（theory §12.21）
+    r = TT.r
+    P = TT.n2_skew_parts()
+    l1 = lambda e: sum(abs(x) for x in sp.Poly(sp.expand(e * r**80), r).coeffs()) if e != 0 else 0
+    for lab in ("2", "11"):
+        assert P["R"][lab][-12] == 0
+        assert 5 * l1(P["R"][lab][-14]) < l1(P["N"][lab][-14])
+        assert all(sp.Poly(sp.fraction(sp.cancel(y))[1], r).is_monomial for y in P["Y"][lab].values())
+        # 偶奇：R_λ の係数は ν^{−14} まですべて偶数、ν^{−16} で初めて奇数が現れる（λ ごとの目標が e ≡ c と両立しなくなる）
+        odd = lambda e: [x for x in sp.Poly(sp.expand(e * r**80), r).coeffs() if x % 2] if e != 0 else []
+        assert not odd(P["R"][lab][-14]) and odd(P["R"][lab][-16])
