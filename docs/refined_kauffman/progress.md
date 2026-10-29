@@ -9,7 +9,7 @@
   - ブランチは `claude/kauffman-research-progress-c23e34`（続き 63 以降）。続き 62 までは worktree `dgr-quadruply-graded-lomv-2a7fb6`（ブランチ `claude/refined-kauffman-large-n-00d58e`）。
   - main への直接の commit とローカルでのマージは禁止。
 - **PR**：[kameyama/refined_lmov#11](https://github.com/kameyama/refined_lmov/pull/11)（続き 62 まで、MERGED、2026-10-26）。
-  - 続き 63〜76 の commit（2026-10-28 時点で origin/main に無いもの 17 個）は push していない。push と PR の作成はユーザーの許可待ち。
+  - 続き 63〜86 の commit（28 個）は 2026-10-30 にブランチ claude/kauffman-research-progress-c23e34 として origin に push した（先頭 4ba396b）。PR はユーザーの指示でまだ作っていない（作成は毎回許可を得る）。
   - 前回の push は `git push` をサンドボックス外で実行した（gh api は不要だった）。
   - push は外部送信なので、毎回ユーザーの許可を得る。
   - SSH の `git push` はサンドボックスで通らない。前回は、許可を得たうえで gh api（Git Data API）で同じ SHA の commit を作った。
