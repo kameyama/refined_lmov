@@ -11,8 +11,8 @@ r"""被覆の composite [α;β]（|α| = |β| = 2）の一般の N の簡約し�
   3. 規格化：Z_b = Z_raw − c₁ Z_adj − c₀、R_b(N) = 鏡像(Z_b / (K_b M_b))（M_b は rk_c_fast_composite.mono、(α;1) と同じ規則）。
 使い方：
   python rk_c_composite22_run.py check            … 分解の係数と固有値の公式を N = 3, 4 で多項式と照合
-  python rk_c_composite22_run.py run Nmin Nmax    … R_b(N) を計算して保存（保存済みは飛ばす。最後に「done」）
-  python rk_c_composite22_run.py window           … 保存済みの R_b(N) から窓（x = s^N の冪）を傾きで決め、補間して残りの N で照合"""
+  python rk_c_composite22_run.py run Nmin Nmax [m]  … R_b(N) を計算して保存（保存済みは飛ばす。最後に「done」。m は既定 1、T(2,5) は 2）
+  python rk_c_composite22_run.py window [m]         … 保存済みの R_b(N) から U の冪の範囲（x = s^N の冪）を傾きで決め、補間して残りの N で照合"""
 import sys, os, time, pickle, resource
 from fractions import Fraction
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
@@ -198,6 +198,6 @@ if __name__ == "__main__":
     if sys.argv[1] == "check":
         check()
     elif sys.argv[1] == "run":
-        run(int(sys.argv[2]), int(sys.argv[3]))
+        run(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]) if len(sys.argv) > 4 else 1)
     else:
-        window()
+        window(int(sys.argv[2]) if len(sys.argv) > 2 else 1)
