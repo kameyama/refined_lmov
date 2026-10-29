@@ -302,3 +302,15 @@ def test_cover_parts_sum():
             for sub in itertools.combinations(names, k):
                 e = sp.cancel(sum(Np[(n, lab)] for n in sub))
                 assert not sp.Poly(sp.fraction(e)[1], r, s, nu).is_monomial
+
+
+def test_rule_milp_fix():
+    import numpy as np
+    # e_a + e_b = 0、c = (1, 1)：e_a = 1 に固定すると e_b = −1 が一意。e_a = 1、e_b = 1 の固定は条件に反して解なし
+    keys = ["a", "b"]; mult = {"a": 1, "b": 1}
+    res = TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), lambda k: k, lambda k: 0, fix={"a": 1})
+    assert res["e"] == {"a": 1, "b": -1} and res["free"] == []
+    assert TT.rule_milp(keys, mult, np.array([[1.0, 1.0]]), np.array([0.0]), lambda k: k, lambda k: 0, fix={"a": 1, "b": 1}) is None
+    # c = 3 の単項式を e = 1 に固定：対 1 個（規則 e = σ sign(c) w、w = |c| − 2y）
+    res = TT.rule_milp(["c"], {"c": 3}, np.zeros((1, 1)), np.array([0.0]), lambda k: 0, lambda k: 0, fix={"c": 1})
+    assert res["e"] == {"c": 1} and res["pairs"] == 1
