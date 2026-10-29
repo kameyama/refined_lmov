@@ -1145,6 +1145,56 @@ def n2_split():
           f"状態 Σ|c| {{λ: {', '.join(str(sum(abs(int(mult[k])) for k in keys if k[0] == lab)) for lab in X)}}}", flush=True)
 
 
+def n2_square():
+    """ν^{−12} の t = q での平方の構造 N_λ = −X_λ² が他のブロックと一般の t に広がるか（theory §12.20）：
+    (1) ブロックごとに N_λ(q, q)・λ の和と差が ± 平方か、X_λ で割り切れるか、(2) ν の級数全体の形式的な平方根（−N_λ = Y_λ²、Y_λ の最上部 X_λ）の
+    係数が Laurent 多項式か、(3) 一般の t の N_λ の ν^{−12}・ν^{−14} が既約か、(4) X_λ と g_λ（n = 2 の凍結した状態）の t = q での ν^{−3} の係数の関係。"""
+    import rk_f_twisted22_lam as L
+    import rk_b_knot_fixed_sector as K
+    import rk_f_frozen_basis as FB
+    mult, _ = n2_setup()
+    Nq = lambda lab, c: sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in mult if k[0] == lab and k[-1] == c))
+    laurent = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r).is_monomial
+
+    def sq(e):
+        if e == 0:
+            return "0"
+        for sg, name in ((1, "平方"), (-1, "−平方")):
+            co, fs = sp.factor_list(sp.expand(sg * e * r**60))
+            if co > 0 and sp.sqrt(co).is_integer and all(m % 2 == 0 for f, m in fs if f != r):
+                return name
+        return "平方でない"
+    X = {"2": (r**2 + 1)**2 * (r**4 + 1)**2 / r**7, "11": (r**2 + 1)**2 * (r**4 + 1) / r**5}
+    print("(1) ブロックごとの N_λ(q, q)", flush=True)
+    for c in range(-8, -25, -2):
+        a, b = Nq("2", c), Nq("11", c)
+        print(f"   ν^{c}：λ = 2 {sq(a)}、λ = 11 {sq(b)}、和 {sq(a + b)}、差 {sq(a - b)}；"
+              f"X_λ で割り切れる {laurent(a / X['2']) and a != 0}・{laurent(b / X['11']) and b != 0}", flush=True)
+    print("(2) ν の級数全体の形式的な平方根 −N_λ(q, q, ν) = Y_λ(ν)²（Y_λ の ν^{−6} の係数 = X_λ）", flush=True)
+    for lab in X:
+        Y = {-6: X[lab]}
+        for k in range(-7, -13, -1):
+            Y[k] = sp.cancel((-Nq(lab, k - 6) - sum(Y[i] * Y[k - 6 - i] for i in Y if i != -6 and (k - 6 - i) in Y and k - 6 - i != -6)) / (2 * X[lab]))
+        bad = [k for k in Y if not laurent(Y[k])]
+        print(f"   λ = {lab}：Laurent でない係数 ν^{bad}（分母 {sp.factor(sp.fraction(Y[bad[0]])[1]) if bad else '-'}）", flush=True)
+    print("(3) 一般の t の N_λ の既約性", flush=True)
+    for c in (-12, -14):
+        for lab in L.LAMS:
+            N = sp.expand(sum(int(mult[k]) * r**k[2] * s**k[3] for k in mult if k[0] == lab and k[-1] == c))
+            fs = [f for f, m in sp.factor_list(sp.expand(N * r**40))[1] if sp.Poly(f, r, s).total_degree() > 1]
+            print(f"   ν^{c}、λ = {lab}：単項式以外の因子 {len(fs)} 個（次数 {[sp.Poly(f, r, s).total_degree() for f in fs]}）", flush=True)
+    print("(4) X_λ と g_λ の t = q での ν^{−3} の係数 G_λ", flush=True)
+    g = K.load_g(1)
+    G = {}
+    for lab, key in (("2", (2,)), ("11", (1, 1))):
+        n_, d_ = sp.fraction(sp.cancel(g[key].subs(s, r)))
+        dn = sp.Poly(d_, nu).degree()
+        G[lab] = sp.cancel(FB.nu_blocks(sp.expand(n_))[dn - 3] / (d_ / nu**dn))
+    print(f"   G_2 = {sp.factor(G['2'])}、G_11 = {sp.factor(G['11'])}", flush=True)
+    print(f"   X_11 = q^{{-2}} G_2：{sp.cancel(X['11'] - G['2'] / r**4) == 0}、X_11 = −q G_11：{sp.cancel(X['11'] + r**2 * G['11']) == 0}、"
+          f"X_2 = (q + q^{{-1}}) X_11：{sp.cancel(X['2'] - (r**2 + r**-2) * X['11']) == 0}", flush=True)
+
+
 def n2_hidden22():
     """ν^{−22} で (i)+(ii′) に必要な見えない対の候補（theory §12.19）：Σh が最小の解で h > 0 になりうる単項式、その e の範囲、
     同じ行（λ、r の冪）の単項式と、解での (i) の行の交代和。"""
@@ -1338,6 +1388,8 @@ if __name__ == "__main__":
         n2_rows()
     elif sys.argv[1] == "n2split":           # 上のブロックの対の増加の切り分け
         n2_split()
+    elif sys.argv[1] == "n2square":          # ν^{−12} の平方の構造が広がるか
+        n2_square()
     elif sys.argv[1] == "n2h22":             # ν^{−22} の見えない対の候補
         n2_hidden22()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性

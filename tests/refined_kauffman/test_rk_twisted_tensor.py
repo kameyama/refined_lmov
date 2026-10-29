@@ -230,6 +230,25 @@ def test_n2_top_block_square_at_tq():
         assert sp.expand(Nq + X[lab]**2) == 0
     H = sum(v * r**a for (a, c), v in Q["ii"].items() if c == -12)
     assert sp.expand(H - X["2"].subs(r, r**2) - X["11"].subs(r, r**2)) == 0
+    # 平方は ν^{−14} に広がらない：N_λ(q, q) は X_λ で割り切れない（theory §12.20）
+    for lab in X:
+        Nq = sum(int(v) * r**(k[2] + k[3]) for k, v in mult.items() if k[0] == lab and k[-1] == -14)
+        assert not sp.Poly(sp.fraction(sp.cancel(Nq / X[lab]))[1], r).is_monomial
+
+
+def test_top_square_from_g():
+    # X_λ は g_λ の t = q での ν^{−3} の係数 G_λ と単項式の違いしかない：X_11 = q^{−2}G_2 = −q G_11、X_2 = (q + q^{−1})X_11（theory §12.20）
+    import rk_b_knot_fixed_sector as K
+    import rk_f_frozen_basis as FB
+    r, s, nu = TT.r, TT.s, TT.nu
+    g = K.load_g(1)
+    G = {}
+    for lab, key in (("2", (2,)), ("11", (1, 1))):
+        n_, d_ = sp.fraction(sp.cancel(g[key].subs(s, r)))
+        dn = sp.Poly(d_, nu).degree()
+        G[lab] = sp.cancel(FB.nu_blocks(sp.expand(n_))[dn - 3] / (d_ / nu**dn))
+    X11 = (r**2 + 1)**2 * (r**4 + 1) / r**5
+    assert sp.cancel(X11 - G["2"] / r**4) == 0 and sp.cancel(X11 + r**2 * G["11"]) == 0
 
 
 def test_pairs_onehot_extra():
