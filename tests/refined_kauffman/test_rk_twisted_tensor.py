@@ -1,6 +1,7 @@
 """rk_f_twisted_tensor の機能テスト：条件の行の作り方（β 奇の行だけを使う指定）と、全状態が不変（e = ±c）の整数計画。"""
 import sys
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
+import numpy as np
 import sympy as sp
 import rk_f_twisted_tensor as TT
 import rk_b_twisted_multiplet as TM
@@ -216,3 +217,25 @@ def test_n2_quotient_c_intersection():
     for c in sorted({k[1] for k in Q["i22"]} | {k[1] for k in Q["ii"]}):
         assert sp.expand(poly(Q["i22"], c).subs(R, sp.I) * sp.I - poly(Q["ii"], c).subs(R, sp.I)) == 0
     assert sp.expand(poly(Q["ii"], -24) + poly(Q0["ii"], -24)) == 0
+
+
+def test_n2_top_block_square_at_tq():
+    # ν^{−12}：t = q で N_λ = −X_λ²（X は正係数）、(ii′) の目標 H′ = Σ_λ ψ²[X_λ]（X ⊗ X の入れ替えのトレース、theory §12.19）
+    mult, _ = TT.n2_setup()
+    Q = TT.n2_quotient("c")
+    r = TT.r
+    X = {"2": (r**2 + 1)**2 * (r**4 + 1)**2 / r**7, "11": (r**2 + 1)**2 * (r**4 + 1) / r**5}
+    for lab in X:
+        Nq = sum(int(v) * r**(k[2] + k[3]) for k, v in mult.items() if k[0] == lab and k[-1] == -12)
+        assert sp.expand(Nq + X[lab]**2) == 0
+    H = sum(v * r**a for (a, c), v in Q["ii"].items() if c == -12)
+    assert sp.expand(H - X["2"].subs(r, r**2) - X["11"].subs(r, r**2)) == 0
+
+
+def test_pairs_onehot_extra():
+    # 見えない対：c = 0 の単項式に e = ±2 を置くと費用 1。1 変数 c = 1 で e = 3 を求めれば費用 1
+    keys = [("x",), ("y",)]
+    mult = {("x",): 1}
+    A, b = np.array([[1.0, 0.0], [0.0, 1.0]]), np.array([3.0, 2.0])
+    assert TT.pairs_onehot(keys, mult, A, b)[1] is None
+    assert TT.pairs_onehot(keys, mult, A, b, extra=1)[1] == 2

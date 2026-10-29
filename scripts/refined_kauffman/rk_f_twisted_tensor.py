@@ -1071,19 +1071,98 @@ def n2_iic():
         print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
 
 
-def pairs_onehot(keys, mult, A, b, time_limit=None):
+def pairs_onehot(keys, mult, A, b, time_limit=None, extra=0):
     """入れ替わる対 Σ (|c| − |e|)/2 の最小を、各単項式の値 e ∈ {−|c|, …, |c|} を 0/1 変数で選ぶ形で解く（rule_milp の McCormick より緩和が強い）。
+    extra > 0 なら |e| ≤ |c| + 2·extra まで許し、|c| を超えた分 (|e| − |c|)/2 を見えない対として同じ重みで数える（N の台の外の単項式は c = 0）。
     (状態, 最小値または見つけた解の値, 下界) を返す。状態 0 は最適、1 は時間切れ。解なしは (状態, None, None)。"""
-    var = [(i, v) for i, k in enumerate(keys) for v in range(-abs(int(mult[k])), abs(int(mult[k])) + 1, 2)]
+    ca = [abs(int(mult.get(k, 0))) for k in keys]
+    var = [(i, v) for i in range(len(keys)) for v in range(-ca[i] - 2 * extra, ca[i] + 2 * extra + 1, 2)]
     n, nv = len(keys), len(var)
     E, M, cost = np.zeros((n, nv)), np.zeros((n, nv)), np.zeros(nv)
     for j, (i, v) in enumerate(var):
-        E[i, j] = 1; M[i, j] = v; cost[j] = (abs(int(mult[keys[i]])) - abs(v)) // 2
+        E[i, j] = 1; M[i, j] = v; cost[j] = abs(ca[i] - abs(v)) // 2
     res = milp(cost, constraints=[LinearConstraint(E, 1, 1), LinearConstraint(A @ M, b - 1e-7, b + 1e-7)], bounds=Bounds(0, 1),
                integrality=np.ones(nv), options={"time_limit": time_limit} if time_limit else {})
     if res.x is None:
         return res.status, None, None
     return res.status, round(res.fun), round(res.mip_dual_bound) if res.mip_dual_bound is not None else None
+
+
+def n2_split():
+    """上のブロック（ν^{−10}〜ν^{−20}）で (ii′) が入れ替わる対を増やす原因の切り分け（theory §12.19、progress 続き 83）：
+    (1) ブロックごとに (ii′) だけ・(i) だけ・(i)+(ii′)・(i)+(ii′) で箱の台に見えない対を許した場合の対の最小。(ii′) は対角線 r^{a+b} ごとの
+        λ についての和だけを決めるので、(ii′) だけの最小は対角線ごとの row_min で厳密に求まる。
+    (2) ν^{−12}：t = q で N_λ = −X_λ²（完全平方）、(ii′) の目標 H′ = Σ_λ ψ²[X_λ]（X ⊗ X の入れ替えのトレース）。
+        λ ごとに E_λ(q, q) = ψ²[X_λ] を課した場合の対の最小と、入れ替えの描像での対の数 (X(1)² − X(1))/2。"""
+    import rk_f_twisted22_lam as L
+    Q = n2_quotient("c")
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c: {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+
+    def box(c):
+        out = set()
+        for lab in L.LAMS:
+            ks = [k for k in mult if k[0] == lab and k[-1] == c]
+            for a in range(min(k[2] for k in ks), max(k[2] for k in ks) + 1, 2) if ks else ():
+                for b_ in range(min(k[3] for k in ks), max(k[3] for k in ks) + 1, 2):
+                    out.add((lab, "mono", a, b_, c))
+        return sorted(out)
+    fmt = lambda st, val, bd: "解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"
+    print("(1) 入れ替わる対の最小（0/1 変数、1 回 600 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+    for c in (-10, -12, -14, -16, -18, -20):
+        keys = sorted(k for k in mult if k[-1] == c)
+        diags = {}
+        for k in keys:
+            diags.setdefault(k[2] + k[3], []).append(k)
+        only_ii = sum(row_min([int(mult[k]) for k in ks], [1] * len(ks), Q["ii"].get((d, c), 0))[0] for d, ks in diags.items())
+        out = [f"(ii′) だけ {only_ii}"]
+        for tag, use in (("(i) だけ", ("i22", "i4")), ("(i)+(ii′)", ("i22", "i4", "ii"))):
+            A, b = quotient_rows(keys, Qb(c), use)
+            out.append(f"{tag} {fmt(*pairs_onehot(keys, mult, A, b, time_limit=600))}")
+        bx = box(c); A, b = quotient_rows(bx, Qb(c))
+        out.append(f"箱の台（{len(bx)} 単項式）で見えない対を許す {fmt(*pairs_onehot(bx, mult, A, b, time_limit=600, extra=1))}")
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：" + "、".join(out), flush=True)
+    print("(2) ν^-12 の t = q での平方の構造", flush=True)
+    keys = sorted(k for k in mult if k[-1] == -12)
+    X = {}
+    for lab in L.LAMS:
+        Nq = sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in keys if k[0] == lab))
+        X[lab] = sp.sqrt(sp.factor(-Nq))
+        assert sp.expand(X[lab]**2 + Nq) == 0 and all(v > 0 for v in sp.Poly(sp.expand(X[lab] * r**20), r).coeffs())
+    H = sum(v * r**a for (a, c), v in Q["ii"].items() if c == -12)
+    assert sp.expand(H - sum(X[lab].subs(r, r**2) for lab in X)) == 0
+    print("   " + "、".join(f"λ = {lab}：N_λ(q, q) = −X², X = {sp.factor(X[lab])}" for lab in X) + "；H′ = Σ_λ ψ²[X_λ]", flush=True)
+    rows_, rhs = [], []
+    for lab in X:
+        T_ = TM.lp(sp.expand(X[lab].subs(r, r**2)), (r,))
+        for d in sorted({k[2] + k[3] for k in keys if k[0] == lab} | {a for (a,) in T_}):
+            rows_.append([1.0 if (k[0] == lab and k[2] + k[3] == d) else 0.0 for k in keys]); rhs.append(float(T_.get((d,), 0)))
+    A, b = quotient_rows(keys, Qb(-12), ("i22", "i4"))
+    st = pairs_onehot(keys, mult, np.vstack([A, rows_]), np.concatenate([b, rhs]), time_limit=600)
+    sw = {lab: int((X[lab].subs(r, 1)**2 - X[lab].subs(r, 1)) / 2) for lab in X}
+    print(f"   (i) + λ ごとの E_λ(q, q) = ψ²[X_λ]：対の最小 {fmt(*st)}；入れ替えの描像での対の数 {sw}（計 {sum(sw.values())}）、"
+          f"状態 Σ|c| {{λ: {', '.join(str(sum(abs(int(mult[k])) for k in keys if k[0] == lab)) for lab in X)}}}", flush=True)
+
+
+def n2_hidden22():
+    """ν^{−22} で (i)+(ii′) に必要な見えない対の候補（theory §12.19）：Σh が最小の解で h > 0 になりうる単項式、その e の範囲、
+    同じ行（λ、r の冪）の単項式と、解での (i) の行の交代和。"""
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    keys = sorted(k for k in mult if k[-1] == -22)
+    A, b = quotient_rows(keys, {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == -22} for n_ in Q})
+    best, e, _ = hidden_milp(keys, mult, A, b)
+    hr = hidden_milp(keys, mult, A, b, max_h=best, hrange=keys)
+    may = [k for k in keys if hr[("h",) + k][1] > 0]
+    rg = hidden_milp(keys, mult, A, b, max_h=best, ranges=may)
+    print(f"Σh の最小 {best}、h > 0 になりうる単項式 {len(may)}", flush=True)
+    for k in may:
+        lo = min(k2[2] for k2 in keys if k2[0] == k[0]); slo = min(k2[3] for k2 in keys if k2[0] == k[0])
+        row = sorted((k2[3], int(mult[k2])) for k2 in keys if k2[0] == k[0] and k2[2] == k[2])
+        S = sum((-1)**((k2[3] - 1) // 2) * e[k2] for k2 in keys if k2[0] == k[0] and k2[2] == k[2])
+        print(f"   λ = {k[0]} r^{k[2]} s^{k[3]}（ブロックの下端から q の冪 {(k[2] - lo) // 2}、t の冪 {(k[3] - slo) // 2}）"
+              f"c = {int(mult[k])}、e の範囲 {rg[k]}；同じ行の (s の指数, c) {row}、解での行の交代和 {S}", flush=True)
 
 
 def n1_partial():
@@ -1257,6 +1336,10 @@ if __name__ == "__main__":
         n2_iic()
     elif sys.argv[1] == "n2rows":           # 条件 (i) は行ごとの交代和だけを決める：対の最小化を行ごとに解く
         n2_rows()
+    elif sys.argv[1] == "n2split":           # 上のブロックの対の増加の切り分け
+        n2_split()
+    elif sys.argv[1] == "n2h22":             # ν^{−22} の見えない対の候補
+        n2_hidden22()
     elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
         n2_pattern()
     elif sys.argv[1] == "n2choice":         # 部分ごとの規則の選択も変数にして対の数を最小にする
