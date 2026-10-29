@@ -1751,6 +1751,54 @@ def principle(m=2, verbose=True, save=False):
     return E, e, ok
 
 
+def n2_fock():
+    """n = 2（trefoil）の N_λ に n = 1 の同定（ν 方向の Fock 系列、§12.23）が当てはまるかの検査（続き 90）。
+    (a) 上の端から：B_k = ν^{−8−2k} のブロック（r^5 s^{−3} で規格化）。B_1/B_0 と、B_2 − B_0·PE_2(B_1/B_0)（Fock なら 0）の状態数。
+        λ の組合せ（N_2、N_11、N_2 + N_11、N_2 − (q + 1/q)N_11、N_2 − q²N_11）と、符号付きの PE（P0 = 1、G = B_1）、
+        Sym²V·Sym²V′、(VV′)² も試す。
+    (b) 各ブロックの qt = −1（s = i/r）と t = −1（s = i）での値の状態数と因数分解。"""
+    import itertools
+    Q, T = sp.symbols("q t")
+    mult, conds = n2_setup()
+    blocks_ = {}
+    for (lab, _, a, b, c), v in mult.items():
+        blocks_.setdefault(lab, {}).setdefault(c, {})[(a, b)] = int(v)
+    raw = lambda lab, c: sp.expand(sum(v * r**a * s**b for (a, b), v in blocks_[lab].get(c, {}).items()))
+    toqt = lambda P: sp.expand(P.subs({r: sp.sqrt(Q), s: sp.sqrt(T)}))
+    cnt = lambda P: sum(abs(c) for c in sp.Poly(sp.expand(P * Q**100 * T**100), Q, T).coeffs()) if P != 0 else 0
+    psi = lambda P, n: P.subs({Q: Q**n, T: T**n}, simultaneous=True)
+    pe2 = lambda G: sp.expand((G**2 + psi(G, 2)) / 2)
+    V, Vp = 1 + T + Q * T, 1 + Q + Q * T
+    combos = {"N_2": lambda c: raw("2", c), "N_11": lambda c: raw("11", c), "N_2+N_11": lambda c: raw("2", c) + raw("11", c),
+              "N_2−(q+1/q)N_11": lambda c: raw("2", c) - (r**2 + r**-2) * raw("11", c), "N_2−q²N_11": lambda c: raw("2", c) - r**4 * raw("11", c)}
+    print("(a) 上の端からの Fock 型の検査（B_k = ν^{−8−2k}、r^5 s^{−3} で規格化）", flush=True)
+    for name, f in combos.items():
+        Bs = [toqt(f(-8 - 2 * k) * r**5 * s**-3) for k in range(5)]
+        k0 = next(k for k in range(5) if Bs[k] != 0)
+        B0, B1, B2 = Bs[k0], Bs[k0 + 1], Bs[k0 + 2]
+        G = sp.cancel(B1 / B0)
+        out = f"  {name}：最初のブロック k0={k0}（{cnt(B0)} 状態）、B1/B0 = {sp.factor(G)}"[:200]
+        if sp.Poly(sp.fraction(G)[1], Q, T).is_monomial:
+            R = sp.expand(B2 - B0 * pe2(G))
+            out += f"；B2 − B0·PE2(B1/B0) の状態数 {cnt(R)}（B2 は {cnt(B2)}）、t=q で {sp.factor(R.subs(T, Q))}"
+        print(out, flush=True)
+    Bs = [toqt(raw("2", -8 - 2 * k) * r**5 * s**-3) for k in range(4)]
+    symk = lambda cs, k: sum(sp.prod(c) for c in itertools.combinations_with_replacement(cs, k))
+    cells = [Q**i * T**j for (i, j), c in sp.Poly(sp.expand(V * Vp), Q, T).as_dict().items() for _ in range(int(c))]
+    for name, cand in [("符号付き PE：B2 − PE2(B1)", pe2(Bs[1])), ("(t/q−1)q⁻⁴ Sym²(V⊗V′)", (T / Q - 1) * Q**-4 * symk(cells, 2)),
+                       ("(t/q−1)q⁻⁴ Sym²V·Sym²V′", (T / Q - 1) * Q**-4 * symk([1, T, Q * T], 2) * symk([1, Q, Q * T], 2)),
+                       ("(t/q−1)q⁻⁴ (VV′)²", (T / Q - 1) * Q**-4 * (V * Vp)**2)]:
+        R = sp.expand(Bs[2] - cand)
+        print(f"  N_2：B2 − [{name}] の状態数 {cnt(R)}（B2 は {cnt(Bs[2])}）", flush=True)
+    print("(b) 各ブロックの qt = −1 と t = −1 での値（状態数、因数分解）", flush=True)
+    cnt1 = lambda P: sum(abs(complex(c)) for c in sp.Poly(sp.expand(P * r**400), r).coeffs()) if P != 0 else 0
+    for lab in ("2", "11"):
+        for c in sorted(blocks_[lab], reverse=True):
+            B = raw(lab, c)
+            R1, R2 = sp.expand(B.subs(s, sp.I / r)), sp.expand(B.subs(s, sp.I))
+            print(f"  λ={lab} ν^{c}（{sum(abs(v) for v in blocks_[lab][c].values())} 状態）：qt=−1：{cnt1(R1):.0f} 状態 {sp.factor(R1)}；t=−1：{cnt1(R2):.0f} 状態 {sp.factor(R2)}"[:420], flush=True)
+
+
 if __name__ == "__main__":
     ai = "--all-inv" in sys.argv
     ms = [int(x) for x in sys.argv[2:] if x.isdigit()]              # rule・full・lower：m を指定できる（T(2,2m+1)。既定は 1, 2）
@@ -1801,6 +1849,8 @@ if __name__ == "__main__":
     elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存）
         for m_ in ms or (1, 2, 3):
             principle(m_, save="--save" in sys.argv)
+    elif sys.argv[1] == "n2fock":           # n = 2 の N_λ に ν 方向の Fock 系列があるかの検査と、qt = −1・t = −1 の残差
+        n2_fock()
     elif sys.argv[1] == "scan":             # k ≥ 2m のブロックごとに (−1)^q / (−1)^t を選ぶ全通り（m を指定）
         for m_ in ms or (1, 2):
             for use in (("i",), ("i", "ii")):
