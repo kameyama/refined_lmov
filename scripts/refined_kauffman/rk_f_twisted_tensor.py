@@ -1799,6 +1799,51 @@ def n2_fock():
             print(f"  λ={lab} ν^{c}（{sum(abs(v) for v in blocks_[lab][c].values())} 状態）：qt=−1：{cnt1(R1):.0f} 状態 {sp.factor(R1)}；t=−1：{cnt1(R2):.0f} 状態 {sp.factor(R2)}"[:420], flush=True)
 
 
+def n1_terms(m=1):
+    """n = 1 の N を式の項に分けてブロックごとに展開する（続き 91、theory §12.25）：
+    N = (1 − t)[R_adj K_adj + κ − W₁²]/D、D = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)、K_adj = q_n² − κ。
+    T1 = R_adj K_adj の項、T2 = κ の項（結び目によらない）、T3 = −W₁²（brane × image の積、log Z の引き算）。"""
+    import rk_c_2box_largeN as L
+    from rcsknots.refined_kauffman.flint_rf3 import from_sympy, conv
+    import pickle
+    r_, s_, u_ = sp.symbols("r s u", positive=True)
+    Q, T, y = sp.symbols("q t y")
+    RR, SS = L.R, L.S
+    qq, tt = RR * RR, SS * SS
+    w = (SS / RR)**m
+    W1 = w * L.Rdata_nu("1", f"T2_{2*m+1}") * L.Psym((1,))
+    radj = pickle.load(open(f"{OUT}/Radj_A_m{m}.pkl", "rb"))
+    nu_ = L.nu
+    Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu_**j for j, v in radj.items()), conv(0))
+    A = nu_ * nu_
+    qn = (nu_ - 1 / nu_) / (SS - 1 / SS)
+    kappa = (1 - A) * (1 - qq) / ((1 - tt) * (1 - qq * A / tt))
+    D = SS**2 * (tt - nu_**2) * (nu_**2 - 1) * (qq - 1) * (nu_**2 * qq - 1)
+    P = {"T1=Radj·K_adj": (1 - tt) * Radj * (qn * qn - kappa) / D, "T2=κ": (1 - tt) * kappa / D, "T3=−W1²": -(1 - tt) * W1 * W1 / D}
+    P["T1+T2"] = P["T1=Radj·K_adj"] + P["T2=κ"]
+    P["T1+T3"] = P["T1=Radj·K_adj"] + P["T3=−W1²"]
+    P["N"] = P["T1+T2"] + P["T3=−W1²"]
+    def series_y(ex, nmax):
+        num, den = sp.fraction(sp.cancel(sp.together(ex)))
+        Pn, Pd = sp.Poly(sp.expand(num), y), sp.Poly(sp.expand(den), y)
+        nd = {k[0]: v for k, v in zip(Pn.monoms(), Pn.coeffs())}; dd = {k[0]: v for k, v in zip(Pd.monoms(), Pd.coeffs())}
+        d0 = min(dd); dd = {k - d0: v for k, v in dd.items()}
+        c = {}
+        for k in range(nmax + d0 + 1):
+            v = nd.get(k, 0) - sum(dd[j] * c[k - j] for j in dd if j >= 1 and k - j in c)
+            c[k] = sp.cancel(v / dd[0])
+        return {k - d0: c[k] for k in c}
+    def blocks_of(e, kmax):
+        ser = series_y(e.to_sympy().subs(u_, s_ / y), 6 + 2 * kmax)
+        return {k: sp.factor(sp.expand(ser.get(6 + 2 * k, 0) * r_**(4 + 2 * k))).subs({r_: sp.sqrt(Q), s_: sp.sqrt(T)}) for k in range(kmax + 1)}
+    print(f"T(2,{2 * m + 1})：各項が Laurent か：", {k: v.is_laurent() for k, v in P.items()}, flush=True)
+    K = 4 * m - 1
+    for name in ("T2=κ", "T1+T3", "T1=Radj·K_adj", "T3=−W1²"):
+        print(f"  {name} のブロック：", flush=True)
+        for k, c in blocks_of(P[name], K + 2).items():
+            print(f"    k={k}: {c}"[:400], flush=True)
+
+
 if __name__ == "__main__":
     ai = "--all-inv" in sys.argv
     ms = [int(x) for x in sys.argv[2:] if x.isdigit()]              # rule・full・lower：m を指定できる（T(2,2m+1)。既定は 1, 2）
@@ -1851,6 +1896,9 @@ if __name__ == "__main__":
             principle(m_, save="--save" in sys.argv)
     elif sys.argv[1] == "n2fock":           # n = 2 の N_λ に ν 方向の Fock 系列があるかの検査と、qt = −1・t = −1 の残差
         n2_fock()
+    elif sys.argv[1] == "n1terms":          # n = 1 の N を式の項（R_adj K_adj、κ、−W₁²）に分けてブロック展開（m を指定）
+        for m_ in ms or (1, 2):
+            n1_terms(m_)
     elif sys.argv[1] == "scan":             # k ≥ 2m のブロックごとに (−1)^q / (−1)^t を選ぶ全通り（m を指定）
         for m_ in ms or (1, 2):
             for use in (("i",), ("i", "ii")):
