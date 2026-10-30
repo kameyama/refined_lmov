@@ -1,0 +1,21 @@
+N(∅)：Laurent (2) False、(11) False、0 False（0 秒）
+N(W)：Laurent (2) False、(11) False、0 False（0 秒）
+N(adj)：Laurent (2) False、(11) False、0 False（1 秒）
+N(c)：Laurent (2) False、(11) False、0 False（1 秒）
+N(b)：Laurent (2) False、(11) False、0 False（2 秒）
+N(W+adj)：Laurent (2) False、(11) False、0 False（2 秒）
+N(W+c)：Laurent (2) False、(11) False、0 False（2 秒）
+N(W+b)：Laurent (2) False、(11) False、0 False（3 秒）
+N(adj+c)：Laurent (2) False、(11) False、0 False（3 秒）
+N(adj+b)：Laurent (2) False、(11) False、0 False（4 秒）
+N(c+b)：Laurent (2) False、(11) False、0 False（4 秒）
+N(W+adj+c)：Laurent (2) False、(11) False、0 False（5 秒）
+N(W+adj+b)：Laurent (2) False、(11) False、0 False（5 秒）
+N(W+c+b)：Laurent (2) False、(11) False、0 False（6 秒）
+N(adj+c+b)：Laurent (2) False、(11) False、0 False（6 秒）
+N(W+adj+c+b)：Laurent (2) True、(11) True、0 False（7 秒）
+λ = 2：Σ_S T(S) = N True
+λ = 11：Σ_S T(S) = N True
+λ = 2：ε = 5 で次数 ≤ 4 の多項式が再現 True、N_d は Laurent d=0:False d=1:False d=2:False d=3:False d=4:False
+λ = 11：ε = 5 で次数 ≤ 4 の多項式が再現 True、N_d は Laurent d=0:False d=1:False d=2:False d=3:False d=4:False
+保存：data/refined_kauffman/daha/n2_N_rterms_b0_m1.pkl（14 秒）
