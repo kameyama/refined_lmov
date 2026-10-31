@@ -87,6 +87,38 @@ $\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_
 全 $d$ の形で $f = \tfrac12 f^{\cov} + \tfrac12 E/(1+t) + C$ が整数 Laurent であることは、不変な状態の指数 $P_{\mathrm{inv}}$ について $E \equiv P_{\mathrm{inv}} \pmod 2$（係数ごと）と同値である（$\tfrac12[P_{\mathrm{inv}}(1+t) + E(1-t)]/(1-t^2)$ が整数級数 $\Leftrightarrow P_{\mathrm{inv}} + E \equiv 0 \bmod 2$）。これは整数計画の制約 $e_m \equiv c_m \pmod 2$ そのものである。AgSc §4 の unrefined の形（向き付けられた $f_{\square,\square}$ と向き付けられない $f_\square(q^2)$ の mod 2 の一致）は、$t = q$ で $E$ と $C$ が条件 (ii) で混ざった後の影である。その形を素朴に当てた検査 $P \equiv g_{(1)}(q^2,t^2,\lambda^2 w^j) \pmod 2$ は $t = q$ でも合わず、辞書が未確定なので refined についての判定はしていない。
 \end{remark}
 
+\subsection{$n = 1$ の $E$：状態の空間の同定}\label{sec:principle}
+固定セクターの最低次（brane 1・image 1、$n = 1$）では、$E$ は条件を使わずに状態の空間の同定だけから作れる。$T(2,2m+1)$ の $E$ の台 $N$ を $\lambda^{-2}$ の冪（ブロック $k = 0, \dots, K = 4m-1$）で分け、$V = 1 + t + qt$（trefoil の簡約 superpolynomial）、$S$ を $T(2,2m+1)$ の簡約 superpolynomial、$\psi^2$ を $(q, t)\to(q^2, t^2)$ とする。
+% [P17]
+\begin{compresult}[符号の規則の破れ]\label{cr:signrule}
+下の系列（$k \le 2m$）に $(-1)^{\deg_q}$、上の系列に $(-1)^{\deg_t}$ を付ける符号の規則は、$T(2,3)$ と $T(2,5)$ では条件 (i)（$t = -1$）と (ii)（$t = q$）のもとで $E$ を一意に決めるが、$T(2,7)$ では (i) だけでも解が無い。破れるのは上の系列の最初のブロック $k = 2m+1$ である。
+\end{compresult}
+% [P18]
+\begin{compresult}[状態の空間と $\tilde I$]\label{cr:principle}
+$N$ のブロック $n_k$（$\lambda^{-(6+2k)}$ の係数を $r^{-(4+2k)}$ で正規化したもの）は
+\[
+n_k = \mathrm{Sym}^k V \ (k < 2m),\qquad n_{2m} = \mathrm{Sym}^{2m}V - S\otimes S,\qquad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^j V + (q-t)\,R_j\bigr]\ (0 \le j \le 2m-2)
+\]
+であり、$\tilde I$ は $V$ の対合 $\mathrm{diag}(1, 1, -1)$（上の系列では双対）の誘導作用、$S\otimes S$ では因子の入れ替え（トレース $\psi^2 S$）として働く。この同定から作った $E$ は、$T(2,3)$・$T(2,5)$ で (i)+(ii) から決まる一意な $E$ を全単項式で再現し、$T(2,7)$〜$T(2,13)$ では予言として (i)・(ii) をともに満たす。
+\end{compresult}
+% [P19]
+\begin{conjecture}[補正の形]\label{conj:correction}
+$R_{m+j'} = t^{m-1-j'}F_{j'}$ で、$F_{j'}$ は $m$ によらず
+\[
+\sum_{j'\ge 0}F_{j'}z^{j'} = \frac{1 + (2t + t^2 + qt + 2qt^2)z + qt^3z^2}{(1-z)(1-qtz)(1-t^2z)(1-q^2t^2z)}
+\]
+（状態の数は $\binom{2j'+3}{3}$）。$j' \le 4$（$T(2,7)$〜$T(2,13)$）で全係数が一致する。
+\end{conjecture}
+% [P20]
+\begin{conjecture}[補正への $\tilde I$ の作用]\label{conj:correctionI}
+$E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym}^{j'}V + t\,\mathrm{Sym}^{j'-1}V$（母関数 $(1+tz)/((1-z)(1-tz)(1-qtz))$、$(j'+1)^2$ 状態）であり、$F_{j'}$ の残りの状態は $\tilde I$ で入れ替わる対である：$F_{j'} = \psi^2 X_{j'} + 2P_{j'}$、$\sum P_{j'}z^{j'} = tz(V' + qt^2z)/((1-z)(1-qtz)(1-t^2z)(1-q^2t^2z))$、$V' = 1 + q + qt$。$j' = 2$ は $T(2,9)$ で (i) の行と台から 32 通りの変種のうち一意に選ばれ、$j' = 3, 4$ は $T(2,11)$, $T(2,13)$ で (i)+(ii) と整合する。
+\end{conjecture}
+% [P21]
+\begin{proposition}\label{prop:pairblind}
+$(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) に現れない（$t = q$ で消える）。したがって補正の符号は (i) だけからは決まらず（$n = 1$ の $j' = 2$ で 15 中 2 個、$n = 2$ の $\lambda = (2)$ で 17 中 3 個）、予想 \ref{conj:correctionI} のような状態の空間の構造が要る。
+\end{proposition}
+したがって $n = 1$ では、$E$ と $C$ の分離（命題 \ref{prop:EC}）は状態の空間の同定で解消する。$n = 2$（brane 2・image 2）では、$N_\lambda$ が Wilson loop の無い背景（6 セルの Fock 空間、閉じた形）と結び目の部分に分かれ、上端から $\lambda^{-12}$ までは「背景のセルに対角、平方に入れ替え」で (i)+(ii) と整合するが、$\lambda = (2)$ の補正の $\tilde I$ は未決定である（\S\ref{sec:discussion}）。
+
 \subsection{composite の DAHA の非正値性}
 % [P5]
 固定セクターの状態は、被覆の随伴 $(1;1)$ の値 $R_{\mathrm{adj}}$ から来る。$R_{\mathrm{adj}}$ がホモロジーの Poincaré 多項式（係数が正）として読めれば、打ち消しの前の状態の数が得られるはずである。
@@ -102,6 +134,7 @@ $\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_
 \begin{itemize}
 \item [1]（トーラス結び目）では判定式（予想 \ref{conj:criterion}）が成り立ち、符号がそろう。
 \item 多箱では、普遍因子（予想 \ref{conj:structure}）は成り立つが、その商の符号はそろわない。
+\item $n = 1$ の $E$ は状態の空間の同定（計算結果 \ref{cr:principle}、予想 \ref{conj:correction}・\ref{conj:correctionI}）から条件なしに作れ、$T(2,3)$〜$T(2,13)$ で (i)・(ii) を満たす。
 \item 多箱の正値性は、凍結した状態の多重項の基底が決まるまで判定できない。$E$ と $C$ の分離が決まるまでも同様である。$E$ と $C$ の分離は指数からは決まらず（命題 \ref{prop:EC}）、composite の DAHA の値からも状態の数は得られなかった（計算）。打ち消しの前の固定セクターの状態の空間を、幾何から求める必要がある \open。
 \item 多箱の $c = 1$ の $\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(V^2-V^{-2})$ で割り切れる）に分かれる（計算結果 \ref{cr:multibox-sigma}）。後者の起源は、結び目の固定セクターで $S_R$ が非自明に働くことにあると考えられる（予想）。
 \end{itemize}
