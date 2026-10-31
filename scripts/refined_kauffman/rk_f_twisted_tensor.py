@@ -1513,18 +1513,18 @@ def n2(all_inv=False):
     return res
 
 
-def _knot_N(m):
-    """T(2,2m+1) の n = 1 の N（P = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)·N）と条件 (i), (ii)。"""
+def _knot_N(m, k=2):
+    """T(2,2m+1)（k ≠ 2 は T(mk+1, k)、続き 102）の n = 1 の N（P = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)·N）と条件 (i), (ii)。"""
     import rk_b_knot_fixed_sector as K
     import rk_b_cover_split as C
     u = sp.Symbol("u", positive=True)
     with contextlib.redirect_stdout(io.StringIO()):
-        sec = C.cover_sectors(m)
+        sec = C.cover_sectors(m, k)
     P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
     N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
-    g = K.load_g(m)
-    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
-            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    g = K.load_g(m, k)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k_: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k_: 1)}
     return N, allc
 
 
@@ -1549,6 +1549,25 @@ def blocks_table(m=2):
     print("  分子 Σ n_k x^k (1 − x)(1 − tx)(1 − qtx) の係数：", flush=True)
     for (k,), c in zip(Pn.monoms(), Pn.coeffs()):
         print(f"    x^{k}：{sp.factor(c).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
+
+
+def blocks_raw(m, k):
+    """T(mk+1, k)（k ≠ 2、続き 102）の n = 1 の N の ν の冪ごとのブロックを、r・s の冪の範囲・状態の数・因数分解で表示する（規格化の前）。
+    T(2,2m+1) ではブロック k は ν^{−(6+2k)} r^{−(4+2k)} の係数（blocks_table）。"""
+    import rk_f_frozen_basis as FB
+    N, _ = _knot_N(m, k)
+    blocks_ = FB.nu_blocks(N)
+    qq, tt = sp.Symbol("q"), sp.Symbol("t")
+    print(f"T({k},{m * k + 1}) の N のブロック（ν の冪、r の冪の範囲、s の冪の範囲、状態の数 Σ|c|、因数分解）：", flush=True)
+    for b_ in sorted(blocks_, reverse=True):
+        d = sp.expand(blocks_[b_]).as_coefficients_dict()
+        ex = [(mono.as_powers_dict().get(r, 0), mono.as_powers_dict().get(s, 0), c) for mono, c in d.items()]
+        rmin, rmax = min(e[0] for e in ex), max(e[0] for e in ex)
+        smin, smax = min(e[1] for e in ex), max(e[1] for e in ex)
+        cnt = sum(abs(c) for _, _, c in ex)
+        f = sp.factor(sp.expand(blocks_[b_] * r**(-rmin) * s**(-smin))).subs({r: qq**sp.Rational(1, 2), s: tt**sp.Rational(1, 2)})
+        print(f"  ν^{b_}：r^{rmin}..{rmax}、s^{smin}..{smax}、{cnt} 状態、{f}"[:600], flush=True)
+    return blocks_
 
 
 def rule_scan(m=2, use=("i", "ii"), uniq=False):
@@ -2044,6 +2063,8 @@ if __name__ == "__main__":
         n2_choice(tuple(sys.argv[2].split(",")), sys.argv[3] if len(sys.argv) > 3 else "sign")
     elif sys.argv[1] == "n2tower":           # 塔のセルの規則（0, q, t, qt）と、鏡映で対称な規則（0, qt）だけの場合
         n2_rule("--nouniq" not in sys.argv, tuple(sys.argv[2].split(",")), uniform=True)
+    elif sys.argv[1] == "blocksraw":        # T(mk+1, k) の N のブロック（m k を指定、続き 102）
+        blocks_raw(ms[0], ms[1])
     elif sys.argv[1] == "blocks":           # N のブロックと生成関数の分子（m を指定）
         for m_ in ms or (1, 2):
             blocks_table(m_)

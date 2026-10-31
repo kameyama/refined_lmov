@@ -9,15 +9,16 @@ import sympy as sp
 from fractions import Fraction
 from rcsknots.refined_kauffman.flint_rf3 import RF, R, S, U, from_sympy, conv
 import rk_c_2box_largeN as L
+import rk_torus_tag as TG
 
 q, t = R * R, S * S
 half = conv(Fraction(1, 2))
 
 
-def cover_sectors(m=1):
-    w = (S / R)**m                                     # (t/q)^{δ/2}、δ = m
-    Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), f"T2_{2*m+1}") * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
-    radj = pickle.load(open(f"data/refined_kauffman/daha/Radj_A_m{m}.pkl", "rb"))
+def cover_sectors(m=1, k=2):
+    w = (S / R)**TG.delta(m, k)                        # (t/q)^{δ/2}、δ = m（k = 2。k ≠ 2 は T(mk+1, k)、続き 102）
+    Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), TG.knot_name(m, k)) * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
+    radj = pickle.load(open(f"data/refined_kauffman/daha/Radj_A_{TG.tag(m, k)}.pkl", "rb"))
     r_, s_ = sp.symbols("r s", positive=True)
     nu = L.nu
     Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu**j for j, v in radj.items()), conv(0))

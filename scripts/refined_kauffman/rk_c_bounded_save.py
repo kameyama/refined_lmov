@@ -17,9 +17,9 @@ def to_sympy(c):
     return sp.Add(*[sp.Rational(v.numerator, v.denominator) * rr**a * ss**b for (a, b), v in c.items()])
 
 
-def run(m, lam, Nmax_used=None):
+def run(m, lam, Nmax_used=None, k=2):
     t0 = time.time()
-    T = {N: t for N in range(2, 40) if (t := B.terms_true(N, m, lam)) is not None}
+    T = {N: t for N in range(2, 40) if (t := B.terms_true(N, m, lam, k)) is not None}
     rng, d = B.slopes(T)
     jmin, jmax = d[-1]
     assert d[-1] == d[-2], ("傾きが一定でない", d)
@@ -38,7 +38,7 @@ def run(m, lam, Nmax_used=None):
             print(f"   使う N = {Nmin}..{Nmax}：{st}、未知数 {nvar}、使わない N での照合 {ok}", flush=True)
             if ok and all(ok.values()):
                 c = {j: to_sympy(v) for j, v in sol.items()}
-                path = os.path.join(B.OUT, f"R_U_m{m}_{''.join(map(str, lam))}.pkl")
+                path = os.path.join(B.OUT, f"R_U_{B.TG.tag(m, k)}_{''.join(map(str, lam))}.pkl")
                 if os.path.exists(path):
                     old = pickle.load(open(path, "rb"))
                     same = all(sp.expand(sp.sympify(old.get(j, 0), locals={"r": rr, "s": ss}) - c.get(j, 0)) == 0 for j in set(old) | set(c))   # 係数 0 の j は保存の有無が違ってよい
@@ -50,14 +50,14 @@ def run(m, lam, Nmax_used=None):
     print("   採用できる組が無い", flush=True)
 
 
-def terms_adj(N, m):
+def terms_adj(N, m, k=2):
     """随伴 R_adj(N) = W / (qn² − κ) の項 {(α, β): Fraction}（flint で約分。data/cache にキャッシュ）。"""
     from fractions import Fraction
     from rcsknots.refined_kauffman.flint_rf import from_sympy, RF, R, S, conv
-    path = os.path.join(B.OUT, f"Wadj_N{N}_m{m}.pkl")
+    path = os.path.join(B.OUT, f"Wadj_N{N}_{B.TG.tag(m, k)}.pkl")
     if not os.path.exists(path):
         return None
-    cpath = os.path.join(B.CACHE, f"Radj_N{N}_m{m}.pkl")
+    cpath = os.path.join(B.CACHE, f"Radj_N{N}_{B.TG.tag(m, k)}.pkl")
     if os.path.exists(cpath) and os.path.getmtime(cpath) >= os.path.getmtime(path):
         return pickle.load(open(cpath, "rb"))
     W = from_sympy(pickle.load(open(path, "rb"))["W"])
@@ -73,10 +73,10 @@ def terms_adj(N, m):
     return out
 
 
-def run_adj(m, Nmax_used=None):
+def run_adj(m, Nmax_used=None, k=2):
     t0 = time.time()
     B.UNIT, B.PAR = 1, 1
-    T = {N: t for N in range(2, 50) if (t := terms_adj(N, m)) is not None}
+    T = {N: t for N in range(2, 50) if (t := terms_adj(N, m, k)) is not None}
     rng, d = B.slopes(T)
     jmin, jmax = d[-1]
     assert d[-1] == d[-2], ("傾きが一定でない", d)
@@ -94,7 +94,7 @@ def run_adj(m, Nmax_used=None):
             print(f"   使う N = {Nmin}..{Nmax}：{st}、未知数 {nvar}、使わない N での照合 {ok}", flush=True)
             if ok and all(ok.values()):
                 c = {j: to_sympy(v) for j, v in sol.items()}
-                path = os.path.join(B.OUT, f"Radj_A_m{m}.pkl")
+                path = os.path.join(B.OUT, f"Radj_A_{B.TG.tag(m, k)}.pkl")
                 if os.path.exists(path):
                     old = pickle.load(open(path, "rb"))
                     same = all(sp.expand(sp.sympify(old.get(j, 0), locals={"r": rr, "s": ss}) - c.get(j, 0)) == 0 for j in set(old) | set(c))   # 係数 0 の j は保存の有無が違ってよい
@@ -111,15 +111,17 @@ def run_adj(m, Nmax_used=None):
 if __name__ == "__main__":
     m = int(sys.argv[1])
     Nmax_used = None
-    lams = []; adj = False
+    lams = []; adj = False; k = 2
     for a in sys.argv[2:]:
         if a.startswith("--nmax="):
             Nmax_used = int(a[7:])
+        elif a.startswith("--k="):            # γ = τ_+^m τ_−^k（T(mk+1, k)、続き 102）
+            k = int(a[4:])
         elif a == "--adj":
             adj = True
         else:
             lams.append(tuple(int(x) for x in a))
     for lam in lams:
-        run(m, lam, Nmax_used)
+        run(m, lam, Nmax_used, k)
     if adj:
-        run_adj(m, Nmax_used)
+        run_adj(m, Nmax_used, k)

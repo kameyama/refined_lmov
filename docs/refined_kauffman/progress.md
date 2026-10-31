@@ -1684,3 +1684,12 @@
 - やったこと：F・X・N と E の上の系列の母関数の plethystic log を計算し（scripts/refined_kauffman/rk_f_plog.py、tests/refined_kauffman/test_rk_plog.py）、Fock 空間（有限個の生成元）の解釈があるかを調べた。theory §12.31 末尾に記録、claims.md に P24 を追加、論文 positivity.tex に P23（閉じた式）と P24 を追加。
 - 結果【計算】：X の母関数だけ有限（V ⊕ t の Fock に関係 t²z²）。F と上の系列は無限で、上の系列の生成元は V z と (q − t) t^{m−1−j′} c_{j′} z^{m+j′}（c₀ = 1、c₁ = V² − t(1 + qt)、c₂ から負の係数）。E 側も同様に符号が混在。
 - 判断：上の系列は正の BPS 生成元の Fock 空間としては読めない。F・X の由来（候補 (A)）はこれ以上の計算では進まないので打ち切り、次は候補 (C)（n = 2 の λ = (2) の補正に n = 1 の形 R = ψ²X ⊕ 2P を当てる）に移る。
+
+## 2026-11-01（続き 102、準備）T(3,4) で n = 1 の原理を 2 本撚り以外で検証する（自己判断）
+- 目的：n = 1 の原理（P18〜P20・P23：下の系列 Sym^k V、移り目 Sym^{2m}V − S²、上の系列の補正 F_{j′}・X_{j′}）が T(2,2m+1) に固有か、トーラス結び目一般の性質かを、T(3,4)（γ = τ_+ τ_−³、m = 1・k = 3）で調べる。V・F・X が結び目によらない普遍的なデータなら、T(3,4) でも同じ形（S を T(3,4) の簡約 superpolynomial に替える）で N と E が書けるはずである。
+- 準備：
+  - DAHA：rk_c_fast_daha_dn.py・rk_c_fast_adj.py に --k=K（γ = τ_+^m τ_−^K、T(mK+1, K)）を追加。K ≠ 2 のデータは Z_N{N}_m{m}k{K}_λ.pkl・Wadj_N{N}_m{m}k{K}.pkl。随伴の framing は T_adj^{−rs}（rs = (mK+1)K、K = 2 で従来の 2n）。
+  - パイプライン：rk_torus_tag.py（タグ・結び目名・rs・δ）を作り、rk_c_bounded_interp/save（T_λ^{−rs}）、rk_c_2box_largeN_m（被覆の (t/q)^{δ|μ|/2}、T{k}_{mk+1} の彩色データ）、rk_b_cover_split・rk_b_knot_fixed_sector・rk_f_twisted_tensor._knot_N に k = 2 を既定とする引数を追加。m = 3 の [1] で保存値と全係数一致（回帰）。
+  - δ：conventions.md の規則（U(2) の行列式表現 R_(1,1)(a = t) = (t/q)^δ）で data/framed_knot/torus/T3_4_11.json から δ = 3【計算】（trefoil 1、T(2,5) 2 と同じ規則で確認）。
+  - 見積もり：T(3,4) の D_N 2 箱は N = 11 の (2) で 66 秒（T(2,15) の N = 11 は 165 秒）、随伴は N = 18 で 49 秒。N ≤ 20 で 1〜2 時間の見込み。[1] の絞った補間は N = 2〜5 で一意、N ≤ 12 で照合済み（U^{−10}〜U^{−6}）。
+- 実行中：D_N（N ≤ 20、logs/refined_kauffman/c_fast_daha_dn_m1k3.log）、随伴（N ≤ 20、c_fast_adj_m1k3.log）、(1,1)・(2)・随伴の補間（c_bounded_save_m1k3.log）。終わったら rk_c_2box_largeN_m.py 1 --k=3 → rk_f_twisted_tensor.py blocksraw 1 3 で N のブロック（ν の冪の範囲、Sym^k V の系列の有無、移り目の S²、上の補正）を見る。

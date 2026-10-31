@@ -19,6 +19,7 @@ import flint
 from rcsknots.refined_kauffman.flint_rf import from_sympy, RF, CTX
 
 OUT = "data/refined_kauffman/daha"
+import rk_torus_tag as TG
 UNIT = 2       # U = s^{UNIT·N}（SO の 2 箱・4 箱は U = t^N = s^{2N}。随伴は A^{1/2} = s^N なので 1。rk_c_bounded_save が切り替える）
 PAR = 2        # c_j の s の冪の偶奇（SO のデータは一定。随伴は 1 にして偶奇の制限を外す）
 
@@ -33,22 +34,23 @@ def _mirror(p):
 CACHE = "data/cache/rk_Rterms"
 
 
-def terms_true(N, m, lam):
-    """R_λ(N) = T_λ^{−2n} × 鏡像(Z) / K を {(α, β): Fraction} で返す（保存値が無ければ None）。data/cache にキャッシュする。"""
-    key = f"N{N}_m{m}_{''.join(map(str, lam))}"
+def terms_true(N, m, lam, k=2):
+    """R_λ(N) = T_λ^{−rs} × 鏡像(Z) / K を {(α, β): Fraction} で返す（保存値が無ければ None）。data/cache にキャッシュする。
+    k ≠ 2 は γ = τ_+^m τ_−^k（T(mk+1, k)）のデータ（タグ m{m}k{k}、続き 102）。"""
+    key = f"N{N}_{TG.tag(m, k)}_{''.join(map(str, lam))}"
     path = os.path.join(OUT, f"Z_{key}.pkl")
     if not os.path.exists(path):
         return None
     cpath = os.path.join(CACHE, f"R_{key}.pkl")
     if os.path.exists(cpath) and os.path.getmtime(cpath) >= os.path.getmtime(path):
         return pickle.load(open(cpath, "rb"))
-    out = _terms_true(N, m, lam, path)
+    out = _terms_true(N, m, lam, path, k)
     os.makedirs(CACHE, exist_ok=True)
     pickle.dump(out, open(cpath, "wb"))
     return out
 
 
-def _terms_true(N, m, lam, path):
+def _terms_true(N, m, lam, path, k=2):
     dat = pickle.load(open(path, "rb"))
     Z, K = from_sympy(dat["Z"]), from_sympy(dat["K"])
     if Z.is_zero():
@@ -58,9 +60,9 @@ def _terms_true(N, m, lam, path):
     lamp = list(lam) + [0] * (N - len(lam))
     ll = sum(x * x for x in lamp)
     lr = sum(x * (N - 1 - i) for i, x in enumerate(lamp))
-    n = 2 * m + 1
-    sh_r = -2 * n * ll - A1 + A2               # 鏡像の分子・分母の補正と T_λ^{−2n} = r^{−2n ll} s^{−4n lr}
-    sh_s = -4 * n * lr - B1 + B2
+    rs = TG.rs(m, k)                            # T(r, s) の r·s（k = 2 では 2n、n = 2m + 1）
+    sh_r = -rs * ll - A1 + A2                  # 鏡像の分子・分母の補正と T_λ^{−rs} = r^{−rs ll} s^{−2 rs lr}
+    sh_s = -2 * rs * lr - B1 + B2
     W = RF(zn * K.d, zd * K.n)
     assert W.is_laurent(), (N, lam)
     (dm, dc), = W.d.to_dict().items()
