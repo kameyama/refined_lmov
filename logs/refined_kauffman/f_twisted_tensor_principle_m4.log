@@ -8,4 +8,4 @@
 T(2,9)：原理から作った E は N の台の外の単項式 0 個、|e| ≤ |c|・偶奇の違反 0 個 []、入れ替わる対 40
    条件 (i)：満たす
    条件 (ii)：満たす
-   保存：data/refined_kauffman/daha/twisted_E_n1_m4.pkl
+   保存した一意な E（data/refined_kauffman/daha/twisted_E_n1_m4.pkl）と一致：True

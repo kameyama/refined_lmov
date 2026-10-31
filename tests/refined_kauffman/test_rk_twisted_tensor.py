@@ -352,3 +352,18 @@ def test_correction_generating_function():
     for jp in range(6):
         cs = sp.Poly(TT.correction_F(jp), TT.r, TT.s).coeffs()
         assert all(c > 0 for c in cs) and sum(cs) == sp.binomial(2 * jp + 3, 3)
+
+
+def test_diag_X():
+    """D_{j′} = ψ²X_{j′} の X（続き 98、theory §12.31）：X₁ = 1 + 2t + qt、X₂ = 1 + 2t + qt + 2t² + 2qt² + q²t²、状態の数 (j′+1)²、
+    母関数 (1 + tz)/((1 − z)(1 − tz)(1 − qtz))。ψ²X₁ = ψ²V + t²、ψ²X₂ = ψ²V² + t⁴ − q²t²（T(2,9) の D₁, D₂）。残り (F − ψ²X)/2 は非負の整数。"""
+    q, t, z = TT.q, TT.t, sp.Symbol("z")
+    pV = 1 + t**2 + q**2 * t**2
+    psi2 = lambda X: X.subs({TT.r: TT.r**2, TT.s: TT.s**2}, simultaneous=True)
+    assert sp.expand(TT.diag_X(1) - (1 + 2 * t + q * t)) == 0 and sp.expand(TT.diag_X(2) - (1 + 2 * t + q * t + 2 * t**2 + 2 * q * t**2 + q**2 * t**2)) == 0
+    assert sp.expand(psi2(TT.diag_X(1)) - pV - t**2) == 0 and sp.expand(psi2(TT.diag_X(2)) - pV**2 - t**4 + q**2 * t**2) == 0
+    ser = sp.series((1 + t * z) / ((1 - z) * (1 - t * z) * (1 - q * t * z)), z, 0, 5).removeO()
+    for jp in range(5):
+        assert sp.expand(ser.coeff(z, jp) - TT.diag_X(jp)) == 0 and sum(sp.Poly(TT.diag_X(jp), TT.r, TT.s).coeffs()) == (jp + 1)**2
+        Fd = sp.Poly(TT.correction_F(jp), TT.r, TT.s).as_dict(); Dd = sp.Poly(psi2(TT.diag_X(jp)), TT.r, TT.s).as_dict()
+        assert all(Dd.get(m_, 0) <= Fd.get(m_, 0) and (Fd.get(m_, 0) - Dd.get(m_, 0)) % 2 == 0 for m_ in set(Fd) | set(Dd))

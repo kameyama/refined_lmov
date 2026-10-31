@@ -1683,7 +1683,17 @@ def correction_F(jp):
     return sp.expand(sp.series(G, z, 0, jp + 1).removeO().coeff(z, jp))
 
 
-def principle(m=2, verbose=True, save=False, extra_R=None):
+def diag_X(jp):
+    """補正 F_{j′} の Ĩ の対角の部分 D_{j′} = ψ²(X_{j′}) の X_{j′}（予想、続き 98、theory §12.31）：
+      X_{j′} = Sym^{j′} V + t·Sym^{j′−1} V（V = 1 + t + qt）、母関数 Σ X_{j′} z^{j′} = (1 + tz)/((1 − z)(1 − tz)(1 − qtz))。
+    状態の数は (j′+1)²。X₀ = 1、X₁ = 1 + 2t + qt、X₂ = 1 + 2t + qt + 2t² + 2qt² + q²t² は T(2,9) の D₁ = ψ²V + t²、D₂ = ψ²V² + t⁴ − q²t² を再現し、
+    X₃ は T(2,11) で (i)+(ii) と整合する。E の補正は (−1)^{m+j′+1} t^{m−1−j′} ψ²(X_{j′})、F_{j′} の残りの状態は入れ替わる対（(F_{j′} − ψ²X_{j′})/2）。"""
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k)) if k >= 0 else 0
+    return sp.expand(sym(jp) + t * sym(jp - 1))
+
+
+def principle(m=2, verbose=True, save=False, extra_R=None, free_j=None):
     """n = 1 の E を、規則ではなく状態の空間の同定から作る（続き 89）：
       下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
       移り目 k = 2m：Sym^{2m} V（同じ ε）から S ⊗ S（S は簡約 superpolynomial）を引く。Ĩ は因子の入れ替えで、トレースは ψ²S = S(q², t²)。
@@ -1693,8 +1703,8 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
         Ĩ は V ⊗ V の入れ替え（トレース ψ²V）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
     作った E が N の台の上で |e| ≤ |c|、e ≡ c (mod 2) を満たすか、条件 (i)・(ii) を満たすか、保存した一意な E と一致するかを調べる。
     save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。
-    j ≥ m+2 の補正（T(2,9) 以上）は未同定なので、N から読んだ R_j を表示し、extra_R = {j: R′_j（E の補正、sympy）} が与えられればそれを使い、
-    無ければ E の照合を飛ばして {j: R_j} を返す（続き 94）。"""
+    j ≥ m+2 の補正は母関数の予想（correction_F）と Ĩ の予想（diag_X）で作る（続き 96〜98）。extra_R = {j: R′_j} で上書きでき、
+    free_j = [j, …] のブロックは e を自由にして (i)・(i)+(ii) の解の有無と範囲を調べる（続き 94〜97 の「未同定」の扱い）。"""
     import rk_f_frozen_basis as FB
     N, allc = _knot_N(m)
     mult = TM.monomials(N)
@@ -1735,17 +1745,17 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
                 Rp = (-1)**m * t**(m - 2) * (psi2(V_) + t**2)
             elif extra_R is not None and j in extra_R:
                 Rp = extra_R[j]
-            elif j == m + 2:
-                # T(2,9) で読んだ形（続き 96、theory §12.29）：R_{m+2} = t^{m−3}·P、P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²（35 状態）= F₂。
-                # Ĩ：V⊗V は入れ替え、ψ²V の因子と t⁴ は対角 +、q²t² は対角 −、2qt²V は入れ替わる対。符号 −(−1)^m。(i) の行と台で 32 通り中 1 通り。
-                V_ = 1 + t + q * t
-                assert sp.expand(R - t**(m - 3) * correction_F(2)) == 0, f"k={k}（j=m+2）：補正 {R} ≠ t^(m−3)·F₂"
-                Rp = -(-1)**m * t**(m - 3) * (psi2(V_)**2 + t**4 - q**2 * t**2)
+            elif j >= m + 2 and (free_j is None or j not in free_j):
+                # 一般の j′ = j − m ≥ 2（続き 96〜98、theory §12.29〜§12.31）：R_{m+j′} = t^{m−1−j′} F_{j′}（correction_F の母関数）、
+                # Ĩ：E の補正 (−1)^{m+j′+1} t^{m−1−j′} ψ²(X_{j′})（diag_X）、残りは入れ替わる対。j′ = 2 は T(2,9) で 32 通り中 1 通り、j′ = 3 は T(2,11) で (i)+(ii) と整合。
+                jp = j - m
+                assert sp.expand(R - t**(m - 1 - jp) * correction_F(jp)) == 0, f"k={k}（j′={jp}）：補正 {R} ≠ t^(m−1−j′)·F_j′（母関数の予想が破れた）"
+                Rp = (-1)**(m + jp + 1) * t**(m - 1 - jp) * psi2(diag_X(jp))
             else:
                 unknown[j] = (R, b_, k)
                 gf = sp.expand(R - t**(m - 1 - (j - m)) * correction_F(j - m)) == 0
-                print(f"  k={k}（j={j} ≥ m+3）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
-                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。母関数の予想 t^(m−1−j′)F_j′ と一致：{gf}。このブロックの e は自由にする", flush=True)
+                print(f"  k={k}（j′={j - m}）：このブロックの e は自由にする。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
+                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。母関数の予想 t^(m−1−j′)F_j′ と一致：{gf}", flush=True)
                 continue
             if verbose:
                 print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
@@ -1838,7 +1848,8 @@ def principle_R(m=4, hyps=None, esign=0):
             j = K - k
             R = sp.cancel(sp.expand(nk / (-t**(K - 2 * j)) - sym(j)) / (q - t))
             Ek = sum(-(-1)**(b_ + c_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(j))
-            Rp = 0 if j < m else -(-1)**m * t**(m - 1) if j == m else (-1)**m * t**(m - 2) * (psi2(V_) + t**2) if j == m + 1 else None
+            Rp = (0 if j < m else -(-1)**m * t**(m - 1) if j == m else (-1)**m * t**(m - 2) * (psi2(V_) + t**2) if j == m + 1
+                  else -(-1)**m * t**(m - 3) * (psi2(V_)**2 + t**4 - q**2 * t**2) if j == m + 2 else None)      # j = m+2 は principle と同じ（続き 96）
             if Rp is None:
                 unknown[j] = (sp.expand(R), b_, k, sp.expand(Ek))
                 continue
@@ -1886,7 +1897,15 @@ def principle_R(m=4, hyps=None, esign=0):
             pm = round(milp(np.ones(len(mons)), constraints=cons, bounds=bnd, integrality=integ).fun)
             nun = sum(1 for v in rg.values() if v[0] == v[1])
             qq, tt = sp.Symbol("q"), sp.Symbol("t")
-            print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解あり。e_μ が一意 {nun}/{len(mons)}、補正の対の最小 {pm}。範囲 {{q^a t^b: (R, [min, max])}} = "
+            cons2 = cons + [LinearConstraint(np.ones((1, len(mons))), -np.inf, pm + 1e-9)]
+            rg2 = {}
+            for i, mu in enumerate(mons):
+                cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons2, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons2, bounds=bnd, integrality=integ)
+                rg2[mu] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+            nun2 = sum(1 for v in rg2.values() if v[0] == v[1])
+            print(f"   Σy 最小（{pm}）での e_μ：一意 {nun2}/{len(mons)}、" + ("E_R = " + str(sp.factor(sum(v[0] * qq**(a_ // 2) * tt**(c_ // 2) for (a_, c_), v in rg2.items()))) if nun2 == len(mons) else "範囲 " + str({(a_ // 2, c_ // 2): v for (a_, c_), v in rg2.items() if v[0] != v[1]})), flush=True)
+            print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解あり。e_μ が一意 {nun}/{len(mons)}、Σy の最小 {pm}（e = R − 2y。e ≤ 0 なら Σ|e| の最小 = 2Σy − Σ|R|）。範囲 {{q^a t^b: (R, [min, max])}} = "
                   + "{" + ", ".join(f"q^{a_ // 2}t^{c_ // 2}: ({Rd[(a_, c_)]}, {v if v[0] != v[1] else v[0]})" for (a_, c_), v in rg.items()) + "}", flush=True)
             out[(j, use)] = rg
             for name, Rp in (hyps or {}).items():
@@ -2052,10 +2071,13 @@ if __name__ == "__main__":
                 for (e1, e2, e3, e4) in _it.product((1, -1), repeat=4):
                     D_ = psi2(V_) * (1 + e1 * t**2 + e2 * q**2 * t**2) + c_ * q * t**2 * V_ + e3 * t**4 + e4 * q**2 * t**2
                     hyps[f"−(−1)^m[ψ²V(1 {e1:+d}t² {e2:+d}q²t²) + {c_}qt²V {e3:+d}t⁴ {e4:+d}q²t²]"] = -(-1)**m_ * t * D_
+            jp_ = m_ - 2
+            hyps = {f"(−1)^(m+j′+1) t^(m−1−j′) ψ²X_{jp_}": (-1)**(m_ + jp_ + 1) * t**(m_ - 1 - jp_) * psi2(diag_X(jp_))} if "--x" in sys.argv else hyps
             principle_R(m_, hyps, esign=-1 if "--neg" in sys.argv else 1 if "--pos" in sys.argv else 0)
-    elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存）
+    elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存、--free=j,j で指定のブロックを自由に）
+        fj = [int(x) for a in sys.argv if a.startswith("--free=") for x in a[7:].split(",")] or None
         for m_ in ms or (1, 2, 3):
-            principle(m_, save="--save" in sys.argv)
+            principle(m_, save="--save" in sys.argv, free_j=fj)
     elif sys.argv[1] == "n2fock":           # n = 2 の N_λ に ν 方向の Fock 系列があるかの検査と、qt = −1・t = −1 の残差
         n2_fock()
     elif sys.argv[1] == "n1terms":          # n = 1 の N を式の項（R_adj K_adj、κ、−W₁²）に分けてブロック展開（m を指定）
