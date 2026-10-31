@@ -380,3 +380,12 @@ def test_correction_pairs_generating_function():
         P = sp.expand(ser.coeff(z, jp))
         assert sp.expand(TT.correction_F(jp) - psi2(TT.diag_X(jp)) - 2 * P) == 0
         assert all(c > 0 for c in sp.Poly(P, TT.r, TT.s).coeffs()) if jp else P == 0
+
+
+@pytest.mark.results
+@pytest.mark.parametrize("m", [5, 6])
+def test_principle_full_E_saved_predictions(m):
+    """T(2,11)・T(2,13)（続き 98〜99、theory §12.31）：一般の j′ の原理で作った E 全体が (i)・(ii) を満たし、保存した予言（twisted_E_n1_m{5,6}.pkl）と一致する。
+    largeN_2box_m{5,6}.pkl と T2_{11,13} の彩色データが要る（各 10〜20 分）。"""
+    E, e, ok = TT.principle(m, verbose=False)
+    assert ok["i"] and ok["ii"]
