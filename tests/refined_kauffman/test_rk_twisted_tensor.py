@@ -339,3 +339,16 @@ def test_principle_T29_consistent():
         rg = out[(6, use)]
         assert rg is not None
         assert sum(1 for v in rg.values() if v[0] == v[1]) == 2
+
+
+def test_correction_generating_function():
+    """補正 F_{j′} の母関数（続き 97、theory §12.30）：F₀ = 1、F₁ = V² + t²、F₂ = V²ψ²V + 2qt²V + t⁴ + q²t²（T(2,9)・T(2,11) の実測）、
+    状態の数は C(2j′+3, 3)、係数は j′ ≤ 5 で非負。"""
+    q, t = TT.q, TT.t
+    V = 1 + t + q * t; pV = 1 + t**2 + q**2 * t**2
+    assert TT.correction_F(0) == 1
+    assert sp.expand(TT.correction_F(1) - V**2 - t**2) == 0
+    assert sp.expand(TT.correction_F(2) - (V**2 * pV + 2 * q * t**2 * V + t**4 + q**2 * t**2)) == 0
+    for jp in range(6):
+        cs = sp.Poly(TT.correction_F(jp), TT.r, TT.s).coeffs()
+        assert all(c > 0 for c in cs) and sum(cs) == sp.binomial(2 * jp + 3, 3)

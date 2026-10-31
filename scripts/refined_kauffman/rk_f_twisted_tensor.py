@@ -1673,6 +1673,16 @@ def n1_free_set(m=3, use=("i", "ii")):
     return ok
 
 
+def correction_F(jp):
+    """n = 1 の上の系列の補正 R_{m+j′} = t^{m−1−j′} F_{j′} の F_{j′}（q = r², t = s²）。
+    母関数の予想（続き 97、theory §12.30。T(2,7)・T(2,9)・T(2,11) の F₀〜F₃ から読み、F₄ は T(2,13) で検証する）：
+      Σ_{j′≥0} F_{j′} z^{j′} = [1 + (2t + t² + qt + 2qt²) z + q t³ z²] / [(1 − z)(1 − qt z)(1 − t² z)(1 − q²t² z)]。
+    状態の数は C(2j′+3, 3)。"""
+    z = sp.Symbol("z")
+    G = (1 + (2 * t + t**2 + q * t + 2 * q * t**2) * z + q * t**3 * z**2) / ((1 - z) * (1 - q * t * z) * (1 - t**2 * z) * (1 - q**2 * t**2 * z))
+    return sp.expand(sp.series(G, z, 0, jp + 1).removeO().coeff(z, jp))
+
+
 def principle(m=2, verbose=True, save=False, extra_R=None):
     """n = 1 の E を、規則ではなく状態の空間の同定から作る（続き 89）：
       下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
@@ -1726,16 +1736,16 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
             elif extra_R is not None and j in extra_R:
                 Rp = extra_R[j]
             elif j == m + 2:
-                # T(2,9) で読んだ形（続き 96、theory §12.29）：R_{m+2} = t^{m−3}·P、P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²（35 状態）。
+                # T(2,9) で読んだ形（続き 96、theory §12.29）：R_{m+2} = t^{m−3}·P、P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²（35 状態）= F₂。
                 # Ĩ：V⊗V は入れ替え、ψ²V の因子と t⁴ は対角 +、q²t² は対角 −、2qt²V は入れ替わる対。符号 −(−1)^m。(i) の行と台で 32 通り中 1 通り。
                 V_ = 1 + t + q * t
-                P_ = sp.expand(V_**2 * psi2(V_) + 2 * q * t**2 * V_ + t**4 + q**2 * t**2)
-                assert sp.expand(R - t**(m - 3) * P_) == 0, f"k={k}（j=m+2）：補正 {R} ≠ t^(m−3)·P"
+                assert sp.expand(R - t**(m - 3) * correction_F(2)) == 0, f"k={k}（j=m+2）：補正 {R} ≠ t^(m−3)·F₂"
                 Rp = -(-1)**m * t**(m - 3) * (psi2(V_)**2 + t**4 - q**2 * t**2)
             else:
                 unknown[j] = (R, b_, k)
-                print(f"  k={k}（j={j} ≥ m+2）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
-                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。このブロックの e は自由にする", flush=True)
+                gf = sp.expand(R - t**(m - 1 - (j - m)) * correction_F(j - m)) == 0
+                print(f"  k={k}（j={j} ≥ m+3）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
+                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。母関数の予想 t^(m−1−j′)F_j′ と一致：{gf}。このブロックの e は自由にする", flush=True)
                 continue
             if verbose:
                 print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
