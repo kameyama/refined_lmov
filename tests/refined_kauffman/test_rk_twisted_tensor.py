@@ -367,3 +367,16 @@ def test_diag_X():
         assert sp.expand(ser.coeff(z, jp) - TT.diag_X(jp)) == 0 and sum(sp.Poly(TT.diag_X(jp), TT.r, TT.s).coeffs()) == (jp + 1)**2
         Fd = sp.Poly(TT.correction_F(jp), TT.r, TT.s).as_dict(); Dd = sp.Poly(psi2(TT.diag_X(jp)), TT.r, TT.s).as_dict()
         assert all(Dd.get(m_, 0) <= Fd.get(m_, 0) and (Fd.get(m_, 0) - Dd.get(m_, 0)) % 2 == 0 for m_ in set(Fd) | set(Dd))
+
+
+def test_correction_pairs_generating_function():
+    """F = ψ²X ⊕ 2P の対の母関数（続き 99、theory §12.31 追記）：Σ P z^{j′} = t z (V′ + q t² z)/((1 − z)(1 − qtz)(1 − t²z)(1 − q²t²z))、V′ = 1 + q + qt。
+    j′ ≤ 4 で F − ψ²X = 2P が成り立ち、P は非負。"""
+    q, t, z = TT.q, TT.t, sp.Symbol("z")
+    psi2 = lambda X: X.subs({TT.r: TT.r**2, TT.s: TT.s**2}, simultaneous=True)
+    PGF = t * z * (1 + q + q * t + q * t**2 * z) / ((1 - z) * (1 - q * t * z) * (1 - t**2 * z) * (1 - q**2 * t**2 * z))
+    ser = sp.series(PGF, z, 0, 5).removeO()
+    for jp in range(5):
+        P = sp.expand(ser.coeff(z, jp))
+        assert sp.expand(TT.correction_F(jp) - psi2(TT.diag_X(jp)) - 2 * P) == 0
+        assert all(c > 0 for c in sp.Poly(P, TT.r, TT.s).coeffs()) if jp else P == 0
