@@ -389,3 +389,14 @@ def test_principle_full_E_saved_predictions(m):
     largeN_2box_m{5,6,7}.pkl と T2_{11,13,15} の彩色データが要る（各 10〜20 分）。"""
     E, e, ok = TT.principle(m, verbose=False)
     assert ok["i"] and ok["ii"]
+
+
+def test_superpoly_data():
+    """被覆の彩色データから作る簡約 superpolynomial（続き 102）：T(2,2m+1) では principle の superpoly(m) に一致し、T(3,4) は 11 項で正係数。"""
+    q, t = TT.q, TT.t
+    superpoly = lambda m_: sum(q**i * t**i for i in range(m_ + 1)) + sum(q**i * t**(i + 1) for i in range(m_))
+    for m in (1, 2, 3):
+        assert sp.expand(TT.superpoly_data(m) - superpoly(m)) == 0
+    S34 = TT.superpoly_data(1, 3)
+    cs = sp.Poly(S34, TT.r, TT.s).coeffs()
+    assert sum(cs) == 11 and min(cs) > 0 and S34.subs({TT.r: 1, TT.s: 1}) == 11

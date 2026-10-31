@@ -1551,6 +1551,16 @@ def blocks_table(m=2):
         print(f"    x^{k}：{sp.factor(c).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
 
 
+def superpoly_data(m, k=2):
+    """簡約 superpolynomial S(q, t) を被覆の彩色データ（data/framed_knot/torus/{knot}_1.json、KN の規格化、a^i q^{j/2} t^{l/2}）から作る（続き 102）。
+    a² → −t/q（a の冪は δ = 種数を基準）、(qt)^{δ/2} で正規化：k = 2 では principle の superpoly(m) = Σ_{i≤m} q^i t^i + Σ_{i<m} q^i t^{i+1} に一致する。"""
+    import json, rk_torus_tag as TG
+    d = json.load(open(f"data/framed_knot/torus/{TG.knot_name(m, k)}_1.json"))
+    de = TG.delta(m, k)
+    return sp.expand(sum(v * (-t / q)**sp.Rational(i - 2 * de, 2) * q**sp.Rational(j + de, 2) * t**sp.Rational(l + de, 2)
+                         for key, v in d["poly"].items() for i, j, l in [map(int, key.split(","))]))
+
+
 def blocks_raw(m, k):
     """T(mk+1, k)（k ≠ 2、続き 102）の n = 1 の N の ν の冪ごとのブロックを、r・s の冪の範囲・状態の数・因数分解で表示する（規格化の前）。
     T(2,2m+1) ではブロック k は ν^{−(6+2k)} r^{−(4+2k)} の係数（blocks_table）。"""
