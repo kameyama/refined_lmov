@@ -73,3 +73,22 @@ def test_nu12_hypothesis_rows():
     q, t = r_**2, s_**2
     wrong = RT._e_of(r_**-13 * s_**3 * (-(1 + q**2) * (1 + t**2) * (1 + q**2 * t**2) - (q - t) * t * (1 + q**2 * t**2) - q * t**2 * (q - t)), "11", -12)
     assert RT._ranges(mult, keys, A, b, rows_, idx, unknown, {**RT._top_E(), **wrong}) is None
+
+
+def test_correction_sign_principles():
+    """補正の符号の原理（続き 94、theory §12.28）：
+    (1) λ = (1,1) の K₁₂ を基底 {1+q, 1+t, 1+qt, 1+qt} の符号付きの平方の和に分けると最小は 3 項で、入れ替えの E が答え E₁₂(1,1) を一意に再現する。
+    (2) λ = (2) の補正 R（Y₂）に一様な符号 e_R = ±R を入れた E は (i) の行を破る。(q − t) の対の e は (i) だけで 17 中 3 個しか決まらない。"""
+    q, t = RT.QQ, RT.TT
+    S = RT._rows12(False)
+    K11 = sp.Poly(sp.expand(-((1 + q) * (1 + t) * (1 + q * t))**2 - (q - t) * t * (1 + q * t)**2), q, t)
+    E11 = {k: int(v) for k, v in sp.Poly(sp.expand((1 + q**2) * (1 + t**2) * (1 + q**2 * t**2) + (q - t) * t * (1 + q**2 * t**2)), q, t).as_dict().items()}
+    out = RT._square_fit(K11, "test", [1 + r_**2, 1 + s_**2, 1 + r_**2 * s_**2, 1 + r_**2 * s_**2], 6, [("1", {(0, 0): 1}, False)], {}, S, known=E11)
+    assert out["1"] == (3, None, True)
+    K2, B2, EB, Y2 = RT._k12_setup()
+    Rd = {k: int(v) for k, v in sp.div(RT._qt_poly(-K2 - Y2**2), sp.Poly(q - t, q, t))[0].as_dict().items()}
+    assert len(Rd) == 17
+    EY = RT._psi2(Y2)
+    for sgn in (1, -1):
+        nz, bad = RT._check_e12(RT._e12_of_R({m: sgn * v for m, v in Rd.items()}, EY, EB), S)
+        assert nz > 0

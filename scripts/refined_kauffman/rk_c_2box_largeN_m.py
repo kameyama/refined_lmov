@@ -84,7 +84,10 @@ def main(m):
         print(f"g_{k}：分母 {d}", flush=True)
     print("g_(2) + g_(1,1) は整数 Laurent", (g[(2,)] + g[(1, 1)]).is_integer_laurent(), "、(1+t)(g_(2) − g_(1,1)) は整数 Laurent",
           ((1 + t) * (g[(2,)] - g[(1, 1)])).is_integer_laurent(), flush=True)
-    fx = pickle.load(open(f"data/refined_kauffman/{knot}_fixedN_3box_g.pkl", "rb"))
+    fxp = f"data/refined_kauffman/{knot}_fixedN_3box_g.pkl"
+    fx = pickle.load(open(fxp, "rb")) if os.path.exists(fxp) else {}
+    if not fx:
+        print(f"固定 N の g（{fxp}）が無いので U = t², t³ の照合は飛ばす", flush=True)
     for N in (2, 3):
         if N not in fx:
             continue

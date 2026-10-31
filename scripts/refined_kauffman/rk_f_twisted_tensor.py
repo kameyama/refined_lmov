@@ -1673,7 +1673,7 @@ def n1_free_set(m=3, use=("i", "ii")):
     return ok
 
 
-def principle(m=2, verbose=True, save=False):
+def principle(m=2, verbose=True, save=False, extra_R=None):
     """n = 1 の E を、規則ではなく状態の空間の同定から作る（続き 89）：
       下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
       移り目 k = 2m：Sym^{2m} V（同じ ε）から S ⊗ S（S は簡約 superpolynomial）を引く。Ĩ は因子の入れ替えで、トレースは ψ²S = S(q², t²)。
@@ -1681,7 +1681,9 @@ def principle(m=2, verbose=True, save=False):
         補正 (q − t) R_j は対の状態 (q·m, −t·m) の和で、R_m = t^{m−1}（1 状態）、R_{m+1} = t^{m−2}(S′ ⊗ S′ + t²)（S′ は T(2,2m−3) の簡約 superpolynomial）。
         Ĩ は S′ ⊗ S′ の入れ替え（トレース ψ²S′）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
     作った E が N の台の上で |e| ≤ |c|、e ≡ c (mod 2) を満たすか、条件 (i)・(ii) を満たすか、保存した一意な E と一致するかを調べる。
-    save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。"""
+    save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。
+    j ≥ m+2 の補正（T(2,9) 以上）は未同定なので、N から読んだ R_j を表示し、extra_R = {j: R′_j（E の補正、sympy）} が与えられればそれを使い、
+    無ければ E の照合を飛ばして {j: R_j} を返す（続き 94）。"""
     import rk_f_frozen_basis as FB
     N, allc = _knot_N(m)
     mult = TM.monomials(N)
@@ -1693,6 +1695,7 @@ def principle(m=2, verbose=True, save=False):
     cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]   # 1^a t^b (qt)^c
     sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
     E = sp.Integer(0)
+    unknown = {}
     for b_, blk in blocks_.items():
         k = (-b_ - 6) // 2
         nk = sp.expand(blk * r**(4 + 2 * k))
@@ -1719,13 +1722,21 @@ def principle(m=2, verbose=True, save=False):
                 Sp = superpoly(m - 2)
                 assert sp.expand(R - t**(m - 2) * (Sp**2 + t**2)) == 0, f"k={k}（j=m+1）：補正 {R} ≠ t^(m−2)(S′² + t²)"
                 Rp = (-1)**m * t**(m - 2) * (psi2(Sp) + t**2)
+            elif extra_R is not None and j in extra_R:
+                Rp = extra_R[j]
             else:
-                raise NotImplementedError(f"k={k}（j={j} > m+1）の補正の構造は未同定")
+                unknown[j] = R
+                Rp = sp.Integer(0)
+                print(f"  k={k}（j={j} ≥ m+2）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
+                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）", flush=True)
             if verbose:
                 print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
                       f"E の補正 (q − t)·R′、R′ = {sp.expand(Rp).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
             Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
         E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
+    if unknown:
+        print(f"T(2,{2 * m + 1})：j = {sorted(unknown)} の補正の Ĩ が未同定なので E の照合は飛ばす", flush=True)
+        return unknown
     E = sp.expand(E)
     e = TM.monomials(E)
     bad = [k_ for k_ in e if k_ not in mult]

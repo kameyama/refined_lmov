@@ -9,7 +9,8 @@ r"""n = 2（trefoil）の N_λ を結び目のデータ R − 1 の項ごとに�
   background・fock：基準 0 の背景の閉じた形（6 セルの Fock 空間）と結び目の部分 K = N − T(∅) のブロック。
   hyptop・hyptop2：上端 2 ブロック（λ = (2) の ν^{−8}, ν^{−10}）での Ĩ の仮説の族の照合（(i)、(i)+(ii)）。
   hyp12・hyp12ii・hyp12b・hyp12bii・hyp12c・hyp12ci：ν^{−12}（両 λ）への延長（theory §12.27、続き 93）。
-使い方：python rk_f_n2_rterms.py terms|analyze|background|fock|hyptop|hyptop2|hyp12|hyp12ii|hyp12b|hyp12bii|hyp12c|hyp12ci [1|0]"""
+  hyp12d・hyp12e：(q − t) の補正の符号の原理の候補（状態を移す読み、固定した符号、深い段の行、符号付きの平方の和への分解。theory §12.28、続き 94）。
+使い方：python rk_f_n2_rterms.py terms|analyze|background|fock|hyptop|hyptop2|hyp12|hyp12ii|hyp12b|hyp12bii|hyp12c|hyp12ci|hyp12d|hyp12e [1|0]"""
 import sys, os, time, pickle, itertools
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import sympy as sp
@@ -607,6 +608,256 @@ def hyp12c(with_ii=True):
                 ER = sum(v[0] * QQ**m[0] * TT**m[1] for m, v in rg2.items())
                 print(f"       対が最小の E_R = {sp.factor(ER)}", flush=True)
 
+def _k12_setup():
+    """ν^{−12} の λ = (2) の結び目の部分 K（r^{−17}s³ で規格化、Q, T の Poly）、背景 B、背景の E_B（入れ替えの型、ε₆ = +1）、Y₂。"""
+    q, t = r_**2, s_**2
+    D = load(0)
+    blk = lambda lab, knot: sp.expand(to_sym(nu_block(series_u((D["N"][(GROUPS, lab)] - D["T"][((), lab)]) if knot else D["T"][((), lab)], 12)[12], 12)))
+    K2 = sp.expand(blk("2", True) * r_**17 / s_**3); B2 = sp.expand(blk("2", False) * r_**17 / s_**3)
+    cells = (q**2 * t, q * t**2, q * t, q, t); eps = (1, 1, -1, -1, -1)
+    EB = sp.expand(r_**-15 * s_**3 * (q - t) * (sum(eps[i] * eps[j] * ci * cj for i, ci in enumerate(cells) for j, cj in enumerate(cells) if j >= i) + q**2 * t**2) * r_**17 / s_**3)
+    Y2 = (1 + q) * (1 + t) * (1 + q * t)**2
+    return K2, B2, EB, Y2
+
+
+_KEY12 = lambda a, b_: ("2", "mono", 2 * a - 17, 2 * b_ + 3, -12)       # q^a t^b（r^-17 s^3 を基準）
+
+
+def _psi2(F):
+    return sp.expand(F.subs({r_: r_**2, s_: s_**2}, simultaneous=True))
+
+
+def _rows12(with_ii=False, kmin=-12):
+    """ν^{−12} の λ = (2) の e を検査する行の系：上端と λ = (1,1) を固定した右辺。(mult, keys, A, b, idx, rows_, Ar, rhs0, use)。"""
+    mult, keys, A, b, idx, sel, rows_, use = _n2_rows(with_ii, kmin)
+    fixed = {**_top_E(), **_E11_12()}
+    Ar = A[rows_]
+    rhs0 = b[rows_] - sum(Ar[:, idx[k]] * v for k, v in fixed.items())
+    return mult, keys, A, b, idx, rows_, Ar, rhs0, use
+
+
+def _check_e12(e12, S):
+    """ν^{−12} の λ = (2) の e（{key: e}、全部）を固定したときの行の残差と台の破れ。"""
+    import numpy as np
+    mult, keys, A, b, idx, rows_, Ar, rhs0, use = S
+    bad = [(k, v) for k, v in e12.items() if (k not in idx and v != 0) or (k in idx and abs(v) > abs(mult[k]))]
+    res = rhs0 - sum((Ar[:, idx[k]] * v for k, v in e12.items() if k in idx), np.zeros(len(rows_)))
+    return int(np.sum(np.abs(res) > 1e-9)), bad
+
+
+def _e12_of_R(eR, EY, EB):
+    """E = ψ²Y + E_B + (q − t) Σ e_m m の全 e（{key: e}）。eR: {(a, b): e}。"""
+    tot = {}
+    for k, v in list(_e_of(r_**-17 * s_**3 * EY, "2", -12).items()) + list(_e_of(r_**-17 * s_**3 * EB, "2", -12).items()):
+        tot[k] = tot.get(k, 0) + v
+    for (a, b_), v in eR.items():
+        tot[_KEY12(a + 1, b_)] = tot.get(_KEY12(a + 1, b_), 0) + v
+        tot[_KEY12(a, b_ + 1)] = tot.get(_KEY12(a, b_ + 1), 0) - v
+    return tot
+
+
+def hyp12d(with_ii=False):
+    """補正の符号の原理の候補（theory §12.28、続き 94）。λ = (2) の K₁₂ = −[Y₂⊗Y₂ + (q − t)R]（R は 17 状態）について、
+      (a) 18 通りの Y で「R_m > 0 なら主空間 M = Y⊗Y + B の状態 t·m を q·m に移す（R_m < 0 なら逆）」が多重度で可能か（n = 1 の読み）。
+      (b) 固定した e_R の候補（一様な符号、偶奇の規則、主空間の状態 t·m / q·m の Ĩ の符号）が (i) の行と台を満たすか。
+      (c) ν^{−14} 以下の e を自由（|e| ≤ |c|、偶奇）にして深い段の行を加えたときの R の e の範囲。"""
+    import numpy as np
+    from scipy.optimize import milp, LinearConstraint, Bounds
+    q, t = r_**2, s_**2
+    K2, B2, EB, Y2 = _k12_setup()
+    facs = ((1 + q, 1 + q**2), (1 + t, 1 + t**2), (1 + q * t, 1 + q**2 * t**2), (1 + q**2, 1 + q**4), (1 + t**2, 1 + t**4))
+    target = sp.expand((1 + q)**2 * (1 + q**2)**2)
+    ys = [c for n_ in range(1, 5) for c in itertools.combinations_with_replacement(range(5), n_) if sp.expand(sp.prod([facs[i][0] for i in c]).subs(t, q) - target) == 0]
+    print("(a) Y ごとに、主空間 M = Y⊗Y + B の t·m（R_m > 0）/ q·m（R_m < 0）の係数が |R_m| 以上か", flush=True)
+    for c in ys:
+        Y = sp.prod([facs[i][0] for i in c])
+        Rd = {k: int(v) for k, v in sp.div(_qt_poly(-K2 - Y**2), sp.Poly(QQ - TT, QQ, TT))[0].as_dict().items()}
+        Md = {k: int(v) for k, v in (_qt_poly(sp.expand(Y**2)) + _qt_poly(B2)).as_dict().items()}
+        src = lambda m, v: (m[0], m[1] + 1) if v > 0 else (m[0] + 1, m[1])
+        bad = [(m, v, Md.get(src(m, v), 0)) for m, v in Rd.items() if abs(v) > Md.get(src(m, v), 0)]
+        print(f"  Y = {sp.factor(Y)}：{len(Rd)} 状態、Σ|R| {sum(abs(v) for v in Rd.values())}、負 {sum(1 for v in Rd.values() if v < 0)}、移せない m {len(bad)}/{len(Rd)} {bad[:3]}", flush=True)
+    Rd = {k: int(v) for k, v in sp.div(_qt_poly(-K2 - Y2**2), sp.Poly(QQ - TT, QQ, TT))[0].as_dict().items()}
+    mons = sorted(Rd)
+    EY = _psi2(Y2)
+    Md = {k: int(v) for k, v in (_qt_poly(sp.expand(Y2**2)) + _qt_poly(B2)).as_dict().items()}
+    Ed = {k: int(v) for k, v in (_qt_poly(EY) + _qt_poly(EB)).as_dict().items()}
+    S = _rows12(with_ii)
+    print(f"\n(b) Y₂ の R = {sp.factor(sum(v * QQ**m[0] * TT**m[1] for m, v in Rd.items()))}\n    固定した e_R の候補の照合（条件 {S[-1]}、行 {len(S[5])} 本）", flush=True)
+    print("     m        R_m | M: c(t·m) e(t·m) | c(q·m) e(q·m)")
+    for (a, b_), v in sorted(Rd.items()):
+        tm, qm = (a, b_ + 1), (a + 1, b_)
+        print(f"     q^{a}t^{b_}  {v:4d} | {Md.get(tm, 0):4d} {Ed.get(tm, 0):4d} | {Md.get(qm, 0):4d} {Ed.get(qm, 0):4d}")
+    cands = [("一様 +", {m: v for m, v in Rd.items()}), ("一様 −", {m: -v for m, v in Rd.items()})]
+    for nm, f in (("(−1)^a", lambda a, b_: (-1)**a), ("(−1)^b", lambda a, b_: (-1)**b_), ("(−1)^(a+b)", lambda a, b_: (-1)**(a + b_))):
+        cands += [(nm, {m: f(*m) * v for m, v in Rd.items()}), ("−" + nm, {m: -f(*m) * v for m, v in Rd.items()})]
+    for nm, sh in (("状態 t·m の符号", lambda a, b_: (a, b_ + 1)), ("状態 q·m の符号", lambda a, b_: (a + 1, b_))):
+        eR = {}; mixed = []
+        for m, v in Rd.items():
+            c_, e_ = Md.get(sh(*m), 0), Ed.get(sh(*m), 0)
+            if c_ and abs(e_) == c_: eR[m] = v * (1 if e_ > 0 else -1)
+            else: mixed.append(m); eR[m] = 0
+        cands.append((nm + f"（符号が一様でない m {len(mixed)} 個は 0）", eR))
+    for nm, eR in cands:
+        nz, bad = _check_e12(_e12_of_R(eR, EY, EB), S)
+        print(f"  {nm}：行の破れ {nz}/{len(S[5])}、台の破れ {len(bad)}", flush=True)
+    print("\n(c) 深い段の行を加える（ν^{−14} 以下の e は自由）", flush=True)
+    base = _e12_of_R({}, EY, EB)
+    cR = np.array([float(Rd[m]) for m in mons]); sgR = np.sign(cR); nR = len(mons)
+    for kmin in (-12, -14, -16, -18, -24):
+        t0 = time.time()
+        mult, keys, A, b, idx, rows_, Ar, rhs0, use = _rows12(with_ii, kmin)
+        free = [k for k in keys if k[4] < -12]; nF = len(free)
+        cF = np.array([float(mult[k]) for k in free]); sgF = np.sign(cF)
+        kc = dict(base); wv = {}
+        for i, (a, b_) in enumerate(mons):
+            for k, sgn in ((_KEY12(a + 1, b_), 1), (_KEY12(a, b_ + 1), -1)):
+                kc[k] = kc.get(k, 0) + sgn * Rd[(a, b_)]
+                wv.setdefault(k, np.zeros(nR))[i] += sgn * (-2 * sgR[i])
+        allk = sorted(kc)
+        Wm = np.array([wv.get(k, np.zeros(nR)) for k in allk]); kv = np.array([float(kc[k]) for k in allk])
+        cab = np.array([abs(float(mult[k])) if k in idx else 0.0 for k in allk])
+        M12 = sum((np.outer(Ar[:, idx[k]], Wm[j]) for j, k in enumerate(allk) if k in idx), np.zeros((len(rows_), nR)))
+        beq = rhs0 - sum((Ar[:, idx[k]] * kv[j] for j, k in enumerate(allk) if k in idx), np.zeros(len(rows_)))
+        AF = Ar[:, [idx[k] for k in free]]
+        Mrow = np.hstack([M12, AF * (-2 * sgF)]); beq = beq - AF @ cF
+        cons = [LinearConstraint(Mrow, beq - 1e-9, beq + 1e-9), LinearConstraint(np.hstack([Wm, np.zeros((len(allk), nF))]), -cab - kv - 1e-9, cab - kv + 1e-9)]
+        bnd = Bounds(np.zeros(nR + nF), np.concatenate([np.abs(cR), np.abs(cF)])); integ = np.ones(nR + nF)
+        if milp(np.zeros(nR + nF), constraints=cons, bounds=bnd, integrality=integ).status != 0:
+            print(f"  行 ν^{kmin} まで（{len(rows_)} 本）：解なし", flush=True); continue
+        rg = {}
+        for i, m in enumerate(mons):
+            cc = np.zeros(nR + nF); cc[i] = -2 * sgR[i]
+            lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=integ)
+            rg[m] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+        nun = sum(1 for v in rg.values() if v[0] == v[1])
+        print(f"  行 ν^{kmin} まで（{len(rows_)} 本、自由な e {nF}）：R の e が一意 {nun}/{nR}（{time.time() - t0:.0f} 秒）：" + ", ".join(f"{m}: {Rd[m]} → {v if v[0] != v[1] else v[0]}" for m, v in rg.items()), flush=True)
+
+
+def _square_fit(target, label, gens, deg, pref_pairs, extra_e, S, known=None, sign=-1):
+    """target（Q, T の Poly）= Σ_j z_j m_j Z_j²（Z_j は gens の部分積、m_j は箱 [0, deg]² の単項式）、E の寄与 = sign × pref_E × Σ z_j m_j ψ²Z_j
+    （pair=True なら (q − t) の対として q·m − t·m に置く）。Σ|z| の最小を制約なし／(i) の行と台（S = _rows12）を課して求め、
+    一致すれば最小の分解で (i) 整合の E の係数の範囲を出す。known（λ = (1,1)：答えの E）があれば (i) は使わず、最小の分解の E が答えを再現するかを見る。"""
+    import numpy as np
+    from scipy.optimize import milp, LinearConstraint, Bounds
+    mult, keys, A, b, idx, rows_, Ar, rhs0, use = S
+    Zs = list(dict.fromkeys(sp.expand(sp.prod(c)) for n_ in range(0, len(gens) + 1) for c in itertools.combinations(gens, n_)))
+    Td = {k: int(v) for k, v in target.as_dict().items()}
+    cols = []
+    for i, Z in enumerate(Zs):
+        Z2 = {k: int(v) for k, v in _qt_poly(sp.expand(Z**2)).as_dict().items()}
+        pZ = {k: int(v) for k, v in _qt_poly(_psi2(Z)).as_dict().items()}
+        for a in range(deg + 1):
+            for b_ in range(deg + 1):
+                d2 = {(k[0] + a, k[1] + b_): v for k, v in Z2.items()}
+                if max(kk[0] for kk in d2) <= deg and max(kk[1] for kk in d2) <= deg:
+                    cols.append((i, (a, b_), d2, {(k[0] + a, k[1] + b_): v for k, v in pZ.items()}))
+    n = len(cols)
+    mons_all = sorted({k for c in cols for k in c[2]} | set(Td))
+    Mx = np.array([[c[2].get(m, 0) for c in cols] for m in mons_all], float); rhs = np.array([Td.get(m, 0) for m in mons_all], float)
+    Mz = np.hstack([Mx, -Mx]); bnd = Bounds(0, 30); integ = np.ones(2 * n)
+    c0 = [LinearConstraint(Mz, rhs - 1e-9, rhs + 1e-9)]
+    r0 = milp(np.ones(2 * n), constraints=c0, bounds=bnd, integrality=integ)
+    m0 = round(r0.fun) if r0.status == 0 else None
+    ex = lambda x: " + ".join(f"({x[j]})·q^{cols[j][1][0]}t^{cols[j][1][1]}·[{sp.factor(Zs[cols[j][0]])}]²" for j in range(n) if x[j])
+    out = {}
+    for pname, prefE, pair in pref_pairs:
+        emons = sorted({(k[0] + i_, k[1] + j_) for c in cols for k in c[3] for (i_, j_) in prefE})
+        Wr = np.zeros((len(emons), n))
+        for j, c in enumerate(cols):
+            for k, v in c[3].items():
+                for (i_, j_), pv in prefE.items():
+                    Wr[emons.index((k[0] + i_, k[1] + j_)), j] += sign * v * pv
+        rng = lambda cons: {m: (round(milp(np.concatenate([Wr[j], -Wr[j]]), constraints=cons, bounds=bnd, integrality=integ).fun),
+                                round(-milp(-np.concatenate([Wr[j], -Wr[j]]), constraints=cons, bounds=bnd, integrality=integ).fun)) for j, m in enumerate(emons)}
+        if known is not None:
+            rg = rng(c0 + [LinearConstraint(np.ones((1, 2 * n)), -np.inf, m0 + 1e-9)])
+            nun = sum(1 for v in rg.values() if v[0] == v[1])
+            inside = all(v[0] <= known.get(m, 0) <= v[1] for m, v in rg.items()) and all(m in rg or v == 0 for m, v in known.items())
+            exact = nun == len(rg) and inside
+            print(f"  {label}, 基底 {len(Zs)} 個：Σ|z| 最小 {m0}、最小の分解の E の係数が一意 {nun}/{len(emons)}、答えの E が範囲内 {inside}、答えと一致 {exact}", flush=True)
+            print("     例: " + ex(np.round(r0.x[:n] - r0.x[n:]).astype(int)), flush=True)
+            out[pname] = (m0, None, exact); continue
+        allk = sorted(set(extra_e) | {_KEY12(a + 1, b_) for a, b_ in emons} | {_KEY12(a, b_ + 1) for a, b_ in emons} | {_KEY12(a, b_) for a, b_ in emons})
+        Lk = np.zeros((len(allk), len(emons)))
+        for j, (a, b_) in enumerate(emons):
+            if pair:
+                Lk[allk.index(_KEY12(a + 1, b_)), j] += 1; Lk[allk.index(_KEY12(a, b_ + 1)), j] -= 1
+            else:
+                Lk[allk.index(_KEY12(a, b_)), j] += 1
+        Wk = Lk @ Wr; bv = np.array([extra_e.get(k, 0) for k in allk], float)
+        cab = np.array([abs(float(mult[k])) if k in idx else 0.0 for k in allk])
+        Arow = np.array([[A[r, idx[k]] if k in idx else 0.0 for k in allk] for r in rows_])
+        Mrow = Arow @ Wk; beq = rhs0 - Arow @ bv
+        ci = c0 + [LinearConstraint(np.hstack([Mrow, -Mrow]), beq - 1e-9, beq + 1e-9), LinearConstraint(np.hstack([Wk, -Wk]), -cab - bv - 1e-9, cab - bv + 1e-9)]
+        r1 = milp(np.ones(2 * n), constraints=ci, bounds=bnd, integrality=integ)
+        m1 = round(r1.fun) if r1.status == 0 else None
+        line = f"  {label}, 基底 {len(Zs)} 個, E の前因子 {pname}：Σ|z| 最小 {m0}（制約なし）/ {m1}（(i) を課す）"
+        if m1 is not None:
+            line += "\n     (i) 整合の例: " + ex(np.round(r1.x[:n] - r1.x[n:]).astype(int))
+        if m1 is not None and m1 == m0:
+            rg = rng(ci + [LinearConstraint(np.ones((1, 2 * n)), -np.inf, m0 + 1e-9)])
+            nun = sum(1 for v in rg.values() if v[0] == v[1])
+            line += f"\n     最小の分解で (i) 整合の E の係数が一意 {nun}/{len(emons)}" + (("：E = " + str(sp.factor(sum(v[0] * QQ**m[0] * TT**m[1] for m, v in rg.items())))) if nun == len(emons) else " " + str({m: v for m, v in rg.items() if v[0] != v[1]}))
+        print(line, flush=True)
+        out[pname] = (m0, m1, m1 == m0)
+    return out
+
+
+_BASES = lambda q, t: {"B1 {1+q,1+t,1+qt,1+qt}": [1 + q, 1 + t, 1 + q * t, 1 + q * t], "B2 {V,V′,1+qt,1+qt}": [1 + t + q * t, 1 + q + q * t, 1 + q * t, 1 + q * t],
+                       "B3 {V,V′,1+q,1+t,1+qt}": [1 + t + q * t, 1 + q + q * t, 1 + q, 1 + t, 1 + q * t], "B4 {1+q,1+t,1+qt,1+q²,1+t²}": [1 + q, 1 + t, 1 + q * t, 1 + q**2, 1 + t**2]}
+
+
+def _bg_E(eps, e6):
+    """λ = (2) の ν^{−12} の背景の E（r^{−17}s³ で規格化した sympy）：真空 (−,−)、5 セル (q²t, qt², qt, q, t) に対角な符号 eps、q²t² に e6。"""
+    q, t = r_**2, s_**2
+    cells = (q**2 * t, q * t**2, q * t, q, t)
+    return sp.expand(r_**-15 * s_**3 * (q - t) * (sum(eps[i] * eps[j] * ci * cj for i, ci in enumerate(cells) for j, cj in enumerate(cells) if j >= i) + e6 * q**2 * t**2) * r_**17 / s_**3)
+
+
+def hyp12e(with_ii=False):
+    """結び目の部分（または補正）を符号付きの平方の和 Σ z_j m_j Z_j⊗Z_j に分け、各平方に入れ替え（E = −Σ z_j m_j ψ²Z_j）としたときの
+    (i) との整合（theory §12.28、_square_fit）。対象：λ = (1,1) の K₁₂（答えとの比較）、λ = (2) の K₁₂ 全体、補正 R（Y₂ を固定）、
+    R′ = R/(1+qt)（(1 + qt) の因子に対角な Ĩ）。基底は _BASES の 4 通り。背景は入れ替えの型（swap (+,+,−,−,−)、ε₆ = +1）。"""
+    q, t = r_**2, s_**2
+    K2, B2, EB, Y2 = _k12_setup()
+    S = _rows12(with_ii)
+    eB = _e_of(r_**-17 * s_**3 * EB, "2", -12)
+    Rpoly = sp.div(_qt_poly(-K2 - Y2**2), sp.Poly(QQ - TT, QQ, TT))[0]
+    Rp = sp.div(Rpoly, sp.Poly(1 + QQ * TT, QQ, TT))[0]
+    one = {(0, 0): 1}
+    eBY = dict(eB)
+    for k, v in _e_of(r_**-17 * s_**3 * _psi2(Y2), "2", -12).items():
+        eBY[k] = eBY.get(k, 0) + v
+    q_, t_ = QQ, TT
+    K11 = sp.Poly(sp.expand(-((1 + q_) * (1 + t_) * (1 + q_ * t_))**2 - (q_ - t_) * t_ * (1 + q_ * t_)**2), QQ, TT)
+    E11 = {k: int(v) for k, v in sp.Poly(sp.expand(((1 + q_**2) * (1 + t_**2) * (1 + q_**2 * t_**2) + (q_ - t_) * t_ * (1 + q_**2 * t_**2))), QQ, TT).as_dict().items()}
+    print(f"条件 {S[-1]}、行 {len(S[5])} 本", flush=True)
+    for bname, gens in _BASES(q, t).items():
+        t0 = time.time()
+        print(f"--- 基底 {bname} ---", flush=True)
+        _square_fit(K11, "λ=(1,1) の K₁₂ 全体", gens, 6, [("1（E 全体）", one, False)], {}, S, known=E11, sign=-1)
+        _square_fit(_qt_poly(K2), "λ=(2) の K₁₂ 全体", gens, 6, [("1（E 全体）", one, False)], eB, S, sign=-1)
+        _square_fit(Rpoly, "λ=(2) の補正 R（Y₂ を固定）", gens, 5, [("1（(q−t) の対）", one, True)], eBY, S, sign=1)
+        _square_fit(Rp, "λ=(2) の R′ = R/(1+qt)", gens, 4, [("(1+qt)", {(0, 0): 1, (1, 1): 1}, True), ("(1−qt)", {(0, 0): 1, (1, 1): -1}, True), ("(1+q²t²)", {(0, 0): 1, (2, 2): 1}, True)], eBY, S, sign=1)
+        print(f"  （{time.time() - t0:.0f} 秒）", flush=True)
+
+
+def hyp12f(with_ii=False):
+    """hyp12e の λ = (2) の K₁₂ 全体の検査を、背景の符号の 4 通り（セルの対角な符号 diag/swap × ε₆）で繰り返す（真空は (−,−)、基底は B1。
+    1 通りに 30 分以上かかるので絞った。真空 (+,+) と基底 B3 は vacs・bnames で広げられる）。"""
+    q, t = r_**2, s_**2
+    K2, B2, EB, Y2 = _k12_setup()
+    S = _rows12(with_ii)
+    print(f"条件 {S[-1]}、行 {len(S[5])} 本", flush=True)
+    for bname in ("B1 {1+q,1+t,1+qt,1+qt}",):
+        gens = _BASES(q, t)[bname]
+        for vname, eps in (("diag (+,+,+,−,−)", (1, 1, 1, -1, -1)), ("swap (+,+,−,−,−)", (1, 1, -1, -1, -1))):
+            for e6 in (1, -1):
+                for vac in (-1,):
+                    eB = _e_of(r_**-17 * s_**3 * (-vac) * _bg_E(eps, e6), "2", -12)
+                    _square_fit(_qt_poly(K2), f"基底 {bname}、背景 {vname}, ε₆ = {e6:+d}, 真空 ({'−,−' if vac == -1 else '+,+'})", gens, 6, [("1", {(0, 0): 1}, False)], eB, S, sign=-1)
+
+
 if __name__ == "__main__":
     b = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    {"terms": terms, "analyze": analyze, "background": lambda b: background(), "fock": lambda b: fock(), "hyptop": lambda b: hyp_top(), "hyptop2": lambda b: hyp_top(True), "hyp12": lambda b: hyp12(), "hyp12ii": lambda b: hyp12(True), "hyp12b": lambda b: hyp12b(), "hyp12bii": lambda b: hyp12b(True), "hyp12c": lambda b: hyp12c(), "hyp12ci": lambda b: hyp12c(False)}[sys.argv[1]](b)
+    {"terms": terms, "analyze": analyze, "background": lambda b: background(), "fock": lambda b: fock(), "hyptop": lambda b: hyp_top(), "hyptop2": lambda b: hyp_top(True), "hyp12": lambda b: hyp12(), "hyp12ii": lambda b: hyp12(True), "hyp12b": lambda b: hyp12b(), "hyp12bii": lambda b: hyp12b(True), "hyp12c": lambda b: hyp12c(), "hyp12ci": lambda b: hyp12c(False), "hyp12d": lambda b: hyp12d(), "hyp12e": lambda b: hyp12e(), "hyp12f": lambda b: hyp12f()}[sys.argv[1]](b)
