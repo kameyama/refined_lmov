@@ -1678,8 +1678,9 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
       下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
       移り目 k = 2m：Sym^{2m} V（同じ ε）から S ⊗ S（S は簡約 superpolynomial）を引く。Ĩ は因子の入れ替えで、トレースは ψ²S = S(q², t²)。
       上の系列 k = K − j（K = 4m−1）：−t^{K−2j}·[Sym^j V + (q − t) R_j]。Sym^j V のセルは ε = −(−1)^{b+c}（下の双対、全体の符号 −）。
-        補正 (q − t) R_j は対の状態 (q·m, −t·m) の和で、R_m = t^{m−1}（1 状態）、R_{m+1} = t^{m−2}(S′ ⊗ S′ + t²)（S′ は T(2,2m−3) の簡約 superpolynomial）。
-        Ĩ は S′ ⊗ S′ の入れ替え（トレース ψ²S′）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
+        補正 (q − t) R_j は対の状態 (q·m, −t·m) の和で、R_m = t^{m−1}（1 状態）、R_{m+1} = t^{m−2}(V ⊗ V + t²)（V = 1 + t + qt。
+        続き 89 では S′ = T(2,2m−3) の簡約 superpolynomial と読んだが、T(2,9) で V 固定と分かった（続き 95）。m ≤ 3 では S′ = V で同じ）。
+        Ĩ は V ⊗ V の入れ替え（トレース ψ²V）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
     作った E が N の台の上で |e| ≤ |c|、e ≡ c (mod 2) を満たすか、条件 (i)・(ii) を満たすか、保存した一意な E と一致するかを調べる。
     save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。
     j ≥ m+2 の補正（T(2,9) 以上）は未同定なので、N から読んだ R_j を表示し、extra_R = {j: R′_j（E の補正、sympy）} が与えられればそれを使い、
@@ -1719,23 +1720,53 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
                 assert sp.expand(R - t**(m - 1)) == 0, f"k={k}（j=m）：補正 {R} ≠ t^(m−1)"
                 Rp = -(-1)**m * t**(m - 1)
             elif j == m + 1:
-                Sp = superpoly(m - 2)
-                assert sp.expand(R - t**(m - 2) * (Sp**2 + t**2)) == 0, f"k={k}（j=m+1）：補正 {R} ≠ t^(m−2)(S′² + t²)"
-                Rp = (-1)**m * t**(m - 2) * (psi2(Sp) + t**2)
+                V_ = 1 + t + q * t                      # T(2,9) で S′ = T(2,2m−3) の superpolynomial ではなく V = 1 + t + qt（T(2,3) の S）が固定と分かった（続き 95）
+                assert sp.expand(R - t**(m - 2) * (V_**2 + t**2)) == 0, f"k={k}（j=m+1）：補正 {R} ≠ t^(m−2)(V² + t²)"
+                Rp = (-1)**m * t**(m - 2) * (psi2(V_) + t**2)
             elif extra_R is not None and j in extra_R:
                 Rp = extra_R[j]
             else:
-                unknown[j] = R
-                Rp = sp.Integer(0)
+                unknown[j] = (R, b_, k)
                 print(f"  k={k}（j={j} ≥ m+2）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
-                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）", flush=True)
+                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。このブロックの e は自由にする", flush=True)
+                continue
             if verbose:
                 print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
                       f"E の補正 (q − t)·R′、R′ = {sp.expand(Rp).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
             Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
         E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
     if unknown:
-        print(f"T(2,{2 * m + 1})：j = {sorted(unknown)} の補正の Ĩ が未同定なので E の照合は飛ばす", flush=True)
+        # 未同定のブロックの e を自由（|e| ≤ |c|、偶奇）にし、他は原理の E に固定して、(i)・(i)+(ii) の解の有無と e の範囲を求める
+        from scipy.optimize import milp, LinearConstraint, Bounds
+        E = sp.expand(E)
+        e = TM.monomials(E)
+        pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+        nus = {b_ for (_, b_, _) in unknown.values()}
+        for use in (("i",), ("i", "ii")):
+            keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {nm: allc[nm] for nm in use})
+            un = [k_ for k_ in keys if k_[-1] in nus]
+            fx = {k_: int(e.get(k_, 0)) for k_ in keys if k_[-1] not in nus}
+            idx = {k_: i for i, k_ in enumerate(keys)}
+            c = np.array([float(mult[k_]) for k_ in un]); sg = np.sign(c); ca = np.abs(c)
+            Ar = A[:, [idx[k_] for k_ in un]]
+            rhs = b - sum(A[:, idx[k_]] * v for k_, v in fx.items())
+            M = Ar * (-2 * sg); beq = rhs - Ar @ c
+            cons = LinearConstraint(M, beq - 1e-9, beq + 1e-9); bnd = Bounds(np.zeros(len(un)), ca); integ = np.ones(len(un))
+            if milp(np.zeros(len(un)), constraints=cons, bounds=bnd, integrality=integ).status != 0:
+                print(f"T(2,{2 * m + 1})：未同定のブロック j = {sorted(unknown)} の e を自由にしても、条件 {use} に解なし（原理の他のブロックと矛盾）", flush=True)
+                continue
+            rg = {}
+            for i, k_ in enumerate(un):
+                cc = np.zeros(len(un)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=integ)
+                rg[k_] = (round(c[i] + lo_.fun), round(c[i] - hi_.fun))
+            pm = milp(np.ones(len(un)), constraints=cons, bounds=bnd, integrality=integ)
+            uni = {k_: v[0] for k_, v in rg.items() if v[0] == v[1]}
+            print(f"T(2,{2 * m + 1})：条件 {use}：解あり。未同定のブロックの e は一意 {len(uni)}/{len(un)}、対の最小 {round(pm.fun)}", flush=True)
+            qq, tt = sp.Symbol("q"), sp.Symbol("t")
+            for (R, b_, k) in unknown.values():
+                tosym = lambda d: sum(v * qq**((k_[1] + 4 + 2 * k) // 2) * tt**((k_[2]) // 2) for k_, v in d.items() if k_[-1] == b_)
+                print(f"   k={k}：一意な e の和 = {sp.factor(tosym(uni))}、一意でない単項式 {[(k_[1], k_[2], mult[k_], v) for k_, v in rg.items() if v[0] != v[1] and k_[-1] == b_]}", flush=True)
         return unknown
     E = sp.expand(E)
     e = TM.monomials(E)
@@ -1760,6 +1791,93 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
         pickle.dump({"E": str(sp.expand(E * pre)), "e": {str(k_): int(v) for k_, v in e.items()}, "origin": "principle（続き 89）"}, open(f_, "wb"))
         print(f"   保存：{f_}", flush=True)
     return E, e, ok
+
+
+def principle_R(m=4, hyps=None):
+    """principle の未同定のブロック（j ≥ m+2）について、Sym^j V の部分は原理（双対の対合 ε = −(−1)^{b+c}）で固定し、
+    補正 (q − t)R_j の対の符号 e_μ（E の補正 (q − t) Σ e_μ μ、|e_μ| ≤ |R_μ|、e_μ ≡ R_μ）だけを自由にして、
+    (i)・(i)+(ii) の解の有無、e_μ の範囲、入れ替わる対の最小を求める（n = 2 の hyp12c の n = 1 版、続き 95）。
+    hyps = {名前: R′（sympy、q = r², t = s²）} を与えると、各仮説の e を固定して (i)・(ii) を満たすかも調べる。"""
+    import rk_f_frozen_basis as FB
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    blocks_ = FB.nu_blocks(N)
+    K = 4 * m - 1
+    superpoly = lambda m_: sum(q**i * t**i for i in range(m_ + 1)) + sum(q**i * t**(i + 1) for i in range(m_))
+    S = superpoly(m)
+    V_ = 1 + t + q * t
+    psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+    E = sp.Integer(0)
+    unknown = {}
+    for b_, blk in blocks_.items():
+        k = (-b_ - 6) // 2
+        nk = sp.expand(blk * r**(4 + 2 * k))
+        if k <= 2 * m:
+            Ek = sum((-1)**(a_ + b_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k)) - (psi2(S) if k == 2 * m else 0)
+        else:
+            j = K - k
+            R = sp.cancel(sp.expand(nk / (-t**(K - 2 * j)) - sym(j)) / (q - t))
+            Ek = sum(-(-1)**(b_ + c_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(j))
+            Rp = 0 if j < m else -(-1)**m * t**(m - 1) if j == m else (-1)**m * t**(m - 2) * (psi2(V_) + t**2) if j == m + 1 else None
+            if Rp is None:
+                unknown[j] = (sp.expand(R), b_, k, sp.expand(Ek))
+                continue
+            Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
+        E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
+    e = TM.monomials(sp.expand(E))
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    out = {}
+    for j, (R, b_, k, Ek0) in unknown.items():
+        Rd = {mono: int(c) for mono, c in sp.Poly(R, r, s).as_dict().items()}      # (r の冪, s の冪) → R_μ
+        mons = sorted(Rd)
+        print(f"T(2,{2 * m + 1}) k={k}（j={j}）：R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}（{len(mons)} 単項式、Σ|R| = {sum(abs(v) for v in Rd.values())}）", flush=True)
+        base = TM.monomials(sp.expand(-t**(K - 2 * j) * Ek0 * nu**b_ * r**(-(4 + 2 * k))))
+        shift = lambda a_, c_: ("mono", a_ - (4 + 2 * k), c_, b_)                  # ブロックの (r, s) の冪 → 鍵
+        # 対 (q·μ, −t·μ) の寄与：E_block = −t^{K−2j}(q − t) Σ e_μ μ → 鍵 (a+2, c+2(K−2j)) に −e、(a, c+2+2(K−2j)) に +e
+        sh = 2 * (K - 2 * j)
+        for use in (("i",), ("i", "ii")):
+            keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {nm: allc[nm] for nm in use})
+            idx = {k_: i for i, k_ in enumerate(keys)}
+            # 対の単項式が N の台の外（Sym の部分と打ち消す）なら、そこでは寄与の和が 0（hyp12c と同じ）
+            pkeys = sorted({key for (a_, c_) in mons for key in (shift(a_ + 2, c_ + sh), shift(a_, c_ + 2 + sh))} - set(keys))
+            allk = list(keys) + pkeys
+            fx = {k_: int(e.get(k_, 0)) + int(base.get(k_, 0)) for k_ in allk}
+            rhs = b - sum(A[:, idx[k_]] * v for k_, v in fx.items() if v and k_ in idx)
+            W = np.zeros((len(allk), len(mons)))
+            aidx = {k_: i for i, k_ in enumerate(allk)}
+            for i, (a_, c_) in enumerate(mons):
+                for key, sgn in ((shift(a_ + 2, c_ + sh), -1), (shift(a_, c_ + 2 + sh), 1)):
+                    W[aidx[key], i] += sgn
+            cR = np.array([float(Rd[mu]) for mu in mons]); sg = np.sign(cR); ca = np.abs(cR)
+            AW = A @ W[:len(keys)]
+            M = AW * (-2 * sg); beq = rhs - AW @ cR
+            # 台：全 e = fx + W e_R、|e| ≤ |c|（台の外では |c| = 0）
+            cab = np.array([abs(float(mult[k_])) if k_ in idx else 0.0 for k_ in allk]); fxv = np.array([float(fx.get(k_, 0)) for k_ in allk])
+            cons = [LinearConstraint(M, beq - 1e-9, beq + 1e-9), LinearConstraint(W * (-2 * sg), -cab - fxv - W @ cR - 1e-9, cab - fxv - W @ cR + 1e-9)]
+            bnd = Bounds(np.zeros(len(mons)), ca); integ = np.ones(len(mons))
+            if milp(np.zeros(len(mons)), constraints=cons, bounds=bnd, integrality=integ).status != 0:
+                print(f"   条件 {use}：解なし", flush=True); out[(j, use)] = None; continue
+            rg = {}
+            for i, mu in enumerate(mons):
+                cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=integ)
+                rg[mu] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+            pm = round(milp(np.ones(len(mons)), constraints=cons, bounds=bnd, integrality=integ).fun)
+            nun = sum(1 for v in rg.values() if v[0] == v[1])
+            qq, tt = sp.Symbol("q"), sp.Symbol("t")
+            print(f"   条件 {use}：解あり。e_μ が一意 {nun}/{len(mons)}、補正の対の最小 {pm}。範囲 {{q^a t^b: (R, [min, max])}} = "
+                  + "{" + ", ".join(f"q^{a_ // 2}t^{c_ // 2}: ({Rd[(a_, c_)]}, {v if v[0] != v[1] else v[0]})" for (a_, c_), v in rg.items()) + "}", flush=True)
+            out[(j, use)] = rg
+            for name, Rp in (hyps or {}).items():
+                Hd = {mono: int(c) for mono, c in sp.Poly(sp.expand(Rp), r, s).as_dict().items()} if Rp != 0 else {}
+                ev = np.array([float(Hd.get(mu, 0)) for mu in mons])
+                okp = all(abs(ev[i]) <= ca[i] and (ev[i] - cR[i]) % 2 == 0 for i in range(len(mons))) and not (set(Hd) - set(mons))
+                res = AW @ ev - rhs
+                sup = np.all(np.abs(fxv + W @ ev) <= cab + 1e-9)
+                print(f"     仮説 {name}：|e| ≤ |R|・偶奇 {okp}、条件 {use} の行 {'満たす' if np.max(np.abs(res)) < 1e-9 else '満たさない（最大のずれ ' + str(round(np.max(np.abs(res)))) + '）'}、台 {sup}、対 {round(sum((ca - np.abs(ev)) / 2))}", flush=True)
+    return out
 
 
 def n2_fock():
@@ -1902,6 +2020,14 @@ if __name__ == "__main__":
     elif sys.argv[1] == "n1freeset":        # 一意でない単項式の値の組み合わせのうち実現できるもの（m を指定）
         for m_ in ms or (3,):
             n1_free_set(m_)
+    elif sys.argv[1] == "principleR":       # 未同定のブロックの補正 R_j の対の符号だけを自由にして (i)・(ii) で絞る（m を指定）
+        for m_ in ms or (4,):
+            V_ = 1 + t + q * t; psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+            P_ = q**4*t**4 + 2*q**3*t**4 + 2*q**3*t**3 + 2*q**2*t**4 + 4*q**2*t**3 + 3*q**2*t**2 + 2*q*t**4 + 4*q*t**3 + 4*q*t**2 + 2*q*t + 2*t**4 + 2*t**3 + 2*t**2 + 2*t + 1
+            hyps = {"一様 (−1)^m": (-1)**m_ * t * P_, "一様 −(−1)^m": -(-1)**m_ * t * P_,
+                    "V²ψ²V + 2qt²V + t⁴ + q²t² に入れ替え（V² → ψ²V、他は対角 (−1)^m）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * V_ + t**4 + q**2 * t**2),
+                    "同（V の因子にも ψ²）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * psi2(V_) + t**4 + q**2 * t**2)}
+            principle_R(m_, hyps)
     elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存）
         for m_ in ms or (1, 2, 3):
             principle(m_, save="--save" in sys.argv)

@@ -328,3 +328,14 @@ def test_principle_reproduces_unique_E():
         Es = sp.sympify(saved["E"], locals={"r": TT.r, "s": TT.s, "nu": TT.nu})
         pre = TT.s**2 * (TT.t - TT.nu**2) * (TT.nu**2 + 1) * (TT.q + 1) * (TT.nu**2 * TT.q + 1)
         assert sp.expand(E * pre - Es) == 0
+
+
+@pytest.mark.results
+def test_principle_T29_consistent():
+    """T(2,9)（続き 95、theory §12.29）：原理（R_{m+1} = t^{m−2}(V² + t²)、V 固定）で k ≠ 9 を固定し k = 9 の補正の対の符号だけを自由にすると
+    (i)・(i)+(ii) に解があり、一意なのは 15 中 2 個。largeN_2box_m4.pkl が要る（約 10 分）。"""
+    out = TT.principle_R(4)
+    for use in (("i",), ("i", "ii")):
+        rg = out[(6, use)]
+        assert rg is not None
+        assert sum(1 for v in rg.values() if v[0] == v[1]) == 2
