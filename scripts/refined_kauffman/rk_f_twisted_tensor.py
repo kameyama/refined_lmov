@@ -1725,6 +1725,13 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
                 Rp = (-1)**m * t**(m - 2) * (psi2(V_) + t**2)
             elif extra_R is not None and j in extra_R:
                 Rp = extra_R[j]
+            elif j == m + 2:
+                # T(2,9) で読んだ形（続き 96、theory §12.29）：R_{m+2} = t^{m−3}·P、P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²（35 状態）。
+                # Ĩ：V⊗V は入れ替え、ψ²V の因子と t⁴ は対角 +、q²t² は対角 −、2qt²V は入れ替わる対。符号 −(−1)^m。(i) の行と台で 32 通り中 1 通り。
+                V_ = 1 + t + q * t
+                P_ = sp.expand(V_**2 * psi2(V_) + 2 * q * t**2 * V_ + t**4 + q**2 * t**2)
+                assert sp.expand(R - t**(m - 3) * P_) == 0, f"k={k}（j=m+2）：補正 {R} ≠ t^(m−3)·P"
+                Rp = -(-1)**m * t**(m - 3) * (psi2(V_)**2 + t**4 - q**2 * t**2)
             else:
                 unknown[j] = (R, b_, k)
                 print(f"  k={k}（j={j} ≥ m+2）：補正の Ĩ は未同定。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
@@ -1793,11 +1800,12 @@ def principle(m=2, verbose=True, save=False, extra_R=None):
     return E, e, ok
 
 
-def principle_R(m=4, hyps=None):
+def principle_R(m=4, hyps=None, esign=0):
     """principle の未同定のブロック（j ≥ m+2）について、Sym^j V の部分は原理（双対の対合 ε = −(−1)^{b+c}）で固定し、
     補正 (q − t)R_j の対の符号 e_μ（E の補正 (q − t) Σ e_μ μ、|e_μ| ≤ |R_μ|、e_μ ≡ R_μ）だけを自由にして、
     (i)・(i)+(ii) の解の有無、e_μ の範囲、入れ替わる対の最小を求める（n = 2 の hyp12c の n = 1 版、続き 95）。
-    hyps = {名前: R′（sympy、q = r², t = s²）} を与えると、各仮説の e を固定して (i)・(ii) を満たすかも調べる。"""
+    hyps = {名前: R′（sympy、q = r², t = s²）} を与えると、各仮説の e を固定して (i)・(ii) を満たすかも調べる。
+    esign = −1 / +1 なら全部の e_μ に e_μ ≤ 0 / ≥ 0 を課す（「対角の部分の符号は一様、残りは入れ替わる対」の仮説。R_μ > 0 を仮定）。"""
     import rk_f_frozen_basis as FB
     N, allc = _knot_N(m)
     mult = TM.monomials(N)
@@ -1856,9 +1864,10 @@ def principle_R(m=4, hyps=None):
             # 台：全 e = fx + W e_R、|e| ≤ |c|（台の外では |c| = 0）
             cab = np.array([abs(float(mult[k_])) if k_ in idx else 0.0 for k_ in allk]); fxv = np.array([float(fx.get(k_, 0)) for k_ in allk])
             cons = [LinearConstraint(M, beq - 1e-9, beq + 1e-9), LinearConstraint(W * (-2 * sg), -cab - fxv - W @ cR - 1e-9, cab - fxv - W @ cR + 1e-9)]
-            bnd = Bounds(np.zeros(len(mons)), ca); integ = np.ones(len(mons))
+            lo_b = np.ceil(ca / 2) if esign < 0 else np.zeros(len(mons)); hi_b = np.floor(ca / 2) if esign > 0 else ca   # e = R − 2y（R > 0）
+            bnd = Bounds(lo_b, hi_b); integ = np.ones(len(mons))
             if milp(np.zeros(len(mons)), constraints=cons, bounds=bnd, integrality=integ).status != 0:
-                print(f"   条件 {use}：解なし", flush=True); out[(j, use)] = None; continue
+                print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解なし", flush=True); out[(j, use)] = None; continue
             rg = {}
             for i, mu in enumerate(mons):
                 cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
@@ -1867,7 +1876,7 @@ def principle_R(m=4, hyps=None):
             pm = round(milp(np.ones(len(mons)), constraints=cons, bounds=bnd, integrality=integ).fun)
             nun = sum(1 for v in rg.values() if v[0] == v[1])
             qq, tt = sp.Symbol("q"), sp.Symbol("t")
-            print(f"   条件 {use}：解あり。e_μ が一意 {nun}/{len(mons)}、補正の対の最小 {pm}。範囲 {{q^a t^b: (R, [min, max])}} = "
+            print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解あり。e_μ が一意 {nun}/{len(mons)}、補正の対の最小 {pm}。範囲 {{q^a t^b: (R, [min, max])}} = "
                   + "{" + ", ".join(f"q^{a_ // 2}t^{c_ // 2}: ({Rd[(a_, c_)]}, {v if v[0] != v[1] else v[0]})" for (a_, c_), v in rg.items()) + "}", flush=True)
             out[(j, use)] = rg
             for name, Rp in (hyps or {}).items():
@@ -2027,7 +2036,13 @@ if __name__ == "__main__":
             hyps = {"一様 (−1)^m": (-1)**m_ * t * P_, "一様 −(−1)^m": -(-1)**m_ * t * P_,
                     "V²ψ²V + 2qt²V + t⁴ + q²t² に入れ替え（V² → ψ²V、他は対角 (−1)^m）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * V_ + t**4 + q**2 * t**2),
                     "同（V の因子にも ψ²）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * psi2(V_) + t**4 + q**2 * t**2)}
-            principle_R(m_, hyps)
+            # 符号 −(−1)^m の仮説（続き 96）：P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²、V⊗V は入れ替え（トレース ψ²V）、ψ²V の因子・t⁴・q²t² は対角（符号 ±）、2qt²V は対（c = 0）か対角（c = 2）
+            import itertools as _it
+            for c_ in (0, 2):
+                for (e1, e2, e3, e4) in _it.product((1, -1), repeat=4):
+                    D_ = psi2(V_) * (1 + e1 * t**2 + e2 * q**2 * t**2) + c_ * q * t**2 * V_ + e3 * t**4 + e4 * q**2 * t**2
+                    hyps[f"−(−1)^m[ψ²V(1 {e1:+d}t² {e2:+d}q²t²) + {c_}qt²V {e3:+d}t⁴ {e4:+d}q²t²]"] = -(-1)**m_ * t * D_
+            principle_R(m_, hyps, esign=-1 if "--neg" in sys.argv else 1 if "--pos" in sys.argv else 0)
     elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存）
         for m_ in ms or (1, 2, 3):
             principle(m_, save="--save" in sys.argv)
