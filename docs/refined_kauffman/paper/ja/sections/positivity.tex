@@ -99,7 +99,7 @@ $N$ のブロック $n_k$（$\lambda^{-(6+2k)}$ の係数を $r^{-(4+2k)}$ で�
 \[
 n_k = \mathrm{Sym}^k V \ (k < 2m),\qquad n_{2m} = \mathrm{Sym}^{2m}V - S\otimes S,\qquad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^j V + (q-t)\,R_j\bigr]\ (0 \le j \le 2m-2)
 \]
-であり、$\tilde I$ は $V$ の対合 $\mathrm{diag}(1, 1, -1)$（上の系列では双対）の誘導作用、$S\otimes S$ では因子の入れ替え（トレース $\psi^2 S$）として働く。この同定から作った $E$ は、$T(2,3)$・$T(2,5)$ で (i)+(ii) から決まる一意な $E$ を全単項式で再現し、$T(2,7)$〜$T(2,13)$ では予言として (i)・(ii) をともに満たす。
+であり、$\tilde I$ は $V$ の対合 $\mathrm{diag}(1, 1, -1)$（上の系列では双対）の誘導作用、$S\otimes S$ では因子の入れ替え（トレース $\psi^2 S$）として働く。この同定から作った $E$ は、$T(2,3)$・$T(2,5)$ で (i)+(ii) から決まる一意な $E$ を全単項式で再現し、$T(2,7)$〜$T(2,15)$ では予言として (i)・(ii) をともに満たす。
 \end{compresult}
 % [P19]
 \begin{conjecture}[補正の形]\label{conj:correction}
@@ -107,11 +107,11 @@ $R_{m+j'} = t^{m-1-j'}F_{j'}$ で、$F_{j'}$ は $m$ によらず
 \[
 \sum_{j'\ge 0}F_{j'}z^{j'} = \frac{1 + (2t + t^2 + qt + 2qt^2)z + qt^3z^2}{(1-z)(1-qtz)(1-t^2z)(1-q^2t^2z)}
 \]
-（状態の数は $\binom{2j'+3}{3}$）。$j' \le 4$（$T(2,7)$〜$T(2,13)$）で全係数が一致する。
+（状態の数は $\binom{2j'+3}{3}$）。$j' \le 5$（$T(2,7)$〜$T(2,15)$）で全係数が一致する。
 \end{conjecture}
 % [P20]
 \begin{conjecture}[補正への $\tilde I$ の作用]\label{conj:correctionI}
-$E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym}^{j'}V + t\,\mathrm{Sym}^{j'-1}V$（母関数 $(1+tz)/((1-z)(1-tz)(1-qtz))$、$(j'+1)^2$ 状態）であり、$F_{j'}$ の残りの状態は $\tilde I$ で入れ替わる対である：$F_{j'} = \psi^2 X_{j'} + 2P_{j'}$、$\sum P_{j'}z^{j'} = tz(V' + qt^2z)/((1-z)(1-qtz)(1-t^2z)(1-q^2t^2z))$、$V' = 1 + q + qt$。$j' = 2$ は $T(2,9)$ で (i) の行と台から 32 通りの変種のうち一意に選ばれ、$j' = 3, 4$ は $T(2,11)$, $T(2,13)$ で (i)+(ii) と整合する。
+$E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym}^{j'}V + t\,\mathrm{Sym}^{j'-1}V$（母関数 $(1+tz)/((1-z)(1-tz)(1-qtz))$、$(j'+1)^2$ 状態）であり、$F_{j'}$ の残りの状態は $\tilde I$ で入れ替わる対である：$F_{j'} = \psi^2 X_{j'} + 2P_{j'}$、$\sum P_{j'}z^{j'} = tz(V' + qt^2z)/((1-z)(1-qtz)(1-t^2z)(1-q^2t^2z))$、$V' = 1 + q + qt$。$j' = 2$ は $T(2,9)$ で (i) の行と台から 32 通りの変種のうち一意に選ばれ、$j' = 3, 4, 5$ は $T(2,11)$, $T(2,13)$, $T(2,15)$ で (i)+(ii) と整合する。
 \end{conjecture}
 % [P21]
 \begin{proposition}\label{prop:pairblind}
@@ -134,7 +134,7 @@ $(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) �
 \begin{itemize}
 \item [1]（トーラス結び目）では判定式（予想 \ref{conj:criterion}）が成り立ち、符号がそろう。
 \item 多箱では、普遍因子（予想 \ref{conj:structure}）は成り立つが、その商の符号はそろわない。
-\item $n = 1$ の $E$ は状態の空間の同定（計算結果 \ref{cr:principle}、予想 \ref{conj:correction}・\ref{conj:correctionI}）から条件なしに作れ、$T(2,3)$〜$T(2,13)$ で (i)・(ii) を満たす。
+\item $n = 1$ の $E$ は状態の空間の同定（計算結果 \ref{cr:principle}、予想 \ref{conj:correction}・\ref{conj:correctionI}）から条件なしに作れ、$T(2,3)$〜$T(2,15)$ で (i)・(ii) を満たす。
 \item 多箱の正値性は、凍結した状態の多重項の基底が決まるまで判定できない。$E$ と $C$ の分離が決まるまでも同様である。$E$ と $C$ の分離は指数からは決まらず（命題 \ref{prop:EC}）、composite の DAHA の値からも状態の数は得られなかった（計算）。打ち消しの前の固定セクターの状態の空間を、幾何から求める必要がある \open。
 \item 多箱の $c = 1$ の $\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(V^2-V^{-2})$ で割り切れる）に分かれる（計算結果 \ref{cr:multibox-sigma}）。後者の起源は、結び目の固定セクターで $S_R$ が非自明に働くことにあると考えられる（予想）。
 \end{itemize}

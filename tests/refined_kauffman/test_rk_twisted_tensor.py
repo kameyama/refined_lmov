@@ -383,9 +383,9 @@ def test_correction_pairs_generating_function():
 
 
 @pytest.mark.results
-@pytest.mark.parametrize("m", [5, 6])
+@pytest.mark.parametrize("m", [5, 6, 7])
 def test_principle_full_E_saved_predictions(m):
-    """T(2,11)・T(2,13)（続き 98〜99、theory §12.31）：一般の j′ の原理で作った E 全体が (i)・(ii) を満たし、保存した予言（twisted_E_n1_m{5,6}.pkl）と一致する。
-    largeN_2box_m{5,6}.pkl と T2_{11,13} の彩色データが要る（各 10〜20 分）。"""
+    """T(2,11)・T(2,13)・T(2,15)（続き 98〜100、theory §12.31）：一般の j′ の原理で作った E 全体が (i)・(ii) を満たし、保存した予言（twisted_E_n1_m{5,6,7}.pkl）と一致する。
+    largeN_2box_m{5,6,7}.pkl と T2_{11,13,15} の彩色データが要る（各 10〜20 分）。"""
     E, e, ok = TT.principle(m, verbose=False)
     assert ok["i"] and ok["ii"]
