@@ -113,6 +113,18 @@ $R_{m+j'} = t^{m-1-j'}F_{j'}$ で、$F_{j'}$ は $m$ によらず
 \begin{conjecture}[補正への $\tilde I$ の作用]\label{conj:correctionI}
 $E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym}^{j'}V + t\,\mathrm{Sym}^{j'-1}V$（母関数 $(1+tz)/((1-z)(1-tz)(1-qtz))$、$(j'+1)^2$ 状態）であり、$F_{j'}$ の残りの状態は $\tilde I$ で入れ替わる対である：$F_{j'} = \psi^2 X_{j'} + 2P_{j'}$、$\sum P_{j'}z^{j'} = tz(V' + qt^2z)/((1-z)(1-qtz)(1-t^2z)(1-q^2t^2z))$、$V' = 1 + q + qt$。$j' = 2$ は $T(2,9)$ で (i) の行と台から 32 通りの変種のうち一意に選ばれ、$j' = 3, 4, 5$ は $T(2,11)$, $T(2,13)$, $T(2,15)$ で (i)+(ii) と整合する。
 \end{conjecture}
+% [P23]
+\begin{conjecture}[閉じた式]\label{conj:closedform}
+$T(2,2m+1)$ の $n = 1$ の $N$ と $E$ は、結び目によらない普遍的なデータ $V$、$F_{j'}$、$X_{j'}$ と、結び目のデータ $S_m$（簡約 superpolynomial）・$m$ だけで書ける（$K = 4m-1$、$n_k$ は $\nu^{-(6+2k)}r^{-(4+2k)}$ の係数）：
+\[
+ n_k = \mathrm{Sym}^kV\ (k<2m),\quad n_{2m} = \mathrm{Sym}^{2m}V - S_m^2,\quad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^jV + (q-t)\,t^{m-1-j'}F_{j'}\bigr]\ (j = m+j' \ge m),
+\]
+$E$ は対応する $\tilde I$ のトレースである。$T(2,3)$〜$T(2,15)$ で $N$ は全係数で成立し、$E$ は (i)・(ii) を満たす（計算）。
+\end{conjecture}
+% [P24]
+\begin{compresult}\label{cr:plog}
+母関数の plethystic log は、$X_{j'}$ では有限（$(1+2t+qt)z - t^2z^2$：$V\oplus t$ の Fock 空間に関係 $t^2z^2$）だが、$F_{j'}$ と上の系列 $\mathrm{Sym}^jV + (q-t)t^{m-1-j'}F_{j'}$ では無限で、上の系列の生成元は $Vz$ と $(q-t)t^{m-1-j'}c_{j'}z^{m+j'}$（$c_0 = 1$、$c_1 = V^2 - t(1+qt)$、$c_2$ から負の係数）である。上の系列は正の BPS 生成元の Fock 空間としては読めない。
+\end{compresult}
 % [P21]
 \begin{proposition}\label{prop:pairblind}
 $(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) に現れない（$t = q$ で消える）。したがって補正の符号は (i) だけからは決まらず（$n = 1$ の $j' = 2$ で 15 中 2 個、$n = 2$ の $\lambda = (2)$ で 17 中 3 個）、予想 \ref{conj:correctionI} のような状態の空間の構造が要る。
