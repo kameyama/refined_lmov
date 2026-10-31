@@ -6,7 +6,10 @@ r"""n = 2（trefoil）の N_λ を結び目のデータ R − 1 の項ごとに�
   別に、すべての R を b + ε(R − b) にして ε の多項式（次数 ≤ 4）に分け、R − b の次数ごとの寄与 N_d も出す。
   terms [b]  ：T(S) と N_d を計算して保存（data/refined_kauffman/daha/n2_N_rterms_b{b}_m1.pkl）。
   analyze [b]：各 T(S)・N(S)・N_d が Laurent か、分母の因子、ν^{−k} の形式級数のブロック（分母と項数）、ブロックごとの打ち切り。
-使い方：python rk_f_n2_rterms.py terms|analyze [1|0]"""
+  background・fock：基準 0 の背景の閉じた形（6 セルの Fock 空間）と結び目の部分 K = N − T(∅) のブロック。
+  hyptop・hyptop2：上端 2 ブロック（λ = (2) の ν^{−8}, ν^{−10}）での Ĩ の仮説の族の照合（(i)、(i)+(ii)）。
+  hyp12・hyp12ii・hyp12b・hyp12bii・hyp12c・hyp12ci：ν^{−12}（両 λ）への延長（theory §12.27、続き 93）。
+使い方：python rk_f_n2_rterms.py terms|analyze|background|fock|hyptop|hyptop2|hyp12|hyp12ii|hyp12b|hyp12bii|hyp12c|hyp12ci [1|0]"""
 import sys, os, time, pickle, itertools
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import sympy as sp
@@ -328,6 +331,282 @@ def hyp_top(with_ii=False):
     print(f"pattern（t = −1、対が最小）で一意な単項式 {len(uni)}/{len(top)}：", {(k[2], k[3], k[4]): (int(mult[k]), v[0]) for k, v in sorted(uni.items())}, flush=True)
 
 
+
+# ---- ν^{−12}（両 λ が結合する）への延長 ----------------------------------------------------------------------------
+def _n2_rows(with_ii, kmin):
+    """n2_setup の行のうち、ν^{−8}..ν^{kmin} の単項式だけを含む行。(keys, A, b, idx, sel, rows_)。"""
+    import rk_f_twisted_tensor as TT
+    import rk_b_twisted_multiplet as TM
+    mult, conds = TT.n2_setup()
+    pre = TT.s * (TT.t - TT.nu**2) * (TT.nu**2 + 1) * (TT.nu**2 * TT.q + 1)
+    use = ("i22", "i4", "ii") if with_ii else ("i22", "i4")
+    keys, A, b = TT.rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in use})
+    idx = {key: i for i, key in enumerate(keys)}
+    sel = [key for key in keys if key[4] >= kmin]
+    cols = {idx[key] for key in sel}
+    rows_ = [i for i in range(A.shape[0]) if all(j in cols or A[i, j] == 0 for j in range(A.shape[1]))]
+    return mult, keys, A, b, idx, sel, rows_, use
+
+
+def _e_of(expr, lab, k):
+    """sympy の Laurent 多項式（r, s）→ {key: e}。"""
+    e = {}
+    for (a, b_), c in sp.Poly(sp.expand(expr * r_**40 * s_**40), r_, s_).as_dict().items():
+        e[(lab, "mono", a - 40, b_ - 40, k)] = int(c)
+    return e
+
+
+def _top_E():
+    """上端の仮説（hyp_top の 2 通りが与える共通の E）：E₈, E₁₀（λ = (2)）。"""
+    q, t = r_**2, s_**2
+    return {**_e_of(r_**-7 * s_**3 * (q - t), "2", -8),
+            **_e_of(r_**-11 * s_**3 * (q - t) * (q**2 * t + q * t**2 - q * t - q - t - 1 - q**2 * t**2), "2", -10)}
+
+
+def _ranges(mult, keys, A, b, rows_, idx, unknown, fixed):
+    """A e = b（rows_ の行）、|e| ≤ |c|、e ≡ c (mod 2) の整数解の集合で、unknown の各 e の範囲。解が無ければ None。
+    変数 y_m ∈ {0..|c_m|}、e_m = c_m − 2 sign(c_m) y_m。"""
+    import numpy as np
+    from scipy.optimize import milp, LinearConstraint, Bounds
+    un = list(unknown)
+    c = np.array([float(mult[k]) for k in un]); sg = np.sign(c); ca = np.abs(c)
+    Ar = A[rows_][:, [idx[k] for k in un]]
+    rhs = b[rows_].copy()
+    for k, v in fixed.items():
+        rhs -= A[rows_][:, idx[k]] * v
+    # Ar (c − 2 sg y) = rhs → Ar diag(−2 sg) y = rhs − Ar c
+    M = Ar * (-2 * sg); beq = rhs - Ar @ c
+    cons = LinearConstraint(M, beq - 1e-9, beq + 1e-9)
+    bnd = Bounds(np.zeros(len(un)), ca)
+    out = {}
+    for i, k in enumerate(un):
+        cc = np.zeros(len(un)); cc[i] = -2 * sg[i]
+        lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(len(un)))
+        if lo_.status != 0:
+            return None
+        hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=np.ones(len(un)))
+        out[k] = (round(c[i] + lo_.fun), round(c[i] - hi_.fun))
+    return out
+
+
+def _poly_of(e, lab, k):
+    """{key: e} の λ = lab、ν^k の部分 → sympy（r, s）。"""
+    return sp.expand(sum(v * r_**key[2] * s_**key[3] for key, v in e.items() if key[0] == lab and key[4] == k))
+
+
+def hyp12(with_ii=False):
+    """ν^{−12}（λ = (2) の 3 段目、λ = (1,1) の最上段）への延長。ν^{−8}, ν^{−10} の e は上端の仮説（hyp_top）に固定し、
+    ν^{−8}..ν^{−12} の単項式だけを含む行で、ν^{−12} の両 λ の e の範囲（整数計画）を求める。
+    次に λ = (1,1) の構造的な仮説の族（K₁₂ = −Y⊗Y − (q − t)·t·(1 + qt)⊗(1 + qt)、Y = (1 + q)(1 + t)(1 + qt)、背景 = 真空）と
+    λ = (2) の背景（6 セルの Sym² に誘導される符号）を当て、残る λ = (2) の結び目の部分の e を読む。"""
+    mult, keys, A, b, idx, sel, rows_, use = _n2_rows(with_ii, -12)
+    q, t = r_**2, s_**2
+    fixed = _top_E()
+    assert all(key in idx for key in fixed)
+    unknown = [key for key in sel if key[4] == -12]
+    n2 = sum(1 for k in unknown if k[0] == "2"); n11 = len(unknown) - n2
+    print(f"条件 {use}：ν^-8..-12 の単項式 {len(sel)} 個（ν^-12：λ = (2) {n2}、λ = (1,1) {n11}）、それだけを含む行 {len(rows_)} 本（全 {A.shape[0]} 本）", flush=True)
+    rg = _ranges(mult, keys, A, b, rows_, idx, unknown, fixed)
+    if rg is None:
+        print("  上端の E を固定すると ν^-12 の解が無い", flush=True); return
+    uni = {k: v[0] for k, v in rg.items() if v[0] == v[1]}
+    print(f"  解あり。ν^-12 で一意な単項式 {len(uni)}/{len(unknown)}（λ = (2) {sum(1 for k in uni if k[0] == '2')}/{n2}、λ = (1,1) {sum(1 for k in uni if k[0] == '11')}/{n11}）", flush=True)
+    for lab in LAMS:
+        print(f"  λ = {lab} の範囲 (r^a s^b: c → [min, max])：", {(k[2], k[3]): (int(mult[k]), v) for k, v in sorted(rg.items()) if k[0] == lab and v[0] != v[1]}, flush=True)
+    # ---- λ = (1,1) の仮説の族 ----
+    # N₁₂(11) = r^-13 s^3 [−Y² − (q − t) t (1 + qt)² − q t² (q − t)]（最後が背景の真空）
+    Y_f = ((1 + q, 1 + q**2), (1 + t, 1 + t**2), (1 + q * t, 1 + q**2 * t**2))   # (因子, ψ² の像)
+    def tr(fs, choice):                                                               # choice ∈ {swap, +, −} ごとの F⊗F のトレース
+        out = sp.Integer(1)
+        for (F, F2), ch in zip(fs, choice):
+            out *= F2 if ch == "swap" else _flip(F, ch) ** 2
+        return out
+    cand = []
+    chs = ("swap", "+", "-")
+    for ch_Y in itertools.product(chs, repeat=3):
+        for ch_R in chs:
+            for sY, sR, eq, et in itertools.product((1, -1), repeat=4):
+                E = r_**-13 * s_**3 * (-sY * tr(Y_f, ch_Y) - sR * (q - t) * t * tr((Y_f[2],), (ch_R,)) - q * t**2 * (eq * q - et * t))
+                e = _e_of(E, "11", -12)
+                if any(k not in rg for k in e) or any(abs(e.get(k, 0)) > abs(int(mult[k])) or (e.get(k, 0) - int(mult[k])) % 2 for k in rg if k[0] == "11"):
+                    continue
+                if all(rg[k][0] <= e.get(k, 0) <= rg[k][1] for k in rg if k[0] == "11"):
+                    cand.append(((ch_Y, ch_R, sY, sR, eq, et), e))
+    print(f"  λ = (1,1) の仮説の族（Y の 3 因子と補正の (1 + qt) に swap/+/−、符号 σ_Y, σ_R、真空 ε_q, ε_t）で範囲に入るもの {len(cand)} 個", flush=True)
+    seenE = {}
+    for par, e in cand:
+        key = tuple(sorted(e.items()))
+        seenE.setdefault(key, []).append(par)
+    print(f"    異なる E の数 {len(seenE)}", flush=True)
+    # 各 λ=(1,1) の E を固定して λ=(2) の範囲
+    for key, pars in seenE.items():
+        e11 = dict(key)
+        rg2 = _ranges(mult, keys, A, b, rows_, idx, [k for k in unknown if k[0] == "2"], {**fixed, **{k: e11.get(k, 0) for k in unknown if k[0] == "11"}})
+        if rg2 is None:
+            print(f"    {pars[0]}（ほか {len(pars) - 1}）：λ = (2) の解なし", flush=True); continue
+        uni2 = {k: v[0] for k, v in rg2.items() if v[0] == v[1]}
+        print(f"    {pars[0]}（ほか {len(pars) - 1}）：λ = (2) の一意な単項式 {len(uni2)}/{n2}；E₁₂(11) = {sp.factor(_poly_of(e11, '11', -12))}", flush=True)
+        if len(uni2) == n2:
+            E2 = _poly_of(uni2, "2", -12)
+            print(f"      E₁₂(2) = {sp.factor(E2)}", flush=True)
+        else:
+            print(f"      λ = (2) の範囲：", {(k[2], k[3]): (int(mult[k]), v) for k, v in sorted(rg2.items()) if v[0] != v[1]}, flush=True)
+
+
+def _flip(F, ch):
+    """因子 F（1 + m）の対角な符号：+ なら 1 + m、− なら 1 − m。"""
+    m = sp.expand(F - 1)
+    return 1 + m if ch == "+" else 1 - m
+
+
+
+def _E11_12():
+    """hyp12 で λ = (2) に解を残す唯一の λ = (1,1) の ν^{−12} の E：全因子に入れ替え、σ_Y = σ_R = −1、真空 ε_q = ε_t = −1。"""
+    q, t = r_**2, s_**2
+    return _e_of(r_**-13 * s_**3 * ((1 + q**2) * (1 + t**2) * (1 + q**2 * t**2) + (q - t) * t * (1 + q**2 * t**2) + q * t**2 * (q - t)), "11", -12)
+
+
+def hyp12b(with_ii=False):
+    """λ = (2) の ν^{−12}：背景 B₁₂ = −r^{−15}s³(q − t)[Sym²(5 セル) + q²t²] には上端の仮説の符号（真空 (−,−)、セルの対角な符号の 2 通り、
+    ν^{−4} のセル q²t² に ε₆）を誘導し、結び目の部分 K₁₂ = −r^{−17}s³(1 + qt)P₂₃ の e_K は |e_K| ≤ |c_K|・偶奇だけで自由にして、
+    ν^{−8}..ν^{−12} の行（λ = (1,1) は _E11_12 に固定）で e_K の範囲を求める。"""
+    import numpy as np
+    from scipy.optimize import milp, LinearConstraint, Bounds
+    mult, keys, A, b, idx, sel, rows_, use = _n2_rows(with_ii, -12)
+    q, t = r_**2, s_**2
+    fixed = {**_top_E(), **_E11_12()}
+    D = load(0)
+    Bq = sp.expand(to_sym(nu_block(series_u(D["T"][((), "2")], 12)[12], 12)))
+    Kq = sp.expand(to_sym(nu_block(series_u(D["N"][(GROUPS, "2")] - D["T"][((), "2")], 12)[12], 12)))
+    cells = (q**2 * t, q * t**2, q * t, q, t)
+    assert sp.expand(Bq + r_**-15 * s_**3 * (q - t) * (sum(ci * cj for i, ci in enumerate(cells) for cj in cells[i:]) + q**2 * t**2)) == 0
+    cK = _e_of(Kq, "2", -12)
+    print(f"条件 {use}：行 {len(rows_)} 本。λ = (2) ν^-12：背景 13 単項式、結び目の部分 {len(cK)} 単項式（N は {sum(1 for k in sel if k[0] == '2' and k[4] == -12)}）", flush=True)
+    unK = sorted(cK)
+    for vname, eps in (("diag (+,+,+,−,−)", (1, 1, 1, -1, -1)), ("swap (+,+,−,−,−)", (1, 1, -1, -1, -1))):
+        for e6 in (1, -1):
+            Eb = sp.expand(r_**-15 * s_**3 * (q - t) * (sum(eps[i] * eps[j] * ci * cj for i, ci in enumerate(cells) for j, cj in enumerate(cells) if j >= i) + e6 * q**2 * t**2))
+            eb = _e_of(Eb, "2", -12)
+            # 行：A (e_fixed + e_b + e_K) = b。e_K = c_K − 2 sg y
+            c = np.array([float(cK[k]) for k in unK]); sg = np.sign(c); ca = np.abs(c)
+            Ar = A[rows_][:, [idx[k] for k in unK]]
+            rhs = b[rows_].copy()
+            for k, v in {**fixed, **eb}.items():
+                rhs = rhs - A[rows_][:, idx[k]] * v
+            M = Ar * (-2 * sg); beq = rhs - Ar @ c
+            cons = LinearConstraint(M, beq - 1e-9, beq + 1e-9); bnd = Bounds(np.zeros(len(unK)), ca)
+            rg = {}; ok = True
+            for i, k in enumerate(unK):
+                cc = np.zeros(len(unK)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(len(unK)))
+                if lo_.status != 0:
+                    ok = False; break
+                hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=np.ones(len(unK)))
+                rg[k] = (round(c[i] + lo_.fun), round(c[i] - hi_.fun))
+            if not ok:
+                print(f"  背景の符号 {vname}、ε₆ = {e6:+d}：解なし", flush=True); continue
+            uni = {k: v[0] for k, v in rg.items() if v[0] == v[1]}
+            print(f"  背景の符号 {vname}、ε₆ = {e6:+d}：解あり、一意 {len(uni)}/{len(unK)}、対の数の範囲（Σ(|c|−|e|)/2）", flush=True)
+            print("    範囲 (r^a s^b: c_K → [min, max])：", {(k[2], k[3]): (cK[k], v) for k, v in sorted(rg.items())}, flush=True)
+            if len(uni) == len(unK):
+                print(f"    E_K = {sp.factor(_poly_of(uni, '2', -12))}", flush=True)
+
+
+
+QQ, TT = sp.symbols("Q T")
+
+
+def _qt_poly(expr):
+    """r, s の多項式（指数が偶数）→ Q = r², T = s² の多項式。"""
+    d = sp.Poly(sp.expand(expr * r_**40 * s_**40), r_, s_).as_dict()
+    return sp.Poly.from_dict({((a - 40) // 2, (b - 40) // 2): v for (a, b), v in d.items()}, QQ, TT)
+
+
+def hyp12c(with_ii=True):
+    """λ = (2) の ν^{−12} の結び目の部分に構造を入れる：K₁₂ = −r^{−17}s³[Y⊗Y + (q − t)R]、Y(q, q) = (1 + q)²(1 + q²)² を満たす
+    因子 (1 + q), (1 + t), (1 + qt), (1 + q²), (1 + t²) の積 Y ごとに R = (K + Y²)/(q − t) を取り、
+    E_K = σ_Y tr(Y⊗Y)（因子ごとに swap/+/−）+ (q − t) Σ_m e_m m（|e_m| ≤ |R_m|、e_m ≡ R_m）とする。
+    上端・λ = (1,1) を固定し、背景（swap, ε₆ = +1）の E_b を加えた E₁₂(2) の全単項式で |e| ≤ |c|（N に無い単項式では e = 0）を課し、
+    ν^{−8}..ν^{−12} の行で e_m の範囲を求める。"""
+    import numpy as np
+    from scipy.optimize import milp, LinearConstraint, Bounds
+    mult, keys, A, b, idx, sel, rows_, use = _n2_rows(with_ii, -12)
+    q, t = r_**2, s_**2
+    fixed = {**_top_E(), **_E11_12()}
+    D = load(0)
+    Kq = sp.expand(to_sym(nu_block(series_u(D["N"][(GROUPS, "2")] - D["T"][((), "2")], 12)[12], 12)))
+    Kp = sp.expand(Kq * r_**17 / s_**3)                                   # −(1 + qt)P₂₃
+    cells = (q**2 * t, q * t**2, q * t, q, t); eps = (1, 1, -1, -1, -1)
+    eb = _e_of(r_**-15 * s_**3 * (q - t) * (sum(eps[i] * eps[j] * ci * cj for i, ci in enumerate(cells) for j, cj in enumerate(cells) if j >= i) + q**2 * t**2), "2", -12)
+    rhs0 = b[rows_].copy()
+    for k, v in fixed.items():
+        rhs0 = rhs0 - A[rows_][:, idx[k]] * v
+    facs = ((1 + q, 1 + q**2), (1 + t, 1 + t**2), (1 + q * t, 1 + q**2 * t**2), (1 + q**2, 1 + q**4), (1 + t**2, 1 + t**4))
+    target = sp.expand((1 + q)**2 * (1 + q**2)**2)
+    print(f"条件 {use}：行 {len(rows_)} 本。K₁₂(2) = −(1 + qt)P₂₃ = −[Y⊗Y + (q − t)R] の形", flush=True)
+    ys = [c for n_ in range(1, 5) for c in itertools.combinations_with_replacement(range(5), n_)
+          if sp.expand(sp.prod([facs[i][0] for i in c]).subs(t, q) - target) == 0]
+    print(f"  Y の候補 {len(ys)} 個", flush=True)
+    key_of = lambda a, b_: ("2", "mono", 2 * a - 17, 2 * b_ + 3, -12)       # q^a t^b（r^-17 s^3 を基準）
+    for c in ys:
+        Y = sp.prod([facs[i][0] for i in c])
+        R = sp.div(_qt_poly(-Kp - Y**2), sp.Poly(QQ - TT, QQ, TT))
+        assert R[1].is_zero
+        Rm = {m: int(v) for m, v in R[0].as_dict().items()}
+        R = R[0].as_expr(); mons = sorted(Rm)
+        cR = np.array([float(Rm[m]) for m in mons]); sg = np.sign(cR); ca = np.abs(cR)
+        feas = []
+        for ch in itertools.product(("swap", "+", "-"), repeat=len(c)):
+            trY = sp.Integer(1)
+            for i, ch_ in zip(c, ch):
+                trY *= facs[i][1] if ch_ == "swap" else _flip(facs[i][0], ch_) ** 2
+            for sY in (1, -1):
+                eY = _e_of(r_**-17 * s_**3 * sY * trY, "2", -12)
+                # 各単項式 key の e = k_key + w_key·y（y は対の変数、e_m = R_m − 2 sg_m y_m）
+                kc = {}; wv = {}
+                for k, v in list(eb.items()) + list(eY.items()):
+                    kc[k] = kc.get(k, 0) + v
+                for i, (a, b_) in enumerate(mons):
+                    for k, sgn in ((key_of(a + 1, b_), 1), (key_of(a, b_ + 1), -1)):
+                        kc[k] = kc.get(k, 0) + sgn * Rm[(a, b_)]
+                        wv.setdefault(k, np.zeros(len(mons)))[i] += sgn * (-2 * sg[i])
+                allk = sorted(kc)
+                Wm = np.array([wv.get(k, np.zeros(len(mons))) for k in allk]); kv = np.array([float(kc[k]) for k in allk])
+                cab = np.array([abs(float(mult[k])) if k in idx else 0.0 for k in allk])
+                Mrow = sum((np.outer(A[rows_][:, idx[k]], Wm[j]) for j, k in enumerate(allk) if k in idx), np.zeros((len(rows_), len(mons))))
+                beq = rhs0 - sum((A[rows_][:, idx[k]] * kv[j] for j, k in enumerate(allk) if k in idx), np.zeros(len(rows_)))
+                cons = [LinearConstraint(Mrow, beq - 1e-9, beq + 1e-9), LinearConstraint(Wm, -cab - kv - 1e-9, cab - kv + 1e-9)]
+                bnd = Bounds(np.zeros(len(mons)), ca)
+                res = milp(np.zeros(len(mons)), constraints=cons, bounds=bnd, integrality=np.ones(len(mons)))
+                if res.status != 0:
+                    continue
+                rg = {}
+                for i, m in enumerate(mons):
+                    cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                    lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(len(mons)))
+                    hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=np.ones(len(mons)))
+                    rg[m] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+                nun = sum(1 for v in rg.values() if v[0] == v[1])
+                # 補正の入れ替わる対 Σ y の最小と、最小での範囲
+                pm = milp(np.ones(len(mons)), constraints=cons, bounds=bnd, integrality=np.ones(len(mons)))
+                pmin = round(pm.fun)
+                cons2 = cons + [LinearConstraint(np.ones((1, len(mons))), -np.inf, pmin + 1e-9)]
+                rg2 = {}
+                for i, m in enumerate(mons):
+                    cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                    lo_ = milp(cc, constraints=cons2, bounds=bnd, integrality=np.ones(len(mons)))
+                    hi_ = milp(-cc, constraints=cons2, bounds=bnd, integrality=np.ones(len(mons)))
+                    rg2[m] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+                feas.append((ch, sY, nun, rg, pmin, rg2))
+        print(f"  Y = {sp.factor(Y)}：R = {sp.factor(R)}（{len(mons)} 状態、Σ|R| {sum(abs(v) for v in Rm.values())}）、可能な (swap/±, σ_Y) {len(feas)}/{2 * 3**len(c)}", flush=True)
+        for ch, sY, nun, rg, pmin, rg2 in feas:
+            print(f"     {ch} σ_Y = {sY:+d}：R の e が一意 {nun}/{len(mons)}、範囲 {{(a,b): (R, [min,max])}} = {{{', '.join(f'{m}: ({Rm[m]}, {v})' for m, v in rg.items() if v[0] != v[1])}}}", flush=True)
+            nun2 = sum(1 for v in rg2.values() if v[0] == v[1])
+            print(f"       補正の対の最小 {pmin}（Σ|R| {sum(abs(v) for v in Rm.values())}）、最小で一意 {nun2}/{len(mons)}、範囲 {{{', '.join(f'{m}: ({Rm[m]}, {v})' for m, v in rg2.items() if v[0] != v[1])}}}", flush=True)
+            if nun2 == len(mons):
+                ER = sum(v[0] * QQ**m[0] * TT**m[1] for m, v in rg2.items())
+                print(f"       対が最小の E_R = {sp.factor(ER)}", flush=True)
+
 if __name__ == "__main__":
     b = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    {"terms": terms, "analyze": analyze, "background": lambda b: background(), "fock": lambda b: fock(), "hyptop": lambda b: hyp_top(), "hyptop2": lambda b: hyp_top(True)}[sys.argv[1]](b)
+    {"terms": terms, "analyze": analyze, "background": lambda b: background(), "fock": lambda b: fock(), "hyptop": lambda b: hyp_top(), "hyptop2": lambda b: hyp_top(True), "hyp12": lambda b: hyp12(), "hyp12ii": lambda b: hyp12(True), "hyp12b": lambda b: hyp12b(), "hyp12bii": lambda b: hyp12b(True), "hyp12c": lambda b: hyp12c(), "hyp12ci": lambda b: hyp12c(False)}[sys.argv[1]](b)
