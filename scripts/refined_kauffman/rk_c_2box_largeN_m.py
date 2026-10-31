@@ -74,7 +74,10 @@ def cover_f(m, knot):
 
 def main(m):
     knot = f"T2_{2*m+1}"
-    adj_interp(m)
+    if os.path.exists(os.path.join(OUT, f"Radj_A_m{m}.pkl")):
+        print(f"Radj_A_m{m}.pkl があるので随伴の補間は飛ばす（rk_c_bounded_save.py --adj で作った場合）", flush=True)
+    else:
+        adj_interp(m)
     W, co = so_parts(m)
     f = L.so_f(W, co)
     fc = cover_f(m, knot)

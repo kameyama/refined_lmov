@@ -19,6 +19,8 @@ import flint
 from rcsknots.refined_kauffman.flint_rf import from_sympy, RF, CTX
 
 OUT = "data/refined_kauffman/daha"
+UNIT = 2       # U = s^{UNIT·N}（SO の 2 箱・4 箱は U = t^N = s^{2N}。随伴は A^{1/2} = s^N なので 1。rk_c_bounded_save が切り替える）
+PAR = 2        # c_j の s の冪の偶奇（SO のデータは一定。随伴は 1 にして偶奇の制限を外す）
 
 
 def _mirror(p):
@@ -72,7 +74,7 @@ def s_range(T):
 def slopes(T):
     Ns = sorted(T)
     rng = {N: s_range(T[N]) for N in Ns}
-    d = [((rng[b][0] - rng[a][0]) // 2, (rng[b][1] - rng[a][1]) // 2) for a, b in zip(Ns, Ns[1:])]
+    d = [((rng[b][0] - rng[a][0]) // (UNIT * (b - a)), (rng[b][1] - rng[a][1]) // (UNIT * (b - a))) for a, b in zip(Ns, Ns[1:])]
     return rng, d
 
 
@@ -82,7 +84,7 @@ def _alpha_jrange(T, used, al, jmin, jmax):
     b1 = [b for a, b in T[N1] if a == al]; b2 = [b for a, b in T[N2] if a == al]
     if not b1 or not b2:
         return jmin, jmax
-    d = 2 * (N2 - N1)
+    d = UNIT * (N2 - N1)
     return max(jmin, (min(b2) - min(b1)) // d), min(jmax, (max(b2) - max(b1)) // d)
 
 
@@ -119,8 +121,8 @@ def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None, partial=F
         ja, jb = _alpha_jrange(T, used, al, jmin, jmax) if mode in ("alpha", "alphaL") else (jmin, jmax)
         var = []
         for j in range(ja, jb + 1):
-            for be in range(lo0 - 2 * N0 * j, hi0 - 2 * N0 * j + 1):
-                if (be - lo0) % 2 == 0 and all(lo <= be + 2 * N * j <= hi for N, lo, hi in bd):
+            for be in range(lo0 - UNIT * N0 * j, hi0 - UNIT * N0 * j + 1):
+                if (be - lo0) % PAR == 0 and all(lo <= be + UNIT * N * j <= hi for N, lo, hi in bd):
                     var.append((j, be))
         nvar += len(var)
         idx = {v: i for i, v in enumerate(var)}
@@ -128,7 +130,7 @@ def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None, partial=F
         for N in used:
             ds = defaultdict(list)
             for (j, be), i in idx.items():
-                ds[be + 2 * N * j].append(i)
+                ds[be + UNIT * N * j].append(i)
             target = {b: c for (a, b), c in T[N].items() if a == al}
             if any(d not in ds for d in target):
                 return None, f"矛盾（r^{al}、N={N} で範囲の外に項）", nvar                # 範囲の外に項がある
@@ -165,7 +167,7 @@ def predict(sol, N):
     out = defaultdict(Fraction)
     for j, c in sol.items():
         for (a, b), v in c.items():
-            out[(a, b + 2 * N * j)] += v
+            out[(a, b + UNIT * N * j)] += v
     return {k: v for k, v in out.items() if v != 0}
 
 
