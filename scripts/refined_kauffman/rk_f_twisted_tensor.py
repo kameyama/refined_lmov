@@ -2045,7 +2045,7 @@ def n1_terms(m=1, k=2):
 
 if __name__ == "__main__":
     ai = "--all-inv" in sys.argv
-    ms = [int(x) for x in sys.argv[2:] if x.isdigit()]              # rule・full・lower：m を指定できる（T(2,2m+1)。既定は 1, 2）
+    ms = [int(x) if x.isdigit() else x for x in sys.argv[2:] if not x.startswith("--")]   # m（T(2,2m+1)。既定は 1, 2）。文字列は GAMMA_WORDS の語（例 T3_5、続き 104）
     if sys.argv[1] == "full":
         for m_ in ms or (1, 2):
             for use in (("i",), ("i", "ii")):
