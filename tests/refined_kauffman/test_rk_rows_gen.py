@@ -1,4 +1,4 @@
-"""n = 1 の N を [1] と随伴の a の行で書く母関数（rk_f_rows_gen、theory §12.33、続き 103）の機能テスト。
+"""n = 1 の N を [1] と随伴の a の行で書く母関数（rk_f_rows_gen、theory §12.33、続き 103）と E の行の読み（rk_f_rows_E、§12.34）の機能テスト。
   (1) T(2,3)：母関数から作った n_k が cover_sectors から直接作った N の全ブロックと一致し、k > K で 0。
   (2) T(2,3)・T(2,5)・T(3,4)：G = (A − R²)/((q−1)(t−1)) は Laurent、g_0 = 0、g_1 = (2ρ_0ρ_1 − ρ_1²)/q、移り目 n_{2δ} = Sym^{2δ}V − (ρ_0 − ρ_1)²。
   (3) T(3,4) の S̃ = ρ_0 − ρ_1 = (1 + qt)(1 + t + t² + qt² + q²t²)（§12.32 の S̃）。
@@ -70,3 +70,10 @@ def test_gamma_words():
         assert norm(new) == norm(old)
         assert gamma_first_column(gamma_factors(m, k)) == (m * k + 1, k)
     assert gamma_first_column(gamma_factors("T3_5")) == (5, 3) and TG.rs("T3_5") == 15 and TG.delta("T3_5") == 4
+
+
+def test_rows_E_transition_rule_t25():
+    """下の系列と移り目（− ψ²S̃）を規則で固定し上を自由にした整数計画が T(2,5) で (i)+(ii) に解をもつ（原理と整合）。"""
+    import rk_f_rows_E as RE
+    out = RE.principle_rows(2, 2, verbose=False)
+    assert out[("i",)][0] and out[("i", "ii")][0]
