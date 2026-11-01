@@ -77,3 +77,49 @@ def test_rows_E_transition_rule_t25():
     import rk_f_rows_E as RE
     out = RE.principle_rows(2, 2, verbose=False)
     assert out[("i",)][0] and out[("i", "ii")][0]
+
+
+def test_three_strand_upper_regime_t34():
+    """T(3,4) の上の系列：U_j − (1 + q/t)Sym^j V が j = 0, 1 で (q − t) で割れ、j = 2 で割れない（t = q で −((1+t²)(1+t+t²))²/t²）。"""
+    nk, G, A, R = RG.blocks_from_rows(1, 3)
+    K = TG.rs(1, 3) - 3
+    def D(j):
+        return sp.expand(sp.cancel(-nk[K - j] / t**(K - 2 * j)) - (1 + q / t) * RG.sym_V(j))
+    for j in (0, 1):
+        num, den = sp.fraction(sp.cancel(D(j) / (q - t)))
+        assert sp.Poly(den, q, t).is_monomial
+    d2 = D(2)
+    assert sp.cancel(d2.subs(q, t) + ((1 + t**2) * (1 + t + t**2))**2 / t**2) == 0
+    num, den = sp.fraction(sp.cancel(d2 / (q - t)))
+    assert not sp.Poly(den, q, t).is_monomial
+
+
+def test_rows_reading_of_E_t25():
+    """T(2,5) の保存した E を (R, G) の形に分けると、G の行の Ĩ は j ≥ δ + 2 で q の規則 Ĝ_j = g_j(−q, t)(−q)^j（§12.35）。"""
+    import pickle
+    import rk_f_frozen_basis as FB
+    r, s, nu = FB.r, FB.s, FB.nu
+    m = 2
+    d = pickle.load(open(f"data/refined_kauffman/daha/twisted_E_n1_m{m}.pkl", "rb"))
+    Epre = sp.sympify(d["E"], locals={"r": r, "s": s, "nu": nu})
+    qq, tt = r**2, s**2
+    pre = s**2 * (tt - nu**2) * (nu**2 + 1) * (qq + 1) * (nu**2 * qq + 1)
+    E = sp.cancel(Epre / pre)
+    bl = FB.nu_blocks(E)
+    ek = {(-b - 6) // 2: sp.expand((blk * r**(4 + 2 * ((-b - 6) // 2))).subs({r: sp.sqrt(q), s: sp.sqrt(t)})) for b, blk in bl.items()}
+    de, K = TG.delta(m), TG.rs(m) - 3
+    G, A, R = RG.G_poly(m)
+    rho = RG._coeffs(R, y); g = RG._coeffs(G, y)
+    def Fe(k):
+        return sp.expand(sum((-1)**(a_ + b_) * t**(b_ + c_) * q**c_ for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]))
+    psi = {2 * i: sp.expand(c.subs({q: q**2, t: t**2}, simultaneous=True)) for i, c in rho.items()}
+    EG = {}
+    for k in range(K + 1):
+        base = Fe(k) - sum(psi[a] * q**a * Fe(k - 2 * de - a) for a in psi if k - 2 * de - a >= 0)
+        EG[k - 2 * de + 1] = sp.expand(ek.get(k, 0) - base)
+    assert all(EG[j] == 0 for j in EG if j < 1)                     # 下の系列と移り目は F^ε と ψ²R で尽きる
+    for j in sorted(EG):
+        if j < de + 2:
+            continue
+        Gh = sp.expand(EG[j] + t * EG.get(j - 1, 0))
+        assert sp.expand(Gh - sp.sympify(g[j]).subs(q, -q) * (-q)**j) == 0
