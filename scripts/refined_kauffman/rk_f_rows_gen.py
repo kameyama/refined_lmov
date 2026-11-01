@@ -131,7 +131,10 @@ def main(m, k=2, check=True):
     print(f"  移り目 n_{2*de} − Sym^{2*de}V + (ρ_0 − ρ_1)² = {sp.cancel(nk[2 * de] - sym_V(2 * de) + St**2)}")
     print(f"  n_k = 0（k > K）：{all(sp.cancel(nk[kk]) == 0 for kk in range(K + 1, K + 3))}、n_K = {sp.factor(nk[K])}")
     if check:
-        dn = direct_blocks(m, k)
+        try:
+            dn = direct_blocks(m, k)
+        except FileNotFoundError as ex:
+            print(f"  直接の照合は省略（被覆の 2 箱データが無い：{ex.filename}）"); return nk, G, A, R
         ok = all(sp.cancel(nk.get(kk, 0) - dn.get(kk, 0)) == 0 for kk in set(nk) | set(dn))
         print(f"  cover_sectors から直接作った N の全ブロックと一致：{ok}")
     return nk, G, A, R

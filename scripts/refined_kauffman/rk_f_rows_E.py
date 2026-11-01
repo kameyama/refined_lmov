@@ -18,8 +18,35 @@ r, s, nu = TT.r, TT.s, TT.nu
 q, t = TT.q, TT.t
 
 
-def principle_rows(m, k=2, fix_upper=None, verbose=True):
-    """fix_upper = {k: E_k（q, t の多項式）} で上のブロックを固定できる（他は自由）。戻り値：{use: (解の有無, 一意な数, 自由な数, 対の最小, 範囲)}。"""
+def g_rule_rows(m, k, j0, de, K):
+    """G の q の規則（theory §12.35）：Ĝ_j = g_j(−q, t)(−q)^j（j ≥ j0）を、E のブロックの線形制約
+    E_k − base_k + t(E_{k−1} − base_{k−1}) = Ĝ_j（k = 2δ − 1 + j）として返す：{(k, a, b): (右辺の係数)}。
+    base = F^ε(x)(1 − x^{2δ}ψ²R(q²x²))、F^ε = 1/((1 + x)(1 + tx)(1 − qtx))。"""
+    G, A, R = RG.G_poly(m, k)
+    rho = RG._coeffs(R, RG.y); g = RG._coeffs(G, RG.y) if G != 0 else {}
+    T_ = max(g) if g else 0
+    qq, tt = RG.q, RG.t
+    def Fe(kk):
+        return sp.expand(sum((-1)**(a_ + b_) * tt**(b_ + c_) * qq**c_ for a_ in range(kk + 1) for b_ in range(kk + 1 - a_) for c_ in [kk - a_ - b_])) if kk >= 0 else sp.Integer(0)
+    psi = {2 * i: sp.expand(c.subs({qq: qq**2, tt: tt**2}, simultaneous=True)) for i, c in rho.items()}
+    base = {}
+    for kk in range(K + 3):
+        base[kk] = sp.expand(Fe(kk) - sum(psi[a] * qq**a * Fe(kk - 2 * de - a) for a in psi if kk - 2 * de - a >= 0))
+    eqs = {}
+    for j in range(j0, max(T_, K - 2 * de + 1) + 3):
+        kk = 2 * de - 1 + j
+        if kk > K + 2:
+            break
+        Gh = sp.expand(g.get(j, 0).subs(qq, -qq) * (-qq)**j) if j in g else sp.Integer(0)
+        rhs = sp.expand(Gh + base[kk] + tt * base[kk - 1])
+        eqs[(kk, j)] = rhs
+    return eqs
+
+
+def principle_rows(m, k=2, fix_upper=None, verbose=True, g_rule_from=None):
+    """fix_upper = {k: E_k（q, t の多項式）} で上のブロックを固定できる（他は自由）。
+    g_rule_from = j0：G の q の規則（Ĝ_j = g_j(−q,t)(−q)^j、j ≥ j0）を線形制約として加える（§12.35）。
+    戻り値：{use: (解の有無, 一意な数, 自由な数, 対の最小, 範囲)}。"""
     N, allc = TT._knot_N(m, k)
     mult = TM.monomials(N)
     blocks_ = FB.nu_blocks(N)
@@ -63,6 +90,31 @@ def principle_rows(m, k=2, fix_upper=None, verbose=True):
             ok = bool(np.max(np.abs(res)) < 1e-9)
             print(f"   条件 {use}：全ブロック固定、{'満たす' if ok else '満たさない'}", flush=True); out[use] = (ok, None, None, None, None); continue
         c = np.array([float(mult[k_]) for k_ in un]); sg = np.sign(c); ca = np.abs(c)
+        if g_rule_from is not None:
+            # 追加の等式：各 (k, q^a t^b) について e[k; a, b] + e[k−1; a, b−1] = rhs の係数（右辺に無い単項式は 0）
+            eqs = g_rule_rows(m, k, g_rule_from, de, K)
+            kof = lambda k_: (-k_[-1] - 6) // 2
+            qe = lambda k_: (k_[1] + 4 + 2 * kof(k_)) // 2
+            te = lambda k_: k_[2] // 2
+            rows_add, rhs_add = [], []
+            for (kk, j), rhs_poly in eqs.items():
+                cd = sp.expand(rhs_poly).as_coefficients_dict()
+                monos = set()
+                for k_ in keys:
+                    if kof(k_) == kk: monos.add((qe(k_), te(k_)))
+                    if kof(k_) == kk - 1: monos.add((qe(k_), te(k_) + 1))
+                for mono_, v in cd.items():
+                    pm = sp.Poly(mono_, RG.q, RG.t).monoms()[0] if mono_ != 1 else (0, 0)
+                    monos.add((int(pm[0]), int(pm[1])))
+                for (a_, b_) in monos:
+                    row = np.zeros(len(keys))
+                    for k_ in keys:
+                        if kof(k_) == kk and qe(k_) == a_ and te(k_) == b_: row[idx[k_]] += 1
+                        if kof(k_) == kk - 1 and qe(k_) == a_ and te(k_) == b_ - 1: row[idx[k_]] += 1
+                    val = float(cd.get(RG.q**a_ * RG.t**b_, 0))
+                    rows_add.append(row); rhs_add.append(val)
+            if rows_add:
+                A = np.vstack([A, np.array(rows_add)]); b = np.concatenate([b, np.array(rhs_add)])
         Ar = A[:, [idx[k_] for k_ in un]]
         rhs = b - sum(A[:, idx[k_]] * v for k_, v in fx.items())
         M = Ar * (-2 * sg); beq = rhs - Ar @ c
@@ -90,7 +142,8 @@ def principle_rows(m, k=2, fix_upper=None, verbose=True):
 if __name__ == "__main__":
     args = sys.argv[1:] or ["3", "1 --k=3"]
     kk = next((int(a[4:]) for a in args if a.startswith("--k=")), 2)
+    j0 = next((int(a[5:]) for a in args if a.startswith("--j0=")), None)
     for a in args:
         if a.startswith("--"):
             continue
-        principle_rows(int(a) if a.isdigit() else a, kk)
+        principle_rows(int(a) if a.isdigit() else a, kk, g_rule_from=j0, verbose="--quiet" not in args)
