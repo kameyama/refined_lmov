@@ -14,18 +14,4 @@
   g_0 = 0：True、g_1 = (2ρ_0ρ_1 − ρ_1²)/q：True
   移り目 n_14 − Sym^14V + (ρ_0 − ρ_1)² = 0
   n_k = 0（k > K）：True、n_K = -t**20*(q + t)
-Traceback (most recent call last):
-  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_rows_gen.py", line 147, in <module>
-    main(m, kk)
-    ~~~~^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_rows_gen.py", line 134, in main
-    dn = direct_blocks(m, k)
-  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_rows_gen.py", line 108, in direct_blocks
-    sec = C.cover_sectors(m, k)
-  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_b_cover_split.py", line 20, in cover_sectors
-    Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), TG.knot_name(m, k)) * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
-                             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_c_2box_largeN.py", line 53, in Rdata_nu
-    d = json.load(open(p if os.path.exists(p) else f"data/framed_knot/torus/{knot}_{c}.json"))
-                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'data/framed_knot/torus/T3_8_11.json'
+  cover_sectors から直接作った N の全ブロックと一致：True
