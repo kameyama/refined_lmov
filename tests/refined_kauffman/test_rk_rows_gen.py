@@ -27,13 +27,21 @@ def test_trefoil_blocks_from_rows_match_direct():
 
 
 def test_g_relations_and_transition():
-    for m, k in ((1, 2), (2, 2), (1, 3)):
+    for m, k in ((1, 2), (2, 2), (1, 3), (2, 3), (1, 4)):          # T(2,3)・T(2,5)・T(3,4)・T(3,7)・T(4,5)
         nk, G, A, R = RG.blocks_from_rows(m, k, kmax=2 * TG.delta(m, k))
         rho = _rho(R)
         assert sp.expand(G.coeff(y, 0)) == 0
         assert sp.cancel(G.coeff(y, 1) - (2 * rho[0] * rho[1] - rho[1]**2) / q) == 0
         de = TG.delta(m, k)
         assert sp.cancel(nk[2 * de] - RG.sym_V(2 * de) + (rho[0] - rho[1])**2) == 0
+
+
+def test_deepest_block_is_h_s_minus_2():
+    """n_K = −t^{K−s+2} h_{s−2}(q, t)：T(2,5)（s = 2）、T(3,4)（s = 3）、T(4,5)（s = 4）。"""
+    for m, k, h in ((2, 2, 1), (1, 3, q + t), (1, 4, q**2 + q * t + t**2)):
+        nk, G, A, R = RG.blocks_from_rows(m, k)
+        K, s_ = TG.rs(m, k) - 3, TG.first_column(m, k)[1]
+        assert sp.cancel(nk[K] + t**(K - s_ + 2) * h) == 0 and all(sp.cancel(nk[K + i]) == 0 for i in (1, 2))
 
 
 def test_t34_square_factor_is_two_rows():

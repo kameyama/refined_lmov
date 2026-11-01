@@ -55,12 +55,27 @@ def A_poly(m, k=2):
     return sp.expand(sp.expand(A * q**(2 * de)).subs({r_: sp.sqrt(q), s_: sp.sqrt(t)}))
 
 
+def _coeffs(P, var):
+    Pp = sp.Poly(P, var)
+    return {int(mm[0]): c for mm, c in zip(Pp.monoms(), Pp.coeffs())}
+
+
+def _laurent_div(c, d):
+    """Laurent 多項式 c（q, t）を多項式 d で割り切る（割り切れなければ例外）。"""
+    c = sp.expand(c)
+    if c == 0:
+        return sp.Integer(0)
+    Pc = sp.Poly(c * q**60 * t**60, q, t)
+    Q, Rm = sp.div(Pc, sp.Poly(d, q, t))
+    assert Rm.is_zero, "割り切れない"
+    return sp.expand(Q.as_expr() * q**(-60) * t**(-60))
+
+
 def G_poly(m, k=2):
     """G = (A − R²)/((q − 1)(t − 1))。Laurent でなければ例外。"""
     A, R = A_poly(m, k), R_poly(m, k)
-    G = sp.cancel((A - sp.expand(R**2)) / ((q - 1) * (t - 1)))
-    num, den = sp.fraction(G)
-    assert sp.Poly(den, q, t).is_monomial, den
+    diff = _coeffs(sp.expand(A - sp.expand(R**2)), y)
+    G = sum(_laurent_div(c, (q - 1) * (t - 1)) * y**j for j, c in diff.items())
     return sp.expand(G), A, R
 
 
@@ -70,9 +85,16 @@ def blocks_from_rows(m, k=2, kmax=None):
     G, A, R = G_poly(m, k)
     K = TG.rs(m, k) - 3
     kmax = K + 2 if kmax is None else kmax
-    gen = (1 - x**(2 * de) * R.subs(y, q * x)**2) / ((1 - x) * (1 - t * x) * (1 - q * t * x)) + x**(2 * de - 1) * G.subs(y, q * x) / (1 - t * x)
-    ser = sp.series(gen, x, 0, kmax + 1).removeO()
-    return {kk: sp.expand(ser.coeff(x, kk)) for kk in range(kmax + 1)}, G, A, R
+    # 畳み込みで展開：n_k = Sym^k V − Σ_{a+b=k−2δ} [R²]_a q^a Sym^b V + Σ_{j+n=k−2δ+1} g_j q^j t^n
+    R2 = _coeffs(sp.expand(R**2), y)
+    g = _coeffs(G, y) if G != 0 else {}
+    out = {}
+    for kk in range(kmax + 1):
+        e = sym_V(kk)
+        e -= sum(R2[a] * q**a * sym_V(kk - 2 * de - a) for a in R2 if 0 <= kk - 2 * de - a)
+        e += sum(g[j] * q**j * t**(kk - 2 * de + 1 - j) for j in g if 0 <= kk - 2 * de + 1 - j)
+        out[kk] = sp.expand(e)
+    return out, G, A, R
 
 
 def direct_blocks(m, k=2):
