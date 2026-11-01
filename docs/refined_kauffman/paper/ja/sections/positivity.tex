@@ -129,6 +129,17 @@ $E$ は対応する $\tilde I$ のトレースである。$T(2,3)$〜$T(2,15)$ �
 \begin{compresult}\label{cr:t34}
 $n = 1$ の原理のうち、下の系列 $\mathrm{Sym}^kV$、移り目で完全平方を引く構造、$K = rs - 3$、条件 (i)(ii) を満たす $E$ の存在は、2 本撚りでない $T(3,4)$（$\gamma = \tau_+\tau_-^3$、$K = 9$）でも成り立つ。しかし移り目の平方の因子は $\tilde S = (1+qt)(1+t+t^2+qt^2+q^2t^2)$（10 状態）で $T(3,4)$ の簡約 superpolynomial（11 状態）ではなく、上の系列は $-t^{K-2j}[\mathrm{Sym}^jV + (q-t)R_j]$ の形にならない（$j = 0$ で $-t^8(q+t)$）。下の系列を固定した整数計画は (i)+(ii) で解をもつが一意でない（111 単項式中 29 が不定）。移り目の $S\otimes S$ と補正 $F_{j'}$・$X_{j'}$ の構造は 2 本撚りのトーラス結び目に固有である。
 \end{compresult}
+% [P26]
+\begin{proposition}\label{prop:rows}
+$x = \nu^{-2}$ とし、$[1]$ の鏡像の $a$ の行を $R_1 = q^{-\delta/2}t^{-\delta/2}x^\delta R(x)$、$R(y) = \sum_j \rho_j y^j$、随伴 (composite $(1;1)$) の行を $R_{\mathrm{adj}} = q^{-2\delta}x^{2\delta}A(x)$、$A(y) = \sum_j \alpha_j y^j$ と書く。$n = 1$ の固定セクター $N = \sum_k n_k x^k$ は
+\[
+\sum_k n_k x^k = \frac{1 - x^{2\delta}R(qx)^2}{(1-x)(1-tx)(1-qtx)} + \frac{x^{2\delta-1}G(qx)}{1-tx},\qquad A = R^2 + (q-1)(t-1)G
+\]
+を満たし、$N$ が Laurent であることと $G$ が Laurent であることは同値である。
+\end{proposition}
+\begin{compresult}\label{cr:rows}
+$T(2,3)$〜$T(2,15)$、$T(3,4)$、$T(3,5)$ で $g_0 = 0$、$g_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ が成り立ち、したがって移り目は $n_{2\delta} = \mathrm{Sym}^{2\delta}V - (\rho_0 - \rho_1)^2$ である。平方の因子は常に $[1]$ の最上 2 行 $\rho_0 - \rho_1$ であり、2 本撚りではこれが簡約 superpolynomial に一致し（行が 2 つ）、$T(3,4)$ の $\tilde S$ は 3 行目 $t^3$ を切り捨てたものである。$T(3,5)$（$\gamma = \tau_+\tau_-\tau_+\tau_-$、$\delta = 4$、$K = 12$）では 14 状態の $\tilde S$ を予言として的中させた。最深ブロックは $n_K = -t^{K-s+2}h_{s-2}(q,t)$（$s = 2, 3$）である。
+\end{compresult}
 % [P21]
 \begin{proposition}\label{prop:pairblind}
 $(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) に現れない（$t = q$ で消える）。したがって補正の符号は (i) だけからは決まらず（$n = 1$ の $j' = 2$ で 15 中 2 個、$n = 2$ の $\lambda = (2)$ で 17 中 3 個）、予想 \ref{conj:correctionI} のような状態の空間の構造が要る。

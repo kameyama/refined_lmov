@@ -104,4 +104,4 @@ def main(m, k=2):
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]), next((int(a[4:]) for a in sys.argv[2:] if a.startswith("--k=")), 2))
+    main(int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1], next((int(a[4:]) for a in sys.argv[2:] if a.startswith("--k=")), 2))

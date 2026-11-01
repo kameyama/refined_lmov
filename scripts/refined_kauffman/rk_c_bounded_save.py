@@ -109,7 +109,7 @@ def run_adj(m, Nmax_used=None, k=2):
 
 
 if __name__ == "__main__":
-    m = int(sys.argv[1])
+    m = int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1]          # 文字列は GAMMA_WORDS の語（例 T3_5、続き 103）
     Nmax_used = None
     lams = []; adj = False; k = 2
     for a in sys.argv[2:]:

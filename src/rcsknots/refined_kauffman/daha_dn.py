@@ -211,6 +211,14 @@ class DN:
         return tuple(1 if j == i else 0 for j in range(self.N))
 
     def gamma_X(self, i, m, k):
+        """γ̂(X_{ε_{i+1}})：γ = τ_+^m τ_−^k（m が文字列なら GAMMA_WORDS の語、続き 103）。i は 0 始まり。"""
+        e1 = self.e(0)
+        w = gamma_subst(gamma_factors(m, k), [("X", e1, 1)], e1)
+        for j in range(i):                     # X_{ε_{j+2}} = T_{j+1} X_{ε_{j+1}} T_{j+1}
+            w = [("T", j, 1)] + w + [("T", j, 1)]
+        return w
+
+    def gamma_X_old(self, i, m, k):
         """γ̂(X_{ε_{i+1}})、γ = τ_+^m τ_−^k：τ_−^k(X_{ε_1}) = q^{k/2} Y^k X、τ_+^m(Y) = q^{−m/2} X^m Y。i は 0 始まり。"""
         e1 = self.e(0)
         w = [("c", R**k)]
@@ -285,6 +293,82 @@ def macdonald_op(D, f):
         _add(out, Yi(f, False))
         _add(out, Yi(f, True))
     return out
+
+
+# ---- γ ∈ PSL(2, Z) の τ_± の語（続き 103） ----
+# γ = τ_+^m τ_−^k は T(mk+1, k)。それ以外の結び目は名前で指定する：GAMMA_WORDS[name] = [(+1, a_1), (−1, b_1), …]（左から順に掛けた τ_+^{a_1} τ_−^{b_1} …）。
+# T(r, s) は γ の第 1 列 (r, s)（τ_+ = [[1,1],[0,1]]、τ_− = [[1,0],[1,1]]）。
+GAMMA_WORDS = {
+    "T3_5": [(1, 1), (-1, 1), (1, 1), (-1, 1)],      # τ_+ τ_− τ_+ τ_− = [[5,3],[3,2]]：T(5,3) = T(3,5)
+}
+
+
+def gamma_factors(m, k=2):
+    """γ の因子 [(±1, 冪), …]。m が文字列なら GAMMA_WORDS。"""
+    if isinstance(m, str):
+        return list(GAMMA_WORDS[m])
+    return [(1, m), (-1, k)]
+
+
+def gamma_first_column(factors):
+    """γ の第 1 列 (r, s)。"""
+    a, b, c, d = 1, 0, 0, 1
+    for sg, e in factors:
+        if sg > 0:
+            a, b, c, d = a, a * e + b, c, c * e + d          # × τ_+^e = [[1,e],[0,1]]
+        else:
+            a, b, c, d = a + b * e, b, c + d * e, d          # × τ_−^e = [[1,0],[e,1]]
+    return a, c
+
+
+def _inv_word(word):
+    out = []
+    for op in reversed(word):
+        kind = op[0]
+        if kind == "c":
+            out.append(("c", 1 / op[1]))
+        elif kind == "X":
+            out.append(("X", op[1], -op[2]))
+        elif kind == "T":
+            out.append(("T", op[1], -op[2]))
+        elif kind == "Y":
+            out.append(("Y", -op[1]))
+    return out
+
+
+def gamma_subst(factors, word, e1):
+    """γ̂(word)：τ_+^a は Y ↦ q^{−a/2} X^a Y、τ_−^b は X ↦ q^{b/2} Y^b X（X, Y は ε_1 のもの）。
+    γ = g_1 g_2 … g_n は ĝ_1(ĝ_2(…ĝ_n(word)))。"""
+    for sg, e in reversed(factors):
+        if e == 0:
+            continue
+        if sg > 0:
+            blk = [("c", R**(-e)), ("X", e1, e), ("Y", 1)]
+            out = []
+            for op in word:
+                if op[0] == "Y":
+                    out += (blk if op[1] > 0 else _inv_word(blk)) * abs(op[1])
+                else:
+                    out.append(op)
+        else:
+            blk = [("c", R**e)] + [("Y", 1)] * e + [("X", e1, 1)]
+            out = []
+            for op in word:
+                if op[0] == "X":
+                    assert op[1] == e1, op
+                    out += (blk if op[2] > 0 else _inv_word(blk)) * abs(op[2])
+                else:
+                    out.append(op)
+        word = out
+    # 定数を先頭にまとめる
+    c = ONE
+    rest = []
+    for op in word:
+        if op[0] == "c":
+            c = c * op[1]
+        else:
+            rest.append(op)
+    return [("c", c)] + rest
 
 
 def gamma_K(D, lam, m, k, store="data/refined_kauffman/koornwinder_DN"):

@@ -12,10 +12,12 @@ from rcsknots.refined_kauffman.daha_fast import Fast, daha_jones_fast, _with_rho
 OUT = "data/refined_kauffman/daha"
 
 if __name__ == "__main__":
-    m, Nmin, Nmax = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+    m = int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1]            # 文字列は GAMMA_WORDS の語（例 T3_5、続き 103）
+    Nmin, Nmax = int(sys.argv[2]), int(sys.argv[3])
     k = next((int(a[4:]) for a in sys.argv[4:] if a.startswith("--k=")), 2)
     lams = [tuple(int(c) for c in a) for a in sys.argv[4:] if not a.startswith("--")]
-    tag = f"m{m}" if k == 2 else f"m{m}k{k}"
+    sys.path.insert(0, "scripts/refined_kauffman"); import rk_torus_tag as TG
+    tag = TG.tag(m, k)
     for N in range(Nmin, Nmax + 1):
         F = None
         for lam in lams:

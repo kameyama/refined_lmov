@@ -12,10 +12,12 @@ rr, ss = sp.symbols("r s", positive=True)
 OUT = "data/refined_kauffman/daha"
 
 if __name__ == "__main__":
-    m, Nmin, Nmax = map(int, sys.argv[1:4])
+    m = int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1]            # 文字列は GAMMA_WORDS の語（例 T3_5、続き 103）
+    Nmin, Nmax = int(sys.argv[2]), int(sys.argv[3])
     k = next((int(a[4:]) for a in sys.argv[4:] if a.startswith("--k=")), 2)      # γ = τ_+^m τ_−^k、T(mk+1, k)。k ≠ 2 は Wadj_N{N}_m{m}k{k}.pkl（続き 102）
-    tag = f"m{m}" if k == 2 else f"m{m}k{k}"
-    rs = (m * k + 1) * k                                       # T(r, s) の r·s（k = 2 では 2n、n = 2m + 1）
+    sys.path.insert(0, "scripts/refined_kauffman"); import rk_torus_tag as TG
+    tag = TG.tag(m, k)
+    rs = TG.rs(m, k)                                           # T(r, s) の r·s（k = 2 では 2n、n = 2m + 1）
     for N in range(Nmin, Nmax + 1):
         path = os.path.join(OUT, f"Wadj_N{N}_{tag}.pkl")
         if os.path.exists(path):
