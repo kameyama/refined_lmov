@@ -1643,30 +1643,32 @@ def n1_choice(m=2, use=("i", "ii"), opts=("0", "q", "t", "qt"), fix_lower=True):
     return res
 
 
-def n1_upper(m=2, use=("i", "ii")):
-    """下の系列（k < 2m と k = 2m の正の部分）に q の規則、残りは単項式ごとに一般の e として、入れ替わる対が最小の解を求め、
-    上のブロック（k ≥ 2m）の e を表示する（e/c の符号と (−1)^q, (−1)^t の比較、e の範囲）。"""
-    N, allc = _knot_N(m)
+def n1_upper(m=2, use=("i", "ii"), k=2, kt=None):
+    """下の系列（k < kt と k = kt の正の部分。kt の既定は移り目 2m）に q の規則、残りは単項式ごとに一般の e として、入れ替わる対が最小の解を求め、
+    上のブロック（k ≥ kt）の e を表示する（e/c の符号と (−1)^q, (−1)^t の比較、e の範囲）。k ≠ 2 は T(mk+1, k)（続き 102、T(3,4) は kt = 6）。"""
+    N, allc = _knot_N(m, k)
+    kt = 2 * m if kt is None else kt
     mult = TM.monomials(N)
     pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
-    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
-    kk = lambda k: (-k[-1] - 6) // 2
-    qe = lambda k: (k[1] + 4 + 2 * kk(k)) // 2
-    te = lambda k: k[2] // 2
-    lower = lambda k: kk(k) < 2 * m or (kk(k) == 2 * m and mult[k] > 0)
-    grp = lambda k: (kk(k), int(np.sign(float(mult[k])))) if lower(k) else ("m",) + k
-    d = lambda k: qe(k) if lower(k) else 0
-    up = [k for k in keys if not lower(k)]
+    keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k_: (-k_[-1] - 6) // 2
+    qe = lambda k_: (k_[1] + 4 + 2 * kk(k_)) // 2
+    te = lambda k_: k_[2] // 2
+    lower = lambda k_: kk(k_) < kt or (kk(k_) == kt and mult[k_] > 0)
+    grp = lambda k_: (kk(k_), int(np.sign(float(mult[k_])))) if lower(k_) else ("m",) + k_
+    d = lambda k_: qe(k_) if lower(k_) else 0
+    up = [k_ for k_ in keys if not lower(k_)]
     res = rule_milp(keys, mult, A, b, grp, d, uniq=True)
-    tag = f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}、下は q の規則、上は一般"
+    import rk_torus_tag as TG
+    tag = f"{TG.knot_name(m, k).replace('_', ',').replace('T', 'T(')}) 条件 {'+'.join(use)}、下（k < {kt} と k = {kt} の正の部分）は q の規則、上は一般"
     if res is None:
         print(f"{tag}：解なし", flush=True); return None
     rng = rule_milp(keys, mult, A, b, grp, d, ranges=up)
     print(f"{tag}：対の最小 {res['min_pairs']}、e が一意でない単項式 {res['nfree']}/{len(keys)}。上のブロックの e（k, q, t, c, e, e の範囲, sign(e/c)(−1)^q, sign(e/c)(−1)^t）：", flush=True)
-    for k in sorted(up, key=lambda k: (kk(k), qe(k), te(k))):
-        e = res["e"][k]; c = int(mult[k])
+    for k_ in sorted(up, key=lambda k_: (kk(k_), qe(k_), te(k_))):
+        e = res["e"][k_]; c = int(mult[k_])
         sg = int(np.sign(e * c)) if e else 0
-        print(f"   k={kk(k)} q^{qe(k)} t^{te(k)}：c={c:+d} e={e:+d} 範囲{rng[k]} σq={sg * (-1)**qe(k):+d} σt={sg * (-1)**te(k):+d}", flush=True)
+        print(f"   k={kk(k_)} q^{qe(k_)} t^{te(k_)}：c={c:+d} e={e:+d} 範囲{rng[k_]} σq={sg * (-1)**qe(k_):+d} σt={sg * (-1)**te(k_):+d}", flush=True)
     return res
 
 
@@ -2082,10 +2084,12 @@ if __name__ == "__main__":
         for m_ in ms or (1, 2):
             for use in (("i",), ("i", "ii")):
                 n1_choice(m_, use, fix_lower="--free" not in sys.argv)
-    elif sys.argv[1] == "n1upper":          # 下は q の規則、上は一般の e：対が最小の解の上のブロックの e（m を指定）
+    elif sys.argv[1] == "n1upper":          # 下は q の規則、上は一般の e：対が最小の解の上のブロックの e（m を指定。--k=K --kt=KT で T(mk+1,k)、続き 102）
+        k_ = next((int(a[4:]) for a in sys.argv if a.startswith("--k=")), 2)
+        kt_ = next((int(a[5:]) for a in sys.argv if a.startswith("--kt=")), None)
         for m_ in ms or (2,):
             for use in (("i",), ("i", "ii")):
-                n1_upper(m_, use)
+                n1_upper(m_, use, k_, kt_)
     elif sys.argv[1] == "n1freeset":        # 一意でない単項式の値の組み合わせのうち実現できるもの（m を指定）
         for m_ in ms or (3,):
             n1_free_set(m_)
