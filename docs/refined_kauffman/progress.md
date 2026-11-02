@@ -1771,3 +1771,9 @@
 - 指示「refined 版へ進め」。素朴な refined composite Rosso–Jones（Macdonald の Adams 係数 × T^{s/r} × refined composite 次元）を flint で作り DAHA の随伴と比較（scripts/refined_kauffman/rk_t1_refined_rj.py）。image 側の規約を変えても不一致で、基本表現の側で既に被覆データと合わない。これは conventions.md §6 の確定事項（素朴な refined プレシズムは不成立、正しくは GN の楕円 Hall 代数）の再確認（theory §12.38）。
 - 結論：refined の導出には composite（X と X^{−1}）への楕円 Hall 代数の作用が要り、現在の実装に無い。§12.33 の refined の関係は unrefined の導出（§12.37）＋ 14 結び目の計算で支えられた予想として据え置く。
 - 途中の失敗：sympy の sqrt を含む有理関数の約分が遅く 10 分で終わらなかった → q = r², t = s², A = (u/s)² の flint の有理関数に切り替えた。サンドボックス外では $TMPDIR が異なり一時スクリプトが見つからなかった。
+
+## 2026-11-02（続き 109）n = 2 に戻る：2 行の切り捨てと因子化による分解（否定的・部分的）
+- 指示「n = 2 に戻る」。n = 1 の母関数と composite の因子化を trefoil の n = 2 に当てた（theory §12.39）。
+- 結果：(1) ν^{−12} の平方の因子 Y = (1+q)(1+t)(1+qt) は 2 箱の行 ρ₀ + cρ₁ では出ない（否定的）。(2) N_λ·D₂ は簡潔にならない。(3) x セクターを RR（行の積）・G（連結部分）・c1・c0・low に分けても各項は非 Laurent（scripts/refined_kauffman/rk_f_n2_factor_parts.py、data/refined_kauffman/daha/n2_factor_parts_m1.pkl）。
+- 途中の失敗：sympy の約分でブロックを取ると 20 分以上終わらない → rk_f_n2_rterms の flint の級数展開に切り替えた。
+- 次の案：n = 2 版の行の母関数の導出（行を記号にして核を明示）。数時間規模。
