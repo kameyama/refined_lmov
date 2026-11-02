@@ -1758,3 +1758,10 @@
 - 追記（12:55）：tests/refined_kauffman の全件 135 件通過（12 分 34 秒、results 印 12 件は除外）。14 時までの自律作業はここで区切る。
 - push（2026-11-02 13:05 ごろ）：ユーザーの許可「push を許可」を受け、続き 106 と記録の 4 commit（87d5c12〜8897561）を PR #12 のブランチに push した。
 - PR の更新（2026-11-02 13:10 ごろ）：ユーザーの許可「追記を許可」を受け、PR #12 の説明に続き 106 の節を追記し、題名を続き 65〜106 に直した（gh pr edit）。
+
+## 2026-11-02（続き 107）T1：unrefined の随伴の Rosso–Jones 型の公式から α₀ = ρ₀²・(q−1)(t−1)・最深行の由来を読む
+- 指示（13:30 ごろ）「T1 へ進め」。composite の指標 s_{[1;1]} = s₁s̄₁ − 1 に Adams 作用 ψ^r を当て、Littlewood–Koike の公式で composite [α;β] に分け、U(N) = SU(N) × U(1) の Casimir（κ + N|D|/2 − |D|²/(2N) + n²/(2N)）で枠の固有値を、kauffman_refined.dim_composite の t = q で次元を与える大きな N の Rosso–Jones を実装（scripts/refined_kauffman/rk_t1_composite_rj.py）。
+- 結果【計算】：T(2,3)・T(2,5)・T(3,4) で DAHA の R_adj|_{t=q} の全行に一致。中間の κ の項（|κ| = 1, 2）は消え、ψ^r(s_{[1;1]}) = Σ_{フックの対} εε s_{[μ;ν]} + (r − 1)。θ はフックの対で加法的（θ_{[1;1]} = θ₁²）。
+- 導出（t = q）【導出】：W_adj − W₁W₁̄ = θ^{−rs}[Σ εε θθ dim_μdim_ν(dim[μ;ν]/(dim_μdim_ν) − 1) + (r − 1)]、比 − 1 = −(q−1)²[r]_q² a q^e/(aq^c − 1)²（refined では [1;1] で −A(q−1)(t−1)/((A−1)(Aq−t))）。ゆえに最上行の因子化（g₀ = 0）、連結部分の (q−1)²（refined の (q−1)(t−1)）、最深行 (r − 1)(q−1)² が出る（theory §12.37）。g₁ は次元の補正の先頭 −[r]²X² と reduced 化の補正 ρ₀² の差。
+- テスト：tests/refined_kauffman/test_rk_t1_composite_rj.py（2 件）。
+- 未解決：refined 版（Macdonald の Adams 係数と refined composite 次元で同じ形が DAHA を再現するか、自明表現の係数 h_{s−2}(q,t) の確認）、κ の項が消える恒等式の証明、S̃(t=q) の [r]X 型の表示（t1_stilde_tq.log）。

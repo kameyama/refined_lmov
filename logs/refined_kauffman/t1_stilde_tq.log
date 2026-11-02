@@ -1,0 +1,27 @@
+== T(2,3)：S̃(t=q) = q**2 + q + 1、ρ₀(t=q) = q**2 + 1
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 231, in _parallel_dict_from_expr_if_gens
+    monom[indices[base]] = exp
+          ~~~~~~~^^^^^^
+KeyError: sqrt(q)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 34, in <module>
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 190, in __new__
+    return cls._from_expr(rep, opt)
+           ~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 319, in _from_expr
+    rep, opt = _dict_from_expr(rep, opt)
+               ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 388, in _dict_from_expr
+    rep, gens = _dict_from_expr_if_gens(expr, opt)
+                ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 327, in _dict_from_expr_if_gens
+    (poly,), gens = _parallel_dict_from_expr_if_gens((expr,), opt)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 236, in _parallel_dict_from_expr_if_gens
+    raise PolynomialError("%s contains an element of "
+                          "the set of generators." % factor)
+sympy.polys.polyerrors.PolynomialError: q**(7/2) contains an element of the set of generators.
