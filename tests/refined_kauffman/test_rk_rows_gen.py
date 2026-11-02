@@ -27,7 +27,7 @@ def test_trefoil_blocks_from_rows_match_direct():
 
 
 def test_g_relations_and_transition():
-    for m, k in ((1, 2), (2, 2), (1, 3), (2, 3), (1, 4), ("T3_5", 2), ("T3_8", 2), ("T3_10", 2)):   # T(2,3)・T(2,5)・T(3,4)・T(3,7)・T(4,5)・T(3,5)・T(3,8)・T(3,10)
+    for m, k in ((1, 2), (2, 2), (1, 3), (2, 3), (1, 4), ("T3_5", 2), ("T3_8", 2), ("T3_10", 2), ("T4_7", 2)):   # T(2,3)・T(2,5)・T(3,4)・T(3,7)・T(4,5)・T(3,5)・T(3,8)・T(3,10)・T(4,7)
         nk, G, A, R = RG.blocks_from_rows(m, k, kmax=2 * TG.delta(m, k))
         rho = _rho(R)
         assert sp.expand(G.coeff(y, 0)) == 0
