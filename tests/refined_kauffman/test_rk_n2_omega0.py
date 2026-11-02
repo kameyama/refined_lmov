@@ -18,3 +18,14 @@ def test_second_level_is_Yhat():
         ser = O.top(Om[lab], 8)
         assert sp.cancel(ser[4] - fac * G.Y_LAM[lab]) == 0
         assert sp.cancel(ser[2] - fac * lvl2) == 0
+
+
+def test_correction_11_is_level2_square():
+    """λ = (1,1) の ν^{−12} の補正 (q−t)(t/q⁴)a₂² = (q−t)(t/q²)Ω′₂²（§12.50）。"""
+    RS.SYMS = [sp.Symbol("_dummy")]; RS.ZERO = RS.P(0)
+    Om, f, Zp = O.omega0()
+    val = RS.actual_rows()
+    ser = O.top(Om["11"], 8)
+    fac = -r * s**2 / (t - 1)
+    Om2 = sp.cancel(ser[2] / fac)
+    assert sp.cancel(t / q**4 * val[RS.a2]**2 - t / q**2 * Om2**2) == 0
