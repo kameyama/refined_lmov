@@ -1766,3 +1766,8 @@
 - テスト：tests/refined_kauffman/test_rk_t1_composite_rj.py（2 件）。
 - 未解決：refined 版（Macdonald の Adams 係数と refined composite 次元で同じ形が DAHA を再現するか、自明表現の係数 h_{s−2}(q,t) の確認）、κ の項が消える恒等式の証明、S̃(t=q) の [r]X 型の表示（t1_stilde_tq.log）。
 - 追記（13:40）：t = q で ρ₀ = (q−1)q^{…}Σ_μ ε_μθ_μ^{s/r}top(dim_μ)（全例）、S̃ = (q−1)[2]_q q^{m−1}Σ_μ ε_μθ_μ^{s/r}top(dim_μ)q^{−κ_μ/2}（2 本撚り 3 例。3 本撚りでは不成立）。g₁ の t = q の由来（次元の補正の先頭と reduced 化の補正の差）は 2 本撚りで形がつき、3 本撚りは未了。commit 49a00a5 以降の作業も commit。
+
+## 2026-11-02（続き 108）T1 の refined 版（否定的）
+- 指示「refined 版へ進め」。素朴な refined composite Rosso–Jones（Macdonald の Adams 係数 × T^{s/r} × refined composite 次元）を flint で作り DAHA の随伴と比較（scripts/refined_kauffman/rk_t1_refined_rj.py）。image 側の規約を変えても不一致で、基本表現の側で既に被覆データと合わない。これは conventions.md §6 の確定事項（素朴な refined プレシズムは不成立、正しくは GN の楕円 Hall 代数）の再確認（theory §12.38）。
+- 結論：refined の導出には composite（X と X^{−1}）への楕円 Hall 代数の作用が要り、現在の実装に無い。§12.33 の refined の関係は unrefined の導出（§12.37）＋ 14 結び目の計算で支えられた予想として据え置く。
+- 途中の失敗：sympy の sqrt を含む有理関数の約分が遅く 10 分で終わらなかった → q = r², t = s², A = (u/s)² の flint の有理関数に切り替えた。サンドボックス外では $TMPDIR が異なり一時スクリプトが見つからなかった。
