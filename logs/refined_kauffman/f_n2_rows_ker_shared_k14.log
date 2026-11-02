@@ -1,0 +1,4 @@
+  核と対の値：17 秒（shared = True）
+  log Z：205 秒
+  N_λ（Adams の項を除く）：603 秒
+保存：data/refined_kauffman/daha/n2_rows_ker_shared_m1_k14.pkl（609 秒）

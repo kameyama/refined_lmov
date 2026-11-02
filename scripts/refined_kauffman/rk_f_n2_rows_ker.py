@@ -15,7 +15,7 @@ OUT = "data/refined_kauffman/daha"
 LAMKEY = {(1,): "1", (2,): "2", (1, 1): "11"}
 
 
-def build_ker(kmax=14, verbose=True):
+def build_ker(kmax=14, verbose=True, shared=False):
     t0 = time.time()
     RS.KMAX = kmax
     qt1 = (q - 1) * (t - 1)
@@ -51,9 +51,33 @@ def build_ker(kmax=14, verbose=True):
     zq = r - 1 / r
     phi = {(1, 1): zq, (2,): r + 1 / r}
     IPhi_ = {(rho, side): mk(f"IPHI{''.join(map(str, rho))}", side, 1 / phi[rho]) for rho in rs for side in ("b", "i")}
+    # ---- 共有の核（κ、連結部分 C、c₁、c₀）：shared=True なら記号の級数（側 "s"）、False なら明示的な級数 ----
+    A = nu**2
+    qn = (nu - 1 / nu) / (s - 1 / s)
+    kappa_e = (1 - A) * (1 - q) / ((1 - t) * (1 - q * A / t))
+    shared_ser = {"kappa": rat_series(kappa_e), "C11": rat_series(sp.cancel((qn * qn - kappa_e - Psym((1,))**2) / qt1))}
+    for alpha in P2:
+        shared_ser[("C", alpha, (1,))] = rat_series(sp.cancel((dimc(alpha, (1,)) - Psym(alpha) * Psym((1,))) / qt1))
+    dec = {}
+    for alpha in P2:
+        for beta in P2:
+            key = (alpha, beta) if (alpha, beta) != ((1, 1), (2,)) else ((2,), (1, 1))
+            if key not in dec:
+                c1, c0, Kb = decomposition_flint(*key)
+                dec[key] = (c1, c0)
+                shared_ser[("C",) + key] = rat_series(sp.cancel((Kb - Psym(alpha) * Psym(beta)) / qt1))
+                shared_ser[("c1",) + key] = rat_series(c1); shared_ser[("c0",) + key] = rat_series(c0)
+    def sname(key):
+        return key if isinstance(key, str) else "_".join(str(x) for x in key).replace("(", "").replace(")", "").replace(",", "").replace(" ", "")
+    Ssym = {}
+    if shared:
+        for key, ser in shared_ser.items():
+            for k, c in ser.c.items():
+                Ssym[(key, k)] = mk(f"S{sname(key)}_{k}", "s", c.as_expr())
     RS.SYMS = list(sym.keys()) + [x for d in L.GS for x in d.values()]
     RS.ZERO = RS.P(0)
     P = RS.P
+    SH = {key: (Ser({k: P(Ssym[(key, k)]) for k in ser.c}) if shared else ser) for key, ser in shared_ser.items()}
     D = {(lam, side): Ser({k: P(Dsym[(lam, side, k)]) for k in Dser[lam].c}) for lam in Dser for side in ("b", "i")}
     def Rser(side, lam):
         rr = rows[side]
@@ -61,12 +85,8 @@ def build_ker(kmax=14, verbose=True):
     Gadj = Ser({j: P(v) for j, v in RS.gadj.items()})
     Gc = {(2,): Ser({j: P(v) for j, v in RS.g21.items()}), (1, 1): Ser({j: P(v) for j, v in RS.g111.items()})}
     Gb = {((2,), (2,)): Ser({j: P(v) for j, v in RS.g22.items()}), ((2,), (1, 1)): Ser({j: P(v) for j, v in RS.g211.items()}), ((1, 1), (1, 1)): Ser({j: P(v) for j, v in RS.g1111.items()})}
-    # ---- 共有の核 ----
-    A = nu**2
-    qn = (nu - 1 / nu) / (s - 1 / s)
-    kappa_e = (1 - A) * (1 - q) / ((1 - t) * (1 - q * A / t))
-    kappa = rat_series(kappa_e)
-    C11 = rat_series(sp.cancel((qn * qn - kappa_e - Psym((1,))**2) / qt1))
+    kappa = SH["kappa"]
+    C11 = SH["C11"]
     Kadj = D[((1,), "b")] * D[((1,), "i")] + C11 * qt1
     W = {(lam, side): Rser(side, lam) * D[(lam, side)] for lam in ((1,), (2,), (1, 1)) for side in ("b", "i")}
     Wadj = (Rser("b", (1,)) * Rser("i", (1,)) + Gadj * qt1) * Kadj
@@ -77,20 +97,18 @@ def build_ker(kmax=14, verbose=True):
     # composite の次元 = D_α^b D_β^i + (q−1)(t−1) C_{αβ}（C は共有の連結部分。d_α・c₁・c₀ は ν に依存するので共有の級数にする）
     conn = {}
     for alpha in P2:
-        dc = dimc(alpha, (1,))
-        C = rat_series(sp.cancel((dc - Psym(alpha) * Psym((1,))) / qt1))
+        C = SH[("C", alpha, (1,))]
         conn[(alpha, (1,))] = C
         pair[(alpha, (1,))] = (Rser("b", alpha) * Rser("i", (1,)) + Gc[alpha] * qt1) * (D[(alpha, "b")] * D[((1,), "i")] + C * qt1) - C * Rser("b", (1,)) * qt1
         pair[((1,), alpha)] = (Rser("b", (1,)) * Rser("i", alpha) + Gc[alpha] * qt1) * (D[((1,), "b")] * D[(alpha, "i")] + C * qt1) - C * Rser("i", (1,)) * qt1
     for alpha in P2:
         for beta in P2:
             key = (alpha, beta) if (alpha, beta) != ((1, 1), (2,)) else ((2,), (1, 1))
-            c1, c0, Kb = decomposition_flint(*key)
-            C = rat_series(sp.cancel((Kb - Psym(alpha) * Psym(beta)) / qt1))
+            C = SH[("C",) + key]
             conn[key] = C
-            pair[(alpha, beta)] = (Rser("b", alpha) * Rser("i", beta) + Gb[key] * qt1) * (D[(alpha, "b")] * D[(beta, "i")] + C * qt1) + Wadj * rat_series(c1) + rat_series(c0)
+            pair[(alpha, beta)] = (Rser("b", alpha) * Rser("i", beta) + Gb[key] * qt1) * (D[(alpha, "b")] * D[(beta, "i")] + C * qt1) + Wadj * SH[("c1",) + key] + SH[("c0",) + key]
     if verbose:
-        print(f"  核と対の値：{time.time() - t0:.0f} 秒；連結部分 C の級数の最上の係数 = { {k: sp.factor(min(v.c.items())[1].as_expr()) for k, v in conn.items()} }", flush=True)
+        print(f"  核と対の値：{time.time() - t0:.0f} 秒（shared = {shared}）", flush=True)
     # ---- Z と log（Macdonald→Schur の係数も片側の記号） ----
     T_ = lambda lam: tuple(sum(1 for x in lam if x > j) for j in range(lam[0])) if lam else ()
     Z = {}
@@ -194,8 +212,18 @@ def trace(N, sym, kmax):
 
 if __name__ == "__main__":
     kmax = int(sys.argv[1]) if len(sys.argv) > 1 else 14
+    shared = "--shared" in sys.argv
     t0 = time.time()
-    N, x11, adams_coef, inv_den, sym = build_ker(kmax)
+    N, x11, adams_coef, inv_den, sym = build_ker(kmax, shared=shared)
+    if shared:
+        out = {"N": {(lab, k): str(v.as_expr()) for lab in LAMS for k, v in N[lab].c.items()},
+               "x11": {k: str(v.as_expr()) for k, v in x11.c.items()}, "adams_coef": {lab: str(v) for lab, v in adams_coef.items()},
+               "inv_den": {k: str(v.as_expr()) for k, v in inv_den.c.items()}, "syms": {str(x): (side, name, str(v)) for x, (side, name, v) in sym.items()},
+               "order": [str(x) for x in RS.SYMS]}
+        f = f"{OUT}/n2_rows_ker_shared_m1_k{kmax}.pkl"
+        pickle.dump(out, open(f, "wb"))
+        print(f"保存：{f}（{time.time() - t0:.0f} 秒）", flush=True)
+        sys.exit(0)
     res = trace(N, sym, kmax)
     out = {"trace": {k: {kk: str(v) for kk, v in d.items()} for k, d in res.items()},
            "x11": {k: str(v.as_expr()) for k, v in x11.c.items()}, "adams_coef": {lab: str(v) for lab, v in adams_coef.items()},
