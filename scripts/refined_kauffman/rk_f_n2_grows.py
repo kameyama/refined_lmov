@@ -16,11 +16,11 @@ LOC = {str(x): x for x in SYMS}; LOC.update({"r": r, "s": s})
 _D = None
 
 
-def blocks():
-    """記号版のブロック {(λ, k): expr}、x11 {k: expr}、adams_coef {λ: expr}、inv_den {k: expr}。"""
+def blocks(path=None):
+    """記号版のブロック {(λ, k): expr}、x11 {k: expr}、adams_coef {λ: expr}、inv_den {k: expr}。path を与えると読み直す（k20 版など）。"""
     global _D
-    if _D is None:
-        d = pickle.load(open(PKL, "rb"))
+    if path is not None or _D is None:
+        d = pickle.load(open(path or PKL, "rb"))
         cv = lambda e: sp.sympify(e, locals=LOC)
         _D = {"N": {k: cv(v) for k, v in d["N"].items()}, "x11": {k: cv(v) for k, v in d["x11"].items()},
               "adams_coef": {k: cv(v) for k, v in d["adams_coef"].items()}, "inv_den": {k: cv(v) for k, v in d["inv_den"].items()}}
@@ -275,6 +275,91 @@ R_ = RF.coerce(0) + _rf(r)
 S_ = RF.coerce(0) + _rf(s)
 
 
+# ---- σ 共変性と λ = (2) の平方（続き 112、theory §12.42） ----
+def sigma_map():
+    """(2) の記号 → (1,1) の重み：b → q b、c → c/t、G_{αβ} → w_α w_β G（w_(2) = q、w_(1,1) = 1/t）。"""
+    sig = {}
+    for x in (b4, b6, b8):
+        sig[x] = q * x
+    for x in (c4, c6, c8):
+        sig[x] = x / t
+    for x in g21.values():
+        sig[x] = q * x
+    for x in g111.values():
+        sig[x] = x / t
+    for x in g22.values():
+        sig[x] = q**2 * x
+    for x in g211.values():
+        sig[x] = (q / t) * x
+    for x in g1111.values():
+        sig[x] = x / t**2
+    return sig
+
+
+def sigma_difference(k, D=None):
+    """N_(2)∘σ − N_(1,1) の ν^{−k} のブロック（Poly）。随伴セクター（a, gadj, 定数）の (q−t) 倍の項だけになるはず。"""
+    D = D or blocks()
+    N2 = sp.Poly(sp.expand(D["N"][("2", k)].subs(sigma_map(), simultaneous=True)), *SYMS, domain=RS.DOM)
+    N11 = sp.Poly(sp.expand(D["N"][("11", k)]), *SYMS, domain=RS.DOM)
+    return N2 - N11
+
+
+ADJ_SYMS = {a2, a4} | set(gadj.values())
+
+
+def split_sigma(lab, k, valrf, D=None):
+    """結び目の部分を K_k = −(s³/r)[W + C] に分ける。W = σ 共変な部分（X の 2 次形式・2 箱の行を含む G の項・a₂²gadj6・結び目の Adams）、
+    C = 随伴セクターだけの (q−t) の項（a₂², a₂a₄, a₄², gadj_j, …）。ν^{−12} では W = Y_λ² が完全平方（両 λ）。RF で返す。"""
+    D = D or blocks()
+    P = sp.Poly(sp.expand(D["N"][(lab, k)]), *SYMS, domain=RS.DOM)
+    W = RF.coerce(0); C = RF.coerce(0); const = RF.coerce(0)
+    for mon, c in P.terms():
+        e = sp.Poly.from_dict({mon: 1}, *SYMS).as_expr()
+        v = _rf(sp.sympify(c).as_expr() if hasattr(c, "as_expr") else c)
+        for sym, ex in zip(SYMS, mon):
+            if ex:
+                v = v * valrf[sym]**ex
+        fs = e.free_symbols
+        if e == 1:
+            const = const + v
+        elif (fs <= {a2, a4} and sp.total_degree(e) == 2) or e in gadj.values():   # a₂², a₂a₄, a₄², gadj_j：σ の差に現れる単項式
+            C = C + v
+        else:
+            W = W + v
+    zero = {kk: RF.coerce(0) for kk in valrf}
+    ad = adams_rf(lab, k, valrf); ad0 = adams_rf(lab, k, zero)
+    assert (const + ad0 - background_rf(lab, k)).is_zero()
+    W = W + (ad - ad0)
+    m = -(R_ / (S_ * S_ * S_))
+    return W * m, C * m          # K = −(s³/r)[W + C]
+
+
+Y_LAM = {"11": (1 + q) * (1 + t) * (1 + q * t) / q**3,
+         "2": ((1 + q) * (1 + t) * (1 + q * t)**2 + q * t * (q - t)) / q**4}
+
+
+def part_F(val):
+    print("== F：σ 共変性と λ ごとの平方 K₁₂ = −(s³/r)[Y_λ² + (q−t)C_λ]", flush=True)
+    import os
+    k20 = "data/refined_kauffman/daha/n2_rows_sym_m1_k20.pkl"
+    D = blocks(k20) if os.path.exists(k20) else blocks()
+    for k in sorted({kk for (_, kk) in D["N"]}):
+        if k < 10:
+            continue
+        Dk = sigma_difference(k, D)
+        bad = [sp.Poly.from_dict({mon: 1}, *SYMS).as_expr() for mon, _ in Dk.terms() if not (sp.Poly.from_dict({mon: 1}, *SYMS).as_expr().free_symbols <= ADJ_SYMS)]
+        allqt = all(sp.cancel((sp.sympify(c).as_expr() if hasattr(c, "as_expr") else c) / (q - t)).is_rational_function() and
+                    sp.fraction(sp.cancel((sp.sympify(c).as_expr() if hasattr(c, "as_expr") else c) / (q - t)))[1].is_polynomial(s) and (q - t) not in sp.factor_list(sp.fraction(sp.cancel((sp.sympify(c).as_expr() if hasattr(c, "as_expr") else c) / (q - t)))[1])[1] for _, c in Dk.terms()) if Dk.terms() else True
+        print(f"ν^-{k}：N_(2)∘σ − N_(1,1) は {len(Dk.terms())} 単項式、随伴セクター以外の記号を含むもの {bad}、全係数が (q−t) で割れる {allqt}", flush=True)
+    valrf = rows_rf(val)
+    for lab in LAMS:
+        W, C = split_sigma(lab, 12, valrf, D)
+        We = to_sym(W); Ce = to_sym(C)
+        Y = Y_LAM[lab]
+        print(f"λ = {lab}：W = {sp.factor(We)}；W − Y_λ² = {sp.cancel(We - Y**2)}", flush=True)
+        print(f"   C_λ = {sp.factor(Ce)}；C/(q−t) = {sp.factor(sp.cancel(Ce / (q - t)))}", flush=True)
+
+
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     val = RS.actual_rows()
@@ -289,5 +374,7 @@ if __name__ == "__main__":
         part_D(val, outA)
     if what in ("E", "all"):
         part_E(val)
+    if what in ("F", "all"):
+        part_F(val)
 
 

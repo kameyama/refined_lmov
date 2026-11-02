@@ -55,3 +55,30 @@ def test_nu12_knot_part_11_square_completion():
     # 記号ブロックの a₂² の項の係数は −(s³/r)(q−t)t/q⁴
     c = _coeff(_poly("11", 12), a2**2)
     assert sp.cancel(c + (s**3 / r) * (q - t) * t / q**4) == 0
+
+
+def test_sigma_covariance_nu12():
+    """N_(2)∘σ − N_(1,1)（σ：2 箱の行と G の重みの付け替え）は ν^{−12} で随伴セクターの単項式（a₂², a₂a₄, gadj6, 定数）だけで、全係数が (q−t) で割れる。"""
+    Dk = G.sigma_difference(12)
+    mons = {sp.Poly.from_dict({mon: 1}, *SYMS).as_expr() for mon, _ in Dk.terms()}
+    assert mons == {a2**2, a2 * a4, G.gadj[6], sp.Integer(1)}
+    for _, c in Dk.terms():
+        cq = sp.cancel(_coeff_expr(c) / (q - t))
+        assert sp.fraction(cq)[1].is_polynomial(r, s) and sp.fraction(cq)[1].subs(s, r) != 0      # (q−t) を分母に残さない
+
+
+def _coeff_expr(c):
+    c = sp.sympify(c)
+    return c.as_expr() if hasattr(c, "as_expr") else c
+
+
+def test_nu12_lambda2_square_by_sigma_split():
+    """λ = (2) の ν^{−12}：σ 共変な部分 W が完全平方 Y_(2)²、Y_(2) = [(1+q)(1+t)(1+qt)² + qt(q−t)]/q⁴。補正 C は随伴セクターの (q−t) の項。"""
+    val = RS.actual_rows()
+    valrf = G.rows_rf(val)
+    for lab in ("2", "11"):
+        W, C = G.split_sigma(lab, 12, valrf)
+        assert sp.cancel(G.to_sym(W) - G.Y_LAM[lab]**2) == 0
+        K = G.to_sym(G.knot_rf(lab, 12, valrf))
+        assert sp.cancel(K + (s**3 / r) * (G.to_sym(W) + G.to_sym(C))) == 0
+        assert sp.cancel(G.to_sym(C) / (q - t)).is_polynomial(s)                                   # C ∝ (q−t)
