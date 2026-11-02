@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_n2_EG_adj.py", line 128, in <module>
+    part_A(1)
+    ~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_n2_EG_adj.py", line 55, in part_A
+    N, E, name = n1_blocks_E(m)
+                 ~~~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc/scripts/refined_kauffman/rk_f_n2_EG_adj.py", line 39, in n1_blocks_E
+    _, a, b, c = eval(key)
+                 ~~~~^^^^^
+TypeError: eval() arg 1 must be a string, bytes or code object
