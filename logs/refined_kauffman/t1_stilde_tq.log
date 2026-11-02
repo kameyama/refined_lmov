@@ -1,27 +1,35 @@
 == T(2,3)：S̃(t=q) = q**2 + q + 1、ρ₀(t=q) = q**2 + 1
+   候補のどれとも一致しない。X(重み 1) = (q**2 + 1)/(sqrt(q)*(q - 1)) 、X(q^{−κ/2}) = (q**2 + q + 1)/((q - 1)*(q + 1)) 、X(q^{−κ}) = sqrt(q)/(q - 1)
+   ρ₀ / X(重み 1) = sqrt(q)*(q - 1)
+== T(2,5)：S̃(t=q) = q**4 + q**3 + q**2 + q + 1、ρ₀(t=q) = (q**2 - q + 1)*(q**2 + q + 1)
+   候補のどれとも一致しない。X(重み 1) = (q**2 - q + 1)*(q**2 + q + 1)/(q**(3/2)*(q - 1)) 、X(q^{−κ/2}) = (q**4 + q**3 + q**2 + q + 1)/(q*(q - 1)*(q + 1)) 、X(q^{−κ}) = (q**2 + 1)/(sqrt(q)*(q - 1))
+   ρ₀ / X(重み 1) = q**(3/2)*(q - 1)
+== T(2,7)：S̃(t=q) = q**6 + q**5 + q**4 + q**3 + q**2 + q + 1、ρ₀(t=q) = (q**2 + 1)*(q**4 + 1)
+   候補のどれとも一致しない。X(重み 1) = (q**2 + 1)*(q**4 + 1)/(q**(5/2)*(q - 1)) 、X(q^{−κ/2}) = (q**6 + q**5 + q**4 + q**3 + q**2 + q + 1)/(q**2*(q - 1)*(q + 1)) 、X(q^{−κ}) = (q**2 - q + 1)*(q**2 + q + 1)/(q**(3/2)*(q - 1))
+   ρ₀ / X(重み 1) = q**(5/2)*(q - 1)
 Traceback (most recent call last):
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 231, in _parallel_dict_from_expr_if_gens
-    monom[indices[base]] = exp
-          ~~~~~~~^^^^^^
-KeyError: sqrt(q)
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "<stdin>", line 34, in <module>
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 190, in __new__
-    return cls._from_expr(rep, opt)
-           ~~~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 319, in _from_expr
-    rep, opt = _dict_from_expr(rep, opt)
-               ~~~~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 388, in _dict_from_expr
-    rep, gens = _dict_from_expr_if_gens(expr, opt)
-                ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 327, in _dict_from_expr_if_gens
-    (poly,), gens = _parallel_dict_from_expr_if_gens((expr,), opt)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
-  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 236, in _parallel_dict_from_expr_if_gens
-    raise PolynomialError("%s contains an element of "
-                          "the set of generators." % factor)
-sympy.polys.polyerrors.PolynomialError: q**(7/2) contains an element of the set of generators.
+  File "<stdin>", line 28, in <module>
+  File "<stdin>", line 14, in top_rat
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 7410, in cancel
+    c, (P, Q) = 1, F.cancel(G)
+                   ~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2325, in cancel
+    _, p, q = f.cofactors(g)
+              ~~~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2241, in cofactors
+    h, cff, cfg = f._gcd(g)
+                  ~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2274, in _gcd
+    return f._gcd_ZZ(g)
+           ~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2279, in _gcd_ZZ
+    return heugcd(f, g)
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 118, in heugcd
+    raise HeuristicGCDFailed('no luck')
+sympy.polys.polyerrors.HeuristicGCDFailed: no luck

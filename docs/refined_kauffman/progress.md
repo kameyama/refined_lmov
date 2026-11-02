@@ -1765,3 +1765,4 @@
 - 導出（t = q）【導出】：W_adj − W₁W₁̄ = θ^{−rs}[Σ εε θθ dim_μdim_ν(dim[μ;ν]/(dim_μdim_ν) − 1) + (r − 1)]、比 − 1 = −(q−1)²[r]_q² a q^e/(aq^c − 1)²（refined では [1;1] で −A(q−1)(t−1)/((A−1)(Aq−t))）。ゆえに最上行の因子化（g₀ = 0）、連結部分の (q−1)²（refined の (q−1)(t−1)）、最深行 (r − 1)(q−1)² が出る（theory §12.37）。g₁ は次元の補正の先頭 −[r]²X² と reduced 化の補正 ρ₀² の差。
 - テスト：tests/refined_kauffman/test_rk_t1_composite_rj.py（2 件）。
 - 未解決：refined 版（Macdonald の Adams 係数と refined composite 次元で同じ形が DAHA を再現するか、自明表現の係数 h_{s−2}(q,t) の確認）、κ の項が消える恒等式の証明、S̃(t=q) の [r]X 型の表示（t1_stilde_tq.log）。
+- 追記（13:40）：t = q で ρ₀ = (q−1)q^{…}Σ_μ ε_μθ_μ^{s/r}top(dim_μ)（全例）、S̃ = (q−1)[2]_q q^{m−1}Σ_μ ε_μθ_μ^{s/r}top(dim_μ)q^{−κ_μ/2}（2 本撚り 3 例。3 本撚りでは不成立）。g₁ の t = q の由来（次元の補正の先頭と reduced 化の補正の差）は 2 本撚りで形がつき、3 本撚りは未了。commit 49a00a5 以降の作業も commit。
