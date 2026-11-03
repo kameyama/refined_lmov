@@ -93,7 +93,7 @@ def main():
             print(f"   （{time.time() - t0:.0f} 秒）", flush=True)
 
 
-if __name__ == "__main__" and "--rank" not in sys.argv:
+if __name__ == "__main__" and "--rank" not in sys.argv and "--trace2" not in sys.argv:
     main()
 
 
@@ -155,3 +155,67 @@ def part_rank():
 
 if __name__ == "__main__" and "--rank" in sys.argv:
     part_rank()
+
+
+def trace2(N, syms, order, lab, K, with_G=False):
+    """入れ替えのトレース（§12.53）：Macdonald→冪和の係数 M と 1/φ は値として係数に入れ、行と次元の記号だけを brane/image の内容にする。
+    対角（内容が一致）の単項式の係数（共有の核・M・1/φ の値を含む）× ψ²(brane の値)。G を含む単項式は除く（with_G=True なら G の値を掛けて別に返す）。"""
+    from rcsknots.refined_kauffman.flint_rf3 import RF, from_sympy
+    poly = N[(lab, K)]
+    vals = {n: from_sympy(sp.sympify(v)) for n, (side, base, v) in syms.items()}
+    tr = RF.coerce(0); n_diag = n_off = n_G = 0; offv = RF.coerce(0)
+    for mon, c in poly.terms():
+        cb, ci, g, coef = [], [], False, from_sympy(sp.sympify(c).as_expr() if hasattr(c, "as_expr") else sp.sympify(c))
+        vb = RF.coerce(1)
+        for name, e in zip(order, mon):
+            if not e:
+                continue
+            if name not in syms:
+                g = True; break
+            side, base, v = syms[name]
+            if v == 1:
+                continue
+            if side == "s" or base.startswith("M") or base.startswith("IPHI"):
+                coef = coef * vals[name]**e
+            elif side == "b":
+                cb += [base] * e; vb = vb * vals[name]**e
+            else:
+                ci += [base] * e
+        if g:
+            n_G += 1; continue
+        if sorted(cb) == sorted(ci) and (cb or ci):
+            n_diag += 1; tr = tr + coef * vb.adams(2)
+        elif cb or ci:
+            n_off += 1
+    return tr.to_sympy(), (n_diag, n_off, n_G)
+
+
+def part_trace2():
+    t0 = time.time()
+    N, syms, order, gens = load()
+    print(f"読み込み {time.time() - t0:.0f} 秒", flush=True)
+    psi2 = lambda F: sp.expand(F.subs({r: r**2, s: s**2}, simultaneous=True))
+    Yh = {"11": (1 + q) * (1 + t) * (1 + q * t), "2": sp.expand((1 + q) * (1 + t) * (1 + q * t)**2 + q * t * (q - t))}
+    P = {"11": r**-13 * s**3, "2": r**-17 * s**3}
+    known = {"11": sp.expand(P["11"] * (psi2(Yh["11"]) + (q - t) * t * psi2(1 + q * t)))}
+    import rk_f_n2_EG_adj as EG, io, contextlib
+    with contextlib.redirect_stdout(io.StringIO()):
+        E12 = EG.part_C()
+    from rk_f_n2_E_Y2 import _k12_setup
+    _, _, EB2, _ = _k12_setup()
+    known["2"] = sp.expand(P["2"] * (E12 - EB2))
+    for lab in ("11", "2"):
+        for K in (10, 12, 14):
+            tr, n = trace2(N, syms, order, lab, K)
+            tr = tr.subs({sp.Symbol("r", positive=True): r, sp.Symbol("s", positive=True): s})
+            lau = len(sp.Poly(sp.fraction(sp.cancel(tr))[1], r, s).terms()) == 1
+            print(f"== λ = {lab}、ν^-{K}：対角 {n[0]}・非対角 {n[1]}・G {n[2]}；トレース = {sp.factor(tr)}"[:400], flush=True)
+            print(f"   Laurent：{lau}（{time.time() - t0:.0f} 秒）", flush=True)
+            if K == 12:
+                d = sp.cancel(known[lab] - tr)
+                print(f"   既知の結び目の E₁₂ − トレース = {sp.factor(d)}"[:400], flush=True)
+                print(f"   既知の E₁₂ の平方の部分 P·ψ²Ŷ との比較：トレース/(P ψ²Ŷ) = {sp.factor(sp.cancel(tr / (P[lab] * psi2(Yh[lab]))))}"[:300], flush=True)
+
+
+if __name__ == "__main__" and "--trace2" in sys.argv:
+    part_trace2()
