@@ -1921,3 +1921,4 @@
 - 結論：brane–brane セクターは、規格化の因子と鏡像・転置を除いて [KN17] の U(N_A) の refined LMOV 不変量そのものである【計算、trefoil と T(2,5) の |R| ≤ 2】。§8.2 の「KN の G 展開と正値性をそのまま満たす」は「KN の値に一致する」に強められた。
 - テスト：tests/refined_kauffman/test_rk_cover_kn.py（2 件、2.4 秒）。論文：§7.3 の brane–brane の項、§8.2、付録 E の冒頭に一致を追記。claims.md P3 を更新。
 - 未確認：3 箱（composite (2;1̄), (1,1;1̄) が要る brane–image 側が本論文に固有。brane–brane の 3 箱は KN の既知の結果に帰着）。
+- ユーザーの許可を得て 3c6e4c0 まで origin に push（PR #12）。SSH の push はサンドボックス内では ~/.ssh を読めず失敗するので、サンドボックス外で実行した。
