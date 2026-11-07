@@ -17,7 +17,7 @@ unknot では $f_{10} = (1 - t^N)(t^N + t)/(t^N(t-1))$、$f_{a0} = 0$（$a \ge 2
 \[
 f_{10} = -1 - \frac{\lambda - \lambda^{-1}}{t^{1/2} - t^{-1/2}}
 \]
-で、Mariño 型の unknot $(\lambda - \lambda^{-1})/z$ とクロスキャップの $-1$（Mariño の $g_{[1]} = 1$）の和である。積表示は $\prod_j (y_j^{\pm}; t)_\infty / (U y_j^{\pm}; t)_\infty$ で、$\tfrac12$ も $\sum_{d\ \mathrm{odd}}$ も要らない。
+で、Mariño 型の unknot $(\lambda - \lambda^{-1})/z$ とクロスキャップの $-1$（Mariño の $g_{\yone} = 1$）の和である。積表示は $\prod_j (y_j^{\pm}; t)_\infty / (U y_j^{\pm}; t)_\infty$ で、$\tfrac12$ も $\sum_{d\ \mathrm{odd}}$ も要らない。
 \end{proposition}
 \begin{proof}
 双対 Cauchy 核の期待値は $\prod_j\prod_{k=1}^{N} t^{-(N-k)}(1 - t^{N-k}y_j^{\pm})$ で、$\log$ をとればよい。
@@ -31,10 +31,10 @@ $a, b \le 4$ で次が成り立つ。
 \begin{enumerate}
 \item $f_{ab} \in \dfrac{1 - q}{1 - t}\,\mathbb{Z}[q^\pm, t^\pm, (t^N)^\pm]$。$(a, b)$ がともに偶数のときは分母が $1 - t^2$ になる。
 \item 成分 1 の probe を無限個にした Schur 基底の $f_{R,b}$（$|R| \le 4$、$b \le 2$）でも同じ整数性が成り立つ。素朴な Macdonald 基底では $(1 - qt)$ などの余分な分母が出る。
-\item $f_{11} = -f_{10}\, z_q(\tlam - \tlam^{-1})$、$f_{1b} = f_{11}\,\chi_{b-1}(t^{N-1})$（$\chi_m(x) = x^m + x^{m-2} + \dots + x^{-m}$）。$t = q$ では Mariño の $\hat g_{[1],[1]} = z(\lambda - \lambda^{-1})$ に、符号と unknot の因子を除いて一致する。
+\item $f_{11} = -f_{10}\, z_q(\tlam - \tlam^{-1})$、$f_{1b} = f_{11}\,\chi_{b-1}(t^{N-1})$（$\chi_m(x) = x^m + x^{m-2} + \dots + x^{-m}$）。$t = q$ では Mariño の $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ に、符号と unknot の因子を除いて一致する。
 \end{enumerate}
 \end{compresult}
-refined では、Kähler 変数が $\lambda \to \tlam = \lambda (q/t)^{1/2}$ とずれる。これは AM の Kähler 変数の量子シフト（§\ref{sec:index}）の開弦版である可能性がある（予想）。ただし閉弦とのずれの比は一致しておらず、結論は保留する（§\ref{sec:universal} の注意）。
+refined では、Kähler 変数が $\lambda \to \tlam = \lambda (q/t)^{1/2}$ とずれる。これは \cite{AM22} の Kähler 変数の量子シフト（§\ref{sec:index}）の開弦版である可能性がある（予想）。ただし閉弦とのずれの比は一致しておらず、結論は保留する（§\ref{sec:universal} の注意）。
 
 \subsection{クロスキャップ部分}
 被覆には、U$(N)$ の refined CS の composite 表現での Hopf 絡み目を使う。$\tfrac12 f^{\cov}_{10} = -(\lambda - \lambda^{-1})/z_t$、$\tfrac12 f^{\cov}_{11} = (\lambda - \lambda^{-1})(\tlam - \tlam^{-1})z_q/z_t$ である。
@@ -42,8 +42,8 @@ refined では、Kähler 変数が $\lambda \to \tlam = \lambda (q/t)^{1/2}$ と
 \begin{compresult}\label{cr:hopfg}
 \begin{enumerate}
 \item $g_{1b} = z_q(\tlam - \tlam^{-1})\,\chi_{b-1}(\tlam/q^{1/2})$（$b \le 4$）。$t$ は $\tlam$ を通してしか入らない。
-\item $\hat g_{R,[1]}$（$|R| \le 4$）は整数 Laurent である。hook $R = (n-d, 1^d)$ では $(-1)^d z_q(\tlam - \tlam^{-1})\tlam^{2d-n+1}$、hook でない $R$ では 0 になる。
-$t = q$ では Mariño の $\hat g_{[2],[1]} = z(\lambda^2 - 1)$, $\hat g_{[1,1],[1]} = z(\lambda^{-2} - 1)$ に、$R \leftrightarrow R^T$ と全体の符号 $-1$ で一致する。
+\item $\hat g_{R,\yone}$（$|R| \le 4$）は整数 Laurent である。hook $R = (n-d, 1^d)$ では $(-1)^d z_q(\tlam - \tlam^{-1})\tlam^{2d-n+1}$、hook でない $R$ では 0 になる。
+$t = q$ では Mariño の $\hat g_{\ytwo,\yone} = z(\lambda^2 - 1)$, $\hat g_{\yoneone,\yone} = z(\lambda^{-2} - 1)$ に、$R \leftrightarrow R^T$ と全体の符号 $-1$ で一致する。
 \end{enumerate}
 \end{compresult}
 

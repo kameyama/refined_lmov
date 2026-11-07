@@ -7,32 +7,32 @@
 \toprule
 \text{記号} & 意味 \\
 \midrule
-q,\ t & refined CS の変数（KN \cite{KN17} と同じ）。半整数冪 $q^{1/2}, t^{1/2}$ をそのまま書く \\
-\lambda = t^{N - 1/2} & Kauffman 変数（NRZ \cite{NRZ13} の $\lambda$、Mariño の $\nu$）。$N$ は D$_N$ のランクで、$t^N = \lambda t^{1/2}$。$t = q$ では NRZ の $\lambda = q_{\mathrm{NRZ}}^{2N-1}$（$q_{\mathrm{NRZ}} = q^{1/2}$）。大きな $N$ では形式変数 \\
+q,\ t & refined CS の変数（\cite{KN17} と同じ）。半整数冪 $q^{1/2}, t^{1/2}$ をそのまま書く \\
+\lambda = t^{N - 1/2} & Kauffman 変数（\cite{NRZ13} の $\lambda$、Mariño の $\nu$）。$N$ は D$_N$ のランクで、$t^N = \lambda t^{1/2}$。$t = q$ では \cite{NRZ13} の $\lambda = q_{\mathrm{NRZ}}^{2N-1}$（$q_{\mathrm{NRZ}} = q^{1/2}$）。大きな $N$ では形式変数 \\
 \tlam = \lambda\, \qr & ずれた Kauffman 変数（太字で $-\ba\bt$） \\
-a = \lambda^2 = t^{N_A},\ N_A = 2N - 1 & 被覆 U$(N_A)$ の Kähler 変数（KN の $a = t^{N_A}$） \\
-(\bq, \bt, \ba) = (t^{1/2}, -\qr, \lambda) & 太字の変数。$\bq, \bt$ は KN（$q^{1/2} = -\bq\bt$, $t^{1/2} = \bq$）、$\ba = \lambda$ は AgSc \cite{AgSc12}。KN の被覆の $\ba$ は $a = -\ba_{\mathrm{KN}}^2\bt$ で定まり、$\ba_{\mathrm{KN}} = \ba\,(t/q)^{1/4}$ \\
-\ql = (qt)^{1/2},\ \qr = (q/t)^{1/2} & KN の $q_\ell, q_r$（$q = \ql\qr$, $t = \ql/\qr$）。$V = \ql^{1/2}$, $W = \qr^{1/2}$ は使わない \\
+a = \lambda^2 = t^{N_A},\ N_A = 2N - 1 & 被覆 U$(N_A)$ の Kähler 変数（\cite{KN17} の $a = t^{N_A}$） \\
+(\bq, \bt, \ba) = (t^{1/2}, -\qr, \lambda) & 太字の変数。$\bq, \bt$ は \cite{KN17}（$q^{1/2} = -\bq\bt$, $t^{1/2} = \bq$）、$\ba = \lambda$ は \cite{AgSc12}。\cite{KN17} の被覆の $\ba$ は $a = -\ba_{\mathrm{KN}}^2\bt$ で定まり、$\ba_{\mathrm{KN}} = \ba\,(t/q)^{1/4}$ \\
+\ql = (qt)^{1/2},\ \qr = (q/t)^{1/2} & \cite{KN17} の $q_\ell, q_r$（$q = \ql\qr$, $t = \ql/\qr$）。$V = \ql^{1/2}$, $W = \qr^{1/2}$ は使わない \\
 z_q = q^{1/2} - q^{-1/2},\ z_t = t^{1/2} - t^{-1/2} & $z_q^+ = q^{1/2} + q^{-1/2}$ \\
-G = z_q z_t = \ql + \ql^{-1} - \qr - \qr^{-1} & $G$ 展開の変数。KN の $(\bq\bt - \bq^{-1}\bt^{-1})(\bq - \bq^{-1}) = -G$ \\
+G = z_q z_t = \ql + \ql^{-1} - \qr - \qr^{-1} & $G$ 展開の変数。\cite{KN17} の $(\bq\bt - \bq^{-1}\bt^{-1})(\bq - \bq^{-1}) = -G$ \\
 \sigma\colon q \mapsto t^{-1},\ t \mapsto q^{-1} & $\ql \mapsto \ql^{-1}$、$\qr$ と $\lambda$ を固定。$G$ は不変 \\
 \bottomrule
 \end{tabular}
 \end{center}
-unrefined（$t = q$）では、Mariño の変数は $t_M = q^{1/2}$、$z = z_q$、NRZ の Kauffman 多項式 $F_R(K; \lambda, q_{\mathrm{NRZ}})$ の $q_{\mathrm{NRZ}}$ も $q^{1/2}$ である。コードの内部変数 $(r, s, u, \nu)$ は $(q^{1/2}, t^{1/2}, t^N, \lambda)$ に当たる（付録 \ref{app:code}）。
+unrefined（$t = q$）では、Mariño の変数は $t_M = q^{1/2}$、$z = z_q$、\cite{NRZ13} の Kauffman 多項式 $F_R(K; \lambda, q_{\mathrm{NRZ}})$ の $q_{\mathrm{NRZ}}$ も $q^{1/2}$ である。コードの内部変数 $(r, s, u, \nu)$ は $(q^{1/2}, t^{1/2}, t^N, \lambda)$ に当たる（付録 \ref{app:code}）。
 
 \subsection{refined SO$(2N)$ の不変量}
-AgSc \cite{AgSc12} の SO$(2N)$ の refined Chern--Simons 理論では、表現 $R$ の Wilson ループは D$_N$ 型の Macdonald 多項式で与えられる。
+\cite{AgSc12} の SO$(2N)$ の refined Chern--Simons 理論では、表現 $R$ の Wilson ループは D$_N$ 型の Macdonald 多項式で与えられる。
 % [S1]
 \begin{compresult}
-AgSc の refined unknot $\dim_R$ は、Koornwinder 多項式 $K_R(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい（6 つの $R$。van Diejen--Sahi の評価式と、$q$-差分作用素で作った多項式（$N = 2, 3$）で確認）。
-$\dim_R$ は $t^N$ の Laurent 多項式ではなく、例えば [2] は $(1 - q t^{N-1})$、[1,1] は $(1 - q t^{2N-3})$ を分母にもつ（$t = q$ では約分される）。
+\cite{AgSc12} の refined unknot $\dim_R$ は、Koornwinder 多項式 $K_R(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい（6 つの $R$。van Diejen--Sahi の評価式と、$q$-差分作用素で作った多項式（$N = 2, 3$）で確認）。
+$\dim_R$ は $t^N$ の Laurent 多項式ではなく、例えば表現 [2] は $(1 - q t^{N-1})$、表現 [1,1] は $(1 - q t^{2N-3})$ を分母にもつ（$t = q$ では約分される）。
 \end{compresult}
 
 % [S2]
 \begin{remark}
 Mariño 型の構成（bosonic な Cauchy 核、$\tfrac12 f^{\cov}$、$\sum_{d\ \mathrm{odd}}$）をそのまま refined にすると、unknot の 2 箱で $U$ の極が打ち消さない。
-composite $([1],[1])$ の寄与は $p_1^2$ 方向だけにあるが、D$_N$ の [2] と [1,1] の極の位置は違う（$t^N = t/q$ と $t^{2N} = t^3/q$）。
+composite $([1],[1])$ の寄与は $p_1^2$ 方向だけにあるが、D$_N$ の表現 [2] と [1,1] の極の位置は違う（$t^N = t/q$ と $t^{2N} = t^3/q$）。
 重み 5 通りと基底 3 通りのどの組でもこれは解消しない。
 \end{remark}
 
@@ -42,7 +42,7 @@ Mimachi の双対 Cauchy 恒等式（Koornwinder 多項式）
 \[
 \sum_{\mu \subseteq m^n} (-1)^{|\mu|} K_{m^n - \mu}(x; q, t)\, K_{\mu'}(y; t, q) = \prod_{i, j} x_i^{-1}(1 - x_i y_j)(1 - x_i y_j^{-1})
 \]
-では、ホロノミー側に AgSc の D$_n$ 型（$\pm1, \pm q^{1/2}$）、probe 側に $(q', t') = (t, q)$ に対する $(\pm 1, \pm t'^{1/2})$ 型が現れる。
+では、ホロノミー側に \cite{AgSc12} の D$_n$ 型（$\pm1, \pm q^{1/2}$）、probe 側に $(q', t') = (t, q)$ に対する $(\pm 1, \pm t'^{1/2})$ 型が現れる。
 この恒等式は $(n, m) = (1,1), (2,1), (1,2), (2,2), (2,3), (3,2)$ の 6 通りで確かめた。
 これを refined orientifold の Ooguri--Vafa 核と読み、probe 変数 $Y = (y_1, y_2, \dots)$ に対して
 \begin{equation}\label{eq:Z}
@@ -63,18 +63,18 @@ Mimachi の双対 Cauchy 恒等式（Koornwinder 多項式）
 
 \begin{definition}[クロスキャップ部分]
 全 $d$ の定義で $g_R = f_R - \tfrac12 f^{\cov}_R$ と置く。
-hatted 不変量は $\hat g = M(q^{-1})^{-1} g$ である。ここで $M_{RS} = \sum_\mu \chi_R(\mu)\chi_S(\mu) z_\mu^{-1}\prod_i (t_M^{\mu_i} - t_M^{-\mu_i})/(t_M - t_M^{-1})$（$t_M = q^{1/2}$）は Mariño の $M$ で、KN の $M(x)$ の $x = q^{-1}$ に等しい。
+hatted 不変量は $\hat g = M(q^{-1})^{-1} g$ である。ここで $M_{RS} = \sum_\mu \chi_R(\mu)\chi_S(\mu) z_\mu^{-1}\prod_i (t_M^{\mu_i} - t_M^{-\mu_i})/(t_M - t_M^{-1})$（$t_M = q^{1/2}$）は Mariño の $M$ で、\cite{KN17} の $M(x)$ の $x = q^{-1}$ に等しい。
 \end{definition}
 
 % [S8]
 \begin{remark}
 reformulation に $M(t)$ や $M(t^{-1})$ を使うと、Hopf 絡み目で Laurent にならない。$M(q)$ は $R \leftrightarrow R^T$ を入れ替える。
-KN の二つの枠（q 枠：Macdonald の Cauchy 核と $M(t)$、t 枠：双対 Cauchy 核と $M(q^{-1})$）の hatted 不変量は、2 箱で一致する（§\ref{sec:generalN}）。
+\cite{KN17} の二つの枠（q 枠：Macdonald の Cauchy 核と $M(t)$、t 枠：双対 Cauchy 核と $M(q^{-1})$）の hatted 不変量は、2 箱で一致する（§\ref{sec:generalN}）。
 \end{remark}
 
 \subsection{一様な規格化}\label{sec:uniform}
-入力の U$(n)$ の refined 不変量（KN の (N1)+(N2) で規格化したもの）は、行列式表現と荷電共役について $(q/t)$ の冪だけずれる。
-そこで、[1] の superpolynomial の $\delta$ 次数 $\delta = \ba + \bq/2 - \bt$ を使い、
+入力の U$(n)$ の refined 不変量（\cite{KN17} の (N1)+(N2) で規格化したもの）は、行列式表現と荷電共役について $(q/t)$ の冪だけずれる。
+そこで、表現 [1] の superpolynomial の $\delta$ 次数 $\delta = \ba + \bq/2 - \bt$ を使い、
 \begin{equation}\label{eq:uniform}
 W_R = (t/q)^{\delta |R|/2}\, \Rred_R\, P_R(t^\rho)
 \end{equation}

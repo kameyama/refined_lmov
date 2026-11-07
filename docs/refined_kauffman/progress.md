@@ -28,7 +28,7 @@
   - `/usr/bin/time -l` はサンドボックス内では最大メモリの行を出さず、終了コードが 1 になる。完了の目印は "real" の行にする（"maximum resident" を待つと終わらない）。
   - `ps`・`pkill` はサンドボックス外で実行する。
   - 30 分を超える計算は、実行前に見積もりと再開の準備を progress に書く（CLAUDE.md）。
-- **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回（2026-11-07 から参考文献は biblatex の alphabetic 様式、refs.bib。biber はサンドボックス内でバイナリの展開に失敗するので backend=bibtex）。
+- **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回（2026-11-07 から参考文献は biblatex の alphabetic 様式、refs.bib、ラベル = bib のキー。biber はサンドボックス内でバイナリの展開に失敗するので backend=bibtex）。引用と表現の書き方は CLAUDE.md「論文の書き方」。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
   - .aux/.log/.out/.toc は git で追跡しない。
 - **文献**：`references/<arXiv id>/src/`。取得は `just fetch-refs`（justfile の papers に一覧がある）、または `curl`（allowed_domains: arxiv.org）。書誌の確認は arXiv API（export.arxiv.org）で行う。
@@ -1884,3 +1884,11 @@
 ## 2026-11-07（続き 127）論文の参考文献を alpha 型のラベルに
 - 指示「ヤング図の [1] と引用の [1] が区別しづらい。引用は [AS12a] の形にし、適切なパッケージと bibtex を使え」。手書きの thebibliography を refs.bib（17 件、書誌の確認状況は note に残す）に移し、biblatex（style=alphabetic、backend=bibtex、maxalphanames=4）で組んだ。引用は [AS12]・[KN17]・[Mar10]・[BFM04]・[KNTZ19] の形（Mariño の ñ でラベルが崩れる 3 件は shorthand で指定）。見出しは「参考文献」、arXiv だけのエントリは @misc。biber はサンドボックス内で arm64 バイナリの展開に失敗したので bibtex を使う。37 ページ、未定義の引用なし、参考文献のページと序論のページを画像で確認。.gitignore に bbl/blg/run.xml/main-blx.bib を追加。
 - 記録：refs.bib、main.tex、sections/bibliography.tex、main.pdf、.gitignore。
+
+## 2026-11-07（続き 128）論文の校正：引用ラベルと表現の書き分け
+- 指示「全体を通して KN [KN17] や NRZ [NRZ14] のようになっている。計算結果 2.1 の AgSc も [AgSc] の形にせよ。一様な規格化の [1] を表現 [1] や R = [1] と書け。引用と表現の書き方を CLAUDE.md に書け。式上で表現を使う場合はヤング図を使え」。
+- refs.bib の全 17 件に `shorthand = {キー}` を付け、ラベルを bib のキーと同じにした（[AgSc12]、[KN17]、[NRZ13]、[Marino09] …）。本文の「著者名 \cite」の重複と裸の略号（AgSc、KN、NRZ、AS、AM、Marino など）を \cite に置き換えた（置換は python の正規表現。sections/*.tex の \cite は 7 → 100 件余り）。
+- 数式の添字の表現 `_{[1]}`, `_{(1,1)}`, `_{R,[1]}` などを youngtab のヤング図（main.tex の \yone 等、\DeclareRobustCommand）にした。caption の中で \yng が「Incomplete \iffalse」で落ちたのが robust 化の理由。文中の裸の [1]・[2]・[1,1] は「表現 [1]」に（見出し「トーラス結び目の表現 [1]」、compresult・definition・表の行頭の `{[1]}` も）。$\psi^2[1]$（Adams の引数）と変数名 \ba_{\mathrm{KN}} は対象外。
+- 37 ページ、`!` のエラーと undefined なし。目次（p.2）、序論（p.3）、§2.1〜2.2（p.6）、§2.4（p.8）、§4.4〜4.5（p.13）、§5（p.14）、参考文献（p.36–37）を画像で確認。
+- CLAUDE.md に「論文の書き方」（引用は \cite だけ、文中の表現は「表現 [1]」「R = [1]」、式中はヤング図、コンパイルと確認の手順）を加えた。
+- 記録：refs.bib、main.tex、sections/*.tex、main.pdf、CLAUDE.md。
