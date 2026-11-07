@@ -1901,3 +1901,13 @@
 - 37 ページ、エラーと undefined なし。付録 B（p.29–30）と付録 C の冒頭を画像で確認。
 - CLAUDE.md「論文の書き方」に訳語の規則を追加。
 - 記録：sections/*.tex、tex/gen/*.tex、scripts/refined_kauffman/rk_report_tex.py、main.pdf、CLAUDE.md。
+
+## 2026-11-08（続き 130）論文 §8.2 の補足と、付録 E（被覆の brane–brane・brane–image のセクター）
+- 質問「付録 D では正値性は見えないのか」「§8.2 の予想との関係は」に答えた：付録 D は整数性と普遍因子の確認用で、ā の冪ごとの符号は混在する（§7.2 の表の生データ）。§8.2 の予想は、破れが Ĩ に関わるセクター（brane–image とクロスキャップ）に限られるという主張で、付録 D はその破れ側の実例。
+- 指示「足りない点を追記せよ。予想の根拠となる trefoil と T(2,5) の 2 箱までを付録に明示せよ」。
+- §8.2：正値性の意味（§5.3 の判定式）、brane–brane の確認箇所（§7.3、付録 E）、破れの箇所（§7.3 の brane–image、計算結果 7.1 と付録 D のクロスキャップ）、共通の普遍因子 (t̄²−1)、根拠の範囲（trefoil と T(2,5) の 2 箱。3 箱は brane と image に分けていない）、「orientifold の偶奇の構造」の中身（Ĩ の符号と凍結した状態の多重項の基底）を追記。§7.3 に \label{sec:split} と範囲を追記。付録 D の冒頭に「符号はそろわない」の注記。
+- 付録 E（新設、app:cover）：rk_report_tex.py に gen_cover_split を追加。rk_b_cover_split.cover_sectors(m)（m = 1, 2）から、brane–brane の (t^{−1/2}−t^{1/2}) f̂_(2), f̂_(1,1)（M⊗M の hatted）と brane–image の (t^{−1/2}−t^{1/2}) x/z_q を KN の t 側で G 展開し、λ^β ごとの表示・因数分解・符号の判定表（block_sign_class：そろう／(t̄²−1)× そろう／混在）を生成（tex/gen/cover_split.tex、cover_split_table.tex）。
+- 【計算】判定の結果：brane–brane は trefoil（λ^{−10}〜λ^{−2}）、T(2,5)（λ^{−14}〜λ^{−6}）の全ブロックでそろう。brane–image は trefoil で λ^{−8} だけ混在（λ^{−10}, λ^{−2} は (t̄²−1)× そろう。λ^{−2} = q_r^{−3}(q_r²−1)）、T(2,5) で λ^{−16}〜λ^{−10} の 4 ブロックが混在（λ^{−18}, λ^{−6}, λ^{−4}, λ^{−2} は (t̄²−1)× そろう）。
+  - 訂正：続き 31 では trefoil の brane–image の ν^{−2} を「混在」と書いたが、q_r^{−1} − q_r^{−3} = q_r^{−3}(q_r²−1) で「(t̄²−1)× そろう」に当たる。§7.3 の「trefoil では λ^{−8} と λ^{−2}」を「λ^{−8} の 1 ブロック」に直した。
+- 付録 B の因数分解の表示：既約で 4 項以上のブロックは「既約（上の形のまま）」と書き、因子が長いときは因子ごとに行を折るようにした（はみ出しの解消）。「付録 \ref」の重複（「付録 付録 E」）を全体で直した。
+- 記録：sections/positivity.tex、discussion.tex、appendix.tex、tex/gen/cover_split*.tex、scripts/refined_kauffman/rk_report_tex.py、main.pdf。

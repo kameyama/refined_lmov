@@ -126,10 +126,89 @@ def factored_blocks(dG, label):
         mn = min(b for _, b in blk)
         assert all((b - mn) % 2 == 0 for _, b in blk)
         poly = sp.expand(sum(v * Gs**a * qr**((b - mn) // 2) for (a, b), v in blk.items()))
-        f = sp.latex(sp.factor(poly)).replace("qr", r"\qr").replace(r"\left(\qr - 1\right) \left(\qr + 1\right)", r"(\qr^2 - 1)").replace(r"\left(", "(").replace(r"\right)", ")")
         pre = rf"\qr^{{{_exp(sp.Rational(mn, 2))}}}"
-        rows.append(rf"[\lambda^{{{e}}}]\colon\ & " + (pre if f == "1" else rf"{pre}\,\bigl({f}\bigr)"))
+        fl = sp.factor_list(poly)
+        if sum(k for _, k in fl[1]) <= 1 and len(sp.Add.make_args(poly)) > 3:
+            rows.append(rf"[\lambda^{{{e}}}]\colon\ & \text{{既約（上の形のまま）}}")
+            continue
+        f = sp.latex(sp.factor(poly)).replace("qr", r"\qr").replace(r"\left(\qr - 1\right) \left(\qr + 1\right)", r"(\qr^2 - 1)").replace(r"\left(", "(").replace(r"\right)", ")")
+        if f == "1":
+            body = pre
+        elif f.startswith("(") and f.endswith(")") and f.count("(") == 1:
+            body = rf"{pre}\,{f}"
+        else:
+            parts = f.split(") (")                     # 因子ごとに分け、長ければ行を折る
+            parts = [x + ")" if i < len(parts) - 1 else x for i, x in enumerate(parts)]
+            parts = ["(" + x if i > 0 else x for i, x in enumerate(parts)]
+            lines, cur = [], ""
+            for x in parts:
+                if cur and len(cur) + len(x) > 80:
+                    lines.append(cur); cur = x
+                else:
+                    cur += x
+            lines.append(cur)
+            out_lines = []
+            for ln in lines:                           # 一つの因子が長ければ項の境目で折る
+                while len(ln) > 90:
+                    cut = max(ln.rfind(" + ", 0, 80), ln.rfind(" - ", 0, 80))
+                    if cut <= 0:
+                        break
+                    out_lines.append(ln[:cut]); ln = ln[cut:]
+                out_lines.append(ln)
+            body = rf"{pre}\,\bigl(" + " \\\\\n& \\quad ".join(out_lines) + r"\bigr)"
+        rows.append(rf"[\lambda^{{{e}}}]\colon\ & " + body)
     return label + "\n" + align(" \\\\\n".join(rows))
+
+
+# ---- 2b. 被覆の brane–brane と brane–image のセクター（§7.3 の根拠、続き 31・32）----
+def block_sign_class(dG):
+    r"""λ^β ごとのブロックを「そろう」「(t̄²−1)× そろう」「混在」に分ける（G, \qr の多項式として判定）。"""
+    Gs, qr = sp.symbols("G qr")
+    out = {}
+    for e in sorted({k[0] for k in dG}):
+        blk = {k[1:]: v for k, v in dG.items() if k[0] == e}
+        mn = min(b for _, b in blk)
+        poly = sp.expand(sum(v * Gs**a * qr**((b - mn) // 2) for (a, b), v in blk.items()))
+        signs = {sp.sign(c) for c in sp.Poly(poly, Gs, qr).coeffs()}
+        if len(signs) == 1:
+            out[e] = "そろう"; continue
+        quo, rem = sp.div(sp.Poly(poly, qr), sp.Poly(qr**2 - 1, qr))
+        if rem.is_zero and len({sp.sign(c) for c in sp.Poly(quo.as_expr(), Gs, qr).coeffs()}) == 1:
+            out[e] = r"$(\bt^2 - 1)\times$ そろう"
+        else:
+            out[e] = r"\textbf{混在}"
+    return out
+
+
+def gen_cover_split(ms=(1, 2)):
+    import rk_b_cover_split as CS
+    from rk_k4_crosscap import V, W, G, in_G, nu as nuk
+    from rcsknots.refined_kauffman.flint_rf3 import R, S
+    r_, s_, u_ = sp.symbols("r s u", positive=True)
+    out, rows = [], []
+    for m in ms:
+        sec = CS.cover_sectors(m)
+        zq = R - 1 / R
+        hat = {r"brane--brane $(t^{-1/2} - t^{1/2})\hat f_{\ytwo}$": (sec["p11"] / zq + sec["p2"] / (R + 1 / R), False),
+               r"brane--brane $(t^{-1/2} - t^{1/2})\hat f_{\yoneone}$": (sec["p11"] / zq - sec["p2"] / (R + 1 / R), False),
+               r"brane--image $(t^{-1/2} - t^{1/2})\,x/z_q$": (sec["x"] / zq, True)}
+        knot = rf"$T(2,{2*m+1})$"
+        for name, (v, fac) in hat.items():
+            e = (1 / S - S) * v
+            assert e.is_laurent(), (m, name)
+            es = sp.cancel(e.to_sympy())
+            ev = sp.expand(es.subs(u_, nuk * s_).subs({r_: V * W, s_: V / W}))
+            P1 = in_G(ev)
+            assert P1 is not None, (m, name)
+            d = laurent(sp.expand(P1), (nuk, G, W))
+            out.append(grouped(d, 0, r"\lambda", [("G", 1), (r"\qr", 2)], per=6, label=rf"{knot}、{name} の $G$ 展開（$\lambda^\beta$ ごと、{len(d)} 項）"))
+            if fac:
+                out.append(factored_blocks(d, label=rf"{knot}、同じものを $\lambda^\beta$ ごとに因数分解した形（$\qr^2 - 1 = \bt^2 - 1$）"))
+            cls = block_sign_class(d)
+            rows.append(rf"{knot} & {name} & " + "、".join(rf"$\lambda^{{{b}}}$: {c}" for b, c in cls.items()) + r" \\")
+    write("cover_split.tex", "\n".join(out))
+    write("cover_split_table.tex", "\\begin{center}\n\\footnotesize\n\\begin{tabular}{llp{9.2cm}}\n\\toprule\n結び目 & セクター & $\\lambda^\\beta$ ごとの符号 \\\\\n\\midrule\n"
+          + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{center}\n")
 
 
 # ---- 3. DAHA：一般の N の R_λ(U) ----
@@ -283,6 +362,7 @@ if __name__ == "__main__":
     assert all(M.compare().values())
     gen_unrefined()
     gen_torus_one_box()
+    gen_cover_split()
     gen_daha()
     gen_largeN()
     gen_hopf()

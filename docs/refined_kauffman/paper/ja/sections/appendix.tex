@@ -16,7 +16,13 @@ $\Rred_R(t^N) = T_R^{-6}\times$ 鏡像$(Z)/K_R(t^\rho)$（trefoil、一様な規
 
 \section{大きな $N$ の 2 箱のクロスキャップ部分}\label{app:largeN}
 trefoil の $\hat g_{\ytwo} + \hat g_{\yoneone}$、$(1+t)(\hat g_{\ytwo} - \hat g_{\yoneone})$、普遍因子で割った商（太字の変数）。
+整数性（計算結果 \ref{cr:largeN}）と普遍因子（§\ref{sec:universal}）の確認用で、$\ba$ の冪ごとの符号はそろわない（計算結果 \ref{cr:signs}）。正値性が見えるセクターと見えないセクターの比較は\ref{app:cover}。
 \input{../../tex/gen/largeN_2box.tex}
+
+\section{被覆の brane--brane と brane--image のセクター}\label{app:cover}
+§\ref{sec:split} と §\ref{sec:kn} の根拠。trefoil と $T(2,5)$ の 2 箱について、被覆を brane（$Y$）と image（$Y'$）に分けた生成関数の各セクターを、\cite{KN17} の t 側 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開したもの（$\lambda^\beta$ ごと、$\qr = (q/t)^{1/2}$）。brane--brane は $\hat f_{\ytwo}$, $\hat f_{\yoneone}$（$M \otimes M$ の hatted）、brane--image は $x = W_{\mathrm{adj}} + \kappa - W_{\yone}^2$ を $z_q$ で割ったもの。ブロックの符号の判定は次の表のとおりで、brane--brane は全ブロックでそろい、brane--image は「そろう」「$(\bt^2 - 1)\times$ そろう」「混在」が混じる。
+\input{../../tex/gen/cover_split_table.tex}
+\input{../../tex/gen/cover_split.tex}
 
 \section{unrefined の確認}\label{app:unref}
 Mariño の trefoil の $\hat g$（標準 framing）を自前のコードで計算した値。$\hat g_{\yoneone}$ は \cite{Marino09} (4.8) の印刷値と全係数一致し、$\hat g_{\ytwo}$ は $z^9$ の項以外が一致する。
