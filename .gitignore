@@ -64,6 +64,11 @@ docs/refined_kauffman/tex/*.log
 docs/refined_kauffman/tex/*.out
 docs/refined_kauffman/tex/*.toc
 docs/refined_kauffman/paper/ja/*.aux
+docs/refined_kauffman/paper/ja/*.bbl
+docs/refined_kauffman/paper/ja/*.blg
+docs/refined_kauffman/paper/ja/*.run.xml
+docs/refined_kauffman/paper/ja/*.bcf
+docs/refined_kauffman/paper/ja/main-blx.bib
 docs/refined_kauffman/paper/ja/*.log
 docs/refined_kauffman/paper/ja/*.out
 docs/refined_kauffman/paper/ja/*.toc

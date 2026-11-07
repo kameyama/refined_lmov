@@ -1,10 +1,13 @@
 % refined Kauffman 不変量の large N 双対（日本語の準備稿）
 % 構成：docs/refined_kauffman/paper/outline.md、主張の格付け：claims.md（主張の直前に % [ID] を書く）
-% コンパイル：cd docs/refined_kauffman/paper/ja && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex（2 回）
+% コンパイル：cd docs/refined_kauffman/paper/ja && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex && bibtex main && lualatex main.tex（2 回）
+% 参考文献：refs.bib（biblatex、alphabetic 様式：引用は [AS12] のように著者の略号＋年。Young 図の [1] と区別するため）
 \documentclass[11pt,a4paper]{ltjsarticle}
 \usepackage{amsmath,amssymb,amsthm,bm}
 \usepackage{booktabs,array}
 \usepackage[margin=25mm]{geometry}
+\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,doi=true,eprint=true]{biblatex}
+\addbibresource{refs.bib}
 \usepackage[hidelinks]{hyperref}
 \allowdisplaybreaks
 \sloppy

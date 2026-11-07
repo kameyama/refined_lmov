@@ -28,7 +28,7 @@
   - `/usr/bin/time -l` はサンドボックス内では最大メモリの行を出さず、終了コードが 1 になる。完了の目印は "real" の行にする（"maximum resident" を待つと終わらない）。
   - `ps`・`pkill` はサンドボックス外で実行する。
   - 30 分を超える計算は、実行前に見積もりと再開の準備を progress に書く（CLAUDE.md）。
-- **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` を 2 回実行する。
+- **TeX**：`TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回（2026-11-07 から参考文献は biblatex の alphabetic 様式、refs.bib。biber はサンドボックス内でバイナリの展開に失敗するので backend=bibtex）。
   - ページを画像にするには gs を使う（pdftoppm は無い）。
   - .aux/.log/.out/.toc は git で追跡しない。
 - **文献**：`references/<arXiv id>/src/`。取得は `just fetch-refs`（justfile の papers に一覧がある）、または `curl`（allowed_domains: arxiv.org）。書誌の確認は arXiv API（export.arxiv.org）で行う。
@@ -1880,3 +1880,7 @@
 ## 2026-11-07（続き 126）論文 §2：期待値の定義と双対 Cauchy 核の展開式
 - ユーザーの質問（bosonic な核・Cauchy 核・⟨ ⟩ の定義・展開の相手の関数）に答え、指示「論文にも書け」で §2.2（双対 Cauchy 核と生成関数）の式 (eq:Z) の直後に書き足した：⟨F(x)⟩_{SO(2N)} の定義（F を Koornwinder 多項式で展開し各項を W_λ に置き換える線形写像；unrefined では経路積分の Wilson loop）、展開式 (eq:Zexpand) Z̃(Y) = Σ_{λ⊆m^N} (−1)^{|λ|} W_λ(K) K̂_{λ′}(Y; t,q; T = t^N)（K̂ は Rains の virtual Koornwinder、(Π y)^N K_{N^m−λ′}(Y; t,q)）、U が形式変数になる理由、被覆では composite の指標で展開すること。lualatex で 36 ページ、未定義参照なし、7 ページを画像で確認。
 - 記録：preliminaries.tex、main.pdf。
+
+## 2026-11-07（続き 127）論文の参考文献を alpha 型のラベルに
+- 指示「ヤング図の [1] と引用の [1] が区別しづらい。引用は [AS12a] の形にし、適切なパッケージと bibtex を使え」。手書きの thebibliography を refs.bib（17 件、書誌の確認状況は note に残す）に移し、biblatex（style=alphabetic、backend=bibtex、maxalphanames=4）で組んだ。引用は [AS12]・[KN17]・[Mar10]・[BFM04]・[KNTZ19] の形（Mariño の ñ でラベルが崩れる 3 件は shorthand で指定）。見出しは「参考文献」、arXiv だけのエントリは @misc。biber はサンドボックス内で arm64 バイナリの展開に失敗したので bibtex を使う。37 ページ、未定義の引用なし、参考文献のページと序論のページを画像で確認。.gitignore に bbl/blg/run.xml/main-blx.bib を追加。
+- 記録：refs.bib、main.tex、sections/bibliography.tex、main.pdf、.gitignore。
