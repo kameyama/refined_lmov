@@ -1,16 +1,16 @@
 \section{orientifold の refined 指数と全 $d$ の構造}\label{sec:index}
 
 \subsection{設定}
-\cite{AgSc12} §3 にしたがい、M 理論を $X \times \mathrm{TN} \times S^1$ 上で $(q, t)$ で捻る。orientifold の作用 $\tilde I$ は、$X$ の反正則な対合 $I$ と、時空の $z_2 \to -z_2$ の組である。
+\cite{AgSc12} §3 にしたがい、M 理論を $X \times \mathrm{TN} \times S^1$ 上で $(q, t)$ でツイストする。orientifold の作用 $\tilde I$ は、$X$ の反正則な対合 $I$ と、時空の $z_2 \to -z_2$ の組である。
 結び目 $K$ の probe は M5 brane で、$z_2$ 平面を張る（t-brane。開弦の分母が $1/(1-t)$ であることによる）。被覆には $L_K$ と像 $I(L_K)$ の 2 枚がある。
 被覆の一粒子状態の空間は $H_1 = H_{\mathrm{int}} \otimes F_{z_2}$ である。$F_{z_2}$ は $z_2$ 方向のモード $t^l$（$l \ge 0$）から成る。$\tilde I$ は $F_{z_2}$ に $(-1)^l$ で働く。
 
 \begin{hypothesis}[一粒子状態の分類]\label{hyp:classes}
 商の一粒子状態は被覆の $\tilde I$ の軌道で、\cite{AgSc12} の積表示 (3.13) のとおり次の 3 種に分かれる。
 \begin{enumerate}
-\item $\tilde I$ で入れ替わる対 $\{\psi, \tilde I\psi\}$：全モードの塔をもつ。
+\item $\tilde I$ で入れ替わる対 $\{\psi, \tilde I\psi\}$：全モードのタワーをもつ。
 \item $\tilde I\psi = \varepsilon\psi$（$\varepsilon = \pm 1$）：$(-1)^l\varepsilon = 1$ のモードだけをもつ。
-\item $z_2 = 0$ に凍結した状態：モードの塔をもたない。
+\item $z_2 = 0$ に凍結した状態：モードのタワーをもたない。
 \end{enumerate}
 \end{hypothesis}
 
@@ -51,7 +51,7 @@ $f = \mathrm{Tr}_{H_1^{\cov}}(P_+\cdot) + \sum_{\text{凍結}} m$ と、$\tilde 
 $E$ は Witten の「$\zeta$ を挿入したトレース」の型、$C$ は商の理論にしかない状態の寄与である。命題 \ref{prop:EC} の不定性は、一つの数を二つの表示に分ける仕方の不定性と読める。
 
 \subsection{境界ゼロモードへの $\tilde I$ の作用}
-\cite{KN17} §3.2 では、境界 $h$ 個の曲線の境界ゼロモード $d\theta_i$（$\sum_i d\theta_i = 0$）が hook 表現を張り、t-brane 枠では 1 モードあたり $(1 - q^{-1})$（規格化 $q^{1/2}$）を与える。
+\cite{KN17} §3.2 では、境界 $h$ 個の曲線の境界ゼロモード $d\theta_i$（$\sum_i d\theta_i = 0$）が hook 表現を張り、t-brane の定式化では 1 モードあたり $(1 - q^{-1})$（規格化 $q^{1/2}$）を与える。
 % [O10]
 \begin{proposition}\label{prop:boundary}
 \cite{KN17} の境界ゼロモードの描像を仮定し、$\tilde I$ が $L$ の境界と $I(L)$ の境界を入れ替えるとする。$\tilde I$ 不変な曲線は $L$ と $I(L)$ の境界を同数 $n$ 組もち、対ごとに和 $d\theta_i + d\theta_i'$ は偶、差 $d\theta_i - d\theta_i'$ は奇である。拘束 $\sum d\theta = 0$ は偶のモードを一つ減らす。したがって
@@ -83,8 +83,8 @@ framed unknot（framing 2, 4） & 1 & $z_q^+$ & $z_q$ \\
 
 \subsection{$\sigma$ 対称性の起源}
 $\sigma\colon q\mapsto t^{-1}, t\mapsto q^{-1}$ は、\cite{KN17} の変数 $\ql = (qt)^{1/2}$, $\qr = (q/t)^{1/2}$ では $\ql \mapsto \ql^{-1}$、$\qr$ 固定、すなわち Jacobian の Lefschetz 作用 SU$(2)_\ell$ の Weyl 反射である。
-\cite{KN17} の $\hat f$ の $\sigma$ 不変性は、取っ手のゼロモードが SU$(2)_\ell$ の二重項をなすこと（取っ手あたり $-(\ql + \ql^{-1}) + (\qr + \qr^{-1}) = G$）から来る。
-凍結した状態は向き付けられない面 $N = \hat\Sigma/I$ に巻いた M2 で、$N$ には複素構造が無く $H^1(N)$ に Lefschetz の $\mathfrak{sl}_2$ は働かない。したがって $C$ に $\sigma$ 対称性を期待する理由は無く、多箱の $c = 1$ 部分が $G$ 展開できないこと（§\ref{sec:generalN}）はこれで説明できる（予想）。表現 [1] の $c = 1$ 部分が $\sigma$ 対称であることは、次の観察で説明できる（予想）。表現 [1] の $c = 1$ 部分の $\lambda^\beta$ のブロックの $G$ の次数は、brane--image のセクター $(t^{-1/2}-t^{1/2})x/z_q$ の $\lambda^{2\beta}$ のブロックの $G$ の次数のちょうど半分である（$T(2,3)$, $T(2,5)$ のすべての $\beta$ で確認）。表現 [1] の凍結した状態は brane--image の環状の弦の商（Möbius の帯）で、商の取っ手 $g$ 個が被覆の取っ手 $2g$ 個に当たり、商の取っ手が $G$ を担う。多箱の $c = 1$ 部分が $\sigma$ 対称でない理由は、計算結果 \ref{cr:multibox-sigma} で二つの成分（unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $(\bt^2-1)(V^2-V^{-2})$ で割り切れる $\sigma$ 奇部分）に分けた。後者の起源は未解明である。
+\cite{KN17} の $\hat f$ の $\sigma$ 不変性は、ハンドルのゼロモードが SU$(2)_\ell$ の二重項をなすこと（ハンドルあたり $-(\ql + \ql^{-1}) + (\qr + \qr^{-1}) = G$）から来る。
+凍結した状態は向き付けられない面 $N = \hat\Sigma/I$ に巻いた M2 で、$N$ には複素構造が無く $H^1(N)$ に Lefschetz の $\mathfrak{sl}_2$ は働かない。したがって $C$ に $\sigma$ 対称性を期待する理由は無く、多箱の $c = 1$ 部分が $G$ 展開できないこと（§\ref{sec:generalN}）はこれで説明できる（予想）。表現 [1] の $c = 1$ 部分が $\sigma$ 対称であることは、次の観察で説明できる（予想）。表現 [1] の $c = 1$ 部分の $\lambda^\beta$ のブロックの $G$ の次数は、brane--image のセクター $(t^{-1/2}-t^{1/2})x/z_q$ の $\lambda^{2\beta}$ のブロックの $G$ の次数のちょうど半分である（$T(2,3)$, $T(2,5)$ のすべての $\beta$ で確認）。表現 [1] の凍結した状態は brane--image の環状の弦の商（Möbius の帯）で、商のハンドル $g$ 個が被覆のハンドル $2g$ 個に当たり、商のハンドルが $G$ を担う。多箱の $c = 1$ 部分が $\sigma$ 対称でない理由は、計算結果 \ref{cr:multibox-sigma} で二つの成分（unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $(\bt^2-1)(V^2-V^{-2})$ で割り切れる $\sigma$ 奇部分）に分けた。後者の起源は未解明である。
 
 Mariño の $\sum_{d\ \mathrm{odd}}$ の定義 $g^{\mathrm{odd}}$ とは、$g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2)$ で結ばれる。
 
@@ -147,9 +147,9 @@ Klein 瓶の項とその分子 $Q^n/T^n - T^n/Q^n$（\cite{AM22} の論文の変
 \end{remark}
 
 % [O8]
-\begin{remark}[取っ手の因子]
-\cite{AgSc12} §4 の強い整数性の導出に現れる「差 $\times$ 和」$(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ は、類 $\beta/2$ の $c = 1$ の寄与を $d$ を倍にして並べたときの $\psi^2 z$ である。これは取っ手一つの因子ではない。
-\cite{PU14} の M 理論の解釈では、$\tilde I$ で不変な被覆の取っ手一つの捻ったトレースは、同じ変数で $z$ 一つになる。
+\begin{remark}[ハンドルの因子]
+\cite{AgSc12} §4 の強い整数性の導出に現れる「差 $\times$ 和」$(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ は、類 $\beta/2$ の $c = 1$ の寄与を $d$ を倍にして並べたときの $\psi^2 z$ である。これはハンドル一つの因子ではない。
+\cite{PU14} の M 理論の解釈では、$\tilde I$ で不変な被覆のハンドル一つのツイストしたトレースは、同じ変数で $z$ 一つになる。
 refined では $G = z_q z_t = T_+T_-$、$T_\pm = (\ql^{1/2} - \ql^{-1/2}) \pm (\qr^{1/2} - \qr^{-1/2})$ と分解できる。ただし $T_\pm$ を使っても、$\sigma$ 対称でない $c = 1$ 部分は展開できるようにならない。
 $\mathbb{Z}[\qr^{\pm 1}][T_+, T_-] = \mathbb{Z}[\qr^{\pm1}][\ql^{1/2} - \ql^{-1/2}, \qr^{1/2} - \qr^{-1/2}]$ の元のうち $\ql$ の整数冪の部分は、$(\ql^{1/2} - \ql^{-1/2})$ の偶数冪の和なので、$\ql \to \ql^{-1}$（$\sigma$）で不変だからである。
 \end{remark}

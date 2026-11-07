@@ -24,6 +24,7 @@ src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcskn
 - 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。本文に著者の略号や名前を書かない（「KN [KN17]」「AgSc の refined unknot」は誤り。「[KN17]」「[AgSc12] の refined unknot」と書く）。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
 - 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できないので書かない。
 - 数式の中の表現はヤング図で書く（main.tex の \yone, \ytwo, \yoneone, \ythree, \ytwoone, \yoneoneone。youngtab の \yng を \DeclareRobustCommand で包んだもので、caption や見出しでも使える）。例：$g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$。
+- 用語を無理に訳さない。日本語の専門文献で定着している訳語（規格化、被覆、商、鏡像、多重項、二重項、母関数、核、整数計画、Möbius の帯、法束など）だけ日本語にし、それ以外は原語かカタカナで書く（タワー、ハンドル、ツイスト、ストランド、reduced、composite、brane、image、framing、hook など）。「塔」「取っ手」「撚り」「簡約」「走査」「準位」「枠」のような訳語や、「移り目」のような造語は使わない。論文だけの用語は初出で定義する。
 - コンパイルは `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。コンパイル後は、ログに `!` のエラーと「undefined」がないことを確認し、変更した箇所のページを画像にして見る（`gs -sDEVICE=png16m`）。
 
 # 研究上のルール

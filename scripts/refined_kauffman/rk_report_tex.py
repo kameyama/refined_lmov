@@ -3,6 +3,7 @@ r"""報告書（docs/refined_kauffman/tex/report.tex）に載せる計算結果�
 import sys, pickle
 from pathlib import Path
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
+import re
 import sympy as sp
 
 OUT = Path("docs/refined_kauffman/tex/gen")
@@ -68,9 +69,17 @@ def align(body):
     return "\\begin{align*}\n" + body + "\n\\end{align*}\n"
 
 
+YOUNG = {"1": r"\yone", "2": r"\ytwo", "1,1": r"\yoneone", "3": r"\ythree", "2,1": r"\ytwoone", "1,1,1": r"\yoneoneone"}
+
+
+def young_subscripts(text):
+    r"""添字の表現 _{(1)}, _{[1,1]} などを論文のヤング図のマクロ（main.tex の \yone 等）にする。"""
+    return re.sub(r"_\{[\(\[](1|2|1,1|3|2,1|1,1,1)[\)\]]\}", lambda m: "_{" + YOUNG[m.group(1)] + "}", text)
+
+
 def write(name, text):
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / name).write_text(text)
+    (OUT / name).write_text(young_subscripts(text))
     print("wrote", OUT / name, flush=True)
 
 
@@ -79,7 +88,7 @@ def gen_unrefined():
     import rk_b_marino_tq as M
     rk, H, G, gM, ghM = M.marino_trefoil()
     body = []
-    for R, lab in (((2,), r"\hat g_{[2]}"), ((1, 1), r"\hat g_{[1,1]}")):
+    for R, lab in (((2,), r"\hat g_{\ytwo}"), ((1, 1), r"\hat g_{\yoneone}")):
         e = rk.z_expansion(ghM[R])                         # {(z の冪, ν の冪): 係数}
         d = {(k, Q): sp.Rational(c) for (k, Q), c in e.items()}
         body.append(grouped(d, 0, "z", [(r"\lambda", 1)], per=6, label=rf"${lab}$（$z = t_M - t_M^{{-1}}$ の冪ごと、$\lambda$ は Mariño の $\nu$）："))
@@ -95,16 +104,32 @@ def gen_torus_one_box(ms=(1, 2, 3)):
     for m in ms:
         g = Bu.g_true(m)
         d = laurent(Bu.bold(g), (A, Q, T))
-        out.append(grouped(d, 0, r"\ba", BOLD[1:], per=6, label=rf"$m = {m}$（$T(2,{2*m+1})$、{len(d)} 項）：$g^{{\mathrm{{true}}}}_{{[1]}}$ の $\ba$ の冪ごとの係数"))
+        out.append(grouped(d, 0, r"\ba", BOLD[1:], per=6, label=rf"$m = {m}$（$T(2,{2*m+1})$、{len(d)} 項）：$g^{{\mathrm{{true}}}}_{{\yone}}$ の $\ba$ の冪ごとの係数"))
         E, _ = split_parity(to_VW(g))
         P1 = sp.expand(in_G(E))
         dG = laurent(P1, (nu, G, W))
         out.append(grouped(dG, 0, r"\lambda", [("G", 1), (r"\qr", 2)], per=6, label=rf"$m = {m}$：$c = 1$ 部分の $G$ 展開（$\lambda^\beta$ ごと、$\qr = (q/t)^{{1/2}}$）"))
+        out.append(factored_blocks(dG, label=rf"$m = {m}$：同じものを $\lambda^\beta$ ごとに因数分解した形（$\qr^2 - 1 = \bt^2 - 1$）"))
         so2, even_t, c2, Pi = Bu.check_one(m)
         assert so2 == {1} and even_t and c2
         dP = laurent(Pi, (A, Q, T))
         out.append(align(r"\Pi_{" + str(m) + r"} &= " + " \\\\\n&\\quad ".join(terms_lines(dP, BOLD, per=6))))
     write("torus_one_box.tex", "\n".join(out))
+
+
+def factored_blocks(dG, label):
+    r"""dG = {(λ の冪, G の冪, b): 係数}（表示は \qr^{b/2}）を λ^β ごとに G, \qr で因数分解した align*（\qr の最低冪をくくり出す）。"""
+    Gs, qr = sp.symbols("G qr")
+    rows = []
+    for e in sorted({k[0] for k in dG}):
+        blk = {k[1:]: v for k, v in dG.items() if k[0] == e}
+        mn = min(b for _, b in blk)
+        assert all((b - mn) % 2 == 0 for _, b in blk)
+        poly = sp.expand(sum(v * Gs**a * qr**((b - mn) // 2) for (a, b), v in blk.items()))
+        f = sp.latex(sp.factor(poly)).replace("qr", r"\qr").replace(r"\left(\qr - 1\right) \left(\qr + 1\right)", r"(\qr^2 - 1)").replace(r"\left(", "(").replace(r"\right)", ")")
+        pre = rf"\qr^{{{_exp(sp.Rational(mn, 2))}}}"
+        rows.append(rf"[\lambda^{{{e}}}]\colon\ & " + (pre if f == "1" else rf"{pre}\,\bigl({f}\bigr)"))
+    return label + "\n" + align(" \\\\\n".join(rows))
 
 
 # ---- 3. DAHA：一般の N の R_λ(U) ----

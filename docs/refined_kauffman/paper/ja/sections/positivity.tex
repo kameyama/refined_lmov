@@ -31,7 +31,7 @@ trefoil の 3 箱 $\hat g_{\ythree}, \hat g_{\ytwoone}, \hat g_{\yoneoneone}$ & 
 次の取り替えでも、符号はそろわない。
 \begin{itemize}
 \item 自由エネルギーの右辺の基底：Hall--Littlewood、$P_R(Y; q, t)$、$P_R(Y; t, q)$、$Q_R$、modified Macdonald。$P(Y;t,q)$ では 8/11 まで改善するが、Hopf と固定 $N$ の 3 箱では悪くなるか、整数性が壊れる。
-\item 二次量子化の指数：$\tilde Z$ の積表示の指数を、$t$ の冪級数（モードの塔）に展開した係数。混在するブロックの割合は、trefoil の 2 箱で約 13\%（123 中 16、110 中 15）、$T(2,5)$ の 2 箱で約 34\%、trefoil の 3 箱で 38〜44\% である。
+\item 二次量子化の指数：$\tilde Z$ の積表示の指数を、$t$ の冪級数（モードのタワー）に展開した係数。混在するブロックの割合は、trefoil の 2 箱で約 13\%（123 中 16、110 中 15）、$T(2,5)$ の 2 箱で約 34\%、trefoil の 3 箱で 38〜44\% である。
 \item 多重項の変数：$(q^{1/2}, \qr)$ の対称性の探索。
 \end{itemize}
 \end{compresult}
@@ -45,12 +45,12 @@ trefoil の 3 箱 $\hat g_{\ythree}, \hat g_{\ytwoone}, \hat g_{\yoneoneone}$ & 
 \item 正しく $c = 1$ を取っても refined では $\sigma$ 対称でない。前の因子、表現 [1] の積や Adams 項の補正、転置では直らない。$\sigma$ 奇部分は $\bq^2(\bt^2 - 1)(V^4 - 1)$（$V^4 = qt$）で割り切れ、$t = q$ で消える。すなわち $\hat g^{c=1} = S + (\bt^2-1)(\ql - \ql^{-1})\,K'$（$S$, $K'$ は $\sigma$ 対称で $G$ 展開できる）。ただし $S$, $K'$ は半整数で、$G$ 展開のブロックの符号は trefoil の $K'$ 側で全ブロックそろう（$\beta$ で交互）が、$T(2,5)$ では崩れる。
 \end{enumerate}
 \end{compresult}
-因子 $(\bt^2 - 1)$ は $c = 2$ の普遍因子（SU(2)$_r$ の捻ったトレース）、$(\ql - \ql^{-1})$ は Lefschetz SU(2)$_\ell$ の Weyl 反射で奇である。多箱の $c = 1$ には「$\tilde I$ の捻りを受け、Lefschetz のスピンが奇」の状態が入り、表現 [1] にはそれが無い。これは \S\ref{sec:EC} の「結び目の固定セクターでは $S_R$ が自明に働かない」の $G$ 展開側の表れと考えられる（予想）。
+因子 $(\bt^2 - 1)$ は $c = 2$ の普遍因子（SU(2)$_r$ のツイストしたトレース）、$(\ql - \ql^{-1})$ は Lefschetz SU(2)$_\ell$ の Weyl 反射で奇である。多箱の $c = 1$ には「$\tilde I$ のツイストを受け、Lefschetz のスピンが奇」の状態が入り、表現 [1] にはそれが無い。これは \S\ref{sec:EC} の「結び目の固定セクターでは $S_R$ が自明に働かない」の $G$ 展開側の表れと考えられる（予想）。
 
 \subsection{被覆の brane と image の分割}
 被覆を brane（$Y$）と image（$Y'$）に分けた生成関数を作ると、次が成り立つ（trefoil, $T(2,5)$）。
 \begin{itemize}
-\item brane--brane のセクターは、\cite{KN17} の t 枠 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開でき、全 $\beta$ で符号がそろう（\cite{KN17} の正値性）。
+\item brane--brane のセクターは、\cite{KN17} の t 側 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開でき、全 $\beta$ で符号がそろう（\cite{KN17} の正値性）。
 \item brane--image のセクター $x = W_{\mathrm{adj}} + \kappa - W_{\yone}^2$ は、$(t^{-1/2} - t^{1/2})x/z_q$ が整数 Laurent で $\sigma$ 対称である。$\lambda^\beta$ のブロックの多くは「そろう」か「$(\bt^2 - 1)\times$ そろう」かのどちらかである。混在するのは、trefoil では $\lambda^{-8}$ と $\lambda^{-2}$、$T(2,5)$ では中央の $\lambda^{-16}$〜$\lambda^{-10}$ の 4 ブロックである。
 \end{itemize}
 向き付けられた被覆の brane--image のセクターが、クロスキャップと同じ普遍因子 $(\bt^2 - 1)$ をもつ。
@@ -63,7 +63,7 @@ brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の�
 \begin{enumerate}
 \item \textbf{状態の部分和}：Hopf と同じく $E = P - 2Q$（$P = (1-t)x$）と書き、(i) $C$ が整数 Laurent、(ii) $t = q$ で $E = -(1+q)(g_{\yone}(q^2, \lambda^2) + 1)$ を課した。trefoil で解が無い（$T(2,5)$ では実行していない）。範囲を外しても、(i)(ii) を満たす $E$ は $P$ の単項式の台に収まらない。
 \item \textbf{Adams 型}：$E = F\cdot(\psi^2[g_{\yone}] + 1)$。$F$ は $(1+q)$, $(1+t)$, $(q+t)$, $(1+qt)$ とその単項式倍で、$\psi^2$ で $\lambda^2$ に $(q/t)^{j/2}$（$|j| \le 2$）を掛ける場合も含めた。どれも (i) を満たさない。
-\item \textbf{捻ったトレース}：固定セクターの指数を $P = t^{1/2} z_q P_k$ と書き、$P_k$ の多重項（$G$ 展開の項、または単項式）ごとに $\tilde I$ の捻った指標をとる。境界の因子を $X$ として $E = sX\sum_m e_m\tilde b_m$、$|e_m| \le |c_m|$、$e_m \equiv c_m \pmod 2$ と置き、整数計画で解いた。捻りの規則は仮説で、q 平面・t 平面の $\pi$ 回転と、単項式ごとの符号の 3 通りを試した。
+\item \textbf{ツイストしたトレース}：固定セクターの指数を $P = t^{1/2} z_q P_k$ と書き、$P_k$ の多重項（$G$ 展開の項、または単項式）ごとに $\tilde I$ のツイストした指標をとる。境界の因子を $X$ として $E = sX\sum_m e_m\tilde b_m$、$|e_m| \le |c_m|$、$e_m \equiv c_m \pmod 2$ と置き、整数計画で解いた。ツイストの規則は仮説で、q 平面・t 平面の $\pi$ 回転と、単項式ごとの符号の 3 通りを試した。
   \begin{itemize}
   \item Hopf の $E_{22}, E_{24}$ は、$X = z_q$ と単項式ごとの符号で一意に再現される。
   \item 結び目では、$t = q$ と $t = -1$ の目標値がどちらも $(1 + q)$ を含むので、$X = z_q$ では解が無い。境界の因子は和 $z_q^+$ でなければならない。
@@ -73,12 +73,12 @@ brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の�
 境界の因子が和になることは、命題 \ref{prop:boundary} で導出した。
 \begin{enumerate}
 \setcounter{enumi}{3}
-\item \textbf{境界因子を固定した整数計画}：境界因子を $z_q^+$ に固定し、モジュライ部分の $G$ 展開の多重項に取っ手の捻り $G\to X$（$X\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$）を当てても、$T(2,3)$, $T(2,5)$ で解が無い。
+\item \textbf{境界因子を固定した整数計画}：境界因子を $z_q^+$ に固定し、モジュライ部分の $G$ 展開の多重項にハンドルのツイスト $G\to X$（$X\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$）を当てても、$T(2,3)$, $T(2,5)$ で解が無い。
 \item \textbf{framed unknot と符号の規則}：framed unknot（framing $\mathsf{f}$）では固定セクターの指数が $P(\mathsf{f}) = (\lambda^2-1)(q-1)\sum_{k<\mathsf{f}}(\lambda^2q)^{\mathsf{f}-1-k}t^k$ の積になる。条件 (ii) の形を仮定せず、(i) と「$t = q$ で $C$ が整数 Laurent」だけを課して全候補を数えると、$\mathsf{f} = 1, 2, 3$ のすべてで $E$ は一意に
 \[
 E(x) = (-1)^x(\lambda^2+1)(q+1)\sum_{k<x}(-1)^k(\lambda^2q)^{x-1-k}t^k\times\text{単項式}
 \]
-と決まる。$\tilde I$ は $t$ の塔に $(-1)^k$（$e^{i\pi J_2}$）で働く。Hopf $(2,2)$ でも、$t$ と $\lambda$ の指数の偶奇で符号を付ける規則が $E_{22}$ を再現する。しかし Hopf $(2,4)$ と結び目では、この型の規則（8 通りと基準のずれ 4 通り）も、符号と取っ手の捻りを組み合わせた 36 通りの規則も、どれも (i)(ii) を満たさない。
+と決まる。$\tilde I$ は $t$ のタワーに $(-1)^k$（$e^{i\pi J_2}$）で働く。Hopf $(2,2)$ でも、$t$ と $\lambda$ の指数の偶奇で符号を付ける規則が $E_{22}$ を再現する。しかし Hopf $(2,4)$ と結び目では、この型の規則（8 通りと基準のずれ 4 通り）も、符号とハンドルのツイストを組み合わせた 36 通りの規則も、どれも (i)(ii) を満たさない。
 \end{enumerate}
 \end{compresult}
 $\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_2$ の組み合わせだけである。したがって $E$ の決定には、固定セクターの状態の $t$ 電荷を $J_2$（$\tilde I$ で符号）と $S_R$（$\tilde I$ で不変）に分ける情報、すなわち \cite{KN17} の $\hat N_{\rho,g,\beta,J_r,S_R}$ に当たる打ち消しの前の状態数が要る。unknot ではすべて $J_2$、結び目では同じ電荷の状態に異なる符号が付く（計算）。\cite{KN17} の仮定（$S_R$ が BPS 状態に自明に働く）のもとでは符号が電荷の偶奇で決まるはずなので、結び目の brane--image のセクターでは $S_R$ が非自明に働くと考えられる（予想）。これが命題 \ref{prop:EC} の不定性の、量子数による言い換えである。
@@ -88,7 +88,7 @@ $\tilde I = I_X\otimes e^{i\pi J_2}$ であり、指数が見るのは $S_R - J_
 \end{remark}
 
 \subsection{$n = 1$ の $E$：状態の空間の同定}\label{sec:principle}
-固定セクターの最低次（brane 1・image 1、$n = 1$）では、$E$ は条件を使わずに状態の空間の同定だけから作れる。$T(2,2m+1)$ の $E$ の台 $N$ を $\lambda^{-2}$ の冪（ブロック $k = 0, \dots, K = 4m-1$）で分け、$V = 1 + t + qt$（trefoil の簡約 superpolynomial）、$S$ を $T(2,2m+1)$ の簡約 superpolynomial、$\psi^2$ を $(q, t)\to(q^2, t^2)$ とする。
+固定セクターの最低次（brane 1・image 1、$n = 1$）では、$E$ は条件を使わずに状態の空間の同定だけから作れる。$T(2,2m+1)$ の $E$ の台 $N$ を $\lambda^{-2}$ の冪（ブロック $k = 0, \dots, K = 4m-1$）で分け、$V = 1 + t + qt$（trefoil のreduced superpolynomial）、$S$ を $T(2,2m+1)$ のreduced superpolynomial、$\psi^2$ を $(q, t)\to(q^2, t^2)$ とする。
 % [P17]
 \begin{compresult}[符号の規則の破れ]\label{cr:signrule}
 下の系列（$k \le 2m$）に $(-1)^{\deg_q}$、上の系列に $(-1)^{\deg_t}$ を付ける符号の規則は、$T(2,3)$ と $T(2,5)$ では条件 (i)（$t = -1$）と (ii)（$t = q$）のもとで $E$ を一意に決めるが、$T(2,7)$ では (i) だけでも解が無い。破れるのは上の系列の最初のブロック $k = 2m+1$ である。
@@ -115,7 +115,7 @@ $E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym
 \end{conjecture}
 % [P23]
 \begin{conjecture}[閉じた式]\label{conj:closedform}
-$T(2,2m+1)$ の $n = 1$ の $N$ と $E$ は、結び目によらない普遍的なデータ $V$、$F_{j'}$、$X_{j'}$ と、結び目のデータ $S_m$（簡約 superpolynomial）・$m$ だけで書ける（$K = 4m-1$、$n_k$ は $\lambda^{-(6+2k)}q^{-(2+k)}$ の係数）：
+$T(2,2m+1)$ の $n = 1$ の $N$ と $E$ は、結び目によらない普遍的なデータ $V$、$F_{j'}$、$X_{j'}$ と、結び目のデータ $S_m$（reduced superpolynomial）・$m$ だけで書ける（$K = 4m-1$、$n_k$ は $\lambda^{-(6+2k)}q^{-(2+k)}$ の係数）：
 \[
  n_k = \mathrm{Sym}^kV\ (k<2m),\quad n_{2m} = \mathrm{Sym}^{2m}V - S_m^2,\quad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^jV + (q-t)\,t^{m-1-j'}F_{j'}\bigr]\ (j = m+j' \ge m),
 \]
@@ -127,7 +127,7 @@ $E$ は対応する $\tilde I$ のトレースである。$T(2,3)$〜$T(2,15)$ �
 \end{compresult}
 % [P25]
 \begin{compresult}\label{cr:t34}
-$n = 1$ の原理のうち、下の系列 $\mathrm{Sym}^kV$、移り目で完全平方を引く構造、$K = rs - 3$、条件 (i)(ii) を満たす $E$ の存在は、2 本撚りでない $T(3,4)$（$\gamma = \tau_+\tau_-^3$、$K = 9$）でも成り立つ。しかし移り目の平方の因子は $\tilde S = (1+qt)(1+t+t^2+qt^2+q^2t^2)$（10 状態）で $T(3,4)$ の簡約 superpolynomial（11 状態）ではなく、上の系列は $-t^{K-2j}[\mathrm{Sym}^jV + (q-t)R_j]$ の形にならない（$j = 0$ で $-t^8(q+t)$）。下の系列を固定した整数計画は (i)+(ii) で解をもつが一意でない（111 単項式中 29 が不定）。移り目の $S\otimes S$ と補正 $F_{j'}$・$X_{j'}$ の構造は 2 本撚りのトーラス結び目に固有である。
+$n = 1$ の原理のうち、下の系列 $\mathrm{Sym}^kV$、切り替わり（普遍的な系列 $\mathrm{Sym}^jV$ から結び目の部分へ移る $j = 2\delta$ の項。以下「切り替わり」）で完全平方を引く構造、$K = rs - 3$、条件 (i)(ii) を満たす $E$ の存在は、2 ストランドでない $T(3,4)$（$\gamma = \tau_+\tau_-^3$、$K = 9$）でも成り立つ。しかし切り替わりの平方の因子は $\tilde S = (1+qt)(1+t+t^2+qt^2+q^2t^2)$（10 状態）で $T(3,4)$ のreduced superpolynomial（11 状態）ではなく、上の系列は $-t^{K-2j}[\mathrm{Sym}^jV + (q-t)R_j]$ の形にならない（$j = 0$ で $-t^8(q+t)$）。下の系列を固定した整数計画は (i)+(ii) で解をもつが一意でない（111 単項式中 29 が不定）。切り替わりの $S\otimes S$ と補正 $F_{j'}$・$X_{j'}$ の構造は 2 ストランドのトーラス結び目に固有である。
 \end{compresult}
 % [P26]
 \begin{proposition}\label{prop:rows}
@@ -138,11 +138,11 @@ $x = \lambda^{-2}$ とし、$[1]$ の鏡像の $a$ の行を $R_1 = q^{-\delta/2
 を満たし、$N$ が Laurent であることと $G$ が Laurent であることは同値である。
 \end{proposition}
 \begin{compresult}\label{cr:rows}
-$T(2,3)$〜$T(2,15)$、$T(3,4)$、$T(3,5)$、$T(3,7)$、$T(3,8)$、$T(3,10)$、$T(4,5)$、$T(4,7)$ の 14 のトーラス結び目で $g_0 = 0$、$g_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ が成り立ち、したがって移り目は $n_{2\delta} = \mathrm{Sym}^{2\delta}V - (\rho_0 - \rho_1)^2$ である。平方の因子は常に 表現 [1] の最上 2 行 $\rho_0 - \rho_1$ であり、2 本撚りではこれが簡約 superpolynomial に一致し（行が 2 つ）、$T(3,4)$ の $\tilde S$ は 3 行目 $t^3$ を切り捨てたものである。$N$ は随伴と表現 [1] の被覆データだけで決まるので、$T(3,5)$（$\gamma = \tau_+\tau_-\tau_+\tau_-$、$\delta = 4$、$K = 12$）、$T(3,7)$、$T(3,8)$、$T(3,10)$、$T(4,5)$、$T(4,7)$ では $\tilde S$ と $K = rs - 3$ を予言として的中させた。最深ブロックは $n_K = -t^{K-s+2}h_{s-2}(q,t)$（$s = 2, 3, 4$）である。
+$T(2,3)$〜$T(2,15)$、$T(3,4)$、$T(3,5)$、$T(3,7)$、$T(3,8)$、$T(3,10)$、$T(4,5)$、$T(4,7)$ の 14 のトーラス結び目で $g_0 = 0$、$g_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ が成り立ち、したがって切り替わりは $n_{2\delta} = \mathrm{Sym}^{2\delta}V - (\rho_0 - \rho_1)^2$ である。平方の因子は常に 表現 [1] の最上 2 行 $\rho_0 - \rho_1$ であり、2 ストランドではこれがreduced superpolynomial に一致し（行が 2 つ）、$T(3,4)$ の $\tilde S$ は 3 行目 $t^3$ を切り捨てたものである。$N$ は随伴と表現 [1] の被覆データだけで決まるので、$T(3,5)$（$\gamma = \tau_+\tau_-\tau_+\tau_-$、$\delta = 4$、$K = 12$）、$T(3,7)$、$T(3,8)$、$T(3,10)$、$T(4,5)$、$T(4,7)$ では $\tilde S$ と $K = rs - 3$ を予言として的中させた。最深ブロックは $n_K = -t^{K-s+2}h_{s-2}(q,t)$（$s = 2, 3, 4$）である。
 \end{compresult}
 % [P27, P28]
 \begin{compresult}\label{cr:threestrand}
-3 本撚りの上の系列 $U_j = -n_{K-j}/t^{K-2j}$ は $j \le \delta - 2$ で $(1 + q/t)\mathrm{Sym}^jV + (q-t)C_j$ の形をもち（$C_j$ は結び目に依る）、$j = \delta - 1$ で $t = q$ の完全平方 $-([\lfloor r/2\rfloor]_{t^2}[r']_t)^2/t^{\delta-1}$（$r'$ は $r$ 以下の最大の奇数）が入る（$T(3,4)$、$T(3,5)$、$T(3,7)$、$T(3,8)$、$T(3,10)$）。4 本撚り（$T(4,5)$、$T(4,7)$）では前因子が $h_2(q,t)/t^2$、平方の位置が $j = r - s + 1$ で、平方の因子は $\rho_0(T(s-1, r-s+1))\cdot S(T(2,r'))|_{t=q}$ と読める。$E$ については、移り目の規則 $E_{2\delta} = \mathrm{Sym}^{2\delta}V|_{\varepsilon} - \psi^2\tilde S$ が $T(3,4)$・$T(3,5)$ でも条件 (i)(ii) と両立し、最深の 2 ブロックが一意に決まる（$E_K = -t^8(q-t)$、$+t^{11}(q-t)$）。2 本撚りでは、$E$ を同じ $(R, G)$ の形に分けると $G$ の行の $\tilde I$ は深い行（$j \ge \delta + 2$）で $q \mapsto -q$ の規則、それより上で対の補正 $D_{\delta-i} = t^{a(m,i)}\tilde D_i$（$\tilde D_i$ は $i$ と $m$ の偶奇だけで決まる）である。
+3 ストランドの上の系列 $U_j = -n_{K-j}/t^{K-2j}$ は $j \le \delta - 2$ で $(1 + q/t)\mathrm{Sym}^jV + (q-t)C_j$ の形をもち（$C_j$ は結び目に依る）、$j = \delta - 1$ で $t = q$ の完全平方 $-([\lfloor r/2\rfloor]_{t^2}[r']_t)^2/t^{\delta-1}$（$r'$ は $r$ 以下の最大の奇数）が入る（$T(3,4)$、$T(3,5)$、$T(3,7)$、$T(3,8)$、$T(3,10)$）。4 ストランド（$T(4,5)$、$T(4,7)$）では前因子が $h_2(q,t)/t^2$、平方の位置が $j = r - s + 1$ で、平方の因子は $\rho_0(T(s-1, r-s+1))\cdot S(T(2,r'))|_{t=q}$ と読める。$E$ については、切り替わりの規則 $E_{2\delta} = \mathrm{Sym}^{2\delta}V|_{\varepsilon} - \psi^2\tilde S$ が $T(3,4)$・$T(3,5)$ でも条件 (i)(ii) と両立し、最深の 2 ブロックが一意に決まる（$E_K = -t^8(q-t)$、$+t^{11}(q-t)$）。2 ストランドでは、$E$ を同じ $(R, G)$ の形に分けると $G$ の行の $\tilde I$ は深い行（$j \ge \delta + 2$）で $q \mapsto -q$ の規則、それより上で対の補正 $D_{\delta-i} = t^{a(m,i)}\tilde D_i$（$\tilde D_i$ は $i$ と $m$ の偶奇だけで決まる）である。
 \end{compresult}
 % [P29]
 \begin{compresult}[composite の大きな $N$ の因子化]\label{cr:composite}
@@ -153,13 +153,13 @@ $R_{[\alpha;\beta]} = R_\alpha R_\beta + (q-1)(t-1)G_{\alpha\beta}$（最上行�
 \begin{compresult}[$n = 2$ の行の母関数と $R$ 依存性]\label{cr:n2rows}
 trefoil の $n = 2$（brane 2・image 2）の固定セクター $N_R$（$R = (2), (1,1)$。ここでは Young 図を $R$、Kauffman 変数を $\lambda$ と書く）は、表現 [1]・2 箱・随伴・composite の鏡像の行 $R_{\yone} = a_2\lambda^{-2} + a_4\lambda^{-4}$（$a_2 = (1+qt)/q$、$a_4 = -t/q$）、$R_{\ytwo} = b_4\lambda^{-4} + b_6\lambda^{-6} + b_8\lambda^{-8}$、$R_{\yoneone} = c_4\lambda^{-4} + \cdots$、$G_{\alpha\beta}$ の行（計算結果 \ref{cr:composite}）の多項式（最大 4 次）として明示的に書け、実際の行で $\lambda^{-20}$ まで全ブロックが保存した $N_R$ と一致する。
 \begin{enumerate}
-\item \textbf{$\sigma$ 共変性}：2 箱の行と $G$ の重みの付け替え $\sigma$：$b_j \mapsto qb_j$、$c_j \mapsto c_j/t$、$G_{\alpha\beta} \mapsto w_\alpha w_\beta G_{\alpha\beta}$（$w_{\ytwo} = q$、$w_{\yoneone} = 1/t$）に対して、$N_{\ytwo}\circ\sigma - N_{\yoneone}$ は $(q-t)\times$（随伴セクターの記号 $a_2, a_4, g^{\mathrm{adj}}_j$ と背景だけの多項式）になる（$\lambda^{-20}$ まで）。すなわち $R$ の違いは「2 箱の行の重みの付け替え」と「真空の 2 状態 $(q-t)\otimes$ 随伴の塔」に分かれる。
+\item \textbf{$\sigma$ 共変性}：2 箱の行と $G$ の重みの付け替え $\sigma$：$b_j \mapsto qb_j$、$c_j \mapsto c_j/t$、$G_{\alpha\beta} \mapsto w_\alpha w_\beta G_{\alpha\beta}$（$w_{\ytwo} = q$、$w_{\yoneone} = 1/t$）に対して、$N_{\ytwo}\circ\sigma - N_{\yoneone}$ は $(q-t)\times$（随伴セクターの記号 $a_2, a_4, g^{\mathrm{adj}}_j$ と背景だけの多項式）になる（$\lambda^{-20}$ まで）。すなわち $R$ の違いは「2 箱の行の重みの付け替え」と「真空の 2 状態 $(q-t)\otimes$ 随伴のタワー」に分かれる。
 \item \textbf{$\lambda^{-12}$ の平方}：$\sigma$ 共変な部分は両 $R$ で完全平方 $-(t^{3/2}/q^{1/2})\hat Y_R^2$ で、$\hat Y_{\yoneone} = (1+q)(1+t)(1+qt)/q^3$、$\hat Y_{\ytwo} = [(1+q)(1+t)(1+qt)^2 + qt(q-t)]/q^4$（10 単項式、正、既約。積の形ではない）。補正は $(q-t)[(t/q^4)a_2^2 + \delta]$、$\delta = [tV'^2a_2^2/q^3 - 2a_2\tilde S + (V'-t)g^{\mathrm{adj}}_6]/q^3$（$V' = 1+q+qt$、$\tilde S = (1+t+qt)/q$。$R = (1,1)$ では $\delta = 0$）。brane/image の行を別の記号にすると、この平方は文字どおり brane の $X$ と image の $X$ のテンソル積 $X^bX^i$（$X$ は $a_2^2, b_4, c_4$ の線形結合）である。
 \item \textbf{$\hat Y_R$ は brane 単独の量}：単一の brane の 2 箱のキュムラント（$W_1, W_{\ytwo}, W_{\yoneone}$ の $\log$ と Adams $f_{\ytwo} = Z_{\ytwo} - \tfrac12\psi^2 Z_{\yone}$）を Schur の $R$ に射影した $\Omega^{(0)}_R(\lambda) = \sum_\rho \chi_R(\rho)f_\rho/\phi_\rho$ は $\mathrm{fac}\cdot[\Omega'_2\lambda^{-2} + \Omega'_4\lambda^{-4} + \cdots]$（$\mathrm{fac} = -q^{1/2}t/(t-1)$）で、両 $R$ で厳密に $\Omega'_4 = \hat Y_R$ である。$\hat Y_{\ytwo}$ の $qt(q-t)$ は Adams の項に由来する。さらに $R = (1,1)$ では補正も $\Omega'_2 = -a_2/q$ の平方で、$N_{12}(1,1) = -(t^{3/2}/q^{1/2})[\Omega_4'^2 + (q-t)(t/q^2)\Omega_2'^2]$ と書ける。
 \end{enumerate}
 \end{compresult}
 % [P40]
-\begin{compresult}[随伴の塔の母関数]\label{cr:tower}
+\begin{compresult}[随伴のタワーの母関数]\label{cr:tower}
 $x = \lambda^{-2}$、$V = 1+t+qt$、$V' = 1+q+qt$ とする。$N_{\ytwo}\circ\sigma - N_{\yoneone} = -(t^{3/2}/q^{1/2})(q-t)[R_1(x)^2\kappa_R(x) + G_{\mathrm{adj}}(x)\kappa_G(x) + \beta(x)]$ の核は閉じた形で
 \begin{align*}
 \kappa_G(x) &= \frac{q^2x^3[\,q^2(V'-t) - t^2x(V-q)\,]}{(tx-q)(t^3x-q)(t^2x-q^2)(tx-q^3)},\qquad
@@ -175,11 +175,11 @@ $n = 2$ の $\lambda^{-12}$ の $E$ は両 $R$ で「背景のセルの符号 $+
 E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\qquad
 B_{12}(1,1) = -q^{-13/2}t^{3/2}(q-t)qt^2 .
 \]
-以前の読み（補正は $t\,\mathrm{Sym}^2(1+qt)$）の余分な $(q-t)qt^2$ は背景の $E$（$E_B = -B$）であった。$R = (2)$ では平方 $\psi^2\hat Y_{\ytwo}$ に加えて補正の各部分（$(t/q^4)a_2^2$、$tV'^2a_2^2/q^6$ は $\psi^2$、交差項 $-2a_2\tilde S$ は 0、$G_{\mathrm{adj}}$ の最上行は $n = 1$ と同じ入れ替え $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$、その核 $V' - t$ はセルの符号 $(-1)^{\deg_q\deg_t}$ で $(1+q)(1-t)$）が符号まで一意に決まる（核の符号 16 通り中 1 通り）。この $E$ は、補正の単項式ごとに $|e|\le|R|$ を課す以前の族の外にある。ブロックの符号は $n = 1$ の移り目、$R = (2)$ の $\lambda^{-10}$、両 $R$ の $\lambda^{-12}$ を通じて $(-1)^{k/2+1}$（$k$ は $\lambda^{-k}$ の $k$）で統一され、$n = 1$ の $F^\varepsilon$ のセル 1 の符号の反転に当たる。$\kappa_G$ の分子の第 2 項 $V - q$ は同じ規則で $(1-q)(1+t)$ になる（予想）。
+以前の読み（補正は $t\,\mathrm{Sym}^2(1+qt)$）の余分な $(q-t)qt^2$ は背景の $E$（$E_B = -B$）であった。$R = (2)$ では平方 $\psi^2\hat Y_{\ytwo}$ に加えて補正の各部分（$(t/q^4)a_2^2$、$tV'^2a_2^2/q^6$ は $\psi^2$、交差項 $-2a_2\tilde S$ は 0、$G_{\mathrm{adj}}$ の最上行は $n = 1$ と同じ入れ替え $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$、その核 $V' - t$ はセルの符号 $(-1)^{\deg_q\deg_t}$ で $(1+q)(1-t)$）が符号まで一意に決まる（核の符号 16 通り中 1 通り）。この $E$ は、補正の単項式ごとに $|e|\le|R|$ を課す以前の族の外にある。ブロックの符号は $n = 1$ の切り替わり、$R = (2)$ の $\lambda^{-10}$、両 $R$ の $\lambda^{-12}$ を通じて $(-1)^{k/2+1}$（$k$ は $\lambda^{-k}$ の $k$）で統一され、$n = 1$ の $F^\varepsilon$ のセル 1 の符号の反転に当たる。$\kappa_G$ の分子の第 2 項 $V - q$ は同じ規則で $(1-q)(1+t)$ になる（予想）。
 \end{compresult}
 % [P35, P36, P37, P42]
 \begin{compresult}[$\lambda^{-14}$ 以降の障害]\label{cr:n2negative}
-$\lambda^{-8}$〜$\lambda^{-12}$ の $E$ を固定した $\lambda^{-14}$ の整数計画は、(i)+(ii) でも 113 未知数のうち 2〜3 個しか決めない（入れ替わる対の最小は (i) で 48、(i)+(ii) で 936）。入れ替えのトレースを記号ブロックの単項式ごとに取る構成は、どの記号を brane/image のラベルにしても $E$ にならない（$R$ によらないか、Laurent でない）：$N$ の Laurent 性は内容の異なる単項式の相殺で生じるので、トレースは Schur 基底の brane の対象 $\hat Y_R = \Omega'_4$ でしか定義できない。純粋な brane$\times$image の積は混合キュムラントで相殺し（階数 0）、平方 $\hat Y_R^2$ は連結の核（composite の次元の補正、$c_1$、$\kappa$）が担う。$\sigma$ 共変な部分は $\lambda^{-14}$ で $\hat Y_R$ で割れず、$\Omega^{(0)}$ の準位の積の級数では書けない。
+$\lambda^{-8}$〜$\lambda^{-12}$ の $E$ を固定した $\lambda^{-14}$ の整数計画は、(i)+(ii) でも 113 未知数のうち 2〜3 個しか決めない（入れ替わる対の最小は (i) で 48、(i)+(ii) で 936）。入れ替えのトレースを記号ブロックの単項式ごとに取る構成は、どの記号を brane/image のラベルにしても $E$ にならない（$R$ によらないか、Laurent でない）：$N$ の Laurent 性は内容の異なる単項式の相殺で生じるので、トレースは Schur 基底の brane の対象 $\hat Y_R = \Omega'_4$ でしか定義できない。純粋な brane$\times$image の積は混合キュムラントで相殺し（階数 0）、平方 $\hat Y_R^2$ は連結の核（composite の次元の補正、$c_1$、$\kappa$）が担う。$\sigma$ 共変な部分は $\lambda^{-14}$ で $\hat Y_R$ で割れず、$\Omega^{(0)}$ のレベルの積の級数では書けない。
 \end{compresult}
 % [P21]
 \begin{proposition}\label{prop:pairblind}
@@ -203,7 +203,7 @@ $(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) �
 \item 表現 [1]（トーラス結び目）では判定式（予想 \ref{conj:criterion}）が成り立ち、符号がそろう。
 \item 多箱では、普遍因子（予想 \ref{conj:structure}）は成り立つが、その商の符号はそろわない。
 \item $n = 1$ の $E$ は状態の空間の同定（計算結果 \ref{cr:principle}、予想 \ref{conj:correction}・\ref{conj:correctionI}）から条件なしに作れ、$T(2,3)$〜$T(2,15)$ で (i)・(ii) を満たす。
-\item $n = 2$（trefoil）では、$N_R$ の $R$ 依存性が「2 箱の行の重みの付け替え」と「真空 $(q-t)\otimes$ 随伴の塔」に分かれ（計算結果 \ref{cr:n2rows}・\ref{cr:tower}）、$\lambda^{-12}$ の平方の因子 $\hat Y_R$ は brane 単独の $R$ 射影キュムラントの第 2 準位である。$\lambda^{-12}$ の $E$ は両 $R$ で全部入れ替えとして決まる（計算結果 \ref{cr:n2E}）が、$\lambda^{-14}$ 以降は未決定である（計算結果 \ref{cr:n2negative}）。
+\item $n = 2$（trefoil）では、$N_R$ の $R$ 依存性が「2 箱の行の重みの付け替え」と「真空 $(q-t)\otimes$ 随伴のタワー」に分かれ（計算結果 \ref{cr:n2rows}・\ref{cr:tower}）、$\lambda^{-12}$ の平方の因子 $\hat Y_R$ は brane 単独の $R$ 射影キュムラントのレベル 2である。$\lambda^{-12}$ の $E$ は両 $R$ で全部入れ替えとして決まる（計算結果 \ref{cr:n2E}）が、$\lambda^{-14}$ 以降は未決定である（計算結果 \ref{cr:n2negative}）。
 \item 多箱の正値性は、凍結した状態の多重項の基底が決まるまで判定できない。$E$ と $C$ の分離が決まるまでも同様である。$E$ と $C$ の分離は指数からは決まらず（命題 \ref{prop:EC}）、composite の DAHA の値からも状態の数は得られなかった（計算）。打ち消しの前の固定セクターの状態の空間を、幾何から求める必要がある \open。
 \item 多箱の $c = 1$ の $\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の取り違えと、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(V^2-V^{-2})$ で割り切れる）に分かれる（計算結果 \ref{cr:multibox-sigma}）。後者の起源は、結び目の固定セクターで $S_R$ が非自明に働くことにあると考えられる（予想）。
 \end{itemize}
