@@ -1911,3 +1911,13 @@
   - 訂正：続き 31 では trefoil の brane–image の ν^{−2} を「混在」と書いたが、q_r^{−1} − q_r^{−3} = q_r^{−3}(q_r²−1) で「(t̄²−1)× そろう」に当たる。§7.3 の「trefoil では λ^{−8} と λ^{−2}」を「λ^{−8} の 1 ブロック」に直した。
 - 付録 B の因数分解の表示：既約で 4 項以上のブロックは「既約（上の形のまま）」と書き、因子が長いときは因子ごとに行を折るようにした（はみ出しの解消）。「付録 \ref」の重複（「付録 付録 E」）を全体で直した。
 - 記録：sections/positivity.tex、discussion.tex、appendix.tex、tex/gen/cover_split*.tex、scripts/refined_kauffman/rk_report_tex.py、main.pdf。
+
+## 2026-11-08（続き 131）brane–brane セクターと [KN17] の値の照合
+- 指示「確認せよ。簡単にできる範囲で良い」（brane–brane が KN そのものか）。
+- 【計算】rk_b_cover_split.cover_sectors(m)（m = 1, 2）の brane–brane の f（p₁², p₂ 成分から f_(2) = p₁² 成分 + p₂ 成分、f_(1,1) = 差）と f_[1] を、framed_knot の KN 再現データ data/framed_knot/lmov/{T2_3,T2_5}_{1,2}.json（f^q, f^{t̄}, f̂、変数 (A,Q,T) = (a,q,t)^{1/2}、a シフトなし）と比べた。対応：鏡像（Rdata_nu が (A,Q,T) → (ν,r,s)^{-1} で読む）、a = ν² = t^{N_A}、一様な規格化の因子 (t/q)^{δ|R|/2}（δ = m）を除く。
+  - **(t^{−1/2} − t^{1/2}) f^{bb}_R = −f^{t̄}_R（KN、鏡像）が R = [1], [2], [1,1]、trefoil と T(2,5) で全係数一致**。f_[1] は f^q_[1] = f^{t̄}_[1] = f̂_[1] とも一致（1 箱では M = 1）。
+  - hatted：本論文の M⊗M（p₁² 成分を z_q、p₂ 成分を q^{1/2}+q^{−1/2} で割る）は、KN の f̂ と **R ↔ Rᵀ で一致**（(t^{−1/2}−t^{1/2}) f̂^{bb}_(2) = f̂^{KN}_(1,1)、(1,1) ↔ (2)）。入れ替わるのは鏡像で M(q^{−1}) が M(q) に移るため（§2.3 の注意「M(q) は R ↔ Rᵀ を入れ替える」）。同じラベルどうしでは一致しない。
+  - 続き 31 の「φ_(1)φ_(1) = 1 ではなく z_q が要る」は、KN の M(q^{−1})^{−1} の p₁² 成分の因子 1/z_q（符号は −）と同じものだった。
+- 結論：brane–brane セクターは、規格化の因子と鏡像・転置を除いて [KN17] の U(N_A) の refined LMOV 不変量そのものである【計算、trefoil と T(2,5) の |R| ≤ 2】。§8.2 の「KN の G 展開と正値性をそのまま満たす」は「KN の値に一致する」に強められた。
+- テスト：tests/refined_kauffman/test_rk_cover_kn.py（2 件、2.4 秒）。論文：§7.3 の brane–brane の項、§8.2、付録 E の冒頭に一致を追記。claims.md P3 を更新。
+- 未確認：3 箱（composite (2;1̄), (1,1;1̄) が要る brane–image 側が本論文に固有。brane–brane の 3 箱は KN の既知の結果に帰着）。
