@@ -1876,3 +1876,7 @@
 ## 2026-11-03（続き 125）論文の推敲
 - 指示「論文の推敲へ」。§7 の新しい計算結果（7.15〜7.19）の記号を統一した：Young 図は $R$（Kauffman 変数 $\lambda$ との衝突を解消）、ブロックの変数は $\lambda^{-k}$（命題 7.12・予想 7.10 の $\nu$ も $\lambda$ に）、前因子は $t^{3/2}/q^{1/2}$ の形、行 $a_2, a_4, b_j, c_j$ の定義を追加。序論（§1 の正値性の項）・要旨・議論（E と C の分離の項）に n = 1・n = 2 の結果の一文を追加。lualatex で 36 ページ、エラー・未定義参照なし、23〜24 ページを画像で確認。
 - 記録：positivity.tex、introduction.tex、abstract.tex、discussion.tex、main.pdf。
+
+## 2026-11-07（続き 126）論文 §2：期待値の定義と双対 Cauchy 核の展開式
+- ユーザーの質問（bosonic な核・Cauchy 核・⟨ ⟩ の定義・展開の相手の関数）に答え、指示「論文にも書け」で §2.2（双対 Cauchy 核と生成関数）の式 (eq:Z) の直後に書き足した：⟨F(x)⟩_{SO(2N)} の定義（F を Koornwinder 多項式で展開し各項を W_λ に置き換える線形写像；unrefined では経路積分の Wilson loop）、展開式 (eq:Zexpand) Z̃(Y) = Σ_{λ⊆m^N} (−1)^{|λ|} W_λ(K) K̂_{λ′}(Y; t,q; T = t^N)（K̂ は Rains の virtual Koornwinder、(Π y)^N K_{N^m−λ′}(Y; t,q)）、U が形式変数になる理由、被覆では composite の指標で展開すること。lualatex で 36 ページ、未定義参照なし、7 ページを画像で確認。
+- 記録：preliminaries.tex、main.pdf。

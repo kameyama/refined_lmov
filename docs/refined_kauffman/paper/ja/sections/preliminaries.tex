@@ -49,7 +49,14 @@ Mimachi の双対 Cauchy 恒等式（Koornwinder 多項式）
 \tilde Z(Y) = \Bigl\langle \prod_{\alpha, i} (1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1}) \Bigr\rangle_{\SO(2N)},\qquad
 \log \tilde Z = \sum_{d \ge 1} \frac1d \sum_R f_R(q^d, t^d, \lambda^d)\, s_R(Y^d)
 \end{equation}
-と置く。被覆 U$(N_A)$ についても、同じ核で $f^{\cov}_R$ を定める。
+と置く。ここで $\langle F(x)\rangle_{\SO(2N)}$ は、ホロノミーの固有値 $x = (x_1, \dots, x_N)$ の類関数 $F$ を Koornwinder 多項式 $K_\lambda(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ で展開し、各項を refined Chern--Simons の結び目不変量 $W_\lambda(K)$（規格化は \S\ref{sec:uniform}）で置き換える線形写像である：$F = \sum_\lambda c_\lambda K_\lambda(x)$ に対して $\langle F\rangle := \sum_\lambda c_\lambda W_\lambda(K)$。unrefined では経路積分の Wilson loop の期待値で、$x$ は積分されて消える変数である。
+双対 Cauchy 恒等式を $y$ 側が $m$ 個の probe、$x$ 側が $N$ 個のホロノミーになるように読み、両辺に $(\prod_\alpha y_\alpha)^N$ を掛けると、生成関数は
+\begin{equation}\label{eq:Zexpand}
+\tilde Z(Y) = \sum_{\lambda \subseteq m^N} (-1)^{|\lambda|}\, W_\lambda(K)\, \hat K_{\lambda'}(Y; t, q; T = t^N),\qquad
+\hat K_{\lambda'}(Y; t, q; T) := \Bigl(\prod_\alpha y_\alpha\Bigr)^N K_{N^m - \lambda'}(Y; t, q; 1, -1, q^{1/2}, -q^{1/2})
+\end{equation}
+と展開される。和をとる相手は probe 側の $(t, q)$ 型 Koornwinder 多項式で、長方形 $N^m$ からの補集合に $(\prod y)^N$ を掛けた $\hat K_{\lambda'}$ は Rains の virtual Koornwinder 多項式であり、$Y$ の多項式として $N$ に依存するのは $T = t^N = U$ を通してだけである。これが $U$ を形式変数として扱える理由で、$f_R$ は $\hat K_{\lambda'}(Y)$ を Schur 関数 $s_R(Y)$ に展開し直して Möbius 反転で定める。符号 $(-1)^{|\lambda|}$ は fermionic な核の特徴である。unknot では $W_\lambda = P_\lambda(t^\rho)$ で、\eqref{eq:Zexpand} は双対 Cauchy 恒等式を $x = t^\rho$ で評価した積（\S\ref{sec:hopf}）に戻る。
+被覆 U$(N_A)$ についても、同じ核 $\prod_i(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1})$ で $f^{\cov}_R$ を定める。この場合は $x$ と $x^{-1}$ の両方が入るので、展開の基底は composite $(\alpha; \bar\beta)$ の Macdonald 指標で、$\langle P_\alpha(x) P_\beta(x^{-1})\rangle$ は composite の値と縮約項に分解して評価する（\S\ref{sec:generalN}）。
 核の $|Y| \le 2$ の部分は、U$(N_A)$ の普通の表現と随伴 composite $(1;1)$ で書ける。3 次では composite $(2;1)$, $(1,1;1)$ も現れる。
 
 \begin{definition}[クロスキャップ部分]
