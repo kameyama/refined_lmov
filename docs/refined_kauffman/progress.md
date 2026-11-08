@@ -12,7 +12,7 @@
 2. **Python**：リポジトリ直下で `just setup`（`python3 -m venv .venv` と `pip install -e ".[dev]"`。依存は sympy・numpy・mpmath・python-flint・scipy・pytest。Python 3.14 で確認）。
    - この Mac では main checkout の `.venv` を使っている（`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`）。
    - スクリプトは `PYTHONPATH=src:scripts/refined_kauffman` で実行する（多くのスクリプトは自分で sys.path に入れる）。
-3. **テスト**：`.venv/bin/pytest -q tests/refined_kauffman`（既定の機能テスト。2026-11-08 の結果は下の「テスト」の行）。`-m results` は保存済みの大きな計算の再検証で、問題が出たときだけ流す。
+3. **テスト**：`.venv/bin/pytest -q tests/refined_kauffman`（既定の機能テスト）。2026-11-08 に全件通過：151 passed、12 deselected（`results` の印）、約 9 分（この Mac）。`-m results` は保存済みの大きな計算の再検証で、問題が出たときだけ流す。
 4. **データ**：計算結果の pkl は `data/refined_kauffman/`（約 48 MB、1320 ファイル）に commit してあり、clone で付いてくる。
    - `data/cache/` は追跡しない。無ければ初回の実行で作り直される（数分）。
    - この Mac にだけある未追跡のファイル（`data/refined_kauffman/daha/Z_N*_m1k4_*.pkl`：T(4,5) の D_N、`Z_N17_T3_5_1.pkl`）は打ち切った計算の途中結果で、再開には要らない。
@@ -2088,3 +2088,4 @@
 - docs/refined_kauffman/README.md（ファイルの表と「作業を再開するとき」）と paper/outline.md（第 2 版での変更）を更新。
 - data/refined_kauffman/daha/n2_rows_ker_shared_m1_k14.pkl（775 KB、rk_f_n2_omega.py の入力）を commit した。未追跡で残るのは打ち切った計算の途中結果（Z_N*_m1k4_*.pkl、Z_N17_T3_5_1.pkl）だけ。
 - 第 2 版 §6.2 の「補間の窓」を「補間する冪の範囲」に直した（ユーザーの取り決め）。
+- 【計算】既定のテストを全件流して通過を確認：151 passed、12 deselected、539 秒。
