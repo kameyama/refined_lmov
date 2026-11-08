@@ -5,8 +5,9 @@
 新しいセッション・別の PC では、この節だけ読めば作業を再開できるようにしてある。日々の詳細は下の日付ごとの記録（続き 1〜137、古いものが上）にある。2026-10-31 時点の再開用の節は、この節の直後に「旧・再開用の節」として残した（続き 99 までの E の決定の経過が詳しい）。
 
 ### 0. 別の PC・別のセッションで再開する手順
-1. **コード**：GitHub の `kameyama/refined_lmov`（origin）のブランチ `claude/kauffman-research-progress-c23e34` に、2026-11-08 までの全 commit が push 済み（[PR #12](https://github.com/kameyama/refined_lmov/pull/12)、open・未マージ）。
-   - 別の PC：`git clone https://github.com/kameyama/refined_lmov.git` → `git checkout claude/kauffman-research-progress-c23e34`。PR #12 がマージされた後なら main から新しいブランチを切る。
+1. **コード**：2026-11-08 までの全 commit は GitHub の `kameyama/refined_lmov`（origin）の **main にマージ済み**（[PR #12](https://github.com/kameyama/refined_lmov/pull/12)：続き 65〜137、2026-11-08 マージ。続き 138 の再開用の記録はその後の PR でマージ）。
+   - 別の PC：`git clone https://github.com/kameyama/refined_lmov.git` で main を取り、作業用のブランチを新しく切る（`git checkout -b <新しいブランチ>`）。
+   - この Mac の worktree のブランチ `claude/kauffman-research-progress-c23e34` もマージ済み。続けて使うなら、先に main を取り込む（`sync_with_base_branch`、または main checkout で fetch してから merge）。
    - この Mac：worktree `/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`。無くなっていたら main checkout で `git -C /Users/masaya/projects/ai_research/refined_cs worktree add <場所> claude/kauffman-research-progress-c23e34`（サンドボックス外）。
    - main への直接の commit とローカルでのマージは禁止。push と PR の作成・変更は外部送信なので、毎回ユーザーの許可を得る。
 2. **Python**：リポジトリ直下で `just setup`（`python3 -m venv .venv` と `pip install -e ".[dev]"`。依存は sympy・numpy・mpmath・python-flint・scipy・pytest。Python 3.14 で確認）。
@@ -2089,3 +2090,4 @@
 - data/refined_kauffman/daha/n2_rows_ker_shared_m1_k14.pkl（775 KB、rk_f_n2_omega.py の入力）を commit した。未追跡で残るのは打ち切った計算の途中結果（Z_N*_m1k4_*.pkl、Z_N17_T3_5_1.pkl）だけ。
 - 第 2 版 §6.2 の「補間の窓」を「補間する冪の範囲」に直した（ユーザーの取り決め）。
 - 【計算】既定のテストを全件流して通過を確認：151 passed、12 deselected、539 秒。
+- PR #12（続き 65〜137）は 2026-11-08 04:10 UTC にマージ済みだった（マージ commit e58f88d）。ユーザーの指示「push せよ、PR も作成してマージせよ」で、続き 138 の 3 commit を push し、新しい PR を作ってマージした。
