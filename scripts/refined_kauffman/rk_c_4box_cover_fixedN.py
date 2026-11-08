@@ -73,19 +73,6 @@ def shape(nu):
     return tuple(x + c for x in nu if x + c > 0)
 
 
-def ensure_data(shapes):
-    import stage2_torus as S2
-    S2.OUT = Path("data/refined_kauffman/torus")
-    for sh in shapes:
-        lab = "".join(map(str, sh))
-        if os.path.exists(f"data/refined_kauffman/torus/T2_3_{lab}.json") or os.path.exists(f"data/framed_knot/torus/T2_3_{lab}.json"):
-            continue
-        S2.COLORS[lab] = sh
-        t0 = time.time()
-        S2.compute("T2_3", lab)
-        print(f"   KN の data T2_3_{lab}：{time.time()-t0:.0f}s", flush=True)
-
-
 SOURCE = {}
 
 
@@ -112,7 +99,16 @@ def W_shape(sh, NA):
         return W_**sum(sh) * from_sympy(T.Rdata(lab, NA)) * from_sympy(T.P_A(sh, NA))
     t0 = time.time()
     SOURCE[sh] = "DAHA"
-    v = R_daha(sh, NA) * from_sympy(T.P_A(sh, NA))
+    cp = f"data/cache/R_daha_GL{NA}_T2_3_{lab}.pkl"          # DAHA の値のキャッシュ（10 箱は 1 件 15〜45 分）
+    if os.path.exists(cp):
+        from rcsknots.refined_kauffman import flint_rf as FR
+        nd, dd = pickle.load(open(cp, "rb"))
+        Rv = FR.RF(CTX.from_dict(nd), CTX.from_dict(dd))
+    else:
+        Rv = R_daha(sh, NA)
+        os.makedirs("data/cache", exist_ok=True)
+        pickle.dump(({tuple(e): int(c) for e, c in Rv.n.to_dict().items()}, {tuple(e): int(c) for e, c in Rv.d.to_dict().items()}), open(cp, "wb"))
+    v = Rv * from_sympy(T.P_A(sh, NA))
     print(f"   [{lab}] は GL({NA}) の DAHA で評価（{time.time()-t0:.0f}s）", flush=True)
     return v
 
@@ -123,27 +119,34 @@ def pair_values(NA):
     D = GLN(NA)
     P = {lam: gl_P_poly(D, lam) for lam in PARTS}
     dec = {}
-    for a in PARTS:
-        for b in PARTS:
-            if sum(a) + sum(b) > KMAX or len(a) > NA or len(b) > NA:
-                continue
-            lhs = mul(P[a], inv(P[b]))
-            high = tuple(list(a) + [0] * (NA - len(a) - len(b)) + [-x for x in reversed(b)])
-            ws = weights(NA, sum(a) - sum(b), a[0] if a else 0, b[0] if b else 0, high)
-            basis = {nu: P_weight(D, nu) for nu in ws}
-            x = solve_symmetric(D, lhs, basis)
-            # 検算：分解の和が左辺に戻る
-            back = {}
-            for nu, c in x.items():
-                if not c.is_zero():
-                    for k, v in basis[nu].items():
-                        back[k] = back.get(k, ZERO) + c * v
-            assert all((back.get(k, ZERO) - lhs.get(k, ZERO)).is_zero() for k in set(back) | set(lhs)), (a, b)
-            dec[(a, b)] = {nu: c for nu, c in x.items() if not c.is_zero()}
+    # 荷電共役 ⟨P_a P_b^∨⟩ = ⟨P_b P_a^∨⟩（大きな N の組み立てと同じ仮定。(1;2) と (2;1) で確かめる）を使い、
+    # 重みの持ち上げが小さい側（|a| ≥ |b|、|a| = |b| = 2 では (11;2) の代わりに (2;11)）だけを分解する（U(5) の (0;4) は 16 箱になる）
+    todo = [(a, b) for a in PARTS for b in PARTS if sum(a) + sum(b) <= KMAX and len(a) <= NA and len(b) <= NA
+            and (sum(a) > sum(b) or (sum(a) == sum(b) and a >= b))] + [((1,), (2,))]
+    for a, b in todo:
+        lhs = mul(P[a], inv(P[b]))
+        high = tuple(list(a) + [0] * (NA - len(a) - len(b)) + [-x for x in reversed(b)])
+        ws = weights(NA, sum(a) - sum(b), a[0] if a else 0, b[0] if b else 0, high)
+        basis = {nu: P_weight(D, nu) for nu in ws}
+        x = solve_symmetric(D, lhs, basis)
+        # 検算：分解の和が左辺に戻る
+        back = {}
+        for nu, c in x.items():
+            if not c.is_zero():
+                for k, v in basis[nu].items():
+                    back[k] = back.get(k, ZERO) + c * v
+        assert all((back.get(k, ZERO) - lhs.get(k, ZERO)).is_zero() for k in set(back) | set(lhs)), (a, b)
+        dec[(a, b)] = {nu: c for nu, c in x.items() if not c.is_zero()}
     shapes = sorted({shape(nu) for d in dec.values() for nu in d}, key=lambda s: (sum(s), s))
     print(f"   分解 {time.time() - T0:.0f}s、形 {len(shapes)} 個", flush=True)
     Wsh = {sh: W_shape(sh, NA) for sh in shapes}
-    return {k: sum((c * Wsh[shape(nu)] for nu, c in d.items()), ZERO) for k, d in dec.items()}, dec
+    pair = {k: sum((c * Wsh[shape(nu)] for nu, c in d.items()), ZERO) for k, d in dec.items()}
+    ok = (pair[((1,), (2,))] - pair[((2,), (1,))]).is_zero()
+    print(f"   荷電共役 ⟨P_1 P_2^∨⟩ = ⟨P_2 P_1^∨⟩：{ok}", flush=True)
+    assert ok
+    for (a, b) in list(pair):
+        pair.setdefault((b, a), pair[(a, b)])
+    return pair, dec
 
 
 def padd(A, B, c=ONE):
@@ -195,7 +198,12 @@ def plog(Zp):
 
 def from_largeN(p, N):
     """flint_rf3 の (分子, 分母) の辞書 → u = s^{2N} を代入した flint_rf。"""
-    cv = lambda d: CTX.from_dict({(e[0], e[1] + 2 * N * e[2]): c for e, c in d.items()}) if d else CTX.from_dict({})
+    def cv(d):
+        out = {}
+        for e, c in d.items():                          # u = s^{2N} で指数が重なる項は足す
+            k = (e[0], e[1] + 2 * N * e[2])
+            out[k] = out.get(k, 0) + c
+        return CTX.from_dict({k: c for k, c in out.items() if c})
     n, d = cv(p[0]), cv(p[1])
     from rcsknots.refined_kauffman import flint_rf as FR
     return FR.RF(n, d)
