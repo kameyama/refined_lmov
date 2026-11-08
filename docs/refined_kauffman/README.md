@@ -32,13 +32,13 @@ Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果�
 | progress.md | 進捗（先頭に再開用の「現在の状況」、その下に日付ごとの記録。記録は古いものが上で、新しいものは末尾に足す） |
 | theory_orientifold_index.md | orientifold の開弦の refined 指数の理論（全 d の構造、E と C の分離、閉弦との照合、捻ったトレース、§1〜§12。§12.23〜§12.31 は n = 1 の E を状態の空間の同定から作る原理と、n = 2 の背景・結び目の部分） |
 | tex/report.tex, report.pdf | 計算結果の報告書（TeX、生成した式は tex/gen/） |
-| paper/ | 論文の草稿（outline.md、claims.md、ja/main.tex と sections/、ja/main.pdf） |
+| paper/ | 論文の草稿。ja_v2/（第 2 版、2026-11-08 から本体。main.tex、sections/、refs.bib、main.pdf）、ja/（第 1 版、記録として残す）、claims.md（主張の格付け）、outline.md（第 1 版の構成案） |
 | daha_fast.md | DAHA-Jones の高速版の設計と確認 |
 
-未解決の問題は progress.md の「現在の状況」§5 と、論文の草稿の §8 にまとめてある（open_problems.md は作っていない）。
+未解決の問題は progress.md の「現在の状況」§5 と、論文の第 2 版の §10.3 にまとめてある（open_problems.md は作っていない）。
 
 ## 作業を再開するとき
-1. progress.md の先頭「現在の状況（再開用）」を読む（環境、現在の段階、次にやること、試して失敗した方法）。
-2. 論文の作業なら paper/outline.md（決定事項）と paper/claims.md（主張と根拠）を読む。
+1. progress.md の先頭「現在の状況（再開用）」を読む。§0 に別の PC・別のセッションで再開する手順（clone するブランチ、Python と TeX の環境、データ、文献、ユーザーとの取り決め）、§1 に論文の段階、§2 に研究の到達点と次の候補、§4 に試して失敗した方法がある。
+2. 論文の作業なら paper/ja_v2/（本体）と paper/claims.md（主張と根拠）を読む。書き方の規則は CLAUDE.md「論文の書き方」。
 3. research_plan.md の状態の表と停止点は 2026-10-18 時点のもので、それ以降の進み方は progress.md に記録してある。
 4. 規約は conventions.md（この研究固有）。本研究の docs/conventions.md は U(N) 側の参照用。
