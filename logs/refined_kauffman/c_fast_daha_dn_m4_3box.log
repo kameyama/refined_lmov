@@ -21,3 +21,15 @@ N=8 λ=(2, 1): 37.9s、最大 RSS 2701MB
 N=8 λ=(1, 1, 1): 8.2s、最大 RSS 2701MB
 完了
 .venv/bin/python scripts/refined_kauffman/rk_c_fast_daha_dn.py 4 2 8 3 21 111  709.91s user 4.28s system 99% cpu 11:55.29 total
+N=9 λ=(3,): 471.0s、最大 RSS 4467MB
+N=9 λ=(2, 1): 46.6s、最大 RSS 4467MB
+N=9 λ=(1, 1, 1): 11.0s、最大 RSS 4467MB
+      529.41 real       526.75 user         2.27 sys
+N=10 λ=(3,): 795.9s、最大 RSS 6974MB
+N=10 λ=(2, 1): 60.5s、最大 RSS 6974MB
+N=10 λ=(1, 1, 1): 14.8s、最大 RSS 6974MB
+      872.05 real       867.29 user         3.90 sys
+N=11 λ=(3,): 1335.1s、最大 RSS 9245MB
+N=11 λ=(2, 1): 77.4s、最大 RSS 9245MB
+N=11 λ=(1, 1, 1): 19.7s、最大 RSS 9245MB
+     1433.13 real      1420.80 user        10.40 sys
