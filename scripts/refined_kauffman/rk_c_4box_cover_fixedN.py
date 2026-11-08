@@ -1,0 +1,190 @@
+r"""trefoil の 4 箱の被覆の自由エネルギー f^{cov}（大きな N、rk_c_4box_largeN_g.py）を、固定の U(N_A) での独立な計算と照合する（progress.md 続き 139）。
+固定 N_A（既定 5、SO(6) の U = t³ に対応、A = t^{N_A}）：
+  ⟨P_a(x) P_b(x^{−1})⟩ を GL(N_A) の Laurent 多項式として作り、既約 P_ν（ν は優勢な重み）に分解する（daha_fast.solve_symmetric、
+  P_ν = e_N^{−c} P_{ν + c^N}、c = max(0, −ν_N)）。⟨P_ν⟩ は KN の data（GN の再構成。DAHA・Pieri・補間を通らない）で
+  W_ν = (t/q)^{|sh|/2} R_sh P_sh(t^ρ)、sh = ν + c^N（ν_N ≥ 0 は ν のまま。rk_k5_trefoil_3box.cover_parts の uniform と同じ規則）。
+  Z~ = Σ_{λ,μ} (−1)^{|λ|+|μ|} ⟨P_λ P_μ^∨⟩ P_{λ'}(Y; t, q) P_{μ'}(Y; t, q)、f = Σ_d μ(d)/d ψ_d(log Z~)（次数 ≤ 4）。
+足りない KN の data は scripts/framed_knot/stage2_torus.compute で作る（data/refined_kauffman/torus/T2_3_{ν}.json）。
+使い方：python rk_c_4box_cover_fixedN.py [N_A]"""
+import sys, os, pickle, time
+from fractions import Fraction
+from pathlib import Path
+sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman"); sys.path.insert(1, "scripts/framed_knot")
+import sympy as sp
+from rcsknots.refined_kauffman.flint_rf import RF, R, S, ONE, conv, CTX
+from rcsknots.refined_kauffman.daha_fast import solve_symmetric
+from rcsknots.refined_kauffman.daha_dn import GLN, gl_P_poly
+from rcsknots.macdonald import macdonald_P
+from rcsknots.partitions import partitions
+import rk_k5_trefoil_2box as T
+
+ZERO = conv(0)
+KMAX = 4
+PARTS = [()] + [lam for n in range(1, KMAX + 1) for lam in partitions(n)]
+W_ = S / R
+
+
+def inv(f):
+    return {tuple(-x for x in a): v for a, v in f.items()}
+
+
+def mul(f, g):
+    out = {}
+    for a, x in f.items():
+        for b, y in g.items():
+            k = tuple(p + w for p, w in zip(a, b))
+            out[k] = out.get(k, ZERO) + x * y
+    return {k: v for k, v in out.items() if not v.is_zero()}
+
+
+def weights(N, total, top, bottom):
+    """優勢な重み ν（ν_1 ≥ … ≥ ν_N、Σν = total、ν_1 ≤ top、ν_N ≥ −bottom）。"""
+    out = []
+
+    def rec(prefix, rest_n, hi):
+        if rest_n == 0:
+            if sum(prefix) == total:
+                out.append(tuple(prefix))
+            return
+        for x in range(hi, -bottom - 1, -1):
+            rec(prefix + [x], rest_n - 1, x)
+    rec([], N, top)
+    return out
+
+
+def P_weight(D, nu):
+    c = max(0, -nu[-1])
+    lam = tuple(x + c for x in nu)
+    P = gl_P_poly(D, tuple(x for x in lam if x > 0))
+    return {tuple(x - c for x in a): v for a, v in P.items()}
+
+
+def shape(nu):
+    c = max(0, -nu[-1])
+    return tuple(x + c for x in nu if x + c > 0)
+
+
+def ensure_data(shapes):
+    import stage2_torus as S2
+    S2.OUT = Path("data/refined_kauffman/torus")
+    for sh in shapes:
+        lab = "".join(map(str, sh))
+        if os.path.exists(f"data/refined_kauffman/torus/T2_3_{lab}.json") or os.path.exists(f"data/framed_knot/torus/T2_3_{lab}.json"):
+            continue
+        S2.COLORS[lab] = sh
+        t0 = time.time()
+        S2.compute("T2_3", lab)
+        print(f"   KN の data T2_3_{lab}：{time.time()-t0:.0f}s", flush=True)
+
+
+def W_shape(sh, NA):
+    if not sh:
+        return ONE
+    lab = "".join(map(str, sh))
+    from rcsknots.refined_kauffman.flint_rf import from_sympy
+    return W_**sum(sh) * from_sympy(T.Rdata(lab, NA)) * from_sympy(T.P_A(sh, NA))
+
+
+def pair_values(NA):
+    D = GLN(NA)
+    P = {lam: gl_P_poly(D, lam) for lam in PARTS}
+    dec = {}
+    for a in PARTS:
+        for b in PARTS:
+            if sum(a) + sum(b) > KMAX or len(a) > NA or len(b) > NA:
+                continue
+            lhs = mul(P[a], inv(P[b]))
+            ws = weights(NA, sum(a) - sum(b), a[0] if a else 0, b[0] if b else 0)
+            basis = {nu: P_weight(D, nu) for nu in ws}
+            x = solve_symmetric(D, lhs, basis)
+            # 検算：分解の和が左辺に戻る
+            back = {}
+            for nu, c in x.items():
+                if not c.is_zero():
+                    for k, v in basis[nu].items():
+                        back[k] = back.get(k, ZERO) + c * v
+            assert all((back.get(k, ZERO) - lhs.get(k, ZERO)).is_zero() for k in set(back) | set(lhs)), (a, b)
+            dec[(a, b)] = {nu: c for nu, c in x.items() if not c.is_zero()}
+    shapes = sorted({shape(nu) for d in dec.values() for nu in d}, key=lambda s: (sum(s), s))
+    ensure_data([s for s in shapes if s])
+    Wsh = {sh: W_shape(sh, NA) for sh in shapes}
+    return {k: sum((c * Wsh[shape(nu)] for nu, c in d.items()), ZERO) for k, d in dec.items()}, dec
+
+
+def padd(A, B, c=ONE):
+    out = dict(A)
+    for k, v in B.items():
+        out[k] = out.get(k, ZERO) + c * v
+    return out
+
+
+def pmul(A, B):
+    out = {}
+    for a, x in A.items():
+        for b, y in B.items():
+            if sum(a) + sum(b) <= KMAX:
+                k = tuple(sorted(a + b, reverse=True))
+                out[k] = out.get(k, ZERO) + x * y
+    return out
+
+
+def cover_Z(pair):
+    PY = {(): {(): ONE}}
+    for n in range(1, KMAX + 1):
+        PY.update(macdonald_P(n, S**2, R**2, conv))
+    T_ = lambda lam: tuple(sum(1 for x in lam if x > j) for j in range(lam[0])) if lam else ()
+    Zp = {(): ONE}
+    for lam in PARTS:
+        for mu in PARTS:
+            n = sum(lam) + sum(mu)
+            if n == 0 or n > KMAX or (lam, mu) not in pair:
+                continue
+            Zp = padd(Zp, pmul(PY[T_(lam)], PY[T_(mu)]), conv((-1)**n) * pair[(lam, mu)])
+    return Zp
+
+
+def plog(Zp):
+    X = {k: v for k, v in Zp.items() if k}
+    Lg, Xn = {}, dict(X)
+    for n in range(1, KMAX + 1):
+        Lg = padd(Lg, Xn, conv(Fraction((-1)**(n + 1), n)))
+        Xn = pmul(Xn, X)
+    f = {}
+    for d, mu in ((1, 1), (2, -1), (3, -1)):
+        for k, v in Lg.items():
+            if d * sum(k) <= KMAX:
+                kk = tuple(sorted((d * x for x in k), reverse=True))
+                f[kk] = f.get(kk, ZERO) + conv(Fraction(mu, d)) * v.adams(d)
+    return f
+
+
+def from_largeN(p, N):
+    """flint_rf3 の (分子, 分母) の辞書 → u = s^{2N} を代入した flint_rf。"""
+    cv = lambda d: CTX.from_dict({(e[0], e[1] + 2 * N * e[2]): c for e, c in d.items()}) if d else CTX.from_dict({})
+    n, d = cv(p[0]), cv(p[1])
+    from rcsknots.refined_kauffman import flint_rf as FR
+    return FR.RF(n, d)
+
+
+def main(NA=5):
+    assert NA % 2 == 1
+    N = (NA + 1) // 2                           # SO(2N)、U = t^N、A = t^{2N−1}
+    t0 = time.time()
+    pair, dec = pair_values(NA)
+    print(f"U({NA}) の ⟨P_λ P_μ^∨⟩：{len(pair)} 組 {time.time()-t0:.0f}s", flush=True)
+    for k in (((2,), (2,)), ((1, 1), (1, 1)), ((2, 1), (1,)), ((1, 1, 1), (1,))):
+        if k in dec:
+            print(f"   分解 {k}：{sorted(dec[k])}", flush=True)
+    Fc = plog(cover_Z(pair))
+    print(f"被覆の f（固定 N）{time.time()-t0:.0f}s", flush=True)
+    big = pickle.load(open("data/refined_kauffman/daha/largeN_4box_m1.pkl", "rb"))["fcov"]
+    res = {}
+    for k in sorted(Fc, key=lambda k: (sum(k), k)):
+        v = from_largeN(big[str(k)], N)
+        res[k] = (v - Fc[k]).is_zero()
+    print(f"U = t^{N}（U({NA})）で大きな N の f^cov と一致：{res}", flush=True)
+    return res
+
+
+if __name__ == "__main__":
+    main(int(sys.argv[1]) if len(sys.argv) > 1 else 5)

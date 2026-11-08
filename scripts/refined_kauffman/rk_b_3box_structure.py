@@ -1,6 +1,7 @@
 r"""大きな N の trefoil の 3 箱のクロスキャップ部分（data/refined_kauffman/daha/largeN_3box_m1.pkl、scripts/rk_c_3box_largeN.py）の検査（progress.md 続き 33）。
 奇数のセクターなので E = 0 で、g_R（|R| = 3）は (1 + t) の極をもたないはず。hatted ĝ_R = Σ_ρ χ_R(ρ) g_ρ / φ_ρ（φ_ρ は M(q^{−1}) の冪和基底での固有値）。
-検査：整数 Laurent、c = 1 部分の σ 対称性、述べ直しの判定式（ĝ − ĝ|_{t=q}(ν → ν~) が (q − t)(ν² − t) で割り切れるか）、商の 𝐚 ブロックの符号、二次量子化の指数。"""
+検査：整数 Laurent、c = 1 部分の σ 対称性、述べ直しの判定式（ĝ − ĝ|_{t=q}(ν → ν~) が (q − t)(ν² − t) で割り切れるか）、商の 𝐚 ブロックの符号、二次量子化の指数。
+T(2,2m+1)：python rk_b_3box_structure.py m（largeN_3box_m{m}.pkl、続き 139）。"""
 import sys, pickle
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import sympy as sp
@@ -18,8 +19,11 @@ def phi(rho):
     return sp.cancel(sum(chi(sg, rho) * Bfun(sg, 1 / r) for sg in partitions(sum(rho))))
 
 
+M = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+
+
 def load(key="g"):
-    d = pickle.load(open("data/refined_kauffman/daha/largeN_3box_m1.pkl", "rb"))
+    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_3box_m{M}.pkl", "rb"))
     return {eval(k): sp.cancel(sp.sympify(v, locals={"r": r, "s": s, "u": u}).subs(u, nu * s)) for k, v in d[key].items()}
 
 

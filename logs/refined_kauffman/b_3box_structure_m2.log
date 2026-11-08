@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_b_3box_structure.py", line 35, in <module>
+    g = load("g")
+  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_b_3box_structure.py", line 26, in load
+    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_3box_m{M}.pkl", "rb"))
+                    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/refined_kauffman/daha/largeN_3box_m2.pkl'
+.venv/bin/python scripts/refined_kauffman/rk_b_3box_structure.py 2  0.22s user 0.08s system 72% cpu 0.411 total
