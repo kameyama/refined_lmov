@@ -4,7 +4,9 @@ r"""trefoil の 4 箱の被覆の自由エネルギー f^{cov}（大きな N、r
   P_ν = e_N^{−c} P_{ν + c^N}、c = max(0, −ν_N)）。⟨P_ν⟩ は KN の data（GN の再構成。DAHA・Pieri・補間を通らない）で
   W_ν = (t/q)^{|sh|/2} R_sh P_sh(t^ρ)、sh = ν + c^N（ν_N ≥ 0 は ν のまま。rk_k5_trefoil_3box.cover_parts の uniform と同じ規則）。
   Z~ = Σ_{λ,μ} (−1)^{|λ|+|μ|} ⟨P_λ P_μ^∨⟩ P_{λ'}(Y; t, q) P_{μ'}(Y; t, q)、f = Σ_d μ(d)/d ψ_d(log Z~)（次数 ≤ 4）。
-足りない KN の data は scripts/framed_knot/stage2_torus.compute で作る（data/refined_kauffman/torus/T2_3_{ν}.json）。
+KN の data が無い形（U(5) の 10 箱など。GN の再構成は 1 件 1 時間を超える）は、GL(N_A) の DAHA の固定 N の値（rk_c_fast_composite.mono の
+  一様な規格化）で代える。両者は KN の data のある 7 つの形（[2,1]〜[2,2,2,2]）の U(5) で比 1（progress 続き 139）。
+  したがってこの照合は、Pieri の係数・A の補間・大きな N の組み立てを独立に確かめるもので、DAHA そのものは共有する部分がある。
 使い方：python rk_c_4box_cover_fixedN.py [N_A]"""
 import sys, os, pickle, time
 from fractions import Fraction
@@ -84,15 +86,40 @@ def ensure_data(shapes):
         print(f"   KN の data T2_3_{lab}：{time.time()-t0:.0f}s", flush=True)
 
 
+SOURCE = {}
+
+
+def R_daha(sh, N):
+    """鏡像(Z_sh / (K_sh M_sh))（GL(N) の DAHA、一様な規格化）= (t/q)^{|sh|/2} R_sh(KN)。"""
+    import rk_c_fast_composite as C
+    from rcsknots.refined_kauffman.daha_fast import gl_jones_fast
+    from rcsknots.refined_kauffman.flint_rf import from_sympy
+    from rcsknots.macdonald import principal_specialization
+    rr, ss = C.rr, C.ss
+    K = from_sympy(sp.cancel(principal_specialization(sh, ss**(-2 * N), rr**(-2), ss**(-2))))
+    b = list(sh) + [0] * (N - len(sh))
+    e = (gl_jones_fast(N, sh, 1) / (K * C.mono(N, b, 1))).to_sympy()
+    return from_sympy(sp.cancel(e.subs({rr: 1 / rr, ss: 1 / ss}, simultaneous=True)))
+
+
 def W_shape(sh, NA):
     if not sh:
         return ONE
     lab = "".join(map(str, sh))
     from rcsknots.refined_kauffman.flint_rf import from_sympy
-    return W_**sum(sh) * from_sympy(T.Rdata(lab, NA)) * from_sympy(T.P_A(sh, NA))
+    if os.path.exists(f"data/refined_kauffman/torus/T2_3_{lab}.json") or os.path.exists(f"data/framed_knot/torus/T2_3_{lab}.json"):
+        SOURCE[sh] = "KN"
+        return W_**sum(sh) * from_sympy(T.Rdata(lab, NA)) * from_sympy(T.P_A(sh, NA))
+    t0 = time.time()
+    SOURCE[sh] = "DAHA"
+    v = R_daha(sh, NA) * from_sympy(T.P_A(sh, NA))
+    print(f"   [{lab}] は GL({NA}) の DAHA で評価（{time.time()-t0:.0f}s）", flush=True)
+    return v
 
 
 def pair_values(NA):
+    global T0
+    T0 = time.time()
     D = GLN(NA)
     P = {lam: gl_P_poly(D, lam) for lam in PARTS}
     dec = {}
@@ -114,7 +141,7 @@ def pair_values(NA):
             assert all((back.get(k, ZERO) - lhs.get(k, ZERO)).is_zero() for k in set(back) | set(lhs)), (a, b)
             dec[(a, b)] = {nu: c for nu, c in x.items() if not c.is_zero()}
     shapes = sorted({shape(nu) for d in dec.values() for nu in d}, key=lambda s: (sum(s), s))
-    ensure_data([s for s in shapes if s])
+    print(f"   分解 {time.time() - T0:.0f}s、形 {len(shapes)} 個", flush=True)
     Wsh = {sh: W_shape(sh, NA) for sh in shapes}
     return {k: sum((c * Wsh[shape(nu)] for nu, c in d.items()), ZERO) for k, d in dec.items()}, dec
 
@@ -179,7 +206,7 @@ def main(NA=5):
     N = (NA + 1) // 2                           # SO(2N)、U = t^N、A = t^{2N−1}
     t0 = time.time()
     pair, dec = pair_values(NA)
-    print(f"U({NA}) の ⟨P_λ P_μ^∨⟩：{len(pair)} 組 {time.time()-t0:.0f}s", flush=True)
+    print(f"U({NA}) の ⟨P_λ P_μ^∨⟩：{len(pair)} 組 {time.time()-t0:.0f}s、KN の data {sum(v == 'KN' for v in SOURCE.values())} 形・DAHA {sum(v == 'DAHA' for v in SOURCE.values())} 形", flush=True)
     for k in (((2,), (2,)), ((1, 1), (1, 1)), ((2, 1), (1,)), ((1, 1, 1), (1,))):
         if k in dec:
             print(f"   分解 {k}：{sorted(dec[k])}", flush=True)
