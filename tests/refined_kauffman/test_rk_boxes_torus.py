@@ -86,4 +86,4 @@ def test_trefoil_4box_poles_and_lower_degrees():
         assert g[rho].is_laurent() == (rho not in ((4,), (2, 2))), rho      # (1 + t) は冪和がすべて偶数の方向だけ
     for R_ in partitions(4):
         gR = sum((g[rho] * conv(chi(R_, rho)) for rho in partitions(4)), conv(0))
-        assert ((1 + t) * gR).is_integer_laurent(), R_
+        assert (2 * (1 + t) * gR).is_integer_laurent(), R_          # g = ½E/(1+t) + C（2 箱と同じく分母は 2 × 単項式 × (1 + t)）
