@@ -1,2 +1,6 @@
 m=4 (3,)：冪 -51〜-24、mode alpha、使う N = 2..10、N_s = 2：一意、未知数 24459、使わない N での照合 {11: True, 12: True}
    保存：data/refined_kauffman/daha/R_U_m4_3.pkl（2062 秒）
+m=4 (1, 1, 1)：冪 -51〜-24、mode all、使う N = 5..13、N_s = None：一意、未知数 5903、使わない N での照合 {3: True, 4: True}
+   保存：data/refined_kauffman/daha/R_U_m4_111.pkl（241 秒）
+m=4 (2, 1)：冪 -51〜-24、mode alpha、使う N = 3..13、N_s = 3：一意、未知数 24576、使わない N での照合 {2: True}
+   保存：data/refined_kauffman/daha/R_U_m4_21.pkl（1050 秒）

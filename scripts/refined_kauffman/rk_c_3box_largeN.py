@@ -202,8 +202,13 @@ def main(m=1):
     F, Fc = plog(Zso), plog(Zc)
     G = {k: F.get(k, ZERO) - conv(Fraction(1, 2)) * Fc.get(k, ZERO) for k in set(F) | set(Fc)}
     # 固定 N との照合
-    fx = pickle.load(open(f"data/refined_kauffman/T2_{2 * m + 1}_fixedN_3box_g.pkl", "rb"))
+    fxp = f"data/refined_kauffman/T2_{2 * m + 1}_fixedN_3box_g.pkl"
+    fx = pickle.load(open(fxp, "rb")) if os.path.exists(fxp) else {}
+    if not fx:
+        print(f"固定 N の g（{fxp}）が無いので U = t², t³ の照合は飛ばす", flush=True)
     for N in (2, 3):
+        if N not in fx:
+            continue
         sub = lambda e: sp.cancel(e.to_sympy().subs(u_, s_**(2 * N)))
         g3 = to_schur(G, 3)
         okg = all(sp.cancel(sub(g3[R_]) - sp.sympify(fx[N]["g_schur"][str(R_)], locals={"r": r_, "s": s_})) == 0 for R_ in g3)
