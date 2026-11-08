@@ -1,0 +1,4 @@
+composite (2;1)：Rcomp_A_m4_2.pkl を読んだ
+composite (11;1)：Rcomp_A_m4_11.pkl を読んだ
+T(2,9)、U = t^2：g_R（|R| = 3）が固定 N の g と一致 {(3,): True, (2, 1): True, (1, 1, 1): True}
+T(2,9)、U = t^3：g_R（|R| = 3）が固定 N の g と一致 {(3,): True, (2, 1): True, (1, 1, 1): True}

@@ -110,7 +110,7 @@ class RF:
 
     def to_sympy(self):
         r, s = sp.symbols("r s", positive=True)
-        cv = lambda p: sum(int(c) * r**e[0] * s**e[1] for e, c in p.to_dict().items())
+        cv = lambda p: sp.Add(*[int(c) * r**e[0] * s**e[1] for e, c in p.to_dict().items()])   # 一度に足す（項ごとの sum は大きな式で数百倍遅い）
         return cv(self.n) / cv(self.d)
 
     def __repr__(self):

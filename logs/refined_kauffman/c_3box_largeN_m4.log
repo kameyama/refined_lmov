@@ -1,6 +1,11 @@
 composite (2;1)：Rcomp_A_m4_2.pkl を読んだ
 composite (11;1)：Rcomp_A_m4_11.pkl を読んだ
-固定 N の g（data/refined_kauffman/T2_9_fixedN_3box_g.pkl）が無いので U = t², t³ の照合は飛ばす
+N = 2：g_R（|R| = 3）が固定 N の g と一致 True
+N = 3：g_R（|R| = 3）が固定 N の g と一致 True
 g_(3,)：分母 r**50*u**54、整数 Laurent True
 g_(2, 1)：分母 r**86*u**54、整数 Laurent True
 g_(1, 1, 1)：分母 r**156*u**54、整数 Laurent True
+
+real	2m44.887s
+user	2m43.996s
+sys	0m0.713s
