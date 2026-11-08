@@ -1,0 +1,23 @@
+N=2 λ=(3,): 1.9s、最大 RSS 146MB
+N=2 λ=(2, 1): 0.4s、最大 RSS 146MB
+N=2 λ=(1, 1, 1): 0.0s、最大 RSS 146MB
+N=3 λ=(3,): 7.9s、最大 RSS 230MB
+N=3 λ=(2, 1): 1.8s、最大 RSS 230MB
+N=3 λ=(1, 1, 1): 0.1s、最大 RSS 230MB
+N=4 λ=(3,): 21.4s、最大 RSS 372MB
+N=4 λ=(2, 1): 4.4s、最大 RSS 372MB
+N=4 λ=(1, 1, 1): 0.7s、最大 RSS 372MB
+N=5 λ=(3,): 44.9s、最大 RSS 582MB
+N=5 λ=(2, 1): 9.0s、最大 RSS 582MB
+N=5 λ=(1, 1, 1): 1.8s、最大 RSS 582MB
+N=6 λ=(3,): 85.4s、最大 RSS 916MB
+N=6 λ=(2, 1): 16.3s、最大 RSS 916MB
+N=6 λ=(1, 1, 1): 3.1s、最大 RSS 916MB
+N=7 λ=(3,): 156.8s、最大 RSS 1542MB
+N=7 λ=(2, 1): 26.3s、最大 RSS 1542MB
+N=7 λ=(1, 1, 1): 5.3s、最大 RSS 1542MB
+N=8 λ=(3,): 280.7s、最大 RSS 2701MB
+N=8 λ=(2, 1): 37.9s、最大 RSS 2701MB
+N=8 λ=(1, 1, 1): 8.2s、最大 RSS 2701MB
+完了
+.venv/bin/python scripts/refined_kauffman/rk_c_fast_daha_dn.py 4 2 8 3 21 111  709.91s user 4.28s system 99% cpu 11:55.29 total
