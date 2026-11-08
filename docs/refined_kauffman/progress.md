@@ -1,10 +1,111 @@
 # 進捗記録（第 3 の研究：refined Kauffman の large N duality）
 
-## 現在の状況（再開用、2026-10-31 更新）
+## 現在の状況（再開用、2026-11-08 更新）
 
-新しいセッションでは、この節を読めば作業を再開できるようにしてある。日々の詳細はこの下の日付ごとの記録（続き 1〜99）にある。
+新しいセッション・別の PC では、この節だけ読めば作業を再開できるようにしてある。日々の詳細は下の日付ごとの記録（続き 1〜137、古いものが上）にある。2026-10-31 時点の再開用の節は、この節の直後に「旧・再開用の節」として残した（続き 99 までの E の決定の経過が詳しい）。
 
-### 1. 環境
+### 0. 別の PC・別のセッションで再開する手順
+1. **コード**：GitHub の `kameyama/refined_lmov`（origin）のブランチ `claude/kauffman-research-progress-c23e34` に、2026-11-08 までの全 commit が push 済み（[PR #12](https://github.com/kameyama/refined_lmov/pull/12)、open・未マージ）。
+   - 別の PC：`git clone https://github.com/kameyama/refined_lmov.git` → `git checkout claude/kauffman-research-progress-c23e34`。PR #12 がマージされた後なら main から新しいブランチを切る。
+   - この Mac：worktree `/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`。無くなっていたら main checkout で `git -C /Users/masaya/projects/ai_research/refined_cs worktree add <場所> claude/kauffman-research-progress-c23e34`（サンドボックス外）。
+   - main への直接の commit とローカルでのマージは禁止。push と PR の作成・変更は外部送信なので、毎回ユーザーの許可を得る。
+2. **Python**：リポジトリ直下で `just setup`（`python3 -m venv .venv` と `pip install -e ".[dev]"`。依存は sympy・numpy・mpmath・python-flint・scipy・pytest。Python 3.14 で確認）。
+   - この Mac では main checkout の `.venv` を使っている（`/Users/masaya/projects/ai_research/refined_cs/.venv/bin/python`）。
+   - スクリプトは `PYTHONPATH=src:scripts/refined_kauffman` で実行する（多くのスクリプトは自分で sys.path に入れる）。
+3. **テスト**：`.venv/bin/pytest -q tests/refined_kauffman`（既定の機能テスト。2026-11-08 の結果は下の「テスト」の行）。`-m results` は保存済みの大きな計算の再検証で、問題が出たときだけ流す。
+4. **データ**：計算結果の pkl は `data/refined_kauffman/`（約 48 MB、1320 ファイル）に commit してあり、clone で付いてくる。
+   - `data/cache/` は追跡しない。無ければ初回の実行で作り直される（数分）。
+   - この Mac にだけある未追跡のファイル（`data/refined_kauffman/daha/Z_N*_m1k4_*.pkl`：T(4,5) の D_N、`Z_N17_T3_5_1.pkl`）は打ち切った計算の途中結果で、再開には要らない。
+5. **文献**：`references/` は追跡しない。`just fetch-refs`（justfile の papers に一覧）で取得する。書誌の確認は arXiv API（export.arxiv.org）と Crossref（api.crossref.org、DOI）で行う。
+6. **TeX**：TeX Live（lualatex、ltjsarticle、biblatex、youngtab）と ghostscript（ページを画像にするため）が要る。論文のコンパイルは各版のディレクトリで
+   `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。biber はこの Mac のサンドボックス内で動かないので backend=bibtex にしてある。
+7. **ユーザーとの取り決め（この Mac のメモリにもあるが、別の PC では読めないのでここに書く）**：
+   - ユーザーは KN（1703.05408）の著者の亀山昌也で、論文は単著。
+   - 報告は日本語。主張は【導出】【計算（範囲）】【予想】【仮説】に分ける。
+   - refined Kauffman では正値性を期待する。unrefined で符号が混在することを、期待しない理由にしない。
+   - 補間の文脈で「窓」という語を使わない（「U の冪の範囲」「補間する冪の範囲」と書く）。
+   - BPS 状態の構造を理論的に考えるときは Witten 1101.3216「Fivebranes and Knots」を参照の枠にする（KN の文献表には無い）。
+   - 論文では、引用は \cite のラベルだけ、文中の表現は「表現 [1]」、式中の表現はヤング図、訳語を無理に作らない（CLAUDE.md「論文の書き方」）。論文には版の経緯や内部のファイル名を書かず、引用は公開されアクセスできるものだけにする。
+   - Dropbox の 2018 年の Mathematica ノートブックは読むだけで書き換えない。
+8. **この Mac の実行上の注意**：git の書き込みと SSH の push はサンドボックス外で `git -C <worktree> ...`。`ps`・`pkill` もサンドボックス外。30 分を超える計算は、実行前に見積もりと再開の準備を progress に書く（CLAUDE.md）。
+
+### 1. 現在の段階：論文の第 2 版（日本語の準備稿）
+- **本体**：`docs/refined_kauffman/paper/ja_v2/`（main.tex、sections/、refs.bib、main.pdf、44 ページ）。以後の推敲はここで行う。第 1 版 `paper/ja/` は記録として残す（触らない）。付録の式は `docs/refined_kauffman/tex/gen/*.tex`（`scripts/refined_kauffman/rk_report_tex.py` の生成物）を両版で共有する。
+- **題**：「refined Kauffman 不変量の large N 双対：refined クロスキャップ不変量の定義・整数性・構造」。
+- **問い**（§1.2）：(1) refined クロスキャップ不変量を取り出す式、(2) 整数の BPS 展開と構造、(3) 正値性の成り立つ範囲と破れる場所、(4) 被覆との関係、(5) 多箱で残る問題。
+- **構成**：1 序論、2 準備（計算の手順の表を含む）、3 指数と全 d の構造、4 unknot と Hopf、5 表現 [1] の判定式、6 一般の N の多箱：整数性と普遍因子、7 refined Sp(2N)、8 被覆の構造（brane–brane と brane–image）、9 多箱のクロスキャップ：現状と障害、10 議論。付録 A 計算の方法、B 表現 [1]、C DAHA、D 大きな N の 2 箱、E 被覆のセクター、F brane 2・image 2 の探索、G unrefined の確認。
+- **決定事項**（2026-11-08、ユーザーの指示）：肯定的な結果を本体にし、多箱の否定的な結果は 1 章、brane 2・image 2 の探索は付録。2018 年の試みには触れない。正値性は問いに含め、「表現 [1] と被覆側で成立、多箱のクロスキャップで破れる」と答える。単著、日本語で準備し最終版は英語。
+- **主張の格付け**：`paper/claims.md`（P・D・O・S・T・H の各行に根拠とテスト）。
+- **次にやること**（ユーザーの指示待ち。優先度の高い順の案）：
+  1. 第 2 版の推敲：各章の冒頭の接続文（第 1 版の順序を前提にした言い回し）の読み直し。付録の長い式のはみ出し 3 箇所。
+  2. 英語版の作成。
+  3. 研究の続き（§2 の候補）。
+
+### 2. 研究の到達点（2026-11-08）
+- **被覆の側は理解できた**：
+  - brane–brane セクターは [KN17] の U(N_A) の refined LMOV そのもの（(t^{−1/2}−t^{1/2}) f^{bb}_R = −f^{t̄}_R、鏡像、R = [1], [2], [1,1]、hatted は R ↔ Rᵀ。trefoil・T(2,5)。続き 131、test_rk_cover_kn）。
+  - brane–image は、境界因子 s²(t−λ²)(λ²−1)(q−1)(λ²q−1) を外した N の G 展開で、切り替わりのブロック k = 2m（Sym^{2m}V − S⊗S）以外は符号がそろう（T(2,3)・T(2,5)・T(2,7)。続き 136）。x の z_q は環状の弦の測度 (q−1)(t−1) の q 側（続き 134）。
+  - n = 1 の E は、境界因子を外した Ñ が N の単項式ごとの符号付き部分和（|ẽ| ≤ |c|、偶奇一致、k < 2m は全状態が Ĩ 不変）。T(2,3)〜T(2,15)（続き 135）。
+- **クロスキャップ g**：
+  - 表現 [1]：判定式（c = 1 は G 展開の後にそろう、c = 2 は −(ā²−q̄²)(t̄²−1)× 正）が T(2,2m+1)、m ≤ 5 で成立。
+  - 多箱（trefoil の 2・3 箱、T(2,5) の 2 箱）：整数性・普遍因子は成立。c = 1 部分は σ 対称でなく G 展開できず、ā の冪ごとの符号も混在（2 箱の和で 5/10、T(2,5) で 6/18、3 箱で 2/15 程度）。
+  - 障害は凍結した状態 C の多重項の構造（向き付けられない曲面の refined のハンドル・クロスキャップの因子）に絞られた。G 展開は向き付けられた曲面の Lefschetz の sl₂ から来るので、C に期待する根拠は無い（論文 §3.5、予想）。
+- **E と C の分離**：n = 1 は状態の空間の同定で決まる（T(2,3)〜T(2,15)、14 のトーラス結び目で行の母関数）。n = 2（trefoil）は λ^{−12} まで決まり、λ^{−14} 以降は未決定。
+- **研究の次の候補**：
+  1. 凍結した状態の多重項：向き付けられない曲面の refined のハンドル因子を幾何（Witten 1101.3216 の fivebrane の描像、[AgSc12]、[PU14]）から決める。最重要だが方法は未定。
+  2. 3 箱の brane–image の分割（composite (2;1̄), (1,1;1̄) と縮約項。縮約項の係数は固定 N の値で独立に照合してから）。
+  3. trefoil の 4 箱の g（A 型の composite (3;1̄) 系の大きな N が要る。見込み半日〜1 日）。正値性の判定より E の構造の確認が目的。
+  4. D 型の DAHA の iterated torus 結び目への拡張（非トーラス結び目への定義の拡大）。
+  - T(2,5) の 4 箱は現行の D_N の DAHA では届かない（N = 6 で 905 秒、N ごとに 2.4〜2.7 倍、N ≈ 17 まで要る）。
+
+### 3. 主な結果（論文の主張。詳細は paper/claims.md と theory_orientifold_index.md）
+| 主張 | 種別 | 論文（第 2 版） |
+|---|---|---|
+| 双対 Cauchy 核（t-brane）、一様な規格化 (t/q)^{δ\|R\|/2}、reformulation は M(q^{−1})、g = f − ½f^{cov} | 定義＋計算 | §2 |
+| 全 d の構造 g = ½E/(1+t) + C、E は偶数のセクターだけ、E の境界因子 z_q^{n−1}(z_q^+)^n | 導出＋計算 | §3 |
+| E と C の分離は指数からは決まらない | 導出 | §3.6 |
+| 閉弦：D_N の積表示と [AgSc12] の一致、[AM22] の Klein 瓶は並べ替え | 計算＋導出 | §3.7 |
+| unknot・Hopf（a, b ≤ 4）の整数性、λ̃ = λ(q/t)^{1/2}、E_22・E_24 | 計算 | §4 |
+| 表現 [1] の判定式（T(2,2m+1)、m ≤ 5） | 計算＋予想 | §5 |
+| trefoil の 2・3 箱、T(2,5) の 2 箱を一般の N で計算、整数性、(1+t) は p₂ 方向だけ、t = q で Mariño、普遍因子 | 計算＋予想 | §6 |
+| refined Sp(2N)：g^{Sp}(ā) = −g^{SO}(−ā)（[1]）、W_R の (−1)^{\|R\|}（2 箱） | 計算 | §7 |
+| brane–brane = [KN17]、brane–image の状態の空間の同定、行の母関数（14 結び目）、composite の因子化 | 計算＋予想 | §8 |
+| 多箱のクロスキャップの符号の混在と G 展開の破れ | 計算（否定的） | §9 |
+
+### 4. 試して失敗した方法（同じことを繰り返さないため）
+| 方法 | 結果 | 記録 |
+|---|---|---|
+| Mariño 型（bosonic 核、½、Σ_{d 奇数}）の素朴な refined 化 | unknot の 2 箱で U の極が残る | report.md §3 |
+| 多箱の c = 1 部分の G 展開 | σ 対称でなく展開できない。T_± を使っても同じ | 論文 §9.3 |
+| 自由エネルギーの右辺の基底の取り替え、二次量子化の指数、多重項の変数の探索 | 符号はそろわない | 続き 28〜31 |
+| E = P − 2Q（状態の部分和）の整数計画、Adams 型の E、G のツイスト | 条件を満たさない | 続き 34〜36 |
+| 多重項ごとのツイストしたトレースの整数計画 | 結び目の境界の因子は z_q^+。T(2,5) は解なし | 続き 39 |
+| 被覆の随伴 R_adj を正の Poincaré 多項式として読む | どの符号規則でも正にならない（[CE15] と一致） | 続き 40 |
+| n = 2 の E を単項式ごとのトレース・純粋な brane×image の積で作る | E にならない（λ によらない、Laurent でない、相殺） | 続き 117〜118、123 |
+| brane–image の混在を Ĩ の固有値 ε = ±1 の和 A + (t̄²−1)B で説明 | 6 混在ブロック中 4 だけ。T(2,5) の λ^{−16}, λ^{−14} は不可 | 続き 132 |
+| n = 1 の E を G の基底で x と比べる | E は σ 対称でなく G 展開できない | 続き 133 |
+| 境界因子の一部（z_q / z_q^+）だけ外して x と E を比べる | 見かけの「打ち消しが要る」が出る（誤り。λ の因子まで外すと整合） | 続き 133 → 135 で訂正 |
+| 2 箱のクロスキャップ ĝ を境界型の 1 次因子で割って符号をそろえる | (t − λ²) 以外は割り切れず、割っても混在 | 続き 136 |
+
+### 5. 未解決（論文 §10.3 にも記載）
+- 凍結した状態（向き付けられない面）の refined のハンドル・クロスキャップの因子と多重項の基底。多箱の c = 1 の σ 奇部分は (t̄²−1)(q_ℓ − q_ℓ^{−1}) で割り切れるが、起源は未解明。
+- E と C の分離：n = 2 の λ^{−14} 以降と Hopf の (4,4)。
+- 普遍因子のずれの向き（k = +1）と閉弦の Kähler の三重化との関係。
+- 非トーラス結び目（D 型 DAHA の拡張が要る）、B 型、高い彩色の Sp。
+
+### 6. 主なファイル
+- **文書**：`paper/ja_v2/`（論文の本体）、`paper/claims.md`（主張の格付け）、`paper/outline.md`（第 1 版の構成案と決定事項）、`theory_orientifold_index.md`（指数の理論 §1〜§12.53）、`report.md`・`tex/report.tex`（10-20 までの計算結果の報告書）、`literature.md`、`conventions.md`。
+- **コード**：`src/rcsknots/refined_kauffman/`（Koornwinder、D_N・C_N・GL_N の DAHA、flint の有理関数、Kauffman の計算）、`scripts/refined_kauffman/rk_*.py`（rk_c_* 一般の N、rk_b_* 構造と正値性、rk_f_* E の決定と状態の空間、rk_d_* Sp、rk_report_tex.py 付録の生成）。
+  - 被覆の分割：`rk_b_cover_split.py`（cover_sectors(m)）。付録 E の生成：`rk_report_tex.gen_cover_split`。
+  - n = 1 の原理：`rk_f_twisted_tensor.py`（principle）、行の母関数：`rk_f_rows_gen.py`。
+- **テスト**：`tests/refined_kauffman/`（KN との一致は test_rk_cover_kn.py）。
+- **データ**：`data/refined_kauffman/daha/`（R_U_m*_*.pkl：SO の一般の N、Radj_A_*.pkl：随伴、Rcomp*_A_*.pkl：composite、largeN_*box_m*.pkl、twisted_E_n1_m{1..7}.pkl：n = 1 の E、n2_rows_*.pkl：n = 2 の記号ブロック）、`data/framed_knot/torus/`（A 型の彩色データ、KN の再現は `data/framed_knot/lmov/`）。
+
+## 旧・再開用の節（2026-10-31 時点、参考）
+
+2026-10-31 時点の再開用の節をそのまま残したもの。環境・PR・次の候補は古く、最新は上の「現在の状況」を見る。
+
+#### 1. 環境
 - **worktree**：`/Users/masaya/projects/ai_research/refined_cs/.claude/worktrees/rename-literature-survey-doc-9cc5fc`
   - ブランチは `claude/kauffman-research-progress-c23e34`（続き 63 以降）。続き 62 までは worktree `dgr-quadruply-graded-lomv-2a7fb6`（ブランチ `claude/refined-kauffman-large-n-00d58e`）。
   - main への直接の commit とローカルでのマージは禁止。
@@ -34,7 +135,7 @@
 - **文献**：`references/<arXiv id>/src/`。取得は `just fetch-refs`（justfile の papers に一覧がある）、または `curl`（allowed_domains: arxiv.org）。書誌の確認は arXiv API（export.arxiv.org）で行う。
 - **Dropbox の 2018 年のノートブック**は読むだけで、書き換えない。
 
-### 2. 現在の段階：論文の草稿（日本語の準備稿）
+#### 2. 現在の段階：論文の草稿（日本語の準備稿）
 - 場所：`docs/refined_kauffman/paper/`
   - `outline.md`：論文の軸、決定事項、章立て
   - `claims.md`：主張の格付け表
@@ -53,7 +154,7 @@
   2. 英語版の作成
   3. 続き 63 以降の新しい PR の作成（ブランチは push 済み。PR の作成はユーザーの許可が要る。PR #11 はマージ済み）
 
-### 2′. 進行中の研究の線：E の決定（続き 65〜99、theory §12.6〜§12.31）
+#### 2′. 進行中の研究の線：E の決定（続き 65〜99、theory §12.6〜§12.31）
 - 目標：多箱の自由エネルギーの分解 g = f − ½f^{cov} = ½E/(1+t) + C のうち、E を状態の数と Ĩ の作用から決める。
 - 入力（計算済み）：
   - trefoil の composite (2;2) 型（被覆、大きな N、続き 65〜68）。
@@ -90,7 +191,7 @@
 - コード：rk_f_twisted_tensor.py（n1・n2・rule・full・lower・blocks・scan・n1choice・n1upper・n1freeset・principle・n2fock・n1terms・n2rule・n2series・n2tower・n2choice・n2pattern・n2rows・n2ii・n2iic・n2split・n2h22・n2square・n2skew・n2parts。rule・full・lower・blocks・scan・n1choice・n1upper・n1freeset は m を引数に取る）、rk_f_twisted22_lam.py（parts）、rk_f_n2_univ.py（univ・w1：unknot の参照、続き 91）、rk_f_n2_rterms.py（terms・analyze・background・fock・hyptop・hyptop2：R − 1 の項ごとの分解と背景の Fock 空間、上端の Ĩ の仮説の照合、続き 92；hyp12・hyp12ii・hyp12b・hyp12bii・hyp12c・hyp12ci：ν^{−12} への延長、続き 93；hyp12d・hyp12e・hyp12f：補正の符号の原理の候補、続き 94）、rk_c_bounded_save.py（絞った補間で 2 箱の R_U を保存、続き 94）、rk_f_twisted_tensor.py の principle に extra_R（j ≥ m+2 の補正）と未同定ブロックの整数計画、principle_R（principleR：補正の対の符号だけ自由、続き 95）。
 - データ：data/refined_kauffman/daha/twisted_E_n1_m2.pkl（T(2,5) の一意な E）、twisted_n2_pattern.pkl（n = 2 の対が最小の解と e の範囲）、twisted_E_n1_m3.pkl（T(2,7) の E、原理からの予言、続き 89）、T(2,7) の 2 箱（Z_N{2..20}_m3_*、Wadj_N{2..26}_m3、R_U_m3_*、Radj_A_m3、largeN_2box_m3.pkl、続き 88）、n2_N_rterms_b{0,1}_m1.pkl・n2_N_rterms_series_b{0,1}_m1.pkl・n2_N_bg_knot_m1.pkl（項ごとの分解と背景・結び目の部分のブロック、続き 92）など。
 
-### 3. 主な結果（論文の主張。詳細は claims.md と theory_orientifold_index.md）
+#### 3. 主な結果（論文の主張。詳細は claims.md と theory_orientifold_index.md）
 | 主張 | 種別 | 場所 |
 |---|---|---|
 | 双対 Cauchy 核（t-brane）、一様な規格化 (t/q)^{δ\|μ\|/2}、reformulation は Mariño の M(q^{−1}) | 定式化＋計算 | report.md §4・§6、conventions.md |
@@ -103,7 +204,7 @@
 | 普遍因子：ĝ − ĝ\|_{t=q}(ν → νw^k) は k = +1 でだけ (q − t)(ν² − t) で割り切れる | 計算 | theory §8.3 |
 | 正値性：[1] は判定式が成立。多箱は商の符号が混在。障害は凍結した状態の多重項の基底と E・C の分離 | 計算＋未解決 | theory §4〜§10、草稿 §7 |
 
-### 4. 試して失敗した方法（同じことを繰り返さないため）
+#### 4. 試して失敗した方法（同じことを繰り返さないため）
 | 方法 | 結果 | 記録 |
 |---|---|---|
 | Mariño 型（bosonic 核、½、Σ_{d 奇数}）の素朴な refined 化 | unknot の 2 箱で U の極が残る | report.md §3 |
@@ -115,7 +216,7 @@
 | 多重項ごとの捻ったトレースの整数計画 | 結び目の境界の因子は z_q^+。trefoil は一意に解けるが、T(2,5) は解なし | 続き 39、theory §9 |
 | 被覆の随伴 R_adj を正の Poincaré 多項式として読む | どの符号規則でも正にならない（Cherednik–Elliot の記述と一致） | 続き 40、theory §10 |
 
-### 5. 未解決（論文の §8 にも記載）
+#### 5. 未解決（論文の §8 にも記載）
 - 凍結した状態（向き付けられない面）の refined の取っ手の因子と、多重項の基底。対になる取っ手は G（[1]、framed unknot、Hopf の両端で確認、続き 63）。自分自身に移る取っ手の多重項は未決：σ 非対称部分は Lefschetz の重みごとに (𝐭²−1)×整数多項式で t の有限の塔を含み、trefoil では同符号、T(2,5) では混在（theory §12）。t の塔は有限個の z₂ モードをもつ Ĩ 不変な状態では説明できず（指数では E と C に吸収、p₁² 方向に寄与しない）、凍結した状態の内部の多重項（続き 64、theory §12.5）。
 - E と C の分離。固定セクターの状態の空間への Ĩ の作用を、指数ではなく幾何から求める必要がある。
   - n = 1 は符号の規則で決まった（§2′）。
@@ -124,7 +225,7 @@
 - 非トーラス結び目の大きな N の値（入力が無い）。T(2,5) の 3 箱は、m = 2 の composite と D_N の 3 箱が要り、数時間〜半日の見込み。
 - 環状の HOMFLY ホモロジー（逆向きの 2 本のケーブル）と refined CS の composite の関係。未着手で、見込みは低い。
 
-### 6. 主なファイル
+#### 6. 主なファイル
 - **文書**：
   - report.md（K0〜K4' と多箱の詳細）
   - tex/report.tex・report.pdf（計算結果の報告書。§11〜§12 に 10-20 までの結果）
@@ -1981,3 +2082,9 @@
 - 追記（ユーザーの指示「正値性も問いの一つに含めよ」）：第 2 版 §1.2 に第 3 の問い「refined で正値性は見えるか。成り立つ範囲と破れる場所」を加え、答えの所在（§5 の判定式、§8 の被覆の符号、§9 の多箱）を書いた。要旨の冒頭も「整数性・構造・正値性」に。
 - 追記（ユーザーの指示「『第 1 版から移して』のような書き方はやめ、論文単独で結果を述べ、引用は公開されアクセスできるものだけ書け」）：第 2 版から「第 1 版」「第 2 版」の語、コードのファイル名、claims.md・テストへの言及を除き、付録 A を「計算の方法」に書き換えた。名前だけ挙げていた Mimachi・Rains・Rains–Warnaar・van Diejen・Sahi と Koornwinder の書誌を Crossref（DOI）と arXiv API で確認して refs.bib に加え、本文で引用した（Mimachi01：Duke Math. J. 107 (2001) 265–281、Rains05：Transform. Groups 10 (2005) 63–132、RW21：Mem. AMS 270 (2021)、vD96：Invent. Math. 126 (1996) 319–339・q-alg/9507033、Sahi99：Ann. of Math. 150 (1999) 267–282、Koornwinder92：Contemp. Math. 138 (1992) 189–204）。refs.bib の内部の確認メモ（note）と参考文献末尾の未確認の注記を削除。
 - ユーザーの許可を得て 2637d38 まで origin に push（PR #12、第 2 版を含む。サンドボックス外で実行）。
+
+## 2026-11-08（続き 138）再開用の記録の整備（ユーザーの指示「これまでの進捗も記録して別 PC、別セッションでも作業が再開できるようにせよ」）
+- progress.md の先頭の「現在の状況（再開用）」を 2026-11-08 の状態で書き直した。§0 に別の PC・別のセッションで再開する手順（clone するブランチ、`just setup`、テスト、データの追跡状況、文献、TeX、この Mac のメモリにだけあったユーザーとの取り決め）、§1 に論文の第 2 版の構成と決定事項、§2 に研究の到達点と次の候補、§3〜§6 に主な結果・失敗した方法・未解決・主なファイルを置いた。2026-10-31 時点の節は「旧・再開用の節」として直後に残した（見出しを一段下げた）。
+- docs/refined_kauffman/README.md（ファイルの表と「作業を再開するとき」）と paper/outline.md（第 2 版での変更）を更新。
+- data/refined_kauffman/daha/n2_rows_ker_shared_m1_k14.pkl（775 KB、rk_f_n2_omega.py の入力）を commit した。未追跡で残るのは打ち切った計算の途中結果（Z_N*_m1k4_*.pkl、Z_N17_T3_5_1.pkl）だけ。
+- 第 2 版 §6.2 の「補間の窓」を「補間する冪の範囲」に直した（ユーザーの取り決め）。
