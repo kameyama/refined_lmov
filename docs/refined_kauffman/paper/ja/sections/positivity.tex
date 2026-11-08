@@ -55,6 +55,7 @@ trefoil の 3 箱 $\hat g_{\ythree}, \hat g_{\ytwoone}, \hat g_{\yoneoneone}$ & 
 \end{itemize}
 向き付けられた被覆の brane--image のセクターが、クロスキャップと同じ普遍因子 $(\bt^2 - 1)$ をもつ。
 $x$ を $z_q$ で割る理由は命題 \ref{prop:rows} にある：$(1-t)x = s^2(t - \lambda^2)(\lambda^2 - 1)(q - 1)(\lambda^2 q - 1)\,N$ で、$(q-1)$ は brane と image の間の環状の弦の refined の測度 $(q-1)(t-1)$ の $q$ 側の因子、$(t-1)$ はモードのタワー $1/(1-t)$ と打ち消す（framed unknot の固定セクターの指数 $(\lambda^2-1)(q-1)\sum_k(\lambda^2q)^{\mathsf f-1-k}t^k$ も同じ因子をもつ）。brane と image の境界因子が非対称なのではない。
+$\lambda$ の境界因子 $(t-\lambda^2)(\lambda^2-1)(\lambda^2q-1)$ は $\lambda^\beta$ のブロックごとに符号が交代するので、$x/z_q$ のブロックの混在の大半はこの因子による。境界因子をすべて外した $N$ を $G$ 展開すると（\ref{app:cover}）、ブロックは trefoil で全部そろい、$T(2,5)$・$T(2,7)$ では切り替わりのブロック $k = 2m$（$\lambda^{-(6+4m)}$）だけが混在する。そのブロックは $n_{2m} = \mathrm{Sym}^{2m}V - S\otimes S$（計算結果 \ref{cr:principle}）で、$\mathrm{Sym}^{2m}V$ と $S^2$ はそれぞれ $G$ 展開の係数がそろう（$m \le 3$）。したがって brane--image の混在は、対の状態の引き算 $-S\otimes S$ という状態の空間の構造そのものであり、composite の値 $R_{\mathrm{adj}}$ に固有の非正値性（§\ref{sec:composite}、\cite{CE15}）やクロスキャップの問題とは別である。
 brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の源）を含むセクターである。
 
 \subsection{$E$ と $C$ を分ける試み}\label{sec:EC}
@@ -189,7 +190,7 @@ $(q-t)$ の補正の対 $(q\mu, -t\mu)$ の $\tilde I$ の符号は条件 (ii) �
 \end{proposition}
 したがって $n = 1$ では、$E$ と $C$ の分離（命題 \ref{prop:EC}）は状態の空間の同定で解消する。$n = 2$（brane 2・image 2）では、$N_\lambda$ が Wilson loop の無い背景（6 セルの Fock 空間、閉じた形）と結び目の部分に分かれ、$\lambda^{-12}$ までは「背景のセルの符号 $+$ 平方と行の積に入れ替え」で両 $R$ の $E$ が符号まで決まる（計算結果 \ref{cr:n2E}）。$\lambda^{-14}$ 以降は、$\sigma$ 共変な部分を brane の対象の平方の和として書く原理が無く、$E$ は未決定である（計算結果 \ref{cr:n2negative}、\S\ref{sec:discussion}）。
 
-\subsection{composite の DAHA の非正値性}
+\subsection{composite の DAHA の非正値性}\label{sec:composite}
 % [P5]
 固定セクターの状態は、被覆の随伴 $(1;1)$ の値 $R_{\mathrm{adj}}$ から来る。$R_{\mathrm{adj}}$ がホモロジーの Poincaré 多項式（係数が正）として読めれば、打ち消しの前の状態の数が得られるはずである。
 \begin{compresult}

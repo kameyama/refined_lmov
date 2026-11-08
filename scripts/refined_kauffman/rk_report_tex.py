@@ -193,6 +193,20 @@ def gen_cover_split(ms=(1, 2)):
                r"brane--brane $(t^{-1/2} - t^{1/2})\hat f_{\yoneone}$": (sec["p11"] / zq - sec["p2"] / (R + 1 / R), False),
                r"brane--image $(t^{-1/2} - t^{1/2})\,x/z_q$": (sec["x"] / zq, True)}
         knot = rf"$T(2,{2*m+1})$"
+        # 境界因子をすべて外した N = (1−t)x/(s²(t−λ²)(λ²−1)(q−1)(λ²q−1))（続き 136）：σ 対称にする V の冪を探して G 展開
+        xs = sp.cancel(sp.cancel(sec["x"].to_sympy()).subs(u_, nuk * s_))
+        Nn = sp.cancel((1 - s_**2) * xs / (s_**2 * (s_**2 - nuk**2) * (nuk**2 - 1) * (r_**2 - 1) * (nuk**2 * r_**2 - 1)))
+        evN = sp.expand(Nn.subs({r_: V * W, s_: V / W}))
+        for a in range(-12, 13):
+            e2 = sp.expand(evN * V**a)
+            if sp.expand(e2 - e2.subs(V, 1 / V)) == 0:
+                break
+        else:
+            raise AssertionError("N not sigma-symmetric")
+        dN = laurent(sp.expand(in_G(e2)), (nuk, G, W))
+        out.append(grouped(dN, 0, r"\lambda", [("G", 1), (r"\qr", 2)], per=6, label=rf"{knot}、境界因子をすべて外した $N = (1-t)x/(s^2(t-\lambda^2)(\lambda^2-1)(q-1)(\lambda^2q-1))$（$\times (qt)^{{{a}/4}}$）の $G$ 展開（$\lambda^\beta$ ごと、{len(dN)} 項）"))
+        clsN = block_sign_class(dN)
+        rows.append(rf"{knot} & 境界因子を外した brane--image $N$ & " + "、\\allowbreak ".join(rf"$\lambda^{{{b}}}$: {c}" for b, c in clsN.items()) + r" \\")
         for name, (v, fac) in hat.items():
             e = (1 / S - S) * v
             assert e.is_laurent(), (m, name)
