@@ -1,0 +1,60 @@
+\section{序論}\label{sec:intro}
+
+\subsection{背景}
+U$(N)$ Chern--Simons 理論の彩色 HOMFLY-PT 不変量は、resolved conifold 上の開弦の位相的弦と large $N$ で双対であり、Ooguri--Vafa の再定式化によって整数の BPS 不変量（LMOV 不変量）で書ける。
+SO$(N)$・Sp$(N)$ の場合は、Calabi--Yau の orientifold の位相的弦が対応する。\cite{Marino09} は、SO$(N)$ の彩色 Kauffman 不変量から U$(N)$ の composite 表現の寄与の半分を引いた残りが、クロスキャップ $c = 1, 2$ の整数 BPS 不変量で書けることを予想し、多くの例で確かめた（\cite{BFM04,BFM05}、\cite{NRZ13} なども参照）。
+
+refined の側では、\cite{AgSh11} が refined Chern--Simons 理論を定式化し、\cite{KN17} は U$(N)$ の refined Chern--Simons 不変量が resolved conifold 上の refined BPS 不変量を与え、トーラス結び目で正の整数になることを確かめた（refined large $N$ 双対）。
+\cite{AgSc12} は orientifold の refined 位相的弦を M 理論の指数として定義し、SO$(2N)$ の refined Chern--Simons 不変量を計算して、大きな $N$ の閉弦の自由エネルギーが第二量子化の整数性を満たすことを示した。\cite{AM22} は閉弦の SO・Sp の自由エネルギーを多重サイン関数で整理した。
+一方、開弦（結び目）については、refined のクロスキャップの BPS 不変量を取り出す式も、その整数性の検証も無かった。
+
+\subsection{本論文の問い}
+本論文では次の問いを扱う。
+\begin{enumerate}
+\item SO$(2N)$ の refined Chern--Simons 不変量から、refined のクロスキャップ不変量を取り出す式はどう書けるか。
+\item それは整数の BPS 展開をもつか。もつなら、どんな構造（普遍因子、$d$ ごとの構造、境界因子）をもつか。
+\item 被覆 U$(2N-1)$ との関係はどうか。被覆の側の構造から、クロスキャップの構造はどこまで決まるか。
+\item 多箱の彩色で残る問題は何か。
+\end{enumerate}
+第 1 の問いには定義（§\ref{sec:prelim}）で答える。第 2 の問いには、整数性と普遍因子（§\ref{sec:generalN}）、全 $d$ の構造と境界因子（§\ref{sec:index}）、表現 [1] の判定式（§\ref{sec:torus}）で答える。第 3 の問いには §\ref{sec:cover}、第 4 の問いには §\ref{sec:positivity} と §\ref{sec:discussion} で答える。
+
+\subsection{主結果}
+\begin{itemize}
+\item \textbf{定義（§\ref{sec:prelim}）}：Mariño 型の bosonic な核を素朴に refined にすると、unknot の 2 箱で既に $U = t^N$ の極が打ち消さない。代わりに双対 Cauchy 核（Koornwinder 多項式の Mimachi の恒等式）を使うと、unknot の積表示が自動的に成り立つ。規格化は、U$(n)$ の不変量が行列式と荷電共役で不変になる一様な規格化をとり、reformulation には Mariño の $M(q^{-1})$ を使う。refined クロスキャップ不変量は $g = f - \tfrac12 f^{\cov}$ で定義する（定義 \ref{def:crosscap}）。$f$ は SO$(2N)$ の refined 不変量から、$f^{\cov}$ は被覆の A 型の不変量（普通の表現と composite）から、それぞれ箱の小さい順に別々に計算し、$g$ はその差である。
+\item \textbf{全 $d$ の構造（§\ref{sec:index}）}：orientifold の M 理論の指数から $g = \tfrac12 E/(1+t) + C$ を導く（命題 \ref{prop:alld}）。$E$ は $\tilde I$ で不変な状態の符号付きの和、$C$ は凍結した状態の和で、$E$ は brane と image の箱が同数のセクターにしか現れない。この構造は \cite{Witten11} の Chern--Simons 分配関数の trace 表示の SO$(2N)$ 版として読める（命題 \ref{prop:trace}）。境界ゼロモードへの $\tilde I$ の作用から $E$ の境界因子 $z_q^{n-1}(z_q^+)^n$ を導き（命題 \ref{prop:boundary}）、Hopf 絡み目・結び目・framed unknot で確かめた。閉弦では SO$(2N)$ の分配関数の積表示が \cite{AgSc12} の式と一致し、\cite{AM22} の「Klein 瓶」の寄与がこの分解の並べ替えであることを示す（命題 \ref{prop:AM}）。$E$ と $C$ の分離は指数からは決まらない（命題 \ref{prop:EC}）。
+\item \textbf{unknot と Hopf 絡み目（§\ref{sec:hopf}）}：整数性が成り立つ。Kähler 変数は $\lambda \to \tlam = \lambda(q/t)^{1/2}$ とずれ、$E_{22}, E_{24}$ は一意に決まる。
+\item \textbf{表現 [1] の判定式（§\ref{sec:torus}）}：$T(2,2m+1)$（$m \le 5$）で、$c = 1$ 部分の $G$ 展開と $c = 2$ 部分の閉じた形が得られ、$\lambda^\beta$ ごとに符号がそろう。これを判定式（予想 \ref{conj:criterion}）としてまとめる。
+\item \textbf{整数性と普遍因子（§\ref{sec:generalN}）}：DAHA-Jones 多項式を一般の $t$ で計算し、refined SO$(2N)$ の trefoil の 2 箱・3 箱と $T(2,5)$ の 2 箱を一般の $N$ で求めた。クロスキャップ部分は整数係数の Laurent 多項式で、$(1+t)$ の極は命題 \ref{prop:alld} の予言どおり $p_2$ 方向にだけ現れる。refined だけの部分は普遍因子 $(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れる（予想 \ref{conj:structure}）。
+\item \textbf{refined Sp$(2N)$（§\ref{sec:sp}）}：C$_N$ 型の DAHA を実装し、\cite{AM22} の refined Sp$(2N)$ の trefoil・$T(2,5)$ の表現 [1] と trefoil の 2 箱を一般の $N$ で求めた。表現 [1] では $g^{\mathrm{Sp}}(\ba) = -g^{\SO}(-\ba)$、2 箱では $W^{\mathrm{Sp}}_R(\ba) = (-1)^{|R|} W^{\SO}_R(-\ba)$ で、クロスキャップ部分の差は閉じた形 $\pm\psi^2[\delta]$ に尽きる。
+\item \textbf{被覆の構造（§\ref{sec:cover}）}：被覆を brane と image に分けると、brane--brane のセクターは \cite{KN17} の U$(N_A)$ の refined LMOV 不変量に全係数で一致する。brane--image のセクターは、境界因子を外すと $\mathrm{Sym}^k V$、$S\otimes S$、普遍的な補正 $F_{j'}$ から成る状態の空間として同定でき（計算結果 \ref{cr:principle}、予想 \ref{conj:closedform}）、表現 [1] と随伴の行で書いた母関数（命題 \ref{prop:rows}）が 14 のトーラス結び目で成り立つ。この同定から $E$ が条件なしに作れ、$T(2,3)$〜$T(2,15)$ で状態の数の符号付き部分和として読める。
+\item \textbf{多箱の現状（§\ref{sec:positivity}）}：多箱のクロスキャップ部分では $c = 1$ 部分が $\sigma$ 対称でなく $G$ 展開できず、符号もそろわない。$\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の規則（hatted では $\beta \equiv |R| - 1$）と、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(\ql - \ql^{-1})$ で割り切れる）に分かれる。被覆側に問題が無いことから、障害は凍結した状態の多重項の構造に絞られる。
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\small
+\caption{本論文の検証の範囲。「整数」は整数係数の Laurent 多項式（$|R| = 2$ は $2g$ が整数で $g_{\ytwo} + g_{\yoneone}$ が整数）。「普遍因子」は §\ref{sec:universal} の割り切れ。}\label{tab:summary}
+\begin{tabular}{p{3.8cm}p{2.5cm}p{2.3cm}p{5.4cm}}
+\toprule
+対象 & 整数 & 普遍因子 & 符号のそろい方 \\
+\midrule
+unknot、Hopf（$a, b \le 4$） & 成立 & 成立（$\hat C_{R,S}$ の 10 成分） & $\hat g_{R,\yone}$ はそろう。$\hat C_{R,S}$ の refined だけの部分は 8/10 \\
+$T(2,2m+1)$ の表現 [1]（$m \le 5$） & 成立 & $c = 2$ 部分は $m \le 5$、全体は $m \le 2$ & 判定式が成立 \\
+$T(2,2m+1)$ の固定 $N$（$N = 2, 3$、$|R| \le 3$、$m \le 3$） & 全方向の hatted で成立 & — & 固定 $N$ では判定できない \\
+trefoil の 2 箱（大きな $N$） & 成立 & 成立 & 商のブロックの 5/10 \\
+$T(2,5)$ の 2 箱（大きな $N$） & 成立 & 成立 & 6/18 \\
+trefoil の 3 箱（大きな $N$） & 成立（$(1+t)$ の極なし、hatted も整数） & 成立 & 2/15, 3/14, 2/13 \\
+被覆の brane--brane（trefoil, $T(2,5)$ の $|R| \le 2$） & 成立（\cite{KN17} に一致） & — & 全ブロックそろう \\
+被覆の brane--image（境界因子を外した $N$、$T(2,3)$, $T(2,5)$, $T(2,7)$） & 成立 & — & 切り替わりのブロック $k = 2m$ 以外はそろう \\
+refined Sp$(2N)$：$T(2,3)$, $T(2,5)$ の表現 [1]、trefoil の 2 箱 & 成立（SO と同じ構造） & — & SO との関係 $g^{\mathrm{Sp}}(\ba) = -g^{\SO}(-\ba)$（表現 [1]）、$W_R$ の $(-1)^{|R|}$（2 箱） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{主張の分類}
+本論文の主張は、解析的に導いたもの（定理・命題・補題）、計算機で確かめたもの（計算結果。範囲を明記する）、予想、仮説に分けて書く。
+文献から直接取れなかった規則は「仮説」と書き、どの検証で裏付けたかを添える。
+計算のコードとデータ、自動テストの対応は\ref{app:code} に置く。
+
+\subsection{構成}
+§\ref{sec:prelim} で変数・核・規格化を定め、refined クロスキャップ不変量を定義する。§\ref{sec:index} で orientifold の指数から全 $d$ の構造と境界因子を導く。§\ref{sec:hopf} で unknot と Hopf 絡み目、§\ref{sec:torus} でトーラス結び目の表現 [1] の判定式、§\ref{sec:generalN} で一般の $N$ の多箱の整数性と普遍因子、§\ref{sec:sp} で refined Sp$(2N)$ を扱う。§\ref{sec:cover} で被覆を brane と image に分けて構造を調べ、§\ref{sec:positivity} で多箱のクロスキャップの現状と障害をまとめ、§\ref{sec:discussion} で未解決の問題を述べる。
