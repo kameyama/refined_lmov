@@ -1,9 +1,8 @@
-\section{コード・データ・テスト}\label{app:code}
+\section{計算の方法}\label{app:code}
 \begin{itemize}
-\item 実装：\texttt{src/rcsknots/refined\_kauffman/}（\texttt{kauffman\_*.py}、\texttt{koornwinder.py}、\texttt{daha\_dn.py}、\texttt{daha\_cn.py}（C$_N$ 型）、\texttt{daha\_fast.py}、\texttt{flint\_rf*.py}）と \texttt{scripts/refined\_kauffman/rk\_*.py}（Hilbert scheme のセル分解は \texttt{rk\_b\_planB\_cells.py}）。
-\item 自動テスト：\texttt{tests/refined\_kauffman/}。保存済みの大きな計算結果を判定し直すテストには \texttt{results} の印を付け、既定の実行から外している。
-\item 主張とテストの対応は \texttt{docs/refined\_kauffman/paper/claims.md} に置いた。
-\item 以下の式は、保存済みのデータとコードから \texttt{scripts/rk\_report\_tex.py} で生成した（手で写していない）。
+\item 計算は著者の Python のコードで行った。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。
+\item 本文の計算結果は、それぞれ自動テストで照合している。照合の内容は、\cite{Marino09} の値の再現、$t = q$ での Kauffman 多項式との一致、固定 $N$ の直接計算との一致、\cite{KN17} の不変量との一致、$R \leftrightarrow R^T$ の対称性である。
+\item 以下の式は、保存済みのデータから機械的に生成した（手で写していない）。
 \end{itemize}
 
 \section{トーラス結び目の表現 [1]}\label{app:torus}
@@ -25,7 +24,7 @@ trefoil の $\hat g_{\ytwo} + \hat g_{\yoneone}$、$(1+t)(\hat g_{\ytwo} - \hat 
 \input{../../tex/gen/cover_split.tex}
 
 \section{brane 2・image 2 のセクターの探索}\label{app:n2}
-trefoil の $n = 2$（brane 2・image 2）の固定セクターについて得た結果を、第 1 版から移して載せる。$\lambda^{-12}$ までの $E$ は決まるが、$\lambda^{-14}$ 以降は未決定である。
+trefoil の $n = 2$（brane 2・image 2）の固定セクターについて得た結果をまとめる。$\lambda^{-12}$ までの $E$ は決まるが、$\lambda^{-14}$ 以降は未決定である。
 % [P30, P31, P38, P39]
 \begin{compresult}[$n = 2$ の行の母関数と $R$ 依存性]\label{cr:n2rows}
 trefoil の $n = 2$（brane 2・image 2）の固定セクター $N_R$（$R = (2), (1,1)$。ここでは Young 図を $R$、Kauffman 変数を $\lambda$ と書く）は、表現 [1]・2 箱・随伴・composite の鏡像の行 $R_{\yone} = a_2\lambda^{-2} + a_4\lambda^{-4}$（$a_2 = (1+qt)/q$、$a_4 = -t/q$）、$R_{\ytwo} = b_4\lambda^{-4} + b_6\lambda^{-6} + b_8\lambda^{-8}$、$R_{\yoneone} = c_4\lambda^{-4} + \cdots$、$G_{\alpha\beta}$ の行（計算結果 \ref{cr:composite}）の多項式（最大 4 次）として明示的に書け、実際の行で $\lambda^{-20}$ まで全ブロックが保存した $N_R$ と一致する。

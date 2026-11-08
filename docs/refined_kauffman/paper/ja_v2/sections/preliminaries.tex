@@ -25,7 +25,7 @@ unrefined（$t = q$）では、Mariño の変数は $t_M = q^{1/2}$、$z = z_q$�
 \cite{AgSc12} の SO$(2N)$ の refined Chern--Simons 理論では、表現 $R$ の Wilson ループは D$_N$ 型の Macdonald 多項式で与えられる。
 % [S1]
 \begin{compresult}
-\cite{AgSc12} の refined unknot $\dim_R$ は、Koornwinder 多項式 $K_R(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい（6 つの $R$。van Diejen--Sahi の評価式と、$q$-差分作用素で作った多項式（$N = 2, 3$）で確認）。
+\cite{AgSc12} の refined unknot $\dim_R$ は、Koornwinder 多項式（\cite{Koornwinder92}）$K_R(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい（6 つの $R$。\cite{vD96,Sahi99} の評価式と、$q$-差分作用素で作った多項式（$N = 2, 3$）で確認）。
 $\dim_R$ は $t^N$ の Laurent 多項式ではなく、例えば表現 [2] は $(1 - q t^{N-1})$、表現 [1,1] は $(1 - q t^{2N-3})$ を分母にもつ（$t = q$ では約分される）。
 \end{compresult}
 
@@ -38,7 +38,7 @@ composite $([1],[1])$ の寄与は $p_1^2$ 方向だけにあるが、D$_N$ の�
 
 \subsection{双対 Cauchy 核と生成関数}
 % [S3]
-Mimachi の双対 Cauchy 恒等式（Koornwinder 多項式）
+Koornwinder 多項式の双対 Cauchy 恒等式（\cite{Mimachi01}）
 \[
 \sum_{\mu \subseteq m^n} (-1)^{|\mu|} K_{m^n - \mu}(x; q, t)\, K_{\mu'}(y; t, q) = \prod_{i, j} x_i^{-1}(1 - x_i y_j)(1 - x_i y_j^{-1})
 \]
@@ -57,7 +57,7 @@ Mimachi の双対 Cauchy 恒等式（Koornwinder 多項式）
 \hat K_{\lambda'}(Y; t, q; T) &:= \Bigl(\prod_\alpha y_\alpha\Bigr)^N K_{N^m - \lambda'}(Y; t, q; 1, -1, q^{1/2}, -q^{1/2})
 \end{aligned}
 \end{equation}
-と展開される。和をとる相手は probe 側の $(t, q)$ 型 Koornwinder 多項式で、長方形 $N^m$ からの補集合に $(\prod y)^N$ を掛けた $\hat K_{\lambda'}$ は Rains の virtual Koornwinder 多項式であり、$Y$ の多項式として $N$ に依存するのは $T = t^N = U$ を通してだけである。これが $U$ を形式変数として扱える理由で、$f_R$ は $\hat K_{\lambda'}(Y)$ を Schur 関数 $s_R(Y)$ に展開し直して Möbius 反転で定める。符号 $(-1)^{|\lambda|}$ は fermionic な核の特徴である。unknot では $W_\lambda = P_\lambda(t^\rho)$ で、\eqref{eq:Zexpand} は双対 Cauchy 恒等式を $x = t^\rho$ で評価した積（\S\ref{sec:hopf}）に戻る。
+と展開される。和をとる相手は probe 側の $(t, q)$ 型 Koornwinder 多項式で、長方形 $N^m$ からの補集合に $(\prod y)^N$ を掛けた $\hat K_{\lambda'}$ は virtual Koornwinder 多項式（\cite{Rains05,RW21}）であり、$Y$ の多項式として $N$ に依存するのは $T = t^N = U$ を通してだけである。これが $U$ を形式変数として扱える理由で、$f_R$ は $\hat K_{\lambda'}(Y)$ を Schur 関数 $s_R(Y)$ に展開し直して Möbius 反転で定める。符号 $(-1)^{|\lambda|}$ は fermionic な核の特徴である。unknot では $W_\lambda = P_\lambda(t^\rho)$ で、\eqref{eq:Zexpand} は双対 Cauchy 恒等式を $x = t^\rho$ で評価した積（\S\ref{sec:hopf}）に戻る。
 被覆 U$(N_A)$ についても、同じ核 $\prod_i(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1})$ で $f^{\cov}_R$ を定める。この場合は $x$ と $x^{-1}$ の両方が入るので、展開の基底は composite $(\alpha; \bar\beta)$ の Macdonald 指標で、$\langle P_\alpha(x) P_\beta(x^{-1})\rangle$ は composite の値と縮約項に分解して評価する（\S\ref{sec:generalN}）。
 核の $|Y| \le 2$ の部分は、U$(N_A)$ の普通の表現と随伴 composite $(1;1)$ で書ける。3 次では composite $(2;1)$, $(1,1;1)$ も現れる。
 
