@@ -122,6 +122,11 @@ def so_Z(W, Sinv):
 def comp_interp(alpha):
     """R_{(α;1)}(N) を x = s^N（A^{1/2}）の Laurent 多項式として補間（傾きで窓、補間に使わない N で照合）。"""
     tag = "".join(map(str, alpha))
+    if MK >= 3:
+        # m ≥ 3 は素朴な補間に N_A が足りないので、rk_c_bounded_save.py --comp で決めた値（使わない N_A で全係数一致）を読む（続き 139）
+        c = pickle.load(open(os.path.join(OUT, f"Rcomp_A_m{MK}_{tag}.pkl"), "rb"))
+        print(f"composite ({tag};1)：Rcomp_A_m{MK}_{tag}.pkl を読んだ", flush=True)
+        return sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu**int(j) for j, v in c.items()), ZERO)
     avail = [N for N in range(2, 40) if os.path.exists(os.path.join(OUT, f"Rcomp_N{N}_m{MK}_{tag}.pkl"))]
     vals = {N: sp.sympify(pickle.load(open(os.path.join(OUT, f"Rcomp_N{N}_m{MK}_{tag}.pkl"), "rb"))["R"], locals={"r": r_, "s": s_}) for N in avail}
     a, b, c3 = avail[-3:]
