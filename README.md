@@ -1,12 +1,7 @@
-# refined_lmov
-
-結び目の refined Chern–Simons 不変量と refined BPS（LMOV）不変量についての研究リポジトリ。
-目的と規則の異なる 3 つの研究を置いている。コード（src/rcsknots/）とキャッシュの一部は共有する。
-
-## 本研究：iterated torus 結び目の refined CS 不変量（framed_knot/）
+# refined CS invariants of iterated torus knots
 
 Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の refined BPS 不変量の計算を、
-トーラス結び目からその**ケーブル**（iterated torus 結び目）に拡張する。
+トーラス結び目からその**ケーブル**（iterated torus 結び目）に拡張する研究リポジトリ。
 対象は |λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
 
 - 研究計画：[docs/framed_knot/research_plan.md](docs/framed_knot/research_plan.md)
@@ -15,35 +10,16 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の r
 - 進捗：[docs/framed_knot/progress.md](docs/framed_knot/progress.md)
 - 結果のレポート：[docs/framed_knot/REPORT.md](docs/framed_knot/REPORT.md)
 
-## 第 2 の研究：DGR・四重次数型の構造と refined LMOV（dgr_lmov/、2026-10-11 開始）
-
-DGR や四重次数の色付きホモロジーの考え方（微分、対称性、δ 次数など）が refined LMOV 不変量の上でどう表せるかを調べ、
-見つけた構造から未計算の値を構成・予言する。入口は [docs/dgr_lmov/README.md](docs/dgr_lmov/README.md)。
-
-## 第 3 の研究：refined Kauffman 多項式の large N duality（refined_kauffman/、2026-10-14 開始）
-
-SO(N)/Sp(N) Chern–Simons の彩色 Kauffman 不変量の large N duality（Mariño 0904.1088：SO(N) の自由エネルギーから
-U(N) の composite 表現の寄与の 1/2 を引いた残りが、crosscap c = 1, 2 の整数 BPS 不変量で書ける）を、
-refined の設定（Macdonald・Koornwinder 多項式、Aganagic–Schaeffer 1202.4456 の orientifold の refined topological string）に持ち上げ、
-refined Kauffman 不変量から refined BPS 不変量を抽出する式を作って、整数性と正値性を調べる。
-2018 年の Mathematica による試行錯誤（Dropbox、git の外。読むだけで書き換えない）と同じ方向で進めている。
-
-- 入口と規則：[docs/refined_kauffman/README.md](docs/refined_kauffman/README.md)
-- 規約：[docs/refined_kauffman/conventions.md](docs/refined_kauffman/conventions.md)
-- 進捗（先頭に再開用の「現在の状況」）：[docs/refined_kauffman/progress.md](docs/refined_kauffman/progress.md)
-- 本文：[docs/refined_kauffman/report.md](docs/refined_kauffman/report.md)
-- 論文の草稿：[docs/refined_kauffman/paper/ja_v2/](docs/refined_kauffman/paper/ja_v2/)（第 2 版が本体。第 1 版 ja/ は記録として残す）
-
 ## 構成
 
-3 つの研究のファイルを、各ディレクトリの中で `framed_knot/`（本研究）、`dgr_lmov/`（第 2 の研究）、`refined_kauffman/`（第 3 の研究）に分けて置く。
+2 つの研究のファイルを、各ディレクトリの中で `framed_knot/`（本研究：framed knot への拡張と正値性の検証）と `dgr_lmov/`（別の研究：DGR・四重次数型の構造と refined LMOV）に分けて置く。
 
 ```
 docs/framed_knot/     本研究の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）
 docs/dgr_lmov/        別の研究の文書（入口は README.md）
-docs/refined_kauffman/  第 3 の研究（refined Kauffman 多項式の large N duality）の文書・論文（入口は README.md）
+docs/refined_kauffman/  第 3 の研究（refined Kauffman 多項式の large N 双対）の文書・論文（入口は README.md）
 references/           論文 PDF と TeX ソース（追跡しない。references/README.md に取得元）
-src/rcsknots/         計算コード（Python パッケージ。直下は研究どうしで共有する）
+src/rcsknots/         計算コード（Python パッケージ。両方の研究で共有する）
 src/rcsknots/dgr_lmov/  別の研究だけが使うモジュール（dgr, lmovstruct, large_n_inverse）
 src/rcsknots/refined_kauffman/  第 3 の研究だけが使うモジュール（koornwinder, daha_dn, daha_cn, flint_rf*, kauffman_*）
 tests/framed_knot/    本研究の照合テスト（pytest）
@@ -55,14 +31,14 @@ scripts/refined_kauffman/  第 3 の研究のスクリプト（rk_*.py）
 data/framed_knot/     本研究の計算結果（JSON と人が読める表）
 data/dgr_lmov/        別の研究の計算結果（lmovstruct/ を含む）
 data/refined_kauffman/  第 3 の研究の計算結果（daha/ の pkl など）
-data/cache/           途中結果のキャッシュ（追跡しない。研究どうしで共有する）
+data/cache/           途中結果のキャッシュ（追跡しない。両方の研究で共有する）
 logs/framed_knot/     本研究の検証ログ・実行時間とメモリの記録
 logs/dgr_lmov/        別の研究のログ
 logs/refined_kauffman/  第 3 の研究のログ
 notebooks/            試行用
 ```
 
-スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する。第 3 の研究は `PYTHONPATH=src:scripts/refined_kauffman` で実行する（スクリプトどうしの import はこのパスで解決する）。
+スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（第 3 の研究は `PYTHONPATH=src:scripts/refined_kauffman`）（スクリプトどうしの import はこのパスで解決する）。
 
 ## セットアップとテスト
 

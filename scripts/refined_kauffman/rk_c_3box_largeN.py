@@ -5,7 +5,9 @@ SO：Z~(Y) = Σ_ν (−1)^{|ν|} s_ν(Y) ⟨s_{ν'}(x, x^{−1})⟩、s_{ν'}(z)
   ⟨P_λ⟩ = (t/q)^{|λ|/2} R_λ(data) P_λ(t^ρ)、⟨P_1 P_1^{−1}⟩ = W_adj + κ、⟨P_α P_1^{−1}⟩ = W_{(α;1)} + d_α W_(1)、
   W_{(α;1)} = R_{(α;1)}(A^{1/2}) P_{(α;1)}(t^ρ)（R は scripts/rk_c_fast_composite.py の値を A^{1/2} で補間、P は kauffman_refined.dim_composite）、
   d_α = (P_α(t^ρ) P_1(t^ρ) − P_{(α;1)}(t^ρ)) / P_1(t^ρ)。
-検算：U = t^N（N = 2, 3）で固定 N の SO・被覆の自由エネルギー（scripts/rk_k5_trefoil_3box.py）と全係数一致、g_R が固定 N の g と一致。"""
+検算：U = t^N（N = 2, 3）で固定 N の SO・被覆の自由エネルギー（scripts/rk_k5_trefoil_3box.py）と全係数一致、g_R が固定 N の g と一致。
+T(2,2m+1) への一般化（2026-11-08）：python rk_c_3box_largeN.py m。R_U_m{m}_{λ}、Rcomp_N*_m{m}、Radj_A_m{m}、KN の data T2_{2m+1}、
+  一様な規格化 (t/q)^{m|λ|/2}。m ≠ 1 の照合は g_R（|R| ≤ 3）と固定 N の g（data/refined_kauffman/T2_{2m+1}_fixedN_3box_g.pkl）だけ。"""
 import sys, os, pickle
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import sympy as sp
@@ -23,6 +25,7 @@ nu = U / S
 OUT = "data/refined_kauffman/daha"
 ZERO, ONE = conv(0), conv(1)
 PARTS = [(), (1,), (2,), (1, 1), (3,), (2, 1), (1, 1, 1)]
+MK = 1         # T(2, 2MK+1)。main(m) で設定する
 
 
 # ---- 冪和基底の演算（キーは Y の冪和の分割） ----
@@ -95,7 +98,7 @@ def so_W():
     sub = {qs: r_**2, ts: s_**2, Us: u_}
     W = {(): ONE}
     for lam in PARTS[1:]:
-        c = pickle.load(open(os.path.join(OUT, f"R_U_m1_{''.join(map(str, lam))}.pkl"), "rb"))
+        c = pickle.load(open(os.path.join(OUT, f"R_U_m{MK}_{''.join(map(str, lam))}.pkl"), "rb"))
         Rf = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * U**j for j, v in c.items()), ZERO)
         kr = K_rho(lam)
         W[lam] = Rf * from_sympy(sp.sympify(kr.as_expr() if hasattr(kr, "as_expr") else kr).subs(sub))
@@ -119,8 +122,8 @@ def so_Z(W, Sinv):
 def comp_interp(alpha):
     """R_{(α;1)}(N) を x = s^N（A^{1/2}）の Laurent 多項式として補間（傾きで窓、補間に使わない N で照合）。"""
     tag = "".join(map(str, alpha))
-    avail = [N for N in range(2, 40) if os.path.exists(os.path.join(OUT, f"Rcomp_N{N}_m1_{tag}.pkl"))]
-    vals = {N: sp.sympify(pickle.load(open(os.path.join(OUT, f"Rcomp_N{N}_m1_{tag}.pkl"), "rb"))["R"], locals={"r": r_, "s": s_}) for N in avail}
+    avail = [N for N in range(2, 40) if os.path.exists(os.path.join(OUT, f"Rcomp_N{N}_m{MK}_{tag}.pkl"))]
+    vals = {N: sp.sympify(pickle.load(open(os.path.join(OUT, f"Rcomp_N{N}_m{MK}_{tag}.pkl"), "rb"))["R"], locals={"r": r_, "s": s_}) for N in avail}
     a, b, c3 = avail[-3:]
     rng = {N: I.s_range(vals[N]) for N in (a, b, c3)}
     jmin, jmax = rng[c3][0] - rng[b][0], rng[c3][1] - rng[b][1]
@@ -131,15 +134,16 @@ def comp_interp(alpha):
     from rcsknots.refined_kauffman.flint_rf import from_sympy as fs2
     ok = {N: (I.predict_generic(c, 1, N) - fs2(vals[N])).is_zero() for N in avail if N not in nodes}
     print(f"composite ({tag};1)：A^{{1/2}} の冪 {jmin}〜{jmax}（ノード N_A = {nodes}）、照合 {ok}", flush=True)
-    pickle.dump({j: str(v.to_sympy()) for j, v in c.items()}, open(os.path.join(OUT, f"Rcomp_A_m1_{tag}.pkl"), "wb"))
+    assert ok and all(ok.values()), ok
+    pickle.dump({j: str(v.to_sympy()) for j, v in c.items()}, open(os.path.join(OUT, f"Rcomp_A_m{MK}_{tag}.pkl"), "wb"))
     return sum((from_sympy(v.to_sympy()) * nu**j for j, v in c.items()), ZERO)
 
 
 def cover_parts():
     from rcsknots.refined_kauffman import kauffman_refined as KR
-    w = S / R
-    Wo = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam))) * L.Psym(lam) for lam in PARTS[1:]}
-    radj = pickle.load(open(os.path.join(OUT, "Radj_A_m1.pkl"), "rb"))
+    w = (S / R)**MK
+    Wo = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), f"T2_{2 * MK + 1}") * L.Psym(lam) for lam in PARTS[1:]}
+    radj = pickle.load(open(os.path.join(OUT, f"Radj_A_m{MK}.pkl"), "rb"))
     Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu**j for j, v in radj.items()), ZERO)
     A = nu * nu
     qn = (nu - 1 / nu) / (S - 1 / S)
@@ -182,7 +186,9 @@ def cover_Z(Wo, pair):
     return Zp
 
 
-def main():
+def main(m=1):
+    global MK
+    MK = m
     Sinv = K_matrix()
     W = so_W()
     Zso = so_Z(W, Sinv)
@@ -191,24 +197,27 @@ def main():
     F, Fc = plog(Zso), plog(Zc)
     G = {k: F.get(k, ZERO) - conv(Fraction(1, 2)) * Fc.get(k, ZERO) for k in set(F) | set(Fc)}
     # 固定 N との照合
-    import rk_k5_trefoil_3box as X
-    fx = pickle.load(open("data/refined_kauffman/T2_3_fixedN_3box_g.pkl", "rb"))
+    fx = pickle.load(open(f"data/refined_kauffman/T2_{2 * m + 1}_fixedN_3box_g.pkl", "rb"))
     for N in (2, 3):
-        Fx = X.plog(X.so_Z(N, X.so_uniform(N)))
-        Fcx = X.plog(X.cover_Z(N, {}, uniform=True))
         sub = lambda e: sp.cancel(e.to_sympy().subs(u_, s_**(2 * N)))
-        okso = all(sp.cancel(sub(F.get(k, ZERO)) - Fx.get(k, X.ZERO).to_sympy()) == 0 for k in Fx if sum(k) <= 3)
-        okc = all(sp.cancel(sub(Fc.get(k, ZERO)) - Fcx.get(k, X.ZERO).to_sympy()) == 0 for k in Fcx if sum(k) <= 3)
         g3 = to_schur(G, 3)
         okg = all(sp.cancel(sub(g3[R_]) - sp.sympify(fx[N]["g_schur"][str(R_)], locals={"r": r_, "s": s_})) == 0 for R_ in g3)
-        print(f"N = {N}：SO の f 一致 {okso}、被覆の f 一致 {okc}、g_R（|R| = 3）一致 {okg}", flush=True)
+        if m == 1:
+            import rk_k5_trefoil_3box as X
+            Fx = X.plog(X.so_Z(N, X.so_uniform(N)))
+            Fcx = X.plog(X.cover_Z(N, {}, uniform=True))
+            okso = all(sp.cancel(sub(F.get(k, ZERO)) - Fx.get(k, X.ZERO).to_sympy()) == 0 for k in Fx if sum(k) <= 3)
+            okc = all(sp.cancel(sub(Fc.get(k, ZERO)) - Fcx.get(k, X.ZERO).to_sympy()) == 0 for k in Fcx if sum(k) <= 3)
+            print(f"N = {N}：SO の f 一致 {okso}、被覆の f 一致 {okc}、g_R（|R| = 3）一致 {okg}", flush=True)
+        else:
+            print(f"N = {N}：g_R（|R| = 3）が固定 N の g と一致 {okg}", flush=True)
     g3 = to_schur(G, 3)
     for R_, v in g3.items():
         print(f"g_{R_}：分母 {sp.factor(sp.fraction(sp.cancel(v.to_sympy()))[1])}、整数 Laurent {v.is_integer_laurent()}", flush=True)
     pickle.dump({"f": {str(k): str(v.to_sympy()) for k, v in F.items()}, "fcov": {str(k): str(v.to_sympy()) for k, v in Fc.items()},
-                 "g": {str(k): str(v.to_sympy()) for k, v in G.items()}}, open(os.path.join(OUT, "largeN_3box_m1.pkl"), "wb"))
+                 "g": {str(k): str(v.to_sympy()) for k, v in G.items()}}, open(os.path.join(OUT, f"largeN_3box_m{m}.pkl"), "wb"))
     return F, Fc, G
 
 
 if __name__ == "__main__":
-    main()
+    main(int(sys.argv[1]) if len(sys.argv) > 1 else 1)
