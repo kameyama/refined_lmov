@@ -1,0 +1,35 @@
+== T(2,3)：S̃(t=q) = q**2 + q + 1、ρ₀(t=q) = q**2 + 1
+   候補のどれとも一致しない。X(重み 1) = (q**2 + 1)/(sqrt(q)*(q - 1)) 、X(q^{−κ/2}) = (q**2 + q + 1)/((q - 1)*(q + 1)) 、X(q^{−κ}) = sqrt(q)/(q - 1)
+   ρ₀ / X(重み 1) = sqrt(q)*(q - 1)
+== T(2,5)：S̃(t=q) = q**4 + q**3 + q**2 + q + 1、ρ₀(t=q) = (q**2 - q + 1)*(q**2 + q + 1)
+   候補のどれとも一致しない。X(重み 1) = (q**2 - q + 1)*(q**2 + q + 1)/(q**(3/2)*(q - 1)) 、X(q^{−κ/2}) = (q**4 + q**3 + q**2 + q + 1)/(q*(q - 1)*(q + 1)) 、X(q^{−κ}) = (q**2 + 1)/(sqrt(q)*(q - 1))
+   ρ₀ / X(重み 1) = q**(3/2)*(q - 1)
+== T(2,7)：S̃(t=q) = q**6 + q**5 + q**4 + q**3 + q**2 + q + 1、ρ₀(t=q) = (q**2 + 1)*(q**4 + 1)
+   候補のどれとも一致しない。X(重み 1) = (q**2 + 1)*(q**4 + 1)/(q**(5/2)*(q - 1)) 、X(q^{−κ/2}) = (q**6 + q**5 + q**4 + q**3 + q**2 + q + 1)/(q**2*(q - 1)*(q + 1)) 、X(q^{−κ}) = (q**2 - q + 1)*(q**2 + q + 1)/(q**(3/2)*(q - 1))
+   ρ₀ / X(重み 1) = q**(5/2)*(q - 1)
+Traceback (most recent call last):
+  File "<stdin>", line 28, in <module>
+  File "<stdin>", line 14, in top_rat
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 7410, in cancel
+    c, (P, Q) = 1, F.cancel(G)
+                   ~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2325, in cancel
+    _, p, q = f.cofactors(g)
+              ~~~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2241, in cofactors
+    h, cff, cfg = f._gcd(g)
+                  ~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2274, in _gcd
+    return f._gcd_ZZ(g)
+           ~~~~~~~~~^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/rings.py", line 2279, in _gcd_ZZ
+    return heugcd(f, g)
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 80, in heugcd
+    h, cff, cfg = heugcd(ff, gg)
+                  ~~~~~~^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/heuristicgcd.py", line 118, in heugcd
+    raise HeuristicGCDFailed('no luck')
+sympy.polys.polyerrors.HeuristicGCDFailed: no luck

@@ -1,0 +1,8 @@
+被覆の log Z：1 秒
+Y ↔ Y′ の対称性 M_{(2),(1,1)} = M_{(1,1),(2)}: True
+和の検算 ΣM = 4 a_{(1,1),(1,1)}: True
+(1 − t) a_((1, 1), (1, 1)) / (z_q φ φ) は Laurent: True、整数係数: False
+(1 − t) a_((1, 1), (2,)) / (z_q φ φ) は Laurent: True、整数係数: False
+(1 − t) a_((2,), (1, 1)) / (z_q φ φ) は Laurent: True、整数係数: False
+(1 − t) a_((2,), (2,)) / (z_q φ φ) は Laurent: True、整数係数: False
+保存：data/refined_kauffman/daha/largeN_cover_fixed22_lam_m1.pkl（22 秒）

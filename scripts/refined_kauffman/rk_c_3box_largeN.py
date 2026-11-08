@@ -136,7 +136,7 @@ def comp_interp(alpha):
 
 
 def cover_parts():
-    from rcsknots import kauffman_refined as KR
+    from rcsknots.refined_kauffman import kauffman_refined as KR
     w = S / R
     Wo = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam))) * L.Psym(lam) for lam in PARTS[1:]}
     radj = pickle.load(open(os.path.join(OUT, "Radj_A_m1.pkl"), "rb"))

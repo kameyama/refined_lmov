@@ -1,36 +1,36 @@
-\section{トーラス結び目の [1]}\label{sec:torus}
+\section{トーラス結び目の表現 [1]}\label{sec:torus}
 
 \subsection{入力と h/g 分解}
-入力は AgSc \cite{AgSc12} §6 の $T(2,2m+1)$ の [1] の一般式（unknot で正規化）である。
-$m = 1$ で AgSc (6.15) に一致する。
-SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で、(6.15) は Gorsky--Negut \cite{GN13} の構成による U$(n)$ の値と一致する（有理点 2 つで厳密）。
+入力は \cite{AgSc12} §6 の $T(2,2m+1)$ の表現 [1] の一般式（unknot で正規化）である。
+$m = 1$ で \cite{AgSc12} (6.15) に一致する。
+SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で、(6.15) は \cite{GN13} の構成による U$(n)$ の値と一致する（有理点 2 つで厳密）。
 $t = q$ では Mariño の Kauffman 多項式の鏡像に、framing の単項式を除いて一致する。
 
 % [T1]
 \begin{hypothesis}[h/g 分解]\label{hyp:hg}
-$f_1(K) = -W_{\SO}(K) = \tfrac12 h_{[1]} + g_{[1]}$ と書き、被覆の部分を
+$f_1(K) = -W_{\SO}(K) = \tfrac12 h_{\yone} + g_{\yone}$ と書き、被覆の部分を
 \[
-\tfrac12 h_{[1]} = \mathcal{P}(\ba_{\mathrm{KN}}, \bq, \bt)\,\frac{\lambda - \lambda^{-1}}{\bq - \bq^{-1}},\qquad \ba_{\mathrm{KN}}^2 = a\,(t/q)^{1/2}
+\tfrac12 h_{\yone} = \mathcal{P}(\ba_{\mathrm{KN}}, \bq, \bt)\,\frac{\lambda - \lambda^{-1}}{\bq - \bq^{-1}},\qquad \ba_{\mathrm{KN}}^2 = a\,(t/q)^{1/2}
 \]
-と置く。$\mathcal P$ は DGR \cite{DGR05} の superpolynomial で、A 型の refined CS の [1] に当たる。
+と置く。$\mathcal P$ は \cite{DGR05} の superpolynomial で、A 型の refined CS の表現 [1] に当たる。
 \end{hypothesis}
 
 % [T2]
 \begin{compresult}
-$m = 1, \dots, 5$ で、$g_{[1]}$ が Laurent になる単項式 $\pm q^{c/2} t^{d/2} (t^N)^e$ を走査した。条件を満たすのは $e = -2(2m+1)$、$c = -(3m+2)$ に限られる。
+$m = 1, \dots, 5$ で、$g_{\yone}$ が Laurent になる単項式 $\pm q^{c/2} t^{d/2} (t^N)^e$ を探索した。条件を満たすのは $e = -2(2m+1)$、$c = -(3m+2)$ に限られる。
 $d$ は「$t = q$ の極限が Kauffman 多項式の形」で一意に $d = 7m+4$ と決まる。
-したがって単項式は $T_{[1]}^{-2(2m+1)}(q/t)^{\delta/2}$ である（$T_{[1]} = q^{1/2}t^{N-1}$、$\delta = m$）。
-一様な規格化では、余分な $(q/t)^{\delta/2}$ は被覆側に移り、SO 側の単項式はちょうど $T_{[1]}^{-2(2m+1)}$ になる（固定 $N = 2, 3$ で data と全係数一致、$m \le 3$）。
+したがって単項式は $T_{\yone}^{-2(2m+1)}(q/t)^{\delta/2}$ である（$T_{\yone} = q^{1/2}t^{N-1}$、$\delta = m$）。
+一様な規格化では、余分な $(q/t)^{\delta/2}$ は被覆側に移り、SO 側の単項式はちょうど $T_{\yone}^{-2(2m+1)}$ になる（固定 $N = 2, 3$ で data と全係数一致、$m \le 3$）。
 \end{compresult}
-同じ形の因子 $\sqrt{q/t}$ は、Aganagic--Shakirov \cite{AgSh11} の SU$(N)$ の trefoil でも現れる。
+同じ形の因子 $\sqrt{q/t}$ は、\cite{AgSh11} の SU$(N)$ の trefoil でも現れる。
 
 \subsection{結果}
-一様な規格化でのクロスキャップ部分を $g^{\mathrm{true}}_{[1]} = (t/q)^{\delta/2} g_{[1]}$ と書く。
+一様な規格化でのクロスキャップ部分を $g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$ と書く。
 % [T3][T4]
 \begin{compresult}\label{cr:torus}
-$m = 1, \dots, 5$ で、$g^{\mathrm{true}}_{[1]}$ は整数係数の Laurent 多項式（項数 11, 27, 49, 77, 111）で、次が成り立つ。
+$m = 1, \dots, 5$ で、$g^{\mathrm{true}}_{\yone}$ は整数係数の Laurent 多項式（項数 11, 27, 49, 77, 111）で、次が成り立つ。
 \begin{enumerate}
-\item[(N)] SO(2) の点 $\ba^2 = \bq^2$（$\lambda^2 = t$）で $g^{\mathrm{true}}_{[1]} = 1$。
+\item[(N)] SO(2) の点 $\ba^2 = \bq^2$（$\lambda^2 = t$）で $g^{\mathrm{true}}_{\yone} = 1$。
 \item[(P)] $\bt \to -\bt$ で不変。
 \item[($c{=}2$)] $\ba$ の奇数冪の部分は
 \[
@@ -47,15 +47,15 @@ $\Pi_m$ は係数がすべて $+1$ の $m(m+1)/2$ 項から成る。閉じた形
   \end{itemize}
 \end{enumerate}
 \end{compresult}
-$t = q$ では $z$ の奇数冪が消え、トーラス結び目の [1] で $N^{c=2} = 0$ になることと整合する。
-$m = 1, 2, 3$ の値は付録 \ref{app:torus} に載せた。
+$t = q$ では $z$ の奇数冪が消え、トーラス結び目の表現 [1] で $N^{c=2} = 0$ になることと整合する。
+$m = 1, 2, 3$ の値は\ref{app:torus} に載せた。
 
 \subsection{判定式}\label{sec:criterion}
-unrefined のクロスキャップの BPS 数は整数だが、符号は $\beta$ によって変わる（例：Mariño の Hopf の $\hat g_{[1],[1]} = z(\lambda - \lambda^{-1})$）。
+unrefined のクロスキャップの BPS 数は整数だが、符号は $\beta$ によって変わる（例：Mariño の Hopf の $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$）。
 refined では正値性を期待し、それを「各 $\lambda^\beta$ のブロックの係数が、unrefined の符号 $\varepsilon_\beta$ と同じ符号にそろう」こととして定式化する。
 
 \begin{definition}\label{def:c1}
-{[1]} のクロスキャップ部分の $c = 1$ 部分を
+表現 [1] のクロスキャップ部分の $c = 1$ 部分を
 \[
 g^{c=1} = \sum_\beta \lambda^\beta \sum_{g, J} N^{c=1}_{g,\beta,J}\, G^g \qr^{2J}
 \]
@@ -64,13 +64,13 @@ g^{c=1} = \sum_\beta \lambda^\beta \sum_{g, J} N^{c=1}_{g,\beta,J}\, G^g \qr^{2J
 
 % [T6]
 \begin{conjecture}[判定式]\label{conj:criterion}
-結び目の [1] では、次が成り立つ。
+結び目の表現 [1] では、次が成り立つ。
 \begin{enumerate}
 \item[($c{=}1$)] $G$ 展開の後、$\lambda^\beta$ ごとのブロックは同符号か、$(\bt^2 - 1)\times$ 同符号になる。
 \item[($c{=}2$)] $c = 2$ 部分は $-(\ba^2 - \bq^2)(\bt^2 - 1)\times$ 正の多項式である。
 \end{enumerate}
 (N)(P) は規格化の検査で、正値性の内容は ($c{=}1$)($c{=}2$) にある。
 \end{conjecture}
-根拠はトーラス結び目 $T(2,2m+1)$（$m \le 5$）の [1] だけである。
+根拠はトーラス結び目 $T(2,2m+1)$（$m \le 5$）の表現 [1] だけである。
 $(\ba^2 - \bq^2)$ は SO(2) の点（可換群では結び目の不変量が自明になる）で消える因子である。
 $(\bt^2 - 1)$ は「$t = q$ で消える」ことと、(P) の偶奇の帰結である。

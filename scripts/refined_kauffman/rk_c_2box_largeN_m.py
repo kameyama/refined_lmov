@@ -3,7 +3,7 @@ r"""タスク C ②：大きな N の 2 箱のクロスキャップ部分 g = f 
   被覆 U(N_A)：普通の表現は W_μ = (t/q)^{δ|μ|/2} R_μ(KN の data) P_μ(t^ρ)（δ = m）、随伴は R_adj(A^{1/2}) を GL の DAHA（scripts/rk_c_fast_adj.py）から
   A^{1/2} = t^{N_A/2} の Laurent 多項式として補間し（傾きで窓を決め、補間に使わない N_A で照合）、data/refined_kauffman/daha/Radj_A_m{m}.pkl に保存。
   検算：U = t², t³ で固定 N の g（data/refined_kauffman/T2_{2m+1}_fixedN_3box_g.pkl）と全係数比較。
-使い方：python scripts/rk_c_2box_largeN_m.py m"""
+使い方：python scripts/rk_c_2box_largeN_m.py m [--k=K]（K ≠ 2 は T(mK+1, K)、タグ m{m}k{K}、δ は rk_torus_tag.DELTA。続き 102）"""
 import sys, pickle, os
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import sympy as sp
@@ -11,6 +11,7 @@ from fractions import Fraction
 from rcsknots.refined_kauffman.flint_rf3 import RF, R, S, U, from_sympy, conv
 import rk_c_2box_largeN as L
 import rk_c_interp as I
+import rk_torus_tag as TG
 
 r_, s_, u_ = sp.symbols("r s u", positive=True)
 q, t = R * R, S * S
@@ -19,7 +20,7 @@ half = conv(Fraction(1, 2))
 OUT = "data/refined_kauffman/daha"
 
 
-def so_parts(m):
+def so_parts(m, k=2):
     from rcsknots.refined_kauffman.kauffman_hopf2 import koornwinder_small, K_rho
     from rcsknots.refined_kauffman.kauffman_hopf import qs, ts, Us
     sub = {qs: r_**2, ts: s_**2, Us: u_}
@@ -28,7 +29,7 @@ def so_parts(m):
     co = {name: {lam: cv(v) for lam, v in ks[name].items()} for name in ("S1sq", "S2")}
     W = {}
     for lam in ((1,), (2,), (1, 1)):
-        c = pickle.load(open(os.path.join(OUT, f"R_U_m{m}_{''.join(map(str, lam))}.pkl"), "rb"))
+        c = pickle.load(open(os.path.join(OUT, f"R_U_{TG.tag(m, k)}_{''.join(map(str, lam))}.pkl"), "rb"))
         Rf = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * U**j for j, v in c.items()), conv(0))
         W[lam] = Rf * cv(K_rho(lam))
     return W, co
@@ -52,10 +53,10 @@ def adj_interp(m):
     return c
 
 
-def cover_f(m, knot):
-    w = (S / R)**m                                       # (t/q)^{δ/2}、δ = m
+def cover_f(m, knot, k=2):
+    w = (S / R)**TG.delta(m, k)                          # (t/q)^{δ/2}、δ = m（k = 2）
     Wc = {lam: w**sum(lam) * L.Rdata_nu("".join(map(str, lam)), knot) * L.Psym(lam) for lam in ((1,), (1, 1), (2,))}
-    radj = pickle.load(open(os.path.join(OUT, f"Radj_A_m{m}.pkl"), "rb"))
+    radj = pickle.load(open(os.path.join(OUT, f"Radj_A_{TG.tag(m, k)}.pkl"), "rb"))
     Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu**j for j, v in radj.items()), conv(0))
     A = nu * nu
     qn = (nu - 1 / nu) / (S - 1 / S)
@@ -72,28 +73,35 @@ def cover_f(m, knot):
     return {(1,): f1, (2,): H11 + H2, (1, 1): H11 - H2}
 
 
-def main(m):
-    knot = f"T2_{2*m+1}"
-    adj_interp(m)
-    W, co = so_parts(m)
+def main(m, k=2):
+    knot, tg = TG.knot_name(m, k), TG.tag(m, k)
+    if os.path.exists(os.path.join(OUT, f"Radj_A_{tg}.pkl")):
+        print(f"Radj_A_{tg}.pkl があるので随伴の補間は飛ばす（rk_c_bounded_save.py --adj で作った場合）", flush=True)
+    else:
+        assert k == 2
+        adj_interp(m)
+    W, co = so_parts(m, k)
     f = L.so_f(W, co)
-    fc = cover_f(m, knot)
+    fc = cover_f(m, knot, k)
     g = {k: f[k] - half * fc[k] for k in f}
     for k, v in g.items():
         d = sp.factor(sp.fraction(sp.cancel(v.to_sympy()))[1])
         print(f"g_{k}：分母 {d}", flush=True)
     print("g_(2) + g_(1,1) は整数 Laurent", (g[(2,)] + g[(1, 1)]).is_integer_laurent(), "、(1+t)(g_(2) − g_(1,1)) は整数 Laurent",
           ((1 + t) * (g[(2,)] - g[(1, 1)])).is_integer_laurent(), flush=True)
-    fx = pickle.load(open(f"data/refined_kauffman/{knot}_fixedN_3box_g.pkl", "rb"))
+    fxp = f"data/refined_kauffman/{knot}_fixedN_3box_g.pkl"
+    fx = pickle.load(open(fxp, "rb")) if os.path.exists(fxp) else {}
+    if not fx:
+        print(f"固定 N の g（{fxp}）が無いので U = t², t³ の照合は飛ばす", flush=True)
     for N in (2, 3):
         if N not in fx:
             continue
         ok = all(sp.cancel(g[k].to_sympy().subs(u_, s_**(2 * N)) - sp.sympify(fx[N]["g_schur"][str(k)], locals={"r": r_, "s": s_})) == 0 for k in ((1,), (2,), (1, 1)))
         print(f"U = t^{N} で固定 N の g と一致：{ok}", flush=True)
     pickle.dump({"f": {str(k): str(v.to_sympy()) for k, v in f.items()}, "fcov": {str(k): str(v.to_sympy()) for k, v in fc.items()},
-                 "g": {str(k): str(v.to_sympy()) for k, v in g.items()}}, open(os.path.join(OUT, f"largeN_2box_m{m}.pkl"), "wb"))
+                 "g": {str(k): str(v.to_sympy()) for k, v in g.items()}}, open(os.path.join(OUT, f"largeN_2box_{tg}.pkl"), "wb"))
     return f, fc, g
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]))
+    main(int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1], next((int(a[4:]) for a in sys.argv[2:] if a.startswith("--k=")), 2))

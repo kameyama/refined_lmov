@@ -4,20 +4,22 @@
 \begin{enumerate}
 \item \textbf{凍結した状態の多重項}：多箱の $c = 1$ 部分は $\sigma$ 対称でなく、$G$ では展開できない。$G = T_+T_-$ の因子 $T_\pm$ を使っても、$\sigma$ 対称でない部分は展開できるようにならない（§\ref{sec:index} の注意）。
 計算結果 \ref{cr:multibox-sigma} により、非対称性のうち unrefined の部分は $c$ の偶奇の規則で取り除け、残る refined の $\sigma$ 奇部分は $(\bt^2-1)(\ql - \ql^{-1})$ で割り切れる。$\sigma$ 偶・奇の分解は半整数で、$T(2,5)$ では符号もそろわないので、この分解は正値性の判定には足りない。
-向き付けられない面の refined の取っ手の因子を幾何から決める必要がある。
-\item \textbf{$E$ と $C$ の分離}：指数からは決まらない（命題 \ref{prop:EC}）。Hopf の $(4,4)$ と結び目の 2 箱で未決定である。
-境界ゼロモードへの作用は決まった（命題 \ref{prop:boundary}）。残るのはモジュライ空間の部分で、$\tilde I = I_X\otimes e^{i\pi J_2}$ の符号を決めるには状態の $t$ 電荷を $J_2$ と $S_R$ に分ける必要があり、指数からは得られない。Young \cite{Young16} の cohomological Hall module が CoHA 上で自由でないことは、この不定性の代数的な形である（loop quiver では決まり、framed unknot で $E$ が一意になることと整合する）。
+向き付けられない面の refined のハンドルの因子を幾何から決める必要がある。
+\item \textbf{$E$ と $C$ の分離}：指数からは決まらない（命題 \ref{prop:EC}）。Hopf の $(4,4)$ と結び目の 2 箱で未決定である（$n = 2$ の trefoil では $\lambda^{-12}$ まで決まり、$\lambda^{-14}$ 以降が未決定。計算結果 \ref{cr:n2negative}）。
+境界ゼロモードへの作用は決まった（命題 \ref{prop:boundary}）。残るのはモジュライ空間の部分で、$\tilde I = I_X\otimes e^{i\pi J_2}$ の符号を決めるには状態の $t$ 電荷を $J_2$ と $S_R$ に分ける必要があり、指数からは得られない。\cite{Young16} の cohomological Hall module が CoHA 上で自由でないことは、この不定性の代数的な形である（loop quiver では決まり、framed unknot で $E$ が一意になることと整合する）。
 \item \textbf{普遍因子の意味}：$(\ba^2 - \bq^2)$ は SO(2) の点で、$(\bt^2 - 1)$ は $t = q$ と偶奇で説明できる。ただし、$\lambda \to \tlam$ のずれの向きが一意に決まる理由と、閉弦の Kähler 変数の三重化との関係は未解明である。
 \item \textbf{他の結び目}：非トーラス結び目では、refined SO の値に定義が無い（refined CS の $S, T$ が使えない）。
-固定 $N$ では、SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で A 型の入力（KNTZ \cite{KNTZ19} の長方形彩色の式など）を使える。二重ツイスト結び目 7 個で、$N = 2$ の SO 側（$|R| \le 3$）の hatted の整数性と一様な規格化が成り立つことを確かめた。
+固定 $N$ では、SO(4) $=$ SU(2)$^2$、SO(6) $=$ SU(4) の同一視で A 型の入力（\cite{KNTZ19} の長方形彩色の式など）を使える。二重ツイスト結び目 7 個で、$N = 2$ の SO 側（$|R| \le 3$）の hatted の整数性と一様な規格化が成り立つことを確かめた。
 大きな $N$ の値には、D 型の DAHA の iterated torus 結び目への拡張が要る。
-\item \textbf{B 型と高い彩色の Sp}：Sp$(2N)$ は §\ref{sec:sp} で扱った（[1] と trefoil の 2 箱）。$T(2,5)$ の 2 箱は補間に $N \le 13$ が要り、現在の実装では計算量が大きすぎる。閉弦の B 型（AM）は $c = 1$ だけで、分母に $(t^{n/2} + t^{-n/2})$ をもつ。命題 \ref{prop:alld} の分類で B 型をどう読むかは調べていない。
-\item \textbf{Hilbert scheme の模型}：Oblomkov--Rasmussen--Shende \cite{ORS12} のセル分解（$\Gamma = \langle 2, 3\rangle$）を実装すると、$T(2,3)$ の HOMFLY ホモロジー（DGR の unreduced superpolynomial）が $q^{2l}$ の 16 次まで再現され、$(q, t, a)$ の次数とセルの（長さ、重み、生成元の数）の辞書が固定できる。
+\item \textbf{B 型と高い彩色の Sp}：Sp$(2N)$ は §\ref{sec:sp} で扱った（表現 [1] と trefoil の 2 箱）。$T(2,5)$ の 2 箱は補間に $N \le 13$ が要り、現在の実装では計算量が大きすぎる。閉弦の B 型（\cite{AM22}）は $c = 1$ だけで、分母に $(t^{n/2} + t^{-n/2})$ をもつ。命題 \ref{prop:alld} の分類で B 型をどう読むかは調べていない。
+\item \textbf{Hilbert scheme の模型}：\cite{ORS12} のセル分解（$\Gamma = \langle 2, 3\rangle$）を実装すると、$T(2,3)$ の HOMFLY ホモロジー（\cite{DGR05} の unreduced superpolynomial）が $q^{2l}$ の 16 次まで再現され、$(q, t, a)$ の次数とセルの（長さ、重み、生成元の数）の辞書が固定できる。
 % [P11]
-一方、固定セクターの指数 $P = (1-t)x$ は $-(\ba^2 - 1)(\ba^2 - \bq^2)(\bq^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1) N_8/(\ba^{12}\bq^4\bt^{10})$ と因数分解し（$N_8$ は 8 項、framed unknot と同じ境界因子 $(\lambda^2-1)(q-1)$ をもつ）、被覆の [1] の $\psi^2$ では書けない。$E$ を幾何から決めるには、brane--image の composite セクターのセル模型と、その上の実構造（曲線の自己同型 $y \to -y$ と複素共役の合成が候補で、セルごとに行列式の符号を与える）が要る（計算と予想）。
+一方、固定セクターの指数 $P = (1-t)x$ は $-(\ba^2 - 1)(\ba^2 - \bq^2)(\bq^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1) N_8/(\ba^{12}\bq^4\bt^{10})$ と因数分解し（$N_8$ は 8 項、framed unknot と同じ境界因子 $(\lambda^2-1)(q-1)$ をもつ）、被覆の表現 [1] の $\psi^2$ では書けない。$E$ を幾何から決めるには、brane--image の composite セクターのセル模型と、その上の実構造（曲線の自己同型 $y \to -y$ と複素共役の合成が候補で、セルごとに行列式の符号を与える）が要る（計算と予想）。
 \end{enumerate}
 
-\subsection{KN との関係}
-被覆（向き付けられた部分）の brane--brane のセクターは、KN の $G$ 展開と正値性をそのまま満たす。
-破れは、$\tilde I$ に関わるセクター（brane--image とクロスキャップ）に限られる。
-したがって、refined の Kauffman 不変量の正値性の問題は、KN の枠組みに orientifold の偶奇の構造を加える問題に帰着する（予想）。
+\subsection{文献 \texorpdfstring{\cite{KN17}}{[KN17]} との関係}\label{sec:kn}
+ここでの正値性は §\ref{sec:criterion} の判定式の意味、すなわち $G$ 展開の後に $\lambda^\beta$ のブロックごとに符号がそろうことである（§\ref{sec:positivity} の冒頭）。
+被覆（向き付けられた部分）の brane--brane のセクターは \cite{KN17} の U$(N_A)$ の refined LMOV 不変量に全係数で一致し（§\ref{sec:split}）、したがって \cite{KN17} の $G$ 展開と正値性をそのまま満たす（\ref{app:cover}）。
+破れは、$\tilde I$ に関わるセクター、すなわち brane--image（§\ref{sec:split}）とクロスキャップ（計算結果 \ref{cr:signs}、\ref{app:largeN}）に限られ、この二つは同じ普遍因子 $(\bt^2 - 1)$ をもつ。ただし brane--image の混在は、境界因子を外すと切り替わりのブロック $k = 2m$ の $-S\otimes S$ に限られ、状態の空間の構造として理解できる（§\ref{sec:split}）。本質的な破れはクロスキャップにある。
+根拠は trefoil と $T(2,5)$ の 2 箱までである。3 箱は brane と image に分けておらず、クロスキャップの混在（計算結果 \ref{cr:signs}）だけを見ている。
+したがって、refined の Kauffman 不変量の正値性の問題は、\cite{KN17} の枠組みに orientifold の偶奇の構造（$\tilde I$ の符号と、凍結した状態の多重項の基底）を加える問題に帰着する（予想）。

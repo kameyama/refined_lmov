@@ -1,0 +1,74 @@
+% refined Kauffman 不変量の large N 双対（日本語の準備稿、第 2 版）
+% 第 1 版（../ja）の強み（新しい対象の定義、整数性、構造、[1] の正値性、被覆の構造）を本体にし、多箱の否定的な結果は「現状と障害」の 1 章にまとめ、n = 2 の探索は付録に移した。
+% 主張の格付け：../claims.md（主張の直前に % [ID] を書く）
+% コンパイル：cd docs/refined_kauffman/paper/ja_v2 && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex && bibtex main && lualatex main.tex（2 回）
+% 参考文献：refs.bib（biblatex、alphabetic 様式、ラベルは bib のキー：引用は [KN17]・[AgSc12] のように著者の略号＋年。本文では略号を書かず \cite だけで指す）
+\documentclass[11pt,a4paper]{ltjsarticle}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{booktabs,array}
+\usepackage{youngtab}
+\Yboxdim{5pt}
+% 式中の表現はヤング図で書く（文中では「表現 [1]」「R = [1]」。引用ラベル [KN17] などと区別するため）
+\DeclareRobustCommand{\yone}{\yng(1)}
+\DeclareRobustCommand{\ytwo}{\yng(2)}
+\DeclareRobustCommand{\yoneone}{\yng(1,1)}
+\DeclareRobustCommand{\ythree}{\yng(3)}
+\DeclareRobustCommand{\ytwoone}{\yng(2,1)}
+\DeclareRobustCommand{\yoneoneone}{\yng(1,1,1)}
+\usepackage[margin=25mm]{geometry}
+\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,doi=true,eprint=true]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[hidelinks]{hyperref}
+\allowdisplaybreaks
+\sloppy
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{conjecture}[theorem]{予想}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{hypothesis}[theorem]{仮説}
+\newtheorem{compresult}[theorem]{計算結果}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{注意}
+
+\newcommand{\ba}{\bm{a}}
+\newcommand{\bq}{\bm{q}}
+\newcommand{\bt}{\bm{t}}
+\newcommand{\tlam}{\tilde\lambda}
+\newcommand{\ql}{q_\ell}
+\newcommand{\qr}{q_r}
+\newcommand{\Rred}{\mathcal{R}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\open}{\textbf{【未解決】}}
+
+\title{refined Kauffman 不変量の large $N$ 双対：\\refined クロスキャップ不変量の定義・整数性・構造\\
+\large（日本語の準備稿）}
+\author{亀山 昌也（Masaya Kameyama）}
+\date{2026年11月8日（準備稿）}
+
+\begin{document}
+\maketitle
+\input{sections/abstract}
+\tableofcontents
+
+\input{sections/introduction}
+\input{sections/preliminaries}
+\input{sections/orientifold_index}
+\input{sections/unknot_hopf}
+\input{sections/torus_one_box}
+\input{sections/general_N}
+\input{sections/sp}
+\input{sections/cover}
+\input{sections/multibox}
+\input{sections/discussion}
+
+\appendix
+\input{sections/appendix}
+
+\input{sections/bibliography}
+\end{document}

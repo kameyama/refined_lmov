@@ -110,3 +110,16 @@ T(2,5)（m = 2）の 2 箱 λ = (1,1), (2)（と (1)）：
 - GL_N の値を現行版の規格化（ρ = (N−1, …, 0)）に直す因子 t^{−c(N−1)/2} は、γ̂(P_λ)·1 が総次数で斉次なことに基づく【導出】。照合したのは P_λ（|λ| ≤ 3）と随伴だけ。
 - 小さな N（D_2 など）で H_ν が一次従属でも、解の一つを使えば値は同じ（N = 2, 3 で現行版と一致を確認）。
 - さらに速くする余地：係数を gcd 付きの RF から Laurent 多項式（fmpz_mpoly と全体のずらし）に替えると 2 倍程度。最後の評価の B の T_{u_1} を点の評価の汎関数に置き換える案もある。いまの目標には不要なので実装していない。
+
+## 約分なしの版（daha_fast_lp.py、2026-10-26、progress.md 続き 66）
+- src/rcsknots/refined_kauffman/flint_lp.py：(r, s) の Laurent 多項式を fmpz_mpoly と単項式のずらしで表す LP（gcd による約分をしない）。DAHA の作用素（T_i、π_1、X、評価）の係数はすべて Laurent 多項式なので、途中の計算は LP で閉じる。
+- src/rcsknots/refined_kauffman/daha_fast_lp.py：GL_N の Fast を LP で書き直し、有理関数の係数（P_λ を H_ν = Π p_{ν_i} で展開した係数）は基底の値 V[μ; ν] = {γ̂(H_μ(X) H_ν(X^{−1}))} を作った後の一次結合だけに回す。
+- 最後の一段（評価の直前の X^{−1}・Y^{−1}）は評価の汎関数で計算する（final="functional"）：点での評価 ev_p は環準同型、ev_p ∘ T_j^{±1} は ev_p と ev_{s_j p} の一次結合（係数は RF）、ev_p ∘ π_1^{−1} は別の点の評価。点の数は最後に N(N+1)/2 個（N = 4〜7 で確認）。各点での多項式の値は numpy の整数行列積でずらしを求め、fmpz_mpoly の二分木の和で足す。
+- 照合【計算】：composite (2;2), (2;11), (11;11) の生の値が旧版（rk_c_fast_composite22.comp_raw2、RF）と N = 3〜5, 8, 9, 10 で全係数一致（final = poly と functional の両方、N = 3, 4 は tests/refined_kauffman/test_rk_daha_fast_lp.py）。
+- 速度（3 つの composite の計、1 プロセス、logs/refined_kauffman/c_composite22_lp.log）：
+  | N | 8 | 9 | 10 | 11 | 12 |
+  |---|---|---|---|---|---|
+  | 旧版（RF） | 58 s | 133 s | 288 s | — | — |
+  | 新版 | 3.3 s | 7.4 s | 16 s | 33 s | 66 s |
+  | 新版の最大 RSS | 0.15 GB | 0.24 GB | 0.42 GB | 0.71 GB | 1.02 GB |
+  N = 10 で約 18 倍。N ごとの比は時間 約 2.0、メモリ 約 1.45〜1.7。今後はメモリが先に限界になる。

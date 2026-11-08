@@ -1,0 +1,9 @@
+dim_composite((1,),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+dim_composite((2,),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+dim_composite((1, 1),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+dim_composite((3,),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+dim_composite((2, 1),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+dim_composite((1, 1, 1),∅) / [(t/A)^{|λ|/2} P_λ(t^ρ)] = 1
+plethysm_coeffs(pt, (1), 2) = {(1, 1): 1371553901182102406, (2,): 1}
+自作 c_(1, 1) at point (mod p) = 1371553901182102406
+自作 c_(2,) at point (mod p) = 1

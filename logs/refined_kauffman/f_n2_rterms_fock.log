@@ -1,0 +1,5 @@
+λ = 2：T(∅) = −r^7 s^3 (q − t) ν^6 / [(A − t)(Aq − 1)(Aq − t)(Aq − t²)(Aq² − t)(A²q² − t²)]：True
+   ブロックが (1 + qt) で割り切れる：[(8, False), (10, False), (12, False), (14, False), (16, False), (18, False), (20, False), (22, False), (24, False), (26, False), (28, False), (30, False)]
+λ = 11：T(∅) = −r^3 s^7 (q − t) ν^2 / [(A − t)(Aq − 1)(Aq − t)(Aq − t²)(Aq² − t)(A²q² − t²)]：True
+   ブロックが (1 + qt) で割り切れる：[(12, False), (14, False), (16, False), (18, False), (20, False), (22, False), (24, False), (26, False), (28, False), (30, False)]
+T(∅)_(2) / T(∅)_(11) = q² A² / t²：True

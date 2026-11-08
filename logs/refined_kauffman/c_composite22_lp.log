@@ -1,0 +1,14 @@
+N=8 新版（final=functional）：基底の値 6.0s、一次結合 0.0s、計 6.0s、最大 RSS 0.14 GB
+N=8 旧版：計 58.4s、最大 RSS 0.17 GB；全係数の一致 [True, True, True]
+N=9 新版（final=functional）：基底の値 15.8s、一次結合 0.0s、計 15.8s、最大 RSS 0.21 GB
+N=9 旧版：計 132.9s、最大 RSS 0.31 GB；全係数の一致 [True, True, True]
+N=10 新版（final=functional）：基底の値 35.3s、一次結合 0.0s、計 35.3s、最大 RSS 0.33 GB
+N=10 旧版：計 288.4s、最大 RSS 0.49 GB；全係数の一致 [True, True, True]
+N=11 新版（final=functional）：基底の値 62.7s、一次結合 0.0s、計 62.7s、最大 RSS 0.60 GB
+N=12 新版（final=functional）：基底の値 112.5s、一次結合 0.0s、計 112.6s、最大 RSS 0.88 GB
+# 最終版（汎関数の評価を numpy と二分木の和に）
+N=8 新版（final=functional）：基底の値 3.3s、一次結合 0.0s、計 3.3s、最大 RSS 0.15 GB
+N=9 新版（final=functional）：基底の値 7.3s、一次結合 0.0s、計 7.4s、最大 RSS 0.24 GB
+N=10 新版（final=functional）：基底の値 16.0s、一次結合 0.0s、計 16.1s、最大 RSS 0.42 GB
+N=11 新版（final=functional）：基底の値 33.2s、一次結合 0.0s、計 33.2s、最大 RSS 0.71 GB
+N=12 新版（final=functional）：基底の値 65.5s、一次結合 0.0s、計 65.5s、最大 RSS 1.02 GB

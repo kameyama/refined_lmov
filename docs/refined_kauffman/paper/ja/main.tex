@@ -1,10 +1,22 @@
 % refined Kauffman 不変量の large N 双対（日本語の準備稿）
 % 構成：docs/refined_kauffman/paper/outline.md、主張の格付け：claims.md（主張の直前に % [ID] を書く）
-% コンパイル：cd docs/refined_kauffman/paper/ja && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex（2 回）
+% コンパイル：cd docs/refined_kauffman/paper/ja && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex && bibtex main && lualatex main.tex（2 回）
+% 参考文献：refs.bib（biblatex、alphabetic 様式、ラベルは bib のキー：引用は [KN17]・[AgSc12] のように著者の略号＋年。本文では略号を書かず \cite だけで指す）
 \documentclass[11pt,a4paper]{ltjsarticle}
 \usepackage{amsmath,amssymb,amsthm,bm}
 \usepackage{booktabs,array}
+\usepackage{youngtab}
+\Yboxdim{5pt}
+% 式中の表現はヤング図で書く（文中では「表現 [1]」「R = [1]」。引用ラベル [KN17] などと区別するため）
+\DeclareRobustCommand{\yone}{\yng(1)}
+\DeclareRobustCommand{\ytwo}{\yng(2)}
+\DeclareRobustCommand{\yoneone}{\yng(1,1)}
+\DeclareRobustCommand{\ythree}{\yng(3)}
+\DeclareRobustCommand{\ytwoone}{\yng(2,1)}
+\DeclareRobustCommand{\yoneoneone}{\yng(1,1,1)}
 \usepackage[margin=25mm]{geometry}
+\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,doi=true,eprint=true]{biblatex}
+\addbibresource{refs.bib}
 \usepackage[hidelinks]{hyperref}
 \allowdisplaybreaks
 \sloppy

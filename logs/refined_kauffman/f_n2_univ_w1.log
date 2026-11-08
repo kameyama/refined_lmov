@@ -1,0 +1,5 @@
+n = 1 の unknot（w = 1）：N は Laurent True；0
+n = 1 の unknot（w = (t/q)^{1/2}）：N は Laurent False；-(nu - 1)*(nu + 1)*(r - s)*(r + s)/(nu**2*r**2*(-nu + s)*(nu + s)*(r - 1)*(r + 1)*(s - 1)*(s + 1)*(nu*r - 1)*(nu*r + 1))
+n = 2 の unknot（w = 1）：x₁₁ = 0 ? True
+  λ = 2：N^univ(w = 1) = 0 ? True、Laurent True
+  λ = 11：N^univ(w = 1) = 0 ? True、Laurent True

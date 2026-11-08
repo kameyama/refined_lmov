@@ -1,0 +1,6 @@
+Radj_A_m1k3.pkl があるので随伴の補間は飛ばす（rk_c_bounded_save.py --adj で作った場合）
+g_(1,)：分母 r**8*u**11
+g_(2,)：分母 2*r**22*u**24*(s**2 + 1)
+g_(1, 1)：分母 2*r**44*u**24*(s**2 + 1)
+g_(2) + g_(1,1) は整数 Laurent True 、(1+t)(g_(2) − g_(1,1)) は整数 Laurent True
+固定 N の g（data/refined_kauffman/T3_4_fixedN_3box_g.pkl）が無いので U = t², t³ の照合は飛ばす

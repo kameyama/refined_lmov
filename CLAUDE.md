@@ -20,6 +20,14 @@ src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcskn
 - 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/framed_knot/conventions.md に従う。
 - 規約を変更する場合は、conventions.md に変更内容と理由を記録し、影響を受けるコードとテストを更新する。
 
+# 論文（docs/refined_kauffman/paper/ja、第 2 版は paper/ja_v2）の書き方
+- 第 1 版は paper/ja、第 2 版（2026-11-08 作成。肯定的な結果を本体にし、多箱の否定的な結果は 1 章、brane 2・image 2 の探索は付録）は paper/ja_v2。以後の推敲は ja_v2 で行い、ja は記録として残す。生成ファイル（tex/gen）は両版で共有する。
+- 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。本文に著者の略号や名前を書かない（「KN [KN17]」「AgSc の refined unknot」は誤り。「[KN17]」「[AgSc12] の refined unknot」と書く）。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
+- 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できないので書かない。
+- 数式の中の表現はヤング図で書く（main.tex の \yone, \ytwo, \yoneone, \ythree, \ytwoone, \yoneoneone。youngtab の \yng を \DeclareRobustCommand で包んだもので、caption や見出しでも使える）。例：$g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$。
+- 用語を無理に訳さない。日本語の専門文献で定着している訳語（規格化、被覆、商、鏡像、多重項、二重項、母関数、核、整数計画、Möbius の帯、法束など）だけ日本語にし、それ以外は原語かカタカナで書く（タワー、ハンドル、ツイスト、ストランド、reduced、composite、brane、image、framing、hook など）。「塔」「取っ手」「撚り」「簡約」「走査」「準位」「枠」のような訳語や、「移り目」のような造語は使わない。論文だけの用語は初出で定義する。
+- コンパイルは `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。コンパイル後は、ログに `!` のエラーと「undefined」がないことを確認し、変更した箇所のページを画像にして見る（`gs -sDEVICE=png16m`）。
+
 # 研究上のルール
 - 報告とコメントは日本語で書く。
 - 主張はすべて「解析的に導出」「計算機で確認（範囲を明記）」「予想」のいずれかに分類して書く。文献から直接取れなかった式（特に refined ケーブル公式）には「仮説」と明記し、どの検証で裏付けたかを書く。

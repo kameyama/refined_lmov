@@ -1,0 +1,63 @@
+\section{計算の方法}\label{app:code}
+\begin{itemize}
+\item 計算は著者の Python のコードで行った。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。
+\item 本文の計算結果は、それぞれ自動テストで照合している。照合の内容は、\cite{Marino09} の値の再現、$t = q$ での Kauffman 多項式との一致、固定 $N$ の直接計算との一致、\cite{KN17} の不変量との一致、$R \leftrightarrow R^T$ の対称性である。
+\item 以下の式は、保存済みのデータから機械的に生成した（手で写していない）。
+\end{itemize}
+
+\section{トーラス結び目の表現 [1]}\label{app:torus}
+$g^{\mathrm{true}}_{\yone}$（太字の変数）、$c = 1$ 部分の $G$ 展開、$c = 2$ 部分の $\Pi_m$。
+\input{../../tex/gen/torus_one_box.tex}
+
+\section{DAHA：一般の $N$ のreduced 不変量}\label{app:daha}
+$\Rred_R(t^N) = T_R^{-6}\times$ 鏡像$(Z)/K_R(t^\rho)$（trefoil、一様な規格化）。$q, t$ の冪は半整数のこともある。
+\input{../../tex/gen/daha.tex}
+
+\section{大きな $N$ の 2 箱のクロスキャップ部分}\label{app:largeN}
+trefoil の $\hat g_{\ytwo} + \hat g_{\yoneone}$、$(1+t)(\hat g_{\ytwo} - \hat g_{\yoneone})$、普遍因子で割った商（太字の変数）。
+整数性（計算結果 \ref{cr:largeN}）と普遍因子（§\ref{sec:universal}）の確認用で、$\ba$ の冪ごとの符号はそろわない（計算結果 \ref{cr:signs}）。正値性が見えるセクターと見えないセクターの比較は\ref{app:cover}。
+\input{../../tex/gen/largeN_2box.tex}
+
+\section{被覆の brane--brane と brane--image のセクター}\label{app:cover}
+§\ref{sec:split} と §\ref{sec:kn} の根拠。trefoil と $T(2,5)$ の 2 箱について、被覆を brane（$Y$）と image（$Y'$）に分けた生成関数の各セクターを、\cite{KN17} の t 側 $(t^{-1/2} - t^{1/2})\hat f$ で $G$ 展開したもの（$\lambda^\beta$ ごと、$\qr = (q/t)^{1/2}$）。brane--brane は $\hat f_{\ytwo}$, $\hat f_{\yoneone}$（$M \otimes M$ の hatted。一様な規格化の因子を除けば \cite{KN17} の $\hat f$ の鏡像に $R \leftrightarrow R^T$ で一致する、§\ref{sec:split}）、brane--image は $x = W_{\mathrm{adj}} + \kappa - W_{\yone}^2$ を $z_q$ で割ったもの。ブロックの符号の判定は次の表のとおりで、brane--brane は全ブロックでそろい、brane--image の $x/z_q$ は「そろう」「$(\bt^2 - 1)\times$ そろう」「混在」が混じる。境界因子をすべて外した $N$（§\ref{sec:split}）では、混在は切り替わりのブロック $k = 2m$ だけになる。
+\input{../../tex/gen/cover_split_table.tex}
+\input{../../tex/gen/cover_split.tex}
+
+\section{brane 2・image 2 のセクターの探索}\label{app:n2}
+trefoil の $n = 2$（brane 2・image 2）の固定セクターについて得た結果をまとめる。$\lambda^{-12}$ までの $E$ は決まるが、$\lambda^{-14}$ 以降は未決定である。
+% [P30, P31, P38, P39]
+\begin{compresult}[$n = 2$ の行の母関数と $R$ 依存性]\label{cr:n2rows}
+trefoil の $n = 2$（brane 2・image 2）の固定セクター $N_R$（$R = (2), (1,1)$。ここでは Young 図を $R$、Kauffman 変数を $\lambda$ と書く）は、表現 [1]・2 箱・随伴・composite の鏡像の行 $R_{\yone} = a_2\lambda^{-2} + a_4\lambda^{-4}$（$a_2 = (1+qt)/q$、$a_4 = -t/q$）、$R_{\ytwo} = b_4\lambda^{-4} + b_6\lambda^{-6} + b_8\lambda^{-8}$、$R_{\yoneone} = c_4\lambda^{-4} + \cdots$、$G_{\alpha\beta}$ の行（計算結果 \ref{cr:composite}）の多項式（最大 4 次）として明示的に書け、実際の行で $\lambda^{-20}$ まで全ブロックが保存した $N_R$ と一致する。
+\begin{enumerate}
+\item \textbf{$\sigma$ 共変性}：2 箱の行と $G$ の重みの付け替え $\sigma$：$b_j \mapsto qb_j$、$c_j \mapsto c_j/t$、$G_{\alpha\beta} \mapsto w_\alpha w_\beta G_{\alpha\beta}$（$w_{\ytwo} = q$、$w_{\yoneone} = 1/t$）に対して、$N_{\ytwo}\circ\sigma - N_{\yoneone}$ は $(q-t)\times$（随伴セクターの記号 $a_2, a_4, g^{\mathrm{adj}}_j$ と背景だけの多項式）になる（$\lambda^{-20}$ まで）。すなわち $R$ の違いは「2 箱の行の重みの付け替え」と「真空の 2 状態 $(q-t)\otimes$ 随伴のタワー」に分かれる。
+\item \textbf{$\lambda^{-12}$ の平方}：$\sigma$ 共変な部分は両 $R$ で完全平方 $-(t^{3/2}/q^{1/2})\hat Y_R^2$ で、$\hat Y_{\yoneone} = (1+q)(1+t)(1+qt)/q^3$、$\hat Y_{\ytwo} = [(1+q)(1+t)(1+qt)^2 + qt(q-t)]/q^4$（10 単項式、正、既約。積の形ではない）。補正は $(q-t)[(t/q^4)a_2^2 + \delta]$、$\delta = [tV'^2a_2^2/q^3 - 2a_2\tilde S + (V'-t)g^{\mathrm{adj}}_6]/q^3$（$V' = 1+q+qt$、$\tilde S = (1+t+qt)/q$。$R = (1,1)$ では $\delta = 0$）。brane/image の行を別の記号にすると、この平方は文字どおり brane の $X$ と image の $X$ のテンソル積 $X^bX^i$（$X$ は $a_2^2, b_4, c_4$ の線形結合）である。
+\item \textbf{$\hat Y_R$ は brane 単独の量}：単一の brane の 2 箱のキュムラント（$W_1, W_{\ytwo}, W_{\yoneone}$ の $\log$ と Adams $f_{\ytwo} = Z_{\ytwo} - \tfrac12\psi^2 Z_{\yone}$）を Schur の $R$ に射影した $\Omega^{(0)}_R(\lambda) = \sum_\rho \chi_R(\rho)f_\rho/\phi_\rho$ は $\mathrm{fac}\cdot[\Omega'_2\lambda^{-2} + \Omega'_4\lambda^{-4} + \cdots]$（$\mathrm{fac} = -q^{1/2}t/(t-1)$）で、両 $R$ で厳密に $\Omega'_4 = \hat Y_R$ である。$\hat Y_{\ytwo}$ の $qt(q-t)$ は Adams の項に由来する。さらに $R = (1,1)$ では補正も $\Omega'_2 = -a_2/q$ の平方で、$N_{12}(1,1) = -(t^{3/2}/q^{1/2})[\Omega_4'^2 + (q-t)(t/q^2)\Omega_2'^2]$ と書ける。
+\end{enumerate}
+\end{compresult}
+% [P40]
+\begin{compresult}[随伴のタワーの母関数]\label{cr:tower}
+$x = \lambda^{-2}$、$V = 1+t+qt$、$V' = 1+q+qt$ とする。$N_{\ytwo}\circ\sigma - N_{\yoneone} = -(t^{3/2}/q^{1/2})(q-t)[R_1(x)^2\kappa_R(x) + G_{\mathrm{adj}}(x)\kappa_G(x) + \beta(x)]$ の核は閉じた形で
+\begin{align*}
+\kappa_G(x) &= \frac{q^2x^3[\,q^2(V'-t) - t^2x(V-q)\,]}{(tx-q)(t^3x-q)(t^2x-q^2)(tx-q^3)},\qquad
+\beta(x) = \frac{-q^2x^4}{(x-q)(tx-q)(t^2x-q)(tx-q^2)(tx-1)},\\
+\kappa_R(x) &= \frac{-q^2x^3\,P(x)}{(x-q)(tx-q)(t^2x-q)(t^3x-q)(tx-q^2)(t^2x-q^2)(tx-q^3)(tx-1)}
+\end{align*}
+である（$P$ は $x$ の 5 次の既約多項式）。2 箱の行と $G$ を 0 にしたパイプラインを $\lambda$ の有理式のまま計算して得た（記号ブロックの級数と $\lambda^{-20}$ まで一致）。核はすべて「真空の 2 状態 $(q-t)\times$ セルの Fock 核」で、セルは背景の 6 セル（$t, 1/q, t/q, t^2/q, t/q^2$；$t^2/q^2$）に $G_{\mathrm{adj}}$ に特有の $t^3/q, t/q^3$ を加えたものである。$\kappa_G$ の級数の係数は階段型 $t^nT_nU_n/q^{3(n+1)}$、$T_n = \sum_{0\le j\le i\le n}q^it^j$ である。
+\end{compresult}
+% [P32, P33, P34, P41]
+\begin{compresult}[$n = 2$ の $\lambda^{-12}$ の $E$：全部入れ替え]\label{cr:n2E}
+$n = 2$ の $\lambda^{-12}$ の $E$ は両 $R$ で「背景のセルの符号 $+$ 結び目の部分のすべての平方・行の積に入れ替え $\psi^2$」で書け、条件 (i)(ii) を満たす：
+\[
+E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\qquad
+B_{12}(1,1) = -q^{-13/2}t^{3/2}(q-t)qt^2 .
+\]
+以前の読み（補正は $t\,\mathrm{Sym}^2(1+qt)$）の余分な $(q-t)qt^2$ は背景の $E$（$E_B = -B$）であった。$R = (2)$ では平方 $\psi^2\hat Y_{\ytwo}$ に加えて補正の各部分（$(t/q^4)a_2^2$、$tV'^2a_2^2/q^6$ は $\psi^2$、交差項 $-2a_2\tilde S$ は 0、$G_{\mathrm{adj}}$ の最上行は $n = 1$ と同じ入れ替え $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$、その核 $V' - t$ はセルの符号 $(-1)^{\deg_q\deg_t}$ で $(1+q)(1-t)$）が符号まで一意に決まる（核の符号 16 通り中 1 通り）。この $E$ は、補正の単項式ごとに $|e|\le|R|$ を課す以前の族の外にある。ブロックの符号は $n = 1$ の切り替わり、$R = (2)$ の $\lambda^{-10}$、両 $R$ の $\lambda^{-12}$ を通じて $(-1)^{k/2+1}$（$k$ は $\lambda^{-k}$ の $k$）で統一され、$n = 1$ の $F^\varepsilon$ のセル 1 の符号の反転に当たる。$\kappa_G$ の分子の第 2 項 $V - q$ は同じ規則で $(1-q)(1+t)$ になる（予想）。
+\end{compresult}
+% [P35, P36, P37, P42]
+\begin{compresult}[$\lambda^{-14}$ 以降の障害]\label{cr:n2negative}
+$\lambda^{-8}$〜$\lambda^{-12}$ の $E$ を固定した $\lambda^{-14}$ の整数計画は、(i)+(ii) でも 113 未知数のうち 2〜3 個しか決めない（入れ替わる対の最小は (i) で 48、(i)+(ii) で 936）。入れ替えのトレースを記号ブロックの単項式ごとに取る構成は、どの記号を brane/image のラベルにしても $E$ にならない（$R$ によらないか、Laurent でない）：$N$ の Laurent 性は内容の異なる単項式の相殺で生じるので、トレースは Schur 基底の brane の対象 $\hat Y_R = \Omega'_4$ でしか定義できない。純粋な brane$\times$image の積は混合キュムラントで相殺し（階数 0）、平方 $\hat Y_R^2$ は連結の核（composite の次元の補正、$c_1$、$\kappa$）が担う。$\sigma$ 共変な部分は $\lambda^{-14}$ で $\hat Y_R$ で割れず、$\Omega^{(0)}$ のレベルの積の級数では書けない。
+\end{compresult}
+
+\section{unrefined の確認}\label{app:unref}
+Mariño の trefoil の $\hat g$（標準 framing）を自前のコードで計算した値。$\hat g_{\yoneone}$ は \cite{Marino09} (4.8) の印刷値と全係数一致し、$\hat g_{\ytwo}$ は $z^9$ の項以外が一致する。
+\input{../../tex/gen/unrefined.tex}

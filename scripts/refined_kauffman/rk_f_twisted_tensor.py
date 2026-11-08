@@ -1,0 +1,2146 @@
+r"""固定セクターの因数分解に Ĩ がテンソル積で働くとした E の整数計画（theory §12.10、progress.md 続き 74）。
+  観察（trefoil の n = 1）：P = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)·N、§12.7 の一意な E = s²(t − ν²)(ν² + 1)(q + 1)(ν²q + 1)·Ñ
+  （Ñ は N の係数の符号を付け替えたもの、全 8 状態が不変）。
+  仮説：固定セクターの状態の空間は 2 状態の因子（境界のモード q、ν²、ν²q、t/ν²）と残りの部分 N の積で、
+    状態の数は N の係数の絶対値（打ち消しは N の中では起きない）。Ĩ は因子ごとに働き（(t − ν²) は不変、(ν² − 1)、(q − 1)、
+    (ν²q − 1) は和に替わる）、N の部分では e_m（|e_m| ≤ |c_m|、e_m ≡ c_m mod 2）。
+  n = 1：E = s²(t − ν²)(ν² + 1)(q + 1)(ν²q + 1) Σ e_m m、条件 (i) 2(1 + t)g_(2)（t = −1）、(ii) −(1 + q)(ψ²g_(1) + 1)（t = q）。
+    因子の捻りの 16 通り（各因子の ±）を全部試す。
+  n = 2：P̂_λ = s(t − ν²)(ν² − 1)(ν²q − 1)·N_λ（境界のモードは hatted で除いてある、rk_f_twisted22_lam）、
+    E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e^λ_m m、条件は rk_f_twisted22_lam と同じ（i22, i4, ii）。因子が ν のブロックをまたぐので全体で解く。
+使い方：python rk_f_twisted_tensor.py n1 | n2 [--all-inv] | n2series（N_λ の系列の同定）（--all-inv：N の全状態が不変、e = ±c）。"""
+import sys, os, io, contextlib, pickle, itertools, time
+sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
+import numpy as np
+import sympy as sp
+from scipy.optimize import milp, LinearConstraint, Bounds
+import rk_b_twisted_multiplet as TM
+
+r, s, nu = TM.r, TM.s, TM.nu
+t, q, I = s**2, r**2, sp.I
+OUT = "data/refined_kauffman/daha"
+
+
+def solve(mult, basis_fn, conds, all_inv=False):
+    """TM.solve と同じ整数計画。all_inv なら e = ±c（全状態が不変）。一意でない変数も返す。"""
+    if not all_inv:
+        return TM.solve(mult, basis_fn, conds, uniq=True)
+    keys = sorted(mult)
+    basis = [basis_fn(k) for k in keys]
+    A, b = [], []
+    for target, sub, *w in conds:
+        a_, b_ = TM.rows_for([x * w[0](k) if w else x for k, x in zip(keys, basis)], target, sub)
+        A += a_; b += b_
+    A, b = np.array(A), np.array(b)
+    c = np.array([float(mult[k]) for k in keys]); n = len(keys)
+    cons = LinearConstraint(A * (-2 * c), b - A @ c - 1e-9, b - A @ c + 1e-9)       # e = c(1 − 2z)、z ∈ {0, 1}
+    opt = lambda cc: milp(cc, constraints=cons, bounds=Bounds(0, 1), integrality=np.ones(n))
+    res = opt(np.zeros(n))
+    if res.status != 0:
+        return dict(feasible=False, n=n)
+    free = []
+    for i in range(n):
+        cc = np.zeros(n); cc[i] = 1
+        if round(opt(cc).fun) != round(-opt(-cc).fun):
+            free.append(keys[i])
+    z = np.round(res.x)
+    return dict(feasible=True, n=n, free=free, e={k: int(c[i] * (1 - 2 * z[i])) for i, k in enumerate(keys)})
+
+
+def n1(all_inv=False):
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    out = {}
+    for m in (1, 2):
+        with contextlib.redirect_stdout(io.StringIO()):
+            sec = C.cover_sectors(m)
+        P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+        N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+        mult = TM.monomials(N)
+        g = K.load_g(m)
+        R = sp.cancel(2 * (1 + t) * g[(2,)])
+        Eq = sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1))
+        print(f"T(2,{2 * m + 1})：N の単項式 {len(mult)}、状態の数 Σ|c| = {sum(abs(v) for v in mult.values())}、"
+              f"指数の単項式（P/(s z_q)）{len(TM.monomials(sp.cancel(P / (s * (r - 1 / r)))))}", flush=True)
+        for sg in itertools.product((1, -1), repeat=4):
+            pre = s**2 * (t - sg[0] * nu**2) * (nu**2 + sg[1]) * (q + sg[2]) * (nu**2 * q + sg[3])
+            res = solve(mult, lambda k: pre * TM.twisted(k, "mono"), [(R, {s: I}), (Eq, {s: r})], all_inv)
+            if res["feasible"]:
+                inv = sum(1 for k in mult if abs(res["e"][k]) == abs(mult[k]))
+                print(f"  捻り (t {'−' if sg[0] > 0 else '+'} ν²)(ν² {'+' if sg[1] > 0 else '−'} 1)(q {'+' if sg[2] > 0 else '−'} 1)"
+                      f"(ν²q {'+' if sg[3] > 0 else '−'} 1)：解あり、一意でない {len(res['free'])}/{res['n']}、|e| = |c| が {inv}", flush=True)
+                out[(m, sg)] = res
+        print("  （上に無い捻りは解なし）", flush=True)
+    return out
+
+
+def n2_setup():
+    import rk_f_twisted22_lam as L
+    bl = L.blocks()
+    full = lambda name: sum((v * nu**k for k, v in bl[name].items()), sp.Integer(0))
+    d = pickle.load(open(L.COVER, "rb"))
+    mult = {}
+    for lab in L.LAMS:
+        X = sp.sympify(d["hat" + lab], locals={"r": r, "s": s, "nu": nu})
+        for key, c in TM.monomials(sp.cancel(X / (s * (t - nu**2) * (nu**2 - 1) * (nu**2 * q - 1)))).items():
+            mult[(lab,) + key] = c
+    conds = {"i22": (full("R22"), {s: I}, lambda key: L.W22),
+             "i4": (full("R4"), {s: I}, lambda key: L.CHI[key[0]][(2,)] * L.W4),
+             "ii": (full("Eq"), {s: r}, lambda key: L.W22)}
+    return mult, conds
+
+
+def n2_scan():
+    """n = 2：因子の捻り 8 通り × 条件の組で、解の有無（整数計画、uniq なし）と一次方程式の解の有無。"""
+    import rk_f_twisted22_lam as L
+    mult, conds = n2_setup()
+    for sg in itertools.product((1, -1), repeat=3):
+        pre = s * (t - sg[0] * nu**2) * (nu**2 + sg[1]) * (nu**2 * q + sg[2])
+        basis = lambda key: pre * TM.twisted(key[1:], "mono")
+        row = []
+        for use in (("i22", "i4"), ("ii",), ("i22", "ii"), ("i22", "i4", "ii")):
+            cs = [conds[u_] for u_ in use]
+            res = TM.solve(mult, basis, cs, uniq=False)
+            lin = L.linear_ok(mult, basis, cs)
+            row.append(f"{'+'.join(use)}: 整数計画 {'○' if res['feasible'] else '×'} 一次 {'○' if lin else '×'}")
+        print(f"捻り (t {'−' if sg[0] > 0 else '+'} ν²)(ν² {'+' if sg[1] > 0 else '−'} 1)(ν²q {'+' if sg[2] > 0 else '−'} 1)："
+              + "、".join(row), flush=True)
+
+
+def rows(mult, basis, conds, beta_odd_only=()):
+    """条件の行。beta_odd_only に入る条件は、ν^{2β} の β が奇数（c = 1）の単項式の行だけを使う。"""
+    keys = sorted(mult)
+    bs = [basis(k) for k in keys]
+    A, b = [], []
+    for name, (target, sub, w) in conds.items():
+        cols = [TM.lp(sp.expand((x * w(k)).subs(sub)), (r, s, nu)) for k, x in zip(keys, bs)]
+        T_ = TM.lp(sp.expand(target.subs(sub)), (r, s, nu)) if target != 0 else {}
+        for mo in set(T_).union(*cols):
+            if name in beta_odd_only and (mo[2] // 2) % 2 == 0:
+                continue
+            for f in (sp.re, sp.im):
+                row = [float(f(c.get(mo, 0))) for c in cols]
+                v = float(f(T_.get(mo, 0)))
+                if any(row) or v:
+                    A.append(row); b.append(v)
+    return keys, np.array(A), np.array(b)
+
+
+def freedom(mult, A, b, uniq=True):
+    """|e| ≤ |c|・偶奇の整数計画の解の有無、一次方程式の零空間の次元、（uniq なら）一意でない変数の数。"""
+    keys = sorted(mult)
+    c = np.array([float(mult[k]) for k in keys]); n = len(keys)
+    cons = LinearConstraint(-2 * A, b - A @ c - 1e-9, b - A @ c + 1e-9)
+    bnd = Bounds(np.minimum(0, c), np.maximum(0, c))
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(n))
+    res = opt(np.zeros(n))
+    nullity = n - np.linalg.matrix_rank(A) if len(A) else n
+    if res.status != 0:
+        return dict(feasible=False, n=n, nullity=nullity)
+    free = None
+    if uniq:
+        free = []
+        for i in range(n):
+            cc = np.zeros(n); cc[i] = 1
+            if round(opt(cc).fun) != round(-opt(-cc).fun):
+                free.append(keys[i])
+    y = np.round(res.x)
+    return dict(feasible=True, n=n, nullity=nullity, free=free, e={k: int(c[i] - 2 * y[i]) for i, k in enumerate(keys)})
+
+
+def n2_partial(uniq=True):
+    """n = 2、捻り (t − ν²)(ν² + 1)(ν²q + 1)：(a) t = −1 だけ、(b) t = −1 ＋ (ii) の c = 1（β 奇）の部分。"""
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    basis = lambda key: pre * TM.twisted(key[1:], "mono")
+    for lab, use, odd in (("t = −1 だけ（i22 + i4）", ("i22", "i4"), ()),
+                          ("t = −1 ＋ (ii) の β 奇の部分", ("i22", "i4", "ii"), ("ii",))):
+        t0 = time.time()
+        keys, A, b = rows(mult, basis, {k: conds[k] for k in use}, odd)
+        res = freedom(mult, A, b, uniq)
+        msg = (f"解あり、一意でない {len(res['free'])}/{res['n']}" if res["feasible"] and res["free"] is not None
+               else ("解あり" if res["feasible"] else "解なし"))
+        print(f"n = 2 {lab}：{msg}、一次方程式の零空間の次元 {res['nullity']}（{time.time() - t0:.0f} 秒）", flush=True)
+
+
+def qrule(mult, A, b, free_blocks=(), lab_of=lambda k: ""):
+    """e_m = σ_{β} (−1)^{a/2} c_m（a は r の指数、σ は ν のブロック（と λ）ごとの符号）。free_blocks の ν のブロックは一般の e。
+    σ と free_blocks の e を整数計画で解き、解の有無と σ の一意性を返す。"""
+    keys = sorted(mult)
+    grp = sorted({(lab_of(k), k[-1]) for k in keys})
+    gi = {g: i for i, g in enumerate(grp)}
+    rule = [k for k in keys if k[-1] not in free_blocks]
+    fr = [k for k in keys if k[-1] in free_blocks]
+    assert all(k[-3] % 2 == 0 for k in rule), "r の指数が奇数"
+    col = {k: i for i, k in enumerate(keys)}
+    # 変数：z_g ∈ {0,1}（σ_g = 1 − 2z_g）、自由な単項式の y_m（e = c − 2y）
+    ng, nf = len(grp), len(fr)
+    M = np.zeros((len(b), ng + nf)); rhs = b.copy()
+    for k in rule:
+        v = float(mult[k]) * (-1)**(k[-3] // 2)
+        rhs = rhs - A[:, col[k]] * v
+        M[:, gi[(lab_of(k), k[-1])]] += -2 * v * A[:, col[k]]
+    for j, k in enumerate(fr):
+        c = float(mult[k]); rhs = rhs - A[:, col[k]] * c
+        M[:, ng + j] = -2 * A[:, col[k]]
+    cf = np.array([float(mult[k]) for k in fr])
+    lo = np.concatenate([np.zeros(ng), np.minimum(0, cf)]); hi = np.concatenate([np.ones(ng), np.maximum(0, cf)])
+    cons = LinearConstraint(M, rhs - 1e-9, rhs + 1e-9)
+    opt = lambda cc: milp(cc, constraints=cons, bounds=Bounds(lo, hi), integrality=np.ones(ng + nf))
+    res = opt(np.zeros(ng + nf))
+    if res.status != 0:
+        return None
+    sig = {}
+    for g, i in gi.items():
+        cc = np.zeros(ng + nf); cc[i] = 1
+        mn, mx = round(opt(cc).fun), round(-opt(-cc).fun)
+        sig[g] = "±" if mn != mx else ("+" if mn == 0 else "−")
+    return sig
+
+
+def lower_series(m=2):
+    """T(2,2m+1) の N の下のブロック ν^{−(6+2k)}（k = 0..2m−1）は Sym^k V / r^{4+2k}、V = 1 + t + qt（基底 1, t, qt）。
+    V の対角な対合 diag(ε₁, ε₂, ε₃) の Sym^k への誘導作用 × σ_k（ブロックごと）を下のブロックに課し、上のブロックは一般の e として
+    (i)+(ii) を解く。σ_k と上のブロックの変数の一意性も調べる。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    import rk_f_frozen_basis as FB
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    low = {-(6 + 2 * k): k for k in range(2 * m)}
+    sym = lambda k: sp.expand(sum(sp.Integer(1) * t**(b + c) * q**c for a in range(k + 1) for b in range(k + 1 - a) for c in [k - a - b]))
+    blocks_ = FB.nu_blocks(N)
+    print(f"T(2,{2 * m + 1})：下のブロックが Sym^k V / r^(4+2k) に一致："
+          + " ".join(f"ν^{b_}:{sp.expand(blocks_[b_] * r**(4 + 2 * k) - sym(k)) == 0}" for b_, k in low.items()), flush=True)
+    mult = TM.monomials(N)
+    g = K.load_g(m)
+    conds = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+             "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), conds)
+    col = {k: i for i, k in enumerate(keys)}
+    for eps in ((1, 1, -1), (1, -1, 1), (1, -1, -1), (1, 1, 1)):
+        rule = [(k, low[k[-1]]) for k in keys if k[-1] in low]
+        free = [k for k in keys if k[-1] not in low]
+        ng, nf = len(low), len(free)
+        Mx = np.zeros((len(b), ng + nf)); rhs = b.copy()
+        for k, kk in rule:
+            qe = (k[1] + 4 + 2 * kk) // 2; te = k[2] // 2
+            v = float(mult[k]) * eps[0]**(kk - te) * eps[1]**(te - qe) * eps[2]**qe
+            rhs -= A[:, col[k]] * v; Mx[:, kk] += -2 * v * A[:, col[k]]
+        for j, k in enumerate(free):
+            rhs -= A[:, col[k]] * float(mult[k]); Mx[:, ng + j] = -2 * A[:, col[k]]
+        cf = np.array([float(mult[k]) for k in free])
+        bnd = Bounds(np.concatenate([np.zeros(ng), np.minimum(0, cf)]), np.concatenate([np.ones(ng), np.maximum(0, cf)]))
+        cons = LinearConstraint(Mx, rhs - 1e-9, rhs + 1e-9)
+        opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(ng + nf))
+        if opt(np.zeros(ng + nf)).status != 0:
+            print(f"  diag{eps}：解なし", flush=True); continue
+        nfree = []
+        for i in range(ng + nf):
+            cc = np.zeros(ng + nf); cc[i] = 1
+            if round(opt(cc).fun) != round(-opt(-cc).fun):
+                nfree.append(i)
+        print(f"  diag{eps}：解あり、σ_k の一意でない数 {sum(1 for i in nfree if i < ng)}/{ng}、"
+              f"上のブロックの一意でない変数 {sum(1 for i in nfree if i >= ng)}/{nf}", flush=True)
+
+
+def knot_rule(m=2, use=("i", "ii"), save=False):
+    """T(2,2m+1) の n = 1：下の系列（ν^{−(6+2k)}、k < 2m、Sym^k V）と、k = 2m のブロックの正の部分（T(2,5) では t³V）に
+    V の対合 diag(1, 1, −1) の誘導作用 e = σ_g (−1)^{q の指数} c を課し（σ_g は群ごと）、残りは一般の e で解く。
+    一意なら E と、全単項式で「e = σ (−1)^q (c − 2p)」（p は Ĩ で入れ替わる対の数、σ はブロックと正負の部分ごと）の形かを表示する。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    import rk_f_frozen_basis as FB
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    mult = TM.monomials(N)
+    g = K.load_g(m)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    col = {k: i for i, k in enumerate(keys)}
+    kk = lambda k: (-k[-1] - 6) // 2                                      # ブロックの番号 k
+    qe = lambda k: (k[1] + 4 + 2 * kk(k)) // 2                             # q の指数（r^{−(4+2k)} で正規化）
+    grp = lambda k: (kk(k), "+" if mult[k] > 0 else "−")                   # 符号の群：ブロックと正負の部分
+    fixed = [k for k in keys if kk(k) < 2 * m or (kk(k) == 2 * m and mult[k] > 0)]
+    free = [k for k in keys if k not in fixed]
+    gl = sorted({grp(k) for k in fixed}); gi = {g_: i for i, g_ in enumerate(gl)}
+    ng, nf = len(gl), len(free)
+    Mx = np.zeros((len(b), ng + nf)); rhs = b.copy()
+    for k in fixed:
+        v = float(mult[k]) * (-1)**qe(k); rhs -= A[:, col[k]] * v; Mx[:, gi[grp(k)]] += -2 * v * A[:, col[k]]
+    for j, k in enumerate(free):
+        rhs -= A[:, col[k]] * float(mult[k]); Mx[:, ng + j] = -2 * A[:, col[k]]
+    cf = np.array([float(mult[k]) for k in free])
+    bnd = Bounds(np.concatenate([np.zeros(ng), np.minimum(0, cf)]), np.concatenate([np.ones(ng), np.maximum(0, cf)]))
+    cons = LinearConstraint(Mx, rhs - 1e-9, rhs + 1e-9)
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(ng + nf))
+    res = opt(np.zeros(ng + nf))
+    tag = f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}"
+    if res.status != 0:
+        print(f"{tag}：解なし", flush=True); return None
+    nfree = []
+    for i in range(ng + nf):
+        cc = np.zeros(ng + nf); cc[i] = 1
+        if round(opt(cc).fun) != round(-opt(-cc).fun): nfree.append(i)
+    print(f"{tag}：解あり、一意でない 符号の群 {sum(1 for i in nfree if i < ng)}/{ng}、一般の変数 {sum(1 for i in nfree if i >= ng)}/{nf}", flush=True)
+    if nfree:
+        print(f"   一意でない：符号の群 {[gl[i] for i in nfree if i < ng]}、一般の変数（k, q, t, c）"
+              f"{[(kk(k), qe(k), k[2] // 2, int(mult[k])) for k in (free[i - ng] for i in nfree if i >= ng)]}", flush=True)
+        return None
+    x = np.round(res.x)
+    e = {}
+    for k in fixed:
+        e[k] = int(mult[k] * (-1)**qe(k) * (1 - 2 * x[gi[grp(k)]]))
+    for j, k in enumerate(free):
+        e[k] = int(mult[k] - 2 * x[ng + j])
+    # 符号の規則の確認：群ごとに σ = e (−1)^q / c の符号がそろうか（|e| < |c| は入れ替わる対を含む）
+    sig = {}
+    for k in keys:
+        if e[k] != 0:
+            sig.setdefault(grp(k), set()).add(int(np.sign(e[k] * (-1)**qe(k) / mult[k])))
+    pairs = sum((abs(int(mult[k])) - abs(e[k])) // 2 for k in keys)
+    print(f"   全単項式で σ_g = sign(e (−1)^q / c) が群ごとにそろう：{all(len(v) == 1 for v in sig.values())}"
+          f"（σ：{', '.join(f'k={g_[0]}{g_[1]}:{list(v)[0]:+d}' for g_, v in sorted(sig.items()) if len(v) == 1)}）、"
+          f"入れ替わる対の数 Σ(|c| − |e|)/2 = {pairs}（その単項式：{[(kk(k), qe(k), k[2] // 2, int(mult[k]), e[k]) for k in keys if abs(e[k]) < abs(mult[k])]}）", flush=True)
+    for name, ex in (("(−1)^q", qe), ("(−1)^t", lambda k: k[2] // 2)):
+        sg = {}
+        for k in keys:
+            if e[k] != 0:
+                sg.setdefault(grp(k), set()).add(int(np.sign(e[k] * (-1)**ex(k) / mult[k])))
+        print(f"   {name} で σ がそろう群：{[f'k={g_[0]}{g_[1]}' for g_, v in sorted(sg.items()) if len(v) == 1]}、"
+              f"そろわない群：{[f'k={g_[0]}{g_[1]}' for g_, v in sorted(sg.items()) if len(v) > 1]}", flush=True)
+    E = sp.expand(pre * sum(v * TM.twisted(k, "mono") for k, v in e.items()))
+    if save:
+        pickle.dump({"E": str(E), "e": {str(k): v for k, v in e.items()}}, open(f"{OUT}/twisted_E_n1_m{m}.pkl", "wb"))
+        print(f"   保存：{OUT}/twisted_E_n1_m{m}.pkl", flush=True)
+    return E
+
+
+def full_rule(m=2, use=("i",)):
+    """全ブロックに符号の規則を課す：e_m = σ_g (−1)^{d_m} sign(c_m) w_m、0 ≤ w_m ≤ |c_m|、w_m ≡ c_m (mod 2)
+    （|c| − w は Ĩ で入れ替わる対）。d_m は k ≤ 2m で q の指数、k > 2m で t の指数。σ_g は群（ブロックと c の符号）ごと。
+    σ_g w_m の積は z_g ∈ {0,1} と v_m = z_g w_m（McCormick の不等式）で線形にする。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    mult = TM.monomials(N)
+    g = K.load_g(m)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k: (-k[-1] - 6) // 2
+    d = lambda k: (k[1] + 4 + 2 * kk(k)) // 2 if kk(k) <= 2 * m else k[2] // 2
+    grp = lambda k: (kk(k), int(np.sign(float(mult[k]))))
+    res = rule_milp(keys, mult, A, b, grp, d)
+    tag = f"T(2,{2 * m + 1}) 全ブロックに規則、条件 {'+'.join(use)}"
+    if res is None:
+        print(f"{tag}：解なし", flush=True); return
+    print(f"{tag}：解あり、e が一意でない単項式 {res['nfree']}/{len(keys)}、入れ替わる対の数 {res['pairs']}（最小 {res['min_pairs']}）", flush=True)
+
+
+def rule_milp(keys, mult, A, b, grp, d, pairs=True, uniq=True, minp=True, max_pairs=None, ranges=None, samples=None, flip=None, fix=None):
+    """符号の規則 e_m = σ_g (−1)^{d_m} sign(c_m) w_m、0 ≤ w_m ≤ |c_m|、w_m ≡ c_m (mod 2) の下で A e = b を解く
+    （|c| − w は Ĩ で入れ替わる対、pairs=False なら w = |c|）。σ_g は群 grp(k) ごと。
+    σ_g w_m の積は z_g ∈ {0,1} と v_m = z_g w_m（McCormick の不等式）で線形にする。
+    解が無ければ None、あれば e、（uniq なら）e が一意でない単項式、入れ替わる対の数、（minp なら）対の数の最小。
+    max_pairs：Σ y ≤ max_pairs を加える。ranges（単項式の列）：その各単項式の e の最小と最大 {単項式: (最小, 最大)} だけを返す。
+    samples = (個数, 乱数の種)：Σ r_m e_m（r_m は ±1 の乱数）を最小にする解を個数だけ求め、e の列を返す（解の集合の標本）。
+    flip = {単項式: ±1}：Σ flip_m e_m を最小にする解（flip_m = sign(e0_m) なら、なるべく多くの符号を反転させる）の (最小値, e) を返す。"""
+    n = len(keys)
+    gl = sorted({grp(k) for k in keys}, key=str); gi = {g_: i for i, g_ in enumerate(gl)}; ng = len(gl)
+    sgn = np.array([float(np.sign(float(mult[k]))) * (-1)**d(k) for k in keys])
+    cab = np.array([abs(float(mult[k])) for k in keys])
+    # 変数 [y (n), v (n), z (ng)]：w = |c| − 2y、e = sgn (w − 2v)
+    nv = 2 * n + ng
+    # 等式：A e = b → A diag(sgn) (|c| − 2y − 2v) = b
+    AS = A * sgn
+    Aeq = np.hstack([-2 * AS, -2 * AS, np.zeros((len(b), ng))]); beq = b - AS @ cab
+    cons = [LinearConstraint(Aeq, beq - 1e-9, beq + 1e-9)]
+    # McCormick：v ≤ w = |c| − 2y、v ≤ |c| z、v ≥ w − |c|(1 − z)
+    Ms = []
+    for i, k in enumerate(keys):
+        gj = 2 * n + gi[grp(k)]
+        r1 = np.zeros(nv); r1[n + i] = 1; r1[i] = 2; Ms.append((r1, -np.inf, cab[i]))            # v + 2y ≤ |c|
+        r2 = np.zeros(nv); r2[n + i] = 1; r2[gj] = -cab[i]; Ms.append((r2, -np.inf, 0))          # v − |c| z ≤ 0
+        r3 = np.zeros(nv); r3[n + i] = 1; r3[i] = 2; r3[gj] = -cab[i]; Ms.append((r3, 0, np.inf))  # v + 2y − |c| z ≥ 0
+    if max_pairs is not None:
+        r4 = np.zeros(nv); r4[:n] = 1; Ms.append((r4, -np.inf, max_pairs))
+    if fix:                                                        # fix = {単項式: e の値}：2y + 2v = |c| − sgn e
+        col = {k: i for i, k in enumerate(keys)}
+        for k, val in fix.items():
+            i = col[k]; r5 = np.zeros(nv); r5[i] = 2; r5[n + i] = 2; Ms.append((r5, cab[i] - sgn[i] * val, cab[i] - sgn[i] * val))
+    cons.append(LinearConstraint(np.array([x[0] for x in Ms]), [x[1] for x in Ms], [x[2] for x in Ms]))
+    bnd = Bounds(np.zeros(nv), np.concatenate([np.floor(cab / 2) if pairs else np.zeros(n), cab, np.ones(ng)]))
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(nv))
+    if ranges is not None:
+        col = {k: i for i, k in enumerate(keys)}; out = {}
+        for k in ranges:
+            i = col[k]; cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]     # e_i − sgn|c| の係数
+            lo_, hi_ = opt(cc), opt(-cc)
+            if lo_.status != 0 or hi_.status != 0:
+                return None
+            out[k] = (round(sgn[i] * cab[i] + lo_.fun), round(sgn[i] * cab[i] - hi_.fun))
+        return out
+    if flip is not None:
+        col = {k: i for i, k in enumerate(keys)}; cc = np.zeros(nv); const = 0.0
+        for k, f in flip.items():
+            i = col[k]; cc[i] = -2 * sgn[i] * f; cc[n + i] = -2 * sgn[i] * f; const += f * sgn[i] * cab[i]
+        res = opt(cc)
+        if res.status != 0:
+            return None
+        x = res.x
+        return round(const + res.fun), {k: int(round(sgn[i] * (cab[i] - 2 * x[i] - 2 * x[n + i]))) for i, k in enumerate(keys)}
+    if samples is not None:
+        rng = np.random.default_rng(samples[1]); out = []
+        for _ in range(samples[0]):
+            rr = rng.choice([-1.0, 1.0], n); cc = np.zeros(nv); cc[:n] = -2 * sgn * rr; cc[n:2 * n] = -2 * sgn * rr
+            x = opt(cc).x
+            out.append({k: int(round(sgn[i] * (cab[i] - 2 * x[i] - 2 * x[n + i]))) for i, k in enumerate(keys)})
+        return out
+    res = opt(np.zeros(nv))
+    if res.status != 0:
+        return None
+    e0 = np.round(sgn * (cab - 2 * res.x[:n] - 2 * res.x[n:2 * n]))
+    free = None
+    if uniq:
+        free = []
+        for i in range(n):           # e_i の最小と最大（e は y, v の線形関数）
+            cc = np.zeros(nv); cc[i] = -2 * sgn[i]; cc[n + i] = -2 * sgn[i]
+            if round(opt(cc).fun) != round(-opt(-cc).fun): free.append(keys[i])
+    cc = np.zeros(nv); cc[:n] = 1                                     # 入れ替わる対の数 Σ y の最小
+    return dict(e={k: int(e0[i]) for i, k in enumerate(keys)}, free=free, nfree=None if free is None else len(free),
+                pairs=int(sum(cab - np.abs(e0)) // 2), min_pairs=round(opt(cc).fun) if minp else None)
+
+
+def n2_rule(uniq=True, opts=("q", "t"), uniform=False):
+    """n = 2（trefoil）の N_λ に n = 1 の符号の規則を課し、t = −1 の条件（i22 + i4）だけで解く（progress.md 続き 76）。
+    部分（λ、ν のブロック、c の符号）ごとに e = σ (−1)^{q の指数} sign(c) w か σ (−1)^{t の指数} sign(c) w を選ぶ
+    （w ≤ |c| は入れ替わる対を許す）。(1) 部分ごとに一つだけ規則を課して（他の単項式は一般の e）q・t の可否を調べ、
+    (2) 一方だけ可の部分はそれに固定し、両方可の部分は組を全部試し、(3) 全部分に規則を課した解の一意性と対の数の最小を調べる。
+    opts は部分ごとの規則の候補：q（(−1)^a）、t（(−1)^b）、qt（(−1)^{a+b}）、0（すべて同符号）、a, b は q, t の指数。
+    塔のセル (q, t, qt) の対角な対合 ε_qt = ε_q ε_t の誘導作用はこの 4 通りで、鏡映 (q, t) → (t^{−1}, q^{−1}) で対称なのは 0 と qt
+    （theory §12.14、progress.md 続き 78）。uniform なら全部分に同じ規則を課した結果も表示する。"""
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in ("i22", "i4")})
+    part = lambda k: (k[0], k[-1], int(np.sign(float(mult[k]))))
+    parts = sorted({part(k) for k in keys}, key=lambda x: (x[0], -x[1], -x[2]))
+    exps = {"q": lambda k: k[2] // 2, "t": lambda k: k[3] // 2, "qt": lambda k: k[2] // 2 + k[3] // 2, "0": lambda k: 0}
+
+    def run(assign, uniq_=False, minp=False):
+        grp = lambda k: part(k) if part(k) in assign else k               # 規則の無い単項式は自分だけの群（一般の e と同じ）
+        d = lambda k: exps[assign[part(k)]](k) if part(k) in assign else 0
+        return rule_milp(keys, mult, A, b, grp, d, True, uniq_, minp)
+
+    base = run({}, minp=True)
+    print(f"規則なし（t = −1 だけ）：入れ替わる対の数の最小 {base['min_pairs']}（状態の数 {sum(abs(int(v)) for v in mult.values())}）", flush=True)
+    if uniform:
+        for x in opts:
+            res = run({p_: x for p_ in parts}, minp=True)
+            print(f"全部分に規則 {x}：" + ("解なし" if res is None else f"解あり、入れ替わる対の数の最小 {res['min_pairs']}"), flush=True)
+    ok = {}
+    for p_ in parts:
+        n_ = sum(1 for k in keys if part(k) == p_)
+        ok[p_] = [opts[0]] if n_ == 1 else [x for x in opts if run({p_: x}) is not None]   # 単項式 1 個では規則は σ に吸収される
+        print(f"λ = {p_[0]}、ν^{p_[1]}、c の符号 {p_[2]:+d}（単項式 {n_}）：規則 {'・'.join(ok[p_]) or 'なし'}", flush=True)
+    if any(not v for v in ok.values()):
+        print("規則を課せない部分がある", flush=True); return None
+    both = [p_ for p_ in parts if len(ok[p_]) >= 2]
+    ncomb = int(np.prod([len(ok[p_]) for p_ in both]))
+    if ncomb > 4096:
+        print(f"複数可の部分 {len(both)} 個の組 {ncomb} 通り：多すぎるので組は調べない", flush=True); return None
+    feas = []
+    for ch in itertools.product(*[ok[p_] for p_ in both]):
+        assign = {p_: ok[p_][0] for p_ in parts if len(ok[p_]) == 1} | dict(zip(both, ch))
+        if run(assign) is not None:
+            feas.append((ch, assign))
+    print(f"複数可の部分 {len(both)} 個の組 {ncomb} 通りのうち解ありは {len(feas)} 通り", flush=True)
+    for i, p_ in enumerate(both):
+        print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}：解ありの組での選択 {sorted({ch[i] for ch, _ in feas})}", flush=True)
+    out = []
+    for ch, assign in feas:
+        res = run(assign, False, True)
+        out.append((res["min_pairs"], ch, assign))
+    for mp in sorted({x[0] for x in out}):
+        print(f"   入れ替わる対の数の最小 {mp}：{sum(1 for x in out if x[0] == mp)} 通り（例 {'/'.join(next(x[1] for x in out if x[0] == mp))}）", flush=True)
+    if uniq and out:
+        mp, ch, assign = min(out, key=lambda x: x[0])
+        t0 = time.time()
+        res = run(assign, True)
+        print(f"対の数の最小が最も小さい組 {'/'.join(ch)} の一意性：e が一意でない単項式 {res['nfree']}/{len(keys)}（{time.time() - t0:.0f} 秒）", flush=True)
+        for bk in sorted({(k[0], k[-1]) for k in keys}, key=lambda x: (x[0], -x[1])):
+            n_ = sum(1 for k in keys if (k[0], k[-1]) == bk)
+            print(f"   λ = {bk[0]}、ν^{bk[1]}：一意でない {sum(1 for k in res['free'] if (k[0], k[-1]) == bk)}/{n_}", flush=True)
+    return out
+
+
+def choice_milp(keys, mult, A, b, part, pats, minimize_pairs=True, max_pairs=None, ranges=None, log=None):
+    """部分ごとに符号の型 π（pats[部分] の ±1 の辞書の列）を一つ選び、e_m = π_m sign(c_m) w_m、w_m = |c_m| − 2y_m で A e = b を解く。
+    v_{m,π} = u_{p,π} w_m（McCormick）で線形にする。入れ替わる対の数 Σ y を最小にし、(最小値, 選んだ型の番号, e) を返す。解なしは None。
+    max_pairs：Σ y ≤ max_pairs を加える。ranges（単項式の列）：その各単項式について e の最小と最大を求め、{単項式: (最小, 最大)} を返す。"""
+    n = len(keys)
+    cab = np.array([abs(float(mult[k])) for k in keys]); sc = np.array([float(np.sign(float(mult[k]))) for k in keys])
+    plist = sorted(pats, key=str)
+    uidx, i0 = {}, n
+    for p_ in plist:
+        for j in range(len(pats[p_])):
+            uidx[(p_, j)] = i0; i0 += 1
+    vidx = {}
+    for i, k in enumerate(keys):
+        for j in range(len(pats[part(k)])):
+            vidx[(i, j)] = i0; i0 += 1
+    nv = i0
+    Aeq = np.zeros((len(b), nv))
+    for (i, j), vi in vidx.items():
+        Aeq[:, vi] = A[:, i] * sc[i] * pats[part(keys[i])][j][keys[i]]
+    rows_, lo, hi = [], [], []
+    def row(coef, l, h):
+        x = np.zeros(nv)
+        for idx, c in coef: x[idx] += c
+        rows_.append(x); lo.append(l); hi.append(h)
+    for p_ in plist:
+        row([(uidx[(p_, j)], 1) for j in range(len(pats[p_]))], 1, 1)
+    for (i, j), vi in vidx.items():
+        u = uidx[(part(keys[i]), j)]
+        row([(vi, 1), (u, -cab[i])], -np.inf, 0)                      # v ≤ |c| u
+        row([(vi, 1), (i, 2)], -np.inf, cab[i])                        # v ≤ w = |c| − 2y
+        row([(vi, 1), (i, 2), (u, -cab[i])], 0, np.inf)                # v ≥ w − |c|(1 − u)
+    if max_pairs is not None:
+        row([(i, 1) for i in range(n)], -np.inf, max_pairs)
+    cons = [LinearConstraint(Aeq, b - 1e-9, b + 1e-9), LinearConstraint(np.array(rows_), lo, hi)]
+    ub = np.zeros(nv); ub[:n] = np.floor(cab / 2)
+    for k_, vi in uidx.items(): ub[vi] = 1
+    for (i, j), vi in vidx.items(): ub[vi] = cab[i]
+    opt = lambda cc: milp(cc, constraints=cons, bounds=Bounds(np.zeros(nv), ub), integrality=np.ones(nv))
+    if ranges is not None:
+        col = {k: i for i, k in enumerate(keys)}
+        out = {}
+        for c_, k in enumerate(ranges):
+            i = col[k]; cc = np.zeros(nv)
+            for j in range(len(pats[part(k)])):
+                cc[vidx[(i, j)]] = sc[i] * pats[part(k)][j][k]               # e_k = Σ_π sign(c) π v
+            lo_, hi_ = opt(cc), opt(-cc)
+            if lo_.status != 0 or hi_.status != 0:
+                return None
+            out[k] = (round(lo_.fun), round(-hi_.fun))
+            if log and (c_ + 1) % 100 == 0:
+                log(f"   e の範囲：{c_ + 1}/{len(ranges)}")
+        return out
+    cc = np.zeros(nv)
+    if minimize_pairs: cc[:n] = 1
+    res = opt(cc)
+    if res.status != 0:
+        return None
+    x = np.round(res.x)
+    chosen = {p_: next(j for j in range(len(pats[p_])) if x[uidx[(p_, j)]] == 1) for p_ in plist}
+    e = {k: int(sc[i] * sum(pats[part(k)][j][k] * x[vidx[(i, j)]] for j in range(len(pats[part(k)])))) for i, k in enumerate(keys)}
+    return int(round(sum(x[:n]))), chosen, e
+
+
+def n2_choice(opts=("0", "q", "t", "qt"), by="sign"):
+    """n = 2（trefoil）、t = −1 だけ：部分（λ、ν のブロック、c の符号）ごとに規則 opts のどれかと σ を選ぶ整数計画で、
+    入れ替わる対の数の最小と、そのときの選択を求める（theory §12.14、progress.md 続き 78）。
+    by = "sign"：部分は（λ、ブロック、c の符号）。by = "stripe"：（λ、ブロック、t の指数 − q の指数）で、qt 方向の弦（縞）ごと。"""
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in ("i22", "i4")})
+    if by == "sign":
+        part = lambda k: (k[0], k[-1], int(np.sign(float(mult[k]))))
+    else:
+        part = lambda k: (k[0], k[-1], (k[3] - k[2]) // 2)
+    exps = {"q": lambda k: k[2] // 2, "t": lambda k: k[3] // 2, "qt": lambda k: k[2] // 2 + k[3] // 2, "0": lambda k: 0}
+    pats, names = {}, {}
+    for p_ in {part(k) for k in keys}:
+        ks = [k for k in keys if part(k) == p_]
+        seen = {}
+        for o in opts:
+            for sg in (1, -1):
+                pat = tuple(sg * (-1)**exps[o](k) for k in ks)
+                seen.setdefault(pat, []).append(("+" if sg > 0 else "−") + o)
+        pats[p_] = [dict(zip(ks, pat)) for pat in seen]
+        names[p_] = ["/".join(v) for v in seen.values()]
+    t0 = time.time()
+    res = choice_milp(keys, mult, A, b, part, pats)
+    if res is None:
+        print(f"規則 {','.join(opts)}、部分 {by}：解なし（{time.time() - t0:.0f} 秒）", flush=True); return None
+    mp, chosen, e = res
+    print(f"規則 {','.join(opts)}、部分 {by}（{len(pats)} 個）：入れ替わる対の数の最小 {mp}（{time.time() - t0:.0f} 秒）", flush=True)
+    if by != "sign":
+        return res
+    for p_ in sorted(chosen, key=lambda x: (x[0], -x[1], -x[2])):
+        ks = [k for k in keys if part(k) == p_]
+        pr = sum(abs(int(mult[k])) - abs(e[k]) for k in ks) // 2
+        print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}（単項式 {len(ks)}）：選択 {names[p_][chosen[p_]]}、対 {pr}", flush=True)
+    return res
+
+
+def _n2_model():
+    mult, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda key: pre * TM.twisted(key[1:], "mono"), {k: conds[k] for k in ("i22", "i4")})
+    return mult, keys, A, b
+
+
+def _n2_sample(arg):
+    mp, k_, seed = arg
+    mult, keys, A, b = _n2_model()
+    return rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, samples=(k_, seed))
+
+
+def _n2_range(arg):
+    mp, key = arg
+    mult, keys, A, b = _n2_model()
+    return rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=mp, ranges=[key])
+
+
+def n2_pattern():
+    """n = 2（trefoil）、t = −1 だけ、規則なし：入れ替わる対の数が最小の解の集合で、各単項式の e の範囲を求め（data に保存して再開できる）、
+    符号の型 e/c を (q, t) の格子で表示し、一意に決まる単項式で規則 0・q・t・q+t が部分ごとに成り立つかを調べる（theory §12.15、progress.md 続き 79）。"""
+    path = f"{OUT}/twisted_n2_pattern.pkl"
+    mult, keys, A, b = _n2_model()
+    pats = {k: [{k: 1}, {k: -1}] for k in keys}
+    st = pickle.load(open(path, "rb")) if os.path.exists(path) else {}
+    if "mp" not in st:
+        t0 = time.time()
+        st["mp"], _, st["e"] = choice_milp(keys, mult, A, b, lambda k: k, pats)
+        pickle.dump(st, open(path, "wb"))
+        print(f"規則なしの対の数の最小 {st['mp']}（{time.time() - t0:.0f} 秒）", flush=True)
+    if "samples" not in st:                                              # (1) 標本：解の間で e が違えば一意でない
+        import multiprocessing as mp_                                    # ProcessPoolExecutor はサンドボックスで使えない
+        t0 = time.time()
+        with mp_.get_context("fork").Pool(8) as ex:
+            got = ex.map(_n2_sample, [(st["mp"], 2, seed) for seed in range(8)])
+        st["samples"] = [st["e"]] + [x for g_ in got for x in g_]
+        pickle.dump(st, open(path, "wb"))
+        print(f"標本の解 {len(st['samples'])} 個（{time.time() - t0:.0f} 秒）", flush=True)
+    var = {k for k in keys if len({e_[k] for e_ in st["samples"]}) > 1}
+    # (2) 行空間：単位ベクトル e_m が A の行空間にあれば、A e = b だけで e_m が決まる
+    _, sv, Vt = np.linalg.svd(A, full_matrices=True)
+    rank = int((sv > 1e-8 * sv[0]).sum()); Nul = Vt[rank:].T
+    lin = {k for i, k in enumerate(keys) if np.abs(Nul[i]).max() < 1e-8}
+    print(f"A の階数 {rank}（単項式 {len(keys)}）、標本で e が変わる単項式 {len(var)}、一次方程式だけで決まる単項式 {len(lin)}", flush=True)
+    st.setdefault("rg", {})
+    for k in lin:
+        st["rg"][k] = (st["e"][k], st["e"][k])
+    for k in var:
+        vs = [e_[k] for e_ in st["samples"]]
+        st["rg"].setdefault(k, (min(vs), max(vs)))                       # 一意でないことだけが確か（範囲は下限）
+    # (3) まとめて反転：未判定の集合 U で Σ_{m∈U} sign(e0_m) e_m を最小にする。反転した単項式は一意でない。
+    #     反転が無く、U の全単項式で |e0| = |c| かつ最小値 = Σ|c| なら、各項が上限にあるので U は全部一意（証明）。
+    e0 = st["e"]
+    U = [k for k in keys if k not in st["rg"] and abs(e0[k]) == abs(int(mult[k]))]
+    t0 = time.time()
+    while U:
+        val, e1 = rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=st["mp"], flip={k: int(np.sign(e0[k])) for k in U})
+        moved = [k for k in U if e1[k] != e0[k]]
+        print(f"   まとめて反転：U {len(U)} 個、反転 {len(moved)}、最小値 {val}、Σ|c| {sum(abs(int(mult[k])) for k in U)}（{time.time() - t0:.0f} 秒）", flush=True)
+        for k in moved:
+            st["rg"][k] = (min(e0[k], e1[k]), max(e0[k], e1[k]))
+        pickle.dump(st, open(path, "wb"))
+        if not moved:
+            assert val == sum(abs(int(mult[k])) for k in U)
+            for k in U:
+                st["rg"][k] = (e0[k], e0[k])
+            break
+        U = [k for k in U if k not in moved]
+    todo = [k for k in keys if k not in st["rg"]]                        # |e0| < |c| の単項式：1 個ずつ正確に
+    print(f"1 個ずつの判定が要る単項式 {len(todo)}", flush=True)
+    for k in todo:
+        st["rg"].update(rule_milp(keys, mult, A, b, lambda k: k, lambda k: 0, max_pairs=st["mp"], ranges=[k]))
+        pickle.dump(st, open(path, "wb"))
+    mp, e, rg = st["mp"], st["e"], st["rg"]
+    fixed = [k for k in keys if rg[k][0] == rg[k][1]]
+    print(f"規則なし、対の数 {mp} の解：e が一意な単項式 {len(fixed)}/{len(keys)}、"
+          f"そのうち e = c が {sum(1 for k in fixed if rg[k][0] == mult[k])}、e = −c が {sum(1 for k in fixed if rg[k][0] == -mult[k])}", flush=True)
+    # 格子：行 = q の指数、列 = t の指数。記号は e/c の符号（+：e = c、−：e = −c、小文字 p/m：|e| < |c| で同符号/逆符号、0：e = 0）。
+    # 一意でない単項式は記号の後に ?（最小の解の e で表示）
+    sym = lambda k, v: "0" if v == 0 else ("+" if v == mult[k] else "−" if v == -mult[k] else ("p" if v * mult[k] > 0 else "m"))
+    part = lambda k: (k[0], k[-1], int(np.sign(float(mult[k]))))
+    for bk in sorted({(k[0], k[-1]) for k in keys}, key=lambda x: (x[0], -x[1])):
+        ks = [k for k in keys if (k[0], k[-1]) == bk]
+        a0 = min(k[2] for k in ks); b0 = min(k[3] for k in ks)
+        g = {((k[2] - a0) // 2, (k[3] - b0) // 2): k for k in ks}
+        A_ = max(a for a, _ in g); B_ = max(b_ for _, b_ in g)
+        nf = sum(1 for k in ks if k in fixed)
+        print(f"λ = {bk[0]}、ν^{bk[1]}（r^{a0} s^{b0}、一意 {nf}/{len(ks)}）", flush=True)
+        for a in range(A_ + 1):
+            print("   " + " ".join((sym(g[(a, b_)], e[g[(a, b_)]]) + ("" if g[(a, b_)] in fixed else "?")).ljust(2)
+                                   if (a, b_) in g else ". " for b_ in range(B_ + 1)), flush=True)
+    # 一意な単項式で、部分ごとに e/c の符号が σ(−1)^d の形か
+    exps = {"0": lambda k: 0, "q": lambda k: k[2] // 2, "t": lambda k: k[3] // 2, "qt": lambda k: k[2] // 2 + k[3] // 2}
+    print("一意で e ≠ 0 の単項式だけで、部分（λ、ブロック、c の符号）ごとに e/c の符号 = σ(−1)^d が成り立つ規則 d", flush=True)
+    for p_ in sorted({part(k) for k in keys}, key=lambda x: (x[0], -x[1], -x[2])):
+        ks = [k for k in fixed if part(k) == p_ and rg[k][0] != 0]
+        ok = [o for o, d in exps.items() if len({int(np.sign(rg[k][0] / mult[k])) * (-1)**d(k) for k in ks}) <= 1]
+        print(f"   λ = {p_[0]}、ν^{p_[1]}、{p_[2]:+d}：一意 {len(ks)}/{sum(1 for k in keys if part(k) == p_)}、成り立つ規則 {'・'.join(ok) if ks else '（一意な単項式なし）'}", flush=True)
+    # λ = (2) の r^a s^b ν^c と λ = (1,1) の r^{a+4} s^b ν^c（§12.13 で N が一致する低い q の領域）で e も一致するか
+    pr = [(k, ("11",) + k[1:2] + (k[2] + 4,) + k[3:]) for k in keys if k[0] == "2"]
+    pr = [(k, k2) for k, k2 in pr if k2 in mult and mult[k] == mult[k2] and k in fixed and k2 in fixed]
+    print(f"λ = (2) と q^(−2)·λ = (1,1) で c が等しく両方一意な単項式 {len(pr)}、そのうち e も等しい {sum(1 for k, k2 in pr if rg[k] == rg[k2])}", flush=True)
+    for lab in ("2", "11"):
+        cnt = {"下": [0, 0], "上": [0, 0]}
+        for c in {k[-1] for k in keys if k[0] == lab}:
+            ks = [k for k in keys if k[0] == lab and k[-1] == c]
+            mid = (min(k[2] for k in ks) + max(k[2] for k in ks)) / 2
+            for k in ks:
+                h = "下" if k[2] <= mid else "上"; cnt[h][0] += k in fixed; cnt[h][1] += 1
+        print(f"λ = {lab}：一意な単項式は q の指数がブロックの下半分で {cnt['下'][0]}/{cnt['下'][1]}、上半分で {cnt['上'][0]}/{cnt['上'][1]}", flush=True)
+    must = [k for k in keys if max(abs(rg[k][0]), abs(rg[k][1])) < abs(int(mult[k]))]
+    print("どの解でも入れ替わる対を含む単項式（λ、ν、r、s の指数、c、e）：" + "、".join(f"{k[0]} ν^{k[-1]} r^{k[2]} s^{k[3]} c={int(mult[k])} e={rg[k][0]}" for k in must), flush=True)
+    return st
+
+
+def row_min(cs, w, S):
+    """1 行の問題：e_m ∈ {−|c_m|, −|c_m| + 2, …, |c_m|}、Σ w_m e_m = S（w_m = ±1）で、入れ替わる対 Σ (|c_m| − |e_m|)/2 を最小にする。
+    前向きと後ろ向きの動的計画法。(対の最小, [各単項式の、最小の解での e の値の集合]) を返す。S に届かなければ (None, None)。"""
+    opts = [[(x, (abs(c) - abs(x)) // 2) for x in range(-abs(c), abs(c) + 1, 2)] for c in cs]
+
+    def sweep(order, start, sg):
+        tabs = [start]
+        for i in order:
+            nx = {}
+            for s_, p in tabs[-1].items():
+                for x, dp in opts[i]:
+                    k = s_ + sg * w[i] * x
+                    if p + dp < nx.get(k, 1 << 30): nx[k] = p + dp
+            tabs.append(nx)
+        return tabs
+    n = len(cs)
+    F = sweep(range(n), {0: 0}, 1)                          # F[i]：最初の i 個の和 → 対の最小
+    if S not in F[n]:
+        return None, None
+    B = sweep(range(n - 1, -1, -1), {S: 0}, -1)[::-1]      # B[i]：i 番目以降で S に届く残り → 対の最小
+    best = F[n][S]
+    vals = [{x for s_, p in F[i].items() for x, dp in opts[i]
+             if p + dp + B[i + 1].get(s_ + w[i] * x, 1 << 30) == best} for i in range(n)]
+    return best, vals
+
+
+def n2_rows():
+    """n = 2（trefoil）、t = −1 だけ、規則なし（theory §12.16、progress.md 続き 80）：条件 (i) は行（λ、ν のブロック、r の指数）ごとの
+    交代和 S = Σ_m (−1)^{(s_m − 1)/2} e_m だけを決める（行空間が一致することを階数で確かめる）。したがって入れ替わる対の最小化は行ごとに
+    独立な問題（row_min）に分かれる。各単項式の e の範囲を求めて、続き 79 の整数計画の結果（data の twisted_n2_pattern.pkl）と比べ、
+    一意性が行の形（飽和 |S| = Σ|c|、対なしの符号の解が 1 通り）でどう決まるかを集計する。"""
+    from collections import defaultdict
+    t0 = time.time()
+    mult, keys, A, b = _n2_model()
+    assert all(k[3] % 2 for k in keys)
+    w = lambda k: (-1)**((k[3] - 1) // 2)                       # s = i で s^{k[3]} = i·w
+    rows_ = defaultdict(list)
+    for k in keys:
+        rows_[(k[0], k[-1], k[2])].append(k)
+    rl = sorted(rows_)
+    col = {k: i for i, k in enumerate(keys)}
+    R = np.zeros((len(rl), len(keys)))
+    for j, rw in enumerate(rl):
+        for k in rows_[rw]:
+            R[j, col[k]] = w(k)
+    rk = lambda M: np.linalg.matrix_rank(M, tol=1e-8 * np.linalg.norm(M, 2))
+    print(f"行の数 {len(rl)}、A の階数 {rk(A)}、交代和の行列 R の階数 {rk(R)}、[A; R] の階数 {rk(np.vstack([A, R]))}（{time.time() - t0:.0f} 秒）", flush=True)
+    Sf = R @ np.linalg.lstsq(A, b, rcond=None)[0]               # 行空間が一致すれば A e = b の解によらない
+    S = {rw: int(round(v)) for rw, v in zip(rl, Sf)}
+    assert np.abs(Sf - np.round(Sf)).max() < 1e-6
+    rg, mp, info = {}, 0, {}
+    for rw in rl:
+        ks = rows_[rw]
+        best, vals = row_min([int(mult[k]) for k in ks], [w(k) for k in ks], S[rw])
+        mp += best
+        for k, v in zip(ks, vals):
+            rg[k] = (min(v), max(v))
+        cab = sum(abs(int(mult[k])) for k in ks)
+        info[rw] = dict(n=len(ks), cab=cab, pairs=best, sat=abs(S[rw]) == cab, nu=sum(len(v) == 1 for v in vals))
+    fixed = {k for k in keys if rg[k][0] == rg[k][1]}
+    print(f"行ごとの対の最小の和 {mp}、e が一意な単項式 {len(fixed)}/{len(keys)}（{time.time() - t0:.0f} 秒）", flush=True)
+    path = f"{OUT}/twisted_n2_pattern.pkl"
+    if os.path.exists(path):
+        st = pickle.load(open(path, "rb"))
+        same = st["mp"] == mp and all((st["rg"][k][0] == st["rg"][k][1]) == (k in fixed) and (k not in fixed or st["rg"][k] == rg[k]) for k in keys)
+        print(f"続き 79 の整数計画（対の最小 {st['mp']}、一意 {sum(1 for k in keys if st['rg'][k][0] == st['rg'][k][1])}）と、最小・一意性・一意な値が一致：{same}", flush=True)
+    full = [rw for rw in rl if info[rw]["nu"] == info[rw]["n"]]
+    print(f"全単項式が一意な行 {len(full)}/{len(rl)}：飽和（e = sign(S)(−1)^((s−1)/2)|c|）{sum(1 for rw in full if info[rw]['sat'])}、"
+          f"飽和でないが対の最小の解が 1 通り {sum(1 for rw in full if not info[rw]['sat'])}"
+          f"（うち対を含む {sum(1 for rw in full if info[rw]['pairs'])}）", flush=True)
+    print(f"一意な単項式 {len(fixed)} のうち、全単項式が一意な行にあるもの {sum(info[rw]['n'] for rw in full)}、"
+          f"一部だけ一意な行にあるもの {sum(info[rw]['nu'] for rw in rl if rw not in full)}", flush=True)
+    for lo, hi in ((1, 5), (6, 20), (21, 60), (61, 200), (201, 10**6)):
+        rs = [rw for rw in rl if lo <= info[rw]["cab"] <= hi]
+        print(f"   行の状態数 Σ|c| が {lo}〜{hi}：行 {len(rs)}、全部一意な行 {sum(1 for rw in rs if rw in full)}、"
+              f"一意な単項式 {sum(info[rw]['nu'] for rw in rs)}/{sum(info[rw]['n'] for rw in rs)}", flush=True)
+    # λ = (2) の行 (ν^c, r^a) と λ = (1,1) の行 (ν^c, r^{a+4})：N の行と S が同じなら行の問題が同じ
+    same_row = lambda rw: (("11", rw[1], rw[2] + 4) in rows_ and S[rw] == S[("11", rw[1], rw[2] + 4)]
+                           and {k[3]: int(mult[k]) for k in rows_[rw]} == {k[3]: int(mult[k]) for k in rows_[("11", rw[1], rw[2] + 4)]})
+    sr = [rw for rw in rl if rw[0] == "2" and same_row(rw)]
+    print(f"λ = (2) と q^(−2)·λ = (1,1) で N の行と S がともに等しい行 {len(sr)}（λ = (2) の行 {sum(1 for rw in rl if rw[0] == '2')}）、"
+          f"そのブロックごとの q の冪：" + "、".join(f"ν^{c} {sorted((rw[2] - min(k[2] for k in keys if k[0] == '2' and k[-1] == c)) // 2 for rw in sr if rw[1] == c)}"
+                                                   for c in sorted({rw[1] for rw in sr}, reverse=True)), flush=True)
+    pr = [(k, ("11",) + k[1:2] + (k[2] + 4,) + k[3:]) for k in keys if k[0] == "2"]
+    pr = [(k, k2) for k, k2 in pr if k2 in mult and mult[k] == mult[k2] and k in fixed and k2 in fixed]
+    diff = [k for k, k2 in pr if rg[k] != rg[k2]]
+    print(f"c が等しく両方一意な単項式の組 {len(pr)}：同じ行の問題に入るもの {sum(1 for k, _ in pr if same_row((k[0], k[-1], k[2])))}、"
+          f"e が違うもの {len(diff)}（" + "、".join(f"ν^{k[-1]} r^{k[2]} s^{k[3]}：行の問題が同じ {same_row((k[0], k[-1], k[2]))}" for k in diff) + "）", flush=True)
+    print("ブロックごとの行（q の冪の順）：S = E(q, −1) の行の値、Σ|c|、対の最小、一意な単項式/単項式", flush=True)
+    for bk in sorted({rw[:2] for rw in rl}, key=lambda x: (x[0], -x[1])):
+        rs = sorted(rw for rw in rl if rw[:2] == bk)
+        print(f"   λ = {bk[0]}、ν^{bk[1]}：" + " ".join(f"[{S[rw]},{info[rw]['cab']},{info[rw]['pairs']},{info[rw]['nu']}/{info[rw]['n']}]" for rw in rs), flush=True)
+    return S, rg
+
+
+def hidden_milp(keys, mult, A, b, max_h=None, ranges=None, hrange=None, time_limit=None):
+    """P に見えない対（ボソンとフェルミオンの打ち消し）h_m ≥ 0 を許した整数計画：e_m ≡ c_m (mod 2)、|e_m| ≤ |c_m| + 2h_m、A e = b。
+    c_m = 0（N の台の外）の単項式も変数にできる。既定では Σh の最小と (e, h) を返す（解なしは None）。
+    max_h：Σh ≤ max_h を加える。ranges（単項式の列）：各単項式の e の (最小, 最大)。hrange（単項式の列）：各単項式の h の (最小, 最大)。"""
+    n = len(keys)
+    cs = np.array([float(mult.get(k, 0)) for k in keys]); ca = np.abs(cs)
+    # 変数 [k (n)、h (n)]：e = c + 2k
+    I_ = np.eye(n)
+    cons = [LinearConstraint(np.hstack([2 * A, np.zeros_like(A)]), b - A @ cs - 1e-7, b - A @ cs + 1e-7),
+            LinearConstraint(np.vstack([np.hstack([2 * I_, -2 * I_]), np.hstack([-2 * I_, -2 * I_])]), -np.inf, np.concatenate([ca - cs, ca + cs]))]
+    if max_h is not None:
+        cons.append(LinearConstraint(np.concatenate([np.zeros(n), np.ones(n)])[None, :], -np.inf, max_h))
+    big = 10**4
+    bnd = Bounds(np.concatenate([-big * np.ones(n), np.zeros(n)]), big * np.ones(2 * n))
+    opts = {"time_limit": time_limit} if time_limit else {}
+    opt = lambda cc: milp(cc, constraints=cons, bounds=bnd, integrality=np.ones(2 * n), options=opts)
+    col = {k: i for i, k in enumerate(keys)}
+    if ranges is not None or hrange is not None:
+        out = {}
+        for k in ranges or []:
+            cc = np.zeros(2 * n); cc[col[k]] = 1
+            lo_, hi_ = opt(cc), opt(-cc)
+            out[k] = (round(cs[col[k]] + 2 * lo_.fun), round(cs[col[k]] - 2 * hi_.fun))
+        for k in hrange or []:
+            cc = np.zeros(2 * n); cc[n + col[k]] = 1
+            out[("h",) + tuple(k)] = (round(opt(cc).fun), round(-opt(-cc).fun))
+        return out
+    res = opt(np.concatenate([np.zeros(n), np.ones(n)]))
+    if res.x is None:
+        return None
+    x = np.round(res.x)
+    return round(res.fun), {k: int(cs[i] + 2 * x[i]) for i, k in enumerate(keys)}, {k: int(x[n + i]) for i, k in enumerate(keys)}
+
+
+def crosscap_split(F, n):
+    """凍結した状態 F（brane n の p₁ⁿ 方向）を c = 1 と c = 2 の部分に分ける。hatted の規則 β ≡ n − 1 (mod 2) が c = 1（progress 続き 56）。"""
+    Fn = sp.expand(sp.cancel(F * nu**60))
+    part = lambda par: sum((m for m in sp.Add.make_args(Fn) if sp.degree(m, nu) % 2 == par), sp.Integer(0)) / nu**60
+    return part((n - 1) % 2), part(n % 2)
+
+
+def n2_quotient(form="F"):
+    """n = 2 の条件を前因子と境界の因子で割った形（theory §12.17）。E_λ = s(t − ν²)(ν² + 1)(ν²q + 1) Σ e m のとき、
+    (i22) Σ_λ Σ e m|_{s=i} = Gs、(i4) Σ_λ χ_λ Σ e m|_{s=i} = Gd、(ii) Σ_λ Σ e m|_{s=r} = H（どれも Laurent 多項式、割り算は単射なので元の条件と同値）。
+    form = "F"：(ii) は −(1 + q)ψ²[F]（§12.7）、"c"：−(1 + q)ψ²[F^{c=1} − F^{c=2}]（c = 2 の部分の符号を反転、theory §12.18）。
+    {"i22": {(r の指数, ν の指数): 整数}, "i4": …, "ii": …} を返す（s = i の値は i で割った実数部分。sympy の約分が重いので data/cache に保存）。"""
+    import rk_f_twisted22_lam as L
+    import rk_f_twisted22 as T2
+    path = "data/cache/twisted_n2_quotient" + ("" if form == "F" else "_" + form) + ".pkl"
+    if os.path.exists(path):
+        return pickle.load(open(path, "rb"))
+    _, conds = n2_setup()
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    W22, W4 = L.W22.subs(L._r, r), L.W4.subs(L._r, r)
+    if form == "F":
+        Eq = conds["ii"][0]
+    else:
+        c1, c2 = crosscap_split(T2.sectors()[2][1], 2)
+        Eq = -(1 + q) * T2.psi2(c1 - c2)
+    X = {"i22": sp.cancel(conds["i22"][0].subs(s, I) / (pre.subs(s, I) * W22 * I)),
+         "i4": sp.cancel(conds["i4"][0].subs(s, I) / (pre.subs(s, I) * W4 * I)),
+         "ii": sp.cancel(Eq.subs(s, r) / (pre.subs(s, r) * W22))}
+    out = {}
+    for name, x in X.items():
+        d_ = TM.lp(sp.expand(x), (r, nu))
+        assert all(sp.im(v) == 0 and sp.re(v) == int(sp.re(v)) for v in d_.values()), name
+        out[name] = {k: int(sp.re(v)) for k, v in d_.items() if v != 0}
+    os.makedirs("data/cache", exist_ok=True)
+    pickle.dump(out, open(path, "wb"))
+    return out
+
+
+def quotient_rows(keys, Q, use=("i22", "i4", "ii")):
+    """割った形の条件の行列（整数）。keys は (λ, "mono", a, b, c)、s の指数 b は奇数。s = i の値は i で割って (−1)^{(b−1)/2}。"""
+    import rk_f_twisted22_lam as L
+    rows_, b_ = [], []
+    for name in use:
+        idx = {}
+        for k in keys:
+            mo = (k[2] + k[3], k[4]) if name == "ii" else (k[2], k[4])
+            idx.setdefault(mo, [])
+        for mo in Q[name]:
+            idx.setdefault(mo, [])
+        col = {k: i for i, k in enumerate(keys)}
+        A = {mo: np.zeros(len(keys)) for mo in idx}
+        for k in keys:
+            if name == "ii":
+                A[(k[2] + k[3], k[4])][col[k]] += 1
+            else:
+                A[(k[2], k[4])][col[k]] += (-1)**((k[3] - 1) // 2) * (L.CHI[k[0]][(2,)] if name == "i4" else 1)
+        for mo, row in A.items():
+            rows_.append(row); b_.append(float(Q[name].get(mo, 0)))
+    return np.array(rows_), np.array(b_)
+
+
+def n2_ii():
+    """n = 2（trefoil）に (ii)（t = q）を加える（theory §12.17、progress.md 続き 81）。割った形の条件（n2_quotient）はブロック ν^c ごとに閉じるので、
+    ブロックごとに (1) N の台の上で (i)+(ii) の一次方程式と見えない対 h の最小を、(ii) の目標 H と −H で調べ、(2) 交点 q = t = −1 での一致と
+    ν^{−24} の H と (i) から決まる値の比、(3) 一次方程式で解の無いブロックに、箱の中の単項式 1 個を足して解けるか、
+    (4) h = 0 で解のあるブロックの対の最小と一意性（(i) だけの場合と比べる）、(5) h > 0 が要るブロックの見えない対の置き場所 を求める。"""
+    import rk_f_twisted22_lam as L
+    Q = n2_quotient()
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c, sg=1: {n_: {mo: (sg if n_ == "ii" else 1) * v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+
+    def lin(keys, Qc, use=("i22", "i4", "ii")):
+        A, b = quotient_rows(keys, Qc, use); x = np.linalg.lstsq(A, b, rcond=None)[0]
+        return float(np.abs(A @ x - b).max()) < 1e-6
+    poly = lambda d: sum((v * R**a for (a, _), v in d.items()), sp.Integer(0))
+    print("(2) 交点 r = s = i（q = t = −1）での (i) と (ii) の一致（ブロックごと）：", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        Qc = Qb(c)
+        gi = sp.expand(poly(Qc["i22"]).subs(R, I) * I)            # Σ_λ Σ e m|_{r=s=i}（i22 は i で割ってある）
+        print(f"   ν^{c}：Σ_λ G_λ(i) = {gi}、H(i) = {sp.expand(poly(Qc['ii']).subs(R, I))}", flush=True)
+    keys24 = sorted(k for k in mult if k[-1] == -24)
+    A, b = quotient_rows(keys24, Qb(-24), ("i22", "i4"))
+    fixed24 = rule_milp(keys24, mult, A, b, lambda k: k, lambda k: 0, max_pairs=0, ranges=keys24)
+    assert all(v[0] == v[1] for v in fixed24.values())
+    E24 = sum(fixed24[k][0] * R**(k[2] + k[3]) for k in keys24)
+    N24 = sum(int(mult[k]) * R**(k[2] + k[3]) for k in keys24)
+    print(f"   ν^-24：(i) と |e| ≤ |c| で e は全部決まる。H / Σ_λ E(q,q) = {sp.factor(poly(Qb(-24)['ii']) / E24)}、"
+          f"Σ_λ E(q,q) / Σ_λ N(q,q) = {sp.factor(E24 / N24)}（R = r、q = R²）", flush=True)
+    print("(1) N の台の上：一次方程式と見えない対の最小", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        out = []
+        for sg in (1, -1):
+            A, b = quotient_rows(keys, Qb(c, sg))
+            res = hidden_milp(keys, mult, A, b, time_limit=300)
+            out.append(f"{'+' if sg > 0 else '−'}H：一次 {'○' if lin(keys, Qb(c, sg)) else '×'}、Σh の最小 {res[0] if res else '解なし'}")
+        print(f"   ν^{c}（単項式 {len(keys)}）：" + "、".join(out), flush=True)
+
+    def box(c, d=0):
+        out = set()
+        for lab in L.LAMS:
+            ks = [k for k in mult if k[0] == lab and k[-1] == c]
+            if not ks:
+                continue
+            for a in range(min(k[2] for k in ks) - 2 * d, max(k[2] for k in ks) + 2 * d + 1, 2):
+                for b_ in range(min(k[3] for k in ks) - 2 * d, max(k[3] for k in ks) + 2 * d + 1, 2):
+                    out.add((lab, "mono", a, b_, c))
+        return sorted(out)
+    print("(3) 一次方程式で解の無いブロック：箱（ブロックの r, s の指数の範囲）の中の単項式 1 個を N の台に足して解けるか", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        if lin(keys, Qb(c)):
+            continue
+        ext = [m for m in box(c) if m not in mult and lin(keys + [m], Qb(c))]
+        print(f"   ν^{c}：足す候補 {sum(1 for m in box(c) if m not in mult)} 個中 {len(ext)} 個で解ける：" + " ".join(f"λ={m[0]} r^{m[2]}s^{m[3]}" for m in ext), flush=True)
+    print("   見えない対を箱を広げた台（N の台の外では c = 0）に許したときの Σh の最小（全ブロックの和）：", flush=True)
+    for d in (0, 1, 2):
+        tot, where = 0, []
+        for c in sorted({k[-1] for k in mult}, reverse=True):
+            keys = box(c, d); A, b = quotient_rows(keys, Qb(c))
+            best, e, h = hidden_milp(keys, mult, A, b)
+            tot += best; where += [k for k in keys if h[k]]
+        print(f"   箱を {d} 段広げる：Σh の最小 {tot}、置き場所（一例）：" + " ".join(f"λ={k[0]} ν^{k[-1]} r^{k[2]}s^{k[3]}" for k in where), flush=True)
+    print("(4) 入れ替わる対の最小（pairs_onehot、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        if not lin(keys, Qb(c)):
+            continue
+        out = []
+        for use in (("i22", "i4"), ("i22", "i4", "ii")):
+            A, b = quotient_rows(keys, Qb(c), use)
+            st, val, bd = pairs_onehot(keys, mult, A, b, time_limit=300)
+            out.append(f"{'(i)' if len(use) == 2 else '(i)+(ii)'} " + ("解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"))
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：" + "、".join(out), flush=True)
+    print("(5) N の台の上で見えない対が要るブロック：Σh が最小の解の集合で、h > 0 になりうる単項式と、必ず h > 0 の単項式", flush=True)
+    for c in sorted({k[-1] for k in mult}, reverse=True):
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c))
+        res = hidden_milp(keys, mult, A, b)
+        if res is None or res[0] == 0:
+            continue
+        hr = hidden_milp(keys, mult, A, b, max_h=res[0], hrange=keys)
+        may = [k for k in keys if hr[("h",) + k][1] > 0]
+        forced = [k for k in keys if hr[("h",) + k][0] > 0]
+        print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
+    return Q
+
+
+def n1_crosscap():
+    """n = 1 で (ii) の F の c = 2 部分が t = q で消えること、したがって (ii′)（c = 2 の符号を反転）でも (i)+(ii) の解が変わらないこと（theory §12.18）。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    psi2 = lambda e: e.subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True)
+    for m in (1, 2):
+        with contextlib.redirect_stdout(io.StringIO()):
+            sec = C.cover_sectors(m)
+        P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+        mult = TM.monomials(sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1))))
+        g = K.load_g(m)
+        c1, c2 = crosscap_split(sp.cancel(g[(1,)] + 1), 1)
+        pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+        sols = {}
+        for lab, Fp in (("(ii)", c1 + c2), ("(ii′)", c1 - c2)):
+            conds = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1), "ii": (sp.cancel(-(1 + q) * psi2(Fp)), {s: r}, lambda k: 1)}
+            keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), conds)
+            sols[lab] = freedom(mult, A, b)
+        a, b_ = sols["(ii)"], sols["(ii′)"]
+        print(f"T(2,{2 * m + 1})：F^(c=2)|_(t=q) = {sp.cancel(c2.subs(s, r))}、F^(c=2) の項数 {len(sp.Add.make_args(sp.expand(sp.cancel(c2 * nu**60))))}；"
+              f"(i)+(ii) 一意でない {len(a['free'])}/{a['n']}、(i)+(ii′) 一意でない {len(b_['free'])}/{b_['n']}、"
+              f"一意な変数の値が一致 {all(a['e'][k] == b_['e'][k] for k in a['e'] if k not in a['free'])}、自由な変数の集合が一致 {a['free'] == b_['free']}", flush=True)
+
+
+def onehot_ranges(keys, mult, A, b, max_pairs, time_limit=60):
+    """入れ替わる対が max_pairs 以下の解の集合で、各単項式の e の範囲 [最小, 最大]（0/1 変数の定式化。時間切れは None）。"""
+    var = [(i, v) for i, k in enumerate(keys) for v in range(-abs(int(mult[k])), abs(int(mult[k])) + 1, 2)]
+    n, nv = len(keys), len(var)
+    E, M, cost = np.zeros((n, nv)), np.zeros((n, nv)), np.zeros(nv)
+    for j, (i, v) in enumerate(var):
+        E[i, j] = 1; M[i, j] = v; cost[j] = (abs(int(mult[keys[i]])) - abs(v)) // 2
+    cons = [LinearConstraint(E, 1, 1), LinearConstraint(A @ M, b - 1e-7, b + 1e-7), LinearConstraint(cost[None, :], 0, max_pairs + 0.5)]
+    out = {}
+    for i, k in enumerate(keys):
+        lo_hi = []
+        for sg in (1, -1):
+            res = milp(sg * M[i], constraints=cons, bounds=Bounds(0, 1), integrality=np.ones(nv), options={"time_limit": time_limit})
+            lo_hi.append(round(sg * res.fun) if res.status == 0 else None)
+        out[k] = tuple(lo_hi)
+    return out
+
+
+def n2_iic():
+    """n = 2 の (ii) を (ii′) E|_(t=q) = −(1 + q)ψ²[F^{c=1} − F^{c=2}] に替えて、§12.17（n2_ii）と同じ診断をする（theory §12.18、progress 続き 82）。"""
+    import rk_f_twisted22_lam as L
+    print("(0) n = 1：", flush=True)
+    n1_crosscap()
+    Q, Q0 = n2_quotient("c"), n2_quotient()
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c: {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+    poly = lambda d: sum((v * R**a for (a, _), v in d.items()), sp.Integer(0))
+    blocks = sorted({k[-1] for k in mult}, reverse=True)
+    print("(1) 交点 r = s = i（q = t = −1）での (i) と (ii′) の一致、(ii′) と (ii) の目標の差 H′ − H（ブロックごと）：", flush=True)
+    for c in blocks:
+        Qc = Qb(c)
+        gi, hi = sp.expand(poly(Qc["i22"]).subs(R, I) * I), sp.expand(poly(Qc["ii"]).subs(R, I))
+        dH = sp.factor(poly(Qc["ii"]) - poly({mo: v for mo, v in Q0["ii"].items() if mo[1] == c}))
+        print(f"   ν^{c}：Σ_λ G_λ(i) = {gi}、H′(i) = {hi}、一致 {sp.simplify(gi - hi) == 0}；H′ − H = {dH}", flush=True)
+    print("(2) N の台の上：一次方程式、見えない対の最小", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c)); x = np.linalg.lstsq(A, b, rcond=None)[0]
+        ok = float(np.abs(A @ x - b).max()) < 1e-6
+        res = hidden_milp(keys, mult, A, b, time_limit=300) if ok else None
+        print(f"   ν^{c}（単項式 {len(keys)}、状態 {sum(abs(int(mult[k])) for k in keys)}）：一次 {'○' if ok else '×'}、Σh の最小 {res[0] if res else '—'}", flush=True)
+    print("(3) 入れ替わる対の最小（pairs_onehot、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）と、対が最小の解での e の範囲（単項式 150 以下のブロック）", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        out = []
+        for use in (("i22", "i4"), ("i22", "i4", "ii")):
+            A, b = quotient_rows(keys, Qb(c), use)
+            st, val, bd = pairs_onehot(keys, mult, A, b, time_limit=300)
+            out.append(f"{'(i)' if len(use) == 2 else '(i)+(ii′)'} " + ("解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"))
+        msg = ""
+        if val is not None and st == 0 and len(keys) <= 150:
+            rg = onehot_ranges(keys, mult, A, b, val)
+            fixed = [k for k, v in rg.items() if v[0] is not None and v[0] == v[1]]
+            msg = f"；対が最小の解で一意な単項式 {len(fixed)}/{len(keys)}" + ("（時間切れあり）" if any(None in v for v in rg.values()) else "")
+        print(f"   ν^{c}：" + "、".join(out) + msg, flush=True)
+    print("(4) 見えない対が要るブロック：Σh が最小の解の集合で、必ず h > 0 の単項式", flush=True)
+    for c in blocks:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, Qb(c))
+        res = hidden_milp(keys, mult, A, b)
+        if res is None or res[0] == 0:
+            continue
+        hr = hidden_milp(keys, mult, A, b, max_h=res[0], hrange=keys)
+        may = [k for k in keys if hr[("h",) + k][1] > 0]
+        forced = [k for k in keys if hr[("h",) + k][0] > 0]
+        print(f"   ν^{c}：Σh の最小 {res[0]}、h > 0 になりうる単項式 {len(may)}、必ず h > 0：" + (" ".join(f"λ={k[0]} r^{k[2]}s^{k[3]}（c={int(mult[k])}）" for k in forced) or "なし"), flush=True)
+
+
+def pairs_onehot(keys, mult, A, b, time_limit=None, extra=0):
+    """入れ替わる対 Σ (|c| − |e|)/2 の最小を、各単項式の値 e ∈ {−|c|, …, |c|} を 0/1 変数で選ぶ形で解く（rule_milp の McCormick より緩和が強い）。
+    extra > 0 なら |e| ≤ |c| + 2·extra まで許し、|c| を超えた分 (|e| − |c|)/2 を見えない対として同じ重みで数える（N の台の外の単項式は c = 0）。
+    (状態, 最小値または見つけた解の値, 下界) を返す。状態 0 は最適、1 は時間切れ。解なしは (状態, None, None)。"""
+    ca = [abs(int(mult.get(k, 0))) for k in keys]
+    var = [(i, v) for i in range(len(keys)) for v in range(-ca[i] - 2 * extra, ca[i] + 2 * extra + 1, 2)]
+    n, nv = len(keys), len(var)
+    E, M, cost = np.zeros((n, nv)), np.zeros((n, nv)), np.zeros(nv)
+    for j, (i, v) in enumerate(var):
+        E[i, j] = 1; M[i, j] = v; cost[j] = abs(ca[i] - abs(v)) // 2
+    res = milp(cost, constraints=[LinearConstraint(E, 1, 1), LinearConstraint(A @ M, b - 1e-7, b + 1e-7)], bounds=Bounds(0, 1),
+               integrality=np.ones(nv), options={"time_limit": time_limit} if time_limit else {})
+    if res.x is None:
+        return res.status, None, None
+    return res.status, round(res.fun), round(res.mip_dual_bound) if res.mip_dual_bound is not None else None
+
+
+def n2_split():
+    """上のブロック（ν^{−10}〜ν^{−20}）で (ii′) が入れ替わる対を増やす原因の切り分け（theory §12.19、progress 続き 83）：
+    (1) ブロックごとに (ii′) だけ・(i) だけ・(i)+(ii′)・(i)+(ii′) で箱の台に見えない対を許した場合の対の最小。(ii′) は対角線 r^{a+b} ごとの
+        λ についての和だけを決めるので、(ii′) だけの最小は対角線ごとの row_min で厳密に求まる。
+    (2) ν^{−12}：t = q で N_λ = −X_λ²（完全平方）、(ii′) の目標 H′ = Σ_λ ψ²[X_λ]（X ⊗ X の入れ替えのトレース）。
+        λ ごとに E_λ(q, q) = ψ²[X_λ] を課した場合の対の最小と、入れ替えの描像での対の数 (X(1)² − X(1))/2。"""
+    import rk_f_twisted22_lam as L
+    Q = n2_quotient("c")
+    mult, _ = n2_setup()
+    R = sp.Symbol("R")
+    Qb = lambda c: {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}
+
+    def box(c):
+        out = set()
+        for lab in L.LAMS:
+            ks = [k for k in mult if k[0] == lab and k[-1] == c]
+            for a in range(min(k[2] for k in ks), max(k[2] for k in ks) + 1, 2) if ks else ():
+                for b_ in range(min(k[3] for k in ks), max(k[3] for k in ks) + 1, 2):
+                    out.add((lab, "mono", a, b_, c))
+        return sorted(out)
+    fmt = lambda st, val, bd: "解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"
+    print("(1) 入れ替わる対の最小（0/1 変数、1 回 600 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+    for c in (-10, -12, -14, -16, -18, -20):
+        keys = sorted(k for k in mult if k[-1] == c)
+        diags = {}
+        for k in keys:
+            diags.setdefault(k[2] + k[3], []).append(k)
+        only_ii = sum(row_min([int(mult[k]) for k in ks], [1] * len(ks), Q["ii"].get((d, c), 0))[0] for d, ks in diags.items())
+        out = [f"(ii′) だけ {only_ii}"]
+        for tag, use in (("(i) だけ", ("i22", "i4")), ("(i)+(ii′)", ("i22", "i4", "ii"))):
+            A, b = quotient_rows(keys, Qb(c), use)
+            out.append(f"{tag} {fmt(*pairs_onehot(keys, mult, A, b, time_limit=600))}")
+        bx = box(c); A, b = quotient_rows(bx, Qb(c))
+        out.append(f"箱の台（{len(bx)} 単項式）で見えない対を許す {fmt(*pairs_onehot(bx, mult, A, b, time_limit=600, extra=1))}")
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：" + "、".join(out), flush=True)
+    print("(2) ν^-12 の t = q での平方の構造", flush=True)
+    keys = sorted(k for k in mult if k[-1] == -12)
+    X = {}
+    for lab in L.LAMS:
+        Nq = sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in keys if k[0] == lab))
+        X[lab] = sp.sqrt(sp.factor(-Nq))
+        assert sp.expand(X[lab]**2 + Nq) == 0 and all(v > 0 for v in sp.Poly(sp.expand(X[lab] * r**20), r).coeffs())
+    H = sum(v * r**a for (a, c), v in Q["ii"].items() if c == -12)
+    assert sp.expand(H - sum(X[lab].subs(r, r**2) for lab in X)) == 0
+    print("   " + "、".join(f"λ = {lab}：N_λ(q, q) = −X², X = {sp.factor(X[lab])}" for lab in X) + "；H′ = Σ_λ ψ²[X_λ]", flush=True)
+    rows_, rhs = [], []
+    for lab in X:
+        T_ = TM.lp(sp.expand(X[lab].subs(r, r**2)), (r,))
+        for d in sorted({k[2] + k[3] for k in keys if k[0] == lab} | {a for (a,) in T_}):
+            rows_.append([1.0 if (k[0] == lab and k[2] + k[3] == d) else 0.0 for k in keys]); rhs.append(float(T_.get((d,), 0)))
+    A, b = quotient_rows(keys, Qb(-12), ("i22", "i4"))
+    st = pairs_onehot(keys, mult, np.vstack([A, rows_]), np.concatenate([b, rhs]), time_limit=600)
+    sw = {lab: int((X[lab].subs(r, 1)**2 - X[lab].subs(r, 1)) / 2) for lab in X}
+    print(f"   (i) + λ ごとの E_λ(q, q) = ψ²[X_λ]：対の最小 {fmt(*st)}；入れ替えの描像での対の数 {sw}（計 {sum(sw.values())}）、"
+          f"状態 Σ|c| {{λ: {', '.join(str(sum(abs(int(mult[k])) for k in keys if k[0] == lab)) for lab in X)}}}", flush=True)
+
+
+def n2_square():
+    """ν^{−12} の t = q での平方の構造 N_λ = −X_λ² が他のブロックと一般の t に広がるか（theory §12.20）：
+    (1) ブロックごとに N_λ(q, q)・λ の和と差が ± 平方か、X_λ で割り切れるか、(2) ν の級数全体の形式的な平方根（−N_λ = Y_λ²、Y_λ の最上部 X_λ）の
+    係数が Laurent 多項式か、(3) 一般の t の N_λ の ν^{−12}・ν^{−14} が既約か、(4) X_λ と g_λ（n = 2 の凍結した状態）の t = q での ν^{−3} の係数の関係。"""
+    import rk_f_twisted22_lam as L
+    import rk_b_knot_fixed_sector as K
+    import rk_f_frozen_basis as FB
+    mult, _ = n2_setup()
+    Nq = lambda lab, c: sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in mult if k[0] == lab and k[-1] == c))
+    laurent = lambda e: sp.Poly(sp.fraction(sp.cancel(e))[1], r).is_monomial
+
+    def sq(e):
+        if e == 0:
+            return "0"
+        for sg, name in ((1, "平方"), (-1, "−平方")):
+            co, fs = sp.factor_list(sp.expand(sg * e * r**60))
+            if co > 0 and sp.sqrt(co).is_integer and all(m % 2 == 0 for f, m in fs if f != r):
+                return name
+        return "平方でない"
+    X = {"2": (r**2 + 1)**2 * (r**4 + 1)**2 / r**7, "11": (r**2 + 1)**2 * (r**4 + 1) / r**5}
+    print("(1) ブロックごとの N_λ(q, q)", flush=True)
+    for c in range(-8, -25, -2):
+        a, b = Nq("2", c), Nq("11", c)
+        print(f"   ν^{c}：λ = 2 {sq(a)}、λ = 11 {sq(b)}、和 {sq(a + b)}、差 {sq(a - b)}；"
+              f"X_λ で割り切れる {laurent(a / X['2']) and a != 0}・{laurent(b / X['11']) and b != 0}", flush=True)
+    print("(2) ν の級数全体の形式的な平方根 −N_λ(q, q, ν) = Y_λ(ν)²（Y_λ の ν^{−6} の係数 = X_λ）", flush=True)
+    for lab in X:
+        Y = {-6: X[lab]}
+        for k in range(-7, -13, -1):
+            Y[k] = sp.cancel((-Nq(lab, k - 6) - sum(Y[i] * Y[k - 6 - i] for i in Y if i != -6 and (k - 6 - i) in Y and k - 6 - i != -6)) / (2 * X[lab]))
+        bad = [k for k in Y if not laurent(Y[k])]
+        print(f"   λ = {lab}：Laurent でない係数 ν^{bad}（分母 {sp.factor(sp.fraction(Y[bad[0]])[1]) if bad else '-'}）", flush=True)
+    print("(3) 一般の t の N_λ の既約性", flush=True)
+    for c in (-12, -14):
+        for lab in L.LAMS:
+            N = sp.expand(sum(int(mult[k]) * r**k[2] * s**k[3] for k in mult if k[0] == lab and k[-1] == c))
+            fs = [f for f, m in sp.factor_list(sp.expand(N * r**40))[1] if sp.Poly(f, r, s).total_degree() > 1]
+            print(f"   ν^{c}、λ = {lab}：単項式以外の因子 {len(fs)} 個（次数 {[sp.Poly(f, r, s).total_degree() for f in fs]}）", flush=True)
+    print("(4) X_λ と g_λ の t = q での ν^{−3} の係数 G_λ", flush=True)
+    g = K.load_g(1)
+    G = {}
+    for lab, key in (("2", (2,)), ("11", (1, 1))):
+        n_, d_ = sp.fraction(sp.cancel(g[key].subs(s, r)))
+        dn = sp.Poly(d_, nu).degree()
+        G[lab] = sp.cancel(FB.nu_blocks(sp.expand(n_))[dn - 3] / (d_ / nu**dn))
+    print(f"   G_2 = {sp.factor(G['2'])}、G_11 = {sp.factor(G['11'])}", flush=True)
+    print(f"   X_11 = q^{{-2}} G_2：{sp.cancel(X['11'] - G['2'] / r**4) == 0}、X_11 = −q G_11：{sp.cancel(X['11'] + r**2 * G['11']) == 0}、"
+          f"X_2 = (q + q^{{-1}}) X_11：{sp.cancel(X['2'] - (r**2 + r**-2) * X['11']) == 0}", flush=True)
+
+
+def n2_skew_parts():
+    """(ii′) の目標の λ ごとの分け方と、N の積の部分（theory §12.21）。H′ のブロック ν^{2k} = ψ²[Φ_k] とし、Φ は ψ²[[3]_q] で割り切れるので
+    Y_(2) = (q + q^{−1})Φ/[3]_q、Y_(11) = Φ/[3]_q とおく（ν^{−12} では Y_λ = X_λ）。積の部分は −Y_λ(ν)Y_λ(−ν)（brane の状態 ⊗ 符号 (−1)^c を付けた image の状態）。
+    {"Y": {λ: {k: Y_λ の ν^k の係数}}, "R": {λ: {c: N_λ(q, q) + [Y_λ(ν)Y_λ(−ν)]_c}}, "N": {λ: {c: N_λ(q, q)}}} を返す。"""
+    import rk_f_twisted22_lam as L
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    three = (r**4 + r**2 + 1) / r**2
+    Phi = {}
+    for c in range(-12, -25, -2):
+        H = sum(v * r**a for (a, cc), v in Q["ii"].items() if cc == c)
+        assert all(a % 2 == 0 for (a, cc) in Q["ii"] if cc == c)
+        Phi[c // 2] = sp.cancel(sp.expand(H.subs(r, sp.sqrt(r))) / three)
+        assert sp.Poly(sp.fraction(Phi[c // 2])[1], r).is_monomial
+    w = {"2": r**2 + r**-2, "11": sp.Integer(1)}
+    out = {"Y": {}, "R": {}, "N": {}}
+    for lab in L.LAMS:
+        Y = {k: sp.expand(w[lab] * v) for k, v in Phi.items()}
+        out["Y"][lab] = Y
+        out["N"][lab], out["R"][lab] = {}, {}
+        for c in range(-8, -25, -2):
+            Nq = sp.expand(sum(int(mult[k]) * r**(k[2] + k[3]) for k in mult if k[0] == lab and k[-1] == c))
+            out["N"][lab][c] = Nq
+            out["R"][lab][c] = sp.expand(Nq + sum(sp.Integer(-1)**(c - i) * Y[i] * Y[c - i] for i in Y if (c - i) in Y))
+    return out
+
+
+def n2_skew(cs=None):
+    """N を積の部分 −Y_λ(ν)Y_λ(−ν) と残り R_λ に分け（n2_skew_parts）、λ ごとの目標 E_λ(q, q) = ψ²[Y_λ]（積の部分の入れ替えのトレース、
+    残りのトレースは 0）を (i) と合わせてブロックごとに解く（theory §12.21）。cs はブロック ν^c の c のリスト（再開用）。"""
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    P = n2_skew_parts()
+    l1 = lambda e: sum(abs(x) for x in sp.Poly(sp.expand(e * r**80), r).coeffs()) if e != 0 else 0
+    fmt = lambda st, val, bd: "解なし" if val is None else str(val) if st == 0 else f"[{bd}, {val}]"
+    if cs is None:
+        print("(1) 積の部分を引いた残り R_λ = N_λ(q, q) + Y_λ(ν)Y_λ(−ν)（係数の絶対値の和、N → R）", flush=True)
+        for c in range(-12, -25, -2):
+            print(f"   ν^{c}：" + "、".join(f"λ = {lab} {l1(P['N'][lab][c])} → {l1(P['R'][lab][c])}" for lab in P["N"]), flush=True)
+        for lab in P["R"]:
+            print(f"   λ = {lab} の ν^{{-14}}：R = {sp.factor(P['R'][lab][-14])}", flush=True)
+        # ψ²[Y] ≡ Y² (mod 2) なので、λ ごとの目標が e ≡ c (mod 2) と両立するには R_λ の係数がすべて偶数であることが要る
+        odd = lambda e: sum(1 for x in sp.Poly(sp.expand(e * r**80), r).coeffs() if x % 2) if e != 0 else 0
+        print("   R_λ の奇数の係数の数：" + "、".join(f"ν^{c} ({odd(P['R']['2'][c])}, {odd(P['R']['11'][c])})" for c in range(-12, -25, -2)), flush=True)
+        print("(2) (i) + λ ごとの E_λ(q, q) = ψ²[Y_λ]：入れ替わる対の最小（0/1 変数、1 回 300 秒まで。打ち切りは [下界, 見つけた解]）", flush=True)
+        cs = list(range(-8, -25, -2))
+    for c in cs:
+        keys = sorted(k for k in mult if k[-1] == c)
+        A, b = quotient_rows(keys, {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == c} for n_ in Q}, ("i22", "i4"))
+        rows_, rhs = [], []
+        for lab, Y in P["Y"].items():
+            T_ = TM.lp(sp.expand(Y[c // 2].subs(r, r**2)), (r,)) if (c // 2) in Y else {}
+            for d in sorted({k[2] + k[3] for k in keys if k[0] == lab} | {a for (a,) in T_}):
+                rows_.append([1.0 if (k[0] == lab and k[2] + k[3] == d) else 0.0 for k in keys]); rhs.append(float(T_.get((d,), 0)))
+        t0 = time.time()
+        st = pairs_onehot(keys, mult, np.vstack([A, rows_]), np.concatenate([b, rhs]), time_limit=300)
+        print(f"   ν^{c}（状態 {sum(abs(int(mult[k])) for k in keys)}）：{fmt(*st)}（{time.time() - t0:.0f} 秒）", flush=True)
+
+
+def n2_parts_N():
+    """被覆の (2,2) 成分の項ごとの N_λ への寄与（theory §12.22）。rk_f_twisted22_lam.cover_parts の P̂_λλ を n2_setup と同じ因子で割る。
+    {(項, λ): 有理式} を返す（項は comp・c1・c0・low）。"""
+    import rk_f_twisted22_lam as L
+    d = pickle.load(open(L.PARTS, "rb"))
+    den = s * (t - nu**2) * (nu**2 - 1) * (nu**2 * q - 1)
+    return {k: sp.cancel(sp.sympify(v, locals={"r": r, "s": s, "nu": nu}) / den) for k, v in d.items()}
+
+
+def nu_series(e, lo, gens):
+    """有理式 e の ν^{−1} の級数（ν = ∞ のまわり）の係数 {c: ν^c の係数}（c ≥ lo）。係数は gens の有理式。"""
+    x = sp.Symbol("x")
+    n_, d_ = sp.fraction(sp.cancel(sp.together(e.subs(nu, 1 / x))))
+    Pn, Pd = sp.Poly(sp.expand(n_), x), sp.Poly(sp.expand(d_), x)
+    m = min(k for (k,) in Pd.monoms())
+    dc = {k - m: v for (k,), v in Pd.terms()}
+    nc = {k: v for (k,), v in Pn.terms()}
+    out, cs = {}, []
+    for k in range(0, max(nc) + 1 + 60):
+        c = sp.cancel((nc.get(k, 0) - sum(dc.get(j, 0) * cs[k - j] for j in range(1, k + 1))) / dc[0])
+        cs.append(c)
+        if -(k - m) < lo:
+            break
+        out[-(k - m)] = c
+    return out
+
+
+def n2_parts():
+    """被覆の (2,2) 成分の項（comp：R_b K_b、c1：c₁W_adj、c0：c₀、low：低い次数の積と Adams の項）が、それぞれ状態の数として読めるかを調べる
+    （theory §12.22）。(1) 一般の t：N_λ への寄与の ν^{−1} の級数の最高次、(2) 一般の t：ν を含む分母の因子と、項の真部分集合の和が Laurent か、
+    (3) t = q の c₁・c₀、(4) t = q の hatted な P̂_λλ の各項の分母、(5) t = q の N_λ のブロックごとに Laurent な係数を持つ項の数。"""
+    import rk_f_twisted22_lam as L
+    import rk_f_cover_fixed22 as CF
+    Np = n2_parts_N()
+    names = ("comp", "c1", "c0", "low")
+    x = sp.Symbol("x")
+    print("(1) 一般の t：N_λ への寄与の ν^{-1} の級数の最高次（N の最上部は ν^-8）", flush=True)
+    for lab in ("2", "11"):
+        tops = {}
+        for nm in names:
+            n_, d_ = sp.fraction(sp.cancel(sp.together(Np[(nm, lab)].subs(nu, 1 / x))))
+            tops[nm] = min(k for (k,) in sp.Poly(sp.expand(d_), x).monoms()) - min(k for (k,) in sp.Poly(sp.expand(n_), x).monoms())
+        print(f"   λ = {lab}：" + "、".join(f"{nm} ν^{v}" for nm, v in tops.items()), flush=True)
+    print("(2) 一般の t：ν を含む分母の因子（± の組は + だけ書く）と、項の真部分集合の和", flush=True)
+    for lab in ("2", "11"):
+        for nm in names:
+            fs = [f for f, m in sp.factor_list(sp.fraction(Np[(nm, lab)])[1])[1] if f.has(nu) and f != nu and sp.Poly(f, nu).degree() > 0]
+            fs = sorted({sp.expand(f) for f in fs if sp.Poly(f, nu).coeffs()[-1] > 0 or sp.Poly(f, nu).degree() == 0}, key=str)
+            print(f"   λ = {lab}、{nm}：{fs}", flush=True)
+        lau_sub = []
+        for k in (1, 2, 3):
+            for sub in itertools.combinations(names, k):
+                e = sp.cancel(sum(Np[(n_, lab)] for n_ in sub))
+                if sp.Poly(sp.fraction(e)[1], r, s, nu).is_monomial:
+                    lau_sub.append("+".join(sub))
+        tot = sp.cancel(sum(Np[(n_, lab)] for n_ in names))
+        print(f"   λ = {lab}：Laurent な真部分集合の和 {lau_sub or 'なし'}、4 項の和は Laurent {sp.Poly(sp.fraction(tot)[1], r, s, nu).is_monomial}", flush=True)
+    print("(3) t = q の c₁・c₀", flush=True)
+    u_ = sp.Symbol("u", positive=True)
+    for key in (((2,), (2,)), ((2,), (1, 1)), ((1, 1), (1, 1))):
+        c1, c0, _, _ = CF.decomposition_A(*key)
+        f = lambda e: sp.factor(sp.cancel(e.to_sympy().subs(u_, nu * s).subs(s, r)))
+        print(f"   {key}：c₁ = {f(c1)}、c₀ = {f(c0)}", flush=True)
+    print("(4) t = q の hatted な P̂_λλ の各項の分母", flush=True)
+    d = pickle.load(open(L.PARTS, "rb"))
+    for lab in ("2", "11"):
+        for nm in names:
+            e = sp.cancel(sp.sympify(d[(nm, lab)], locals={"r": r, "s": s, "nu": nu}).subs(s, r))
+            print(f"   λ = {lab}、{nm}：{sp.factor(sp.fraction(e)[1])}", flush=True)
+    print("(5) t = q の N_λ：ν^-6〜ν^-24 のブロックで Laurent な係数を持つ項の数", flush=True)
+    for lab in ("2", "11"):
+        cnt = {}
+        for nm in names:
+            ser = nu_series(Np[(nm, lab)].subs(s, r), -24, (r,))
+            cnt[nm] = sum(1 for c, v in ser.items() if v != 0 and sp.Poly(sp.fraction(sp.cancel(v))[1], r).is_monomial)
+        print(f"   λ = {lab}：" + "、".join(f"{nm} {v}" for nm, v in cnt.items()), flush=True)
+
+
+def n2_hidden22():
+    """ν^{−22} で (i)+(ii′) に必要な見えない対の候補（theory §12.19）：Σh が最小の解で h > 0 になりうる単項式、その e の範囲、
+    同じ行（λ、r の冪）の単項式と、解での (i) の行の交代和。"""
+    mult, _ = n2_setup()
+    Q = n2_quotient("c")
+    keys = sorted(k for k in mult if k[-1] == -22)
+    A, b = quotient_rows(keys, {n_: {mo: v for mo, v in Q[n_].items() if mo[1] == -22} for n_ in Q})
+    best, e, _ = hidden_milp(keys, mult, A, b)
+    hr = hidden_milp(keys, mult, A, b, max_h=best, hrange=keys)
+    may = [k for k in keys if hr[("h",) + k][1] > 0]
+    rg = hidden_milp(keys, mult, A, b, max_h=best, ranges=may)
+    print(f"Σh の最小 {best}、h > 0 になりうる単項式 {len(may)}", flush=True)
+    for k in may:
+        lo = min(k2[2] for k2 in keys if k2[0] == k[0]); slo = min(k2[3] for k2 in keys if k2[0] == k[0])
+        row = sorted((k2[3], int(mult[k2])) for k2 in keys if k2[0] == k[0] and k2[2] == k[2])
+        S = sum((-1)**((k2[3] - 1) // 2) * e[k2] for k2 in keys if k2[0] == k[0] and k2[2] == k[2])
+        print(f"   λ = {k[0]} r^{k[2]} s^{k[3]}（ブロックの下端から q の冪 {(k[2] - lo) // 2}、t の冪 {(k[3] - slo) // 2}）"
+              f"c = {int(mult[k])}、e の範囲 {rg[k]}；同じ行の (s の指数, c) {row}、解での行の交代和 {S}", flush=True)
+
+
+def n1_partial():
+    """n = 1、捻り (t − ν²)(ν² + 1)(q + 1)(ν²q + 1)：(i) だけ、(i) ＋ (ii) の β 奇の部分、(i) ＋ (ii)。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    for m in (1, 2):
+        with contextlib.redirect_stdout(io.StringIO()):
+            sec = C.cover_sectors(m)
+        P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+        mult = TM.monomials(sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1))))
+        g = K.load_g(m)
+        conds = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k: 1),
+                 "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k: 1)}
+        pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+        basis = lambda k: pre * TM.twisted(k, "mono")
+        for lab, use, odd in (("(i) だけ", ("i",), ()), ("(i) ＋ (ii) の β 奇", ("i", "ii"), ("ii",)), ("(i) ＋ (ii)", ("i", "ii"), ())):
+            keys, A, b = rows(mult, basis, {k: conds[k] for k in use}, odd)
+            res = freedom(mult, A, b)
+            msg = f"解あり、一意でない {len(res['free'])}/{res['n']}" if res["feasible"] else "解なし"
+            print(f"T(2,{2 * m + 1}) {lab}：{msg}、零空間の次元 {res['nullity']}", flush=True)
+            if use == ("i", "ii") and not odd:
+                blocks_ = sorted({k[-1] for k in mult})
+                for fb in [()] + [(k,) for k in blocks_]:
+                    sig = qrule(mult, A, b, fb)
+                    if sig is not None or not fb:
+                        print(f"   規則 e = σ_β (−1)^(q の指数) c（自由なブロック {fb}）："
+                              + ("解なし" if sig is None else "解あり、σ = " + " ".join(f"ν^{g[1]}:{v}" for g, v in sig.items())), flush=True)
+
+
+def times(P, a, b, c, sg=-1):
+    """P·(1 + sg r^a s^b ν^c)。P は {(r, s, ν の指数): 係数}。"""
+    out = dict(P)
+    for (x, y, z), v in P.items():
+        k = (x + a, y + b, z + c); out[k] = out.get(k, 0) + sg * v
+        if out[k] == 0: del out[k]
+    return out
+
+
+def greedy_cells(P, cand, cost, steps=6):
+    """(1 + sg m)（cand の (a, b, c, sg)）を cost が減る限り貪欲に掛ける。選んだ因子と、各段の cost を返す。"""
+    seq = []
+    for _ in range(steps):
+        best = min(cand, key=lambda x: cost(times(P, *x)))
+        P2 = times(P, *best)
+        if cost(P2) >= cost(P):
+            break
+        seq.append((best, cost(P), cost(P2))); P = P2
+    return seq, P
+
+
+def mirror_sign(P):
+    """ν のブロックごとの (q, t) → (t^{−1}, q^{−1}) の対称性：単項式のずらしの後に +P、−P、どちらでもない（×）。"""
+    out = {}
+    for c in sorted({k[2] for k in P}, reverse=True):
+        g = {k[:2]: v for k, v in P.items() if k[2] == c}
+        m = {(-b, -a): v for (a, b), v in g.items()}
+        sh = lambda h: {(a - min(x for x, _ in h), b - min(y for _, y in h)): v for (a, b), v in h.items()}
+        g, m = sh(g), sh(m)
+        out[c] = "+" if m == g else ("−" if m == {k: -v for k, v in g.items()} else "×")
+    return out
+
+
+def n2_series():
+    """N_λ（n = 2、trefoil）の系列の同定（theory §12.13、progress.md 続き 77）。
+    (a) ν 方向の系列：端から 4 ブロックの状態数を減らす (1 − ν^{∓2} r^a s^b) を貪欲に探す（n = 1 の T(2,5) を対照にする）。
+    (b) ブロックの中の塔：(1 ± m)、m = q^a t^b（a, b ≤ 2）を貪欲に探す。
+    (c) 鏡映 (q, t) → (t^{−1}, q^{−1})。(d) 端のブロックの閉じた形。(e) λ = (2) と q^{−2}·λ = (1,1) の差。"""
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    st = lambda P, lim=lambda c: True: sum(abs(v) for k, v in P.items() if lim(k[2]))
+    nu_cand = lambda dc: [(a, b, dc, -1) for a in range(-14, 15, 2) for b in range(-14, 15, 2)]
+    nm = lambda a, b: (f"q{'²' if a == 4 else ''}" if a else "") + (f"t{'²' if b == 4 else ''}" if b else "")
+
+    def nu_series(P, tag):
+        top, bot = max(k[2] for k in P), min(k[2] for k in P)
+        for dc, lim, end in ((-2, lambda c: c > top - 8, "上"), (2, lambda c: c < bot + 8, "下")):
+            seq, _ = greedy_cells(P, nu_cand(dc), lambda X: st(X, lim))
+            print(f"  {tag}、{end}の端から：" + (" ".join(f"(1 − ν^{dc} r^{a} s^{b})[{c0}→{c1}]" for (a, b, _, _), c0, c1 in seq) or "なし"), flush=True)
+
+    print("(a) ν 方向の系列（端から 4 ブロックの状態数）", flush=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(2)
+    P1 = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N1 = sp.cancel(P1 / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    nu_series({k[1:]: int(v) for k, v in TM.monomials(N1).items()}, "対照 n = 1 の T(2,5)")
+    mult, _ = n2_setup()
+    N = {lab: {k[2:]: int(v) for k, v in mult.items() if k[0] == lab} for lab in ("2", "11")}
+    tower = lambda P: times(times(times(P, 2, 0, 0), 0, 2, 0), 2, 2, 0)          # ×(1 − q)(1 − t)(1 − qt)
+    for lab, P in N.items():
+        nu_series(P, f"N_{lab}")
+        nu_series(tower(P), f"N_{lab}(1 − q)(1 − t)(1 − qt)")
+    print("(b) ブロックの中の塔 (1 ± q^a t^b) と (c) 鏡映", flush=True)
+    cand = [(a, b, 0, sg) for a in (0, 2, 4) for b in (0, 2, 4) if (a, b) != (0, 0) for sg in (1, -1)]
+    for lab, P in N.items():
+        mir = mirror_sign(P)
+        for c in sorted({k[2] for k in P}, reverse=True):
+            g = {k: v for k, v in P.items() if k[2] == c}
+            seq, _ = greedy_cells(g, cand, st)
+            print(f"  λ = {lab}、ν^{c}：鏡映 {mir[c]}、{st(g)} → {seq[-1][2] if seq else st(g)}  "
+                  + "".join(f"(1{'+' if x[3] > 0 else '−'}{nm(x[0], x[1])})" for x, _, _ in seq), flush=True)
+        print(f"  N_{lab} の状態数 {st(P)} → ×(1 − q)(1 − t)(1 − qt) で {st(tower(P))}", flush=True)
+    print("(d) 端のブロック", flush=True)
+    blk = lambda lab, c: sp.expand(sum(v * r**k[0] * s**k[1] for k, v in N[lab].items() if k[2] == c))
+    V, Vp, W = 1 + t + q * t, 1 + q + q * t, 1 + q**2 + q**2 * t**2
+    h = lambda k, x: sp.expand(sum(x[0]**i * x[1]**j * x[2]**(k - i - j) for i in range(k + 1) for j in range(k + 1 - i)))
+    print(f"  N_2 の ν^-8 = r^-7 s^3 (t − q)：{sp.expand(blk('2', -8) - r**-7 * s**3 * (t - q)) == 0}、"
+          f"ν^-10 = r^-11 s^3 (t − q) V V′：{sp.expand(blk('2', -10) - r**-11 * s**3 * (t - q) * V * Vp) == 0}", flush=True)
+    for lab, K, a0 in (("2", 5, -41), ("11", 4, -37)):
+        ok = sp.expand(blk(lab, -24) + r**a0 * s**17 * (1 + q * t) * h(K, (1, q**2, q**2 * t**2))) == 0
+        print(f"  N_{lab} の ν^-24 = −r^{a0} s^17 (1 + qt) h_{K}(W) = −r^{a0} s^17 (1 + qt) ψ²h_{K}(V′)：{ok}", flush=True)
+    print("(e) λ = (2) と q^{−2}·λ = (1,1) の差（ブロックごとの状態数、差の q の指数の範囲は N_11 の範囲と比べる）", flush=True)
+    for c in sorted({k[2] for k in N["2"]}, reverse=True):
+        g2 = {k[:2]: v for k, v in N["2"].items() if k[2] == c}
+        g11 = {k[:2]: v for k, v in N["11"].items() if k[2] == c}
+        D = {(a + 4, b): v for (a, b), v in g2.items()}
+        for k, v in g11.items():
+            D[k] = D.get(k, 0) - v
+        D = {k: v for k, v in D.items() if v}
+        rng = lambda g: (min(a for a, _ in g) // 2, max(a for a, _ in g) // 2) if g else None
+        print(f"  ν^{c}：差 {sum(abs(v) for v in D.values())}（N_2 {sum(abs(v) for v in g2.values())}、N_11 {sum(abs(v) for v in g11.values())}）、"
+              f"r の指数/2 の範囲：差 {rng(D)}、N_11 {rng(g11)}", flush=True)
+
+
+def n2(all_inv=False):
+    import rk_f_twisted22_lam as L
+    bl = L.blocks()
+    full = lambda name: sum((v * nu**k for k, v in bl[name].items()), sp.Integer(0))
+    d = pickle.load(open(L.COVER, "rb"))
+    mult = {}
+    for lab in L.LAMS:
+        X = sp.sympify(d["hat" + lab], locals={"r": r, "s": s, "nu": nu})
+        N = sp.cancel(X / (s * (t - nu**2) * (nu**2 - 1) * (nu**2 * q - 1)))
+        ml = TM.monomials(N)
+        print(f"N_({','.join(lab)})：単項式 {len(ml)}、状態の数 Σ|c| = {sum(abs(v) for v in ml.values())}、"
+              f"指数の単項式（P̂/s）{len(TM.monomials(sp.cancel(X / s)))}", flush=True)
+        for key, c in ml.items():
+            mult[(lab,) + key] = c
+    pre = s * (t - nu**2) * (nu**2 + 1) * (nu**2 * q + 1)
+    basis = lambda key: pre * TM.twisted(key[1:], "mono")
+    conds = [(full("R22"), {s: I}, lambda key: L.W22),
+             (full("R4"), {s: I}, lambda key: L.CHI[key[0]][(2,)] * L.W4),
+             (full("Eq"), {s: r}, lambda key: L.W22)]
+    t0 = time.time()
+    res = solve(mult, basis, conds, all_inv)
+    if res["feasible"]:
+        fl = {lab: sum(1 for k in res["free"] if k[0] == lab) for lab in L.LAMS}
+        nl = {lab: sum(1 for k in mult if k[0] == lab) for lab in L.LAMS}
+        inv = sum(1 for k in mult if abs(res["e"][k]) == abs(mult[k]))
+        print(f"n = 2：解あり、一意でない (2): {fl['2']}/{nl['2']}、(1,1): {fl['11']}/{nl['11']}、|e| = |c| が {inv}/{len(mult)}"
+              f"（{time.time() - t0:.0f} 秒）", flush=True)
+    else:
+        print(f"n = 2：解なし（変数 {res['n']}、{time.time() - t0:.0f} 秒）", flush=True)
+    return res
+
+
+def _knot_N(m, k=2):
+    """T(2,2m+1)（k ≠ 2 は T(mk+1, k)、続き 102）の n = 1 の N（P = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)·N）と条件 (i), (ii)。"""
+    import rk_b_knot_fixed_sector as K
+    import rk_b_cover_split as C
+    u = sp.Symbol("u", positive=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        sec = C.cover_sectors(m, k)
+    P = sp.cancel((1 - t) * sp.cancel(sec["x"].to_sympy().subs(u, nu * s)))
+    N = sp.cancel(P / (s**2 * (t - nu**2) * (nu**2 - 1) * (q - 1) * (nu**2 * q - 1)))
+    g = K.load_g(m, k)
+    allc = {"i": (sp.cancel(2 * (1 + t) * g[(2,)]), {s: I}, lambda k_: 1),
+            "ii": (sp.cancel(-(1 + q) * (g[(1,)].subs({r: r**2, s: s**2, nu: nu**2}, simultaneous=True) + 1)), {s: r}, lambda k_: 1)}
+    return N, allc
+
+
+def blocks_table(m=2):
+    """T(2,2m+1) の N のブロック n_k（ν^{−(6+2k)} r^{−(4+2k)} の係数、q, t）と状態の数、
+    生成関数 Σ n_k x^k に (1 − x)(1 − tx)(1 − qtx) を掛けた分子の係数（続き 75 の表の T(2,2m+1) 版）。"""
+    import rk_f_frozen_basis as FB
+    N, _ = _knot_N(m)
+    blocks_ = FB.nu_blocks(N)
+    x = sp.Symbol("x")
+    G = sp.Integer(0)
+    print(f"T(2,{2 * m + 1}) の N のブロック（k、ν の冪、状態の数 Σ|c|、n_k）：", flush=True)
+    for b_ in sorted(blocks_, reverse=True):
+        k = (-b_ - 6) // 2
+        nk = sp.expand(blocks_[b_] * r**(4 + 2 * k))
+        assert nk.free_symbols <= {r, s}, (b_, nk)
+        cnt = sum(abs(c) for c in sp.Poly(nk, r, s).coeffs())
+        G += nk * x**k
+        print(f"  k={k} ν^{b_}：{cnt} 状態、n_k = {sp.factor(nk).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
+    num = sp.expand(G * (1 - x) * (1 - t * x) * (1 - q * t * x))
+    Pn = sp.Poly(num, x)
+    print("  分子 Σ n_k x^k (1 − x)(1 − tx)(1 − qtx) の係数：", flush=True)
+    for (k,), c in zip(Pn.monoms(), Pn.coeffs()):
+        print(f"    x^{k}：{sp.factor(c).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
+
+
+def superpoly_data(m, k=2):
+    """簡約 superpolynomial S(q, t) を被覆の彩色データ（data/framed_knot/torus/{knot}_1.json、KN の規格化、a^i q^{j/2} t^{l/2}）から作る（続き 102）。
+    a² → −t/q（a の冪は δ = 種数を基準）、(qt)^{δ/2} で正規化：k = 2 では principle の superpoly(m) = Σ_{i≤m} q^i t^i + Σ_{i<m} q^i t^{i+1} に一致する。"""
+    import json, rk_torus_tag as TG
+    d = json.load(open(f"data/framed_knot/torus/{TG.knot_name(m, k)}_1.json"))
+    de = TG.delta(m, k)
+    return sp.expand(sum(v * (-t / q)**sp.Rational(i - 2 * de, 2) * q**sp.Rational(j + de, 2) * t**sp.Rational(l + de, 2)
+                         for key, v in d["poly"].items() for i, j, l in [map(int, key.split(","))]))
+
+
+def blocks_raw(m, k):
+    """T(mk+1, k)（k ≠ 2、続き 102）の n = 1 の N の ν の冪ごとのブロックを、r・s の冪の範囲・状態の数・因数分解で表示する（規格化の前）。
+    T(2,2m+1) ではブロック k は ν^{−(6+2k)} r^{−(4+2k)} の係数（blocks_table）。"""
+    import rk_f_frozen_basis as FB
+    N, _ = _knot_N(m, k)
+    blocks_ = FB.nu_blocks(N)
+    qq, tt = sp.Symbol("q"), sp.Symbol("t")
+    print(f"T({k},{m * k + 1}) の N のブロック（ν の冪、r の冪の範囲、s の冪の範囲、状態の数 Σ|c|、因数分解）：", flush=True)
+    for b_ in sorted(blocks_, reverse=True):
+        d = sp.expand(blocks_[b_]).as_coefficients_dict()
+        ex = [(mono.as_powers_dict().get(r, 0), mono.as_powers_dict().get(s, 0), c) for mono, c in d.items()]
+        rmin, rmax = min(e[0] for e in ex), max(e[0] for e in ex)
+        smin, smax = min(e[1] for e in ex), max(e[1] for e in ex)
+        cnt = sum(abs(c) for _, _, c in ex)
+        f = sp.factor(sp.expand(blocks_[b_] * r**(-rmin) * s**(-smin))).subs({r: qq**sp.Rational(1, 2), s: tt**sp.Rational(1, 2)})
+        print(f"  ν^{b_}：r^{rmin}..{rmax}、s^{smin}..{smax}、{cnt} 状態、{f}"[:600], flush=True)
+    return blocks_
+
+
+def rule_scan(m=2, use=("i", "ii"), uniq=False):
+    """full_rule の規則（ブロックと c の符号ごとの σ、d = q か t の指数）で、ブロックごとの d の選択（q / t）を全通り試す。
+    下の系列 k < 2m は q に固定し、k ≥ 2m のブロックで q / t を選ぶ（2^{#} 通り）。解のあるものと入れ替わる対の最小を表示する。"""
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k: (-k[-1] - 6) // 2
+    grp = lambda k: (kk(k), int(np.sign(float(mult[k]))))
+    upper = sorted({kk(k) for k in keys if kk(k) >= 2 * m})
+    tag = f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}"
+    found = []
+    for ch in itertools.product("qt", repeat=len(upper)):
+        sel = dict(zip(upper, ch))
+        d = lambda k: (k[1] + 4 + 2 * kk(k)) // 2 if (kk(k) < 2 * m or sel[kk(k)] == "q") else k[2] // 2
+        res = rule_milp(keys, mult, A, b, grp, d, uniq=uniq)
+        lab = " ".join(f"k={k_}:{c_}" for k_, c_ in sel.items())
+        if res is None:
+            print(f"{tag}、{lab}：解なし", flush=True)
+        else:
+            found.append(lab)
+            print(f"{tag}、{lab}：解あり、対の最小 {res['min_pairs']}"
+                  + (f"、e が一意でない単項式 {res['nfree']}/{len(keys)}" if uniq else ""), flush=True)
+    print(f"{tag}：解のある選択 {len(found)}/{2**len(upper)}", flush=True)
+    return found
+
+
+def n1_choice(m=2, use=("i", "ii"), opts=("0", "q", "t", "qt"), fix_lower=True):
+    """n = 1 の T(2,2m+1)：部分（ν のブロック k、c の符号）ごとに規則 opts（(−1)^{0, q, t, q+t}）と σ を選ぶ整数計画で、
+    入れ替わる対の数の最小と選択を求める（n2_choice の n = 1 版）。fix_lower なら下の系列 k < 2m と k = 2m の正の部分は q に固定する。"""
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k: (-k[-1] - 6) // 2
+    part = lambda k: (kk(k), int(np.sign(float(mult[k]))))
+    exps = {"q": lambda k: (k[1] + 4 + 2 * kk(k)) // 2, "t": lambda k: k[2] // 2,
+            "qt": lambda k: (k[1] + 4 + 2 * kk(k)) // 2 + k[2] // 2, "0": lambda k: 0}
+    pats, names = {}, {}
+    for p_ in {part(k) for k in keys}:
+        ks = [k for k in keys if part(k) == p_]
+        lower = fix_lower and (p_[0] < 2 * m or (p_[0] == 2 * m and p_[1] > 0))
+        seen = {}
+        for o in (("q",) if lower else opts):
+            for sg in (1, -1):
+                pat = tuple(sg * (-1)**exps[o](k) for k in ks)
+                seen.setdefault(pat, []).append(("+" if sg > 0 else "−") + o)
+        pats[p_] = [dict(zip(ks, pat)) for pat in seen]
+        names[p_] = ["/".join(v) for v in seen.values()]
+    t0 = time.time()
+    tag = f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}、規則 {','.join(opts)}{'（下は q に固定）' if fix_lower else ''}"
+    res = choice_milp(keys, mult, A, b, part, pats)
+    if res is None:
+        print(f"{tag}：解なし（{time.time() - t0:.0f} 秒）", flush=True); return None
+    mp, chosen, e = res
+    print(f"{tag}（部分 {len(pats)} 個）：入れ替わる対の数の最小 {mp}（{time.time() - t0:.0f} 秒）", flush=True)
+    for p_ in sorted(chosen):
+        ks = [k for k in keys if part(k) == p_]
+        pr = sum(abs(int(mult[k])) - abs(e[k]) for k in ks) // 2
+        print(f"   k = {p_[0]}、{p_[1]:+d}（単項式 {len(ks)}）：選択 {names[p_][chosen[p_]]}、対 {pr}", flush=True)
+    return res
+
+
+def n1_upper(m=2, use=("i", "ii"), k=2, kt=None):
+    """下の系列（k < kt と k = kt の正の部分。kt の既定は移り目 2m）に q の規則、残りは単項式ごとに一般の e として、入れ替わる対が最小の解を求め、
+    上のブロック（k ≥ kt）の e を表示する（e/c の符号と (−1)^q, (−1)^t の比較、e の範囲）。k ≠ 2 は T(mk+1, k)（続き 102、T(3,4) は kt = 6）。"""
+    N, allc = _knot_N(m, k)
+    kt = 2 * m if kt is None else kt
+    mult = TM.monomials(N)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k_: (-k_[-1] - 6) // 2
+    qe = lambda k_: (k_[1] + 4 + 2 * kk(k_)) // 2
+    te = lambda k_: k_[2] // 2
+    lower = lambda k_: kk(k_) < kt or (kk(k_) == kt and mult[k_] > 0)
+    grp = lambda k_: (kk(k_), int(np.sign(float(mult[k_])))) if lower(k_) else ("m",) + k_
+    d = lambda k_: qe(k_) if lower(k_) else 0
+    up = [k_ for k_ in keys if not lower(k_)]
+    res = rule_milp(keys, mult, A, b, grp, d, uniq=True)
+    import rk_torus_tag as TG
+    tag = f"{TG.knot_name(m, k).replace('_', ',').replace('T', 'T(')}) 条件 {'+'.join(use)}、下（k < {kt} と k = {kt} の正の部分）は q の規則、上は一般"
+    if res is None:
+        print(f"{tag}：解なし", flush=True); return None
+    rng = rule_milp(keys, mult, A, b, grp, d, ranges=up)
+    print(f"{tag}：対の最小 {res['min_pairs']}、e が一意でない単項式 {res['nfree']}/{len(keys)}。上のブロックの e（k, q, t, c, e, e の範囲, sign(e/c)(−1)^q, sign(e/c)(−1)^t）：", flush=True)
+    for k_ in sorted(up, key=lambda k_: (kk(k_), qe(k_), te(k_))):
+        e = res["e"][k_]; c = int(mult[k_])
+        sg = int(np.sign(e * c)) if e else 0
+        print(f"   k={kk(k_)} q^{qe(k_)} t^{te(k_)}：c={c:+d} e={e:+d} 範囲{rng[k_]} σq={sg * (-1)**qe(k_):+d} σt={sg * (-1)**te(k_):+d}", flush=True)
+    return res
+
+
+def n1_free_set(m=3, use=("i", "ii")):
+    """n1_upper と同じ設定（下は q の規則、上は一般）で、e が一意でない単項式の値の組み合わせを全部試し、
+    実現できる組（と対の数の最小）を列挙する。対角な規則 σ(−1)^{0,q,t,q+t} の型と比べる。"""
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    keys, A, b = rows(mult, lambda k: pre * TM.twisted(k, "mono"), {k_: allc[k_] for k_ in use})
+    kk = lambda k: (-k[-1] - 6) // 2
+    qe = lambda k: (k[1] + 4 + 2 * kk(k)) // 2
+    te = lambda k: k[2] // 2
+    lower = lambda k: kk(k) < 2 * m or (kk(k) == 2 * m and mult[k] > 0)
+    grp = lambda k: (kk(k), int(np.sign(float(mult[k])))) if lower(k) else ("m",) + k
+    d = lambda k: qe(k) if lower(k) else 0
+    res = rule_milp(keys, mult, A, b, grp, d, uniq=True)
+    fr = sorted(res["free"], key=lambda k: (kk(k), qe(k), te(k)))
+    rng = rule_milp(keys, mult, A, b, grp, d, ranges=fr)
+    vals = [list(range(rng[k][0], rng[k][1] + 1, 2)) for k in fr]
+    lab = [f"k={kk(k)} q^{qe(k)} t^{te(k)} (c={int(mult[k]):+d})" for k in fr]
+    print(f"T(2,{2 * m + 1}) 条件 {'+'.join(use)}：一意でない単項式 {len(fr)} 個 {lab}、組み合わせ {np.prod([len(v) for v in vals])} 通り", flush=True)
+    ok = []
+    for combo in itertools.product(*vals):
+        r_ = rule_milp(keys, mult, A, b, grp, d, uniq=False, fix=dict(zip(fr, combo)))
+        if r_ is not None:
+            ok.append((combo, r_["min_pairs"]))
+    print(f"  実現できる組 {len(ok)} 通り（e の値、対の最小）：", flush=True)
+    for combo, mp in ok:
+        sq = [int(np.sign(e * mult[k])) * (-1)**qe(k) if e else 0 for e, k in zip(combo, fr)]
+        st = [int(np.sign(e * mult[k])) * (-1)**te(k) if e else 0 for e, k in zip(combo, fr)]
+        print(f"   e={combo} 対 {mp}、sign(e/c)(−1)^q={sq}、sign(e/c)(−1)^t={st}", flush=True)
+    return ok
+
+
+def correction_F(jp):
+    """n = 1 の上の系列の補正 R_{m+j′} = t^{m−1−j′} F_{j′} の F_{j′}（q = r², t = s²）。
+    母関数の予想（続き 97、theory §12.30。T(2,7)・T(2,9)・T(2,11) の F₀〜F₃ から読み、F₄ は T(2,13) で検証する）：
+      Σ_{j′≥0} F_{j′} z^{j′} = [1 + (2t + t² + qt + 2qt²) z + q t³ z²] / [(1 − z)(1 − qt z)(1 − t² z)(1 − q²t² z)]。
+    状態の数は C(2j′+3, 3)。"""
+    z = sp.Symbol("z")
+    G = (1 + (2 * t + t**2 + q * t + 2 * q * t**2) * z + q * t**3 * z**2) / ((1 - z) * (1 - q * t * z) * (1 - t**2 * z) * (1 - q**2 * t**2 * z))
+    return sp.expand(sp.series(G, z, 0, jp + 1).removeO().coeff(z, jp))
+
+
+def diag_X(jp):
+    """補正 F_{j′} の Ĩ の対角の部分 D_{j′} = ψ²(X_{j′}) の X_{j′}（予想、続き 98、theory §12.31）：
+      X_{j′} = Sym^{j′} V + t·Sym^{j′−1} V（V = 1 + t + qt）、母関数 Σ X_{j′} z^{j′} = (1 + tz)/((1 − z)(1 − tz)(1 − qtz))。
+    状態の数は (j′+1)²。X₀ = 1、X₁ = 1 + 2t + qt、X₂ = 1 + 2t + qt + 2t² + 2qt² + q²t² は T(2,9) の D₁ = ψ²V + t²、D₂ = ψ²V² + t⁴ − q²t² を再現し、
+    X₃ は T(2,11) で (i)+(ii) と整合する。E の補正は (−1)^{m+j′+1} t^{m−1−j′} ψ²(X_{j′})、F_{j′} の残りの状態は入れ替わる対（(F_{j′} − ψ²X_{j′})/2）。"""
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k)) if k >= 0 else 0
+    return sp.expand(sym(jp) + t * sym(jp - 1))
+
+
+def principle(m=2, verbose=True, save=False, extra_R=None, free_j=None):
+    """n = 1 の E を、規則ではなく状態の空間の同定から作る（続き 89）：
+      下の系列 k = 0..2m−1：Sym^k V（V = 1 + t + qt、セル 1^a t^b (qt)^c）、ε = (−1)^{a+b}（= (−1)^k (−1)^{q の次数}）。
+      移り目 k = 2m：Sym^{2m} V（同じ ε）から S ⊗ S（S は簡約 superpolynomial）を引く。Ĩ は因子の入れ替えで、トレースは ψ²S = S(q², t²)。
+      上の系列 k = K − j（K = 4m−1）：−t^{K−2j}·[Sym^j V + (q − t) R_j]。Sym^j V のセルは ε = −(−1)^{b+c}（下の双対、全体の符号 −）。
+        補正 (q − t) R_j は対の状態 (q·m, −t·m) の和で、R_m = t^{m−1}（1 状態）、R_{m+1} = t^{m−2}(V ⊗ V + t²)（V = 1 + t + qt。
+        続き 89 では S′ = T(2,2m−3) の簡約 superpolynomial と読んだが、T(2,9) で V 固定と分かった（続き 95）。m ≤ 3 では S′ = V で同じ）。
+        Ĩ は V ⊗ V の入れ替え（トレース ψ²V）で、対角の状態 m の対は ε = −(−1)^{t·m の t の次数} = (−1)^m（R_m では −(−1)^m）。
+    作った E が N の台の上で |e| ≤ |c|、e ≡ c (mod 2) を満たすか、条件 (i)・(ii) を満たすか、保存した一意な E と一致するかを調べる。
+    save なら twisted_E_n1_m{m}.pkl に保存する（T(2,7) では予言）。
+    j ≥ m+2 の補正は母関数の予想（correction_F）と Ĩ の予想（diag_X）で作る（続き 96〜98）。extra_R = {j: R′_j} で上書きでき、
+    free_j = [j, …] のブロックは e を自由にして (i)・(i)+(ii) の解の有無と範囲を調べる（続き 94〜97 の「未同定」の扱い）。"""
+    import rk_f_frozen_basis as FB
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    blocks_ = FB.nu_blocks(N)
+    K = 4 * m - 1
+    superpoly = lambda m_: sum(q**i * t**i for i in range(m_ + 1)) + sum(q**i * t**(i + 1) for i in range(m_))
+    S = superpoly(m)
+    psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]   # 1^a t^b (qt)^c
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+    E = sp.Integer(0)
+    unknown = {}
+    for b_, blk in blocks_.items():
+        k = (-b_ - 6) // 2
+        nk = sp.expand(blk * r**(4 + 2 * k))
+        if k <= 2 * m:
+            Ek = sum((-1)**(a_ + b_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+            if k == 2 * m:
+                assert sp.expand(nk - (sym(k) - S**2)) == 0, "移り目 ≠ Sym^{2m}V − S²"
+                Ek = Ek - psi2(S)
+            else:
+                assert sp.expand(nk - sym(k)) == 0, f"k={k} ≠ Sym^k V"
+        else:
+            j = K - k
+            D = sp.expand(nk / (-t**(K - 2 * j)) - sym(j))
+            R = sp.cancel(D / (q - t))
+            assert sp.expand(R * (q - t) - D) == 0, f"k={k}：Sym^j V との差が (q − t) で割れない"
+            Ek = sum(-(-1)**(b_ + c_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(j))
+            if j < m:
+                assert R == 0, f"k={k}（j={j} < m）：補正 {R} ≠ 0"
+                Rp = sp.Integer(0)
+            elif j == m:
+                assert sp.expand(R - t**(m - 1)) == 0, f"k={k}（j=m）：補正 {R} ≠ t^(m−1)"
+                Rp = -(-1)**m * t**(m - 1)
+            elif j == m + 1:
+                V_ = 1 + t + q * t                      # T(2,9) で S′ = T(2,2m−3) の superpolynomial ではなく V = 1 + t + qt（T(2,3) の S）が固定と分かった（続き 95）
+                assert sp.expand(R - t**(m - 2) * (V_**2 + t**2)) == 0, f"k={k}（j=m+1）：補正 {R} ≠ t^(m−2)(V² + t²)"
+                Rp = (-1)**m * t**(m - 2) * (psi2(V_) + t**2)
+            elif extra_R is not None and j in extra_R:
+                Rp = extra_R[j]
+            elif j >= m + 2 and (free_j is None or j not in free_j):
+                # 一般の j′ = j − m ≥ 2（続き 96〜98、theory §12.29〜§12.31）：R_{m+j′} = t^{m−1−j′} F_{j′}（correction_F の母関数）、
+                # Ĩ：E の補正 (−1)^{m+j′+1} t^{m−1−j′} ψ²(X_{j′})（diag_X）、残りは入れ替わる対。j′ = 2 は T(2,9) で 32 通り中 1 通り、j′ = 3 は T(2,11) で (i)+(ii) と整合。
+                jp = j - m
+                assert sp.expand(R - t**(m - 1 - jp) * correction_F(jp)) == 0, f"k={k}（j′={jp}）：補正 {R} ≠ t^(m−1−j′)·F_j′（母関数の予想が破れた）"
+                Rp = (-1)**(m + jp + 1) * t**(m - 1 - jp) * psi2(diag_X(jp))
+            else:
+                unknown[j] = (R, b_, k)
+                gf = sp.expand(R - t**(m - 1 - (j - m)) * correction_F(j - m)) == 0
+                print(f"  k={k}（j′={j - m}）：このブロックの e は自由にする。R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}"
+                      f"（{sum(abs(c) for c in sp.Poly(R, r, s).coeffs()) if R != 0 else 0} 状態）。母関数の予想 t^(m−1−j′)F_j′ と一致：{gf}", flush=True)
+                continue
+            if verbose:
+                print(f"  k={k}（j={j}）：Sym^{j} V との差 (q − t)·R、R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}、"
+                      f"E の補正 (q − t)·R′、R′ = {sp.expand(Rp).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}", flush=True)
+            Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
+        E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
+    if unknown:
+        # 未同定のブロックの e を自由（|e| ≤ |c|、偶奇）にし、他は原理の E に固定して、(i)・(i)+(ii) の解の有無と e の範囲を求める
+        from scipy.optimize import milp, LinearConstraint, Bounds
+        E = sp.expand(E)
+        e = TM.monomials(E)
+        pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+        nus = {b_ for (_, b_, _) in unknown.values()}
+        for use in (("i",), ("i", "ii")):
+            keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {nm: allc[nm] for nm in use})
+            un = [k_ for k_ in keys if k_[-1] in nus]
+            fx = {k_: int(e.get(k_, 0)) for k_ in keys if k_[-1] not in nus}
+            idx = {k_: i for i, k_ in enumerate(keys)}
+            c = np.array([float(mult[k_]) for k_ in un]); sg = np.sign(c); ca = np.abs(c)
+            Ar = A[:, [idx[k_] for k_ in un]]
+            rhs = b - sum(A[:, idx[k_]] * v for k_, v in fx.items())
+            M = Ar * (-2 * sg); beq = rhs - Ar @ c
+            cons = LinearConstraint(M, beq - 1e-9, beq + 1e-9); bnd = Bounds(np.zeros(len(un)), ca); integ = np.ones(len(un))
+            if milp(np.zeros(len(un)), constraints=cons, bounds=bnd, integrality=integ).status != 0:
+                print(f"T(2,{2 * m + 1})：未同定のブロック j = {sorted(unknown)} の e を自由にしても、条件 {use} に解なし（原理の他のブロックと矛盾）", flush=True)
+                continue
+            rg = {}
+            for i, k_ in enumerate(un):
+                cc = np.zeros(len(un)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=integ)
+                rg[k_] = (round(c[i] + lo_.fun), round(c[i] - hi_.fun))
+            pm = milp(np.ones(len(un)), constraints=cons, bounds=bnd, integrality=integ)
+            uni = {k_: v[0] for k_, v in rg.items() if v[0] == v[1]}
+            print(f"T(2,{2 * m + 1})：条件 {use}：解あり。未同定のブロックの e は一意 {len(uni)}/{len(un)}、対の最小 {round(pm.fun)}", flush=True)
+            qq, tt = sp.Symbol("q"), sp.Symbol("t")
+            for (R, b_, k) in unknown.values():
+                tosym = lambda d: sum(v * qq**((k_[1] + 4 + 2 * k) // 2) * tt**((k_[2]) // 2) for k_, v in d.items() if k_[-1] == b_)
+                print(f"   k={k}：一意な e の和 = {sp.factor(tosym(uni))}、一意でない単項式 {[(k_[1], k_[2], mult[k_], v) for k_, v in rg.items() if v[0] != v[1] and k_[-1] == b_]}", flush=True)
+        return unknown
+    E = sp.expand(E)
+    e = TM.monomials(E)
+    bad = [k_ for k_ in e if k_ not in mult]
+    viol = [(k_, int(mult[k_]), int(e.get(k_, 0))) for k_ in mult if abs(e.get(k_, 0)) > abs(mult[k_]) or (e.get(k_, 0) - mult[k_]) % 2]
+    pairs = sum((abs(int(mult[k_])) - abs(int(e.get(k_, 0)))) // 2 for k_ in mult)
+    print(f"T(2,{2 * m + 1})：原理から作った E は N の台の外の単項式 {len(bad)} 個、|e| ≤ |c|・偶奇の違反 {len(viol)} 個 {viol[:6]}、入れ替わる対 {pairs}", flush=True)
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    ok = {}
+    for name in ("i", "ii"):
+        keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {name: allc[name]})
+        ev = np.array([float(e.get(k_, 0)) for k_ in keys])
+        res = A @ ev - b
+        ok[name] = bool(np.max(np.abs(res)) < 1e-9)
+        print(f"   条件 ({name})：{'満たす' if ok[name] else '満たさない（最大のずれ ' + str(np.max(np.abs(res))) + '）'}", flush=True)
+    f_ = f"{OUT}/twisted_E_n1_m{m}.pkl"
+    if os.path.exists(f_) and not save:
+        saved = pickle.load(open(f_, "rb"))
+        Es = sp.sympify(saved["E"], locals={"r": r, "s": s, "nu": nu})
+        print(f"   保存した一意な E（{f_}）と一致：{sp.expand(E * pre - Es) == 0}", flush=True)
+    if save:
+        pickle.dump({"E": str(sp.expand(E * pre)), "e": {str(k_): int(v) for k_, v in e.items()}, "origin": "principle（続き 89）"}, open(f_, "wb"))
+        print(f"   保存：{f_}", flush=True)
+    return E, e, ok
+
+
+def principle_R(m=4, hyps=None, esign=0):
+    """principle の未同定のブロック（j ≥ m+2）について、Sym^j V の部分は原理（双対の対合 ε = −(−1)^{b+c}）で固定し、
+    補正 (q − t)R_j の対の符号 e_μ（E の補正 (q − t) Σ e_μ μ、|e_μ| ≤ |R_μ|、e_μ ≡ R_μ）だけを自由にして、
+    (i)・(i)+(ii) の解の有無、e_μ の範囲、入れ替わる対の最小を求める（n = 2 の hyp12c の n = 1 版、続き 95）。
+    hyps = {名前: R′（sympy、q = r², t = s²）} を与えると、各仮説の e を固定して (i)・(ii) を満たすかも調べる。
+    esign = −1 / +1 なら全部の e_μ に e_μ ≤ 0 / ≥ 0 を課す（「対角の部分の符号は一様、残りは入れ替わる対」の仮説。R_μ > 0 を仮定）。"""
+    import rk_f_frozen_basis as FB
+    N, allc = _knot_N(m)
+    mult = TM.monomials(N)
+    blocks_ = FB.nu_blocks(N)
+    K = 4 * m - 1
+    superpoly = lambda m_: sum(q**i * t**i for i in range(m_ + 1)) + sum(q**i * t**(i + 1) for i in range(m_))
+    S = superpoly(m)
+    V_ = 1 + t + q * t
+    psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+    cells = lambda k: [(a_, b_, c_) for a_ in range(k + 1) for b_ in range(k + 1 - a_) for c_ in [k - a_ - b_]]
+    sym = lambda k: sum(t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k))
+    E = sp.Integer(0)
+    unknown = {}
+    for b_, blk in blocks_.items():
+        k = (-b_ - 6) // 2
+        nk = sp.expand(blk * r**(4 + 2 * k))
+        if k <= 2 * m:
+            Ek = sum((-1)**(a_ + b_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(k)) - (psi2(S) if k == 2 * m else 0)
+        else:
+            j = K - k
+            R = sp.cancel(sp.expand(nk / (-t**(K - 2 * j)) - sym(j)) / (q - t))
+            Ek = sum(-(-1)**(b_ + c_) * t**(b_ + c_) * q**c_ for a_, b_, c_ in cells(j))
+            Rp = (0 if j < m else -(-1)**m * t**(m - 1) if j == m else (-1)**m * t**(m - 2) * (psi2(V_) + t**2) if j == m + 1
+                  else -(-1)**m * t**(m - 3) * (psi2(V_)**2 + t**4 - q**2 * t**2) if j == m + 2 else None)      # j = m+2 は principle と同じ（続き 96）
+            if Rp is None:
+                unknown[j] = (sp.expand(R), b_, k, sp.expand(Ek))
+                continue
+            Ek = -t**(K - 2 * j) * (Ek + (q - t) * Rp)
+        E += sp.expand(Ek) * nu**b_ * r**(-(4 + 2 * k))
+    e = TM.monomials(sp.expand(E))
+    pre = s**2 * (t - nu**2) * (nu**2 + 1) * (q + 1) * (nu**2 * q + 1)
+    out = {}
+    for j, (R, b_, k, Ek0) in unknown.items():
+        Rd = {mono: int(c) for mono, c in sp.Poly(R, r, s).as_dict().items()}      # (r の冪, s の冪) → R_μ
+        mons = sorted(Rd)
+        print(f"T(2,{2 * m + 1}) k={k}（j={j}）：R = {sp.factor(R).subs({r: sp.Symbol('q')**sp.Rational(1, 2), s: sp.Symbol('t')**sp.Rational(1, 2)})}（{len(mons)} 単項式、Σ|R| = {sum(abs(v) for v in Rd.values())}）", flush=True)
+        base = TM.monomials(sp.expand(-t**(K - 2 * j) * Ek0 * nu**b_ * r**(-(4 + 2 * k))))
+        shift = lambda a_, c_: ("mono", a_ - (4 + 2 * k), c_, b_)                  # ブロックの (r, s) の冪 → 鍵
+        # 対 (q·μ, −t·μ) の寄与：E_block = −t^{K−2j}(q − t) Σ e_μ μ → 鍵 (a+2, c+2(K−2j)) に −e、(a, c+2+2(K−2j)) に +e
+        sh = 2 * (K - 2 * j)
+        for use in (("i",), ("i", "ii")):
+            keys, A, b = rows(mult, lambda k_: pre * TM.twisted(k_, "mono"), {nm: allc[nm] for nm in use})
+            idx = {k_: i for i, k_ in enumerate(keys)}
+            # 対の単項式が N の台の外（Sym の部分と打ち消す）なら、そこでは寄与の和が 0（hyp12c と同じ）
+            pkeys = sorted({key for (a_, c_) in mons for key in (shift(a_ + 2, c_ + sh), shift(a_, c_ + 2 + sh))} - set(keys))
+            allk = list(keys) + pkeys
+            fx = {k_: int(e.get(k_, 0)) + int(base.get(k_, 0)) for k_ in allk}
+            rhs = b - sum(A[:, idx[k_]] * v for k_, v in fx.items() if v and k_ in idx)
+            W = np.zeros((len(allk), len(mons)))
+            aidx = {k_: i for i, k_ in enumerate(allk)}
+            for i, (a_, c_) in enumerate(mons):
+                for key, sgn in ((shift(a_ + 2, c_ + sh), -1), (shift(a_, c_ + 2 + sh), 1)):
+                    W[aidx[key], i] += sgn
+            cR = np.array([float(Rd[mu]) for mu in mons]); sg = np.sign(cR); ca = np.abs(cR)
+            AW = A @ W[:len(keys)]
+            M = AW * (-2 * sg); beq = rhs - AW @ cR
+            # 台：全 e = fx + W e_R、|e| ≤ |c|（台の外では |c| = 0）
+            cab = np.array([abs(float(mult[k_])) if k_ in idx else 0.0 for k_ in allk]); fxv = np.array([float(fx.get(k_, 0)) for k_ in allk])
+            cons = [LinearConstraint(M, beq - 1e-9, beq + 1e-9), LinearConstraint(W * (-2 * sg), -cab - fxv - W @ cR - 1e-9, cab - fxv - W @ cR + 1e-9)]
+            lo_b = np.ceil(ca / 2) if esign < 0 else np.zeros(len(mons)); hi_b = np.floor(ca / 2) if esign > 0 else ca   # e = R − 2y（R > 0）
+            bnd = Bounds(lo_b, hi_b); integ = np.ones(len(mons))
+            if milp(np.zeros(len(mons)), constraints=cons, bounds=bnd, integrality=integ).status != 0:
+                print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解なし", flush=True); out[(j, use)] = None; continue
+            rg = {}
+            for i, mu in enumerate(mons):
+                cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons, bounds=bnd, integrality=integ)
+                rg[mu] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+            pm = round(milp(np.ones(len(mons)), constraints=cons, bounds=bnd, integrality=integ).fun)
+            nun = sum(1 for v in rg.values() if v[0] == v[1])
+            qq, tt = sp.Symbol("q"), sp.Symbol("t")
+            cons2 = cons + [LinearConstraint(np.ones((1, len(mons))), -np.inf, pm + 1e-9)]
+            rg2 = {}
+            for i, mu in enumerate(mons):
+                cc = np.zeros(len(mons)); cc[i] = -2 * sg[i]
+                lo_ = milp(cc, constraints=cons2, bounds=bnd, integrality=integ); hi_ = milp(-cc, constraints=cons2, bounds=bnd, integrality=integ)
+                rg2[mu] = (round(cR[i] + lo_.fun), round(cR[i] - hi_.fun))
+            nun2 = sum(1 for v in rg2.values() if v[0] == v[1])
+            print(f"   Σy 最小（{pm}）での e_μ：一意 {nun2}/{len(mons)}、" + ("E_R = " + str(sp.factor(sum(v[0] * qq**(a_ // 2) * tt**(c_ // 2) for (a_, c_), v in rg2.items()))) if nun2 == len(mons) else "範囲 " + str({(a_ // 2, c_ // 2): v for (a_, c_), v in rg2.items() if v[0] != v[1]})), flush=True)
+            print(f"   条件 {use}{'、e ≤ 0' if esign < 0 else '、e ≥ 0' if esign > 0 else ''}：解あり。e_μ が一意 {nun}/{len(mons)}、Σy の最小 {pm}（e = R − 2y。e ≤ 0 なら Σ|e| の最小 = 2Σy − Σ|R|）。範囲 {{q^a t^b: (R, [min, max])}} = "
+                  + "{" + ", ".join(f"q^{a_ // 2}t^{c_ // 2}: ({Rd[(a_, c_)]}, {v if v[0] != v[1] else v[0]})" for (a_, c_), v in rg.items()) + "}", flush=True)
+            out[(j, use)] = rg
+            for name, Rp in (hyps or {}).items():
+                Hd = {mono: int(c) for mono, c in sp.Poly(sp.expand(Rp), r, s).as_dict().items()} if Rp != 0 else {}
+                ev = np.array([float(Hd.get(mu, 0)) for mu in mons])
+                okp = all(abs(ev[i]) <= ca[i] and (ev[i] - cR[i]) % 2 == 0 for i in range(len(mons))) and not (set(Hd) - set(mons))
+                res = AW @ ev - rhs
+                sup = np.all(np.abs(fxv + W @ ev) <= cab + 1e-9)
+                print(f"     仮説 {name}：|e| ≤ |R|・偶奇 {okp}、条件 {use} の行 {'満たす' if np.max(np.abs(res)) < 1e-9 else '満たさない（最大のずれ ' + str(round(np.max(np.abs(res)))) + '）'}、台 {sup}、対 {round(sum((ca - np.abs(ev)) / 2))}", flush=True)
+    return out
+
+
+def n2_fock():
+    """n = 2（trefoil）の N_λ に n = 1 の同定（ν 方向の Fock 系列、§12.23）が当てはまるかの検査（続き 90）。
+    (a) 上の端から：B_k = ν^{−8−2k} のブロック（r^5 s^{−3} で規格化）。B_1/B_0 と、B_2 − B_0·PE_2(B_1/B_0)（Fock なら 0）の状態数。
+        λ の組合せ（N_2、N_11、N_2 + N_11、N_2 − (q + 1/q)N_11、N_2 − q²N_11）と、符号付きの PE（P0 = 1、G = B_1）、
+        Sym²V·Sym²V′、(VV′)² も試す。
+    (b) 各ブロックの qt = −1（s = i/r）と t = −1（s = i）での値の状態数と因数分解。"""
+    import itertools
+    Q, T = sp.symbols("q t")
+    mult, conds = n2_setup()
+    blocks_ = {}
+    for (lab, _, a, b, c), v in mult.items():
+        blocks_.setdefault(lab, {}).setdefault(c, {})[(a, b)] = int(v)
+    raw = lambda lab, c: sp.expand(sum(v * r**a * s**b for (a, b), v in blocks_[lab].get(c, {}).items()))
+    toqt = lambda P: sp.expand(P.subs({r: sp.sqrt(Q), s: sp.sqrt(T)}))
+    cnt = lambda P: sum(abs(c) for c in sp.Poly(sp.expand(P * Q**100 * T**100), Q, T).coeffs()) if P != 0 else 0
+    psi = lambda P, n: P.subs({Q: Q**n, T: T**n}, simultaneous=True)
+    pe2 = lambda G: sp.expand((G**2 + psi(G, 2)) / 2)
+    V, Vp = 1 + T + Q * T, 1 + Q + Q * T
+    combos = {"N_2": lambda c: raw("2", c), "N_11": lambda c: raw("11", c), "N_2+N_11": lambda c: raw("2", c) + raw("11", c),
+              "N_2−(q+1/q)N_11": lambda c: raw("2", c) - (r**2 + r**-2) * raw("11", c), "N_2−q²N_11": lambda c: raw("2", c) - r**4 * raw("11", c)}
+    print("(a) 上の端からの Fock 型の検査（B_k = ν^{−8−2k}、r^5 s^{−3} で規格化）", flush=True)
+    for name, f in combos.items():
+        Bs = [toqt(f(-8 - 2 * k) * r**5 * s**-3) for k in range(5)]
+        k0 = next(k for k in range(5) if Bs[k] != 0)
+        B0, B1, B2 = Bs[k0], Bs[k0 + 1], Bs[k0 + 2]
+        G = sp.cancel(B1 / B0)
+        out = f"  {name}：最初のブロック k0={k0}（{cnt(B0)} 状態）、B1/B0 = {sp.factor(G)}"[:200]
+        if sp.Poly(sp.fraction(G)[1], Q, T).is_monomial:
+            R = sp.expand(B2 - B0 * pe2(G))
+            out += f"；B2 − B0·PE2(B1/B0) の状態数 {cnt(R)}（B2 は {cnt(B2)}）、t=q で {sp.factor(R.subs(T, Q))}"
+        print(out, flush=True)
+    Bs = [toqt(raw("2", -8 - 2 * k) * r**5 * s**-3) for k in range(4)]
+    symk = lambda cs, k: sum(sp.prod(c) for c in itertools.combinations_with_replacement(cs, k))
+    cells = [Q**i * T**j for (i, j), c in sp.Poly(sp.expand(V * Vp), Q, T).as_dict().items() for _ in range(int(c))]
+    for name, cand in [("符号付き PE：B2 − PE2(B1)", pe2(Bs[1])), ("(t/q−1)q⁻⁴ Sym²(V⊗V′)", (T / Q - 1) * Q**-4 * symk(cells, 2)),
+                       ("(t/q−1)q⁻⁴ Sym²V·Sym²V′", (T / Q - 1) * Q**-4 * symk([1, T, Q * T], 2) * symk([1, Q, Q * T], 2)),
+                       ("(t/q−1)q⁻⁴ (VV′)²", (T / Q - 1) * Q**-4 * (V * Vp)**2)]:
+        R = sp.expand(Bs[2] - cand)
+        print(f"  N_2：B2 − [{name}] の状態数 {cnt(R)}（B2 は {cnt(Bs[2])}）", flush=True)
+    print("(b) 各ブロックの qt = −1 と t = −1 での値（状態数、因数分解）", flush=True)
+    cnt1 = lambda P: sum(abs(complex(c)) for c in sp.Poly(sp.expand(P * r**400), r).coeffs()) if P != 0 else 0
+    for lab in ("2", "11"):
+        for c in sorted(blocks_[lab], reverse=True):
+            B = raw(lab, c)
+            R1, R2 = sp.expand(B.subs(s, sp.I / r)), sp.expand(B.subs(s, sp.I))
+            print(f"  λ={lab} ν^{c}（{sum(abs(v) for v in blocks_[lab][c].values())} 状態）：qt=−1：{cnt1(R1):.0f} 状態 {sp.factor(R1)}；t=−1：{cnt1(R2):.0f} 状態 {sp.factor(R2)}"[:420], flush=True)
+
+
+def n1_terms(m=1, k=2):
+    """n = 1 の N を式の項に分けてブロックごとに展開する（続き 91、theory §12.25。k ≠ 2 は T(mk+1, k)、続き 103）：
+    N = (1 − t)[R_adj K_adj + κ − W₁²]/D、D = s²(t − ν²)(ν² − 1)(q − 1)(ν²q − 1)、K_adj = q_n² − κ。
+    T1 = R_adj K_adj の項、T2 = κ の項（結び目によらない）、T3 = −W₁²（brane × image の積、log Z の引き算）。"""
+    import rk_c_2box_largeN as L
+    import rk_torus_tag as TG
+    from rcsknots.refined_kauffman.flint_rf3 import from_sympy, conv
+    import pickle
+    r_, s_, u_ = sp.symbols("r s u", positive=True)
+    Q, T, y = sp.symbols("q t y")
+    RR, SS = L.R, L.S
+    qq, tt = RR * RR, SS * SS
+    w = (SS / RR)**TG.delta(m, k)
+    W1 = w * L.Rdata_nu("1", TG.knot_name(m, k)) * L.Psym((1,))
+    radj = pickle.load(open(f"{OUT}/Radj_A_{TG.tag(m, k)}.pkl", "rb"))
+    nu_ = L.nu
+    Radj = sum((from_sympy(sp.sympify(v, locals={"r": r_, "s": s_})) * nu_**j for j, v in radj.items()), conv(0))
+    A = nu_ * nu_
+    qn = (nu_ - 1 / nu_) / (SS - 1 / SS)
+    kappa = (1 - A) * (1 - qq) / ((1 - tt) * (1 - qq * A / tt))
+    D = SS**2 * (tt - nu_**2) * (nu_**2 - 1) * (qq - 1) * (nu_**2 * qq - 1)
+    P = {"T1=Radj·K_adj": (1 - tt) * Radj * (qn * qn - kappa) / D, "T2=κ": (1 - tt) * kappa / D, "T3=−W1²": -(1 - tt) * W1 * W1 / D}
+    P["T1+T2"] = P["T1=Radj·K_adj"] + P["T2=κ"]
+    P["T1+T3"] = P["T1=Radj·K_adj"] + P["T3=−W1²"]
+    P["N"] = P["T1+T2"] + P["T3=−W1²"]
+    def series_y(ex, nmax):
+        num, den = sp.fraction(sp.cancel(sp.together(ex)))
+        Pn, Pd = sp.Poly(sp.expand(num), y), sp.Poly(sp.expand(den), y)
+        nd = {k[0]: v for k, v in zip(Pn.monoms(), Pn.coeffs())}; dd = {k[0]: v for k, v in zip(Pd.monoms(), Pd.coeffs())}
+        d0 = min(dd); dd = {k - d0: v for k, v in dd.items()}
+        c = {}
+        for k in range(nmax + d0 + 1):
+            v = nd.get(k, 0) - sum(dd[j] * c[k - j] for j in dd if j >= 1 and k - j in c)
+            c[k] = sp.cancel(v / dd[0])
+        return {k - d0: c[k] for k in c}
+    def blocks_of(e, kmax):
+        ser = series_y(e.to_sympy().subs(u_, s_ / y), 6 + 2 * kmax)
+        return {k: sp.factor(sp.expand(ser.get(6 + 2 * k, 0) * r_**(4 + 2 * k))).subs({r_: sp.sqrt(Q), s_: sp.sqrt(T)}) for k in range(kmax + 1)}
+    print(f"{TG.knot_name(m, k)}：各項が Laurent か：", {k_: v.is_laurent() for k_, v in P.items()}, flush=True)
+    K = TG.rs(m, k) - 3
+    for name in ("T2=κ", "T1+T3", "T1=Radj·K_adj", "T3=−W1²"):
+        print(f"  {name} のブロック：", flush=True)
+        for k, c in blocks_of(P[name], K + 2).items():
+            print(f"    k={k}: {c}"[:400], flush=True)
+
+
+if __name__ == "__main__":
+    ai = "--all-inv" in sys.argv
+    ms = [int(x) if x.isdigit() else x for x in sys.argv[2:] if not x.startswith("--")]   # m（T(2,2m+1)。既定は 1, 2）。文字列は GAMMA_WORDS の語（例 T3_5、続き 104）
+    if sys.argv[1] == "full":
+        for m_ in ms or (1, 2):
+            for use in (("i",), ("i", "ii")):
+                full_rule(m_, use)
+    elif sys.argv[1] == "n2series":
+        n2_series()
+    elif sys.argv[1] == "n2rule":
+        n2_rule("--nouniq" not in sys.argv)
+    elif sys.argv[1] == "n2ii":             # (ii)（t = q）を加える：割った形の条件でブロックごとに診断
+        n2_ii()
+    elif sys.argv[1] == "n2iic":            # (ii′)：c = 2 の部分の符号を反転した (ii) で同じ診断
+        n2_iic()
+    elif sys.argv[1] == "n2rows":           # 条件 (i) は行ごとの交代和だけを決める：対の最小化を行ごとに解く
+        n2_rows()
+    elif sys.argv[1] == "n2split":           # 上のブロックの対の増加の切り分け
+        n2_split()
+    elif sys.argv[1] == "n2square":          # ν^{−12} の平方の構造が広がるか
+        n2_square()
+    elif sys.argv[1] == "n2skew":            # 積の部分と残りへの分解、λ ごとの目標（引数でブロックを指定すると (2) だけ）
+        n2_skew([int(x) for x in sys.argv[2:]] or None)
+    elif sys.argv[1] == "n2parts":           # 被覆の (2,2) 成分の項ごとの N への寄与
+        n2_parts()
+    elif sys.argv[1] == "n2h22":             # ν^{−22} の見えない対の候補
+        n2_hidden22()
+    elif sys.argv[1] == "n2pattern":        # 規則なしで対が最小の解の符号の型と一意性
+        n2_pattern()
+    elif sys.argv[1] == "n2choice":         # 部分ごとの規則の選択も変数にして対の数を最小にする
+        n2_choice(tuple(sys.argv[2].split(",")), sys.argv[3] if len(sys.argv) > 3 else "sign")
+    elif sys.argv[1] == "n2tower":           # 塔のセルの規則（0, q, t, qt）と、鏡映で対称な規則（0, qt）だけの場合
+        n2_rule("--nouniq" not in sys.argv, tuple(sys.argv[2].split(",")), uniform=True)
+    elif sys.argv[1] == "blocksraw":        # T(mk+1, k) の N のブロック（m k を指定、続き 102）
+        blocks_raw(ms[0], ms[1])
+    elif sys.argv[1] == "blocks":           # N のブロックと生成関数の分子（m を指定）
+        for m_ in ms or (1, 2):
+            blocks_table(m_)
+    elif sys.argv[1] == "n1choice":         # 部分ごとに規則 0/q/t/qt と σ を選ぶ（m を指定。--free で下の系列も選ばせる）
+        for m_ in ms or (1, 2):
+            for use in (("i",), ("i", "ii")):
+                n1_choice(m_, use, fix_lower="--free" not in sys.argv)
+    elif sys.argv[1] == "n1upper":          # 下は q の規則、上は一般の e：対が最小の解の上のブロックの e（m を指定。--k=K --kt=KT で T(mk+1,k)、続き 102）
+        k_ = next((int(a[4:]) for a in sys.argv if a.startswith("--k=")), 2)
+        kt_ = next((int(a[5:]) for a in sys.argv if a.startswith("--kt=")), None)
+        for m_ in ms or (2,):
+            for use in (("i",), ("i", "ii")):
+                n1_upper(m_, use, k_, kt_)
+    elif sys.argv[1] == "n1freeset":        # 一意でない単項式の値の組み合わせのうち実現できるもの（m を指定）
+        for m_ in ms or (3,):
+            n1_free_set(m_)
+    elif sys.argv[1] == "principleR":       # 未同定のブロックの補正 R_j の対の符号だけを自由にして (i)・(ii) で絞る（m を指定）
+        for m_ in ms or (4,):
+            V_ = 1 + t + q * t; psi2 = lambda X: X.subs({r: r**2, s: s**2}, simultaneous=True)
+            P_ = q**4*t**4 + 2*q**3*t**4 + 2*q**3*t**3 + 2*q**2*t**4 + 4*q**2*t**3 + 3*q**2*t**2 + 2*q*t**4 + 4*q*t**3 + 4*q*t**2 + 2*q*t + 2*t**4 + 2*t**3 + 2*t**2 + 2*t + 1
+            hyps = {"一様 (−1)^m": (-1)**m_ * t * P_, "一様 −(−1)^m": -(-1)**m_ * t * P_,
+                    "V²ψ²V + 2qt²V + t⁴ + q²t² に入れ替え（V² → ψ²V、他は対角 (−1)^m）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * V_ + t**4 + q**2 * t**2),
+                    "同（V の因子にも ψ²）": (-1)**m_ * t * (psi2(V_) * psi2(V_) + 2 * q * t**2 * psi2(V_) + t**4 + q**2 * t**2)}
+            # 符号 −(−1)^m の仮説（続き 96）：P = V⊗V·ψ²V + 2qt²V + t⁴ + q²t²、V⊗V は入れ替え（トレース ψ²V）、ψ²V の因子・t⁴・q²t² は対角（符号 ±）、2qt²V は対（c = 0）か対角（c = 2）
+            import itertools as _it
+            for c_ in (0, 2):
+                for (e1, e2, e3, e4) in _it.product((1, -1), repeat=4):
+                    D_ = psi2(V_) * (1 + e1 * t**2 + e2 * q**2 * t**2) + c_ * q * t**2 * V_ + e3 * t**4 + e4 * q**2 * t**2
+                    hyps[f"−(−1)^m[ψ²V(1 {e1:+d}t² {e2:+d}q²t²) + {c_}qt²V {e3:+d}t⁴ {e4:+d}q²t²]"] = -(-1)**m_ * t * D_
+            jp_ = m_ - 2
+            hyps = {f"(−1)^(m+j′+1) t^(m−1−j′) ψ²X_{jp_}": (-1)**(m_ + jp_ + 1) * t**(m_ - 1 - jp_) * psi2(diag_X(jp_))} if "--x" in sys.argv else hyps
+            principle_R(m_, hyps, esign=-1 if "--neg" in sys.argv else 1 if "--pos" in sys.argv else 0)
+    elif sys.argv[1] == "principle":        # 状態の空間の同定から E を作り、条件と保存した E に照合（m を指定。--save で保存、--free=j,j で指定のブロックを自由に）
+        fj = [int(x) for a in sys.argv if a.startswith("--free=") for x in a[7:].split(",")] or None
+        for m_ in ms or (1, 2, 3):
+            principle(m_, save="--save" in sys.argv, free_j=fj)
+    elif sys.argv[1] == "n2fock":           # n = 2 の N_λ に ν 方向の Fock 系列があるかの検査と、qt = −1・t = −1 の残差
+        n2_fock()
+    elif sys.argv[1] == "n1terms":          # n = 1 の N を式の項（R_adj K_adj、κ、−W₁²）に分けてブロック展開（m を指定）
+        kk = next((int(a_[4:]) for a_ in sys.argv[2:] if a_.startswith("--k=")), 2)
+        for m_ in ms or (1, 2):
+            n1_terms(m_, kk)
+    elif sys.argv[1] == "scan":             # k ≥ 2m のブロックごとに (−1)^q / (−1)^t を選ぶ全通り（m を指定）
+        for m_ in ms or (1, 2):
+            for use in (("i",), ("i", "ii")):
+                rule_scan(m_, use, uniq="--uniq" in sys.argv)
+    elif sys.argv[1] == "rule" and ms:
+        for m_ in ms:
+            knot_rule(m_, ("i",)); knot_rule(m_, save=True)
+    elif sys.argv[1] == "rule":
+        knot_rule(1, save=False); knot_rule(2, ("i",)); knot_rule(2, save=True)
+    elif sys.argv[1] == "lower":
+        for m_ in ms or (1, 2):
+            lower_series(m_)
+    elif sys.argv[1] == "n1partial":
+        n1_partial()
+    elif sys.argv[1] == "n2partial":
+        n2_partial("--nouniq" not in sys.argv)
+    elif sys.argv[1] == "n2scan":
+        n2_scan()
+    elif sys.argv[1] == "n1":
+        out = n1(ai)
+        pickle.dump(out, open(f"{OUT}/twisted_tensor_n1{'_allinv' if ai else ''}.pkl", "wb"))
+    else:
+        res = n2(ai)
+        pickle.dump(res, open(f"{OUT}/twisted_tensor_n2{'_allinv' if ai else ''}_m1.pkl", "wb"))

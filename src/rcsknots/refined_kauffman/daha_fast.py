@@ -16,7 +16,7 @@ daha_dn.py との違いは計算の順序だけで、作用素（T_i、π_1、Y_
 したがって {γ̂(H_ν(X))}（H_ν = Π H_{ν_i}）は、対称な g を Π_σ(B^{ν_i} g) で積み上げ、最後の一つだけ ev(B^d g) で評価すればよい。
 K_λ（D_N）・P_λ（GL_N）は H_ν の一次結合に直してから使う（係数は線形方程式で決める）。
 GL_N の daha_dn.py は ρ = (N−1, …, 0) で評価しているので、γ̂(H)·1 が X の総次数 c で斉次なら値は t^{−c(N−1)/2} だけ違う（変換して返す）。"""
-from .daha_dn import DN, GLN, K_poly, gl_P_poly, _add
+from .daha_dn import DN, GLN, K_poly, gl_P_poly, _add, gamma_factors, gamma_subst, gamma_first_column
 from .flint_rf import R, S, ONE, conv
 
 
@@ -104,10 +104,9 @@ class Fast:
         self.beta = e1 if sign > 0 else tuple(-x for x in e1)
         self.chain = orbit_chain(D, self.beta, sign)
         self.W1 = sum((S**(2 * sign * l) for *_, l in self.chain), conv(0))
-        # B = γ̂'(Y_{ε_1}^{−1}) = q^{k/2} Y^{−1} (q^{−m/2} X^{−1} Y^{−m})^k、B_{−ε_1} = B^{−1}
-        w = [("c", R**k), ("Y", -1)]
-        for _ in range(k):
-            w += [("c", R**(-m)), ("X", e1, -1)] + [("Y", -1)] * m
+        # B = γ̂'(Y_{ε_1}^{−1})、γ' = φγφ（τ_+ ↔ τ_−）。γ = τ_+^m τ_−^k では q^{k/2} Y^{−1} (q^{−m/2} X^{−1} Y^{−m})^k。B_{−ε_1} = B^{−1}
+        w = gamma_subst([(-sg, e) for sg, e in gamma_factors(m, k)], [("Y", -1)], e1)
+        assert w[0][0] == "c" and w[1] == ("Y", -1), w[:2]          # value() は先頭の Y^{−1} を評価で消す
         self.word = w if sign > 0 else D.inverse_word(w)
         self.one = {tuple([0] * D.N): ONE}
         self.sym = {(): self.one}       # ν → γ̂'(H_ν(Y^{−1}))·1（対称）
@@ -198,7 +197,7 @@ def gl_jones_fast(N, lam, m, k=2, F=None):
     D = F.D
     x = solve_symmetric(D, gl_P_poly(D, lam), h_basis(F, [sum(lam)]))
     Z = sum((c * F.value(nu) for nu, c in x.items() if not c.is_zero()), conv(0))
-    return Z * S**(-sum(lam) * (m * k + 1) * (N - 1))
+    return Z * S**(-sum(lam) * gamma_first_column(gamma_factors(m, k))[0] * (N - 1))
 
 
 def gl_adj_fast(N, m, k=2):

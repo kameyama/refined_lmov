@@ -1,0 +1,66 @@
+== T3_4（K = 9、δ = 3）
+  k=0 (j = 9)：1 状態、1
+  k=1 (j = 8)：3 状態、q*t + t + 1
+  k=2 (j = 7)：6 状態、q**2*t**2 + q*t**2 + q*t + t**2 + t + 1
+  k=3 (j = 6)：10 状態、q**3*t**3 + q**2*t**3 + q**2*t**2 + q*t**3 + q*t**2 + q*t + t**3 + t**2 + t + 1
+  k=4 (j = 5)：15 状態、q**4*t**4 + q**3*t**4 + q**3*t**3 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**4 + q*t**3 + q*t**2 + q*t + t**4 + t**3 + t**2 + t + 1
+  k=5 (j = 4)：21 状態、q**5*t**5 + q**4*t**5 + q**4*t**4 + q**3*t**5 + q**3*t**4 + q**3*t**3 + q**2*t**5 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**5 + q*t**4 + q*t**3 + q*t**2 + q*t + t**5 + t**4 + t**3 + t**2 + t + 1
+  k=6 (j = 3)：78 状態、-t*(q**5*t**5 + q**5*t**4 + 2*q**4*t**5 + 5*q**4*t**4 + 2*q**4*t**3 + q**3*t**5 + 7*q**3*t**4 + 7*q**3*t**3 + 3*q**3*t**2 + 5*q**2*t**4 + 9*q**2*t**3 + 7*q**2*t**2 + 2*q**2*t - q*t**5 + q*t**4 + 5*q*t**3 + 7*q*t**2 + 5*q*t + q - t**5 - t**4 + t**2 + 2*t + 1)
+  k=7 (j = 2)：44 状態、t**3*(q**4*t**4 + 2*q**4*t**3 + 2*q**4*t**2 + 3*q**3*t**3 + 5*q**3*t**2 + 2*q**3*t - 2*q**2*t**4 + 6*q**2*t**2 + 5*q**2*t + 2*q**2 - q*t**4 - 4*q*t**3 + 3*q*t + 2*q - t**3 - 2*t**2 + 1)
+  k=8 (j = 1)：12 状態、-t**5*(q**3*t**2 + q**3*t + q**3 - q**2*t**3 + q**2*t + q**2 + q*t**3 - q*t**2 + q + t**3 + t**2 - t)
+  k=9 (j = 0)：2 状態、-t**8*(q + t)
+== T3_5（K = 12、δ = 4）
+  k=0 (j = 12)：1 状態、1
+  k=1 (j = 11)：3 状態、q*t + t + 1
+  k=2 (j = 10)：6 状態、q**2*t**2 + q*t**2 + q*t + t**2 + t + 1
+  k=3 (j = 9)：10 状態、q**3*t**3 + q**2*t**3 + q**2*t**2 + q*t**3 + q*t**2 + q*t + t**3 + t**2 + t + 1
+  k=4 (j = 8)：15 状態、q**4*t**4 + q**3*t**4 + q**3*t**3 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**4 + q*t**3 + q*t**2 + q*t + t**4 + t**3 + t**2 + t + 1
+  k=5 (j = 7)：21 状態、q**5*t**5 + q**4*t**5 + q**4*t**4 + q**3*t**5 + q**3*t**4 + q**3*t**3 + q**2*t**5 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**5 + q*t**4 + q*t**3 + q*t**2 + q*t + t**5 + t**4 + t**3 + t**2 + t + 1
+  k=6 (j = 6)：28 状態、q**6*t**6 + q**5*t**6 + q**5*t**5 + q**4*t**6 + q**4*t**5 + q**4*t**4 + q**3*t**6 + q**3*t**5 + q**3*t**4 + q**3*t**3 + q**2*t**6 + q**2*t**5 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**6 + q*t**5 + q*t**4 + q*t**3 + q*t**2 + q*t + t**6 + t**5 + t**4 + t**3 + t**2 + t + 1
+  k=7 (j = 5)：36 状態、q**7*t**7 + q**6*t**7 + q**6*t**6 + q**5*t**7 + q**5*t**6 + q**5*t**5 + q**4*t**7 + q**4*t**6 + q**4*t**5 + q**4*t**4 + q**3*t**7 + q**3*t**6 + q**3*t**5 + q**3*t**4 + q**3*t**3 + q**2*t**7 + q**2*t**6 + q**2*t**5 + q**2*t**4 + q**2*t**3 + q**2*t**2 + q*t**7 + q*t**6 + q*t**5 + q*t**4 + q*t**3 + q*t**2 + q*t + t**7 + t**6 + t**5 + t**4 + t**3 + t**2 + t + 1
+  k=8 (j = 4)：200 状態、-t*(q**7*t**7 + q**7*t**6 + 2*q**6*t**7 + 5*q**6*t**6 + 2*q**6*t**5 + q**5*t**7 + 9*q**5*t**6 + 9*q**5*t**5 + 3*q**5*t**4 + 7*q**4*t**6 + 15*q**4*t**5 + 11*q**4*t**4 + 4*q**4*t**3 - q**3*t**7 + 3*q**3*t**6 + 13*q**3*t**5 + 17*q**3*t**4 + 11*q**3*t**3 + 3*q**3*t**2 - q**2*t**7 - q**2*t**6 + 5*q**2*t**5 + 13*q**2*t**4 + 15*q**2*t**3 + 9*q**2*t**2 + 2*q**2*t - q*t**7 - q*t**6 - q
+  k=9 (j = 3)：178 状態、t**3*(q**6*t**6 + 2*q**6*t**5 + 2*q**6*t**4 + 5*q**5*t**5 + 7*q**5*t**4 + 4*q**5*t**3 - 2*q**4*t**6 + 2*q**4*t**5 + 12*q**4*t**4 + 11*q**4*t**3 + 4*q**4*t**2 - 3*q**3*t**6 - 5*q**3*t**5 + 7*q**3*t**4 + 16*q**3*t**3 + 11*q**3*t**2 + 4*q**3*t - q**2*t**6 - 9*q**2*t**5 - 6*q**2*t**4 + 7*q**2*t**3 + 12*q**2*t**2 + 7*q**2*t + 2*q**2 + q*t**6 - 3*q*t**5 - 9*q*t**4 - 5*q*t**3 + 2*q*t
+  k=10 (j = 2)：64 状態、-t**5*(q*t + 1)*(q**4*t**3 + q**4*t**2 + q**4*t - q**3*t**4 + 2*q**3*t**2 + 2*q**3*t + q**3 - q**2*t**4 - 3*q**2*t**3 + q**2*t**2 + 2*q**2*t + q**2 + 2*q*t**4 - 3*q*t**3 - 3*q*t**2 + q + 2*t**4 + 2*t**3 - t**2 - t)
+  k=11 (j = 1)：14 状態、-t**8*(q*t + t + 1)*(q**2*t - q*t**2 + q + 2*t**2 - t)
+  k=12 (j = 0)：2 状態、-t**11*(q + t)
+== 上の系列 U_j = −n_{K−j}/t^{K−2j}
+  j=0 T3_4：(q + t)/t
+  j=0 T3_5：(q + t)/t
+    差 T3_5 − T3_4：0
+    T3_4：(t + q) で割った余り True、(q − t) で割った余り 0？ False
+    T3_5：(t + q) で割った余り True、(q − t) で割った余り 0？ False
+  j=1 T3_4：(q**3*t**2 + q**3*t + q**3 - q**2*t**3 + q**2*t + q**2 + q*t**3 - q*t**2 + q + t**3 + t**2 - t)/t**2
+  j=1 T3_5：(q*t + t + 1)*(q**2*t - q*t**2 + q + 2*t**2 - t)/t**2
+    差 T3_5 − T3_4：-(q - t)*(q**2*t + q**2 + q + t**2)/t**2
+    T3_4：(t + q) で割った余り False、(q − t) で割った余り 0？ False
+    T3_5：(t + q) で割った余り False、(q − t) で割った余り 0？ False
+  j=2 T3_4：-(q**4*t**4 + 2*q**4*t**3 + 2*q**4*t**2 + 3*q**3*t**3 + 5*q**3*t**2 + 2*q**3*t - 2*q**2*t**4 + 6*q**2*t**2 + 5*q**2*t + 2*q**2 - q*t**4 - 4*q*t**3 + 3*q*t + 2*q - t**3 - 2*t**2 + 1)/t**2
+  j=2 T3_5：(q*t + 1)*(q**4*t**3 + q**4*t**2 + q**4*t - q**3*t**4 + 2*q**3*t**2 + 2*q**3*t + q**3 - q**2*t**4 - 3*q**2*t**3 + q**2*t**2 + 2*q**2*t + q**2 + 2*q*t**4 - 3*q*t**3 - 3*q*t**2 + q + 2*t**4 + 2*t**3 - t**2 - t)/t**3
+    差 T3_5 − T3_4：(q**5*t**4 + q**5*t**3 + q**5*t**2 + 2*q**4*t**4 + 5*q**4*t**3 + 3*q**4*t**2 + 2*q**4*t - q**3*t**5 - q**3*t**4 + 6*q**3*t**3 + 6*q**3*t**2 + 3*q**3*t + q**3 - 4*q**2*t**4 + 6*q**2*t**2 + 5*q**2*t + q**2 + q*t**5 - 4*q*t**3 - q*t**2 + 2*q*t + q + t**4 - t**2)/t**3
+    T3_4：(t + q) で割った余り False、(q − t) で割った余り 0？ False
+Traceback (most recent call last):
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 231, in _parallel_dict_from_expr_if_gens
+    monom[indices[base]] = exp
+          ~~~~~~~^^^^^^
+KeyError: 1/t
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 29, in <module>
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 190, in __new__
+    return cls._from_expr(rep, opt)
+           ~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polytools.py", line 319, in _from_expr
+    rep, opt = _dict_from_expr(rep, opt)
+               ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 388, in _dict_from_expr
+    rep, gens = _dict_from_expr_if_gens(expr, opt)
+                ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 327, in _dict_from_expr_if_gens
+    (poly,), gens = _parallel_dict_from_expr_if_gens((expr,), opt)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/masaya/projects/ai_research/refined_cs/.venv/lib/python3.14/site-packages/sympy/polys/polyutils.py", line 236, in _parallel_dict_from_expr_if_gens
+    raise PolynomialError("%s contains an element of "
+                          "the set of generators." % factor)
+sympy.polys.polyerrors.PolynomialError: 1/t contains an element of the set of generators.

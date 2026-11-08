@@ -1,7 +1,7 @@
 \section{一般の $N$ の多箱}\label{sec:generalN}
 
 \subsection{DAHA-Jones 多項式}
-refined SO$(2N)$ の多箱の値は、AgSc の SL$(2,\mathbb{Z})$ の計算では一般の $N$ で得られない。そこで Cherednik \cite{Cherednik11} の DAHA-Jones 多項式
+refined SO$(2N)$ の多箱の値は、\cite{AgSc12} の SL$(2,\mathbb{Z})$ の計算では一般の $N$ で得られない。そこで \cite{Cherednik11} の DAHA-Jones 多項式
 \[
 JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
 \]
@@ -20,14 +20,14 @@ JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
 \begin{compresult}[検証]\label{cr:daha}
 \begin{enumerate}
 \item D$_N$, GL$_N$（$N = 2, 3, 4$）で、DAHA の関係式（2 次、組紐、交差、$Y$ の可換性）が成り立つ。D$_N$ の Macdonald 多項式は Macdonald 作用素の固有関数である。
-\item D$_N$：$JD = T_R^{-2n}\times$ 鏡像（一様な規格化の固定 $N$ の $W_R$）。$T_R = q^{(R,R)/2}t^{(R,\rho)}$、$n = 2m+1$ で、確かめた範囲は $N = 2, 3$、$R \in \{(1), (1,1), (2)\}$、$m = 1, 2$ である。$N = 4, 5$ の [1] は AgSc (6.15) の鏡像にちょうど一致する。
-\item GL$_N$：$W_b = $ 鏡像$(JD_b/M_b)$、$M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$。確かめた範囲は次のとおりである。$m = 1$ では [1], [2], [1,1] から読み取り、[3], [2,1], [1,1,1] と随伴（U(3), U(5)）で予言どおりになった。$m = 2$ では $N = 2, 3, 4$ の [1], [2], [1,1]（9 例）と随伴（U(3), U(5)）で成り立つ。
+\item D$_N$：$JD = T_R^{-2n}\times$ 鏡像（一様な規格化の固定 $N$ の $W_R$）。$T_R = q^{(R,R)/2}t^{(R,\rho)}$、$n = 2m+1$ で、確かめた範囲は $N = 2, 3$、$R \in \{(1), (1,1), (2)\}$、$m = 1, 2$ である。$N = 4, 5$ の表現 [1] は \cite{AgSc12} (6.15) の鏡像にちょうど一致する。
+\item GL$_N$：$W_b = $ 鏡像$(JD_b/M_b)$、$M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$。確かめた範囲は次のとおりである。$m = 1$ では表現 [1], 表現 [2], 表現 [1,1] から読み取り、表現 [3], 表現 [2,1], 表現 [1,1,1] と随伴（U(3), U(5)）で予言どおりになった。$m = 2$ では $N = 2, 3, 4$ の表現 [1], 表現 [2], 表現 [1,1]（9 例）と随伴（U(3), U(5)）で成り立つ。
 \item 高速版と現行版は、保存した値で全係数一致する。
 \end{enumerate}
 \end{compresult}
 
 \subsection{一般の $N$ の補間}
-簡約した不変量 $\Rred_R(N) = T_R^{-2n}\times$ 鏡像$(JD(N))/K_R(t^\rho)$ を、$t^N$ の Laurent 多項式として補間した。
+reduced 不変量 $\Rred_R(N) = T_R^{-2n}\times$ 鏡像$(JD(N))/K_R(t^\rho)$ を、$t^N$ の Laurent 多項式として補間した。
 補間の窓は推測しない。$\Rred_R(N)$ の $t^{1/2}$ の次数の最小値・最大値が大きな $N$ で $2Nj + $（定数）になることから窓を決め、大きな $N$ をノードにして Newton の差分商で補間し、残りの $N$ で照合した。
 % [D4]
 \begin{compresult}\label{cr:interp}
@@ -38,10 +38,10 @@ JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
 \toprule
 結び目・表現 & 冪の範囲 & ノード & 照合 \\
 \midrule
-trefoil の [1] & $-5$〜$-2$ & $N = 2$〜5 & $N = 6, 7$、AgSc (6.15) \\
+trefoil の表現 [1] & $-5$〜$-2$ & $N = 2$〜5 & $N = 6, 7$、\cite{AgSc12} (6.15) \\
 trefoil の (2), (1,1) & $-10$〜$-4$ & $N = 2$〜8 & $N = 9$（$N = 3$〜9 から $N = 2$） \\
 trefoil の (3), (2,1), (1,1,1) & $-15$〜$-6$ & $N = 4$〜13 & $N = 2, 3$（(1,1,1) は $N = 3$） \\
-$T(2,5)$ の [1] & $-9$〜$-4$ & $N = 9$〜14 & $N = 2$〜8 \\
+$T(2,5)$ の表現 [1] & $-9$〜$-4$ & $N = 9$〜14 & $N = 2$〜8 \\
 $T(2,5)$ の (2), (1,1) & $-18$〜$-8$ & $N = 4$〜14 & $N = 2, 3$ \\
 被覆の随伴 $(1;1)$（trefoil） & $-10$〜$-4$ & $N_A = 2$〜11 のうち 7 点 & 残りの 3 点 \\
 被覆の随伴 $(1;1)$（$T(2,5)$） & $-18$〜$-8$ & $N_A = 14$〜24 & $N_A = 2$〜13 \\
@@ -49,85 +49,85 @@ $T(2,5)$ の (2), (1,1) & $-18$〜$-8$ & $N = 4$〜14 & $N = 2, 3$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-3 箱を $t = q$ にすると、[3] は NRZ \cite{NRZ13} の [3] 彩色の Kauffman 多項式の鏡像に比 1 で一致する。
+3 箱を $t = q$ にすると、[3] は \cite{NRZ13} の表現 [3] 彩色の Kauffman 多項式の鏡像に比 1 で一致する。
 \end{compresult}
 これで、refined SO$(2N)$ の trefoil の 2 箱・3 箱と $T(2,5)$ の 2 箱の不変量が一般の $N$ で得られた。
-trefoil の 2 箱の係数は付録 \ref{app:daha} に載せた。
+trefoil の 2 箱の係数は\ref{app:daha} に載せた。
 
 \subsection{大きな $N$ のクロスキャップ部分}
 3 箱の SO 側は、核を D$_N$ の $K_R$（$|R| \le 3$、$t^N$ は形式変数）の逆行列で $K$ 基底に直して求めた。被覆は、普通の表現・随伴・composite から組み立てた。
 % [D5][D6]
 \begin{compresult}\label{cr:largeN}
 \begin{enumerate}
-\item 2 箱（trefoil, $T(2,5)$）：$g_{(2)}, g_{(1,1)}$ の分母は $2\times$ 単項式 $\times(1+t)$ だけで、$N$ に依存する極はすべて消える。$g_{(2)} + g_{(1,1)}$ と $(1+t)(g_{(2)} - g_{(1,1)})$ は整数 Laurent である。$(1+t)$ は $p_2$ 方向だけにあり、命題 \ref{prop:alld} の $E_{(2)} = -E_{(1,1)}$ と一致する。
-\item 3 箱（trefoil）：$g_{(3)}, g_{(2,1)}, g_{(1,1,1)}$ は整数 Laurent で、$(1+t)$ の極は無い。奇数のセクターに $E$ が無いという命題 \ref{prop:alld} の予言どおりである。hatted の $\hat g_R = M(q^{-1})^{-1} g_R$ も $U$ 一般で整数 Laurent である（3 箱では全 $d$ の $g$ が Mariño の奇数 $d$ の $g^{\mathrm{odd}}$ に等しい）。
+\item 2 箱（trefoil, $T(2,5)$）：$g_{\ytwo}, g_{\yoneone}$ の分母は $2\times$ 単項式 $\times(1+t)$ だけで、$N$ に依存する極はすべて消える。$g_{\ytwo} + g_{\yoneone}$ と $(1+t)(g_{\ytwo} - g_{\yoneone})$ は整数 Laurent である。$(1+t)$ は $p_2$ 方向だけにあり、命題 \ref{prop:alld} の $E_{\ytwo} = -E_{\yoneone}$ と一致する。
+\item 3 箱（trefoil）：$g_{\ythree}, g_{\ytwoone}, g_{\yoneoneone}$ は整数 Laurent で、$(1+t)$ の極は無い。奇数のセクターに $E$ が無いという命題 \ref{prop:alld} の予言どおりである。hatted の $\hat g_R = M(q^{-1})^{-1} g_R$ も $U$ 一般で整数 Laurent である（3 箱では全 $d$ の $g$ が Mariño の奇数 $d$ の $g^{\mathrm{odd}}$ に等しい）。
 \item 検算として、$t^N = t^2, t^3$ で固定 $N$ の値と全係数一致する。
 \end{enumerate}
 \end{compresult}
 
 % [D8]
-KN の q 枠と t 枠の hatted 不変量は、2 箱の SO・被覆・クロスキャップ部分のすべてで一致する。
+\cite{KN17} の q 側と t 側の hatted 不変量は、2 箱の SO・被覆・クロスキャップ部分のすべてで一致する。
 
 \subsection{$t = q$ での Mariño との辞書}
 % [D7]
 \begin{compresult}\label{cr:marino}
 \begin{enumerate}
 \item SO の $W_R$ と被覆の $W_S$ は、Mariño の $G_R, H_S$（標準 framing）の鏡像（$\lambda \to 1/\lambda$, $t_M \to 1/t_M$）に比 1 で一致する（$R, \mu \in \{(1), (2), (1,1)\}$）。
-\item クロスキャップ部分では $g_{(1)} = -$鏡像$(g^{\mathrm{Mar}}_{[1]})$ である。2 箱は次の手順で $-$鏡像$(\hat g^{\mathrm{Mar}}_R)$ になる。
+\item クロスキャップ部分では $g_{\yone} = -$鏡像$(g^{\mathrm{Mar}}_{\yone})$ である。2 箱は次の手順で $-$鏡像$(\hat g^{\mathrm{Mar}}_R)$ になる。
   \begin{itemize}
-  \item 全 $d$ の $g$ を奇数 $d$ に直す：$g^{\mathrm{odd}}_{(2)} = g_{(2)} + \tfrac12 g_{(1)}(x^2)$、$g^{\mathrm{odd}}_{(1,1)} = g_{(1,1)} - \tfrac12 g_{(1)}(x^2)$。
+  \item 全 $d$ の $g$ を奇数 $d$ に直す：$g^{\mathrm{odd}}_{\ytwo} = g_{\ytwo} + \tfrac12 g_{\yone}(x^2)$、$g^{\mathrm{odd}}_{\yoneone} = g_{\yoneone} - \tfrac12 g_{\yone}(x^2)$。
   \item unknot の値 $\mp\tfrac12$ を引く。
   \item $M(q^{-1})^{-1}$ で hatted にする。
   \end{itemize}
-\item Mariño \cite{Marino09} の (4.8) の $\hat g_{[2]}$ には誤植がある（$z^9$ の項）。正しくは $z^9(11\lambda^{12} - 78\lambda^{10} + 78\lambda^8 - 11\lambda^6)$ である。
+\item \cite{Marino09} の (4.8) の $\hat g_{\ytwo}$ には誤植がある（$z^9$ の項）。正しくは $z^9(11\lambda^{12} - 78\lambda^{10} + 78\lambda^8 - 11\lambda^6)$ である。
 \end{enumerate}
 \end{compresult}
-全体の符号 $-1$ は、双対 Cauchy（fermionic）の核の帰結である。$R \leftrightarrow R^T$ は奇数 $d$ に直した $g^{\mathrm{odd}}$ の段階で現れ（$g^{\mathrm{odd}}_{(2)}$ が鏡像$(g^{\mathrm{Mar}}_{[1,1]})$ に対応する）、鏡像で $M(q^{-1}) \leftrightarrow M(q)$ となることで hatted の段階では打ち消す。
+全体の符号 $-1$ は、双対 Cauchy（fermionic）の核の帰結である。$R \leftrightarrow R^T$ は奇数 $d$ に直した $g^{\mathrm{odd}}$ の段階で現れ（$g^{\mathrm{odd}}_{\ytwo}$ が鏡像$(g^{\mathrm{Mar}}_{\yoneone})$ に対応する）、鏡像で $M(q^{-1}) \leftrightarrow M(q)$ となることで hatted の段階では打ち消す。
 
 \subsection{$G$ 展開の破れ}
 % [D10]
 \begin{compresult}
-{[1]} の $c = 1$ 部分は $\sigma$ で対称だが、2 箱・3 箱では $c = 1$ 部分が対称にならない。対象は $\hat g_R$、和、奇数 $d$ 版のどれでも同じで、$c = 1$ を $\lambda$ の偶数冪ととっても、hatted の正しい偶奇（$\beta \equiv |R| - 1$、計算結果 \ref{cr:multibox-sigma}）でとっても同じである。
-SO の簡約した不変量 $\Rred_R$ には、$\sigma$・$q\leftrightarrow t$・鏡像と、$\lambda \to \pm\lambda^{\pm1}\ql^{c_1}\qr^{c_2}$（$|c_1|, |c_2| \le 2$）、$R \leftrightarrow R^T$ をどう組み合わせても、比が単項式になる対称性が無い。
+表現 [1] の $c = 1$ 部分は $\sigma$ で対称だが、2 箱・3 箱では $c = 1$ 部分が対称にならない。対象は $\hat g_R$、和、奇数 $d$ 版のどれでも同じで、$c = 1$ を $\lambda$ の偶数冪ととっても、hatted の正しい偶奇（$\beta \equiv |R| - 1$、計算結果 \ref{cr:multibox-sigma}）でとっても同じである。
+SO のreduced 不変量 $\Rred_R$ には、$\sigma$・$q\leftrightarrow t$・鏡像と、$\lambda \to \pm\lambda^{\pm1}\ql^{c_1}\qr^{c_2}$（$|c_1|, |c_2| \le 2$）、$R \leftrightarrow R^T$ をどう組み合わせても、比が単項式になる対称性が無い。
 \end{compresult}
 A 型の super-duality に当たる対称性が SO 側には無いので、SO の $\hat f$ と $\hat g$ が $\sigma$ 対称になる理由は無い（被覆の $\hat f$ は $R$ ごとに $\sigma$ 対称である）。
 
-\subsection{refined Sp$(2N)$ の [1] と 2 箱}\label{sec:sp}
-Avetisyan--Mkrtchyan \cite{AM22} の refined Chern--Simons の定義は、任意のルート系で $k_\alpha = y$ を一様にとり $q_\alpha = q^{(\alpha,\alpha)/2}$ とするもので、C$_N$ では長い根のパラメータが $u = t_{\mathrm{lng}} = t^2$ になる。
-Cherednik \cite{Cherednik11} §Kauffman の C$_n$ の DAHA（$t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$）を多項式表現の上で実装し、次を確かめた。
+\subsection{refined Sp$(2N)$ の表現 [1] と 2 箱}\label{sec:sp}
+\cite{AM22} の refined Chern--Simons の定義は、任意のルート系で $k_\alpha = y$ を一様にとり $q_\alpha = q^{(\alpha,\alpha)/2}$ とするもので、C$_N$ では長い根のパラメータが $u = t_{\mathrm{lng}} = t^2$ になる。
+\cite{Cherednik11} §Kauffman の C$_n$ の DAHA（$t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$）を多項式表現の上で実装し、次を確かめた。
 % [D11]
 \begin{compresult}
 \begin{enumerate}
-\item C$_2$, C$_3$ で DAHA の関係式が成り立つ。$u = 1$ で D$_N$ の DAHA-Jones の [1] に比 1 で一致する（$N = 2, 3$、$T(3,2)$, $T(5,2)$）。Cherednik の $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a_{\mathrm{C}})$ に $a_{\mathrm{C}} = -t^{m-1}$ で単項式を除いて一致する（$m = 2, 3, 4$）。
+\item C$_2$, C$_3$ で DAHA の関係式が成り立つ。$u = 1$ で D$_N$ の DAHA-Jones の表現 [1] に比 1 で一致する（$N = 2, 3$、$T(3,2)$, $T(5,2)$）。Cherednik の $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a_{\mathrm{C}})$ に $a_{\mathrm{C}} = -t^{m-1}$ で単項式を除いて一致する（$m = 2, 3, 4$）。
 \item $N = 2, \dots, 8$ の値から hyper-polynomial $\mathcal{H}^C_{2m+1,2}(\omega_1)$ を $a_{\mathrm{C}}$（Cherednik の $a$）の多項式として復元した。$T(5,2)$ の式は新しい。
-\item SO の規約：$W_{\SO} = $ 鏡像$[\mathcal{H}^C(u{=}1, a_{\mathrm{C}}{=}-\lambda/t^{1/2})]\cdot\dim_V^{\SO}(\lambda)\cdot(t^{1/2}/\lambda)^{2m}$ で、$g^{\mathrm{true}}_{[1]} = W_{\SO} - W^{\cov}_1$ が再現される（一意）。
+\item SO の規約：$W_{\SO} = $ 鏡像$[\mathcal{H}^C(u{=}1, a_{\mathrm{C}}{=}-\lambda/t^{1/2})]\cdot\dim_V^{\SO}(\lambda)\cdot(t^{1/2}/\lambda)^{2m}$ で、$g^{\mathrm{true}}_{\yone} = W_{\SO} - W^{\cov}_1$ が再現される（一意）。
 \item Sp：$\lambda = t^{N+1/2}$（$a = \lambda^2 = t^{2N+1}$。被覆は SO と同じ $\lambda$ の関数で取る）、$a_{\mathrm{C}} = -t^{N-1}$、$u = t^2$。単項式は $t = 1$ の極の打ち消しと $t = q$ での Kauffman の形から SO と同じ $(t^{1/2}/\lambda)^{2m}$ に決まり、$T(2,3)$, $T(2,5)$ で
 \[
-g^{\mathrm{Sp}}_{[1]}(\ba, \bq, \bt) = -\,g^{\SO}_{[1]}(-\ba, \bq, \bt)
+g^{\mathrm{Sp}}_{\yone}(\ba, \bq, \bt) = -\,g^{\SO}_{\yone}(-\ba, \bq, \bt)
 \]
 が全係数で成り立つ。
 \end{enumerate}
 \end{compresult}
-$c = 1$ を $\ba$ の偶数冪、$c = 2$ を奇数冪に割り当てているので、これは $C^{\mathrm{Sp}} = -C_{c=1} + C_{c=2}$、すなわち Mariño の「SO と Sp は $c = 1$ の項の符号が違う」が refined でもそのまま成り立つことを意味する。$c$ の割り当てを独立に裏付けるとともに、AM の refined Sp$(2N)$ が開弦でも整合する最初の確認である。
+$c = 1$ を $\ba$ の偶数冪、$c = 2$ を奇数冪に割り当てているので、これは $C^{\mathrm{Sp}} = -C_{c=1} + C_{c=2}$、すなわち Mariño の「SO と Sp は $c = 1$ の項の符号が違う」が refined でもそのまま成り立つことを意味する。$c$ の割り当てを独立に裏付けるとともに、\cite{AM22} の refined Sp$(2N)$ が開弦でも整合する最初の確認である。
 
 2 箱でも同じ構造を確かめた。C$_N$ の Macdonald 多項式 $P_{2\varepsilon_1}$, $P_{\varepsilon_1+\varepsilon_2}$ を Macdonald 作用素の三角行列から求め、$N = 2, \dots, 9$ の値を $x = t^N$ の有理関数に補間した（$u = 1$ では D$_N$ の 2 箱に一致し、Cherednik の $\mathcal{H}^C_{3,2}(\omega_2)$ に単項式を除いて一致する）。
 % [D12][D13][D14]
 \begin{compresult}
 trefoil の refined Sp$(2N)$ の 2 箱で、
 \begin{enumerate}
-\item $g^{\mathrm{Sp}}_{(2)} + g^{\mathrm{Sp}}_{(1,1)}$ と $(1+t)(g^{\mathrm{Sp}}_{(2)} - g^{\mathrm{Sp}}_{(1,1)})$ は整数 Laurent 多項式で、SO と同じ全 $d$ の構造（命題~\ref{prop:trace}）をもつ。
+\item $g^{\mathrm{Sp}}_{\ytwo} + g^{\mathrm{Sp}}_{\yoneone}$ と $(1+t)(g^{\mathrm{Sp}}_{\ytwo} - g^{\mathrm{Sp}}_{\yoneone})$ は整数 Laurent 多項式で、SO と同じ全 $d$ の構造（命題~\ref{prop:trace}）をもつ。
 \item $E^{\mathrm{Sp}}(t{=}-1) = E^{\SO}(t{=}-1)$（全係数）。
-\item hatted の $p_1^2$ 成分 $(g_{(2)} + g_{(1,1)})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（[1] は $-$）。$g_R$ そのものは
+\item hatted の $p_1^2$ 成分 $(g_{\ytwo} + g_{\yoneone})/z_q$ は Sp$(\ba) = +\,\SO(-\ba)$（表現 [1] は $-$）。$g_R$ そのものは
 \begin{align*}
-f^{\mathrm{Sp}}_{(2)}(\ba) - f^{\SO}_{(2)}(-\ba) &= \psi^2[\delta], \qquad f^{\mathrm{Sp}}_{(1,1)}(\ba) - f^{\SO}_{(1,1)}(-\ba) = -\psi^2[\delta], \\
-\delta &= \mathrm{even}_{\ba}\big(g^{\SO}_{(1)}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
+f^{\mathrm{Sp}}_{\ytwo}(\ba) - f^{\SO}_{\ytwo}(-\ba) &= \psi^2[\delta], \qquad f^{\mathrm{Sp}}_{\yoneone}(\ba) - f^{\SO}_{\yoneone}(-\ba) = -\psi^2[\delta], \\
+\delta &= \mathrm{even}_{\ba}\big(g^{\SO}_{\yone}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
 \end{align*}
 を満たす（$g$ でも同じ。$\psi^2$ は $q, t, \ba^2$ を 2 乗する Adams 作用素）。
 \end{enumerate}
 \end{compresult}
-冪和の成分では $Z_1^{\mathrm{Sp}}(\ba) = -Z_1^{\SO}(-\ba)$, $Z_{11}^{\mathrm{Sp}}(\ba) = Z_{11}^{\SO}(-\ba)$, $Z_2^{\mathrm{Sp}}(\ba) = Z_2^{\SO}(-\ba) + 1$ で、符号は $(-1)^{|\rho|}$、$p_2$ 方向にだけ定数 $1$ のずれがある。$f$ の差 $\psi^2[\delta]$ のうち $\psi^2[\mathrm{even}(g_{(1)})]$ は、[1] の規則が $\ba$ の偶数部分（$c = 1$）の符号だけを変えるのに対し $d = 2$ の Adams 項 $\tfrac12\psi^2[f_{(1)}]$ の偶数部分がそれに従わないことから生じ、$\psi^2[1]$ は $Z_2$ の定数のずれである。彩色の $W_R$ の段階では $W_R^{\mathrm{Sp}}(\ba) = (-1)^{|R|}\,W_R^{\SO}(-\ba)$ が厳密に成り立ち、冪和への変換係数は $p_2$ の定数項（恒等元のトレース）だけが $-2$ 違う。これが $Z_2$ の定数 $1$ で、unknot の [1] のクロスキャップの $\ba$ 偶数部分（SO で $+1$、Sp で $-1$）に等しい。
+冪和の成分では $Z_1^{\mathrm{Sp}}(\ba) = -Z_1^{\SO}(-\ba)$, $Z_{11}^{\mathrm{Sp}}(\ba) = Z_{11}^{\SO}(-\ba)$, $Z_2^{\mathrm{Sp}}(\ba) = Z_2^{\SO}(-\ba) + 1$ で、符号は $(-1)^{|\rho|}$、$p_2$ 方向にだけ定数 $1$ のずれがある。$f$ の差 $\psi^2[\delta]$ のうち $\psi^2[\mathrm{even}(g_{\yone})]$ は、表現 [1] の規則が $\ba$ の偶数部分（$c = 1$）の符号だけを変えるのに対し $d = 2$ の Adams 項 $\tfrac12\psi^2[f_{\yone}]$ の偶数部分がそれに従わないことから生じ、$\psi^2[1]$ は $Z_2$ の定数のずれである。彩色の $W_R$ の段階では $W_R^{\mathrm{Sp}}(\ba) = (-1)^{|R|}\,W_R^{\SO}(-\ba)$ が厳密に成り立ち、冪和への変換係数は $p_2$ の定数項（恒等元のトレース）だけが $-2$ 違う。これが $Z_2$ の定数 $1$ で、unknot の表現 [1] のクロスキャップの $\ba$ 偶数部分（SO で $+1$、Sp で $-1$）に等しい。
 2 箱の計算は trefoil に限る（$T(2,5)$ は補間に $N \le 13$ が要り、現在の実装では計算量が大きすぎる）。
-$E$ が Sp への射影で符号を変えないことは、unrefined の対応「Sp$(N) = \SO(-N)$ かつ $R \to R^{T}$」で $E_{(2)} = -E_{(1,1)}$ を使うと、符号反転と転置が打ち消して $E$ が不変になることと整合する。$p_2$ 方向には [1] の Adams 項 $\psi^2[g_{(1)}]$ が入り、$\psi^2$（$\lambda \to \lambda^2$）は $\ba \to -\ba$ と可換でないため、$f$, $g$ の段階では単純な規則にならない。
+$E$ が Sp への射影で符号を変えないことは、unrefined の対応「Sp$(N) = \SO(-N)$ かつ $R \to R^{T}$」で $E_{\ytwo} = -E_{\yoneone}$ を使うと、符号反転と転置が打ち消して $E$ が不変になることと整合する。$p_2$ 方向には表現 [1] の Adams 項 $\psi^2[g_{\yone}]$ が入り、$\psi^2$（$\lambda \to \lambda^2$）は $\ba \to -\ba$ と可換でないため、$f$, $g$ の段階では単純な規則にならない。
 
 \subsection{普遍因子}\label{sec:universal}
 % [D9]
@@ -139,11 +139,11 @@ X_k = \hat g - \hat g\big|_{t=q}(\lambda \to \lambda \qr^k)
 が $(q - t)(\lambda^2 - t)$ で割り切れる $k$ を $-3 \le k \le 3$ で調べた。割り切れるのは $k = +1$（$\lambda \qr = \tlam$）だけである。
 対象は次のすべてである。
 \begin{itemize}
-\item [1]：$T(2,3)$, $T(2,5)$
-\item 2 箱の $\hat g_{(2)}, \hat g_{(1,1)}$ と和：$T(2,3)$, $T(2,5)$
+\item 表現 [1]：$T(2,3)$, $T(2,5)$
+\item 2 箱の $\hat g_{\ytwo}, \hat g_{\yoneone}$ と和：$T(2,3)$, $T(2,5)$
 \item 3 箱の $\hat g_R$：trefoil
 \end{itemize}
-太字では $(q - t)(\lambda^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$ で、[1] の $c = 2$ 部分と Hopf 絡み目の $\hat C_{R,S}$ の因子と同じである。
+太字では $(q - t)(\lambda^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$ で、表現 [1] の $c = 2$ 部分と Hopf 絡み目の $\hat C_{R,S}$ の因子と同じである。
 \end{compresult}
 $(\lambda^2 - t)$ で割り切れることは、「SO(2) の点 $\lambda^2 = t$ で $\hat g$ が $t$ によらない」ことと同じである。$\lambda$ をずらさないと割り切れない。
 
@@ -156,6 +156,6 @@ $(\lambda^2 - t)$ で割り切れることは、「SO(2) の点 $\lambda^2 = t$ 
 \end{conjecture}
 
 \begin{remark}
-閉弦の凍結した状態と向き付けられた状態の電荷の比は $x^2/Q_0 = \qr^{-1}$ である（AgSc の規約、§\ref{sec:index}）。開弦では、クロスキャップの変数 $\tlam^2$ と被覆の変数 $\ba_{\mathrm{KN}}^2 = \lambda^2w^{-1}$ の比が $w^3$ で、両者は一致しない。
+閉弦の凍結した状態と向き付けられた状態の電荷の比は $x^2/Q_0 = \qr^{-1}$ である（\cite{AgSc12} の規約、§\ref{sec:index}）。開弦では、クロスキャップの変数 $\tlam^2$ と被覆の変数 $\ba_{\mathrm{KN}}^2 = \lambda^2w^{-1}$ の比が $w^3$ で、両者は一致しない。
 開弦と閉弦の変数の対応（$\lambda^2$ と $Q$ か、$\lambda^{-2}$ と $Q$ か）と開弦の規格化がまだ固定されていないので、この比較の結論は保留する。
 \end{remark}

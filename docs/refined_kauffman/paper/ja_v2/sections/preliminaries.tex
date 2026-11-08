@@ -1,0 +1,114 @@
+\section{準備}\label{sec:prelim}
+
+\subsection{変数}
+\begin{center}
+\small
+\begin{tabular}{>{$}l<{$}p{9cm}}
+\toprule
+\text{記号} & 意味 \\
+\midrule
+q,\ t & refined CS の変数（\cite{KN17} と同じ）。半整数冪 $q^{1/2}, t^{1/2}$ をそのまま書く \\
+\lambda = t^{N - 1/2} & Kauffman 変数（\cite{NRZ13} の $\lambda$、Mariño の $\nu$）。$N$ は D$_N$ のランクで、$t^N = \lambda t^{1/2}$。$t = q$ では \cite{NRZ13} の $\lambda = q_{\mathrm{NRZ}}^{2N-1}$（$q_{\mathrm{NRZ}} = q^{1/2}$）。大きな $N$ では形式変数 \\
+\tlam = \lambda\, \qr & ずれた Kauffman 変数（太字で $-\ba\bt$） \\
+a = \lambda^2 = t^{N_A},\ N_A = 2N - 1 & 被覆 U$(N_A)$ の Kähler 変数（\cite{KN17} の $a = t^{N_A}$） \\
+(\bq, \bt, \ba) = (t^{1/2}, -\qr, \lambda) & 太字の変数。$\bq, \bt$ は \cite{KN17}（$q^{1/2} = -\bq\bt$, $t^{1/2} = \bq$）、$\ba = \lambda$ は \cite{AgSc12}。\cite{KN17} の被覆の $\ba$ は $a = -\ba_{\mathrm{KN}}^2\bt$ で定まり、$\ba_{\mathrm{KN}} = \ba\,(t/q)^{1/4}$ \\
+\ql = (qt)^{1/2},\ \qr = (q/t)^{1/2} & \cite{KN17} の $q_\ell, q_r$（$q = \ql\qr$, $t = \ql/\qr$）。$V = \ql^{1/2}$, $W = \qr^{1/2}$ は使わない \\
+z_q = q^{1/2} - q^{-1/2},\ z_t = t^{1/2} - t^{-1/2} & $z_q^+ = q^{1/2} + q^{-1/2}$ \\
+G = z_q z_t = \ql + \ql^{-1} - \qr - \qr^{-1} & $G$ 展開の変数。\cite{KN17} の $(\bq\bt - \bq^{-1}\bt^{-1})(\bq - \bq^{-1}) = -G$ \\
+\sigma\colon q \mapsto t^{-1},\ t \mapsto q^{-1} & $\ql \mapsto \ql^{-1}$、$\qr$ と $\lambda$ を固定。$G$ は不変 \\
+\bottomrule
+\end{tabular}
+\end{center}
+unrefined（$t = q$）では、Mariño の変数は $t_M = q^{1/2}$、$z = z_q$、\cite{NRZ13} の Kauffman 多項式 $F_R(K; \lambda, q_{\mathrm{NRZ}})$ の $q_{\mathrm{NRZ}}$ も $q^{1/2}$ である。コードの内部変数 $(r, s, u, \nu)$ は $(q^{1/2}, t^{1/2}, t^N, \lambda)$ に当たる（\ref{app:code}）。
+
+\subsection{refined SO$(2N)$ の不変量}
+\cite{AgSc12} の SO$(2N)$ の refined Chern--Simons 理論では、表現 $R$ の Wilson ループは D$_N$ 型の Macdonald 多項式で与えられる。
+% [S1]
+\begin{compresult}
+\cite{AgSc12} の refined unknot $\dim_R$ は、Koornwinder 多項式（\cite{Koornwinder92}）$K_R(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ の主特殊化 $x = (1, t, \dots, t^{N-1})$ に等しい（6 つの $R$。\cite{vD96,Sahi99} の評価式と、$q$-差分作用素で作った多項式（$N = 2, 3$）で確認）。
+$\dim_R$ は $t^N$ の Laurent 多項式ではなく、例えば表現 [2] は $(1 - q t^{N-1})$、表現 [1,1] は $(1 - q t^{2N-3})$ を分母にもつ（$t = q$ では約分される）。
+\end{compresult}
+
+% [S2]
+\begin{remark}
+Mariño 型の構成（bosonic な Cauchy 核、$\tfrac12 f^{\cov}$、$\sum_{d\ \mathrm{odd}}$）をそのまま refined にすると、unknot の 2 箱で $U$ の極が打ち消さない。
+composite $([1],[1])$ の寄与は $p_1^2$ 方向だけにあるが、D$_N$ の表現 [2] と [1,1] の極の位置は違う（$t^N = t/q$ と $t^{2N} = t^3/q$）。
+重み 5 通りと基底 3 通りのどの組でもこれは解消しない。
+\end{remark}
+
+\subsection{双対 Cauchy 核と生成関数}
+% [S3]
+Koornwinder 多項式の双対 Cauchy 恒等式（\cite{Mimachi01}）
+\[
+\sum_{\mu \subseteq m^n} (-1)^{|\mu|} K_{m^n - \mu}(x; q, t)\, K_{\mu'}(y; t, q) = \prod_{i, j} x_i^{-1}(1 - x_i y_j)(1 - x_i y_j^{-1})
+\]
+では、ホロノミー側に \cite{AgSc12} の D$_n$ 型（$\pm1, \pm q^{1/2}$）、probe 側に $(q', t') = (t, q)$ に対する $(\pm 1, \pm t'^{1/2})$ 型が現れる。
+この恒等式は $(n, m) = (1,1), (2,1), (1,2), (2,2), (2,3), (3,2)$ の 6 通りで確かめた。
+これを refined orientifold の Ooguri--Vafa 核と読み、probe 変数 $Y = (y_1, y_2, \dots)$ に対して
+\begin{equation}\label{eq:Z}
+\tilde Z(Y) = \Bigl\langle \prod_{\alpha, i} (1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1}) \Bigr\rangle_{\SO(2N)},\qquad
+\log \tilde Z = \sum_{d \ge 1} \frac1d \sum_R f_R(q^d, t^d, \lambda^d)\, s_R(Y^d)
+\end{equation}
+と置く。ここで $\langle F(x)\rangle_{\SO(2N)}$ は、ホロノミーの固有値 $x = (x_1, \dots, x_N)$ の類関数 $F$ を Koornwinder 多項式 $K_\lambda(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ で展開し、各項を refined Chern--Simons の結び目不変量 $W_\lambda(K)$（規格化は \S\ref{sec:uniform}）で置き換える線形写像である：$F = \sum_\lambda c_\lambda K_\lambda(x)$ に対して $\langle F\rangle := \sum_\lambda c_\lambda W_\lambda(K)$。unrefined では経路積分の Wilson loop の期待値で、$x$ は積分されて消える変数である。
+双対 Cauchy 恒等式を $y$ 側が $m$ 個の probe、$x$ 側が $N$ 個のホロノミーになるように読み、両辺に $(\prod_\alpha y_\alpha)^N$ を掛けると、生成関数は
+\begin{equation}\label{eq:Zexpand}
+\begin{aligned}
+\tilde Z(Y) &= \sum_{\lambda \subseteq m^N} (-1)^{|\lambda|}\, W_\lambda(K)\, \hat K_{\lambda'}(Y; t, q; T = t^N),\\
+\hat K_{\lambda'}(Y; t, q; T) &:= \Bigl(\prod_\alpha y_\alpha\Bigr)^N K_{N^m - \lambda'}(Y; t, q; 1, -1, q^{1/2}, -q^{1/2})
+\end{aligned}
+\end{equation}
+と展開される。和をとる相手は probe 側の $(t, q)$ 型 Koornwinder 多項式で、長方形 $N^m$ からの補集合に $(\prod y)^N$ を掛けた $\hat K_{\lambda'}$ は virtual Koornwinder 多項式（\cite{Rains05,RW21}）であり、$Y$ の多項式として $N$ に依存するのは $T = t^N = U$ を通してだけである。これが $U$ を形式変数として扱える理由で、$f_R$ は $\hat K_{\lambda'}(Y)$ を Schur 関数 $s_R(Y)$ に展開し直して Möbius 反転で定める。符号 $(-1)^{|\lambda|}$ は fermionic な核の特徴である。unknot では $W_\lambda = P_\lambda(t^\rho)$ で、\eqref{eq:Zexpand} は双対 Cauchy 恒等式を $x = t^\rho$ で評価した積（\S\ref{sec:hopf}）に戻る。
+被覆 U$(N_A)$ についても、同じ核 $\prod_i(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1})$ で $f^{\cov}_R$ を定める。この場合は $x$ と $x^{-1}$ の両方が入るので、展開の基底は composite $(\alpha; \bar\beta)$ の Macdonald 指標で、$\langle P_\alpha(x) P_\beta(x^{-1})\rangle$ は composite の値と縮約項に分解して評価する（\S\ref{sec:generalN}）。
+核の $|Y| \le 2$ の部分は、U$(N_A)$ の普通の表現と随伴 composite $(1;1)$ で書ける。3 次では composite $(2;1)$, $(1,1;1)$ も現れる。
+
+\begin{definition}[refined クロスキャップ不変量]\label{def:crosscap}
+全 $d$ の定義で $g_R = f_R - \tfrac12 f^{\cov}_R$ と置く。
+hatted 不変量は $\hat g = M(q^{-1})^{-1} g$ である。ここで $M_{RS} = \sum_\mu \chi_R(\mu)\chi_S(\mu) z_\mu^{-1}\prod_i (t_M^{\mu_i} - t_M^{-\mu_i})/(t_M - t_M^{-1})$（$t_M = q^{1/2}$）は Mariño の $M$ で、\cite{KN17} の $M(x)$ の $x = q^{-1}$ に等しい。
+\end{definition}
+
+% [S8]
+\begin{remark}
+reformulation に $M(t)$ や $M(t^{-1})$ を使うと、Hopf 絡み目で Laurent にならない。$M(q)$ は $R \leftrightarrow R^T$ を入れ替える。
+\cite{KN17} の二つの定式化（q 側：Macdonald の Cauchy 核と $M(t)$、t 側：双対 Cauchy 核と $M(q^{-1})$）の hatted 不変量は、2 箱で一致する（§\ref{sec:generalN}）。
+\end{remark}
+
+\subsection{計算の手順}\label{sec:procedure}
+定義 \ref{def:crosscap} の $g_R$ は、次の 3 段で計算する。$f_R$ と $f^{\cov}_R$ は別々に、箱の小さい順に求め、$g_R$ はその差である。
+\begin{center}
+\small
+\begin{tabular}{lp{6.6cm}p{5.2cm}}
+\toprule
+量 & 入力 & 計算 \\
+\midrule
+$f_R$ & SO$(2N)$ の refined CS 不変量 $W^{\SO}_\lambda$（$|\lambda| \le |R|$、D$_N$ 型） & 双対 Cauchy 核 \eqref{eq:Z} の $\log$ を Schur 関数で展開し Möbius 反転 \\
+$f^{\cov}_R$ & 被覆 U$(N_A)$ の A 型の不変量：普通の表現 $W_\alpha$、composite $(1;\bar 1)$（随伴）、3 箱では $(2;\bar 1), (1,1;\bar 1)$ と縮約項 & 同じ核、composite の Macdonald 指標で展開 \\
+$g_R$ & 上の 2 つ & $f_R - \tfrac12 f^{\cov}_R$、hatted は $M(q^{-1})^{-1}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$f_R$ は SO 側だけで閉じ、$f^{\cov}_R$ には SO のデータは入らない。被覆の部分を A 型の refined 不変量で与えることは、unrefined の Mariño の構成の refined 版として置く仮説である（表現 [1] の形は仮説 \ref{hyp:hg}）。その裏付けは、引いた後の $g_R$ の $N$ に依存する極の打ち消しが単項式の選び方を一意に決めること（計算結果 \ref{cr:uniform}、§\ref{sec:torus}）と、$g_R$ の整数性（§\ref{sec:generalN}）である。
+被覆を brane（$Y$）と image（$Y'$）の 2 組の probe で書くと、$f^{\cov}$ は brane--brane（\cite{KN17} の不変量そのもの）と brane--image（composite の連結部分）に分かれる（§\ref{sec:cover}）。
+
+\subsection{一様な規格化}\label{sec:uniform}
+入力の U$(n)$ の refined 不変量（\cite{KN17} の (N1)+(N2) で規格化したもの）は、行列式表現と荷電共役について $(q/t)$ の冪だけずれる。
+そこで、表現 [1] の superpolynomial の $\delta$ 次数 $\delta = \ba + \bq/2 - \bt$ を使い、
+\begin{equation}\label{eq:uniform}
+W_R = (t/q)^{\delta |R|/2}\, \Rred_R\, P_R(t^\rho)
+\end{equation}
+と置く（$T(2,2m+1)$ では $\delta = m$）。
+
+% [S5][S6]
+\begin{compresult}\label{cr:uniform}
+\begin{enumerate}
+\item 規格化 \eqref{eq:uniform} では、行列式のずらし $R \to R + 1^n$ と荷電共役で $W$ が正確に不変になる。検査した範囲は trefoil の 16 組（U(2)〜U(5)）、$T(2,5)$ と $T(2,7)$ の各 13 組、二重ツイスト結び目 7 個である。
+\item 固定 $N$（$N = 2, 3$、$|R| \le 3$）で framing の単項式を「$N$ に依存する極の打ち消し」と「$t = q$ で 1」で決めると、SO 側・被覆側ともすべて 1 になる（$T(2,3), T(2,5), T(2,7)$）。この探索では $(t/q)^{\beta/2}$ の族の中で $\beta$ が一意に決まる。
+\item DAHA-Jones 多項式（鉛直 framing）とは、framing 固有値の冪を除いて一致する（§\ref{sec:generalN}）。
+\item $t = q$ では Mariño の標準 framing そのものになる。
+\end{enumerate}
+\end{compresult}
+
+% [S7]
+\begin{hypothesis}
+一様な規格化 \eqref{eq:uniform} は framing 0 の値である。
+\end{hypothesis}
+以後、SO 側・被覆側ともこの規格化を使う。

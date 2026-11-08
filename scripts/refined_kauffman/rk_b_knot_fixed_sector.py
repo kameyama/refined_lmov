@@ -16,8 +16,9 @@ u = sp.Symbol("u", positive=True)
 t = s**2
 
 
-def load_g(m):
-    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_2box_m{m}.pkl", "rb"))
+def load_g(m, k=2):
+    import rk_torus_tag as TG
+    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_2box_{TG.tag(m, k)}.pkl", "rb"))
     return {eval(k): sp.cancel(sp.sympify(v, locals={"r": r, "s": s, "u": u}).subs(u, nu * s)) for k, v in d["g"].items()}
 
 
