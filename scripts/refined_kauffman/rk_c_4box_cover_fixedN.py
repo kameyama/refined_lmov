@@ -37,13 +37,14 @@ def mul(f, g):
     return {k: v for k, v in out.items() if not v.is_zero()}
 
 
-def weights(N, total, top, bottom):
-    """優勢な重み ν（ν_1 ≥ … ≥ ν_N、Σν = total、ν_1 ≤ top、ν_N ≥ −bottom）。"""
+def weights(N, total, top, bottom, high=None):
+    """優勢な重み ν（ν_1 ≥ … ≥ ν_N、Σν = total、ν_1 ≤ top、ν_N ≥ −bottom）。high を与えると支配順序で ν ≤ high のものだけ
+    （P_a(x) P_b(x^{−1}) の成分は最高の重み (a, 0, …, 0, −b の逆順) 以下）。"""
     out = []
 
     def rec(prefix, rest_n, hi):
         if rest_n == 0:
-            if sum(prefix) == total:
+            if sum(prefix) == total and (high is None or all(sum(prefix[:i]) <= sum(high[:i]) for i in range(1, N + 1))):
                 out.append(tuple(prefix))
             return
         for x in range(hi, -bottom - 1, -1):
@@ -52,11 +53,17 @@ def weights(N, total, top, bottom):
     return out
 
 
+_PW = {}
+
+
 def P_weight(D, nu):
+    if (D.N, nu) in _PW:
+        return _PW[(D.N, nu)]
     c = max(0, -nu[-1])
     lam = tuple(x + c for x in nu)
     P = gl_P_poly(D, tuple(x for x in lam if x > 0))
-    return {tuple(x - c for x in a): v for a, v in P.items()}
+    _PW[(D.N, nu)] = {tuple(x - c for x in a): v for a, v in P.items()}
+    return _PW[(D.N, nu)]
 
 
 def shape(nu):
@@ -94,7 +101,8 @@ def pair_values(NA):
             if sum(a) + sum(b) > KMAX or len(a) > NA or len(b) > NA:
                 continue
             lhs = mul(P[a], inv(P[b]))
-            ws = weights(NA, sum(a) - sum(b), a[0] if a else 0, b[0] if b else 0)
+            high = tuple(list(a) + [0] * (NA - len(a) - len(b)) + [-x for x in reversed(b)])
+            ws = weights(NA, sum(a) - sum(b), a[0] if a else 0, b[0] if b else 0, high)
             basis = {nu: P_weight(D, nu) for nu in ws}
             x = solve_symmetric(D, lhs, basis)
             # 検算：分解の和が左辺に戻る

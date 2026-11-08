@@ -3,7 +3,8 @@ SO：rk_c_4box_so_f（D_N の K_λ、|λ| ≤ 4、R_U_m1_{λ}）。
 被覆 U(N_A)：Z~ = Σ_{λ,μ} (−1)^{|λ|+|μ|} ⟨P_λ(x) P_μ(x^{−1})⟩ P_{λ'}(Y; t, q) P_{μ'}(Y; t, q)（|λ| + |μ| ≤ 4、rk_c_3box_largeN と同じ）。
   ⟨P_λ P_μ^∨⟩：(|λ|, |μ|) ≤ (2, 2) は rk_f_cover_fixed22.pair_values（普通の表現、随伴 + κ、(α;1̄) |α| = 2、(α;β̄) |α| = |β| = 2）。
   普通の表現 |λ| = 3, 4：W_λ = (t/q)^{|λ|/2} R_λ(KN の data) P_λ(t^ρ)。
-  (α;1̄)、|α| = 3：W_{(α;1)} + Σ_μ c_{α,μ} W_μ、W_{(α;1)} = R_{(α;1)}(A^{1/2}) P_{(α;1)}(t^ρ)（R は rk_c_fast_composite3 の値を補間）、
+  (α;1̄)、|α| = 3：W_{(α;1)} + Σ_μ c_{α,μ} W_μ、W_{(α;1)} = R_{(α;1)}(A^{1/2}) P_{(α;1)}(t^ρ)
+    （R は rk_c_fast_composite3 の値を rk_c_bounded_save.run_fixed で補間した Rcomp_A_m1_{α}.pkl）、
     c_{α,μ} は縦帯の Pieri の ψ'（rk_c_fast_composite3.psi_A）。荷電共役で ⟨P_1 P_α^∨⟩ = ⟨P_α P_1^∨⟩。
 自由エネルギーは全 d の Möbius 反転（rk_c_4box_so_f.plog）。
 検算：次数 ≤ 3 の g が largeN_3box_m1.pkl と全係数一致。被覆の f の固定 N との照合は rk_c_4box_cover_fixedN.py。
@@ -47,9 +48,9 @@ def cover_pairs():
         for lam in partitions(n):
             v = w**n * L.Rdata_nu("".join(map(str, lam))) * L.Psym(lam)
             pair[(lam, ())] = pair[((), lam)] = v
-    T3.MK = 1
     for alpha in partitions(3):
-        Rc = T3.comp_interp(alpha)
+        # R_{(α;1)}(A^{1/2})：rk_c_bounded_save.run_fixed（r の次数ごとに冪の範囲を絞る補間、使わない N_A で全係数一致）で保存したもの
+        Rc = F22.load_poly_A(os.path.join(OUT, f"Rcomp_A_m1_{''.join(map(str, alpha))}.pkl"), 1)
         dimc = F22.sym_rf(dim_composite(alpha, (1,)))
         cs = {mu: C3.psi_A(alpha, i, q, t, A) for i, mu in C3.lower(alpha)}
         # 主特殊化の恒等式（ev は乗法的）：P_α(t^ρ) P_1(t^ρ) = K_{(α;1)} + Σ_μ c_μ P_μ(t^ρ)
