@@ -1,0 +1,151 @@
+\section{Higher representations at general $N$: integrality and the universal factor}\label{sec:generalN}
+
+\subsection{DAHA-Jones polynomials}
+The multi-box values of refined $\SO(2N)$ theory cannot be obtained at general $N$ from the $SL(2,\mathbb{Z})$ computation of \cite{AgSc12}. We therefore compute the DAHA-Jones polynomials of \cite{Cherednik11},
+\[
+JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k}),
+\]
+directly on the polynomial representations of the $D_N$ and $GL_N$ DAHA at generic $t$ (the shift-operator method of that paper is limited to $t = 1, q$). The conventions are: $(T_i - t^{1/2})(T_i + t^{-1/2}) = 0$ and evaluation $\{H\} = (H\cdot 1)(q^{-\rho_k})$; since the vector representation is minuscule, $Y_{\varepsilon_1} = \pi_1 T_{u_1}$ with $\pi_1(X_b) = q^{(\omega_{1*}, b)}X_{u_1^{-1}b}$ ($\omega_{1*} = \varepsilon_1$ for $D_N$, $\omega_{1*} \equiv -\varepsilon_N$ for $GL_N$); $\tau_-(X) = q^{1/2}YX$, $\tau_+(Y) = q^{-1/2}XY$, and $T(2m+1, 2)$ is $\gamma = \tau_+^m\tau_-^2$.
+For speed we use the anti-involution $\varphi$ exchanging $X$ and $Y$, symmetrization over orbits, and sharing between representations $R$.
+The composites $(\alpha;1)$ of the cover are computed by starting the $X$-chain from $\hat\gamma'(p_1(Y))\cdot 1$, built by symmetrization on the $X^{-1}$ side.
+For four boxes one needs $|\alpha| = 3$, where the irreducible decomposition $P_\alpha(X)p_1(X^{-1}) = P_{(\alpha;1)}(X) + \sum_\mu c_{\alpha,\mu}P_\mu(X)$ ($\mu = \alpha - \varepsilon_i$) has several lower terms. From $p_1(X^{-1}) = e_{N-1}(X)/e_N(X)$ and the Pieri rule for vertical strips, $c_{\alpha,\mu} = \psi'_{\lambda/\alpha}$ with $\lambda = \alpha + 1^N - \varepsilon_i$; only the leg in column $0$ depends on $N$, which gives a closed form in $t^N$. This was checked against the polynomial decomposition for small $N$ and against the identity of principal specializations for all $N$.
+
+% [D1][D2][D3]
+\begin{result}[checks]\label{cr:daha}
+\begin{enumerate}
+\item For $D_N$, $GL_N$ ($N = 2, 3, 4$) the DAHA relations (quadratic, braid, cross, commutativity of $Y$) hold, and the $D_N$ Macdonald polynomials are eigenfunctions of the Macdonald operator.
+\item $D_N$: $JD = T_R^{-2n}\times$ mirror (fixed-$N$ $W_R$ in the uniform normalization), $T_R = q^{(R,R)/2}t^{(R,\rho)}$, $n = 2m+1$; checked for $N = 2, 3$, $R \in \{(1), (1,1), (2)\}$, $m = 1, 2$. For $N = 4, 5$ the fundamental representation coincides exactly with the mirror of (6.15) of \cite{AgSc12}.
+\item $GL_N$: $W_b = $ mirror$(JD_b/M_b)$ with $M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$. For $m = 1$ the rule was read off from $[1], [2], [1,1]$ and predicted correctly for $[3], [2,1], [1,1,1]$ and the adjoint ($\U(3)$, $\U(5)$); for $m = 2$ it holds for $[1], [2], [1,1]$ at $N = 2, 3, 4$ (nine cases) and for the adjoint. For composites with $|\alpha| = 3$ the values of $(3;1)$ in $\U(2)$ and $(2,1;1)$, $(1,1,1;1)$ in $\U(4)$ agree with those of $[4]$, $[3,2,1]$, $[2,2,2]$ up to a factor $1$ ($m = 1$).
+\item The fast and the reference implementations agree coefficient by coefficient on all stored values.
+\end{enumerate}
+\end{result}
+
+\subsection{Interpolation in $N$}
+The reduced invariant $\Rred_R(N) = T_R^{-2n}\times$ mirror$(JD(N))/K_R(t^\rho)$ is interpolated as a Laurent polynomial in $t^N$.
+The range of powers is not guessed: the minimal and maximal degrees in $t^{1/2}$ of $\Rred_R(N)$ grow as $2Nj + $ const at large $N$, which fixes the range of powers; we interpolate by Newton's divided differences on large-$N$ nodes and check at the remaining $N$.
+When the number of powers is large ($T(2,5)$ and beyond with three boxes, four boxes, composites with $m \ge 2$), we restrict the unknowns degree by degree in $q^{1/2}$ by assuming that the $t^{1/2}$-degrees of each term $c_j t^{Nj}$ lie within the range of degrees of the fixed-$N$ value, and solve a linear system; this assumption is checked by the uniqueness of the solution and by full agreement at the $N$ not used.
+% [D4]
+\begin{result}\label{cr:interp}
+In the following ranges the values at the $N$ not used in the interpolation were predicted coefficient by coefficient (the powers are those of $t^N$ on the $\SO$ side and of $\lambda = t^{N_A/2}$ for the cover).
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llll}
+\toprule
+knot, representation & powers & nodes & checked at \\
+\midrule
+trefoil, $[1]$ & $-5$ to $-2$ & $N = 2$--5 & $N = 6, 7$; (6.15) of \cite{AgSc12} \\
+trefoil, $(2), (1,1)$ & $-10$ to $-4$ & $N = 2$--8 & $N = 9$ (and $N = 2$ from $N = 3$--9) \\
+trefoil, $(3), (2,1), (1,1,1)$ & $-15$ to $-6$ & $N = 4$--13 & $N = 2, 3$ ($N = 3$ for $(1,1,1)$) \\
+$T(2,5)$, $[1]$ & $-9$ to $-4$ & $N = 9$--14 & $N = 2$--8 \\
+$T(2,5)$, $(2), (1,1)$ & $-18$ to $-8$ & $N = 4$--14 & $N = 2, 3$ \\
+cover adjoint $(1;1)$, trefoil & $-10$ to $-4$ & 7 of $N_A = 2$--11 & the other 3 \\
+cover adjoint $(1;1)$, $T(2,5)$ & $-18$ to $-8$ & $N_A = 14$--24 & $N_A = 2$--13 \\
+cover $(2;1), (1,1;1)$, trefoil & $-14$ to $-6$ & $N_A = 12$--20 & $N_A = 2$ (3 for $(1,1;1)$)--11 \\
+\midrule
+$T(2,5)$, three boxes & $-27$ to $-12$ & $N = 4$--10, 3--10, 5--11 & remaining $N \le 14$ \\
+$T(2,7)$, three boxes & $-39$ to $-18$ & $N = 2$--9, 3--12, 5--12 & remaining $N \le 13$ \\
+$T(2,9)$, three boxes & $-51$ to $-24$ & $N = 2$--10, 3--13, 5--13 & remaining $N \le 14$ \\
+trefoil, four boxes (five $R$) & $-20$ to $-8$ & 7--9 of $N \le 12$ & remaining $N \le 12$ \\
+cover $(2;1), (1,1;1)$, $m = 2, 3, 4$ & e.g.\ $-24$ to $-12$ & $N_A \le 18$--20 & remaining $N_A$ \\
+cover $(3;1), (2,1;1), (1,1,1;1)$, trefoil & $-18$ to $-8$ & $N_A = 3$--8, 5--11, 4--12 & remaining $N_A \le 14$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+In the three-box rows the nodes are listed for $(3), (2,1), (1,1,1)$ in this order; the rows below the rule use the restricted-range method. At $t = q$ the three-box $[3]$ agrees with the mirror of the $[3]$-colored Kauffman polynomial of \cite{NRZ13} up to a factor $1$, and the four-box $(4)$ and $(1,1,1,1)$ of the trefoil agree with the values of \cite{NRZ13}.
+\end{result}
+This gives the refined $\SO(2N)$ invariants at general $N$ for the trefoil with two to four boxes, $T(2,5)$ with two and three boxes, and $T(2,7)$, $T(2,9)$ with three boxes. The two-box coefficients of the trefoil are listed in Appendix \ref{app:daha}.
+
+\subsection{Crosscap part at large $N$}
+On the $\SO$ side with three boxes the kernel is converted to the $K$ basis with the inverse of the matrix of $D_N$ Koornwinder polynomials $K_R$ ($|R| \le 3$, $t^N$ formal). The cover is assembled from ordinary representations, the adjoint and composites.
+% [D5][D6]
+\begin{result}\label{cr:largeN}
+\begin{enumerate}
+\item Two boxes (trefoil, $T(2,5)$): the denominators of $g_{\ytwo}, g_{\yoneone}$ are $2\times$ monomial $\times(1+t)$; all $N$-dependent poles cancel. $g_{\ytwo} + g_{\yoneone}$ and $(1+t)(g_{\ytwo} - g_{\yoneone})$ are integer Laurent polynomials. The $(1+t)$ sits in the $p_2$ direction only, in agreement with $E_{\ytwo} = -E_{\yoneone}$ of Proposition \ref{prop:alld}.
+\item Three boxes (trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$): $g_{\ythree}, g_{\ytwoone}, g_{\yoneoneone}$ are integer Laurent polynomials without $(1+t)$ poles, as predicted by Proposition \ref{prop:alld} (no $E$ in odd sectors). The hatted $\hat g_R = M(q^{-1})^{-1} g_R$ is also an integer Laurent polynomial for generic $U$ (with three boxes the all-$d$ $g$ equals the odd-$d$ $g^{\mathrm{odd}}$ of \cite{Marino09}).
+\item Four boxes (trefoil): all $N$-dependent poles cancel; the $(1+t)$ poles sit only in the power-sum directions $p_4$ and $p_2^2$ (all parts even), as predicted by Proposition \ref{prop:alld}. The Schur components $g_R$, $|R| = 4$, have denominators $2\times$ monomial $\times(1+t)$ and $2(1+t)g_R$ is an integer Laurent polynomial. The components of degree $\le 3$ agree with the three-box values.
+\item As a check, the two- and three-box values agree with the fixed-$N$ values at $t^N = t^2, t^3$ coefficient by coefficient. For four boxes the cover $f^{\cov}$ was checked independently: decomposing $P_\alpha(x)P_\beta(x^{-1})$ irreducibly as polynomials in $\U(5)$ ($t^N = t^3$) and evaluating each component with the uniformly normalized $\U(5)$ values (mostly constructed as in \cite{KN17}; the seven shapes not available there by the $GL_5$ DAHA) reproduces the large-$N$ $f^{\cov}$ to degree four. This checks the Pieri coefficients, the interpolation and the assembly independently of the DAHA.
+\end{enumerate}
+\end{result}
+% [D8]
+The hatted invariants of the q-side and the t-side of \cite{KN17} agree for the two-box $\SO$, cover and crosscap parts.
+
+\subsection{Dictionary with \texorpdfstring{\cite{Marino09}}{[Marino09]} at $t = q$}
+% [D7]
+\begin{result}\label{cr:marino}
+\begin{enumerate}
+\item The $\SO$ invariants $W_R$ and the cover invariants $W_S$ agree with the mirror images ($\lambda \to 1/\lambda$, $t_M \to 1/t_M$) of $G_R, H_S$ of \cite{Marino09} (standard framing) up to a factor $1$, for $R, \mu \in \{(1), (2), (1,1)\}$.
+\item For the crosscap part, $g_{\yone} = -$mirror$(g^{\mathrm{Mar}}_{\yone})$. With two boxes, $-$mirror$(\hat g^{\mathrm{Mar}}_R)$ is obtained by converting the all-$d$ $g$ to odd $d$ ($g^{\mathrm{odd}}_{\ytwo} = g_{\ytwo} + \tfrac12 g_{\yone}(x^2)$, $g^{\mathrm{odd}}_{\yoneone} = g_{\yoneone} - \tfrac12 g_{\yone}(x^2)$), subtracting the unknot values $\mp\tfrac12$, and hatting with $M(q^{-1})^{-1}$.
+\item Equation (4.8) of \cite{Marino09} for $\hat g_{\ytwo}$ contains a misprint in the $z^9$ term; the correct term is $z^9(11\lambda^{12} - 78\lambda^{10} + 78\lambda^8 - 11\lambda^6)$.
+\end{enumerate}
+\end{result}
+The overall sign $-1$ is a consequence of the dual Cauchy (fermionic) kernel. The exchange $R \leftrightarrow R^T$ appears at the level of $g^{\mathrm{odd}}$ ($g^{\mathrm{odd}}_{\ytwo}$ corresponds to the mirror of $g^{\mathrm{Mar}}_{\yoneone}$) and cancels in the hatted invariants because the mirror maps $M(q^{-1}) \leftrightarrow M(q)$.
+
+\subsection{Universal factor}\label{sec:universal}
+% [D9]
+\begin{result}\label{cr:universal}
+Let
+\[
+X_k = \hat g - \hat g\big|_{t=q}(\lambda \to \lambda \qr^k)
+\]
+be the refined part. Among $-3 \le k \le 3$, $X_k$ is divisible by $(q - t)(\lambda^2 - t)$ only for $k = +1$ ($\lambda \qr = \tlam$). This holds for the fundamental representation of $T(2,3)$, $T(2,5)$, for the two-box $\hat g_{\ytwo}, \hat g_{\yoneone}$ and their sum for $T(2,3)$, $T(2,5)$, and for the three-box $\hat g_R$ of the trefoil; the divisibility at $k = +1$ was further checked for the three-box $T(2,5)$, $T(2,7)$, $T(2,9)$ and for $(1+t)\hat g_R$ of the four-box trefoil. In bold variables $(q - t)(\lambda^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$, the same factor as in the $c = 2$ part of the fundamental representation and in $\hat C_{R,S}$ of the Hopf link.
+\end{result}
+Divisibility by $(\lambda^2 - t)$ says that $\hat g$ is independent of $t$ at the $\SO(2)$ point $\lambda^2 = t$; the shift of $\lambda$ is necessary.
+
+\begin{conjecture}\label{conj:structure}
+The refined crosscap invariant of a knot has, in every color, the form
+\[
+\hat g_R = \hat g_R\big|_{t=q}(\lambda \to \tlam) + (\bt^2 - 1)(\ba^2 - \bq^2)\cdot(\text{integer Laurent polynomial}).
+\]
+\end{conjecture}
+
+\begin{remark}
+For closed strings the ratio of charges of frozen and oriented states is $x^2/Q_0 = \qr^{-1}$ (conventions of \cite{AgSc12}, \S\ref{sec:index}). For open strings the ratio of the crosscap variable $\tlam^2$ to the cover variable $\ba_{\mathrm{KN}}^2 = \lambda^2w^{-1}$ is $w^3$, so the two do not match. Since the correspondence of open and closed variables ($\lambda^2$ or $\lambda^{-2}$ with $Q$) and the open-string normalization are not yet fixed, we leave this comparison open.
+\end{remark}
+
+\subsection{Extension to algebraic cables}\label{sec:cable}
+Beyond torus knots the refined $\SO(2N)$ invariants had no definition (the $S, T$ matrices of refined Chern--Simons theory are not available). For iterated torus knots, \cite{CD14} define, for any reduced root system and weight $b$, the iterated DAHA-Jones polynomial
+\[
+JD_{\vec r,\vec s}(b) = \bigl\{\hat\gamma_1\bigl(\cdots\hat\gamma_{\ell-1}\bigl((\hat\gamma_\ell(P_b)/P_b(q^{-\rho_k}))\!\Downarrow\bigr)\!\Downarrow\cdots\bigr)\bigr\}_{\mathrm{ev}},\qquad H\!\Downarrow\, := H\cdot 1,
+\]
+where $\gamma_\ell$ is the innermost pattern, $\gamma_1$ the companion, and $\gamma_i$ lifts an element of $SL(2,\mathbb{Z})$ with first column $(r_i, s_i)$. We adopt its $D_N$ value as the definition of the refined $\SO(2N)$ invariant of an algebraic cable.
+The examples are the $(2, q_2)$-cables of the trefoil, $C_{13}$ ($q_2 = 13$) and $C_{15}$ ($q_2 = 15$), with $q_2$ measured in the Seifert framing of the companion. The pattern word has first column $(2, q_2 - 12)$, i.e., $\tau_+\tau_-$ for $(2,1)$ and $\tau_-\tau_+\tau_-$ for $(2,3)$, and the companion is the trefoil $\tau_+\tau_-^2$ (the cable is algebraic iff $q_2 > 12$). Non-algebraic cables are not treated.
+In the companion step the polynomial $f_1 = \hat\gamma_{\mathrm{pat}}(P_b)\cdot 1$ from the pattern step is applied as $f_1(\hat\gamma_{\mathrm{comp}}(X))\cdot 1$. For $D_N$, $f_1$ is $B_N$-symmetric, so it is expanded in $H_\nu$ ($|\nu| \le \deg f_1$) and $JD$ becomes a linear combination of the basis values $\{\hat\gamma_{\mathrm{comp}}(H_\nu)\}$, which are computed once per $N$ and shared (the companion is common to both cables). The adjoint of the cover is expanded likewise in $H_\mu(X)H_\nu(X^{-1})$.
+
+% [D15]
+\begin{result}[normalization and general $N$ for cables]\label{cr:cable-interp}
+\begin{enumerate}
+\item The $GL_N$ values agree up to a monomial with the A-type values of the same cables obtained by an independent implementation ($\U(2)$, $\U(3)$, $|b| \le 2$).
+\item The $D_N$ values differ from the mirror of the fixed-$N$ $W_R$ in the uniform normalization, built through $\SO(4) = \mathrm{SU}(2)^2$ and $\SO(6) = \mathrm{SU}(4)$, only by $T_R^{-F}$ with $F = p_2q_2$ ($26$ for $C_{13}$, $30$ for $C_{15}$), for $N = 2, 3$ in the fundamental representation. This is the torus-knot rule $T_R^{-2n}$ with $2n = rs$ replaced by $p_2q_2$. The exponent $\delta$ of the uniform normalization \eqref{eq:uniform} becomes $8$ ($C_{13}$) and $9$ ($C_{15}$) through $\delta \mapsto p\delta + (p-1)(q-1)/2$.
+\item For $GL_N$, $W_b = $ mirror$(JD_b/M_b)$ with $M_b = T_b^{-F}\,t^{c|b|(N-1)}$ ($c = 10, 12$) holds for six ordinary representations at $N = 2$--4, which fixes the normalization of the adjoint ($|b| = 0$) to $T_{\mathrm{adj}}^{-F}$.
+\item The interpolation in $N$ predicted the values at the $N$ not used coefficient by coefficient in the following ranges.
+\begin{center}
+\footnotesize
+\begin{tabular}{llll}
+\toprule
+object & powers & nodes & checked at \\
+\midrule
+$C_{13}$, $[1]$ & $-25$ to $-16$ & $N = 3$--8 & $N = 2, 9$--16 \\
+$C_{15}$, $[1]$ & $-29$ to $-18$ & $N = 4$--10 & $N = 2, 3, 11$--16 \\
+$C_{13}$, $(2)$ & $-50$ to $-32$ & $N = 3$--11 & $N = 2, 12$--14 \\
+$C_{13}$, $(1,1)$ & $-50$ to $-32$ & $N = 4$--14 & $N = 2, 3$ \\
+$C_{15}$, $(2)$ & $-58$ to $-36$ & $N = 2$--9 & $N = 10$ \\
+cover adjoint $(1;1)$, $C_{13}$ & $-50$ to $-32$ & $N_A = 5$--14 & $N_A = 2, 3, 4$ \\
+cover adjoint $(1;1)$, $C_{15}$ & $-58$ to $-36$ & $N_A = 5$--14 & $N_A = 2, 3, 4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The two-box invariants were solved by the restricted-range method with the band chosen degree by degree in $q^{1/2}$. For $(1,1)$ the cancellations at small $N$ are strong and three degrees remained undetermined for $N \le 13$. The $(1,1)$ of $C_{15}$ requires $N \ge 13$ and the largest basis element $(1,1,1,1)$ (estimated above 60\,GB), so the two-box computation was done for $C_{13}$ only.
+\end{enumerate}
+\end{result}
+
+% [D16]
+\begin{result}[crosscap part of cables at large $N$]\label{cr:cable-largeN}
+\begin{enumerate}
+\item Fundamental representation ($C_{13}$, $C_{15}$): $g_{\yone}$ is an integer Laurent polynomial and its refined part is divisible by the universal factor $(q-t)(\lambda^2-t)$. At $t = q$ the $c = 1$ part is symmetric under $q \leftrightarrow 1/q$.
+\item Two boxes ($C_{13}$): the denominators of $g_{\ytwo}, g_{\yoneone}$ are $2\times$ monomial $\times(1+t)$, and $g_{\ytwo} + g_{\yoneone}$ and $(1+t)(g_{\ytwo} - g_{\yoneone})$ are integer Laurent polynomials (the same structure as for torus knots, in agreement with $E_{\ytwo} = -E_{\yoneone}$ of Proposition \ref{prop:alld}). The refined parts of the hatted $\hat g_{\yone}, \hat g_{\ytwo}, \hat g_{\yoneone}$ and of their sum are all divisible by the universal factor.
+\item The criterion in the fundamental representation (Conjecture \ref{conj:criterion}) fails. The $c = 1$ part is not $\sigma$-symmetric: only the extreme blocks ($\lambda^{-26}, \lambda^{-16}$ for $C_{13}$; $\lambda^{-30}, \lambda^{-28}, \lambda^{-18}$ for $C_{15}$) are symmetric, with aligned signs in their $G$-expansions. The $c = 2$ part is divisible neither by $(\ba^2-\bq^2)(\bt^2-1)$ nor by $(\bt^2-1)$. Splitting the $\sigma$-asymmetric part by Lefschetz weight, each block has a common sign in all rows, alternating with $\beta$.
+\item For comparison, the three-strand torus knot $T(3,4)$ in the fundamental representation also has a $c = 1$ part that is not $\sigma$-symmetric ($\lambda^{-10}, \lambda^{-8}$ asymmetric, $\lambda^{-6}$ symmetric; the asymmetric part has the same type as for the cables). Its $c = 2$ part is divisible by $(\ba^2-\bq^2)(\bt^2-1)$ but the quotient changes sign between $\ba$ blocks ($+$ for $\ba^{-11}$, $-$ for $\ba^{-9}$). The refined part of the full $g_{\yone}$ is divisible by the universal factor, with all four $\ba$ blocks of the quotient aligned. Hence the $\sigma$-asymmetry of the $c = 1$ part is not an artifact of the cable implementation; it is common to knots outside $T(2,2m+1)$.
+\end{enumerate}
+\end{result}
+Thus the criterion of Conjecture \ref{conj:criterion} is confined to two-strand torus knots, and what holds for general knots is integrality and the universal factor (Conjecture \ref{conj:structure}). The sign patterns are collected in \S\ref{sec:positivity}.

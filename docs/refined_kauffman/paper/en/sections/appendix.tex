@@ -1,0 +1,65 @@
+\section{Computational methods}\label{app:code}
+\begin{itemize}
+\item All computations were done with the author's Python code. We implemented Koornwinder polynomials and the polynomial representations of the DAHA of types $D_N$, $C_N$ and $GL_N$; rational function arithmetic uses FLINT. Values at general $N$ were obtained by interpolating fixed-$N$ values as Laurent polynomials in $t^N$ and checking at the $N$ not used (\S\ref{sec:generalN}). For invariants with many terms, the linear system was solved degree by degree in $q^{1/2}$ with the range of powers restricted. For torus knots the heaviest computation is the three-box $T(2,9)$ on the $D_{14}$ DAHA, 90 minutes and 16\,GB per item.
+\item For iterated torus knots (\S\ref{sec:cable}) the polynomial from the pattern step is expanded in the basis values $\{\hat\gamma_{\mathrm{comp}}(H_\nu)\}$ of the companion step, which are computed with coefficients kept as Laurent polynomials without cancellation. The heaviest item is one basis value of the $(2,13)$-cable on $D_{15}$, about 2 hours and 19\,GB.
+\item Every Result in the text is checked by an automated test. The checks include the reproduction of the values of \cite{Marino09}, agreement with Kauffman polynomials at $t = q$, agreement with direct fixed-$N$ computations, agreement with the invariants of \cite{KN17}, and the symmetry $R \leftrightarrow R^T$.
+\item The formulas below were generated mechanically from stored data, not transcribed by hand.
+\end{itemize}
+
+\section{Torus knots in the fundamental representation}\label{app:torus}
+$g^{\mathrm{true}}_{\yone}$ in bold variables, the $G$-expansion of the $c = 1$ part, and $\Pi_m$ of the $c = 2$ part.
+\input{../../tex/gen_en/torus_one_box.tex}
+
+\section{DAHA: reduced invariants at general $N$}\label{app:daha}
+$\Rred_R(t^N) = T_R^{-6}\times$ mirror$(Z)/K_R(t^\rho)$ for the trefoil in the uniform normalization. The powers of $q, t$ can be half-integral.
+\input{../../tex/gen_en/daha.tex}
+
+\section{Two-box crosscap part at large $N$}\label{app:largeN}
+$\hat g_{\ytwo} + \hat g_{\yoneone}$, $(1+t)(\hat g_{\ytwo} - \hat g_{\yoneone})$ and the quotient by the universal factor (bold variables) for the trefoil. These document the integrality (Result \ref{cr:largeN}) and the universal factor (\S\ref{sec:universal}); the signs per power of $\ba$ do not align (Result \ref{cr:signs}). The comparison of sectors with and without visible positivity is in Appendix \ref{app:cover}.
+\input{../../tex/gen_en/largeN_2box.tex}
+
+\section{Brane--brane and brane--image sectors of the cover}\label{app:cover}
+Evidence for \S\ref{sec:split} and \S\ref{sec:kn}. For the two-box trefoil and $T(2,5)$, the sectors of the generating function of the cover split into brane ($Y$) and image ($Y'$), expanded in $G$ with the t-side $(t^{-1/2} - t^{1/2})\hat f$ of \cite{KN17} (per $\lambda^\beta$, $\qr = (q/t)^{1/2}$). Brane--brane is $\hat f_{\ytwo}$, $\hat f_{\yoneone}$ (hatted with $M \otimes M$; up to the factor of the uniform normalization it agrees with the mirror of $\hat f$ of \cite{KN17} with $R \leftrightarrow R^T$, \S\ref{sec:split}); brane--image is $x = W_{\mathrm{adj}} + \kappa - W_{\yone}^2$ divided by $z_q$. The sign classification per block is given in the table: brane--brane is aligned in every block, while $x/z_q$ of brane--image mixes ``aligned'', ``$(\bt^2 - 1)\times$ aligned'' and ``mixed''. For the $N$ with all boundary factors removed (\S\ref{sec:split}) the only mixed block is the switching block $k = 2m$.
+\input{../../tex/gen_en/cover_split_table.tex}
+\input{../../tex/gen_en/cover_split.tex}
+
+\section{The sector brane 2, image 2}\label{app:n2}
+We summarize the results for the fixed sector $n = 2$ (brane 2, image 2) of the trefoil. $E$ is determined up to $\lambda^{-12}$ and undetermined from $\lambda^{-14}$ on.
+% [P30, P31, P38, P39]
+\begin{result}[rows of $n = 2$ and the $R$ dependence]\label{cr:n2rows}
+The fixed sector $N_R$ of $n = 2$ for the trefoil ($R = (2), (1,1)$; here $R$ denotes the Young diagram and $\lambda$ the Kauffman variable) can be written explicitly as a polynomial (of degree at most four) in the rows of the mirror images of the fundamental representation $R_{\yone} = a_2\lambda^{-2} + a_4\lambda^{-4}$ ($a_2 = (1+qt)/q$, $a_4 = -t/q$), of the two-box representations $R_{\ytwo} = b_4\lambda^{-4} + b_6\lambda^{-6} + b_8\lambda^{-8}$, $R_{\yoneone} = c_4\lambda^{-4} + \cdots$, of the adjoint and of the composites $G_{\alpha\beta}$ (Result \ref{cr:composite}); with the actual rows it agrees with the stored $N_R$ in all blocks up to $\lambda^{-20}$.
+\begin{enumerate}
+\item \textbf{$\sigma$-covariance.} Under the reweighting $\sigma$ of the two-box rows and of $G$, $b_j \mapsto qb_j$, $c_j \mapsto c_j/t$, $G_{\alpha\beta} \mapsto w_\alpha w_\beta G_{\alpha\beta}$ ($w_{\ytwo} = q$, $w_{\yoneone} = 1/t$), the difference $N_{\ytwo}\circ\sigma - N_{\yoneone}$ is $(q-t)\times$ a polynomial in the adjoint-sector symbols $a_2, a_4, g^{\mathrm{adj}}_j$ and the background alone (up to $\lambda^{-20}$). The $R$ dependence thus splits into a reweighting of the two-box rows and a tower ``two vacuum states $(q-t)\otimes$ adjoint''.
+\item \textbf{The square at $\lambda^{-12}$.} The $\sigma$-covariant part is a perfect square $-(t^{3/2}/q^{1/2})\hat Y_R^2$ for both $R$, with $\hat Y_{\yoneone} = (1+q)(1+t)(1+qt)/q^3$ and $\hat Y_{\ytwo} = [(1+q)(1+t)(1+qt)^2 + qt(q-t)]/q^4$ (10 monomials, positive, irreducible, not a product). The correction is $(q-t)[(t/q^4)a_2^2 + \delta]$ with $\delta = [tV'^2a_2^2/q^3 - 2a_2\tilde S + (V'-t)g^{\mathrm{adj}}_6]/q^3$ ($V' = 1+q+qt$, $\tilde S = (1+t+qt)/q$; $\delta = 0$ for $R = (1,1)$). Distinguishing the brane and image rows by different symbols, this square is literally the tensor product $X^bX^i$ of the brane $X$ and the image $X$ ($X$ a linear combination of $a_2^2, b_4, c_4$).
+\item \textbf{$\hat Y_R$ is a single-brane quantity.} The two-box cumulants of a single brane ($\log$ of $W_1, W_{\ytwo}, W_{\yoneone}$ with the Adams term $f_{\ytwo} = Z_{\ytwo} - \tfrac12\psi^2 Z_{\yone}$) projected onto the Schur $R$, $\Omega^{(0)}_R(\lambda) = \sum_\rho \chi_R(\rho)f_\rho/\phi_\rho$, equal $\mathrm{fac}\cdot[\Omega'_2\lambda^{-2} + \Omega'_4\lambda^{-4} + \cdots]$ with $\mathrm{fac} = -q^{1/2}t/(t-1)$, and exactly $\Omega'_4 = \hat Y_R$ for both $R$. The $qt(q-t)$ in $\hat Y_{\ytwo}$ comes from the Adams term. For $R = (1,1)$ the correction is also the square of $\Omega'_2 = -a_2/q$: $N_{12}(1,1) = -(t^{3/2}/q^{1/2})[\Omega_4'^2 + (q-t)(t/q^2)\Omega_2'^2]$.
+\end{enumerate}
+\end{result}
+% [P40]
+\begin{result}[generating function of the adjoint tower]\label{cr:tower}
+Let $x = \lambda^{-2}$, $V = 1+t+qt$, $V' = 1+q+qt$. The kernels in $N_{\ytwo}\circ\sigma - N_{\yoneone} = -(t^{3/2}/q^{1/2})(q-t)[R_1(x)^2\kappa_R(x) + G_{\mathrm{adj}}(x)\kappa_G(x) + \beta(x)]$ are, in closed form,
+\begingroup\small
+\begin{align*}
+\kappa_G(x) &= \frac{q^2x^3[\,q^2(V'-t) - t^2x(V-q)\,]}{(tx-q)(t^3x-q)(t^2x-q^2)(tx-q^3)},\qquad
+\beta(x) = \frac{-q^2x^4}{(x-q)(tx-q)(t^2x-q)(tx-q^2)(tx-1)},\\
+\kappa_R(x) &= \frac{-q^2x^3\,P(x)}{(x-q)(tx-q)(t^2x-q)(t^3x-q)(tx-q^2)(t^2x-q^2)(tx-q^3)(tx-1)}
+\end{align*}
+\endgroup
+with $P$ an irreducible polynomial of degree five in $x$. They were obtained by running the pipeline with the two-box rows and $G$ set to zero as rational functions in $\lambda$ (agreeing with the series in symbolic blocks up to $\lambda^{-20}$). All kernels are ``two vacuum states $(q-t)\times$ Fock kernels of cells'', the cells being the six background cells ($t, 1/q, t/q, t^2/q, t/q^2$; $t^2/q^2$) plus $t^3/q, t/q^3$ specific to $G_{\mathrm{adj}}$. The series coefficients of $\kappa_G$ are the staircase $t^nT_nU_n/q^{3(n+1)}$, $T_n = \sum_{0\le j\le i\le n}q^it^j$.
+\end{result}
+% [P32, P33, P34, P41]
+\begin{result}[$E$ at $\lambda^{-12}$ for $n = 2$: full exchange]\label{cr:n2E}
+At $\lambda^{-12}$ the $E$ of $n = 2$ is, for both $R$, ``signs of the background cells plus the exchange $\psi^2$ on all squares and products of rows of the knot part'', and satisfies (i)(ii):
+\begin{gather*}
+E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\\
+B_{12}(1,1) = -q^{-13/2}t^{3/2}(q-t)qt^2 .
+\end{gather*}
+The extra $(q-t)qt^2$ of an earlier reading (correction $t\,\Sym^2(1+qt)$) was the $E$ of the background ($E_B = -B$). For $R = (2)$, besides the square $\psi^2\hat Y_{\ytwo}$, each piece of the correction is fixed including its sign ($(t/q^4)a_2^2$, $tV'^2a_2^2/q^6$ by $\psi^2$; the cross term $-2a_2\tilde S$ is $0$; the top row of $G_{\mathrm{adj}}$ by the same exchange as for $n = 1$, $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$; its kernel $V' - t$ becomes $(1+q)(1-t)$ by the cell sign $(-1)^{\deg_q\deg_t}$), one of 16 sign choices for the kernel. This $E$ lies outside the earlier family with $|e|\le|R|$ imposed monomial by monomial on the correction. The block signs are unified as $(-1)^{k/2+1}$ ($k$ the exponent in $\lambda^{-k}$) across the $n = 1$ switching, $\lambda^{-10}$ of $R = (2)$ and $\lambda^{-12}$ of both $R$, corresponding to flipping the sign of cell 1 in $F^\varepsilon$ of $n = 1$. By the same rule the second term $V - q$ in the numerator of $\kappa_G$ becomes $(1-q)(1+t)$ (a conjecture).
+\end{result}
+% [P35, P36, P37, P42]
+\begin{result}[obstruction from $\lambda^{-14}$ on]\label{cr:n2negative}
+With the $E$ of $\lambda^{-8}$--$\lambda^{-12}$ fixed, the integer program at $\lambda^{-14}$ determines only 2--3 of 113 unknowns even under (i)+(ii) (the minimal number of exchanged pairs is 48 under (i), 936 under (i)+(ii)). A construction taking the trace of the exchange monomial by monomial in the symbolic blocks does not give an $E$ for any assignment of brane/image labels (either $R$-independent or not Laurent): the Laurent property of $N$ arises from cancellations between monomials of different content, so the trace is defined only on the brane object $\hat Y_R = \Omega'_4$ in the Schur basis. Pure brane$\times$image products cancel in the mixed cumulant (rank 0), and the square $\hat Y_R^2$ is carried by the connected kernels (dimension correction of the composite, $c_1$, $\kappa$). At $\lambda^{-14}$ the $\sigma$-covariant part is not divisible by $\hat Y_R$ and cannot be written as a product series at the level of $\Omega^{(0)}$.
+\end{result}
+
+\section{Unrefined check}\label{app:unref}
+The $\hat g$ of the trefoil (standard framing) of \cite{Marino09} computed with our code. $\hat g_{\yoneone}$ agrees coefficient by coefficient with the printed (4.8) of \cite{Marino09}; $\hat g_{\ytwo}$ agrees except for the $z^9$ term.
+\input{../../tex/gen_en/unrefined.tex}

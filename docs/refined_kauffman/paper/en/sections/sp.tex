@@ -1,0 +1,36 @@
+\section{Refined $\Sp(2N)$: fundamental representation and two boxes}\label{sec:sp}
+The refined Chern--Simons theory of \cite{AM22} is defined for any root system by taking $k_\alpha = y$ uniformly and $q_\alpha = q^{(\alpha,\alpha)/2}$; for $C_N$ the parameter of the long roots becomes $u = t_{\mathrm{lng}} = t^2$.
+We implemented the $C_n$ DAHA of \cite{Cherednik11} ($t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$; the Kauffman section there) on the polynomial representation and verified the following.
+% [D11]
+\begin{result}\label{cr:cn}
+\begin{enumerate}
+\item The DAHA relations hold for $C_2$, $C_3$. At $u = 1$ the values agree with the $D_N$ DAHA-Jones polynomials in the fundamental representation up to a factor $1$ ($N = 2, 3$; $T(3,2)$, $T(5,2)$). They agree with $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a_{\mathrm{C}})$ of \cite{Cherednik11} at $a_{\mathrm{C}} = -t^{m-1}$ up to a monomial ($m = 2, 3, 4$).
+\item From the values at $N = 2, \dots, 8$ we reconstructed the hyper-polynomials $\mathcal{H}^C_{2m+1,2}(\omega_1)$ as polynomials in $a_{\mathrm{C}}$. The formula for $T(5,2)$ is new.
+\item $\SO$ convention: $W_{\SO} = \text{mirror}[\mathcal{H}^C(u{=}1, a_{\mathrm{C}}{=}-\lambda/t^{1/2})]\cdot\dim_V^{\SO}(\lambda)\cdot(t^{1/2}/\lambda)^{2m}$ reproduces $g^{\mathrm{true}}_{\yone} = W_{\SO} - W^{\cov}_1$ (uniquely).
+\item $\Sp$: $\lambda = t^{N+1/2}$ ($a = \lambda^2 = t^{2N+1}$; the cover is taken as the same function of $\lambda$ as for $\SO$), $a_{\mathrm{C}} = -t^{N-1}$, $u = t^2$. The monomial is fixed to the same $(t^{1/2}/\lambda)^{2m}$ as for $\SO$ by the cancellation of the pole at $t = 1$ and the Kauffman form at $t = q$, and for $T(2,3)$, $T(2,5)$
+\[
+g^{\Sp}_{\yone}(\ba, \bq, \bt) = -\,g^{\SO}_{\yone}(-\ba, \bq, \bt)
+\]
+holds coefficient by coefficient.
+\end{enumerate}
+\end{result}
+Since $c = 1$ is assigned to even and $c = 2$ to odd powers of $\ba$, this says $C^{\Sp} = -C_{c=1} + C_{c=2}$: the rule of \cite{Marino09} that $\SO$ and $\Sp$ differ by the sign of the $c = 1$ terms survives refinement. This independently supports the assignment of $c$, and is the first check that the refined $\Sp(2N)$ theory of \cite{AM22} is consistent for open strings.
+
+The same structure holds with two boxes. The $C_N$ Macdonald polynomials $P_{2\varepsilon_1}$, $P_{\varepsilon_1+\varepsilon_2}$ were obtained from the triangular matrix of the Macdonald operator, and the values at $N = 2, \dots, 9$ were interpolated as rational functions of $x = t^N$ (at $u = 1$ they agree with the $D_N$ two-box values and with $\mathcal{H}^C_{3,2}(\omega_2)$ of \cite{Cherednik11} up to a monomial).
+% [D12][D13][D14]
+\begin{result}\label{cr:sp2}
+For the refined $\Sp(2N)$ trefoil with two boxes:
+\begin{enumerate}
+\item $g^{\Sp}_{\ytwo} + g^{\Sp}_{\yoneone}$ and $(1+t)(g^{\Sp}_{\ytwo} - g^{\Sp}_{\yoneone})$ are integer Laurent polynomials, with the same all-$d$ structure as for $\SO$ (Proposition \ref{prop:trace}).
+\item $E^{\Sp}(t{=}-1) = E^{\SO}(t{=}-1)$ coefficient by coefficient.
+\item The hatted $p_1^2$ component $(g_{\ytwo} + g_{\yoneone})/z_q$ satisfies $\Sp(\ba) = +\,\SO(-\ba)$ (the fundamental representation has $-$). For $g_R$ itself
+\begin{align*}
+f^{\Sp}_{\ytwo}(\ba) - f^{\SO}_{\ytwo}(-\ba) &= \psi^2[\delta], \qquad f^{\Sp}_{\yoneone}(\ba) - f^{\SO}_{\yoneone}(-\ba) = -\psi^2[\delta], \\
+\delta &= \mathrm{even}_{\ba}\big(g^{\SO}_{\yone}\big) + 1 = \frac{(\ba^2 - \bq^2)(\ba^2\bt^2 - 1)(\ba^2\bq^2\bt^2 - 1)}{\ba^6\bq^2\bt^4}
+\end{align*}
+(the same for $g$; $\psi^2$ is the Adams operation squaring $q, t, \ba^2$).
+\end{enumerate}
+\end{result}
+In the power-sum components $Z_1^{\Sp}(\ba) = -Z_1^{\SO}(-\ba)$, $Z_{11}^{\Sp}(\ba) = Z_{11}^{\SO}(-\ba)$, $Z_2^{\Sp}(\ba) = Z_2^{\SO}(-\ba) + 1$: the sign is $(-1)^{|\rho|}$ and only the $p_2$ direction is shifted by the constant $1$. In the difference $\psi^2[\delta]$ of $f$, the piece $\psi^2[\mathrm{even}(g_{\yone})]$ arises because the rule for the fundamental representation flips only the sign of the $\ba$-even ($c = 1$) part whereas the even part of the $d = 2$ Adams term $\tfrac12\psi^2[f_{\yone}]$ does not follow it, and $\psi^2[1]$ is the constant shift of $Z_2$. At the level of colored invariants, $W_R^{\Sp}(\ba) = (-1)^{|R|}\,W_R^{\SO}(-\ba)$ holds exactly, and the conversion to power sums differs only in the constant term of $p_2$ (the trace of the identity) by $-2$; this is the constant $1$ in $Z_2$, equal to the $\ba$-even part of the unknot crosscap in the fundamental representation ($+1$ for $\SO$, $-1$ for $\Sp$).
+The two-box computation is restricted to the trefoil ($T(2,5)$ would need $N \le 13$ for the interpolation, beyond the current implementation).
+That $E$ does not change sign under the projection to $\Sp$ is consistent with the unrefined correspondence ``$\Sp(N) = \SO(-N)$ with $R \to R^{T}$'': using $E_{\ytwo} = -E_{\yoneone}$, the sign flip and the transposition cancel. In the $p_2$ direction the Adams term $\psi^2[g_{\yone}]$ of the fundamental representation enters, and since $\psi^2$ ($\lambda \to \lambda^2$) does not commute with $\ba \to -\ba$, there is no simple rule at the level of $f$ and $g$.

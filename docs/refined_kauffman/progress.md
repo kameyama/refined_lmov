@@ -2284,3 +2284,12 @@
 - 追加で確かめたこと【計算】：T(3,4) の [1] の g 全体の refined だけの部分は普遍因子で割り切れ、商の 𝐚 ブロック 4 つはすべてそろう（−, +, +, −）。保存済みの C₁₃ の (2) の補間は N = 14 でも全係数一致（N = 2, 12, 13, 14 で照合）。
 - はみ出しの修正：§6.2 の補間の表（\scriptsize と \tabcolsep 3pt）、§8 の 2 つの表示式（gather* で 2 行に）、付録 F の κ の align*（\small）と E₁₂ の式（gather*）。残るは付録 B の生成した表の 5pt だけ。コンパイルはエラー・undefined なし（48 ページ）。表 1（p.6）、予想 5.5（p.16）、§6.6（p.20〜21）、§9.2 の表（p.26）を画像で確認した。
 - 背景の計算（K1 の N = 15、照合用）：ν = (4) は 7624 秒・18.8 GB（見積もりの 50 分より 2.5 倍長い。N = 14 → 15 で時間 約 2 倍）。(3,1) を計算中。N = 15 が終わったら (2)・(1,1) の補間を N = 15 で照合し、N = 16 は計算しない（自動で止める）。古い待機プロセス（N = 11〜13 のログの「ALL DONE」を待つもの。run_cable_lp_K1.sh の最後の echo 行が壊れていて出力されない）は止めた。
+
+## 2026-11-10（続き 143）論文の英語版（ユーザーの指示「英語版の論文を作成せよ。日本語版の翻訳はするな。内容、構成を大胆に変更しても良い。hep-th の論文のスタイルで良いものにせよ」）
+- 場所：docs/refined_kauffman/paper/en（main.tex と sections/ の 11 ファイル。refs.bib は ja_v2 のものを \addbibresource{../ja_v2/refs.bib} で共有）。45 ページ、エラー・undefined・はみ出しなし。
+- 構成（ja_v2 の翻訳ではない）：1 Introduction（背景・問い・主結果・表 1・主張の分類）、2 Refined crosscap invariants（変数、D_N の Macdonald、双対 Cauchy 核、定義、計算の手順、一様な規格化、unknot）、3 The orientifold index and the all-d structure、4 Unknot and Hopf link、5 Torus knots in the fundamental representation: the positivity criterion（予想を 2 ストランドに限定）、6 Higher representations at general N（DAHA、補間、大きな N、Mariño との辞書、普遍因子、§6.6 代数的なケーブル）、7 Refined Sp(2N)、8 Structure of the cover、9 Multi-box crosscap invariants: status and obstructions、10 Discussion、付録 A〜G（計算の方法、生成した表、brane 2・image 2、unrefined の確認）。
+- 主張の格付けは環境名で示す：Proposition/Lemma/Corollary（導出）、Result（計算。範囲を書く）、Conjecture、Hypothesis。ja_v2 の % [ID] の注釈はそのまま付けた。
+- 生成した表：tex/gen の見出しが日本語なので、scripts/refined_kauffman/rk_report_tex_en.py で見出しだけを英語に置き換えた tex/gen_en を作った（数式は同じ。日本語が残れば止まる）。表の列幅は英語に合わせて狭めた。
+- 確認：p.1〜2（題・要旨・目次）、p.6（表 1）、p.11（命題 3.5 の表）、p.19（§6.6）、p.25（§9.2 の表）、p.37（付録 D の末尾と E の冒頭）を画像で見た。
+- 書き方の注意（英語版）：著者名を本文に書かず \cite だけで指す規則は同じ。表現は Young 図のマクロで書く。日本語版の用語の規則は英語版には当てはまらない。
+- CLAUDE.md の論文の節に英語版の場所と作り方を追記した。

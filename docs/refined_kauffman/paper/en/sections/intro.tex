@@ -1,0 +1,61 @@
+\section{Introduction}\label{sec:intro}
+
+\subsection{Background}
+The colored HOMFLY-PT invariants of $\U(N)$ Chern--Simons theory are dual, at large $N$, to open topological strings on the resolved conifold, and the Ooguri--Vafa reformulation writes them in terms of integer BPS invariants (LMOV invariants). For $\SO(N)$ and $\Sp(N)$ the dual theory is the topological string on an orientifold of the Calabi--Yau. \cite{Marino09} conjectured, and verified in many examples, that the colored Kauffman invariant of $\SO(N)$ minus one half of the $\U(N)$ invariant in composite representations is expressed through integer BPS invariants with crosscap number $c = 1, 2$ (see also \cite{BFM04,BFM05,NRZ13}).
+
+On the refined side, \cite{AgSh11} formulated refined Chern--Simons theory, and \cite{KN17} showed that the $\U(N)$ refined Chern--Simons invariants produce refined BPS invariants on the resolved conifold which are positive integers for torus knots (refined large $N$ duality). \cite{AgSc12} defined the refined topological string on an orientifold as an M-theory index, computed the $\SO(2N)$ refined Chern--Simons invariants, and showed that the closed string free energy at large $N$ satisfies the integrality of second quantization. \cite{AM22} organized the closed $\SO$ and $\Sp$ free energies with multiple sine functions. For open strings, that is for knots, neither a formula extracting refined crosscap BPS invariants nor a test of their integrality was available.
+
+\subsection{Questions}
+We address the following questions.
+\begin{enumerate}
+\item How does one extract a refined crosscap invariant from the $\SO(2N)$ refined Chern--Simons invariants?
+\item Does it have an integral BPS expansion? If so, what structure does it have (universal factor, structure in the winding number $d$, boundary factors)?
+\item Is positivity visible after refinement, i.e., do the coefficients align in sign in a suitable multiplet basis? Where does it hold and where does it break?
+\item How is it related to the $\U(2N-1)$ cover, and how much of the crosscap structure is determined by the cover?
+\item What remains open for higher representations?
+\end{enumerate}
+Question 1 is answered by the definition in \S\ref{sec:setup}. Question 2 is answered by the all-$d$ structure and the boundary factors (\S\ref{sec:index}) and by the integrality and the universal factor at general $N$ (\S\ref{sec:generalN}), including iterated torus knots. Question 3 is answered by the criterion in the fundamental representation (\S\ref{sec:torus}), by the signs of the brane--brane and brane--image sectors of the cover (\S\ref{sec:cover}) and by the multi-box crosscap signs (\S\ref{sec:positivity}): positivity holds in the fundamental representation of two-strand torus knots and on the cover side, and fails for the multi-box crosscap part and for the fundamental representation of knots that are not two-strand torus knots. Question 4 is \S\ref{sec:cover}; question 5 is \S\ref{sec:positivity} and \S\ref{sec:discussion}.
+
+\subsection{Main results}
+\begin{itemize}
+\item \textbf{Definition (\S\ref{sec:setup}).} A naive refinement of the bosonic kernel of \cite{Marino09} fails already for the unknot with two boxes: poles in $U = t^N$ do not cancel. With the dual Cauchy kernel of Koornwinder polynomials (the dual Cauchy identity of \cite{Mimachi01}) the product formula for the unknot is automatic. We take the uniform normalization in which the $\U(n)$ invariants are invariant under determinant shifts and charge conjugation, and the reformulation matrix $M(q^{-1})$ of \cite{Marino09}. The refined crosscap invariant is $g = f - \tfrac12 f^{\cov}$ (Definition \ref{def:crosscap}); $f$ is computed from the $\SO(2N)$ refined invariants and $f^{\cov}$ from the A-type invariants of the cover (ordinary and composite representations), separately and order by order in the number of boxes.
+\item \textbf{All-$d$ structure (\S\ref{sec:index}).} The M-theory index of the orientifold gives $g = \tfrac12 E/(1+t) + C$ (Proposition \ref{prop:alld}), where $E$ is the signed sum over states invariant under the involution $\tilde I$ and $C$ the sum over frozen states; $E$ appears only in sectors with equal numbers of brane and image boxes. The same identity is the $\SO(2N)$ version of the trace representation of the Chern--Simons partition function of \cite{Witten11} (Proposition \ref{prop:trace}). From the action of $\tilde I$ on boundary zero modes we derive the boundary factor $z_q^{n-1}(z_q^+)^n$ of $E$ (Proposition \ref{prop:boundary}) and verify it for the Hopf link, knots and the framed unknot. For closed strings the product formula of the $\SO(2N)$ partition function agrees with \cite{AgSc12}, and the ``Klein bottle'' term of \cite{AM22} is a rearrangement of this decomposition (Proposition \ref{prop:AM}). The separation of $E$ and $C$ is not determined by the index (Proposition \ref{prop:EC}).
+\item \textbf{Unknot and Hopf link (\S\ref{sec:hopf}).} Integrality holds; the K\"ahler variable is shifted to $\tlam = \lambda (q/t)^{1/2}$, and $E_{22}, E_{24}$ are uniquely determined.
+\item \textbf{The criterion in the fundamental representation (\S\ref{sec:torus}).} For $T(2,2m+1)$, $m \le 5$, the $c = 1$ part has a $G$-expansion and the $c = 2$ part a closed form, with signs aligned in each $\lambda^\beta$ block. We state this as a criterion (Conjecture \ref{conj:criterion}). The criterion is specific to two-strand torus knots: for $T(3,4)$ and for algebraic cables the $c = 1$ part is not $\sigma$-symmetric and the criterion fails (\S\ref{sec:cable}).
+\item \textbf{Integrality and the universal factor at general $N$ (\S\ref{sec:generalN}).} Computing DAHA-Jones polynomials at generic $t$, we obtain the refined $\SO(2N)$ invariants at general $N$ for the trefoil with two to four boxes, $T(2,5)$ with two and three boxes, and $T(2,7)$, $T(2,9)$ with three boxes. The crosscap parts are integer Laurent polynomials, the $(1+t)$ poles sit exactly where Proposition \ref{prop:alld} predicts, and the refined part is divisible by the universal factor $(\bt^2 - 1)(\ba^2 - \bq^2)$ (Conjecture \ref{conj:structure}).
+\item \textbf{Algebraic cables (\S\ref{sec:cable}).} Taking the $D_N$ value of the iterated DAHA-Jones polynomial of \cite{CD14} as the definition, we obtain the fundamental representation and the two-box invariants of the $(2,13)$-cable of the trefoil and the fundamental representation of the $(2,15)$-cable at general $N$. Integrality, the position of the $(1+t)$ poles and the universal factor hold as for torus knots.
+\item \textbf{Refined $\Sp(2N)$ (\S\ref{sec:sp}).} Implementing the $C_N$ DAHA, we obtain the refined $\Sp(2N)$ invariants of \cite{AM22} for the trefoil and $T(2,5)$ in the fundamental representation and for the trefoil with two boxes at general $N$. In the fundamental representation $g^{\Sp}(\ba) = -g^{\SO}(-\ba)$; with two boxes $W_R^{\Sp}(\ba) = (-1)^{|R|}W_R^{\SO}(-\ba)$, and the difference of the crosscap parts is the closed form $\pm\psi^2[\delta]$.
+\item \textbf{Structure of the cover (\S\ref{sec:cover}).} Splitting the cover into brane and image, the brane--brane sector coincides coefficient by coefficient with the $\U(N_A)$ refined LMOV invariants of \cite{KN17}. After removing boundary factors, the brane--image sector is identified as a space of states built from $\Sym^k V$, $S \otimes S$ and universal corrections $F_{j'}$ (Result \ref{cr:principle}, Conjecture \ref{conj:closedform}); the generating function written with the rows of the fundamental and adjoint representations (Proposition \ref{prop:rows}) holds for fourteen torus knots. From this identification $E$ can be constructed without any condition, and for $T(2,3)$--$T(2,15)$ it reads as a signed partial sum of numbers of states.
+\item \textbf{Multi-box status (\S\ref{sec:positivity}).} For higher representations the $c = 1$ part of the crosscap invariant is not $\sigma$-symmetric, has no $G$-expansion, and its signs do not align. The $\sigma$-asymmetry splits into an unrefined part, due to the parity rule for $c$ (in hatted invariants $\beta \equiv |R| - 1$), and a part specific to refinement, the $\sigma$-odd part divisible by $(\bt^2 - 1)(\ql - \ql^{-1})$. Since the cover is well behaved, the obstruction is localized in the multiplet structure of the frozen states.
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Range of verification. ``Integer'' means an integer Laurent polynomial (for $|R| = 2$: $2g$ is integer and $g_{\ytwo} + g_{\yoneone}$ is integer). ``Universal factor'' is the divisibility of \S\ref{sec:universal}.}\label{tab:summary}
+\begin{tabular}{p{4.2cm}p{2.6cm}p{2.3cm}p{5.0cm}}
+\toprule
+Object & Integer & Universal factor & Signs \\
+\midrule
+Unknot, Hopf link ($a, b \le 4$) & yes & yes (10 components of $\hat C_{R,S}$) & $\hat g_{R,\yone}$ aligned; refined part of $\hat C_{R,S}$: 8/10 \\
+$T(2,2m+1)$, fundamental ($m \le 5$) & yes & $c = 2$ part: $m \le 5$; whole: $m \le 2$ & criterion holds \\
+$T(2,2m+1)$, fixed $N$ ($N = 2, 3$, $|R| \le 3$, $m \le 3$) & hatted, all directions & --- & not decidable at fixed $N$ \\
+Trefoil, two boxes (large $N$) & yes & yes & 5/10 blocks of the quotient \\
+$T(2,5)$, two boxes & yes & yes & 6/18 \\
+Trefoil, three boxes & yes (no $(1+t)$ pole; hatted integer) & yes & 2/15, 3/14, 2/13 \\
+$T(2,5)$, $T(2,7)$, $T(2,9)$, three boxes & yes (no $(1+t)$ pole) & yes & 1/23--1/25, 1/33--1/35, 1/43--1/45 \\
+Trefoil, four boxes & $2(1+t)g_R$ ($(1+t)$ only in $p_4$, $p_2^2$) & yes & 0--2/18--22 \\
+$T(3,4)$, fundamental & yes & yes & criterion fails ($c = 1$ not $\sigma$-symmetric; $c = 2$ quotient changes sign between blocks); quotient 4/4 \\
+Algebraic cables $C_{13}$, $C_{15}$, fundamental & yes & yes & criterion fails ($c = 1$ not $\sigma$-symmetric; $c = 2$ not divisible); quotient 6/9, 8/11 \\
+$C_{13}$, two boxes & yes & yes & 30/50 \\
+Cover, brane--brane (trefoil, $T(2,5)$, $|R| \le 2$) & yes (equals \cite{KN17}) & --- & all blocks aligned \\
+Cover, brane--image ($N$ with boundary factors removed; $T(2,3)$, $T(2,5)$, $T(2,7)$) & yes & --- & aligned except the switching block $k = 2m$ \\
+Refined $\Sp(2N)$: $T(2,3)$, $T(2,5)$ fundamental; trefoil two boxes & yes (same structure as $\SO$) & --- & $g^{\Sp}(\ba) = -g^{\SO}(-\ba)$; $W_R$: $(-1)^{|R|}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Classification of claims and organization}
+Statements are graded as follows. Propositions, lemmas and corollaries are derived analytically, possibly under an explicitly stated hypothesis. A \emph{Result} is a statement verified by computer, with the range of verification stated. Conjectures are closed forms or structures suggested by computation beyond the verified range. Hypotheses are rules that could not be taken directly from the literature; we say which verification supports them. Computational methods are described in Appendix \ref{app:code}.
+
+\S\ref{sec:setup} fixes variables, kernel and normalization and defines the refined crosscap invariant. \S\ref{sec:index} derives the all-$d$ structure and the boundary factors from the orientifold index. \S\ref{sec:hopf} treats the unknot and the Hopf link, \S\ref{sec:torus} the criterion in the fundamental representation of torus knots, \S\ref{sec:generalN} the integrality and the universal factor at general $N$ for higher representations and for algebraic cables, and \S\ref{sec:sp} the refined $\Sp(2N)$ invariants. \S\ref{sec:cover} splits the cover into brane and image, \S\ref{sec:positivity} summarizes the status and obstructions for multi-box crosscap invariants, and \S\ref{sec:discussion} lists open problems.

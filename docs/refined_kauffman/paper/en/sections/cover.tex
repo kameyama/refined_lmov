@@ -1,0 +1,83 @@
+\section{Structure of the cover: brane--brane and brane--image}\label{sec:cover}
+The free energy $f^{\cov}$ of the cover $\U(N_A)$ is determined by A-type data alone and does not enter the crosscap part $g$. However, the source of $E$ (states invariant under $\tilde I$) lies in the brane--image sector of the cover, so the structure of the cover is needed to read the structure of $g$. In this section we split the cover into brane and image, show that the brane--brane sector is the invariant of \cite{KN17} itself, and identify the brane--image sector as a space of states.
+
+\subsection{Splitting into brane and image}\label{sec:split}
+Writing the generating function of the cover with brane ($Y$) and image ($Y'$) probes, the following holds for the two-box trefoil and $T(2,5)$ (all blocks are listed in Appendix \ref{app:cover}; the three-box invariants have not been split).
+\begin{itemize}
+\item The brane--brane sector is the $\U(N_A)$ invariant of \cite{KN17} itself: up to the factor $(t/q)^{\delta|R|/2}$ of the uniform normalization, $(t^{-1/2} - t^{1/2}) f^{\mathrm{bb}}_R$ agrees coefficient by coefficient with the t-side $f^{\bar t}_R$ of \cite{KN17} ($a = \lambda^2 = t^{N_A}$, mirror) for $R = [1], [2], [1,1]$, and the hatted version (the $p_1^2$ component divided by $z_q$, the $p_2$ component by $q^{1/2} + q^{-1/2}$, i.e., $M \otimes M$) agrees with $\hat f$ of \cite{KN17} with $R \leftrightarrow R^T$ because of the mirror (trefoil and $T(2,5)$). It therefore admits a $G$-expansion with aligned signs for all $\beta$ (the positivity of \cite{KN17}).
+\item For the brane--image sector $x = W_{\mathrm{adj}} + \kappa - W_{\yone}^2$, $(t^{-1/2} - t^{1/2})x/z_q$ is an integer Laurent polynomial and $\sigma$-symmetric. Most $\lambda^\beta$ blocks are either aligned or $(\bt^2 - 1)\times$ aligned; mixed blocks are $\lambda^{-8}$ for the trefoil and the four central blocks $\lambda^{-16}$--$\lambda^{-10}$ for $T(2,5)$.
+\end{itemize}
+The brane--image sector of the oriented cover carries the same universal factor $(\bt^2 - 1)$ as the crosscap.
+The division of $x$ by $z_q$ is explained by Proposition \ref{prop:rows}: $(1-t)x = s^2(t - \lambda^2)(\lambda^2 - 1)(q - 1)(\lambda^2 q - 1)\,N$, where $(q-1)$ is the $q$-side factor of the refined measure $(q-1)(t-1)$ of the annular string between brane and image and $(t-1)$ cancels against the tower $1/(1-t)$ (the fixed-sector index of the framed unknot, $(\lambda^2-1)(q-1)\sum_k(\lambda^2q)^{\mathsf f-1-k}t^k$, carries the same factor). The boundary factors of brane and image are not asymmetric.
+The $\lambda$ boundary factor $(t-\lambda^2)(\lambda^2-1)(\lambda^2q-1)$ alternates in sign between $\lambda^\beta$ blocks, and most of the mixing of $x/z_q$ is due to it. Expanding in $G$ the $N$ with all boundary factors removed (Appendix \ref{app:cover}), all blocks are aligned for the trefoil and only the switching block $k = 2m$ ($\lambda^{-(6+4m)}$) is mixed for $T(2,5)$ and $T(2,7)$. That block is $n_{2m} = \Sym^{2m}V - S\otimes S$ (Result \ref{cr:principle}), and $\Sym^{2m}V$ and $S^2$ separately have aligned $G$-coefficients ($m \le 3$). The mixing of the brane--image sector is therefore the structure $-S\otimes S$ of the space of states itself, a subtraction of pairs of states, distinct both from the non-positivity inherent to the composite values $R_{\mathrm{adj}}$ (\S\ref{sec:composite}, \cite{CE15}) and from the crosscap problem.
+The brane--image sector contains the states mapped to themselves by $\tilde I$, the source of $E$.
+
+\subsection{The sector brane 1, image 1: identifying the space of states}\label{sec:principle}
+In the lowest fixed sector (brane 1, image 1, $n = 1$), $E$ can be constructed from the identification of the space of states alone, without the conditions (i)(ii) of \S\ref{sec:hopf}. Split the support $N$ of $E$ for $T(2,2m+1)$ by powers of $\lambda^{-2}$ (blocks $k = 0, \dots, K = 4m-1$), let $V = 1 + t + qt$ (the reduced superpolynomial of the trefoil), $S$ the reduced superpolynomial of $T(2,2m+1)$, and $\psi^2\colon (q, t)\to(q^2, t^2)$.
+% [P17]
+\begin{result}[failure of the sign rule]\label{cr:signrule}
+The sign rule $(-1)^{\deg_q}$ on the lower series ($k \le 2m$) and $(-1)^{\deg_t}$ on the upper series fixes $E$ uniquely under (i) ($t = -1$) and (ii) ($t = q$) for $T(2,3)$ and $T(2,5)$, but for $T(2,7)$ there is no solution even with (i) alone. It breaks in the first block $k = 2m+1$ of the upper series.
+\end{result}
+% [P18]
+\begin{result}[space of states and $\tilde I$]\label{cr:principle}
+The blocks $n_k$ of $N$ (the coefficient of $\lambda^{-(6+2k)}$ normalized by $r^{-(4+2k)}$) are
+\begin{gather*}
+n_k = \Sym^k V \ (k < 2m),\qquad n_{2m} = \Sym^{2m}V - S\otimes S,\\
+n_{K-j} = -t^{K-2j}\bigl[\Sym^j V + (q-t)\,R_j\bigr]\ (0 \le j \le 2m-2),
+\end{gather*}
+and $\tilde I$ acts as the action induced by the involution $\mathrm{diag}(1, 1, -1)$ of $V$ (its dual on the upper series) and as the exchange of factors on $S\otimes S$ (trace $\psi^2 S$). The $E$ built from this identification reproduces, for $T(2,3)$ and $T(2,5)$, the unique $E$ determined by (i)+(ii) in every monomial, and for $T(2,7)$--$T(2,15)$ it satisfies (i) and (ii) as a prediction.
+Comparing monomial by monomial $N = (1-t)x/(s^2(t-\lambda^2)(\lambda^2-1)(q-1)(\lambda^2q-1))$ and $\tilde N = E/(s^2(t-\lambda^2)(\lambda^2+1)(q+1)(\lambda^2q+1))$ with the boundary factors removed, $|\tilde e_m| \le |c_m|$ and $\tilde e_m \equiv c_m \pmod 2$ hold for all monomials of $T(2,3)$--$T(2,15)$; in the blocks $k < 2m$, $|\tilde e_m| = |c_m|$ (all states invariant under $\tilde I$), and pairs exchanged by $\tilde I$ first appear at $k \ge 2m$. $E$ reads as a signed partial sum of numbers of states.
+\end{result}
+% [P19]
+\begin{conjecture}[form of the correction]\label{conj:correction}
+$R_{m+j'} = t^{m-1-j'}F_{j'}$, where $F_{j'}$ is independent of $m$ and
+\[
+\sum_{j'\ge 0}F_{j'}z^{j'} = \frac{1 + (2t + t^2 + qt + 2qt^2)z + qt^3z^2}{(1-z)(1-qtz)(1-t^2z)(1-q^2t^2z)}
+\]
+(the number of states is $\binom{2j'+3}{3}$). All coefficients agree for $j' \le 5$ ($T(2,7)$--$T(2,15)$).
+\end{conjecture}
+% [P20]
+\begin{conjecture}[action of $\tilde I$ on the correction]\label{conj:correctionI}
+The correction to $E$ is $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$ with $X_{j'} = \Sym^{j'}V + t\,\Sym^{j'-1}V$ (generating function $(1+tz)/((1-z)(1-tz)(1-qtz))$, $(j'+1)^2$ states), and the remaining states of $F_{j'}$ are pairs exchanged by $\tilde I$: $F_{j'} = \psi^2 X_{j'} + 2P_{j'}$ with $\sum P_{j'}z^{j'} = tz(V' + qt^2z)/((1-z)(1-qtz)(1-t^2z)(1-q^2t^2z))$, $V' = 1 + q + qt$. For $j' = 2$ this is selected uniquely among 32 variants by the rows and the support of (i) for $T(2,9)$, and $j' = 3, 4, 5$ are consistent with (i)+(ii) for $T(2,11)$, $T(2,13)$, $T(2,15)$.
+\end{conjecture}
+% [P23]
+\begin{conjecture}[closed form]\label{conj:closedform}
+For $T(2,2m+1)$, the $N$ and $E$ of $n = 1$ are expressed through the knot-independent data $V$, $F_{j'}$, $X_{j'}$ and the knot data $S_m$ (reduced superpolynomial) and $m$ ($K = 4m-1$; $n_k$ is the coefficient of $\lambda^{-(6+2k)}q^{-(2+k)}$):
+\begin{gather*}
+ n_k = \Sym^kV\ (k<2m),\qquad n_{2m} = \Sym^{2m}V - S_m^2,\\
+ n_{K-j} = -t^{K-2j}\bigl[\Sym^jV + (q-t)\,t^{m-1-j'}F_{j'}\bigr]\ (j = m+j' \ge m),
+\end{gather*}
+and $E$ is the corresponding trace of $\tilde I$. For $T(2,3)$--$T(2,15)$, $N$ holds coefficient by coefficient and $E$ satisfies (i) and (ii) (computation).
+\end{conjecture}
+% [P24]
+\begin{result}\label{cr:plog}
+The plethystic logarithm of the generating function is finite for $X_{j'}$ ($(1+2t+qt)z - t^2z^2$: the Fock space of $V\oplus t$ with the relation $t^2z^2$) but infinite for $F_{j'}$ and for the upper series $\Sym^jV + (q-t)t^{m-1-j'}F_{j'}$, whose generators are $Vz$ and $(q-t)t^{m-1-j'}c_{j'}z^{m+j'}$ ($c_0 = 1$, $c_1 = V^2 - t(1+qt)$, negative coefficients from $c_2$ on). The upper series cannot be read as a Fock space of positive BPS generators.
+\end{result}
+% [P25]
+\begin{result}\label{cr:t34}
+Of the $n = 1$ principle, the lower series $\Sym^kV$, the subtraction of a perfect square at the switching term ($j = 2\delta$, where the universal series $\Sym^jV$ turns into the knot part), $K = rs - 3$, and the existence of an $E$ satisfying (i)(ii) hold also for the three-strand $T(3,4)$ ($\gamma = \tau_+\tau_-^3$, $K = 9$). But the factor of the square at the switching is $\tilde S = (1+qt)(1+t+t^2+qt^2+q^2t^2)$ (10 states), not the reduced superpolynomial of $T(3,4)$ (11 states), and the upper series is not of the form $-t^{K-2j}[\Sym^jV + (q-t)R_j]$ ($-t^8(q+t)$ at $j = 0$). The integer program with the lower series fixed has solutions under (i)+(ii) but not a unique one (29 of 111 monomials undetermined). The structure $S\otimes S$ at the switching and the corrections $F_{j'}$, $X_{j'}$ are specific to two-strand torus knots.
+\end{result}
+% [P26]
+\begin{proposition}\label{prop:rows}
+Let $x = \lambda^{-2}$, write the $a$-row of the mirror of $[1]$ as $R_1 = q^{-\delta/2}t^{-\delta/2}x^\delta R(x)$, $R(y) = \sum_j \rho_j y^j$, and the row of the adjoint (composite $(1;1)$) as $R_{\mathrm{adj}} = q^{-2\delta}x^{2\delta}A(x)$, $A(y) = \sum_j \alpha_j y^j$. The fixed sector $N = \sum_k n_k x^k$ of $n = 1$ satisfies
+\[
+\sum_k n_k x^k = \frac{1 - x^{2\delta}R(qx)^2}{(1-x)(1-tx)(1-qtx)} + \frac{x^{2\delta-1}G(qx)}{1-tx},\qquad A = R^2 + (q-1)(t-1)G,
+\]
+and $N$ is Laurent if and only if $G$ is Laurent.
+\end{proposition}
+\begin{result}\label{cr:rows}
+For the fourteen torus knots $T(2,3)$--$T(2,15)$, $T(3,4)$, $T(3,5)$, $T(3,7)$, $T(3,8)$, $T(3,10)$, $T(4,5)$, $T(4,7)$, $g_0 = 0$ and $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ hold, so the switching term is $n_{2\delta} = \Sym^{2\delta}V - (\rho_0 - \rho_1)^2$. The factor of the square is always the top two rows $\rho_0 - \rho_1$ of the fundamental representation; for two strands this is the reduced superpolynomial (two rows), and $\tilde S$ of $T(3,4)$ is obtained by dropping the third row $t^3$. Since $N$ is determined by the cover data of the adjoint and the fundamental representation alone, $\tilde S$ and $K = rs - 3$ were predicted correctly for $T(3,5)$ ($\gamma = \tau_+\tau_-\tau_+\tau_-$, $\delta = 4$, $K = 12$), $T(3,7)$, $T(3,8)$, $T(3,10)$, $T(4,5)$, $T(4,7)$. The deepest block is $n_K = -t^{K-s+2}h_{s-2}(q,t)$ ($s = 2, 3, 4$).
+\end{result}
+% [P27, P28]
+\begin{result}\label{cr:threestrand}
+For three strands the upper series $U_j = -n_{K-j}/t^{K-2j}$ has the form $(1 + q/t)\Sym^jV + (q-t)C_j$ for $j \le \delta - 2$ ($C_j$ depends on the knot), and at $j = \delta - 1$ a perfect square at $t = q$, $-([\lfloor r/2\rfloor]_{t^2}[r']_t)^2/t^{\delta-1}$ ($r'$ the largest odd number $\le r$), enters ($T(3,4)$, $T(3,5)$, $T(3,7)$, $T(3,8)$, $T(3,10)$). For four strands ($T(4,5)$, $T(4,7)$) the prefactor is $h_2(q,t)/t^2$, the square sits at $j = r - s + 1$, and its factor reads $\rho_0(T(s-1, r-s+1))\cdot S(T(2,r'))|_{t=q}$. For $E$, the switching rule $E_{2\delta} = \Sym^{2\delta}V|_{\varepsilon} - \psi^2\tilde S$ is compatible with (i)(ii) also for $T(3,4)$, $T(3,5)$, and the two deepest blocks are unique ($E_K = -t^8(q-t)$, $+t^{11}(q-t)$). For two strands, splitting $E$ in the same $(R, G)$ form, the $\tilde I$ on the rows of $G$ is the rule $q \mapsto -q$ in the deep rows ($j \ge \delta + 2$) and a pair correction $D_{\delta-i} = t^{a(m,i)}\tilde D_i$ above ($\tilde D_i$ depends only on the parities of $i$ and $m$).
+\end{result}
+% [P29]
+\begin{result}[factorization of composites at large $N$]\label{cr:composite}
+The relation $A = R^2 + (q-1)(t-1)G$ of Proposition \ref{prop:rows} is not limited to the adjoint. The large-$N$ values of the composites $(2;1)$, $(1,1;1)$, $(2;2)$, $(2;1,1)$, $(1,1;1,1)$ of the trefoil satisfy $R_{[\alpha;\beta]} = R_\alpha R_\beta + (q-1)(t-1)G_{\alpha\beta}$ (the top row is the product, the difference is divisible by $(q-1)(t-1)$ in every row), and the rows of $G_{\alpha\beta}$ contain dimension-type factors $(1+q)$, $(1+t)$ according to $\alpha, \beta$. $(q-1)(t-1)$ is the refined measure of the annular string between brane and image, and the integrality of $N$ is equivalent to LMOV-type integrality of the connected correlator (a reading). The generalization $\rho_0^\alpha\rho_1^\beta + \rho_1^\alpha\rho_0^\beta - \rho_1^\alpha\rho_1^\beta$ of $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ does not hold for other composites.
+\end{result}
+% [P21]
+\begin{proposition}\label{prop:pairblind}
+The sign of $\tilde I$ on a pair $(q\mu, -t\mu)$ of the $(q-t)$ correction does not appear in condition (ii) (it vanishes at $t = q$). Hence the signs of the correction are not fixed by (i) alone (2 of 15 for $j' = 2$ at $n = 1$; 3 of 17 for $\lambda = (2)$ at $n = 2$), and a structure of the space of states such as Conjecture \ref{conj:correctionI} is needed.
+\end{proposition}
+For $n = 1$ the separation of $E$ and $C$ (Proposition \ref{prop:EC}) is thus resolved by the identification of the space of states. For $n = 2$ (brane 2, image 2), $N_\lambda$ splits into a background without Wilson loops (a Fock space of six cells, closed form) and a knot part; up to $\lambda^{-12}$ the $E$ of both $R$ is fixed including signs by ``signs of the background cells plus exchange on the squares and products of rows'' (Result \ref{cr:n2E}). From $\lambda^{-14}$ on there is no principle writing the $\sigma$-covariant part as a sum of squares of brane objects, and $E$ is undetermined (Result \ref{cr:n2negative}, \S\ref{sec:discussion}).

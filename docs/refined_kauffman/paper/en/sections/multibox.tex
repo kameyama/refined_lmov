@@ -1,0 +1,105 @@
+\section{Multi-box crosscap invariants: status and obstructions}\label{sec:positivity}
+
+\subsection{Interpretation of signs}
+BPS numbers are indices with $(-1)^F$, not numbers of states. For closed strings $N^{s_L}_\beta = \sum_{s_R}(-1)^{2s_R}(2s_R + 1)N^{s_L,s_R}_\beta$ (\S2 of \cite{AgSc12}); for open-string LMOV invariants $\hat N_{\mu,g,\beta} = \sum(-1)^{2J_r}\hat N_{\mu,g,\beta,J_r,S_R}$ (\cite{KN17}). The positivity of \cite{KN17} means that refinement undoes the cancellation of $(-1)^F$ and exposes the numbers of states $\hat N_{\dots,J_r} \ge 0$ resolved by spin.
+
+For the orientifold, as noted in \cite{AgSc12}, $\tilde I$ breaks $\mathrm{SU}(2)_L\times\mathrm{SU}(2)_R$ to $\U(1)_1\times\U(1)_2$, so non-orientable states need not form complete spin multiplets. In the interpretation of \cite{PU14} the number of frozen states is the difference $n^+ - n^-$ weighted by the orientifold parity.
+Positivity of the crosscap should therefore be asked as follows: in a suitable multiplet basis, the coefficients of each block align with the unrefined sign $\varepsilon_\beta$ (\S\ref{sec:criterion}). Mixed signs in the unrefined theory are no reason not to expect positivity after refinement.
+
+The refined $\SO(2N)$ Chern--Simons invariants themselves are not positive in bold variables even in the fundamental representation (4 of the 9 terms of $R_{\yone}$ of the trefoil are negative), and \cite{Cherednik11} remarks that there is ``almost no positivity'' for hyper-polynomials of type $C$--$D$ (partly $B$) even for the minimal weight. Positivity is a question at the BPS level.
+
+\subsection{Signs for higher representations}
+% [P2][P3]
+\begin{result}\label{cr:signs}
+Writing the quotient $X_1/((\bt^2-1)(\ba^2-\bq^2))$ by the universal factor in bold variables, we counted the $\ba$ blocks with aligned signs.
+\begin{center}
+\small
+\begin{tabular}{lc}
+\toprule
+object & aligned blocks / all blocks \\
+\midrule
+fundamental ($T(2,3)$, $T(2,5)$) & all \\
+fundamental ($T(3,4)$) & 4/4 \\
+fundamental (algebraic cables $C_{13}$, $C_{15}$, \S\ref{sec:cable}) & 6/9, 8/11 \\
+trefoil, two-box sum $\hat g_{\ytwo} + \hat g_{\yoneone}$ & 5/10 \\
+$T(2,5)$, two-box sum & 6/18 \\
+$C_{13}$, two-box sum & 30/50 \\
+trefoil, three boxes $\hat g_{\ythree}, \hat g_{\ytwoone}, \hat g_{\yoneoneone}$ & 2/15, 3/14, 2/13 \\
+$T(2,5)$, three boxes & 1/25, 1/24, 1/23 \\
+$T(2,7)$, three boxes & 1/35, 1/34, 1/33 \\
+$T(2,9)$, three boxes & 1/45, 1/44, 1/43 \\
+trefoil, four boxes $(1+t)\hat g_R$ ($R = (4), (3,1), (2,2), (2,1,1), (1^4)$) & 1/22, 1/21, 2/21, 2/20, 0/18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The following alternatives do not align the signs either.
+\begin{itemize}
+\item Changing the basis on the right-hand side of the free energy: Hall--Littlewood, $P_R(Y; q, t)$, $P_R(Y; t, q)$, $Q_R$, modified Macdonald. $P(Y;t,q)$ improves the count to 8/11, but for the Hopf link and for three boxes at fixed $N$ it is worse or breaks integrality.
+\item Second-quantized exponents: the exponents of the product form of $\tilde Z$ expanded in power series in $t$ (towers of modes). The fraction of mixed blocks is about 13\% for the two-box trefoil (16 of 123, 15 of 110), about 34\% for the two-box $T(2,5)$, 38--44\% for the three-box trefoil, 61--66\%, 67--71\%, 74--77\% for the three-box $T(2,5)$, $T(2,7)$, $T(2,9)$, and about 42\% for the two-box $C_{13}$.
+\item Multiplet variables: a search for symmetries in $(q^{1/2}, \qr)$.
+\end{itemize}
+\end{result}
+The fraction of aligned blocks decreases as the knot or the number of boxes grows. The aligned blocks concentrate at shallow powers of $\ba$: the 30 aligned blocks of the two-box $C_{13}$ are $\ba^{-32}$--$\ba^{-3}$, all negative, continuing the column $\ba^{-8}$--$\ba^{-3}$ aligned for the two-box $T(2,5)$, while the mixed blocks sit at $\ba^{-52}$--$\ba^{-33}$.
+By Proposition \ref{prop:alld} and Corollary \ref{cor:Efree}, the two-box sum and the three-box directions do not depend on $E$, so the mixing is not caused by the $E$ ambiguity (the four-box Schur components contain $E$, so this argument does not cover the four-box rows). We attribute it to a wrong multiplet basis for the frozen states $C$ (a conjecture; we do not exclude that positivity itself fails).
+
+The failure of $\sigma$-symmetry (hence of the $G$-expansion) of the multi-box $c = 1$ part has two sources.
+% [P10]
+\begin{result}\label{cr:multibox-sigma}
+\begin{enumerate}
+\item At $t = q$, the $c$ of \cite{Marino09} is defined by the parity in $z = q^{1/2} - q^{-1/2}$ ($c = 1$ even in $z$, symmetric under $q \leftrightarrow 1/q$). This agrees with the parity in $\lambda$ in the power-sum directions without $p_2$ (fundamental, $p_1^2$, $p_3$, $p_1^3$) and is opposite in those with $p_2$ ($p_2$, $p_2 p_1$). For the hatted $\hat g_R = M(q^{-1})^{-1} g_R$ the $c = 1$ part is the part with $\beta \equiv |R| - 1 \pmod 2$ in $\lambda^\beta$ (even for the fundamental, odd for two boxes, even for three; the three-box $\hat g_R$ of the trefoil is an integer Laurent polynomial for generic $U$ and all three satisfy this). The $c = 2$ admixture in the even powers of $\lambda$ of the $p_2$ direction has the closed form $-2 z\,\delta|_{t=q}\,(q^{4n}-1)/(q-1) \times$ monomial (containing $\lambda^4 q + \lambda^2(q^2+q+1) + q$ for $T(2,5)$), with $n = 2m+1$ and $\delta$ as in \S\ref{sec:sp}.
+\item Even with the correct $c = 1$ the refined part is not $\sigma$-symmetric; prefactors, products of the fundamental representation, Adams corrections and transposition do not repair this. The $\sigma$-odd part is divisible by $\bq^2(\bt^2 - 1)(V^4 - 1)$ ($V^4 = qt$) and vanishes at $t = q$: $\hat g^{c=1} = S + (\bt^2-1)(\ql - \ql^{-1})\,K'$ with $S$, $K'$ $\sigma$-symmetric and $G$-expandable. However $S$, $K'$ are half-integral, and the $G$-expansion of $K'$ is aligned in all blocks (alternating in $\beta$) for the trefoil but breaks for $T(2,5)$. For three boxes, splitting the $c = 1$ blocks by Lefschetz weight, the signs of the $\sigma$-asymmetric part are aligned in almost all blocks and alternate in $\beta$ for the trefoil, but for $T(2,5)$, $T(2,7)$ and $T(2,9)$ ($\hat g_{\ythree}, \hat g_{\ytwoone}$) they align only in the lowest block and at most one more.
+\end{enumerate}
+\end{result}
+The factor $(\bt^2 - 1)$ is the universal factor of $c = 2$ (a twisted trace of $\mathrm{SU}(2)_r$), and $(\ql - \ql^{-1})$ is odd under the Weyl reflection of the Lefschetz $\mathrm{SU}(2)_\ell$. The multi-box $c = 1$ part contains states that are twisted by $\tilde I$ and have odd Lefschetz spin; the fundamental representation has none. This may be the $G$-expansion counterpart of the statement in \S\ref{sec:EC} that $S_R$ does not act trivially in the fixed sector of a knot (a conjecture).
+
+\subsection{Failure of the $G$-expansion}
+% [D10]
+\begin{result}
+The $c = 1$ part of the fundamental representation is $\sigma$-symmetric, but for two and three boxes it is not, whether one takes $\hat g_R$, the sum, or the odd-$d$ version, and whether $c = 1$ is taken as the even powers of $\lambda$ or with the correct hatted parity ($\beta \equiv |R| - 1$, Result \ref{cr:multibox-sigma}). The reduced $\SO$ invariants $\Rred_R$ have no symmetry with a monomial ratio under any combination of $\sigma$, $q\leftrightarrow t$, mirror, $\lambda \to \pm\lambda^{\pm1}\ql^{c_1}\qr^{c_2}$ ($|c_1|, |c_2| \le 2$) and $R \leftrightarrow R^T$.
+\end{result}
+Since the $\SO$ side has no analogue of the super-duality of type $A$, there is no reason for the $\SO$ $\hat f$ and $\hat g$ to be $\sigma$-symmetric (the $\hat f$ of the cover is $\sigma$-symmetric for each $R$).
+
+\subsection{Attempts to separate $E$ and $C$}\label{sec:EC}
+By Proposition \ref{prop:EC} the separation of $E$ and $C$ needs information beyond the index. We tried the following.
+% [P4]
+\begin{result}\label{cr:EC}
+\begin{enumerate}
+\item \textbf{Partial sums of states.} As for the Hopf link, write $E = P - 2Q$ ($P = (1-t)x$) and impose (i) $C$ integer Laurent, (ii) $E = -(1+q)(g_{\yone}(q^2, \lambda^2) + 1)$ at $t = q$. No solution for the trefoil (not run for $T(2,5)$). Even without the range constraint, no $E$ satisfying (i)(ii) fits inside the monomial support of $P$.
+\item \textbf{Adams type.} $E = F\cdot(\psi^2[g_{\yone}] + 1)$ with $F$ among $(1+q)$, $(1+t)$, $(q+t)$, $(1+qt)$ and their monomial multiples, allowing $\psi^2$ to multiply $\lambda^2$ by $(q/t)^{j/2}$, $|j| \le 2$. None satisfies (i).
+\item \textbf{Twisted traces.} Writing the fixed-sector index as $P = t^{1/2} z_q P_k$ and taking a twisted character of $\tilde I$ for each multiplet of $P_k$ (terms of the $G$-expansion or monomials), with boundary factor $X$, $E = sX\sum_m e_m\tilde b_m$, $|e_m| \le |c_m|$, $e_m \equiv c_m \pmod 2$, solved as an integer program. The twisting rule is hypothetical; we tried $\pi$ rotations in the $q$ and $t$ planes and monomial-wise signs. The Hopf $E_{22}, E_{24}$ are reproduced uniquely with $X = z_q$ and monomial-wise signs. For knots the target values at $t = q$ and $t = -1$ both contain $(1+q)$, so there is no solution with $X = z_q$; the boundary factor must be the sum $z_q^+$. With $X = z_q^+$ the trefoil is solvable uniquely but the solution shows no regularity, and $T(2,5)$ has no solution for any rule; relaxing the bound $|c_m|$ requires at least two invisible invariant pairs.
+\end{enumerate}
+That the boundary factor is a sum was derived in Proposition \ref{prop:boundary}.
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Integer program with fixed boundary factor.} With the boundary factor fixed to $z_q^+$ and a handle twist $G\to X$ ($X\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$) on the multiplets of the $G$-expansion of the moduli part, there is no solution for $T(2,3)$, $T(2,5)$.
+\item \textbf{Framed unknot and sign rules.} For the framed unknot (framing $\mathsf{f}$) the fixed-sector index is the product $P(\mathsf{f}) = (\lambda^2-1)(q-1)\sum_{k<\mathsf{f}}(\lambda^2q)^{\mathsf{f}-1-k}t^k$. Without assuming the form (ii), imposing only (i) and ``$C$ integer Laurent at $t = q$'' and enumerating all candidates, $E$ is unique for $\mathsf{f} = 1, 2, 3$:
+\[
+E(x) = (-1)^x(\lambda^2+1)(q+1)\sum_{k<x}(-1)^k(\lambda^2q)^{x-1-k}t^k\times\text{monomial}.
+\]
+$\tilde I$ acts on the $t$ tower by $(-1)^k$ ($e^{i\pi J_2}$). For the Hopf $(2,2)$ a sign rule by the parities of the exponents of $t$ and $\lambda$ reproduces $E_{22}$, but for the Hopf $(2,4)$ and for knots neither this type of rule (8 rules with 4 offsets) nor the 36 rules combining signs with handle twists satisfy (i)(ii).
+\end{enumerate}
+\end{result}
+$\tilde I = I_X\otimes e^{i\pi J_2}$, and the index sees only the combination $S_R - J_2$. Determining $E$ therefore requires splitting the $t$-charge of the fixed-sector states into $J_2$ (sign under $\tilde I$) and $S_R$ (invariant), i.e., the numbers of states before cancellation corresponding to $\hat N_{\rho,g,\beta,J_r,S_R}$ of \cite{KN17}. For the unknot everything is $J_2$; for knots, states of equal charge carry different signs (computation). Under the assumption of \cite{KN17} that $S_R$ acts trivially on BPS states the sign would be fixed by the parity of the charge, so in the brane--image sector of a knot $S_R$ acts non-trivially (a conjecture). This is the quantum-number form of the ambiguity of Proposition \ref{prop:EC}.
+
+\begin{remark}[strong integrality after refinement]
+Integrality of $f = \tfrac12 f^{\cov} + \tfrac12 E/(1+t) + C$ in the all-$d$ form is equivalent to $E \equiv P_{\mathrm{inv}} \pmod 2$ coefficient by coefficient, where $P_{\mathrm{inv}}$ is the index of the invariant states ($\tfrac12[P_{\mathrm{inv}}(1+t) + E(1-t)]/(1-t^2)$ is an integer series iff $P_{\mathrm{inv}} + E \equiv 0 \bmod 2$). This is exactly the constraint $e_m \equiv c_m \pmod 2$ of the integer program. The unrefined form of \S4 of \cite{AgSc12} (agreement mod 2 of the oriented $f_{\square,\square}$ with the non-orientable $f_\square(q^2)$) is the shadow of this after $E$ and $C$ mix at $t = q$ through condition (ii). The naive test $P \equiv g_{\yone}(q^2,t^2,\lambda^2 w^j) \pmod 2$ fails already at $t = q$, and since the dictionary is not fixed we make no refined statement.
+\end{remark}
+
+\subsection{Non-positivity of the composite DAHA}\label{sec:composite}
+% [P5]
+The fixed-sector states come from the value $R_{\mathrm{adj}}$ of the adjoint $(1;1)$ of the cover. If $R_{\mathrm{adj}}$ could be read as a Poincar\'e polynomial of a homology (positive coefficients), the numbers of states before cancellation would follow.
+\begin{result}
+The large-$N$ $R_{\mathrm{adj}}$ (the $GL$ DAHA) has mixed signs even after the bold change of variables of \cite{KN17} applied with the mirror (7 of 19 terms negative for the trefoil, 25 of 56 for $T(2,5)$), and no monomial-parity sign rule (64 rules) aligns the coefficients.
+\end{result}
+This agrees with the statement in the introduction of \cite{CE15} that composite DAHA superpolynomials have no positivity. A relation to annular HOMFLY-PT homology is not conjectured there either.
+
+\subsection{Summary}\label{sec:multibox-summary}
+% [P6]
+\begin{itemize}
+\item In the fundamental representation, the criterion (Conjecture \ref{conj:criterion}) holds and the signs align for two-strand torus knots $T(2,2m+1)$. For $T(3,4)$ and for algebraic cables the $c = 1$ part is not $\sigma$-symmetric and the criterion fails (Result \ref{cr:cable-largeN}).
+\item For higher representations the universal factor (Conjecture \ref{conj:structure}) holds, but the signs of the quotient do not align.
+\item The $E$ of $n = 1$ can be built without conditions from the identification of the space of states (Result \ref{cr:principle}, Conjectures \ref{conj:correction}, \ref{conj:correctionI}) and satisfies (i) and (ii) for $T(2,3)$--$T(2,15)$.
+\item In the sector brane 2, image 2 of the trefoil, $E$ is fixed up to $\lambda^{-12}$ and undetermined from $\lambda^{-14}$ on (Appendix \ref{app:n2}).
+\item Multi-box positivity cannot be decided until the multiplet basis of the frozen states is known, nor until $E$ and $C$ are separated. The separation is not fixed by the index (Proposition \ref{prop:EC}), and the composite DAHA values do not yield numbers of states (computation). The space of fixed-sector states before cancellation must be obtained from geometry \open.
+\item The $\sigma$-asymmetry of the multi-box $c = 1$ part splits into a misassignment of the parity of $c$ at the unrefined level and a $\sigma$-odd part specific to refinement, divisible by $(\bt^2-1)(V^2-V^{-2})$ (Result \ref{cr:multibox-sigma}); the latter is attributed to a non-trivial action of $S_R$ in the fixed sector of a knot (a conjecture).
+\end{itemize}
