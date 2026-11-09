@@ -19,7 +19,7 @@ def phi(rho):
     return sp.cancel(sum(chi(sg, rho) * Bfun(sg, 1 / r) for sg in partitions(sum(rho))))
 
 
-M = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+M = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 1
 
 
 _ASM = {}

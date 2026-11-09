@@ -1,14 +1,6 @@
-Traceback (most recent call last):
-  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_f_frozen_basis.py", line 273, in <module>
-    for lam, X in knot_three_box(m).items():
-                  ~~~~~~~~~~~~~~^^^
-  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_f_frozen_basis.py", line 231, in knot_three_box
-    import rk_b_3box_structure as B3
-  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_b_3box_structure.py", line 22, in <module>
-    M = int(sys.argv[1]) if len(sys.argv) > 1 else 1
-        ~~~^^^^^^^^^^^^^
-ValueError: invalid literal for int() with base 10: 'three:3'
-
-real	0m0.468s
-user	0m0.348s
-sys	0m0.092s
+== T(2,7) の 3 箱 ĝ_(3,) の c=1（ν 偶）
+  ν^-42: σ 非対称。d_m（39 行）が (1−w²)×同符号で全行同じ符号: True（符号 −）； A⁻ の G 展開 −、A⁺ の G 展開 −
+  ν^-40: σ 非対称。d_m（42 行）が (1−w²)×同符号で全行同じ符号: False（符号 ±）； A⁻ の G 展開 ±（/(𝐭²−1) で ±）、A⁺ の G 展開 ±（/(𝐭²−1) で ±）
+  ν^-38: σ 非対称。d_m（43 行）が (1−w²)×同符号で全行同じ符号: False（符号 ±）； A⁻ の G 展開 ±（/(𝐭²−1) で ±）、A⁺ の G 展開 ±（/(𝐭²−1) で ±）
+  ν^-36: σ 非対称。d_m（44 行）が (1−w²)×同符号で全行同じ符号: False（符号 ±）； A⁻ の G 展開 ±、A⁺ の G 展開 ±
+  ν^-34: σ 非対称。d_m（44 行）が (1−w²)×同符号で全行同じ符号: False（符号 ±）； A⁻ の G 展開 ±、A⁺ の G 展開 ±
