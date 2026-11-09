@@ -1,0 +1,27 @@
+N_A=2 K1 随伴: 0.2s、最大 RSS 0.09 GB
+N_A=2 K3 随伴: 0.2s、最大 RSS 0.09 GB
+N_A=3 K1 随伴: 0.6s、最大 RSS 0.10 GB
+N_A=3 K3 随伴: 0.8s、最大 RSS 0.10 GB
+N_A=4 K1 随伴: 1.4s、最大 RSS 0.12 GB
+N_A=4 K3 随伴: 2.1s、最大 RSS 0.13 GB
+N_A=5 K1 随伴: 3.0s、最大 RSS 0.15 GB
+N_A=5 K3 随伴: 4.7s、最大 RSS 0.16 GB
+N_A=6 K1 随伴: 5.5s、最大 RSS 0.18 GB
+N_A=6 K3 随伴: 9.0s、最大 RSS 0.20 GB
+N_A=7 K1 随伴: 9.6s、最大 RSS 0.22 GB
+N_A=7 K3 随伴: 16.4s、最大 RSS 0.24 GB
+N_A=8 K1 随伴: 15.9s、最大 RSS 0.26 GB
+N_A=8 K3 随伴: 27.4s、最大 RSS 0.28 GB
+N_A=9 K1 随伴: 24.9s、最大 RSS 0.30 GB
+N_A=9 K3 随伴: 43.7s、最大 RSS 0.31 GB
+N_A=10 K1 随伴: 36.8s、最大 RSS 0.32 GB
+N_A=10 K3 随伴: 65.4s、最大 RSS 0.36 GB
+N_A=11 K1 随伴: 53.3s、最大 RSS 0.38 GB
+N_A=11 K3 随伴: 96.4s、最大 RSS 0.42 GB
+N_A=12 K1 随伴: 74.6s、最大 RSS 0.44 GB
+N_A=12 K3 随伴: 137.6s、最大 RSS 0.45 GB
+N_A=13 K1 随伴: 102.7s、最大 RSS 0.47 GB
+N_A=13 K3 随伴: 189.5s、最大 RSS 0.51 GB
+N_A=14 K1 随伴: 138.3s、最大 RSS 0.55 GB
+N_A=14 K3 随伴: 249.1s、最大 RSS 0.55 GB
+done

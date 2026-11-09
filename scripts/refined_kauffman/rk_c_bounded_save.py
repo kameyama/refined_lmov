@@ -161,6 +161,44 @@ def run_fixed(m, lam, mode, Nmin, Nmax, Ns, comp=False):
     return True
 
 
+def run_adaptive(m, lam, Nmax):
+    """r の次数 α ごとに帯の仮定を選んで解く（続き 141）：mode alpha、次に alphaA の順に、帯を取る N₀ = 2, 3, … を試し、
+    N₀ 以上の使う N（≤ Nmax）で一意に解けた最初のものを採る。使う N より大きな N がすべて全係数一致したときだけ保存する。"""
+    t0 = time.time()
+    T = {N: t for N in range(2, 40) if (t := B.terms_true(N, m, lam)) is not None}
+    path = os.path.join(B.OUT, f"R_U_{B.TG.tag(m)}_{''.join(map(str, lam))}.pkl")
+    rng, d = B.slopes(T)
+    jmin, jmax = d[-1]
+    assert d[-1] == d[-2], ("傾きが一定でない", d)
+    used = [N for N in sorted(T) if N <= Nmax]
+    alphas = sorted({a for N in used for a, _ in T[N]})
+    sol, choice, fail = {}, {}, []
+    for al in alphas:
+        got = None
+        for mode in ("alpha", "alphaA"):
+            for N0 in range(used[0], used[-1] - 1):
+                s_, st, _ = B.solve_bounded(T, [N for N in used if N >= N0], jmin, jmax, mode, Ns=N0, alphas=[al])
+                if s_ is not None:
+                    got = s_; choice[al] = (mode, N0); break
+            if got is not None:
+                break
+        if got is None:
+            fail.append(al); continue
+        for j, c in got.items():
+            sol.setdefault(j, {}).update(c)
+    ok = {N: B.predict(sol, N) == T[N] for N in sorted(T) if N > Nmax} if not fail else {}
+    from collections import Counter
+    print(f"{B.TG.tag(m)} {lam}：冪 {jmin}〜{jmax}、使う N ≤ {Nmax}、帯の選択 {dict(Counter(choice.values()))}、解けない α {fail}、"
+          f"使わない N での照合 {ok}（{time.time() - t0:.0f} 秒）", flush=True)
+    if fail or not ok or not all(ok.values()):
+        print("   保存しない", flush=True)
+        return False
+    c = {j: to_sympy(v) for j, v in sol.items()}
+    pickle.dump({j: str(v) for j, v in c.items()}, open(path, "wb"))
+    print(f"   保存：{path}", flush=True)
+    return True
+
+
 if __name__ == "__main__":
     m = int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1]          # 文字列は GAMMA_WORDS の語（例 T3_5、続き 103）
     Nmax_used = None

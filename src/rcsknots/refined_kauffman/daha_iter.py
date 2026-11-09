@@ -82,3 +82,96 @@ def iter_jones_dn_fast(N, lam, cable, F=None):
     x = solve_symmetric(D, f1, h_basis(F, range(deg + 1)))
     Z = sum((c * F.value(nu) for nu, c in x.items() if not c.is_zero()), conv(0))
     return Z, D.evaluate(K_poly(D, lam))
+
+
+# ---- companion の段を約分なしの版（daha_fast_lp）で（続き 141） ------------------------------------------
+def _expand_dn(D, f1, m, k):
+    """D_N：B_N 対称な f₁ を H_ν（|ν| ≤ deg f₁）で展開した係数 {ν: RF}（0 は除く）。"""
+    from .daha_fast import Fast, solve_symmetric, h_basis
+    deg = max(sum(abs(x) for x in a) for a in f1)
+    x = solve_symmetric(D, f1, h_basis(Fast(D, m, k), range(deg + 1)))
+    return {nu: c for nu, c in x.items() if not c.is_zero()}
+
+
+def dn_basis_lp(N, nus, m=1, k=2, V=None, lowmem=False):
+    """V[ν] = {γ̂(H_ν)}（D_N、γ = τ_+^m τ_−^k、RF）を約分なしの版で。V に無い ν だけ計算して足す。
+    lowmem：ν ごとに作り直し、B^j·(対称な多項式) を保存しない（ν の間の共有は少ないので時間はほぼ同じ。続き 141）。"""
+    from .daha_fast_lp import FastLP, DNLP
+    V = {} if V is None else V
+    todo = [nu for nu in nus if nu not in V]
+    F = None
+    for nu in todo:
+        if F is None or lowmem:
+            F = FastLP(DNLP(N), m, k, 1, final="functional")
+            if lowmem:
+                F._B = _B_nocache(F)
+        V[nu] = F.value(nu)
+    return V
+
+
+def _B_nocache(F):
+    def _B(nu, j):
+        g = F.get_sym(nu)
+        for _ in range(j):
+            g = F.D.apply_word(F.word, g)
+        return g
+    return _B
+
+
+def iter_jones_dn_lp(N, lam, cable, V=None):
+    """iter_jones_dn と同じ (Z, K)。companion の段は基底の値 V[ν]（dn_basis_lp、λ・ケーブルの間で共有できる）の一次結合。"""
+    from .daha_fast import _with_rho2
+    pat, (m, k) = CABLES[cable]
+    D = _with_rho2(DN(N))
+    x = _expand_dn(D, gamma_K(D, lam, pat, 2), m, k)
+    V = dn_basis_lp(N, list(x), m, k, V)
+    Z = sum((c * V[nu] for nu, c in x.items()), conv(0))
+    return Z, D.evaluate(K_poly(D, lam))
+
+
+def iter_adj_gl(N, cable):
+    """GL_N の随伴 (1;1)：{γ̂_comp((γ̂_pat(P_adj)·1))}（旧版。照合用）。"""
+    from .daha_dn import gl_adj_gamma
+    pat, (m, k) = CABLES[cable]
+    D = GLN(N)
+    return D.evaluate(gamma_poly(D, gl_adj_gamma(D, pat, 2), m, k))
+
+
+def _expand_gl_adj(D, f1, m, k):
+    """GL_N：f₁ = γ̂_pat(P_adj)·1（X の総次数 0、対称）を H_μ(X) H_ν(X^{−1})（|μ| = |ν|）で展開した係数 {(μ, ν): RF}。"""
+    from .daha_fast import Fast, solve_symmetric, h_basis, poly_mul
+    d = max(sum(x for x in a if x > 0) for a in f1)
+    Hp = h_basis(Fast(D, m, k, 1), range(d + 1))
+    Hm = h_basis(Fast(D, m, k, -1), range(d + 1))
+    basis = {(mu, nu): poly_mul(Hp[mu], Hm[nu]) for mu in Hp for nu in Hm if sum(mu) == sum(nu)}
+    x = solve_symmetric(D, f1, basis)
+    return {p: c for p, c in x.items() if not c.is_zero()}
+
+
+def gl_basis_lp(N, pairs, m=1, k=2, V=None):
+    """V[(μ, ν)] = {γ̂(H_μ(X) H_ν(X^{−1}))}（GL_N、ρ = (N−1, …, 0) の評価、|μ| = |ν| なので換算なし）。無いものだけ計算する。"""
+    from .daha_fast_lp import FastLP, GLNLP
+    V = {} if V is None else V
+    todo = [p for p in pairs if p not in V]
+    if todo:
+        D = GLNLP(N)
+        Fm = FastLP(D, m, k, -1)
+        for nu in sorted({b for _, b in todo}):
+            Fp = FastLP(D, m, k, 1, final="functional")
+            Fp.sym = {(): Fm.get_sym(nu)}
+            for mu, b in todo:
+                if b == nu:
+                    assert sum(mu) == sum(nu)
+                    V[(mu, nu)] = Fp.value(mu)
+    return V
+
+
+def iter_adj_gl_lp(N, cable, V=None):
+    """iter_adj_gl と同じ値。companion の段は基底の値 V[(μ, ν)]（gl_basis_lp）の一次結合。"""
+    from .daha_fast import _with_rho2
+    from .daha_dn import gl_adj_gamma
+    pat, (m, k) = CABLES[cable]
+    D = _with_rho2(GLN(N))
+    x = _expand_gl_adj(D, gl_adj_gamma(D, pat, 2), m, k)
+    V = gl_basis_lp(N, list(x), m, k, V)
+    return sum((c * V[p] for p, c in x.items()), conv(0))
