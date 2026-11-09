@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_f_frozen_basis.py", line 273, in <module>
+    for lam, X in knot_three_box(m).items():
+                  ~~~~~~~~~~~~~~^^^
+  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_f_frozen_basis.py", line 231, in knot_three_box
+    import rk_b_3box_structure as B3
+  File "/Users/m_kameyama/projects/refined_lmov/scripts/refined_kauffman/rk_b_3box_structure.py", line 22, in <module>
+    M = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+        ~~~^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'three:2'
+
+real	0m0.468s
+user	0m0.335s
+sys	0m0.094s
