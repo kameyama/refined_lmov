@@ -13,7 +13,8 @@ u = sp.Symbol("u", positive=True)
 
 
 def load(m):
-    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_2box_m{m}.pkl", "rb"))
+    import rk_torus_tag as TG
+    d = pickle.load(open(f"data/refined_kauffman/daha/largeN_2box_{TG.tag(m)}.pkl", "rb"))     # m が文字列ならケーブルなど（例 K1、続き 141）
     get = lambda key: {eval(k): sp.cancel(sp.sympify(v, locals={"r": r, "s": s, "u": u}).subs(u, nu * s)) for k, v in d[key].items()}
     return get("f"), get("fcov"), get("g")
 
@@ -28,7 +29,7 @@ def hat(F):
 def main(m):
     f, fc, g = load(m)
     G = hat(g)
-    print(f"== T(2,{2*m+1}) の 2 箱、大きな N", flush=True)
+    print(f"== {m if isinstance(m, str) else f'T(2,{2*m+1})'} の 2 箱、大きな N", flush=True)
     for k in ((1,), (2,), (1, 1), "sum"):
         e = G[k]
         print(f"ĝ_{k}：分母 {sp.factor(sp.fraction(e)[1])}、c=1 が σ 対称 {B.c1_symmetric(e)}、refined だけの部分が (q−t)(ν²−t) で割り切れる {B.divisible_universal(e)}", flush=True)
@@ -45,4 +46,4 @@ def main(m):
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]))
+    main(int(sys.argv[1]) if sys.argv[1].isdigit() else sys.argv[1])
