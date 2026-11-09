@@ -50,7 +50,11 @@ def so_f(W, co):
 def Rdata_nu(c, knot="T2_3"):
     import os
     p = f"data/refined_kauffman/torus/{knot}_{c}.json"
-    d = json.load(open(p if os.path.exists(p) else f"data/framed_knot/torus/{knot}_{c}.json"))
+    if not os.path.exists(p):
+        p = f"data/framed_knot/torus/{knot}_{c}.json"
+    if not os.path.exists(p):
+        p = f"data/framed_knot/cables/{knot}_{c}.json"        # ケーブル（K1, K3 など、続き 140）
+    d = json.load(open(p))
     out = conv(0)
     for k, v in d["poly"].items():
         i, j, l = map(int, k.split(","))
