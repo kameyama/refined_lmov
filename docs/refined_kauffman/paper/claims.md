@@ -61,7 +61,8 @@
 | T3 | g^{true}_[1]：(N) SO(2) の点で 1、(P) 𝐭 について偶、(c=2) −(𝐚²−𝐪²)(𝐭²−1)𝐚^{−(4m+1)}𝐪^{−(2m−1)}𝐭^{−4m}Π_m、(c=1) G 展開のブロックが 2 種 | CR（m = 1..5） | T1, S7 | test_rk_trefoil::test_crosscap_criterion_uniform_normalization, test_refined_crosscap_c1_blocks | 新規 |
 | T4 | Π_m の閉じた形（係数 +1 の m(m+1)/2 項） | Conj（m ≤ 3 から推測、m = 4, 5 で確認） | — | test_rk_trefoil::test_torus_family_refined_only_part | 新規 |
 | T5 | AgSc (6.15)（N = 2, 3）は Gorsky–Negut の SU(2)²・SU(4) の値と一致 | CR（有理点 2 つで厳密） | — | test_rk_trefoil::test_as_615_matches_gn_at_N2_N3 | 照合 |
-| T6 | 判定式（正値性の形）：(c=1) G 展開の後でブロックごとに同符号か (𝐭²−1)×同符号、(c=2) 普遍因子 × 正 | Conj | T1, S7 | T3 | 新規 |
+| T6 | 判定式（正値性の形）：(c=1) G 展開の後でブロックごとに同符号か (𝐭²−1)×同符号、(c=2) 普遍因子 × 正 | Conj（2 ストランドのトーラス結び目に限る。T7） | T1, S7 | T3 | 新規 |
+| T7 | 判定式 T6 は T(2,2m+1) の外で成り立たない：T(3,4) と代数的なケーブル C₁₃・C₁₅ の [1] では refined の c=1 が σ 対称でない（両端のブロックだけ対称。σ 非対称部分 d_m は各ブロックで同符号・β で交互）。c=2 は T(3,4) では (𝐚²−𝐪²)(𝐭²−1) で割り切れるが商の符号がブロックで変わり、ケーブルでは割り切れない。整数性・t=q の q↔1/q 対称・普遍因子は成り立つ | CR（否定的） | D15 | logs/refined_kauffman/c_cable_1box_K{1,3}.log、c_cable_1box_compare.log、test_rk_cable（results） | 新規（判定式の適用範囲の限定） |
 
 ## 5. 一般の N の多箱（§6）
 
@@ -81,6 +82,8 @@
 | D12 | refined Sp(2N) = C_N(u = t²)（AM の定義）の [1]：g^{Sp}(𝐚) = −g^{SO}(−𝐚)（T(2,3), T(2,5)）。c = 1 の符号反転が refined でも成立 | CR | SO の規約の較正、Sp の単項式の決め方 | test_rk_daha_cn::test_sp_one_box_is_minus_so_with_a_flipped、logs/d_sp_one_box.log、theory §11.12 | 新規（refined Sp の結び目不変量の最初の値） |
 | D13 | refined Sp(2N) の trefoil の 2 箱（C_N の P_{2ε₁}, P_{ε₁+ε₂}、評価公式、一般の N）：整数性は SO と同じ全 d の構造。E^{Sp}(t=−1) = E^{SO}(t=−1)。hatted の p₁² 成分で Sp(𝐚) = +SO(−𝐚)、p₂ 成分と g_R そのものには単純な符号規則が無い | CR | C_N の実装、T_λ^{−2n} の規格化（[1] で較正済み） | test_rk_sp_two_box、logs/d_sp_two_box_compare.log、theory §11.14 | 新規 |
 | D14 | SO と Sp の 2 箱の差：f^{Sp}_(2)(𝐚) − f^{SO}_(2)(−𝐚) = ψ²[δ]、(1,1) は −ψ²[δ]、δ = even_𝐚(g^{SO}_1) + 1 = (𝐚²−𝐪²)(𝐚²𝐭²−1)(𝐚²𝐪²𝐭²−1)/(𝐚⁶𝐪²𝐭⁴)。W の段階では W_λ^{Sp}(𝐚) = (−1)^{|λ|}W_λ^{SO}(−𝐚)、冪和の係数は p₂ の定数項だけ −2 違う（→ 定数 1）、Adams 項 ½ψ²[f₁] が規則と可換でない（→ ψ²[even g₁]） | CR | trefoil の m=1 | test_rk_sp_so_adams、theory §11.15 | 新規 |
+| D15 | 代数的なケーブル（trefoil の (2,13)-, (2,15)-ケーブル C₁₃, C₁₅）の refined SO(2N)：Cherednik–Danilenko 1408.4348 の iterated DAHA-Jones の D_N の値を定義に採る。GL_N の値は framed_knot の A 型の値と単項式倍で一致（N = 2, 3、\|b\| ≤ 2）。D_N の値は固定 N（SU(2)²・SU(4) 経由）の一様な規格化の W の鏡像と T_R^{−F}（F = p₂q₂ = 26, 30）だけ違う。GL の M_b = T_b^{−F} t^{c\|b\|(N−1)}（c = 10, 12、普通の表現 6 種、N = 2〜4）で随伴の規格化が決まる。一般の N の補間：[1]（C₁₃：N = 3〜8 → 2, 9〜16、C₁₅：4〜10 → 2, 3, 11〜16）、C₁₃ の (2)（3〜11 → 2, 12〜14）、(1,1)（4〜14 → 2, 3）、C₁₅ の (2)（2〜9 → 10）、被覆の随伴（N_A = 5〜14 → 2, 3, 4） | 定義 ＋ CR | CD14 の定義（原典 cable.tex で確認）、companion の段を H_ν の基底の値（約分なしの係数）で | test_rk_cable、progress 続き 140・141、c_cable_lp_*.log、c_bounded_adaptive_K1.log | 定義は既知（K）。refined SO のケーブルの値と規格化の規則は新規 |
+| D16 | ケーブルの大きな N：[1]（C₁₃, C₁₅）は整数 Laurent で普遍因子で割り切れる。C₁₃ の 2 箱は g_(2), g_(1,1) の分母が 2·単項式·(1+t)、g_(2)+g_(1,1) と (1+t)(g_(2)−g_(1,1)) が整数 Laurent、hatted の ĝ_(1), ĝ_(2), ĝ_(1,1), 和の refined だけの部分がすべて普遍因子で割り切れる。C₁₅ の 2 箱は (1,1) に N ≥ 13 と基底 (1,1,1,1)（60 GB 超の見込み）が要り未計算 | CR | D15 | rk_c_2box_largeN_m.py K1、rk_c_2box_structure_flint.py、b_2box_structure_K1.log、test_rk_cable::test_large_N_two_box_K1（results） | 新規（トーラス結び目の外での整数性と普遍因子） |
 
 ## 6. 正値性（§7）
 
@@ -142,3 +145,4 @@
 | P14 | 有限個の z₂ モードをもつ Ĩ 不変な状態は、指数では E（J₂ の塔：½ε[L]_{−t}）か凍結した状態と区別できない形（S_R の塔の対）に吸収され、新しい型にならず、p₁² 方向には寄与しない。p₁² 方向の凍結した状態の σ 非対称部分は (1 − q/t) × t の指標 t^k[L]_t の和（trefoil 全列、T(2,5) 26/31 列）で、最低のブロックは −(1 − q/t) w^{−(8m+1)} t([2n]_t + [2n−1]_t)。T(2,5) の混在列は符号の変化 1 回 | Der ＋ CR | trefoil・T(2,5) の 2 箱 | theory §12.5、f_frozen_towers.log、test_rk_frozen_basis | 新規 |
 | P15 | trefoil の被覆の brane 2・image 2 の固定セクター P（大きな N、composite [2;2], [2;11], [11;11] の一般の N から）は (ν²−1)(ν²−t)(ν²q−1) z_q³ で割り切れ、4P/z_q³ の ν のブロックはすべて σ 対称で G 展開できる（符号は中間で混在）。凍結した状態の σ 非対称な t の塔は被覆の側に無く、§12.5 の予想は素朴な形では支持されない。Hopf の両端の平方根の構造は 2 箱に持ち上がらない。G の次数の 2 倍の関係は 6 ブロック中 5。最低のブロックは −s^{20}r^{−41}Σ_{i,j<12} q^{max}t^{min} | CR（否定的を含む） | trefoil | theory §12.6、f_cover_fixed22.log、test_rk_daha_fast_lp | 新規 |
 | P16 | 被覆の固定セクター（brane n・image n、n = 1, 2）への Ĩ の作用の分け方（E = P − 2Q 型の整数計画、t = q の条件 E = −(1+q)ψ²[F]）：n = 1 は (i)+(ii) で一意（§9 の再現）、n = 2 は (ii) だけでは決まらない（最低のブロックで 78 中 74 が自由）。refined の ψ² 型の分け方（t の塔 → t² の刻み）は、t = q で ψ² に戻る 9 通りの写像と単項式のずれのどれでも n = 1 で 7 中 2〜3、n = 2 で 12 中 0〜1 のブロックでしか条件を満たさない（否定的） | CR（否定的） | trefoil | theory §12.7、f_twisted22.log、test_rk_frozen_basis | 新規 |
+| P17 | ケーブルの符号：普遍因子で割った商の 𝐚 ブロックは [1] で C₁₃ 6/9、C₁₅ 8/11（T(3,4) の [1] は 4/4）、C₁₃ の 2 箱の和で 30/50（そろう 30 個は 𝐚^{−32}〜𝐚^{−3} ですべて負、T(2,5) の 𝐚^{−8}〜𝐚^{−3} の列の延長。混在は 𝐚^{−52}〜𝐚^{−33}）。二次量子化の指数は整数で、混在は 2 箱で約 42%。c=1 は σ 対称でない（[1] から） | CR（否定的） | D16 | c_cable_1box_K{1,3}.log、c_cable_1box_compare.log、b_2box_structure_K1.log | 新規 |

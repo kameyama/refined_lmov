@@ -1,6 +1,7 @@
 \section{計算の方法}\label{app:code}
 \begin{itemize}
-\item 計算は著者の Python のコードで行った。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。
+\item 計算は著者の Python のコードで行った。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。項数の多いものは、$q^{1/2}$ の次数ごとに冪の範囲を絞った一次方程式で解いた。トーラス結び目で最も重い計算は $T(2,9)$ の 3 箱の D$_{14}$ の DAHA で、1 件 90 分、16 GB である。
+\item iterated torus 結び目（§\ref{sec:cable}）では、pattern の段で得た多項式を companion の段の $H_\nu$ の基底の値の一次結合にし、基底の値は係数を約分しない形で計算した。最も重い計算は $(2,13)$-ケーブルの D$_{15}$ の基底 1 個で、約 2 時間、19 GB である。
 \item 本文の計算結果は、それぞれ自動テストで照合している。照合の内容は、\cite{Marino09} の値の再現、$t = q$ での Kauffman 多項式との一致、固定 $N$ の直接計算との一致、\cite{KN17} の不変量との一致、$R \leftrightarrow R^T$ の対称性である。
 \item 以下の式は、保存済みのデータから機械的に生成した（手で写していない）。
 \end{itemize}
@@ -37,20 +38,22 @@ trefoil の $n = 2$（brane 2・image 2）の固定セクター $N_R$（$R = (2)
 % [P40]
 \begin{compresult}[随伴のタワーの母関数]\label{cr:tower}
 $x = \lambda^{-2}$、$V = 1+t+qt$、$V' = 1+q+qt$ とする。$N_{\ytwo}\circ\sigma - N_{\yoneone} = -(t^{3/2}/q^{1/2})(q-t)[R_1(x)^2\kappa_R(x) + G_{\mathrm{adj}}(x)\kappa_G(x) + \beta(x)]$ の核は閉じた形で
+\begingroup\small
 \begin{align*}
 \kappa_G(x) &= \frac{q^2x^3[\,q^2(V'-t) - t^2x(V-q)\,]}{(tx-q)(t^3x-q)(t^2x-q^2)(tx-q^3)},\qquad
 \beta(x) = \frac{-q^2x^4}{(x-q)(tx-q)(t^2x-q)(tx-q^2)(tx-1)},\\
 \kappa_R(x) &= \frac{-q^2x^3\,P(x)}{(x-q)(tx-q)(t^2x-q)(t^3x-q)(tx-q^2)(t^2x-q^2)(tx-q^3)(tx-1)}
 \end{align*}
+\endgroup
 である（$P$ は $x$ の 5 次の既約多項式）。2 箱の行と $G$ を 0 にしたパイプラインを $\lambda$ の有理式のまま計算して得た（記号ブロックの級数と $\lambda^{-20}$ まで一致）。核はすべて「真空の 2 状態 $(q-t)\times$ セルの Fock 核」で、セルは背景の 6 セル（$t, 1/q, t/q, t^2/q, t/q^2$；$t^2/q^2$）に $G_{\mathrm{adj}}$ に特有の $t^3/q, t/q^3$ を加えたものである。$\kappa_G$ の級数の係数は階段型 $t^nT_nU_n/q^{3(n+1)}$、$T_n = \sum_{0\le j\le i\le n}q^it^j$ である。
 \end{compresult}
 % [P32, P33, P34, P41]
 \begin{compresult}[$n = 2$ の $\lambda^{-12}$ の $E$：全部入れ替え]\label{cr:n2E}
 $n = 2$ の $\lambda^{-12}$ の $E$ は両 $R$ で「背景のセルの符号 $+$ 結び目の部分のすべての平方・行の積に入れ替え $\psi^2$」で書け、条件 (i)(ii) を満たす：
-\[
-E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\qquad
+\begin{gather*}
+E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\\
 B_{12}(1,1) = -q^{-13/2}t^{3/2}(q-t)qt^2 .
-\]
+\end{gather*}
 以前の読み（補正は $t\,\mathrm{Sym}^2(1+qt)$）の余分な $(q-t)qt^2$ は背景の $E$（$E_B = -B$）であった。$R = (2)$ では平方 $\psi^2\hat Y_{\ytwo}$ に加えて補正の各部分（$(t/q^4)a_2^2$、$tV'^2a_2^2/q^6$ は $\psi^2$、交差項 $-2a_2\tilde S$ は 0、$G_{\mathrm{adj}}$ の最上行は $n = 1$ と同じ入れ替え $g_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$、その核 $V' - t$ はセルの符号 $(-1)^{\deg_q\deg_t}$ で $(1+q)(1-t)$）が符号まで一意に決まる（核の符号 16 通り中 1 通り）。この $E$ は、補正の単項式ごとに $|e|\le|R|$ を課す以前の族の外にある。ブロックの符号は $n = 1$ の切り替わり、$R = (2)$ の $\lambda^{-10}$、両 $R$ の $\lambda^{-12}$ を通じて $(-1)^{k/2+1}$（$k$ は $\lambda^{-k}$ の $k$）で統一され、$n = 1$ の $F^\varepsilon$ のセル 1 の符号の反転に当たる。$\kappa_G$ の分子の第 2 項 $V - q$ は同じ規則で $(1-q)(1+t)$ になる（予想）。
 \end{compresult}
 % [P35, P36, P37, P42]

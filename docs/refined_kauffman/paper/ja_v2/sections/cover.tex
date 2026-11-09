@@ -21,9 +21,10 @@ brane--image のセクターは、$\tilde I$ で自分に移る状態（$E$ の�
 % [P18]
 \begin{compresult}[状態の空間と $\tilde I$]\label{cr:principle}
 $N$ のブロック $n_k$（$\lambda^{-(6+2k)}$ の係数を $r^{-(4+2k)}$ で正規化したもの）は
-\[
-n_k = \mathrm{Sym}^k V \ (k < 2m),\qquad n_{2m} = \mathrm{Sym}^{2m}V - S\otimes S,\qquad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^j V + (q-t)\,R_j\bigr]\ (0 \le j \le 2m-2)
-\]
+\begin{gather*}
+n_k = \mathrm{Sym}^k V \ (k < 2m),\qquad n_{2m} = \mathrm{Sym}^{2m}V - S\otimes S,\\
+n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^j V + (q-t)\,R_j\bigr]\ (0 \le j \le 2m-2)
+\end{gather*}
 であり、$\tilde I$ は $V$ の対合 $\mathrm{diag}(1, 1, -1)$（上の系列では双対）の誘導作用、$S\otimes S$ では因子の入れ替え（トレース $\psi^2 S$）として働く。この同定から作った $E$ は、$T(2,3)$・$T(2,5)$ で (i)+(ii) から決まる一意な $E$ を全単項式で再現し、$T(2,7)$〜$T(2,15)$ では予言として (i)・(ii) をともに満たす。
 境界の因子を外した $N = (1-t)x/(s^2(t-\lambda^2)(\lambda^2-1)(q-1)(\lambda^2q-1))$ と $\tilde N = E/(s^2(t-\lambda^2)(\lambda^2+1)(q+1)(\lambda^2q+1))$ を単項式ごとに比べると、$T(2,3)$〜$T(2,15)$ の全単項式で $|\tilde e_m| \le |c_m|$、$\tilde e_m \equiv c_m \pmod 2$ が成り立ち、$k < 2m$ のブロックでは $|\tilde e_m| = |c_m|$（全状態が $\tilde I$ で不変）、$k \ge 2m$ で初めて $\tilde I$ で入れ替わる対が現れる。$E$ は状態の数の符号付き部分和として読める。
 \end{compresult}
@@ -42,9 +43,10 @@ $E$ の補正は $(-1)^{m+j'+1}t^{m-1-j'}\psi^2(X_{j'})$、$X_{j'} = \mathrm{Sym
 % [P23]
 \begin{conjecture}[閉じた式]\label{conj:closedform}
 $T(2,2m+1)$ の $n = 1$ の $N$ と $E$ は、結び目によらない普遍的なデータ $V$、$F_{j'}$、$X_{j'}$ と、結び目のデータ $S_m$（reduced superpolynomial）・$m$ だけで書ける（$K = 4m-1$、$n_k$ は $\lambda^{-(6+2k)}q^{-(2+k)}$ の係数）：
-\[
- n_k = \mathrm{Sym}^kV\ (k<2m),\quad n_{2m} = \mathrm{Sym}^{2m}V - S_m^2,\quad n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^jV + (q-t)\,t^{m-1-j'}F_{j'}\bigr]\ (j = m+j' \ge m),
-\]
+\begin{gather*}
+ n_k = \mathrm{Sym}^kV\ (k<2m),\qquad n_{2m} = \mathrm{Sym}^{2m}V - S_m^2,\\
+ n_{K-j} = -t^{K-2j}\bigl[\mathrm{Sym}^jV + (q-t)\,t^{m-1-j'}F_{j'}\bigr]\ (j = m+j' \ge m),
+\end{gather*}
 $E$ は対応する $\tilde I$ のトレースである。$T(2,3)$〜$T(2,15)$ で $N$ は全係数で成立し、$E$ は (i)・(ii) を満たす（計算）。
 \end{conjecture}
 % [P24]

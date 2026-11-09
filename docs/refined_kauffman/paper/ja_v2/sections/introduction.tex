@@ -24,8 +24,9 @@ refined の側では、\cite{AgSh11} が refined Chern--Simons 理論を定式�
 \item \textbf{定義（§\ref{sec:prelim}）}：Mariño 型の bosonic な核を素朴に refined にすると、unknot の 2 箱で既に $U = t^N$ の極が打ち消さない。代わりに双対 Cauchy 核（Koornwinder 多項式の双対 Cauchy 恒等式 \cite{Mimachi01}）を使うと、unknot の積表示が自動的に成り立つ。規格化は、U$(n)$ の不変量が行列式と荷電共役で不変になる一様な規格化をとり、reformulation には Mariño の $M(q^{-1})$ を使う。refined クロスキャップ不変量は $g = f - \tfrac12 f^{\cov}$ で定義する（定義 \ref{def:crosscap}）。$f$ は SO$(2N)$ の refined 不変量から、$f^{\cov}$ は被覆の A 型の不変量（普通の表現と composite）から、それぞれ箱の小さい順に別々に計算し、$g$ はその差である。
 \item \textbf{全 $d$ の構造（§\ref{sec:index}）}：orientifold の M 理論の指数から $g = \tfrac12 E/(1+t) + C$ を導く（命題 \ref{prop:alld}）。$E$ は $\tilde I$ で不変な状態の符号付きの和、$C$ は凍結した状態の和で、$E$ は brane と image の箱が同数のセクターにしか現れない。この構造は \cite{Witten11} の Chern--Simons 分配関数の trace 表示の SO$(2N)$ 版として読める（命題 \ref{prop:trace}）。境界ゼロモードへの $\tilde I$ の作用から $E$ の境界因子 $z_q^{n-1}(z_q^+)^n$ を導き（命題 \ref{prop:boundary}）、Hopf 絡み目・結び目・framed unknot で確かめた。閉弦では SO$(2N)$ の分配関数の積表示が \cite{AgSc12} の式と一致し、\cite{AM22} の「Klein 瓶」の寄与がこの分解の並べ替えであることを示す（命題 \ref{prop:AM}）。$E$ と $C$ の分離は指数からは決まらない（命題 \ref{prop:EC}）。
 \item \textbf{unknot と Hopf 絡み目（§\ref{sec:hopf}）}：整数性が成り立つ。Kähler 変数は $\lambda \to \tlam = \lambda(q/t)^{1/2}$ とずれ、$E_{22}, E_{24}$ は一意に決まる。
-\item \textbf{表現 [1] の判定式（§\ref{sec:torus}）}：$T(2,2m+1)$（$m \le 5$）で、$c = 1$ 部分の $G$ 展開と $c = 2$ 部分の閉じた形が得られ、$\lambda^\beta$ ごとに符号がそろう。これを判定式（予想 \ref{conj:criterion}）としてまとめる。
-\item \textbf{整数性と普遍因子（§\ref{sec:generalN}）}：DAHA-Jones 多項式を一般の $t$ で計算し、refined SO$(2N)$ の trefoil の 2 箱・3 箱と $T(2,5)$ の 2 箱を一般の $N$ で求めた。クロスキャップ部分は整数係数の Laurent 多項式で、$(1+t)$ の極は命題 \ref{prop:alld} の予言どおり $p_2$ 方向にだけ現れる。refined だけの部分は普遍因子 $(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れる（予想 \ref{conj:structure}）。
+\item \textbf{表現 [1] の判定式（§\ref{sec:torus}）}：$T(2,2m+1)$（$m \le 5$）で、$c = 1$ 部分の $G$ 展開と $c = 2$ 部分の閉じた形が得られ、$\lambda^\beta$ ごとに符号がそろう。これを判定式（予想 \ref{conj:criterion}）としてまとめる。この判定式は 2 ストランドのトーラス結び目に固有で、$T(3,4)$ と代数的なケーブルでは $c = 1$ 部分が $\sigma$ 対称でなく、成り立たない（§\ref{sec:cable}）。
+\item \textbf{整数性と普遍因子（§\ref{sec:generalN}）}：DAHA-Jones 多項式を一般の $t$ で計算し、refined SO$(2N)$ の trefoil の 2〜4 箱、$T(2,5)$ の 2 箱・3 箱、$T(2,7)$ と $T(2,9)$ の 3 箱を一般の $N$ で求めた。クロスキャップ部分は整数係数の Laurent 多項式で、$(1+t)$ の極は命題 \ref{prop:alld} の予言どおり $p_2$ 方向にだけ現れる。refined だけの部分は普遍因子 $(\bt^2 - 1)(\ba^2 - \bq^2)$ で割り切れる（予想 \ref{conj:structure}）。
+\item \textbf{代数的なケーブルへの拡張（§\ref{sec:cable}）}：\cite{CD14} の iterated DAHA-Jones 多項式の D$_N$ の値を定義として採り、trefoil の $(2,13)$-ケーブルの表現 [1] と 2 箱、$(2,15)$-ケーブルの表現 [1] を一般の $N$ で求めた。整数性、$(1+t)$ の極の位置、普遍因子はトーラス結び目と同じく成り立つ。
 \item \textbf{refined Sp$(2N)$（§\ref{sec:sp}）}：C$_N$ 型の DAHA を実装し、\cite{AM22} の refined Sp$(2N)$ の trefoil・$T(2,5)$ の表現 [1] と trefoil の 2 箱を一般の $N$ で求めた。表現 [1] では $g^{\mathrm{Sp}}(\ba) = -g^{\SO}(-\ba)$、2 箱では $W^{\mathrm{Sp}}_R(\ba) = (-1)^{|R|} W^{\SO}_R(-\ba)$ で、クロスキャップ部分の差は閉じた形 $\pm\psi^2[\delta]$ に尽きる。
 \item \textbf{被覆の構造（§\ref{sec:cover}）}：被覆を brane と image に分けると、brane--brane のセクターは \cite{KN17} の U$(N_A)$ の refined LMOV 不変量に全係数で一致する。brane--image のセクターは、境界因子を外すと $\mathrm{Sym}^k V$、$S\otimes S$、普遍的な補正 $F_{j'}$ から成る状態の空間として同定でき（計算結果 \ref{cr:principle}、予想 \ref{conj:closedform}）、表現 [1] と随伴の行で書いた母関数（命題 \ref{prop:rows}）が 14 のトーラス結び目で成り立つ。この同定から $E$ が条件なしに作れ、$T(2,3)$〜$T(2,15)$ で状態の数の符号付き部分和として読める。
 \item \textbf{多箱の現状（§\ref{sec:positivity}）}：多箱のクロスキャップ部分では $c = 1$ 部分が $\sigma$ 対称でなく $G$ 展開できず、符号もそろわない。$\sigma$ 非対称性は、unrefined の段階での $c$ の偶奇の規則（hatted では $\beta \equiv |R| - 1$）と、refined に固有の $\sigma$ 奇部分（$(\bt^2-1)(\ql - \ql^{-1})$ で割り切れる）に分かれる。被覆側に問題が無いことから、障害は凍結した状態の多重項の構造に絞られる。
@@ -45,6 +46,11 @@ $T(2,2m+1)$ の固定 $N$（$N = 2, 3$、$|R| \le 3$、$m \le 3$） & 全方向�
 trefoil の 2 箱（大きな $N$） & 成立 & 成立 & 商のブロックの 5/10 \\
 $T(2,5)$ の 2 箱（大きな $N$） & 成立 & 成立 & 6/18 \\
 trefoil の 3 箱（大きな $N$） & 成立（$(1+t)$ の極なし、hatted も整数） & 成立 & 2/15, 3/14, 2/13 \\
+$T(2,5)$, $T(2,7)$, $T(2,9)$ の 3 箱（大きな $N$） & 成立（$(1+t)$ の極なし） & 成立 & 1/23〜1/25, 1/33〜1/35, 1/43〜1/45 \\
+trefoil の 4 箱（大きな $N$） & $2(1+t)g_R$ が成立（$(1+t)$ は $p_4$, $p_2^2$ だけ） & 成立 & 0〜2/18〜22 \\
+$T(3,4)$ の表現 [1] & 成立 & 成立 & 判定式は不成立（$c = 1$ が $\sigma$ 非対称、$c = 2$ の商の符号はブロックで変わる）。商は 4/4 \\
+代数的なケーブル $C_{13}$, $C_{15}$ の表現 [1]（大きな $N$） & 成立 & 成立 & 判定式は不成立（$c = 1$ が $\sigma$ 非対称、$c = 2$ は割り切れない）。商は 6/9, 8/11 \\
+$C_{13}$ の 2 箱（大きな $N$） & 成立 & 成立 & 30/50 \\
 被覆の brane--brane（trefoil, $T(2,5)$ の $|R| \le 2$） & 成立（\cite{KN17} に一致） & — & 全ブロックそろう \\
 被覆の brane--image（境界因子を外した $N$、$T(2,3)$, $T(2,5)$, $T(2,7)$） & 成立 & — & 切り替わりのブロック $k = 2m$ 以外はそろう \\
 refined Sp$(2N)$：$T(2,3)$, $T(2,5)$ の表現 [1]、trefoil の 2 箱 & 成立（SO と同じ構造） & — & SO との関係 $g^{\mathrm{Sp}}(\ba) = -g^{\SO}(-\ba)$（表現 [1]）、$W_R$ の $(-1)^{|R|}$（2 箱） \\
@@ -58,4 +64,4 @@ refined Sp$(2N)$：$T(2,3)$, $T(2,5)$ の表現 [1]、trefoil の 2 箱 & 成立
 計算の方法は\ref{app:code} に置く。
 
 \subsection{構成}
-§\ref{sec:prelim} で変数・核・規格化を定め、refined クロスキャップ不変量を定義する。§\ref{sec:index} で orientifold の指数から全 $d$ の構造と境界因子を導く。§\ref{sec:hopf} で unknot と Hopf 絡み目、§\ref{sec:torus} でトーラス結び目の表現 [1] の判定式、§\ref{sec:generalN} で一般の $N$ の多箱の整数性と普遍因子、§\ref{sec:sp} で refined Sp$(2N)$ を扱う。§\ref{sec:cover} で被覆を brane と image に分けて構造を調べ、§\ref{sec:positivity} で多箱のクロスキャップの現状と障害をまとめ、§\ref{sec:discussion} で未解決の問題を述べる。
+§\ref{sec:prelim} で変数・核・規格化を定め、refined クロスキャップ不変量を定義する。§\ref{sec:index} で orientifold の指数から全 $d$ の構造と境界因子を導く。§\ref{sec:hopf} で unknot と Hopf 絡み目、§\ref{sec:torus} でトーラス結び目の表現 [1] の判定式、§\ref{sec:generalN} で一般の $N$ の多箱の整数性と普遍因子、および代数的なケーブルへの拡張、§\ref{sec:sp} で refined Sp$(2N)$ を扱う。§\ref{sec:cover} で被覆を brane と image に分けて構造を調べ、§\ref{sec:positivity} で多箱のクロスキャップの現状と障害をまとめ、§\ref{sec:discussion} で未解決の問題を述べる。
