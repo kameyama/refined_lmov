@@ -1,16 +1,16 @@
 \section{Unknot and Hopf link}\label{sec:hopf}
 
-\subsection{Virtual normalization}
-The coefficient of $y^{n-2j}$ in the probe basis $K_{(n)}(y; t, q; 1, -1, q^{1/2}, -q^{1/2})$ (monic Askey--Wilson polynomials) is, as a rational function of $U_n = t^n$,
+\subsection{Virtual normalization with one probe}\label{sec:virtual}
+For the Hopf link with one probe on each component we use the probe basis $K_{(n)}(y; t, q; 1, -1, q^{1/2}, -q^{1/2})$ (monic Askey--Wilson polynomials). The coefficient of $y^{n-2j}$ is, as a rational function of $U_n := t^n$,
 \[
 c_{2j}(n) = t^j\, \frac{(q/t; t^2)_j}{(t^2; t^2)_j}\cdot\frac{(1 - U_n)(1 + U_n t^{-2j})\prod_{i=1}^{j-1}(1 - U_n^2 t^{-2i})}{\prod_{i=1}^{j}(1 - qU_n^2 t^{-2i-1})} .
 \]
 % [S4]
-This is a conjecture; it agrees with the recursion at four rational points for $j \le 5$, $n \le 30$.
-The virtual normalization $\tilde Z = y^N z^N Z$ is a polynomial in $y, z$ whose coefficient of $y^a z^b$ is a finite sum independent of $N$; hence $U$ can be kept as a formal variable (full agreement with the direct computation for $U = t^N$, $N = 3, \dots, 8$, $a + b \le 8$).
+We have not proved this closed form; it agrees with the recursion for the Askey--Wilson coefficients at four rational points for $j \le 5$, $n \le 30$.
+With it, the virtual normalization $\tilde Z = y^N z^N Z$ is a polynomial in $y, z$ whose coefficient of $y^a z^b$ is a finite sum independent of $N$, so $U$ can be kept as a formal variable in this one-probe computation (full agreement with the direct computation at $U = t^N$, $N = 3, \dots, 8$, for $a + b \le 8$). The multi-probe computations of \S\ref{sec:kernel} do not use this closed form.
 
 \subsection{Hopf link}
-We attach one probe to each component and set $f_{ab} = \sum_{d | (a,b)} (\mu(d)/d)\, L_{a/d, b/d}(q^d, t^d, \lambda^d)$.
+We attach one probe to each component and set $f_{ab} = \sum_{d | (a,b)} (\mu(d)/d)\, L_{a/d, b/d}(q^d, t^d, \lambda^d)$, where $L_{ab}$ is the coefficient of $y^az^b$ in $\log\tilde Z$.
 % [H2][H3]
 \begin{result}\label{cr:hopf}
 For $a, b \le 4$:
@@ -20,7 +20,7 @@ For $a, b \le 4$:
 \item $f_{11} = -f_{10}\, z_q(\tlam - \tlam^{-1})$ and $f_{1b} = f_{11}\,\chi_{b-1}(t^{N-1})$ with $\chi_m(x) = x^m + x^{m-2} + \dots + x^{-m}$. At $t = q$ this agrees with $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ of \cite{Marino09} up to the sign and the unknot factor.
 \end{enumerate}
 \end{result}
-After refinement the K\"ahler variable is shifted to $\tlam = \lambda (q/t)^{1/2}$. This may be the open-string version of the quantum shift of the K\"ahler variable in \cite{AM22} (\S\ref{sec:index}); since the ratio of shifts does not match the closed string one, we leave the conclusion open (remark in \S\ref{sec:universal}).
+After refinement the K\"ahler variable is shifted to $\tlam = \lambda (q/t)^{1/2}$. This may be the open-string version of the quantum shift of the K\"ahler variable in \cite{AM22} (\S\ref{sec:index}); since the ratio of shifts does not match the closed string one, we leave the conclusion open (Remark \ref{rem:shift}).
 
 \subsection{Crosscap part}
 On the cover we use the Hopf link of $\U(N)$ refined Chern--Simons theory in composite representations: $\tfrac12 f^{\cov}_{10} = -(\lambda - \lambda^{-1})/z_t$ and $\tfrac12 f^{\cov}_{11} = (\lambda - \lambda^{-1})(\tlam - \tlam^{-1})z_q/z_t$.
@@ -32,18 +32,29 @@ On the cover we use the Hopf link of $\U(N)$ refined Chern--Simons theory in com
 \end{enumerate}
 \end{result}
 
-\subsection{Determination of $E$ and Adams operations}
-Splitting the probes into an $x$ side and a $1/x$ side, the sector-wise cover gives the sum $P$ over states in the fixed sector (the sector mapped to itself by $\tilde I$). Write $E = P - 2Q$, $Q$ being the sum over states with $\tilde I$-eigenvalue $-1$, regard the coefficients of the monomials of $P$ as numbers of states and impose $0 \le Q_m/P_m \le 1$ (a hypothesis; for knots the signs of $P$ are mixed and this hypothesis cannot be used, see \S\ref{sec:positivity}). On top of this we impose two conditions in an integer program:
-(i) $E = 2(1+t)g$ at $t = -1$;
-(ii) $C$ equals the value of \cite{Marino09} at $t = q$.
+\subsection{Determination of \texorpdfstring{$E$}{E} and Adams operations}\label{sec:Econd}
+Splitting the probes into an $x$ side and a $1/x$ side, the sector-wise cover gives the sum $P$ over states in the fixed sector. Write $E = P - 2Q$, $Q$ being the sum over states with $\tilde I$-eigenvalue $-1$.
+\begin{hypothesis}\label{hyp:QP}
+The coefficients of the monomials of $P$ are numbers of states, and $0 \le Q_\omega/P_\omega \le 1$ for each monomial $\omega$.
+\end{hypothesis}
+For knots the signs of $P$ are mixed and Hypothesis \ref{hyp:QP} cannot be used (\S\ref{sec:positivity}). Besides it we impose two conditions, used throughout the paper:
+\begin{itemize}
+\item[(E1)] $E = 2(1+t)g$ at $t = -1$ (a consequence of \eqref{eq:alld}, Proposition \ref{prop:EC});
+\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09}.
+\end{itemize}
+\begin{hypothesis}\label{hyp:E2}
+Condition (E2) holds: at $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}.
+\end{hypothesis}
+Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ removes the crosscap constant of the unknot (Proposition \ref{prop:unknot}). This is the form used in \S\ref{sec:EC}.
 % [H6][H7]
-\begin{result}[under the above hypothesis]\label{cr:E22}
+\begin{result}\label{cr:E22}
+Under Hypothesis \ref{hyp:QP}, (E1) and (E2), solved as an integer program,
 \begin{align*}
 E_{22} &= -z_q (z_q^+)^2(\tlam - \tlam^{-1})(t q^{-1/2}\tlam + q^{1/2}\tlam^{-1})\quad(\text{unique}),\\
 E_{24} &= E_{22}\,(\tlam^2/q + q/\tlam^2)\quad(\text{unique}).
 \end{align*}
 For $(4,4)$ a solution exists but is not unique (164 of the 180 monomials of the fixed sector are free).
-With many probes on the first component, $\tilde I$ acts as ``exchange of the fixed sector plus Adams operation'' and $E_{R,S} = \sum_{\rho, \sigma\vdash 2} c^R_{2;\rho}c^S_{2;\sigma}\,\varepsilon_{\rho\sigma}$. Verified for the ten sectors with $|R| \le 4$, $|S| \le 2$, and at $t = -1$ for $|R|, |S| \le 4$: solving $\varepsilon_{\rho\sigma}(-1)$ from 4 of the 25 pairs, the remaining 21 agree.
+With many probes on the first component, $\tilde I$ acts as ``exchange of the fixed sector plus Adams operation'' and $E_{R,S} = \sum_{\rho, \sigma\vdash 2} c^R_{2;\rho}c^S_{2;\sigma}\,\varepsilon_{\rho\sigma}$, where $c^R_{2;\rho}$ are the coefficients of the Adams operation $\psi^2 s_\rho$ expanded in Schur functions $s_R$. Verified for the ten sectors with $|R| \le 4$, $|S| \le 2$, and at $t = -1$ for $|R|, |S| \le 4$: solving $\varepsilon_{\rho\sigma}(-1)$ from 4 of the 25 pairs, the remaining 21 agree.
 \end{result}
 Compared with $P_{22} = z_q^3(\tlam - \tlam^{-1})(tq^{-1/2}\tlam - q^{1/2}\tlam^{-1})$, $E_{22}$ replaces the difference factor $z_q^2$ by the sum factor $-(z_q^+)^2$ and flips the sign in the second factor. This is the form of a twisted trace of $\tilde I$, which we apply to knots in \S\ref{sec:positivity}.
 

@@ -19,7 +19,7 @@
 \DeclareRobustCommand{\ytwoone}{\yng(2,1)}
 \DeclareRobustCommand{\yoneoneone}{\yng(1,1,1)}
 \usepackage[margin=25mm]{geometry}
-\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,doi=true,eprint=true]{biblatex}
+\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,maxbibnames=10,doi=true,eprint=true]{biblatex}
 \addbibresource{../ja_v2/refs.bib}
 \usepackage[hidelinks]{hyperref}
 \allowdisplaybreaks
@@ -27,7 +27,6 @@
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \theoremstyle{definition}
@@ -51,6 +50,9 @@
 \newcommand{\Sym}{\mathrm{Sym}}
 \newcommand{\Tr}{\mathrm{Tr}}
 \newcommand{\open}{\textbf{[open]}}
+\newcommand{\Cab}[1]{\mathcal{C}_{#1}}        % algebraic cables of the trefoil
+\newcommand{\Nfix}{\mathcal{N}}               % generating function of the fixed sector
+\newcommand{\Bim}{B}                           % brane--image sector
 
 \title{Refined crosscap invariants and the large $N$ duality\\ for colored Kauffman invariants}
 \author{Masaya Kameyama}
