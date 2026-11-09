@@ -90,3 +90,35 @@ def test_large_N_one_box(cable):
     u = sp.Symbol("u", positive=True)
     e = sp.cancel(g.to_sympy().subs(u, B.nu * B.s).subs({r: B.r, s: B.s}, simultaneous=True))
     assert B.divisible_universal(e)
+
+
+def test_structure_flint_matches_sympy():
+    """flint 版の 2 箱の判定（rk_c_2box_structure_flint.py、続き 141）が sympy 版（rk_b_2box_structure）と同じ答えを返す（trefoil）。"""
+    import rk_c_2box_structure_flint as FL
+    import rk_b_2box_structure as B
+    import rk_b_2box_structure_m as BM
+    import rk_c_2box_largeN as L
+    import rk_c_2box_largeN_m as M
+    W, co = M.so_parts(1)
+    f = L.so_f(W, co)
+    fc = M.cover_f(1, "T2_3")
+    G = FL.hat({k: FL.to_nu(f[k] - FL.half * fc[k]) for k in f})
+    Gs = BM.hat(BM.load(1)[2])
+    for k in ((1,), "sum"):
+        assert FL.c1_symmetric(G[k]) == B.c1_symmetric(Gs[k])
+        assert FL.divisible_universal(G[k]) == B.divisible_universal(Gs[k])
+        assert FL.sign_blocks(G[k]) == B.sign_blocks(Gs[k])
+
+
+@pytest.mark.results
+def test_large_N_two_box_K1():
+    """K1 の大きな N の 2 箱：ĝ_(2) + ĝ_(1,1) が整数 Laurent、ĝ の refined だけの部分が普遍因子で割り切れる。"""
+    import rk_c_2box_structure_flint as FL
+    import rk_c_2box_largeN as L
+    import rk_c_2box_largeN_m as M
+    W, co = M.so_parts("K1")
+    f = L.so_f(W, co)
+    fc = M.cover_f("K1", "K1")
+    G = FL.hat({k: FL.to_nu(f[k] - FL.half * fc[k]) for k in f})
+    assert G["sum"].is_integer_laurent()
+    assert all(FL.divisible_universal(G[k]) for k in ((1,), (2,), (1, 1), "sum"))
