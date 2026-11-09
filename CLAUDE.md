@@ -22,7 +22,7 @@ src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcskn
 
 # 論文（docs/refined_kauffman/paper/ja、第 2 版は paper/ja_v2）の書き方
 - 第 1 版は paper/ja、第 2 版（2026-11-08 作成。肯定的な結果を本体にし、多箱の否定的な結果は 1 章、brane 2・image 2 の探索は付録）は paper/ja_v2。以後の推敲は ja_v2 で行い、ja は記録として残す。生成ファイル（tex/gen）は両版で共有する。
-- 英語版は paper/en（2026-11-10 作成。ja_v2 の翻訳ではなく、hep-th の論文の形に構成を変えたもの。refs.bib は ja_v2 と共有）。生成ファイルは tex/gen_en で、`PYTHONPATH=src .venv/bin/python scripts/refined_kauffman/rk_report_tex_en.py` が tex/gen の見出しを英語に置き換えて作る（数式は同じ）。コンパイルは ja_v2 と同じ手順（lualatex → bibtex → lualatex 2 回）。
+- 英語版は paper/en（2026-11-10 作成。ja_v2 の翻訳ではなく、hep-th の論文の形に構成を変えたもの。refs.bib は ja_v2 と共有。同日の 2 回の査読・校正・レビューの指摘と判定は paper/en/review_20261110.md・review_20261110_round2.md）。生成ファイルは tex/gen_en で、`PYTHONPATH=src .venv/bin/python scripts/refined_kauffman/rk_report_tex_en.py` が tex/gen の見出しを英語に置き換えて作る（数式は同じ）。コンパイルは ja_v2 と同じ手順（lualatex → bibtex → lualatex 2 回）。
 - 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。本文に著者の略号や名前を書かない（「KN [KN17]」「AgSc の refined unknot」は誤り。「[KN17]」「[AgSc12] の refined unknot」と書く）。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
 - 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できないので書かない。
 - 数式の中の表現はヤング図で書く（main.tex の \yone, \ytwo, \yoneone, \ythree, \ytwoone, \yoneoneone。youngtab の \yng を \DeclareRobustCommand で包んだもので、caption や見出しでも使える）。例：$g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$。

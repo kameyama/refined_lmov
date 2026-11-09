@@ -48,6 +48,12 @@ RULES = [
     (r"（", r" ("),
     (r"）", r")"),
     (r"\\begin\{tabular\}\{llp\{9\.2cm\}\}", r"\begin{tabular}{llp{7cm}}"),      # 英語の見出しは長いので列を狭める
+    # 英語版の記号に合わせる（paper/en：fixed sector の母関数は \Nfix、brane--image は \Bim、refined part は X_1、随伴の冪は λ）
+    (r"\$N\$ with all boundary factors removed, \$N = \(1-t\)x/", r"$\Nfix$ with all boundary factors removed, $\Nfix = (1-t)\Bim/"),
+    (r"brane--image \$N\$ with boundary factors removed", r"brane--image $\Nfix$ with boundary factors removed"),
+    (r"\\,x/z_q\$", r"\,\Bim/z_q$"),
+    (r"quotient of the sum, \$X/", r"quotient of the sum, $X_1/"),
+    (r"\[A\^\{", r"[\lambda^{"),
 ]
 
 

@@ -1,6 +1,6 @@
-\section{Torus knots in the fundamental representation: the positivity criterion}\label{sec:torus}
+\section{Torus knots in the fundamental representation: the sign property}\label{sec:torus}
 
-\subsection{Input and the \texorpdfstring{$h/g$}{h/g} decomposition}
+\subsection{Input and the $h/g$ decomposition}
 The input is the general formula of \S6 of \cite{AgSc12} for $T(2,2m+1)$ in the fundamental representation (normalized by the unknot); for $m = 1$ it is (6.15) there.
 Under the identifications $\SO(4) = \mathrm{SU}(2)^2$ and $\SO(6) = \mathrm{SU}(4)$, (6.15) agrees with the $\U(n)$ values obtained from the construction of \cite{GN13} (checked exactly at two rational points).
 At $t = q$ it agrees with the mirror image of the Kauffman polynomial of \cite{Marino09} up to a framing monomial.
@@ -8,10 +8,10 @@ At $t = q$ it agrees with the mirror image of the Kauffman polynomial of \cite{M
 % [T1]
 \begin{hypothesis}[$h/g$ decomposition]\label{hyp:hg}
 Write $f_{\yone}(K) = -W_{\SO}(K) = \tfrac12 h_{\yone} + g_{\yone}$ with the cover part
-\[
+\begin{equation}\label{eq:hg}
 \tfrac12 h_{\yone} = \mathcal{P}(\ba_{\mathrm{KN}}, \bq, \bt)\,\frac{\lambda - \lambda^{-1}}{\bq - \bq^{-1}},\qquad \ba_{\mathrm{KN}}^2 = a\,(t/q)^{1/2},
-\]
-where $\mathcal P$ is the superpolynomial of \cite{DGR05}, i.e., the A-type refined Chern--Simons invariant in the fundamental representation.
+\end{equation}
+where $\mathcal P$ is the superpolynomial of \cite{DGR05}, i.e., the A-type refined Chern--Simons invariant in the fundamental representation. This is Hypothesis \ref{hyp:cover} for the fundamental representation.
 \end{hypothesis}
 
 % [T2]
@@ -21,24 +21,50 @@ In the uniform normalization the extra $(q/t)^{\delta/2}$ moves to the cover, an
 \end{result}
 The same factor $\sqrt{q/t}$ appears for the $\mathrm{SU}(N)$ trefoil in \cite{AgSh11}.
 
-\subsection{Results}
-Write $g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$ for the crosscap part in the uniform normalization.
+\subsection{Results, with the trefoil as an example}
+Write $g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$ for the crosscap part in the uniform normalization. For the trefoil ($m = 1$) it has eleven terms,
+\begin{equation}\label{eq:trefoil1}
+\begin{aligned}
+g^{\mathrm{true}}_{\yone}(T(2,3)) ={}& \ba^{-6}\bt^{-4} + \ba^{-5}(\bq\bt^{-2} - \bq\bt^{-4}) + \ba^{-4}(-\bq^{2}\bt^{-2} - \bt^{-2} - \bq^{-2}\bt^{-4})\\
+&+ \ba^{-3}(-\bq^{-1}\bt^{-2} + \bq^{-1}\bt^{-4}) + \ba^{-2}(\bq^{2} + \bt^{-2} + \bq^{-2}\bt^{-2}),
+\end{aligned}
+\end{equation}
+whose odd powers of $\ba$ combine to $-(\ba^2 - \bq^2)(\bt^2 - 1)\,\ba^{-5}\bq^{-1}\bt^{-4}$ (the $c = 2$ part) and whose even powers (the $c = 1$ part) have, in the variables $G, \qr$, the blocks $\lambda^{-6}$: $\qr^{-4}$; $\lambda^{-4}$: $-\qr^{-4}(G\qr + 2\qr^2 + 1)$; $\lambda^{-2}$: $\qr^{-2}(G\qr + \qr^2 + 2)$, each with a common sign (Figure \ref{fig:blocks}).
+\begin{definition}\label{def:c12}
+For the fundamental representation the $c = 2$ part of $g^{\mathrm{true}}_{\yone}$ is the part with odd powers of $\ba$ and the $c = 1$ part the part with even powers of $\ba$. By the parity (P) of Result \ref{cr:torus} the $c = 1$ part is also the part with integer powers of $\ql$; at $t = q$ the two parts reduce to the $c = 1$ and $c = 2$ contributions of \cite{Marino09}.
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.0]
+\foreach \i/\lab in {0/$\lambda^{-6}$,1/$\lambda^{-4}$,2/$\lambda^{-2}$} { \node at (\i*2.2+1.1,2.6) {\lab}; }
+\foreach \j/\lab in {0/$G^0$,1/$G^1$} { \node at (-0.7,1.7-\j*1.2) {\lab}; }
+\draw[fill=gray!15] (0,1.1) rectangle (2.2,2.3); \node at (1.1,1.7) {$+1$};
+\draw (0,-0.1) rectangle (2.2,1.1); \node at (1.1,0.5) {---};
+\draw[fill=gray!40] (2.2,1.1) rectangle (4.4,2.3); \node at (3.3,1.7) {$-2\ \ -1$};
+\draw[fill=gray!40] (2.2,-0.1) rectangle (4.4,1.1); \node at (3.3,0.5) {$-1$};
+\draw[fill=gray!15] (4.4,1.1) rectangle (6.6,2.3); \node at (5.5,1.7) {$+1\ \ +2$};
+\draw[fill=gray!15] (4.4,-0.1) rectangle (6.6,1.1); \node at (5.5,0.5) {$+1$};
+\end{tikzpicture}
+\caption{The $G$-expansion of the $c = 1$ part of $g^{\mathrm{true}}_{\yone}$ for the trefoil: the coefficients $N^{c=1}_{g,\beta,J}$ of Definition \ref{def:c1}, arranged by $\lambda^\beta$ block (columns) and power of $G$ (rows); the powers of $\qr$ are suppressed. Each column has a common sign (light: positive, dark: negative), which is the sign property of Conjecture \ref{conj:criterion}. For $m \ge 2$ the intermediate columns are $(\bt^2-1)$ times such a column.}\label{fig:blocks}
+\end{figure}
+
 % [T3][T4]
 \begin{result}\label{cr:torus}
 For $m = 1, \dots, 5$, $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynomial (with 11, 27, 49, 77, 111 terms) and:
 \begin{enumerate}
 \item[(N)] $g^{\mathrm{true}}_{\yone} = 1$ at the $\SO(2)$ point $\ba^2 = \bq^2$ ($\lambda^2 = t$).
 \item[(P)] It is invariant under $\bt \to -\bt$.
-\item[($c{=}2$)] The part with odd powers of $\ba$ is
+\item[($c{=}2$)] The $c = 2$ part is
 \begin{equation}\label{eq:Pim}
 -(\ba^2 - \bq^2)(\bt^2 - 1)\,\ba^{-(4m+1)}\bq^{-(2m-1)}\bt^{-4m}\,\Pi_m,\qquad
 \Pi_m = \sum_{j=0}^{m-1}\ba^{2j}\bq^{2(m-1-j)}\bt^{2j}\sum_{i=0}^{j}(\bq^4\bt^2)^i ,
 \end{equation}
 where $\Pi_m$ has $m(m+1)/2$ terms, all with coefficient $+1$.
-\item[($c{=}1$)] The part with integer powers of $\ql$ (even powers of $\ql^{1/2}$) is $\sigma$-symmetric and is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1}]$. Each $\lambda^\beta$ block is one of
+\item[($c{=}1$)] The $c = 1$ part is $\sigma$-symmetric and is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1}]$. Each $\lambda^\beta$ block is one of
   \begin{itemize}
   \item $\lambda^{-(4m+2)}$: a positive monomial;
-  \item $\lambda^{-4m}, \dots, \lambda^{-(2m+4)}$: $(\bt^2 - 1)\times$ positive;
+  \item $\lambda^{-4m}, \dots, \lambda^{-(2m+4)}$ (absent for $m = 1$): $(\bt^2 - 1)\times$ a block with positive coefficients;
   \item $\lambda^{-(2m+2)}$: all coefficients negative;
   \item $\lambda^{-2m}$: all coefficients positive.
   \end{itemize}
@@ -47,29 +73,36 @@ where $\Pi_m$ has $m(m+1)/2$ terms, all with coefficient $+1$.
 \begin{conjecture}\label{conj:Pim}
 The closed form \eqref{eq:Pim} of the $c = 2$ part holds for all $m$. (It was guessed from $m \le 3$ and confirmed for $m = 4, 5$.)
 \end{conjecture}
-At $t = q$ the odd powers of $z$ disappear, consistent with the vanishing of the unrefined $c = 2$ invariants for torus knots in the fundamental representation. The values for $m = 1, 2, 3$ are listed in Appendix \ref{app:torus}.
+At $t = q$ the $c = 2$ part vanishes, consistent with the vanishing of the unrefined $c = 2$ invariants for torus knots in the fundamental representation. The values for $m = 1, 2, 3$ are listed in Appendix \ref{app:torus}.
 
-\subsection{The criterion}\label{sec:criterion}
-The unrefined crosscap BPS numbers are integers whose sign depends on $\beta$ (e.g., $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ for the Hopf link in \cite{Marino09}).
-After refinement one expects positivity, which we formulate as follows: in each $\lambda^\beta$ block the coefficients have a common sign, equal to the unrefined sign $\varepsilon_\beta$.
+\subsection{The sign property}\label{sec:criterion}
+The unrefined crosscap BPS numbers are integers whose sign depends on $\beta$ (e.g., $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ for the Hopf link in \cite{Marino09}). After refinement one expects positivity, which we formulate as follows: in each $\lambda^\beta$ block the coefficients have a common sign, equal to the unrefined sign $\varepsilon_\beta$ whenever the block survives at $t = q$.
 
 \begin{definition}\label{def:c1}
 Expand the $c = 1$ part of the crosscap invariant in the fundamental representation as
-\[
+\begin{equation}\label{eq:Gexp}
 g^{c=1} = \sum_\beta \lambda^\beta \sum_{g, J} N^{c=1}_{g,\beta,J}\, G^g \qr^{2J},\qquad 2J \in \mathbb{Z}.
-\]
+\end{equation}
 At $t = q$, $\sum_J N^{c=1}_{g,\beta,J}$ reduces to the $N^{c=1}_{g,\beta}$ of \cite{Marino09}.
 \end{definition}
-For a knot whose unrefined $c = 2$ invariants vanish, such as a torus knot in the fundamental representation, the whole $c = 2$ part is ``refined'' in the sense of \S\ref{sec:universal}; in general only the refined part $X_1^{c=2} = g^{c=2} - g^{c=2}|_{t=q}(\lambda \to \tlam)$ can be expected to carry the universal factor.
+For a knot whose unrefined $c = 2$ invariants vanish, such as a torus knot in the fundamental representation, the whole $c = 2$ part is its own refined part in the sense of \S\ref{sec:universal}; in general only the refined part $X_1^{c=2} = g^{c=2} - g^{c=2}|_{t=q}(\lambda \to \tlam)$ can be expected to carry the universal factor.
 
-% [T6]
-\begin{conjecture}[criterion]\label{conj:criterion}
-For two-strand torus knots $T(2,2m+1)$ in the fundamental representation:
+\begin{definition}[sign property]\label{def:signprop}
+We say that a knot $K$ has the \emph{sign property} in the fundamental representation if
 \begin{enumerate}
-\item[($c{=}1$)] after the $G$-expansion of Definition \ref{def:c1}, each $\lambda^\beta$ block has a common sign, or is $(\bt^2 - 1)\times$ a block with a common sign, the sign being the unrefined sign $\varepsilon_\beta$;
-\item[($c{=}2$)] the refined part of the $c = 2$ part is $(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a polynomial whose coefficients have a common sign in each $\ba$ block; for $T(2,2m+1)$ it is the whole $c = 2$ part, $-(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a positive polynomial.
+\item[($c{=}1$)] the $c = 1$ part is $\sigma$-symmetric, and in its $G$-expansion \eqref{eq:Gexp} each $\lambda^\beta$ block has a common sign, equal to $\varepsilon_\beta$ when the block does not vanish at $t = q$, or is $(\bt^2 - 1)\times$ a block with a common sign;
+\item[($c{=}2$)] the refined part of the $c = 2$ part is $(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a polynomial whose coefficients have a common sign in each $\ba$ block.
 \end{enumerate}
-Items (N) and (P) of Result \ref{cr:torus} are checks of the normalization; the content on positivity is in ($c{=}1$) and ($c{=}2$).
+\end{definition}
+% [T6]
+\begin{conjecture}\label{conj:criterion}
+Every two-strand torus knot $T(2,2m+1)$ has the sign property in the fundamental representation; its $c = 2$ part is $-(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a positive polynomial \eqref{eq:Pim}.
 \end{conjecture}
-The evidence is $T(2,2m+1)$, $m \le 5$ (Result \ref{cr:torus}). We do not state the criterion for general knots: for $T(3,4)$ the $c = 1$ part is not $\sigma$-symmetric, so ($c{=}1$) fails while ($c{=}2$) holds; for the algebraic cables of \S\ref{sec:cable} the $c = 1$ part is not $\sigma$-symmetric and the refined part of the $c = 2$ part has mixed signs within $\ba$ blocks (Result \ref{cr:cable-largeN}). Whether the Kauffman superpolynomials of \cite{GW05} for two-strand torus knots, which are positive, are related to our $c = 1$ part is not examined here \open.
-The factor $(\ba^2 - \bq^2)$ vanishes at the $\SO(2)$ point, where knot invariants of an abelian group become trivial; $(\bt^2 - 1)$ follows from vanishing at $t = q$ together with the parity (P).
+The evidence is Result \ref{cr:torus} ($m \le 5$); items (N) and (P) of Result \ref{cr:torus} are checks of the normalization, and the content on positivity is in ($c{=}1$) and ($c{=}2$). The factor $(\ba^2 - \bq^2)$ vanishes at the $\SO(2)$ point, where knot invariants of an abelian group become trivial; $(\bt^2 - 1)$ follows from vanishing at $t = q$ together with the parity (P). The sign property is not a property of all knots: it fails for $T(3,4)$ (\S\ref{sec:t34}) and for the algebraic cables of \S\ref{sec:cable}. Whether the Kauffman superpolynomials of \cite{GW05} for two-strand torus knots, which are positive, are related to our $c = 1$ part is not examined here \open; we note that the refined $\SO(2N)$ invariant $\Rred_{\yone}$ itself is not positive in bold variables (\S\ref{sec:positivity}), so it is not a Poincar\'e polynomial of a Kauffman homology in these variables.
+
+\subsection{\texorpdfstring{$T(3,4)$}{T(3,4)}: failure of \texorpdfstring{($c{=}1$)}{(c=1)}}\label{sec:t34}
+% [T7]
+\begin{result}\label{cr:t34sign}
+For the three-strand torus knot $T(3,4)$ in the fundamental representation ($\delta = 3$, $F = 12$; the general-$N$ invariant is obtained from the $D_N$ DAHA as in \S\ref{sec:generalN}), $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynomial, its $c = 1$ part is symmetric under $q \leftrightarrow 1/q$ at $t = q$, and the refined part of the whole $g^{\mathrm{true}}_{\yone}$ is divisible by the universal factor with all four $\ba$ blocks of the quotient aligned. However, the $c = 1$ part is not $\sigma$-symmetric: the blocks $\lambda^{-10}$ and $\lambda^{-8}$ are asymmetric and only $\lambda^{-6}$ is symmetric, so ($c{=}1$) fails. The $c = 2$ part vanishes at $t = q$, is divisible by $(\ba^2-\bq^2)(\bt^2-1)$, and the quotient has a common sign in each $\ba$ block ($\ba^{-11}$ and $\ba^{-9}$ with opposite signs), so ($c{=}2$) holds. Splitting the $\sigma$-asymmetric part of the $c = 1$ part by Lefschetz weight (\S\ref{sec:sigmaorigin}), each block has a common sign in all rows, alternating with $\beta$; the same pattern occurs for the cables (Result \ref{cr:cable-largeN}).
+\end{result}
+Thus the $\sigma$-symmetry of the $c = 1$ part, hence the $G$-expansion, is specific to two-strand torus knots among the knots examined; what holds for $T(3,4)$ is integrality, the universal factor and ($c{=}2$). Why the $c = 1$ part is $\sigma$-symmetric only for two-strand torus knots is not understood \open.

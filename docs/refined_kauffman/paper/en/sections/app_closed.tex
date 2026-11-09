@@ -1,0 +1,32 @@
+\section{Closed strings}\label{app:closed}
+% [O5]
+\begin{result}\label{cr:closed}
+The $d$-th term of $-\log Z$ built from the $D_N$ product formula $Z = \prod_{m<\beta}\prod_{\alpha>0}(q^{-m/2}t^{-(\alpha,\rho)/2} - q^{m/2}t^{(\alpha,\rho)/2})$, $t = q^\beta$, and the three terms of \S6 of \cite{AgSc12},
+\begin{equation}\label{eq:AgSc3}
+\frac{1}{2d}\frac{Q^d t^{d/2} q^{-d/2}}{z_q(q^d) z_t(t^d)} + \frac1d \frac{(Q t/q)^{d/2}}{z_q(q^d)} - \frac{1}{2d}\frac{Q^d t^{d/2}q^{-d/2}}{z_q(q^d)(t^{d/2} + t^{-d/2})},\qquad Q = t^{2N-1},
+\end{equation}
+differ only by terms linear in $N$ (classical terms and constant maps), for $N = 2, \dots, 7$.
+\end{result}
+The three terms of \eqref{eq:AgSc3} are the closed-string version of Proposition \ref{prop:alld}: $\mathbb{P}^1$ is an invariant state with $\varepsilon = +1$, and the sum of the first and third terms is the contribution of the even $z_2$ modes only; $\mathbb{RP}^2$ is a frozen state, the second term.
+
+In \cite{AM22} the same partition function is written with multiple sine functions, and the $D$- and $C$-type free energies are organized into three pieces: a $c = 1$ term for odd $n$, a ``Klein bottle'' ($c = 2$) term for all $n$, and a ``tripling'' of the K\"ahler variable. In this appendix $(Q, T)$ and $\mathsf X$ denote the variables of \cite{AM22}.
+% [O6]
+\begin{proposition}\label{prop:AM}
+In the variables $(Q, T) = (q^{1/2}, t^{1/2})$ of \cite{AM22}, let $\mathsf X = e^{\tau_1/2}$, $e^{\tau_2} = \mathsf X^2/Q$, $e^{\tau_0} = \mathsf X^2 T/Q$. Then, as rational functions for each $n$,
+\begin{equation}\label{eq:AM}
+\underbrace{-\frac{\mathsf X^{2n}}{2n(Q^{2n} - Q^{-2n})}}_{\text{odd-$n$ correction}}
++ \underbrace{\frac{e^{n\tau_2}}{2n}\frac{Q^n T^{-n} - T^n Q^{-n}}{(Q^{2n} - Q^{-2n})(T^n + T^{-n})}}_{\text{Klein bottle}}
+= -\frac{e^{n\tau_0}}{2n\,(Q^n - Q^{-n})(T^n + T^{-n})} .
+\end{equation}
+Hence ``odd-$n$ $c = 1$ plus Klein bottle'' of \cite{AM22} equals the sum of the frozen-state term $e^{n\tau_1/2}/(n(Q^n - Q^{-n}))$ for all $n$ and the term of invariant states with $\varepsilon = +1$. The Klein bottle term and its numerator $Q^n/T^n - T^n/Q^n$ ($q/t - t/q$ in the variables of \cite{AM22}) are not an independent multiplet: they are the difference between $-\tfrac12\psi^2 C$ and $\tfrac12 E/(1+t)$ when the expansion is organized by odd $d$ ($E \ne \psi^2 C$).
+\end{proposition}
+\begin{proof}
+Bringing the left-hand side to a common denominator, the coefficient of $\mathsf X^{2n}$ is $[-(T^n + T^{-n}) + Q^{-n}(Q^nT^{-n} - T^nQ^{-n})]/(\cdots) = -T^nQ^{-n}(Q^n + Q^{-n})/(\cdots)$, and $(Q^{2n} - Q^{-2n}) = (Q^n - Q^{-n})(Q^n + Q^{-n})$ cancels.
+\end{proof}
+\begin{remark}\label{rem:AMconv}
+The conventions of \cite{AM22} and \cite{AgSc12} are related by $(q, t, Q) \to (q^{-1}, t^{-1}, Q^{-1})$ and an overall sign ($\log Z$ versus $-\log Z$). The ratio of charges of frozen and oriented states is $x^2/Q_0 = \qr^{-1}$ in \cite{AgSc12} and $w = \qr$ in \cite{AM22}.
+\end{remark}
+% [O8]
+\begin{remark}[handle factors]\label{rem:handle}
+In our reading, the ``difference $\times$ sum'' $(q^{1/2} - q^{-1/2})(q^{1/2} + q^{-1/2})$ in the derivation of strong integrality in \S4 of \cite{AgSc12} is $\psi^2 z$, obtained when the $c = 1$ contribution of the class $\beta/2$ is placed at doubled $d$, rather than the factor of a single handle; in the M-theory interpretation of \cite{PU14}, the twisted trace of a single $\tilde I$-invariant handle of the cover is one factor of $z$ in the same variables. After refinement $G = z_q z_t = T_+T_-$ with $T_\pm = (\ql^{1/2} - \ql^{-1/2}) \pm (\qr^{1/2} - \qr^{-1/2})$. However, $T_\pm$ do not make a $\sigma$-asymmetric $c = 1$ part expandable: the elements of $\mathbb{Z}[\qr^{\pm 1}][T_+, T_-] = \mathbb{Z}[\qr^{\pm1}][\ql^{1/2} - \ql^{-1/2}, \qr^{1/2} - \qr^{-1/2}]$ with integer powers of $\ql$ are sums of even powers of $(\ql^{1/2} - \ql^{-1/2})$ and hence invariant under $\ql \to \ql^{-1}$.
+\end{remark}

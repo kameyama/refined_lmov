@@ -1,0 +1,36 @@
+\section{Explicit invariants}\label{app:data}
+The formulas in this appendix were generated automatically from the computed data, not transcribed by hand. They document the integrality and the universal factor; at submission they may be moved to ancillary files.
+
+\subsection{Torus knots in the fundamental representation}\label{app:torus}
+$g^{\mathrm{true}}_{\yone}$ in bold variables, the $G$-expansion of the $c = 1$ part, and $\Pi_m$ of the $c = 2$ part, for $m = 1, 2, 3$.
+
+\medskip\noindent
+\input{../../tex/gen_en/torus_one_box.tex}
+
+\subsection{DAHA: reduced invariants of the trefoil at general \texorpdfstring{$N$}{N}}\label{app:daha}
+$\Rred_R(t^N) = T_R^{-6}\,\mirror(Z)/K_R(t^\rho)$ for the trefoil in the uniform normalization, where $Z$ is the unnormalized DAHA-Jones value; the powers of $q, t$ can be half-integral.
+
+\medskip\noindent
+\input{../../tex/gen_en/daha.tex}
+
+\subsection{Two-box crosscap part of the trefoil at large \texorpdfstring{$N$}{N}}\label{app:largeN}
+$\hat g_{\ytwo} + \hat g_{\yoneone}$, $(1+t)(\hat g_{\ytwo} - \hat g_{\yoneone})$ and the quotient $X_1/((q-t)(\lambda^2-t))$ by the universal factor (bold variables), cf.\ Result \ref{cr:largeN} and Table \ref{tab:signs}.
+
+\medskip\noindent
+\input{../../tex/gen_en/largeN_2box.tex}
+
+\subsection{Brane--brane and brane--image sectors of the cover}\label{app:cover}
+Evidence for \S\ref{sec:split}. For the two-box trefoil and $T(2,5)$, the sectors of the generating function of the cover split into brane ($Y$) and image ($Y'$), expanded in $G$ with the $t$-side $(t^{-1/2} - t^{1/2})\hat f$ of \cite{KN17} (per $\lambda^\beta$, $\qr = (q/t)^{1/2}$). Brane--brane is $\hat f_{\ytwo}$, $\hat f_{\yoneone}$ (hatted with $M \otimes M$); brane--image is $\Bim = W_{(1;\bar1)} + \kappa - W_{\yone}^2$ divided by $z_q$; $\Nfix$ is the brane--image sector with all boundary factors removed. The sign classification per block is given in Table \ref{tab:coversplit}: brane--brane is aligned in every block, while $\Bim/z_q$ mixes ``aligned'', ``$(\bt^2 - 1)\times$ aligned'' and ``mixed'', and for $\Nfix$ the only mixed block is the switching block $k = 2m$.
+\begin{table}[t]
+\caption{Signs of the $G$-expansion per $\lambda^\beta$ block for the sectors of the cover.}\label{tab:coversplit}
+\input{../../tex/gen_en/cover_split_table.tex}
+\end{table}
+
+\medskip\noindent
+\input{../../tex/gen_en/cover_split.tex}
+
+\subsection{Unrefined check}\label{app:unref}
+The $\hat g$ of the trefoil (standard framing) of \cite{Marino09} computed with our code. $\hat g_{\yoneone}$ agrees coefficient by coefficient with the printed (4.8) of \cite{Marino09}; $\hat g_{\ytwo}$ agrees except for the $z^9$ term (Result \ref{cr:marino}).
+
+\medskip\noindent
+\input{../../tex/gen_en/unrefined.tex}

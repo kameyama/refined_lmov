@@ -1,0 +1,74 @@
+\section{Further structure of the fixed sector}\label{app:fixed}
+This appendix collects the results on the fixed sector of the cover that go beyond the identification of \S\ref{sec:principle}: the generating functions of the corrections, other torus knots, composites, the attempts to determine $E$ for knots from the index, and the sector with two brane and two image boxes. The notation is that of \S\ref{sec:cover}; $V' := 1 + q + qt$.
+
+\subsection{Generating functions and other torus knots}
+% [P24]
+\begin{result}\label{cr:plog}
+The plethystic logarithm of the generating function of $X_{j'}$ is finite ($(1+2t+qt)z - t^2z^2$: the Fock space of $V\oplus t$ with the relation $t^2z^2$), but those of $F_{j'}$ in \eqref{eq:Fgen} and of the upper series $\Sym^jV + (q-t)t^{m-1-j'}F_{j'}$ are infinite; the generators of the latter are $Vz$ and $(q-t)t^{m-1-j'}c_{j'}z^{m+j'}$ ($c_0 = 1$, $c_1 = V^2 - t(1+qt)$, negative coefficients from $c_2$ on). The upper series cannot be read as a Fock space of positive BPS generators.
+\end{result}
+% [P25]
+\begin{result}\label{cr:t34}
+For the three-strand knot $T(3,4)$ ($\gamma = \tau_+\tau_-^3$, $K = 9$) the following parts of Conjecture \ref{conj:closedform} hold: the lower series $\Sym^kV$, the subtraction of a perfect square at the switching block $k = 2\delta$, $K = rs - 3$, and the existence of an $E$ satisfying (E1) and (E2). But the factor of the square is $\tilde S = (1+qt)(1+t+t^2+qt^2+q^2t^2)$ (10 states), not the reduced superpolynomial of $T(3,4)$ (11 states), and the upper series is not of the form $-t^{K-2j}[\Sym^jV + (q-t)R_j]$ ($-t^8(q+t)$ at $j = 0$). The integer program with the lower series fixed has solutions under (E1) and (E2) but not a unique one (29 of 111 monomials undetermined).
+\end{result}
+% [P27, P28]
+\begin{result}\label{cr:threestrand}
+For a torus knot with $p$ strands write $T(r,s)$ with $s = p$. For three strands the upper series $\mathcal U_j := -n_{K-j}/t^{K-2j}$ has the form $(1 + q/t)\Sym^jV + (q-t)C_j$ for $j \le \delta - 2$ ($C_j$ depends on the knot), and at $j = \delta - 1$ a perfect square at $t = q$, $-([\lfloor r/2\rfloor]_{t^2}[r']_t)^2/t^{\delta-1}$ with $[n]_x = (1 - x^n)/(1-x)$ and $r'$ the largest odd number $\le r$, enters ($T(3,4)$, $T(3,5)$, $T(3,7)$, $T(3,8)$, $T(3,10)$). For four strands ($T(4,5)$, $T(4,7)$) the prefactor is $h_2(q,t)/t^2$, the square sits at $j = r - s + 1$, and its factor reads $\rho_0(T(s-1, r-s+1))\cdot S(T(2,r'))|_{t=q}$. For $E$, the switching rule $E_{2\delta} = \Sym^{2\delta}V|_{\varepsilon} - \psi^2\tilde S$ (where $|_\varepsilon$ denotes the insertion of the signs of $\tilde I$) is compatible with (E1) and (E2) also for $T(3,4)$, $T(3,5)$, and the two deepest blocks are unique ($E_K = -t^8(q-t)$, $+t^{11}(q-t)$). For two strands, splitting $E$ in the same $(R, \Gamma)$ form as Proposition \ref{prop:rows}, the $\tilde I$ on the rows of $\Gamma$ is the rule $q \mapsto -q$ in the deep rows ($j \ge \delta + 2$) and a pair correction $D_{\delta-i} = t^{a(m,i)}\tilde D_i$ above, where $\tilde D_i$ is a polynomial depending only on the parities of $i$ and $m$ and $a(m,i)$ an integer exponent.
+\end{result}
+% [P29]
+\begin{result}[factorization of composites at large $N$]\label{cr:composite}
+The relation $A = R^2 + (q-1)(t-1)\Gamma$ of Proposition \ref{prop:rows} is not limited to the adjoint. The large-$N$ values of the composites $(2;\bar1)$, $(1,1;\bar1)$, $(2;\bar2)$, $(2;\overline{1,1})$, $(1,1;\overline{1,1})$ of the trefoil satisfy $R_{(\alpha;\bar\beta)} = R_\alpha R_\beta + (q-1)(t-1)\Gamma_{\alpha\beta}$ (the top row is the product, the difference is divisible by $(q-1)(t-1)$ in every row), and the rows of $\Gamma_{\alpha\beta}$ contain dimension-type factors $(1+q)$, $(1+t)$ according to $\alpha, \beta$. The factor $(q-1)(t-1)$ is the refined measure of the annular string between brane and image, and the integrality of $\Nfix$ is equivalent to LMOV-type integrality of the connected correlator (an interpretation). The generalization $\rho_0^\alpha\rho_1^\beta + \rho_1^\alpha\rho_0^\beta - \rho_1^\alpha\rho_1^\beta$ of $\gamma_1 = (2\rho_0\rho_1 - \rho_1^2)/q$ does not hold for other composites.
+\end{result}
+% [P21]
+\begin{remark}\label{rem:pairblind}
+The sign of $\tilde I$ on a pair $(q\mu, -t\mu)$ of the $(q-t)$ correction does not appear in condition (E2), since the pair vanishes at $t = q$; hence (E2) imposes no constraint on these signs. Since (E1) alone does not fix them either (computation: 2 of 15 signs for $j' = 2$ at $n = 1$, 3 of 17 for $R = (2)$ at $n = 2$), a structure of the space of states such as Conjecture \ref{conj:closedform} is needed.
+\end{remark}
+
+\subsection{Attempts to determine \texorpdfstring{$E$}{E} for knots from the index}\label{app:attempts}
+% [P4]
+\begin{result}[negative]\label{cr:EC}
+The following attempts to determine $E$ for knots were made, with the integer programs of Appendix \ref{app:ilp}.
+\begin{enumerate}
+\item \textbf{Partial sums of states.} As for the Hopf link, write $E = \Phifix - 2\Phifix_-$ with $\Phifix = (1-t)\Bim$, and impose (a) $C$ integer Laurent and (b) the form of (E2), $E|_{t=q} = -(1+q)\psi^2(g_{\yone} + 1)$. There is no solution for the trefoil (the computation was not run for $T(2,5)$). Even without the range constraint, no $E$ satisfying (a) and (b) fits inside the monomial support of $\Phifix$.
+\item \textbf{Adams type.} $E = F\cdot(\psi^2[g_{\yone}] + 1)$ with $F$ among $(1+q)$, $(1+t)$, $(q+t)$, $(1+qt)$ and their monomial multiples, allowing $\psi^2$ to multiply $\lambda^2$ by $(q/t)^{j/2}$, $|j| \le 2$. None satisfies (a).
+\item \textbf{Twisted traces.} We write the fixed-sector index as $\Phifix = t^{1/2} z_q \Phifix_k$, take a twisted character of $\tilde I$ for each multiplet of $\Phifix_k$ (terms of the $G$-expansion or monomials), and solve $E = t^{1/2}Z_\partial\sum_\omega e_\omega\tilde b_\omega$, $|e_\omega| \le |c_\omega|$, $e_\omega \equiv c_\omega \pmod 2$, with boundary factor $Z_\partial$, as an integer program. The twisting rule is hypothetical; we tried $\pi$ rotations in the $q$ and $t$ planes and monomial-wise signs. The Hopf $E_{22}, E_{24}$ are reproduced uniquely with $Z_\partial = z_q$ and monomial-wise signs. For knots the target values at $t = q$ and $t = -1$ both contain $(1+q)$, so there is no solution with $Z_\partial = z_q$; the boundary factor must be the sum $z_q^+$, as derived in Proposition \ref{prop:boundary}. With $Z_\partial = z_q^+$ the trefoil is solvable uniquely but the solution shows no regularity, and $T(2,5)$ has no solution for any rule; relaxing the bound $|c_\omega|$ requires at least two invariant pairs not visible in $\Phifix$.
+\item \textbf{Integer program with fixed boundary factor.} With the boundary factor fixed to $z_q^+$ and a handle twist $G\to \chi$ ($\chi\in\{z_q, z_t, (z_q+z_t)/2, (qt)^{1/2}-(qt)^{-1/2}, z_q^+-z_t^+\}$) on the multiplets of the $G$-expansion of the moduli part, there is no solution for $T(2,3)$, $T(2,5)$.
+\item \textbf{Sign rules.} For the Hopf $(2,2)$ a sign rule by the parities of the exponents of $t$ and $\lambda$ reproduces $E_{22}$, but for the Hopf $(2,4)$ and for knots neither this type of rule (8 rules with 4 offsets) nor the 36 rules combining signs with handle twists satisfy (E1) and (E2). For knots, states of equal charge carry different signs.
+\end{enumerate}
+\end{result}
+
+\subsection{The sector brane 2, image 2}\label{app:n2}
+We summarize the results for the fixed sector $n = 2$ (two brane and two image boxes) of the trefoil. $E$ is determined up to $\lambda^{-12}$ and undetermined from $\lambda^{-14}$ on. Notation: the rows of the mirror images of the fundamental and two-box representations are written $R_{\yone} = a_2\lambda^{-2} + a_4\lambda^{-4}$, $R_{\ytwo} = b_4\lambda^{-4} + b_6\lambda^{-6} + b_8\lambda^{-8}$, $R_{\yoneone} = c_4\lambda^{-4} + \cdots$, those of the adjoint $g^{\mathrm{adj}}_j$, and those of the composites $\Gamma_{\alpha\beta}$ (Result \ref{cr:composite}); the ``background'' is the part of the fixed sector that survives when all Wilson loop data are set to their unknot values, and its ``cells'' are the monomials generating it as a Fock space.
+% [P30, P31, P38, P39]
+\begin{result}[rows of $n = 2$ and the $R$ dependence]\label{cr:n2rows}
+The fixed sector $\Nfix_R$ of $n = 2$ for the trefoil ($R = (2), (1,1)$) can be written explicitly as a polynomial (of degree at most four) in the rows $a_j$ ($a_2 = (1+qt)/q$, $a_4 = -t/q$), $b_j$, $c_j$, $g^{\mathrm{adj}}_j$ and $\Gamma_{\alpha\beta}$; with the actual rows it agrees with the computed $\Nfix_R$ in all blocks up to $\lambda^{-20}$.
+\begin{enumerate}
+\item \textbf{$\sigma$-covariance.} Under the reweighting $\sigma$ of the two-box rows and of $\Gamma$, $b_j \mapsto qb_j$, $c_j \mapsto c_j/t$, $\Gamma_{\alpha\beta} \mapsto w_\alpha w_\beta \Gamma_{\alpha\beta}$ ($w_{\ytwo} = q$, $w_{\yoneone} = 1/t$), the difference $\Nfix_{\ytwo}\circ\sigma - \Nfix_{\yoneone}$ is $(q-t)\times$ a polynomial in the adjoint-sector symbols $a_2, a_4, g^{\mathrm{adj}}_j$ and the background alone (up to $\lambda^{-20}$). The $R$ dependence thus splits into a reweighting of the two-box rows and a tower ``two vacuum states $(q-t)\otimes$ adjoint''.
+\item \textbf{The square at $\lambda^{-12}$.} The $\sigma$-covariant part is a perfect square $-(t^{3/2}/q^{1/2})\hat Y_R^2$ for both $R$, with $\hat Y_{\yoneone} = (1+q)(1+t)(1+qt)/q^3$ and $\hat Y_{\ytwo} = [(1+q)(1+t)(1+qt)^2 + qt(q-t)]/q^4$ (10 monomials, positive, irreducible, not a product). The correction is $(q-t)[(t/q^4)a_2^2 + \eta]$ with $\eta = [tV'^2a_2^2/q^3 - 2a_2\tilde\Sigma + (V'-t)g^{\mathrm{adj}}_6]/q^3$ ($\tilde\Sigma = (1+t+qt)/q$; $\eta = 0$ for $R = (1,1)$). Distinguishing the brane and image rows by different symbols, this square is literally the tensor product of a brane object and its image.
+\item \textbf{$\hat Y_R$ is a single-brane quantity.} The two-box cumulants of a single brane ($\log$ of $W_{\yone}, W_{\ytwo}, W_{\yoneone}$ with the Adams term $f_{\ytwo} = Z_{\ytwo} - \tfrac12\psi^2 Z_{\yone}$) projected onto the Schur $R$, $\Omega^{(0)}_R(\lambda) = \sum_\rho \chi_R(\rho)f_\rho/z_\rho$, equal a prefactor $-q^{1/2}t/(t-1)$ times $[\Omega'_2\lambda^{-2} + \Omega'_4\lambda^{-4} + \cdots]$, and exactly $\Omega'_4 = \hat Y_R$ for both $R$. The $qt(q-t)$ in $\hat Y_{\ytwo}$ comes from the Adams term. For $R = (1,1)$ the correction is also the square of $\Omega'_2 = -a_2/q$: $\Nfix_{12}(1,1) = -(t^{3/2}/q^{1/2})[\Omega_4'^2 + (q-t)(t/q^2)\Omega_2'^2]$.
+\end{enumerate}
+\end{result}
+% [P40]
+\begin{result}[generating function of the adjoint tower]\label{cr:tower}
+Let $\xi = \lambda^{-2}$. The kernels in $\Nfix_{\ytwo}\circ\sigma - \Nfix_{\yoneone} = -(t^{3/2}/q^{1/2})(q-t)[R_{\yone}(\xi)^2\kappa_R(\xi) + \Gamma_{\mathrm{adj}}(\xi)\kappa_\Gamma(\xi) + \beta(\xi)]$ are, in closed form,
+\begingroup\small
+\begin{align}
+\kappa_\Gamma(\xi) &= \frac{q^2\xi^3[\,q^2(V'-t) - t^2\xi(V-q)\,]}{(t\xi-q)(t^3\xi-q)(t^2\xi-q^2)(t\xi-q^3)},\qquad
+\beta(\xi) = \frac{-q^2\xi^4}{(\xi-q)(t\xi-q)(t^2\xi-q)(t\xi-q^2)(t\xi-1)},\label{eq:kernels1}\\
+\kappa_R(\xi) &= \frac{-q^2\xi^3\,P_5(\xi)}{(\xi-q)(t\xi-q)(t^2\xi-q)(t^3\xi-q)(t\xi-q^2)(t^2\xi-q^2)(t\xi-q^3)(t\xi-1)},\label{eq:kernels2}
+\end{align}
+\endgroup
+with $P_5$ an irreducible polynomial of degree five in $\xi$. They were obtained by running the computation with the two-box rows and $\Gamma$ set to zero as rational functions in $\lambda$ (agreeing with the series in symbolic blocks up to $\lambda^{-20}$). All kernels are ``two vacuum states $(q-t)\times$ Fock kernels of cells'', the cells being the six background cells ($t, 1/q, t/q, t^2/q, t/q^2$; $t^2/q^2$) plus $t^3/q, t/q^3$ specific to $\Gamma_{\mathrm{adj}}$. The series coefficients of $\kappa_\Gamma$ are of staircase type, $t^nT_nU_n/q^{3(n+1)}$ with $T_n = \sum_{0\le j\le i\le n}q^it^j$ and $U_n$ a polynomial of degree $n$ in $q, t$ (not reproduced here).
+\end{result}
+% [P32, P33, P34, P41]
+\begin{result}[$E$ at $\lambda^{-12}$ for $n = 2$: full exchange]\label{cr:n2E}
+At $\lambda^{-12}$ the $E$ of $n = 2$ is, for both $R$, ``signs of the background cells plus the exchange $\psi^2$ on all squares and products of rows of the knot part'', and satisfies (E1) and (E2):
+\begin{gather}
+E_{12}(1,1) = q^{-13/2}t^{3/2}\bigl[\psi^2\hat Y_{\yoneone} + (q-t)(t/q^2)\,\psi^2\Omega'_2\bigr] - B_{12}(1,1),\label{eq:E12}\\
+B_{12}(1,1) = -q^{-13/2}t^{3/2}(q-t)qt^2 .\nonumber
+\end{gather}
+The extra $(q-t)qt^2$ of an earlier interpretation (correction $t\,\Sym^2(1+qt)$) was the $E$ of the background ($E_B = -B$). For $R = (2)$, besides the square $\psi^2\hat Y_{\ytwo}$, each piece of the correction is fixed including its sign ($(t/q^4)a_2^2$, $tV'^2a_2^2/q^6$ by $\psi^2$; the cross term $-2a_2\tilde\Sigma$ is $0$; the top row of $\Gamma_{\mathrm{adj}}$ by the same exchange as for $n = 1$, $\gamma_1 = (2\rho_0\rho_1 - \rho_1^2)/q \mapsto -\rho_1^2/q$; its kernel $V' - t$ becomes $(1+q)(1-t)$ by the cell sign $(-1)^{\deg_q\deg_t}$), one of 16 sign choices for the kernel. This $E$ lies outside the earlier family with $|e|\le|R|$ imposed monomial by monomial on the correction. The block signs are unified as $(-1)^{k/2+1}$ ($k$ the exponent in $\lambda^{-k}$) across the $n = 1$ switching block, $\lambda^{-10}$ of $R = (2)$ and $\lambda^{-12}$ of both $R$, corresponding to flipping the sign of one cell in the signed version of $F_{j'}$ for $n = 1$. By the same rule the second term $V - q$ in the numerator of $\kappa_\Gamma$ becomes $(1-q)(1+t)$ (a conjecture).
+\end{result}
+% [P35, P36, P37, P42]
+\begin{result}[obstruction from $\lambda^{-14}$ on; negative]\label{cr:n2negative}
+With the $E$ of $\lambda^{-8}$--$\lambda^{-12}$ fixed, the integer program at $\lambda^{-14}$ determines only 2--3 of 113 unknowns even under (E1) and (E2) (the minimal number of exchanged pairs is 48 under (E1), 936 under (E1) and (E2)). A construction taking the trace of the exchange monomial by monomial in the symbolic blocks does not give an $E$ for any assignment of brane/image labels (either $R$-independent or not Laurent): the Laurent property of $\Nfix$ arises from cancellations between monomials of different content, so the trace is defined only on the brane object $\hat Y_R = \Omega'_4$ in the Schur basis. Pure brane$\times$image products cancel in the mixed cumulant (rank 0), and the square $\hat Y_R^2$ is carried by the connected kernels (the dimension correction of the composite and the contraction term $\kappa$). At $\lambda^{-14}$ the $\sigma$-covariant part is not divisible by $\hat Y_R$ and cannot be written as a product series at the level of $\Omega^{(0)}$.
+\end{result}

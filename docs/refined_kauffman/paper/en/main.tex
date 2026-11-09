@@ -1,15 +1,16 @@
-% English version of the refined Kauffman paper (hep-th style). Not a translation of paper/ja_v2: the
-% content is reorganized around (i) the definition, (ii) the all-d structure from the orientifold index,
-% (iii) integrality and the universal factor at general N (torus knots and algebraic cables), (iv) the
-% positivity criterion in the fundamental representation and its failure beyond two-strand torus knots,
-% (v) the structure of the cover. Negative multi-box explorations are compressed into one section.
+% English version of the refined Kauffman paper (hep-th style). Not a translation of paper/ja_v2.
+% Structure (after the second round of review, 2026-11-10): definition -> index -> Hopf -> fundamental representation
+% -> general N -> cables -> Sp -> cover -> multi-box obstructions -> open problems; computational details, closed strings,
+% further structure of the fixed sector and the generated data are appendices.
 % Claim grading: paper/claims.md (IDs in % [..] comments). Bibliography shared with ja_v2/refs.bib.
 % Compile: cd docs/refined_kauffman/paper/en && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex && bibtex main && lualatex main.tex (twice)
 \documentclass[11pt,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm,bm}
-\usepackage{booktabs,array}
+\usepackage{booktabs,array,graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,decorations.pathreplacing}
 \usepackage{youngtab}
 \Yboxdim{5pt}
 \DeclareRobustCommand{\yone}{\yng(1)}
@@ -21,9 +22,10 @@
 \usepackage[margin=25mm]{geometry}
 \usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,maxbibnames=10,doi=true,eprint=true]{biblatex}
 \addbibresource{../ja_v2/refs.bib}
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks,pdftitle={Refined crosscap invariants and the large N duality for colored Kauffman invariants},pdfauthor={Masaya Kameyama}]{hyperref}
 \allowdisplaybreaks
 \sloppy
+\numberwithin{equation}{section}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -46,13 +48,17 @@
 \newcommand{\SO}{\mathrm{SO}}
 \newcommand{\U}{\mathrm{U}}
 \newcommand{\Sp}{\mathrm{Sp}}
+\newcommand{\GL}{\mathrm{GL}}
 \newcommand{\cov}{\mathrm{cov}}
 \newcommand{\Sym}{\mathrm{Sym}}
 \newcommand{\Tr}{\mathrm{Tr}}
-\newcommand{\open}{\textbf{[open]}}
+\DeclareMathOperator{\mirror}{mirror}
+\newcommand{\open}{\emph{(open)}}
 \newcommand{\Cab}[1]{\mathcal{C}_{#1}}        % algebraic cables of the trefoil
-\newcommand{\Nfix}{\mathcal{N}}               % generating function of the fixed sector
-\newcommand{\Bim}{B}                           % brane--image sector
+\newcommand{\Nfix}{\mathcal{N}}               % generating function of the fixed sector (brane 1, image 1)
+\newcommand{\Bim}{\mathcal{B}}                 % brane--image sector of the cover
+\newcommand{\Phifix}{\Phi}                     % index of the fixed sector, (1-t) f^cov restricted to it
+\newcommand{\cK}{\mathsf{c}_K}                 % knot-dependent constant in the GL normalization
 
 \title{Refined crosscap invariants and the large $N$ duality\\ for colored Kauffman invariants}
 \author{Masaya Kameyama}
@@ -71,13 +77,20 @@
 \input{sections/hopf}
 \input{sections/torus}
 \input{sections/generalN}
+\input{sections/cables}
 \input{sections/sp}
 \input{sections/cover}
 \input{sections/multibox}
 \input{sections/discussion}
 
+\section*{Data and code availability}
+The invariants reported here were computed with the author's Python code (Appendix \ref{app:code}). The code and the computed data (the interpolated invariants at general $N$, the fixed-$N$ values and the logs of all checks) are available from the author; a public repository will accompany the final version. The generated tables of Appendix \ref{app:data} are produced automatically from these data.
+
 \appendix
-\input{sections/appendix}
+\input{sections/app_methods}
+\input{sections/app_closed}
+\input{sections/app_fixed}
+\input{sections/app_data}
 
 \printbibliography
 \end{document}
