@@ -1,6 +1,6 @@
 # refined CS 不変量と refined BPS 不変量の研究
 
-refined Chern–Simons 不変量と refined BPS（LMOV）不変量について、3 つのテーマを扱う研究リポジトリ。テーマはディレクトリ名で呼ぶ。
+refined Chern–Simons 不変量と refined BPS（LMOV）不変量について、下の表のテーマを扱う研究リポジトリ。テーマはディレクトリ名で呼ぶ。
 
 | テーマ | 内容 | 入口 |
 |---|---|---|
@@ -12,7 +12,7 @@ refined Chern–Simons 不変量と refined BPS（LMOV）不変量について�
 
 ## 構成
 
-3 つのテーマのファイルを、各ディレクトリの中で `framed_knot/`、`dgr_lmov/`、`refined_kauffman/` に分けて置く。
+各テーマのファイルを、各ディレクトリの中でテーマ名のサブディレクトリに分けて置く。
 
 ```
 docs/framed_knot/     framed_knot の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）

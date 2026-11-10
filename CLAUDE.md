@@ -1,5 +1,5 @@
-# 3 つの研究テーマ
-このリポジトリでは、refined Chern–Simons 不変量と refined BPS 不変量について 3 つのテーマを扱う。コード（src/rcsknots/ 直下）と規約の大半は共有するが、目的と規則はテーマごとに異なる。
+# 研究テーマ
+このリポジトリでは、refined Chern–Simons 不変量と refined BPS 不変量について、下の表のテーマを扱う。コード（src/rcsknots/ 直下）と規約の大半は共有するが、目的と規則はテーマごとに異なる。
 テーマはディレクトリ名で呼ぶ。docs, scripts, tests, data, logs の各ディレクトリと src/rcsknots/ の下に、同じ名前のサブディレクトリがある（framed_knot だけは src/rcsknots/ 直下の共有コードを使う）。
 
 | テーマ | 内容 | 入口（最初に読む） | 進捗 | 規約 |

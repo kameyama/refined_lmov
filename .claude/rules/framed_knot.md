@@ -13,7 +13,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 
 ## 文書
 - 進捗：docs/framed_knot/progress.md。主要な結果：RESULTS.md（計算時の判定とログを一次の記録として整理する）。全体の整理：REPORT_overview.md。
-- 計画と停止条件：research_plan.md（ステージ 0〜7）と research_plan_*.md。既知の結果と新規性の範囲：novelty_report.md。未解決：open_problems.md。
+- 計画と停止条件：research_plan.md と research_plan_*.md。既知の結果と新規性の範囲：novelty_report.md。未解決：open_problems.md。
 - 規約：conventions.md。変数 (a, q, t) の対応、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズム、refined BPS の抽出式を定めている。
 - 論文の準備：paper/（構成案 outline.md、主張の格付け claims.md、記号 notation.md）。
 
