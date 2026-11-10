@@ -17,7 +17,7 @@
 4. **データ**：計算結果の pkl は `data/refined_kauffman/`（約 48 MB、1320 ファイル）に commit してあり、clone で付いてくる。
    - `data/cache/` は追跡しない。無ければ初回の実行で作り直される（数分）。
    - この Mac にだけある未追跡のファイル（`data/refined_kauffman/daha/Z_N*_m1k4_*.pkl`：T(4,5) の D_N、`Z_N17_T3_5_1.pkl`）は打ち切った計算の途中結果で、再開には要らない。
-5. **文献**：`references/` は追跡しない。`just fetch-refs`（justfile の papers に一覧）で取得する。書誌の確認は arXiv API（export.arxiv.org）と Crossref（api.crossref.org、DOI）で行う。
+5. **文献**：`references/` は追跡しない。`just fetch-refs`（justfile の papers に一覧）で取得する。書誌の確認と BibTeX の作成は skill `inspire-bibtex`（INSPIRE-HEP。無い情報だけ Crossref で補う）で行う（2026-11-10 から）。
 6. **TeX**：TeX Live（lualatex、ltjsarticle、biblatex、youngtab）と ghostscript（ページを画像にするため）が要る。論文のコンパイルは各版のディレクトリで
    `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。biber はこの Mac のサンドボックス内で動かないので backend=bibtex にしてある。
 7. **ユーザーとの取り決め（この Mac のメモリにもあるが、別の PC では読めないのでここに書く）**：
@@ -2327,3 +2327,36 @@
 - 【計算、logs/refined_kauffman/c_cable_lp_K1_14_16.log】K1 の D_N の基底を N = 15 で計算（ν = (4) 7624 秒・18.8 GB、(3,1) 8386 秒・17.8 GB、(2,2) 8627 秒・16.9 GB。見積もり 50 分の 2.5〜3 倍）。N = 16 は計算せず止めた。
 - 【計算】保存済みの補間 R_U_K1_2.pkl（使う N = 3〜11）と R_U_K1_11.pkl（使う N = 4〜14）は、補間に使っていない N = 15 の D_N の値と全係数一致した。これで (2) の照合点は N = 2, 12〜15、(1,1) の照合点は N = 2, 3, 15 になり、(1,1) の「照合が打ち消しの強い小さな N だけ」という弱さ（続き 144 の査読 A14(d)）は解消した。論文の表（en の Table 3、ja_v2 の §6.6 の表）と本文を更新し、Table 1 の注記を外した。
 - 序論の引用（ユーザーの指示「Introduction で Ooguri–Vafa や Labastida–Mariño の論文を適切に引用せよ」）：arXiv で書誌を確認して GV98（Adv. Theor. Math. Phys. 3 (1999)）、OV99（Nucl. Phys. B 577 (2000)）、LM00（Commun. Math. Phys. 217 (2001)）、LMV00（JHEP 11 (2000) 007）、LM01（arXiv のみ。JKTR 掲載は未確認）を refs.bib に追加し、en と ja_v2 の序論の背景の段落を「GV の large N 双対 → OV の Wilson ループと開弦・BPS 不変量 → LM・LMV・LM01 の整数性と構造の精密化（M と Adams 作用素の再定式化）→ SO/Sp の orientifold（SV00）」の順に書き直した。
+
+## 2026-11-10（続き 148）英語版の第 3 回査読・校正・レビューと、式の誤り 6 件の修正
+- やったこと：paper/en の全文を通読して式を手で検算し、疑問点をコード・テスト・生成ファイルと照合した（サブエージェントは文献の arXiv ページの確認だけ）。記録は paper/en/review_20261110_round3.md。
+- 結果：整数性・普遍因子・符号の性質の範囲に関わる誤りは無し。式の書き方の誤り 6 件（A1：(2.3) の符号 $(-1)^{Nm}$ は不要。A2：unknot の積公式と証明の核。A3：$g^{\mathrm{true}}$ と §2 の $g$ の符号が逆で、Hypothesis 5.1 と (8.2) が合っていなかった。A4：reduced の式の $JD$ は非規格化の $Z$。A5：ハンドルの寄与は $-G$。A6：Prop. 3.5 の証明は 2 組の対）を本文に反映した。計算結果とコードは変えていない。コンパイルは 52 ページ、エラーなし。
+- 次にやること：round3 の B（Conjecture 6.6 の偶数の場合の定式化、(E2) の +1 の位置付け、表 3 の区切り、双対 Cauchy のテストの範囲、要旨の表現など）、C（$p_2, q_2$ と $Q$ の記号の衝突など）、D（KN17・KNTZ19 の巻・頁、@misc の 5 件の掲載誌）の判定と対応。ja_v2 に同じ誤り（A1〜A6）があるかの確認。
+- 未解決の問題：文献の巻・頁は arXiv のページでは確認できなかった（出版社か Crossref で確認する）。
+
+## 2026-11-10（続き 149）英語版の第 3 回査読の B・C・D の判定と対応
+- やったこと：round3 の B（内容）・C（記法）・D（文献）を判定して反映した（判定の表は paper/en/review_20261110_round3.md §H）。
+- 結果：
+  - 【計算（trefoil の 2 箱）】$X_1[(1+t)\hat g_R]$ は普遍因子で割り切れ、商の分母は 2 × 単項式。$\hat g_R|_{t=q}$ は $\lambda^2 = q$ で 0。Conjecture 6.5 の偶数の場合を $2(1+t)\hat g_R = [2(1+q)\hat g_R|_{t=q}](\lambda\to\tilde\lambda) + $ 普遍因子 × 整数 Laurent と式で書いた。
+  - 【計算】双対 Cauchy 恒等式は $(n,m) = (1,1), (2,2), (2,3), (3,2)$ でも成り立つ。テストに $(1,1)$・$(2,2)$ を加えた。
+  - (E2) の「+1」を Hypothesis 3.8 の一部として書いた。表 4 の $T(2,7)$・$T(2,9)$ の 2 箱と adjoint を restricted-range の側に移した。ケーブルのパラメータを $(\mathsf p, \mathsf q)$、付録 B の Kähler 変数を $\mathsf Q$ にした。
+  - refs.bib（ja_v2 と共有）に Crossref で確認した掲載誌・巻・頁を入れた（AgSh11、Cherednik11、LM01、CE15、Witten11、Young16、KNTZ19、KN17）。
+- 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。$T(2,5)$–$T(2,9)$・ケーブルの 2 箱で $\hat g_R|_{t=q}$ が $\lambda^2 = q$ で消えるかの確認（Conjecture 6.5 の式の検証範囲を広げる）。
+- 未解決の問題：KN17 の巻（Crossref は 32 と返すが論文番号 2041001 と合わない。ユーザーに確認）。Witten11 の年、AgSh11 の掲載版と arXiv 版の対応、GW05 の掲載の有無は未確認。
+
+## 2026-11-10（続き 150）文献表を INSPIRE の BibTeX に置き換え、調べ方を skill にした（ユーザーの指示）
+- やったこと：.claude/skills/inspire-bibtex（SKILL.md と inspire_bibtex.py）を作り、その手順で paper/ja_v2/refs.bib（英語版と共有）の 37 件を作り直した。CLAUDE.md と .claude/rules/refined_kauffman_paper.md に、文献はこの skill で調べることを書いた。
+- 結果：23 件は INSPIRE の BibTeX そのまま、6 件は INSPIRE に掲載誌が無く Crossref で補完、6 件は INSPIRE に記録が無く Crossref で確認した手入力、書籍 2 件は未確認（内訳は paper/en/review_20261110_round3.md §I）。SV00 の著者名の誤り（Sanjib → Shishir）が直った。KN17 は INSPIRE の記載（32 巻、2023 年）にした。英語版 53 ページ・ja_v2 50 ページでコンパイルが通る。
+- 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。paper/ja（第 1 版）の refs.bib は触っていない。
+- 未解決の問題：INSPIRE の著者名にアクセント記号が無いもの（Marino、Stosic など）と、CD14 の arXiv 番号が INSPIRE の記録に無いことは、INSPIRE の記載のままにしてある。
+
+## 2026-11-10（続き 151）英語版に「なぜ g を見るか」「G 展開の条件」「[Marino09] の整数性の refined での状況」を追記（ユーザーの指示）
+- やったこと：ユーザーとの質疑で、論文から読み取れない説明が 3 点あると分かり、paper/en に足した。
+  - Remark 3.3（index.tex）：$f$ はタワーの形が違う 3 種類の状態（対・不変・frozen）の重ね合わせで、そのままでは状態の数にならないこと、$\tfrac12 f^{\mathrm{cov}}$ を引く意味。§2 の計算手順の段落から参照。
+  - §2.1 の用語「$G$-expansion」（setup.tex）：$G$ 展開は $\sigma$ 対称な多項式にしか無いこと、unrefined の $z$ 展開も $q^{1/2} \to -q^{-1/2}$ の不変性が条件であること。§5.3 の Definition 5.6 の前にも一文。
+  - Remark 6.6（generalN.tex）：[Marino09] の整数性を「整数係数の Laurent 多項式」と「種数と $c$ ごとの整数」の 2 層に分け、refined で何が成り立ち何が無いかを 1 か所にまとめた。$2(1+t)$ は refinement ではなく全ての $d$ の定義によるもの。
+- 結果：
+  - 【計算（trefoil と $T(2,5)$、1 箱と 2 箱、data/refined_kauffman/daha/largeN_2box_m{1,2}.pkl）】$f_R$ の分母は単項式 × $(1-t)$（1 箱）、単項式 × $(1-t)(1+t)$（2 箱）で、分子は整数係数。$t = q$ では $f$ の分母は $(1-q)$、$g_{(1)}$ は分母なし、$g_{(2)}, g_{(1,1)}$ は 2 だけ（hatted でない $g$ では $(1+q)$ が消える）。Remark 3.3 にはこのうち refined の分母だけを範囲付きで書いた。
+  - コンパイルは通り、54 ページ。Remark の追加で §3 以降の番号が 1 つずれた（本文は \ref なので整合）。
+- 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。この 3 点の追記は英語版だけとし、ja_v2 には反映しない（2026-11-10、ユーザーの判断）。
+- 未解決の問題：unrefined の $q^{1/2} \to -q^{-1/2}$ の不変性が量子群不変量の転置の対称性から一般に従う、という説明は、このリポジトリの規約での符号まで確かめていない。論文には「[Marino09] の不変量で成り立つ」とだけ書いた。$f$ の分母は 3 箱以上と他の結び目では未確認。

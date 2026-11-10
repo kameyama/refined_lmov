@@ -47,6 +47,10 @@ g = f - \tfrac12 f^{\cov} = \frac12\,\frac{E}{1+t} + C,\qquad E = \sum_{\text{in
 The index of the cover is $f^{\cov} = \sum_{\text{pairs}} 2\omega/(1-t) + \sum_{\text{invariant}} \omega/(1-t)$, that of the quotient is $f = \sum_{\text{pairs}} \omega/(1-t) + \sum_{\text{invariant}} \omega \sum_{(-1)^l\varepsilon = 1} t^l + \sum_{\text{frozen}} \omega$. Substitute $\sum_{(-1)^l\varepsilon = 1} t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$.
 \end{proof}
 
+\begin{remark}[why $g$ and not $f$]\label{rem:whyg}
+The proof shows why the $\SO$ free energy $f$ itself is not the object to expand in BPS numbers. It is a superposition of three kinds of states whose towers of modes differ: pairs carry the full tower $1/(1-t)$, invariant states only the modes of one parity, and frozen states no tower. No single prefactor turns $f$ into a count of states; accordingly $f_R$ has no $N$-dependent poles but is not a Laurent polynomial: its denominator is a monomial times $(1-t)$ for one box and $(1-t)(1+t)$ for two boxes, with integer numerator (computed for the trefoil and $T(2,5)$). Subtracting $\tfrac12 f^{\cov}$ removes the pairs and the $1/(1-t)$ half of the invariant states, which belong to the oriented theory and contain no new information (the brane--brane part is the invariant of \cite{KN17}, \S\ref{sec:split}), and leaves the two terms of \eqref{eq:alld}, each with a definite meaning. At $t = q$ this is the subtraction of \cite{Marino09}, whose integrality conjecture concerns $g$ and not the Kauffman invariant itself.
+\end{remark}
+
 \begin{remark}\label{rem:Esector}
 Invariant states exist only in fixed sectors; hence $E$ appears only there. If $\tilde I$ acts as the exchange of brane and image, its trace enters the power-sum basis in the $p_2$-type direction (the Adams operation $\psi^2$), and $E_{\ytwo} = -E_{\yoneone}$. The latter is verified for the Hopf link (Result \ref{cr:E22}) and for knots with two boxes (Result \ref{cr:largeN}).
 \end{remark}
@@ -76,7 +80,7 @@ The predictions are compared with the computations in Result \ref{cr:boundary}. 
 For any integer Laurent polynomial $X$, the replacement $E \to E + 2(1+t)X$, $C \to C - X$ leaves $g$ unchanged. Hence $g$ determines only the class of $E$ modulo $2(1+t)$; in particular $E$ itself is not determined, while $E(-1) = [2(1+t)g]_{t=-1}$ is.
 \end{proposition}
 \begin{proof}
-$\tfrac12 \cdot 2(1+t)X/(1+t) = X$, so the change of $E$ is compensated by that of $C$. In terms of states, the following two configurations are indistinguishable in both $f$ and $f^{\cov}$: a frozen state $\omega$ together with a pair $\{\omega\}, \{\omega t\}$ exchanged by $\tilde I$; and four invariant states $\omega, \omega, \omega t, \omega t$ with $\varepsilon = +1$. Both contribute $2(\omega + \omega t)/(1-t)$ to $f^{\cov}$ and $2\omega/(1-t)$ to $f$.
+$\tfrac12 \cdot 2(1+t)X/(1+t) = X$, so the change of $E$ is compensated by that of $C$. In terms of states, the following two configurations are indistinguishable in both $f$ and $f^{\cov}$: a frozen state $\omega$ together with two pairs exchanged by $\tilde I$, one of charge $\omega$ and one of charge $\omega t$; and four invariant states $\omega, \omega, \omega t, \omega t$ with $\varepsilon = +1$. Both contribute $2(\omega + \omega t)/(1-t)$ to $f^{\cov}$ and $2\omega/(1-t)$ to $f$.
 \end{proof}
 % [O7]
 \begin{corollary}\label{cor:Efree}
@@ -92,12 +96,12 @@ where $(x^2)$ denotes the Adams operation $\psi^2$ on all variables and the seco
 Two conditions on $E$ are used throughout the paper:
 \begin{itemize}
 \item[(E1)] $E|_{t=-1} = [2(1+t)g]_{t=-1}$ [derived: Proposition \ref{prop:EC}];
-\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} [Hypothesis \ref{hyp:E2}].
+\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} with its unknot value subtracted [Hypothesis \ref{hyp:E2}].
 \end{itemize}
 \begin{hypothesis}\label{hyp:E2}
-At $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}.
+At $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}. The constant $-1$ of the unknot \eqref{eq:f10} is excluded from the Adams correction: for the unknot $g_{a0} = 0$ for $a \ge 2$, so $E = C = 0$ there, and the unknot value of $g^{\mathrm{odd}}$ ($-\tfrac12$ in the $p_2$ direction) is subtracted from $C$, as in the comparison with \cite{Marino09} in Result \ref{cr:marino}.
 \end{hypothesis}
-Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ removes the crosscap constant of the unknot \eqref{eq:f10}. When $E$ is determined by (E1) and (E2) in this paper, it is by solving these conditions, together with the parity and bound constraints of Appendix \ref{app:ilp}, as an integer linear program.
+Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ is the exclusion of the unknot constant stated in Hypothesis \ref{hyp:E2}. When $E$ is determined by (E1) and (E2) in this paper, it is by solving these conditions, together with the parity and bound constraints of Appendix \ref{app:ilp}, as an integer linear program.
 
 \subsection{Closed strings}
 For closed strings there are only two kinds of states, $\mathbb{P}^1$ (an invariant state with $\varepsilon = +1$) and $\mathbb{RP}^2$ (a frozen state), with no cancellation between them, so $E$ and $C$ are unique and \eqref{eq:alld} can be tested directly. The $D_N$ product formula of the partition function reproduces the three terms of the free energy of \cite{AgSc12}, which are the closed-string version of \eqref{eq:alld}, and the ``Klein bottle'' term of \cite{AM22} is a rearrangement of the frozen-state term; see Appendix \ref{app:closed}. The ambiguity of Proposition \ref{prop:EC} first arises for open strings.

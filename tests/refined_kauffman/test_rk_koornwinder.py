@@ -1,7 +1,7 @@
 """refined Kauffman K2'：Koornwinder 多項式（q-差分作用素の固有関数）の検査。
 
 - n = 2 の主特殊化が van Diejen–Sahi の評価式と一致（パラメータ (1, −1, q^{1/2}, −q^{1/2}) = AS の D_n）。
-- Mimachi の双対 Cauchy 恒等式（n = 2, m = 1 と n = 1, m = 2）。
+- Mimachi の双対 Cauchy 恒等式（(n, m) = (1,1), (2,1), (1,2), (2,2)。(2,3) と (3,2) は各 40 秒ほどかかるので、ここには入れず手で確認した）。
 """
 import pathlib
 import sys
@@ -43,5 +43,7 @@ def _mimachi(n, m):
 
 
 def test_mimachi():
+    assert _mimachi(1, 1) == 0
     assert _mimachi(2, 1) == 0
     assert _mimachi(1, 2) == 0
+    assert _mimachi(2, 2) == 0

@@ -28,7 +28,7 @@ The following terms are used throughout.
 \begin{itemize}
 \item \emph{Blocks.} An invariant depending on $\lambda$ is split into its coefficients of $\lambda^\beta$, the $\lambda^\beta$ \emph{blocks}; since $\ba = \lambda$, we also call them $\ba$ blocks. A block is \emph{aligned} if all its coefficients (in the stated variables) have the same sign, and \emph{mixed} otherwise.
 \item \emph{$c = 1$ and $c = 2$ parts.} For the fundamental representation the $c = 2$ part is the part with odd powers of $\ba$ and the $c = 1$ part the part with even powers (Definition \ref{def:c12}); for hatted multi-box invariants the parity rule depends on the representation (Result \ref{cr:multibox-sigma}).
-\item \emph{$G$-expansion.} A $\sigma$-symmetric Laurent polynomial in $\ql^{1/2}, \qr^{1/2}$ with integer powers of $\ql$ is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1/2}]$; writing it so is its $G$-expansion (Definition \ref{def:c1}).
+\item \emph{$G$-expansion.} A $\sigma$-symmetric Laurent polynomial in $\ql^{1/2}, \qr^{1/2}$ with integer powers of $\ql$ is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1/2}]$; writing it so is its $G$-expansion (Definition \ref{def:c1}). Conversely, since $G$ and $\qr$ are $\sigma$-invariant, only $\sigma$-symmetric polynomials have a $G$-expansion. This is the refined counterpart of an unrefined fact: a Laurent polynomial in $q^{1/2}$ is a polynomial in $z = q^{1/2} - q^{-1/2}$ if and only if it is invariant under $q^{1/2} \to -q^{-1/2}$, i.e., its integer powers of $q$ are symmetric and its half-integer powers antisymmetric under $q \leftrightarrow 1/q$; the even powers of $z$ are the $c = 1$ part and the odd powers the $c = 2$ part of \cite{Marino09}. The expansion in genus is therefore conditional on a symmetry in both theories; the difference is that the unrefined symmetry holds for the invariants of \cite{Marino09}, whereas $\sigma$-symmetry of the refined crosscap invariant holds only in the cases stated in \S\ref{sec:torus} and fails in those of \S\ref{sec:t34} and \S\ref{sec:sigmaasym}.
 \item \emph{Refined part.} For an invariant $\hat g$ the refined part is $X_1 = \hat g - \hat g|_{t=q}(\lambda \to \tlam)$, the difference from the unrefined invariant with the K\"ahler variable shifted (\S\ref{sec:universal}).
 \item \emph{Hatted invariants} are the BPS-basis invariants $\hat g = M(q^{-1})^{-1}g$ of Definition \ref{def:crosscap}.
 \item \emph{Fixed sector, frozen states, switching block} are defined in \S\ref{sec:index-setup} and \S\ref{sec:split}.
@@ -54,10 +54,10 @@ in which the holonomy side carries the $D_n$-type parameters $(\pm1, \pm q^{1/2}
 \end{equation}
 Here $\langle F(x)\rangle_{\SO(2N)}$ is the linear map that expands a class function $F$ of the holonomy eigenvalues $x = (x_1, \dots, x_N)$ in Koornwinder polynomials $K_\mu(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ and replaces each term by the refined Chern--Simons knot invariant $W_\mu(K)$ (normalized as in \S\ref{sec:uniform}): $F = \sum_\mu c_\mu K_\mu(x)$ gives $\langle F\rangle := \sum_\mu c_\mu W_\mu(K)$. In the unrefined theory this is the path-integral expectation value of the Wilson loop, in which $x$ is integrated out. The sum in \eqref{eq:Z} runs over all $d$ (``all-$d$''), not only over odd $d$ as in \cite{Marino09}; the two are related in \eqref{eq:odd} below.
 
-Since $(1 - x_iy_j^{-1}) = -x_iy_j^{-1}(1 - y_jx_i^{-1})$, the right-hand side of \eqref{eq:mimachi} with $n = N$ equals $(-1)^{Nm}(\prod_j y_j)^{-N}\prod_{i,j}(1 - y_jx_i)(1 - y_jx_i^{-1})$. Reading the identity with $m$ probes on the $y$ side and $N$ holonomies on the $x$ side, the kernel of \eqref{eq:Z} is therefore
+Since $(1 - x_iy_j^{-1}) = -x_iy_j^{-1}(1 - y_jx_i^{-1})$, the right-hand side of \eqref{eq:mimachi} with $n = N$ equals $(-1)^{Nm}(\prod_j y_j)^{-N}\prod_{i,j}(1 - y_jx_i)(1 - y_jx_i^{-1})$. Reading the identity with $m$ probes on the $y$ side and $N$ holonomies on the $x$ side, and relabelling the summation by the partition $m^N - \mu$ on the holonomy side (so that $(-1)^{|\mu|}$ becomes $(-1)^{Nm - |\mu|}$, which cancels the sign $(-1)^{Nm}$), the kernel of \eqref{eq:Z} is therefore
 \begin{equation}\label{eq:Zexpand}
 \begin{aligned}
-\tilde Z(Y) &= \sum_{\mu \subseteq m^N} (-1)^{|\mu| + Nm}\, W_\mu(K)\, \hat K_{\mu'}(Y; t, q; U),\\
+\tilde Z(Y) &= \sum_{\mu \subseteq m^N} (-1)^{|\mu|}\, W_\mu(K)\, \hat K_{\mu'}(Y; t, q; U),\\
 \hat K_{\mu'}(Y; t, q; U) &:= \Bigl(\prod_\alpha y_\alpha\Bigr)^N K_{N^m - \mu'}(Y; t, q; 1, -1, q^{1/2}, -q^{1/2}),\qquad U = t^N.
 \end{aligned}
 \end{equation}
@@ -69,7 +69,7 @@ The coefficients $f_R$ are extracted as follows. Write $\log\tilde Z = \sum_\rho
 f_R = \sum_\rho \frac{\chi_R(\rho)}{z_\rho}\, f_\rho ,
 \end{equation}
 with $\mu$ the M\"obius function and $z_\rho$ the order of the centralizer of the cycle type $\rho$. We speak of the ``$p_2$ direction'' or ``$p_1^2$ direction'' of a two-box invariant for the components $f_{(2)}$ and $f_{(1,1)}$.
-In the actual computation (Appendix \ref{app:code}) the kernel $\prod_{\alpha,i}(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1}) = \exp(-\sum_d p_d(Y)S_d(x)/d)$, $S_d(x) = \sum_i(x_i^d + x_i^{-d})$, is expanded in $K_\mu(x)$ by evaluating at the points $x = t^\rho q^\nu$, where $S_d(t^\rho q^\nu)$ is a rational function of $U$; this is why $U$ can be treated as a formal variable. The sign $(-1)^{|\mu|}$ in \eqref{eq:Zexpand} is the hallmark of a fermionic kernel. For the unknot $W_\mu = P_\mu(t^\rho)$ and \eqref{eq:Zexpand} reduces to the dual Cauchy identity evaluated at $x = t^\rho$, which is a product (\S\ref{sec:unknot}).
+In the actual computation (Appendix \ref{app:code}) the kernel $\prod_{\alpha,i}(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1}) = \exp(-\sum_d p_d(Y)S_d(x)/d)$, $S_d(x) = \sum_i(x_i^d + x_i^{-d})$, is expanded in $K_\mu(x)$ by evaluating at the points $x = t^\rho q^\nu$, where $S_d(t^\rho q^\nu)$ is a rational function of $U$; this is why $U$ can be treated as a formal variable. The sign $(-1)^{|\mu|}$ in \eqref{eq:Zexpand} is the hallmark of a fermionic kernel. For the unknot $W_\mu = K_\mu(t^\rho) = \dim_\mu$ and \eqref{eq:Zexpand} reduces to the dual Cauchy identity evaluated at $x = t^\rho$, which is a product (\S\ref{sec:unknot}).
 
 \subsection{Definition and computational scheme}\label{sec:procedure}
 For the cover $\U(N_A)$, $N_A = 2N-1$, we define $f^{\cov}_R$ by the same kernel $\prod_{\alpha,i}(1 - y_\alpha x_i)(1 - y_\alpha x_i^{-1})$ with the same extraction \eqref{eq:extract}. Since both $x$ and $x^{-1}$ enter, the expansion basis consists of Macdonald characters of composite representations $(\alpha; \bar\beta)$, and $\langle P_\alpha(x) P_\beta(x^{-1})\rangle$ is evaluated by decomposing into composite values and contraction terms (\S\ref{sec:generalN}). The part of the kernel with $|Y| \le 2$ is expressed through ordinary representations of $\U(N_A)$ and the adjoint composite $(1;\bar1)$; at degree three the composites $(2;\bar1)$ and $(1,1;\bar1)$ appear as well. In \cite{Marino09} the subtracted term is the $\U(N)$ invariant in composite representations evaluated at the $\SO(N)$ value of the K\"ahler variable; by the invariance under determinant shifts of Result \ref{cr:uniform} this is the same as the $\U(N_A)$ invariant used here.
@@ -95,14 +95,14 @@ $M(x)$ is the matrix $M(x)$ of \cite{KN17}; it equals the reformulation matrix o
 With $M(t)$ or $M(t^{-1})$ in place of $M(q^{-1})$ the Hopf link invariants are not Laurent polynomials; $M(q)$ exchanges $R \leftrightarrow R^T$. The two formulations of \cite{KN17} (the $q$-side with the Macdonald Cauchy kernel and $M(t)$, the $t$-side with the dual Cauchy kernel and $M(q^{-1})$) give the same hatted invariants with two boxes (Result \ref{cr:largeN}).
 \end{remark}
 
-The invariant $g_R$ is computed in three steps: $f_R$ from the $\SO(2N)$ invariants $W^{\SO}_\mu$ ($|\mu| \le |R|$, type $D_N$) by \eqref{eq:Z} and \eqref{eq:extract}; $f^{\cov}_R$ from the A-type invariants of the cover (ordinary representations, the adjoint, and for three boxes $(2;\bar1), (1,1;\bar1)$ with contraction terms) in the same way; and $g_R = f_R - \tfrac12 f^{\cov}_R$, hatted with $M(q^{-1})^{-1}$. The invariant $f_R$ closes on the $\SO$ side and $f^{\cov}_R$ contains no $\SO$ data. Writing the cover with two sets of probes, brane ($Y$) and image ($Y'$), $f^{\cov}$ splits into a brane--brane part (the invariant of \cite{KN17} itself) and a brane--image part (the connected part of the composites), see \S\ref{sec:cover}.
+The invariant $g_R$ is computed in three steps: $f_R$ from the $\SO(2N)$ invariants $W^{\SO}_\mu$ ($|\mu| \le |R|$, type $D_N$) by \eqref{eq:Z} and \eqref{eq:extract}; $f^{\cov}_R$ from the A-type invariants of the cover (ordinary representations, the adjoint, and for three boxes $(2;\bar1), (1,1;\bar1)$ with contraction terms) in the same way; and $g_R = f_R - \tfrac12 f^{\cov}_R$, hatted with $M(q^{-1})^{-1}$. The invariant $f_R$ closes on the $\SO$ side and $f^{\cov}_R$ contains no $\SO$ data. Why the difference $g$, and not $f$ itself, is the quantity with a BPS expansion is explained in Remark \ref{rem:whyg}. Writing the cover with two sets of probes, brane ($Y$) and image ($Y'$), $f^{\cov}$ splits into a brane--brane part (the invariant of \cite{KN17} itself) and a brane--image part (the connected part of the composites), see \S\ref{sec:cover}.
 
 \subsection{Normalization}\label{sec:uniform}
 The input $\U(n)$ refined invariants, normalized by conditions (N1) and (N2) of \cite{KN17}, change by powers of $(q/t)$ under determinant shifts and charge conjugation. With $\delta$ the Seifert genus (\S\ref{sec:variables}) we set
 \begin{equation}\label{eq:uniform}
 W_R = (t/q)^{\delta |R|/2}\, \Rred_R\, P_R(t^\rho),
 \end{equation}
-where $\Rred_R$ is the reduced invariant (the refined invariant divided by that of the unknot, computed in \S\ref{sec:generalN} from DAHA-Jones polynomials) and $P_R(t^\rho)$ the Macdonald dimension.
+where $\Rred_R$ is the reduced invariant (the refined invariant divided by that of the unknot, computed in \S\ref{sec:generalN} from DAHA-Jones polynomials) and $P_R(t^\rho)$ the Macdonald dimension. Throughout, $P_R(t^\rho)$ denotes the principal specialization of the Macdonald polynomial of $\U(n)$, and $K_R(t^\rho) = \dim_R$ that of the $D_N$ Koornwinder polynomial of \S\ref{sec:kernel}; on the $\SO$ side the reduced invariant is $\Rred_R = W_R/K_R(t^\rho)$, with no factor $(t/q)^{\delta|R|/2}$ (Result \ref{cr:monomial}).
 
 % [S5][S6]
 \begin{result}\label{cr:uniform}
@@ -131,7 +131,7 @@ freedom & fixed by & checked afterwards (not used in fixing) \\
 \addlinespace
 cover given by A-type invariants (Hypothesis \ref{hyp:cover}) & --- (hypothesis) & cancellation of $N$-dependent poles fixes the framing monomial uniquely; integrality of $g_R$ at general $N$; agreement with \cite{Marino09} at $t = q$ \\
 \addlinespace
-framing monomial of the $\SO$ side, $T_R^{-F}$ & pole cancellation in $g_{\yone}$ and the Kauffman form at $t = q$ for $T(2,2m+1)$ (Result \ref{cr:monomial}); read off at $N = 2, 3$ for cables & agreement with the fixed-$N$ data for all $N$, $R$ computed; the rule $F = rs$, $p_2q_2$ \\
+framing monomial of the $\SO$ side, $T_R^{-F}$ & pole cancellation in $g_{\yone}$ and the Kauffman form at $t = q$ for $T(2,2m+1)$ (Result \ref{cr:monomial}); read off at $N = 2, 3$ for cables & agreement with the fixed-$N$ data for all $N$, $R$ computed; the rule $F = rs$ (torus knots), $F = \mathsf{p}\mathsf{q}$ (cables, \S\ref{sec:cable}) \\
 \addlinespace
 factor $(t/q)^{\delta|R|/2}$ of the cover & invariance under determinant shift and charge conjugation (Result \ref{cr:uniform}) & framing monomials at fixed $N$ are $1$; $\delta$ equals the genus for all knots used \\
 \addlinespace
@@ -149,8 +149,8 @@ For the unknot, $f_{10} = (1 - t^N)(t^N + t)/(t^N(t-1))$ and $f_{a0} = 0$ for $a
 \begin{equation}\label{eq:f10}
 f_{10} = -1 - \frac{\lambda - \lambda^{-1}}{t^{1/2} - t^{-1/2}},
 \end{equation}
-the sum of the unknot of \cite{Marino09}, $(\lambda - \lambda^{-1})/z$, and the crosscap term $-1$. In our conventions $g_{\yone}$ is minus the mirror of the crosscap invariant of \cite{Marino09} (Result \ref{cr:marino}), so $-1$ corresponds to the value $g_{\yone} = 1$ of \cite{Marino09} for the unknot. The product formula is $\prod_j (y_j^{\pm}; t)_\infty / (U y_j^{\pm}; t)_\infty$; neither the factor $\tfrac12$ nor the restriction to odd $d$ is needed.
+the sum of the unknot of \cite{Marino09}, $(\lambda - \lambda^{-1})/z$, and the crosscap term $-1$. In our conventions $g_{\yone}$ is minus the mirror of the crosscap invariant of \cite{Marino09} (Result \ref{cr:marino}), so $-1$ corresponds to the value $g_{\yone} = 1$ of \cite{Marino09} for the unknot. The product formula is $\prod_j (y_j; t)_\infty (t y_j/U; t)_\infty / \bigl((U y_j; t)_\infty (t y_j; t)_\infty\bigr)$; neither the factor $\tfrac12$ nor the restriction to odd $d$ is needed.
 \end{proposition}
 \begin{proof}
-At $x = t^\rho$, $x_k = t^{N-k}$, the kernel is $\prod_j\prod_{k=1}^{N}(1 - t^{N-k}y_j)(1 - t^{N-k}y_j^{-1})$; take the logarithm and apply \eqref{eq:extract}.
+At $x = t^\rho$, $x_k = t^{N-k}$, the kernel is $\prod_j\prod_{k=1}^{N}(1 - t^{N-k}y_j)(1 - t^{k-N}y_j)$; take the logarithm and apply \eqref{eq:extract}.
 \end{proof}
