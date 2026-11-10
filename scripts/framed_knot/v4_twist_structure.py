@@ -30,15 +30,22 @@ def hat_bold(p):
             for rho, h in hats.items()}
 
 
-def main(sign=1):
-    ps = [sign * k for k in range(1, 13)]
+def hats(sign=1):
+    """{p: {ρ: 太字の \\hat f_ρ(K_p)}}（p = sign·1..12）。data/cache に p ごとに保存し、保存済みの p は読み込む（再開用）。"""
     import pickle
     cache = Path(f"data/cache/v4_hat_sign{sign}.pkl")
     F = pickle.load(open(cache, "rb")) if cache.exists() else {}
-    for p in ps:
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    for p in [sign * k for k in range(1, 13)]:
         if p not in F:
             F[p] = hat_bold(p)
-            pickle.dump(F, open(cache, "wb"))          # p ごとに保存（再開用）
+            pickle.dump(F, open(cache, "wb"))
+    return F
+
+
+def main(sign=1):
+    ps = [sign * k for k in range(1, 13)]
+    F = hats(sign)
     # 候補の比 m（太字の単項式）：連続する p の \\hat f の「最高次」の比から推定する代わりに、小さい単項式の集合を総当たり
     cands = [a ** i * q ** j * t ** k for i in range(0, 9, 2) for j in range(-6, 7, 2) for k in range(-4, 13)]
     for rho in [(2,), (1, 1)]:

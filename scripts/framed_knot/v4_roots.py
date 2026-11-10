@@ -2,12 +2,12 @@
 
 (a, q, t) を素数の点 (2, 3, 5)、(7, 11, 13) で評価し、次数 5 の漸化式の係数を厳密に解き、特性多項式の有理根を因数分解して単項式の指数を読む。
 """
-import pickle
-
 import sympy as sp
 
+from v4_twist_structure import hats
+
 a, q, t = sp.symbols("a q t")
-F = pickle.load(open("data/cache/v4_hat_sign1.pkl", "rb"))
+F = hats(1)
 x = sp.symbols("x")
 for rho in [(2,), (1, 1)]:
     for pt in [(2, 3, 5), (7, 11, 13)]:

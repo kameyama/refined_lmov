@@ -26,7 +26,7 @@ cache = Path(f"data/cache/u3_{kn}.pkl")
 if cache.exists():
     S = pickle.load(open(cache, "rb"))
 else:
-    S = (pickle.load(open("data/cache/u3_alpha_unk.pkl", "rb")), U.dK(red))
+    S = (U.alpha_unk_cached(), U.dK(red))
     pickle.dump(S, open(cache, "wb"))
 H21 = U.homfly_t_eq_q(colored_p(name, 3)[(2, 1)])
 for u2 in u2_cases:

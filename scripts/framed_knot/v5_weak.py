@@ -41,8 +41,19 @@ def inputs(name):
     return {lam: bold_to_small(P) for lam, P in red.items()}, (sum(P1.values()), sum(P3.values()))
 
 
+def dK_cached(name, red):
+    """U.dK(red)。保存値（data/cache/v5_{name}.pkl）があれば読み、無ければ計算して保存する。"""
+    cache = Path(f"data/cache/v5_{name}.pkl")
+    if cache.exists():
+        return pickle.load(open(cache, "rb"))
+    dk = U.dK(red)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    pickle.dump(dk, open(cache, "wb"))
+    return dk
+
+
 def main(names):
-    au = pickle.load(open("data/cache/u3_alpha_unk.pkl", "rb"))
+    au = U.alpha_unk_cached()
     log = open("logs/framed_knot/v5_weak.log", "a")
 
     def out(s):
@@ -66,12 +77,7 @@ def main(names):
             continue
         out(f"{name}: [3] の t = q が 3 本ケーブルの値と一致（鏡像 {mirror_cable}）")
         H21 = Hm[(2, 1)] if not mirror_cable else {(-a, -q): c for (a, q), c in Hm[(2, 1)].items()}
-        cache = Path(f"data/cache/v5_{name}.pkl")
-        if cache.exists():
-            dk = pickle.load(open(cache, "rb"))
-        else:
-            dk = U.dK(red)
-            pickle.dump(dk, open(cache, "wb"))
+        dk = dK_cached(name, red)
         amph = name in AMPHICHIRAL
         for sigma in (1, -1):
             out(f"{name} σ={sigma:+d}: {judge(red, H21, au, dk, amph, sigma, name)}")
