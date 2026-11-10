@@ -67,6 +67,16 @@ The factor $(1+q)$ on the right cancels the pole of $\hat g_R|_{t=q}$ at $q = -1
 \end{conjecture}
 The evidence is Result \ref{cr:universal} (up to four boxes for the trefoil, three boxes for $T(2,5)$, $T(2,7)$, $T(2,9)$) and Result \ref{cr:cable-largeN} for the cables.
 
+\begin{remark}[status of the integrality of \cite{Marino09} after refinement]\label{rem:marino-status}
+The conjecture of \cite{Marino09} has two layers: the hatted crosscap invariants are Laurent polynomials with integer coefficients, and their expansion in $z$ defines integers $\hat N_{R,g,c,\beta}$ labelled by the genus $g$ and the crosscap number $c$. After refinement the two layers behave differently.
+\begin{enumerate}
+\item \emph{Laurent polynomials with integer coefficients.} This survives in the form of Conjecture \ref{conj:structure}: $\hat g_R$ for $|R|$ odd and $2(1+t)\hat g_R$ for $|R|$ even, in the range of Result \ref{cr:largeN}. The factor $2(1+t)$ is due to the all-$d$ definition and not to the refinement: at $t = q$ the all-$d$ $\hat g_R$ with $|R|$ even still has a pole at $q = -1$, which the odd-$d$ definition of \cite{Marino09} absorbs through \eqref{eq:odd}. In terms of \eqref{eq:alld} the integers of \cite{Marino09} correspond to the frozen states $C$ and the term with $2(1+t)$ to the invariant states $E$ (Hypothesis \ref{hyp:E2}).
+\item \emph{Integers labelled by genus and $c$.} The refined expansion in genus is the $G$-expansion, which exists only for $\sigma$-symmetric polynomials (\S\ref{sec:variables}). It is available for the fundamental representation of $T(2,2m+1)$, $m \le 5$, where it gives the integers $N^{c=1}_{g,\beta,J}$ of Definition \ref{def:c1} and the factorized $c = 2$ part (Result \ref{cr:torus}). It is not available for $T(3,4)$ (\S\ref{sec:t34}), for the cables (\S\ref{sec:cable}), or for two and three boxes (Result \ref{cr:noG}), where the $c = 1$ part is not $\sigma$-symmetric; splitting it into $\sigma$-even and $\sigma$-odd parts gives $G$-expansions with half-integer coefficients (Result \ref{cr:multibox-sigma}).
+\item \emph{Even numbers of boxes.} In addition, the separation of $E$ and $C$ is not determined by the index (Proposition \ref{prop:EC}), so the part to be expanded as a count of frozen states is itself not fixed. The two-box sum and the three-box directions do not contain $E$, so the obstruction in item 2 is independent of this ambiguity.
+\end{enumerate}
+A refined analogue of $\hat N_{R,g,c,\beta}$ for higher representations is thus not available \open; what is established there is the first layer together with the universal factor.
+\end{remark}
+
 \begin{remark}\label{rem:shift}
 For closed strings the ratio of charges of frozen and oriented states is $x^2/Q_0 = \qr^{-1}$ (conventions of \cite{AgSc12}, Appendix \ref{app:closed}). For open strings the ratio of the crosscap variable $\tlam^2$ to the cover variable $\ba_{\mathrm{KN}}^2 = \lambda^2\qr^{-1}$ is $\qr^{3}$, so the two do not match. Since the correspondence of open and closed variables ($\lambda^2$ or $\lambda^{-2}$ with $Q$) and the open-string normalization are not yet fixed, we leave this comparison open.
 \end{remark}
