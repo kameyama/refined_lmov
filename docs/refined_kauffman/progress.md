@@ -1,4 +1,4 @@
-# 進捗記録（第 3 の研究：refined Kauffman の large N duality）
+# 進捗記録（refined_kauffman：refined Kauffman の large N duality）
 
 ## 現在の状況（再開用、2026-11-08 更新）
 
@@ -144,7 +144,7 @@
   - `claims.md`：主張の格付け表
   - `ja/main.tex`、`ja/sections/*.tex`、`ja/main.pdf`（31 ページ）
 - **決定事項（2026-10-20、ユーザーが確認済み）**：
-  - 本研究の framed knot の論文（docs/paper/）とは別の 1 本にする。
+  - framed_knot の論文（docs/framed_knot/paper/）とは別の 1 本にする。
   - 日本語で準備し、最終版は英語にする。
   - 著者は亀山昌也の単著。2018 年の試みは「著者が以前に行った計算」と書く。
   - 正値性は「未解決」とし、障害の定式化を成果の一つにする。

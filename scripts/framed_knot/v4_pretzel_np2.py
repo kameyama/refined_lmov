@@ -290,7 +290,7 @@ def cert(l, rho, smin=1, per_round=10, method="highs-ipm"):
     t0 = time.time()
     M = {e for x in N for e in x}
     for grow in range(3):                                             # P_S の台：N の台、だめなら根の ±1 個分ずつ広げる
-        sol = colgen(N, R, M, per_round=per_round, smin=smin, method=method, save=ROOT / f"data/cache/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
+        sol = colgen(N, R, M, per_round=per_round, smin=smin, method=method, save=ROOT / f"data/framed_knot/v4/v4_pretzel_np2_cg_{l}_{''.join(map(str, rho))}_{grow}.pkl")
         if sol is not None:
             break
         print(f"  P_S の台 {len(M)} 点では LP が不能。広げる", flush=True)

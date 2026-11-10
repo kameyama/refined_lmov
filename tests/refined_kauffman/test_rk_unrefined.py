@@ -1,4 +1,4 @@
-"""refined Kauffman（第 3 の研究）K0：unrefined の Kauffman large N duality の再現と、refined unknot の検算。
+"""refined KauffmanK0：unrefined の Kauffman large N duality の再現と、refined unknot の検算。
 
 - trefoil の \\hat g_[1,1] が Mariño 0904.1088 (4.8) と一致（\\hat g_[2] は z^9 の項が原論文の誤植で、他の項は一致）。
 - 4_1 の \\hat g_[2], \\hat g_[1,1] が NRZ 1310.2240 (C.10) と一致し、N^{c=0} の表が NRZ の表と一致。

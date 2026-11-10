@@ -1,4 +1,4 @@
-r"""refined Kauffman（第 3 の研究）：refined unknot の閉じた式。
+r"""refined Kauffman：refined unknot の閉じた式。
 
 Aganagic–Schaeffer 1202.4456 の SO(2N) refined Chern–Simons の unknot
   dim_λ = S_{0λ}/S_{00} = M^{D_N}_λ(t^ρ)（D_N 型 Macdonald 多項式の主特殊化）

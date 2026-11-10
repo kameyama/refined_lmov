@@ -1,11 +1,11 @@
-# 進捗記録：DGR・四重次数型の構造と refined LMOV（別の研究）
+# 進捗記録：DGR・四重次数型の構造と refined LMOV（dgr_lmov）
 
-この研究の進捗だけを記録する（本研究の進捗は docs/framed_knot/progress.md）。新しいものを上に書く。
+この研究の進捗だけを記録する（framed_knotの進捗は docs/framed_knot/progress.md）。新しいものを上に書く。
 2026-10-11 に docs/framed_knot/progress.md から移した（内容は移す前のまま。文中の docs/dgr_lmov/report.md は report.md、docs/dgr_lmov/research_plan.md は research_plan.md、docs/dgr_lmov/open_problems.md はこのディレクトリの open_problems.md を指す）。
 
 ## 現在の状況（再開用、2026-10-13 01:00 更新）
 
-- **リポジトリの整理（2026-10-14）**：この研究のコード・テスト・データ・ログは src/rcsknots/dgr_lmov/、scripts/dgr_lmov/、tests/dgr_lmov/、data/dgr_lmov/（lmovstruct/ を含む）、logs/dgr_lmov/ に移した。本研究の文書は docs/framed_knot/ にある。スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する。
+- **リポジトリの整理（2026-10-14）**：この研究のコード・テスト・データ・ログは src/rcsknots/dgr_lmov/、scripts/dgr_lmov/、tests/dgr_lmov/、data/dgr_lmov/（lmovstruct/ を含む）、logs/dgr_lmov/ に移した。framed_knotの文書は docs/framed_knot/ にある。スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する。
 
 **目標（ユーザーの指示）**：unrefined の LMOV（t = q の彩色 HOMFLY-PT）のデータから refined の [2,1]・[3,1] を一意（高々 O(1)）に予想する。証明の優先順位は最後。外部のホモロジーの入力には頼らない。
 
@@ -232,7 +232,7 @@
   - docs/dgr_lmov.md → report.md、docs/framed_knot/research_plan_dgr_lmov.md → research_plan.md（2026-10-12 の一本化で再度まとめ直した）。
   - docs/framed_knot/progress.md の該当 6 節 → progress.md、open_problems.md §H → open_problems.md、novelty_report.md §11 → novelty.md。
   - 本体の文書には案内だけを残した。
-- README.md に、目的と本研究との規則の違いを書いた。本研究の §F（rCS に正値性を課さない）はこの研究には適用しない。refined LMOV の正値性は構成の条件に使ってよい。
+- README.md に、目的とframed_knotとの規則の違いを書いた。framed_knotの §F（rCS に正値性を課さない）はこの研究には適用しない。refined LMOV の正値性は構成の条件に使ってよい。
 - research_plan.md の D7 の規則と、report.md の「D7 への含意」を、この方針に合わせて改めた。
 - 次にやること（指示待ち）：D7 を、rCS_{[2]} ≥ 0（対称表現の Poincaré 多項式として）を課して再実行するか。[2,1] には非負の R_ρ を未知数とする定式化を作るか。
 

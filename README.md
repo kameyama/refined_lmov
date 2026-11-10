@@ -1,44 +1,44 @@
-# refined CS invariants of iterated torus knots
+# refined CS 不変量と refined BPS 不変量の研究
 
-Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）の refined BPS 不変量の計算を、
-トーラス結び目からその**ケーブル**（iterated torus 結び目）に拡張する研究リポジトリ。
-対象は |λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
+refined Chern–Simons 不変量と refined BPS（LMOV）不変量について、下の表のテーマを扱う研究リポジトリ。テーマはディレクトリ名で呼ぶ。
 
-- 研究計画：[docs/framed_knot/research_plan.md](docs/framed_knot/research_plan.md)
-- 新規性の確認：[docs/framed_knot/novelty_report.md](docs/framed_knot/novelty_report.md)
-- 規約：[docs/framed_knot/conventions.md](docs/framed_knot/conventions.md)
-- 進捗：[docs/framed_knot/progress.md](docs/framed_knot/progress.md)
-- 結果のレポート：[docs/framed_knot/REPORT.md](docs/framed_knot/REPORT.md)
+| テーマ | 内容 | 入口 |
+|---|---|---|
+| framed_knot | Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）を、トーラス結び目以外の結び目と framed knot に拡張し、refined LMOV 不変量の正値性を検証する | [progress.md](docs/framed_knot/progress.md)、[REPORT.md](docs/framed_knot/REPORT.md)、[conventions.md](docs/framed_knot/conventions.md) |
+| dgr_lmov | DGR・四重次数型の構造と refined LMOV 不変量 | [README.md](docs/dgr_lmov/README.md) |
+| refined_kauffman | refined Kauffman 多項式の large N duality | [README.md](docs/refined_kauffman/README.md) |
+
+作業の規則は [CLAUDE.md](CLAUDE.md) と .claude/rules/。
 
 ## 構成
 
-2 つの研究のファイルを、各ディレクトリの中で `framed_knot/`（本研究：framed knot への拡張と正値性の検証）と `dgr_lmov/`（別の研究：DGR・四重次数型の構造と refined LMOV）に分けて置く。
+各テーマのファイルを、各ディレクトリの中でテーマ名のサブディレクトリに分けて置く。
 
 ```
-docs/framed_knot/     本研究の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）
-docs/dgr_lmov/        別の研究の文書（入口は README.md）
-docs/refined_kauffman/  第 3 の研究（refined Kauffman 多項式の large N 双対）の文書・論文（入口は README.md）
+docs/framed_knot/     framed_knot の研究計画・新規性報告・規約・進捗・結果・文献メモ（literature/）・論文（paper/）
+docs/dgr_lmov/        dgr_lmov の文書（入口は README.md）
+docs/refined_kauffman/  refined_kauffman の文書・論文（入口は README.md）
 references/           論文 PDF と TeX ソース（追跡しない。references/README.md に取得元）
-src/rcsknots/         計算コード（Python パッケージ。両方の研究で共有する）
-src/rcsknots/dgr_lmov/  別の研究だけが使うモジュール（dgr, lmovstruct, large_n_inverse）
-src/rcsknots/refined_kauffman/  第 3 の研究だけが使うモジュール（koornwinder, daha_dn, daha_cn, flint_rf*, kauffman_*）
-tests/framed_knot/    本研究の照合テスト（pytest）
-tests/dgr_lmov/       別の研究の照合テスト
-tests/refined_kauffman/  第 3 の研究の照合テスト
-scripts/framed_knot/  本研究の単発の計算・検証スクリプト
-scripts/dgr_lmov/     別の研究のスクリプト（framed_knot/ のスクリプトも import する）
-scripts/refined_kauffman/  第 3 の研究のスクリプト（rk_*.py）
-data/framed_knot/     本研究の計算結果（JSON と人が読める表）
-data/dgr_lmov/        別の研究の計算結果（lmovstruct/ を含む）
-data/refined_kauffman/  第 3 の研究の計算結果（daha/ の pkl など）
-data/cache/           途中結果のキャッシュ（追跡しない。両方の研究で共有する）
-logs/framed_knot/     本研究の検証ログ・実行時間とメモリの記録
-logs/dgr_lmov/        別の研究のログ
-logs/refined_kauffman/  第 3 の研究のログ
+src/rcsknots/         計算コード（Python パッケージ。全テーマで共有する）
+src/rcsknots/dgr_lmov/  dgr_lmov だけが使うモジュール（dgr, lmovstruct, large_n_inverse）
+src/rcsknots/refined_kauffman/  refined_kauffman だけが使うモジュール（koornwinder, daha_dn, daha_cn, flint_rf*, kauffman_*）
+tests/framed_knot/    framed_knot の照合テスト（pytest）
+tests/dgr_lmov/       dgr_lmov の照合テスト
+tests/refined_kauffman/  refined_kauffman の照合テスト
+scripts/framed_knot/  framed_knot の単発の計算・検証スクリプト
+scripts/dgr_lmov/     dgr_lmov のスクリプト（framed_knot/ のスクリプトも import する）
+scripts/refined_kauffman/  refined_kauffman のスクリプト（rk_*.py）
+data/framed_knot/     framed_knot の計算結果（JSON と人が読める表）
+data/dgr_lmov/        dgr_lmov の計算結果（lmovstruct/ を含む）
+data/refined_kauffman/  refined_kauffman の計算結果（daha/ の pkl など）
+data/cache/           途中結果のキャッシュ（追跡しない。全テーマで共有する）
+logs/framed_knot/     framed_knot の検証ログ・実行時間とメモリの記録
+logs/dgr_lmov/        dgr_lmov のログ
+logs/refined_kauffman/  refined_kauffman のログ
 notebooks/            試行用
 ```
 
-スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（第 3 の研究は `PYTHONPATH=src:scripts/refined_kauffman`）（スクリプトどうしの import はこのパスで解決する）。
+スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（refined_kauffman は `PYTHONPATH=src:scripts/refined_kauffman`）（スクリプトどうしの import はこのパスで解決する）。
 
 ## セットアップとテスト
 

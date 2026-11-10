@@ -25,13 +25,13 @@
 - 見込み：中。κ の寄与と R_adj の寄与の積の構造（qn² − κ）が分離を乱すかもしれない。
 
 ### 案 B：Hilbert scheme（平面曲線の特異点）の模型と実構造【理論、文献の裏付けあり】
-- トーラス結び目の L_K に境界をもつ曲線のモジュライは、Oblomkov–Shende・ORS・Diaconescu–Shende–Vafa（書誌は要確認）で平面曲線の特異点 C_{m,n} = {x^m = y^n} の Hilbert scheme に写る。refined は Gorsky–Negut（楕円 Hall 代数、本研究で検証済み）。
+- トーラス結び目の L_K に境界をもつ曲線のモジュライは、Oblomkov–Shende・ORS・Diaconescu–Shende–Vafa（書誌は要確認）で平面曲線の特異点 C_{m,n} = {x^m = y^n} の Hilbert scheme に写る。refined は Gorsky–Negut（楕円 Hall 代数、framed_knot で検証済み）。
 - トーラス結び目の U(1)_R（Seifert の U(1)）は、この模型では C* のスケーリング (x, y) → (λ^n x, λ^m y) に当たるはずで、Hilbert scheme のコホモロジーの C* 重みが S_R を与える【仮説】。Lefschetz（コホモロジー次数）が J_r を与える。
 - orientifold の I'（AgSc §6）は C_{m,n} に実構造（反正則な対合）を誘導し、固定セクター（brane–image の曲線）は I' 不変な曲線、すなわち Hilbert scheme の実点に当たる【仮説】。Ĩ の固有値は、実構造の作用の固有値 × e^{iπJ₂}。
 - 最初の一歩：unknot（C = 直線、Hilb^n = Sym^n C）で、§1 の E（全 framing）を C* 重みと実構造から再現する。次に Hopf。それができたら T(2,3)。
 - 見込み：中〜低。必要な文献（ORS の実構造版）は無い可能性が高く、自分で構成することになる。ただし正しい道の候補として最も根拠がある。
 
-### 案 C：四重次数のホモロジーで S_R を分ける【第 2 の研究（docs/dgr_lmov/）と接続】
+### 案 C：四重次数のホモロジーで S_R を分ける【dgr_lmov（docs/dgr_lmov/）と接続】
 - Gorsky–Gukov–Stošić の四重次数（a, q, t_r, t_c）は、KN の 3 変数の指数より一つ多い次数をもつ。KN の指数が J₁ − S_R と S_R − J₂ しか見ないのに対し、四重次数は J_r と S_R（または J₂ と S_R）を分けている可能性がある【仮説】。
 - 検証の順：(1) U(N) の brane–brane セクター（KN の正値性が成り立つ）で、長方形彩色の四重次数のデータと KN の (J_r, S_R) の対応を固定する。(2) 固定セクターに要る composite（随伴）の四重次数は文献に無いので、brane–brane で固定した辞書を Hopf の固定セクター（E が既知）に当てて検査する。
 - 見込み：低〜中。composite の四重次数を作る必要があり、それ自体が別の研究になる。
@@ -56,4 +56,4 @@
 1. 案 A（今すぐ、半日）。E の未知を R_adj の状態に限れば、結び目でも解けるか、解けないならどの状態が問題かが分かる。
 2. 案 D（Sp(2N)、数日）。E の決定には足りないが、C_{c=2} の分離と、refined Sp の値そのものが新しい結果になる。
 3. 案 B（理論、期限なし）。unknot・Hopf での較正から始める。
-案 C は第 2 の研究の進み方しだい、案 E・F は保留。
+案 C はdgr_lmovの進み方しだい、案 E・F は保留。

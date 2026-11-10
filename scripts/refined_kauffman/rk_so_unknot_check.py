@@ -1,4 +1,4 @@
-"""refined Kauffman（第 3 の研究）：refined SO(2N) unknot の検算。
+"""refined Kauffman：refined SO(2N) unknot の検算。
 
 D_N 型 Macdonald 多項式の主特殊化 P_λ(t^ρ) の一般 t の評価式
    P_λ(t^ρ) = t^{-<λ,ρ>} Π_{α>0} Π_{i=0}^{<λ,α^∨>-1} (1 - q^i t^{<ρ,α^∨>+1})/(1 - q^i t^{<ρ,α^∨>})

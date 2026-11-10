@@ -1,4 +1,4 @@
-r"""refined Kauffman（第 3 の研究）K0：unrefined の Kauffman large N duality（Mariño 0904.1088）の再現。
+r"""refined KauffmanK0：unrefined の Kauffman large N duality（Mariño 0904.1088）の再現。
 
 Mariño の変数 (ν, t)、z = t − t^{−1}。
 - trefoil：\hat g_[2], \hat g_[1,1] を Mariño (4.8) と全係数で比較。

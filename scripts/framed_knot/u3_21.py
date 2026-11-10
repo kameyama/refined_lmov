@@ -62,6 +62,18 @@ def alpha_unk():
     return out
 
 
+def alpha_unk_cached(path="data/cache/u3_alpha_unk.pkl"):
+    """alpha_unk()（結び目によらない）。保存値があれば読み、無ければ計算して保存する。"""
+    import pickle
+    path = Path(path)
+    if path.exists():
+        return pickle.load(open(path, "rb"))
+    out = alpha_unk()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pickle.dump(out, open(path, "wb"))
+    return out
+
+
 def dK(reduced):
     """{ρ: D·K_ρ}（r21 = 0 の \\hat f_ρ に D を掛けた多項式）。"""
     red = dict(reduced)

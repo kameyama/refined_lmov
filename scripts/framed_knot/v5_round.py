@@ -9,14 +9,14 @@ import scipy.sparse as sps
 from scipy.optimize import Bounds, LinearConstraint, linprog, milp
 
 import u3_21 as U
-from v5_weak import AMPHICHIRAL, inputs
+from v5_weak import AMPHICHIRAL, dK_cached, inputs
 from colored_from_cables import colored_p
 
 NAME, SIGMA, SECONDS = "5_2", 1, 1800
 red, _ = inputs(NAME)
 H21 = U.homfly_t_eq_q(colored_p(NAME, 3)[(2, 1)])        # 5_2 は鏡像なし（v5_weak.log）
-au = pickle.load(open("data/cache/u3_alpha_unk.pkl", "rb"))
-dk = pickle.load(open(f"data/cache/v5_{NAME}.pkl", "rb"))
+au = U.alpha_unk_cached()
+dk = dK_cached(NAME, red)
 xs, A, b, lb, ub = U.build(red, H21, structure=(au, dk), positive=True, sigma=SIGMA, amphichiral=NAME in AMPHICHIRAL, log=lambda s: None)
 nx, nc = len(xs), A.shape[1]
 lp = linprog(np.zeros(nc), A_eq=A, b_eq=b, bounds=list(zip(lb, ub)), method="highs")

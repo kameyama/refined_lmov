@@ -1,4 +1,4 @@
-r"""refined Kauffman（第 3 の研究）：refined unknot の a 依存性（極）の確認【計算】。
+r"""refined Kauffman：refined unknot の a 依存性（極）の確認【計算】。
 
 (1) AS 1202.4456 の SO(2N) refined CS の unknot dim_{q,t}^{D_N}(λ) = P^{D_N}_λ(t^ρ) を、一般 t の評価式
     P_λ(t^ρ) = t^{-<λ,ρ>} Π_{α>0} Π_{i=0}^{<λ,α^∨>-1} (1 - q^i t^{<ρ,α^∨>+1})/(1 - q^i t^{<ρ,α^∨>})

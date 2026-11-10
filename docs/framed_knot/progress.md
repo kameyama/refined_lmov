@@ -2,12 +2,17 @@
 
 ## 現在の状況（再開用、2026-10-09 更新）
 
-- **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中を本研究 `framed_knot/` と別の研究 `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
+- **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中をテーマ `framed_knot/` と `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
   文書・コード・テスト・ログ中のパス文字列は新しい配置に書き換えた。スクリプトの実行は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov`。
   git 管理外の途中結果（data/cache/ は共有のまま。本体のチェックアウトにある data/highbox/ と data/framing/ は data/framed_knot/ の下に手で移す）。
 
+- **data/cache に頼るスクリプトの修正（2026-11-10、ユーザーの指示）**：data/cache/ は作り直せる途中結果の置き場とし、無いと動かなかったスクリプトを、無ければ計算して保存する形に直した。
+  u3_21.py に alpha_unk_cached（u3_calibrate.py・v5_weak.py・v5_round.py が使う。計算は約 3.5 分）、v5_weak.py に dK_cached（v5_round.py も使う）、v4_twist_structure.py に hats（v4_roots.py・v4_fit.py が使う。計算は約 12 分）を加えた。
+  空の data/cache から実行して確認【計算】：v4_roots.py の特性根は v4_fit.py の m_j と一致、v4_fit.py は ρ = [2] で p = 6..12 が成立（ρ = [1,1] の出力は確認していない）、4_1 の dK は再読み込みで一致。v5_round.py と u3_calibrate.py は整数計画が長いので実行していない。
+  pretzel の d_1 の列生成の途中結果（約 14 時間分、git に入れてある）はキャッシュではないので、data/cache/ から data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl に移し、v4_pretzel_np2.py の保存先と文書の記述を合わせた。
+
 **2026-10-09 時点の要約**（全体の整理は docs/framed_knot/REPORT_overview.md）
-- **別の研究：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：本研究（KN の検証）とは目的も規則も異なる別の研究として docs/dgr_lmov/ にまとめた（入口は docs/dgr_lmov/README.md、計画 research_plan.md、報告 report.md、進捗 progress.md、未解決 open_problems.md、新規性 novelty.md）。要点：普遍因子 D と商 R_ρ の正値性、σ ＝ SU(2)_L の Weyl 反転で G 展開が閉じる ⇔ KN の整合条件、既約表示の正値性（予想 S、[1] は定理）、非 refined のデータからの構成は 2 箱の thin な結び目（トーラス・ツイスト・ダブルツイスト）で一意、3 箱の [2,1] は三葉結び目・4_1 のみ一意で T(2,5) 以上は決まらない（停止中）。
+- **dgr_lmov：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：framed_knot（KN の検証）とは目的も規則も異なるテーマとして docs/dgr_lmov/ にまとめた（入口は docs/dgr_lmov/README.md、計画 research_plan.md、報告 report.md、進捗 progress.md、未解決 open_problems.md、新規性 novelty.md）。要点：普遍因子 D と商 R_ρ の正値性、σ ＝ SU(2)_L の Weyl 反転で G 展開が閉じる ⇔ KN の整合条件、既約表示の正値性（予想 S、[1] は定理）、非 refined のデータからの構成は 2 箱の thin な結び目（トーラス・ツイスト・ダブルツイスト）で一意、3 箱の [2,1] は三葉結び目・4_1 のみ一意で T(2,5) 以上は決まらない（停止中）。
 - **箱数を増やした検証（2026-10-10、ユーザーの指示「トーラス結び目は 9 箱程度まで（1 回 10 分以内）、4_1 は 4 箱まで」）**：下の「2026-10-10 箱数を増やした検証」。
   トーラス結び目は計算した全ての (結び目, 箱数, ρ) で G 展開の前後とも負の項 0【計算】（表は data/framed_knot/highbox_summary.md）。
   4_1 の 4 箱は [3,1] が未知のため弱い判定：σ = −1 は解なし、σ = +1 は前後の正値性を満たす有理数解が存在、整数解は 50 分の MILP で見つからず未決【計算】。
@@ -37,7 +42,7 @@
 - 環境：Python 3.11 以上（この PC は 3.14.8）で `just setup`（.venv を作り rcsknots を editable インストール。依存は pyproject.toml：sympy, numpy, mpmath, python-flint, scipy, pytest）。
   機能テスト `.venv/bin/pytest -q`（約 4 分）で環境を確かめる。SageMath（conda 環境 sage）は、ケーブルの HOMFLY-PT をブレイドから計算するときだけ要る。
 - 文献：references/ は git の管理外。`just fetch-refs` は一部しか取らないので、references/README.md の表の論文は必要に応じて arXiv から取得する。
-- git の管理外の途中結果（data/cache/、8.8 GB）は移さない。全てスクリプトで再生成できる。例外として、pretzel の d_1 の列生成の途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl（小さい）だけは git に入れてある。
+- git の管理外の途中結果（data/cache/、8.8 GB）は移さない。全てスクリプトで再生成できる。例外として、pretzel の d_1 の列生成の途中結果 data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl（小さい）だけは git に入れてある。
 - **K10 の [3] は完成（2026-10-07 22:46、この PC）**：242425 項、14440 秒（2 つ目の素数が必要だった）。正規化の単項式は (N2') の予測と一致。data/framed_knot/cables/K10_3.json。
 - **K10 の [1,1,1] も完成（2026-10-07、この PC）**：[3] から転置対称性で作り、GN の 16 点で照合（242425 項、555 秒）。全彩色で正規化は (N2') の予測と一致。別の PC で残るのは [2,1] と 3 箱の \hat f。
 - **K10 の 3 箱の分担**（ユーザーの指示）：元の PC（Mac mini M1）は [3] の rCS だけを計算し、完成したら data/framed_knot/cables/K10_3.json を commit・push する（完成すると計算は自動で止まる）。[2,1] と [1,1,1]、3 箱の \hat f は別の PC で計算する：
@@ -47,7 +52,7 @@
   3. 全ての彩色がそろったら：`scripts/framed_knot/v0_K10_lmov.py --workers N`（3 箱の \hat f と判定。1・2 箱は計算済みなので飛ばす）。
   4. 結果を RESULTS.md §1 と REPORT_phase4.md §9 に記録し、tests/framed_knot/test_phase3.py の U4 に K10 を results の印付きで加える。
 - **pretzel の d_1 の LP**（一時停止中）：`PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python -u scripts/framed_knot/v4_pretzel_np2.py cert 1 2 [SMIN PER_ROUND [METHOD]]`。
-  途中結果 data/cache/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/framed_knot/v4_pretzel_np2_cert_1_2_smin1.log）。
+  途中結果 data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/framed_knot/v4_pretzel_np2_cert_1_2_smin1.log）。
   ρ = [1,1] と、対角線（e_0）も同じ方法で。証明書は data/framed_knot/v4/ に保存し、`verify` で検証する。
 - **別の PC での実行（2026-10-07）**：Apple M3 Pro（11 コア：性能 5・効率 6）、メモリ 36 GB。`just setup` と機能テスト（523 passed, 2 skipped, 3 分 8 秒）を確認。
   [2,1] の rCS を `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov nohup .venv/bin/python scripts/framed_knot/v0_iterated.py --workers 8 21 > logs/framed_knot/v0_K10_21.log 2>&1 &` で起動
@@ -152,10 +157,10 @@
 - **別研究 [2,1] の計画を改訂（2026-10-08、ユーザーの指示）**：別の AI の調査（docs/framed_knot/literature/w0_21_D_external_survey.md）と追加調査 E（w0_21_E_exercise_feasibility.md）を踏まえ、docs/framed_knot/research_plan_21.md を全面改訂。判断：[2,1] は既存文献の拡張となる練習問題として挑戦できる。主軸 X は Morozov 1903.00259 の 𝓑^{[2,1]} の Macdonald 変形（原著者が未着手の課題と明記）。X0（t = q の再現）から始め、X2 の後が停止点 1。
 - **別研究 [2,1] の W0 完了（2026-10-08）**：docs/framed_knot/literature/w0_21_survey.md（詳細は w0_21_A/B/C）。定義に基づく双曲結び目の [2,1] は文献に無い。停止点 0：主軸の候補は (1) W3 の安い比較（三葉結び目の [2,1] の index とホモロジーの予想）、(2) DAHA/EHA 型の構成の [2,1] への拡張（新しい候補）。
 - **第 5 期のまとめ（2026-10-08、ユーザーの指示）**：d_1 の LP は打ち切り、docs/framed_knot/REPORT_phase5.md にまとめた。本研究はこれで区切り。次は別研究 docs/framed_knot/research_plan_21.md（[2,1]、W0 から）に移るかの判断待ち。
-- **d_1 の LP を停止（2026-10-08 13 時頃、ユーザーの指示）**：再開から約 14 時間、第 19 ラウンドで残差 2414 → 60.291（logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log）。選んだ部分集合 361 個は data/cache/v4_pretzel_np2_cg_1_2_0.pkl（git に入れてある）。同じコマンドで再開できる。証明書は未取得。
+- **d_1 の LP を停止（2026-10-08 13 時頃、ユーザーの指示）**：再開から約 14 時間、第 19 ラウンドで残差 2414 → 60.291（logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log）。選んだ部分集合 361 個は data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl（git に入れてある）。同じコマンドで再開できる。証明書は未取得。
 - **方針（2026-10-08、ユーザーの判断）**：d_1 の LP は、別の PC で K10 の [2,1] と 3 箱の \hat f を計算し終えるまで継続する。その時点で収束していなければ、扱いを改めて判断する（打ち切る場合のまとめ方：同符号は全て、異符号は min(|s|, t) ≤ 20 で証明、|s|, t ≤ 40 で確認）。
-- **pretzel の d_1 の LP を再開（2026-10-07 23:10 頃、この PC、ユーザーの指示）**：`nohup env PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python -u scripts/framed_knot/v4_pretzel_np2.py cert 1 2 1 20 > logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log 2>&1 &`。選んだ部分集合（69 個）を data/cache/v4_pretzel_np2_cg_1_2_0.pkl から読み、各ラウンドの後に保存する（止めても同じコマンドで再開）。1 プロセス約 0.5 GB、1 ラウンド数分。収束までの時間は見積もれない（停止時の残差 2136）。
-- **pretzel の d_1 の LP を一時停止（2026-10-07 19:50 頃、ユーザーの判断）**：K10 は 2026-10-08 に完了したので再開できる。K10 の評価がメモリ不足（スワップ 8 GB 中 7.1 GB）で遅れたため。列生成は第 7 ラウンドで残差 2136（logs/framed_knot/v4_pretzel_np2_cert_1_2_smin1.log）、選んだ部分集合は data/cache/v4_pretzel_np2_cg_1_2_0.pkl。K10 の後に再開する（scripts/framed_knot/v4_pretzel_np2.py の cert）。対角線は未着手。
+- **pretzel の d_1 の LP を再開（2026-10-07 23:10 頃、この PC、ユーザーの指示）**：`nohup env PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python -u scripts/framed_knot/v4_pretzel_np2.py cert 1 2 1 20 > logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log 2>&1 &`。選んだ部分集合（69 個）を data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl から読み、各ラウンドの後に保存する（止めても同じコマンドで再開）。1 プロセス約 0.5 GB、1 ラウンド数分。収束までの時間は見積もれない（停止時の残差 2136）。
+- **pretzel の d_1 の LP を一時停止（2026-10-07 19:50 頃、ユーザーの判断）**：K10 は 2026-10-08 に完了したので再開できる。K10 の評価がメモリ不足（スワップ 8 GB 中 7.1 GB）で遅れたため。列生成は第 7 ラウンドで残差 2136（logs/framed_knot/v4_pretzel_np2_cert_1_2_smin1.log）、選んだ部分集合は data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl。K10 の後に再開する（scripts/framed_knot/v4_pretzel_np2.py の cert）。対角線は未着手。
 - **保留（2026-10-07、ユーザーの判断）**：V4 の理論の 2 つ（c_2 の正値性の構造的な説明、2 箱の単峰性の理由）は、具体的な方法が無いので保留。K10 の 3 箱と pretzel の d_1・対角線の LP の結果を待つ。
 - **K10 の 3 箱の見積もり（2026-10-07、実行前の準備）**：
   - 高速化（commit 646422a）：(i) ε の評価を閉じた式 H̃_μ[1−a] = Π(1 − a q^c t_w^r) に（最終の次数の Macdonald 基底のグラム・シュミットが不要に）、(ii) EHA の演算子を全ての λ をまとめた 1 回の動的計画法と ω^{-1} の積のキャッシュに。旧来の実装と一致（tests/framed_knot/test_speedup.py に 2 件追加）。
