@@ -1,0 +1,72 @@
+\section{Introduction}\label{sec:intro}
+
+\subsection{Background and questions}
+The $\U(N)$ Chern--Simons theory on $S^3$ is dual, at large $N$, to the closed topological string on the resolved conifold \cite{GV98}, and its Wilson loops are dual to open topological strings ending on Lagrangian branes \cite{OV99}. In \cite{OV99} the generating function of the colored HOMFLY-PT invariants of a knot was reformulated as a free energy of such open strings, whose expansion is governed by integer BPS invariants; the integrality and the structure of this expansion were sharpened in \cite{LM00,LMV00,LM01} to what are now called the LMOV invariants (after Labastida, Mari\~no, Ooguri and Vafa), with the reformulation in terms of the matrix $M$ and the Adams operations that we use below. For $\SO(N)$ and $\Sp(N)$ the dual theory is the topological string on an orientifold of the Calabi--Yau \cite{SV00}. In the orientifold the BPS states are M2-branes wrapped on surfaces that may be non-orientable; the \emph{crosscap number} $c \in \{0, 1, 2\}$ counts the crosscaps of the surface, $c = 0$ being the oriented states that also exist on the cover. It was conjectured in \cite{Marino09}, and verified there in many examples, that the colored Kauffman invariant of $\SO(N)$ minus one half of the $\U(N)$ invariant in composite representations is expressed through integer BPS invariants with $c = 1, 2$ (see also \cite{BFM04,BFM05,PBR10,Stevan10,NRZ13}). On the homological side, a Kauffman homology and superpolynomials for two-strand torus knots were proposed in \cite{GW05}, and the relation between $\SO$/$\Sp$ invariants, composite representations and BPS states was studied in \cite{GS11}.
+
+Refined Chern--Simons theory was formulated in \cite{AgSh11}, and it was shown in \cite{KN17} that the $\U(N)$ refined Chern--Simons invariants produce refined BPS invariants on the resolved conifold which, for torus knots, are positive integers (refined large $N$ duality). Positivity is expected because refinement resolves the BPS index by an additional spin: the cancellations of $(-1)^F$ in the unrefined index are undone and the coefficients become numbers of states. In \cite{AgSc12} the refined topological string on an orientifold was defined as an M-theory index, the $\SO(2N)$ refined Chern--Simons invariants were computed, and the closed-string free energy at large $N$ was shown to satisfy the integrality of second quantization. The closed $\SO$ and $\Sp$ free energies were organized with multiple sine functions in \cite{AM22}. For open strings, i.e., for knots, neither a formula extracting refined crosscap BPS invariants nor a test of their integrality has been available.
+
+We address the following questions.
+\begin{enumerate}
+\item[(Q1)] How does one extract a refined crosscap invariant from the $\SO(2N)$ refined Chern--Simons invariants?
+\item[(Q2)] Does it have an integral BPS expansion? If so, what structure does it have (universal factor, structure in the winding number $d$, boundary factors)?
+\item[(Q3)] Is positivity visible after refinement, i.e., do the coefficients align in sign in a suitable multiplet basis? Where does it hold and where does it break?
+\item[(Q4)] How is it related to the $\U(2N-1)$ cover, and how much of the crosscap structure is determined by the cover?
+\item[(Q5)] What remains open for higher representations?
+\end{enumerate}
+
+\subsection{Grading of statements}\label{sec:grading}
+Statements are graded as follows. \emph{Propositions} and \emph{corollaries} are derived analytically, possibly under an explicitly stated hypothesis. A \emph{Result} is a statement verified by computer, with the range of verification stated; negative outcomes of computations are reported as results as well, and are marked as such. \emph{Conjectures} are closed forms or structures suggested by computation beyond the verified range. \emph{Hypotheses} are rules that could not be taken directly from the literature; we say which verification supports them. Throughout, \open\ marks a point left open. Computational methods and the verification ranges of the interpolations are collected in Appendix \ref{app:code}. Abbreviations: DAHA (double affine Hecke algebra), LMOV (Labastida--Mari\~no--Ooguri--Vafa), TN (Taub--NUT), CoHA (cohomological Hall algebra).
+
+\subsection{Main results}
+Table~\ref{tab:summary} summarizes what was verified for which knots. The answers to (Q1)--(Q5) are as follows.
+\begin{itemize}
+\item \textbf{(Q1) Definition (\S\ref{sec:setup}).} The refined crosscap invariant is $g = f - \tfrac12 f^{\cov}$ (Definition \ref{def:crosscap}), where $f$ is the free energy of the $\SO(2N)$ refined invariants assembled with the dual Cauchy kernel of Koornwinder polynomials \cite{Mimachi01}, $f^{\cov}$ the free energy of the A-type invariants of the cover in ordinary and composite representations (Hypothesis \ref{hyp:cover}), both in a uniform normalization fixed by determinant shifts and charge conjugation, and the BPS basis is reached with the reformulation matrix $M(q^{-1})$ of \cite{Marino09}. The normalization freedoms and how each is fixed are listed in Table \ref{tab:norm}.
+\item \textbf{(Q2) Structure (\S\ref{sec:index}, \S\ref{sec:generalN}, \S\ref{sec:cable}).} Under a classification of one-particle states modelled on \cite{AgSc12} (Hypothesis \ref{hyp:classes}), the M-theory index gives $g = \tfrac12 E/(1+t) + C$ (Proposition \ref{prop:alld}), with $E$ present only in sectors with equal numbers of brane and image boxes and with boundary factor $z_q^{n-1}(z_q^+)^n$ (Proposition \ref{prop:boundary}); the separation of $E$ and $C$ is not determined by the index (Proposition \ref{prop:EC}). Computing DAHA-Jones polynomials at generic $t$ and interpolating in $N$, we obtain $g$ at general $N$ for the trefoil with up to four boxes, $T(2,5)$ with two and three boxes, $T(2,7)$, $T(2,9)$ with two and three boxes, and---adopting the iterated DAHA-Jones polynomials of \cite{CD14} as the definition---for the $(2,13)$-cable of the trefoil (fundamental representation and two boxes) and the $(2,15)$-cable (fundamental representation). In every case the $N$-dependent poles cancel; $g$ is an integer Laurent polynomial in odd sectors and $2(1+t)g$ is one in even sectors, the $(1+t)$ sitting where Proposition \ref{prop:alld} predicts; and the refined part is divisible by the universal factor $(\bt^2 - 1)(\ba^2 - \bq^2)$ (Conjecture \ref{conj:structure}).
+\item \textbf{(Q3) Signs (\S\ref{sec:torus}, \S\ref{sec:cover}, \S\ref{sec:positivity}).} For the fundamental representation of $T(2,2m+1)$, $m \le 5$, the $c = 1$ part has a $G$-expansion whose $\lambda^\beta$ blocks have a common sign or are $(\bt^2-1)$ times such a block, and the $c = 2$ part is $-(\ba^2 - \bq^2)(\bt^2 - 1)$ times a positive polynomial (Result \ref{cr:torus}); we conjecture this sign property for all $m$ (Conjecture \ref{conj:criterion}). It fails for $T(3,4)$, where the $c = 1$ part is not $\sigma$-symmetric (\S\ref{sec:t34}), and for the cables (\S\ref{sec:cable}). On the cover, the brane--brane sector coincides with the refined LMOV invariants of \cite{KN17} and is positive; the brane--image sector of two-strand torus knots is identified as a space of states whose only sign mixing is the subtraction of pairs in one block (\S\ref{sec:cover}). For higher representations of the crosscap part the $c = 1$ part is not $\sigma$-symmetric and the signs do not align (\S\ref{sec:positivity}).
+\item \textbf{(Q4) The cover (\S\ref{sec:cover}).} The brane--image sector is the source of $E$. For two-strand torus knots its blocks are $\Sym^kV$, $\Sym^{2m}V - S\otimes S$ and corrections $F_{j'}$ (Conjecture \ref{conj:closedform}, verified for $T(2,3)$--$T(2,15)$), its generating function is expressed through the rows of the fundamental and adjoint representations (Proposition \ref{prop:rows}, verified for fourteen torus knots in Result \ref{cr:rows}), and from this identification, fitted on $T(2,3)$--$T(2,9)$, $E$ is predicted for $T(2,11)$--$T(2,15)$.
+\item \textbf{(Q5) Open problems (\S\ref{sec:discussion}).} The $\sigma$-asymmetry of the multi-box $c = 1$ part splits into a part present in the unrefined theory and a $\sigma$-odd part divisible by $(\bt^2 - 1)(\ql - \ql^{-1})$. Since the cover is well behaved, we conjecture that the obstruction lies in the multiplet structure of the frozen states.
+\item \textbf{Refined $\Sp(2N)$ (\S\ref{sec:sp}).} With the $C_N$ DAHA, the refined $\Sp(2N)$ invariants of \cite{AM22} satisfy $g^{\Sp}(\ba) = -g^{\SO}(-\ba)$ in the fundamental representation and $W_R^{\Sp}(\ba) = (-1)^{|R|}W_R^{\SO}(-\ba)$ with two boxes, refined versions of the classical $\Sp(N) = \SO(-N)$ correspondence.
+\end{itemize}
+We write $\Cab{13}$ and $\Cab{15}$ for the $(2,13)$- and $(2,15)$-cables of the trefoil.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Range of verification. ``Integer'': $g$ is an integer Laurent polynomial; ``$2(1+t)g$'': $g$ has the denominator $2(1+t)$ predicted by Proposition~\ref{prop:alld} and $2(1+t)g$ is an integer Laurent polynomial (while $g_{\ytwo} + g_{\yoneone}$ is integer). ``Universal factor'': the divisibility of \S\ref{sec:universal}. ``Sign property'': Conjecture~\ref{conj:criterion}; the counts of aligned blocks for higher representations are in Table~\ref{tab:signs}.}\label{tab:summary}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{5.2cm}}
+\toprule
+Object & Integer & Universal factor & Sign property / notes \\
+\midrule
+\addlinespace
+Unknot, Hopf link ($a, b \le 4$) & yes & yes & $\hat g_{R,\yone}$ aligned; $\hat C_{R,S}$: Result \ref{cr:hopfC} \\
+\addlinespace
+$T(2,2m+1)$, fundamental ($m \le 5$) & yes & yes & holds \\
+\addlinespace
+$T(2,2m+1)$, fixed $N = 2, 3$ ($|R| \le 3$, $m \le 3$) & yes (hatted) & --- & not testable at fixed $N$ \\
+\addlinespace
+Trefoil, two boxes & $2(1+t)g$ & yes & signs mixed (Table \ref{tab:signs}) \\
+\addlinespace
+$T(2,5)$, $T(2,7)$, $T(2,9)$, two boxes & $2(1+t)g$ & yes & signs mixed \\
+\addlinespace
+Trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$, three boxes & yes (no $(1+t)$ pole; hatted integer) & yes & signs mixed \\
+\addlinespace
+Trefoil, four boxes & $2(1+t)g$ ($(1+t)$ only in $p_4$, $p_2^2$) & yes & signs mixed \\
+\addlinespace
+$T(3,4)$, fundamental & yes & yes & fails: $c = 1$ not $\sigma$-symmetric ($c = 2$ part aligned) \\
+\addlinespace
+Cables $\Cab{13}$, $\Cab{15}$, fundamental & yes & yes & fails: $c = 1$ not $\sigma$-symmetric, refined $c = 2$ part mixed \\
+\addlinespace
+$\Cab{13}$, two boxes & $2(1+t)g$ & yes & signs mixed \\
+\addlinespace
+Cover, brane--brane (trefoil, $T(2,5)$, $|R| \le 2$) & yes (equals \cite{KN17}) & --- & all blocks aligned \\
+\addlinespace
+Cover, brane--image ($\Nfix$; $T(2,3)$, $T(2,5)$, $T(2,7)$) & yes & --- & aligned except the switching block for $T(2,5)$, $T(2,7)$ \\
+\addlinespace
+Refined $\Sp(2N)$: $T(2,3)$, $T(2,5)$ fundamental; trefoil two boxes & yes (same structure as $\SO$) & --- & $g^{\Sp}(\ba) = -g^{\SO}(-\ba)$; $W^{\Sp}_R(\ba) = (-1)^{|R|}W^{\SO}_R(-\ba)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Organization}
+\S\ref{sec:setup} fixes variables and terminology, the kernel and the normalization, and defines the refined crosscap invariant. \S\ref{sec:index} derives the all-$d$ structure, the boundary factors and the conditions that fix $E$ from the orientifold index. \S\ref{sec:hopf} treats the unknot and the Hopf link, \S\ref{sec:torus} the fundamental representation of torus knots and the sign property, \S\ref{sec:generalN} the integrality and the universal factor at general $N$ for higher representations, \S\ref{sec:cable} the algebraic cables and \S\ref{sec:sp} the refined $\Sp(2N)$ invariants. \S\ref{sec:cover} splits the cover into brane and image, \S\ref{sec:positivity} collects the obstructions for multi-box crosscap invariants, and \S\ref{sec:discussion} lists what is established and what is open. Appendix \ref{app:code} describes the computations, Appendix \ref{app:closed} the closed-string check, Appendix \ref{app:fixed} further structure of the fixed sector of the cover, and Appendix \ref{app:data} the generated tables of invariants.

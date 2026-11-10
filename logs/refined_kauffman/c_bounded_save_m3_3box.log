@@ -1,0 +1,18 @@
+m=3 (3,)：冪 -39〜-18、mode alpha、使う N = 2..9、N_s = 2：一意、未知数 12150、使わない N での照合 {10: True, 11: True, 12: True, 13: True}
+   保存：data/refined_kauffman/daha/R_U_m3_3.pkl（373 秒）
+m=3 (1, 1, 1)：冪 -39〜-18、mode all、使う N = 5..12、N_s = None：一意、未知数 3281、使わない N での照合 {3: True, 4: True, 13: True}
+   保存：data/refined_kauffman/daha/R_U_m3_111.pkl（31 秒）
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 3..11、N_s = 3：一意でない、未知数 12008、使わない N での照合 {}
+   保存しない
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 2..11、N_s = 2：矛盾（r^-64、N=3 で範囲の外に項）、未知数 51、使わない N での照合 {}
+   保存しない
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 3..11、N_s = 4：一意でない、未知数 18644、使わない N での照合 {}
+   保存しない
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 2..10、N_s = 2：矛盾（r^-64、N=3 で範囲の外に項）、未知数 51、使わない N での照合 {}
+   保存しない
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 3..10、N_s = 3：一意でない、未知数 12008、使わない N での照合 {}
+   保存しない
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 3..12、N_s = 3：一意、未知数 12008、使わない N での照合 {2: True, 13: True}
+   保存：data/refined_kauffman/daha/R_U_m3_21.pkl（3 秒）
+m=3 (2, 1)：冪 -39〜-18、mode alpha、使う N = 2..12、N_s = 3：一意、未知数 12008、使わない N での照合 {13: True}
+   保存済み data/refined_kauffman/daha/R_U_m3_21.pkl と全係数一致：True

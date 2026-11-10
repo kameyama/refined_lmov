@@ -1,0 +1,39 @@
+\section{Discussion and open problems}\label{sec:discussion}
+
+\paragraph{What is established, hypothetical and conjectural.}
+\begin{center}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{7.6cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.8cm}}
+\toprule
+statement & grade & where \\
+\midrule
+\addlinespace
+$g$ is free of $N$-dependent poles; integer Laurent in odd sectors, $2(1+t)g$ integer in even sectors; agrees with \cite{Marino09} at $t = q$ for the fundamental representation and the two-box trefoil & computation & Results \ref{cr:largeN}, \ref{cr:cable-largeN}, \ref{cr:marino} \\
+\addlinespace
+all-$d$ structure $g = \tfrac12 E/(1+t) + C$, $E$ only in fixed sectors, boundary factor $z_q^{n-1}(z_q^+)^n$ & derivation under Hypothesis \ref{hyp:classes}; agrees with computation & Propositions \ref{prop:alld}, \ref{prop:boundary}; Result \ref{cr:boundary} \\
+\addlinespace
+brane--brane sector $=$ refined LMOV invariants of \cite{KN17} & computation (trefoil, $T(2,5)$) & \S\ref{sec:split} \\
+\addlinespace
+brane--image sector as a space of states & computation for $T(2,3)$ to $T(2,15)$, with a conjectural closed form & Conjecture \ref{conj:closedform}, Result \ref{cr:principle} \\
+\addlinespace
+cover given by A-type invariants; uniform normalization is framing zero; classification of states; frozen states match the odd-$d$ invariants at $t = q$; cover of cables and of $\Sp$ & hypotheses & \ref{hyp:cover}, \ref{hyp:framing}, \ref{hyp:classes}, \ref{hyp:E2}, \ref{hyp:cablecover}, \ref{hyp:spcover} \\
+\addlinespace
+sign property for $T(2,2m+1)$; closed form of $\Pi_m$; universal-factor structure & conjectures (checked $m \le 5$; up to four boxes) & \ref{conj:criterion}, \ref{conj:Pim}, \ref{conj:structure} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Relation to \texorpdfstring{\cite{KN17}}{[KN17]}.}
+The brane--brane sector of the cover agrees coefficient by coefficient with the $\U(N_A)$ refined LMOV invariants of \cite{KN17} (\S\ref{sec:split}) and therefore inherits their $G$-expansion and positivity. The brane--image sector, after removal of the boundary factors, is aligned except for the $-S\otimes S$ in the switching block, understood as the subtraction of pairs of states. What breaks is the multi-box crosscap part $g$, the sector of fixed points of $\tilde I$, which carries the same universal factor $(\bt^2 - 1)$. The evidence covers the trefoil and $T(2,5)$ with two boxes ($T(2,7)$ for brane--image); the three-box invariants have not been split into brane and image. Thus the positivity problem for refined Kauffman invariants reduces, conjecturally, to adding to the framework of \cite{KN17} the parity structure of the orientifold: the sign of $\tilde I$ and the multiplet basis of the frozen states.
+
+\paragraph{Open problems.}
+\begin{enumerate}
+\item \textbf{Multiplets of frozen states.} The multi-box $c = 1$ part is not $\sigma$-symmetric and cannot be expanded in $G$. By Result \ref{cr:multibox-sigma}, the component of the asymmetry present in the unrefined theory is removed by the parity rule for $c$, and the remaining refined $\sigma$-odd part is divisible by $(\bt^2-1)(\ql - \ql^{-1})$; the $\sigma$-even/odd split is half-integral and the signs do not align for $T(2,5)$, so this split does not suffice for positivity. Going up to $T(2,9)$ with three boxes, and to four boxes for the trefoil, preserves integrality, the position of the $(1+t)$ poles and the universal factor, while the fraction of aligned blocks decreases (Result \ref{cr:signs}). The $G$-expansion originates in the structure of oriented surfaces (the Lefschetz $\mathfrak{sl}_2$ on the Hodge decomposition of $H^1$), and there is no reason to expect it for frozen states wrapped on non-orientable surfaces (\S\ref{sec:sigmaorigin}). Determining the refined handle and crosscap factors of non-orientable surfaces from geometry is the first task.
+\item \textbf{Separation of $E$ and $C$.} It is not determined by the index alone (Proposition \ref{prop:EC}). For the lowest fixed sector of two-strand torus knots it is fixed, conjecturally, by the identification of the space of states (\S\ref{sec:principle}); for the Hopf link $(4,4)$ it is undetermined, and for the sector with two brane and two image boxes of the trefoil it is fixed only up to $\lambda^{-12}$ (Appendix \ref{app:n2}). The action on boundary zero modes is fixed (Proposition \ref{prop:boundary}); what remains is the moduli part, i.e., the splitting of the $t$-charge into $J_2$ and $S_R$, which the index does not provide. That the cohomological Hall module of \cite{Young16} is not free over the CoHA is the algebraic form of this ambiguity (for the loop quiver it is determined, consistent with the uniqueness of $E$ for the framed unknot).
+\item \textbf{Meaning of the universal factor.} $(\ba^2 - \bq^2)$ is the $\SO(2)$ point and $(\bt^2 - 1)$ is explained by $t = q$ and parity. Why $\hat g$ is independent of $t$ at the $\SO(2)$ point (Result \ref{cr:universal}), whether this follows from a formal continuation to $N = 1$, and the relation of the shift $\lambda \to \tlam$ to the tripling of the closed-string K\"ahler variable, remain unexplained \open.
+\item \textbf{Other knots and the Kauffman superpolynomial.} For iterated torus knots the DAHA of \cite{CD14} provides a definition, adopted here for two algebraic cables (\S\ref{sec:cable}); the sign property fails there, and what survives is integrality and the universal factor. Why the $c = 1$ part is $\sigma$-symmetric only for two-strand torus knots is not understood \open. The Kauffman superpolynomials of \cite{GW05} are positive for two-strand torus knots; their relation to our $c = 1$ part has not been examined \open. Non-algebraic cables were not treated, and the two- and three-box invariants of $\Cab{15}$ are out of reach of the present computation.
+\item \textbf{Type $B$ and higher colors of $\Sp$.} The two-box $T(2,5)$ of $\Sp(2N)$ needs the values for all $N \le 13$, too costly for the present implementation; whether the relations of \S\ref{sec:sp} follow from a duality of the $C_N$ and $D_N$ DAHA is open. The closed string of type $B$ \cite{AM22} has only $c = 1$ and the denominator $(t^{n/2} + t^{-n/2})$; how type $B$ fits the classification of Proposition \ref{prop:alld} has not been examined.
+\item \textbf{Geometric models.} A cell model of the brane--image composite sector together with a real structure on it would fix $E$ from geometry. An exploratory computation with the cell decomposition of \cite{ORS12} for the trefoil reproduces its HOMFLY homology but shows that the fixed-sector index $\Phifix = (1-t)\Bim$ is not the $\psi^2$ of the fundamental representation of the cover; it factorizes with the same boundary factor $(\lambda^2-1)(q-1)$ as the framed unknot.
+\end{enumerate}
+Once the multiplet structure of the frozen states is determined, the multi-box sign problem of \S\ref{sec:positivity} can be formulated as a multi-box version of the sign property of \S\ref{sec:criterion}.

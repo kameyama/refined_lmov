@@ -8,6 +8,7 @@ r"""U = t^N の冪の係数 c_j(q, t) の s の次数の範囲を押さえて、
     mode "allS"：使う N すべてで、c_j U^j が R(N) の s の次数の範囲に収まる（帯の共通部分）。
     mode "alpha"：N₀ の帯に加えて、r の次数 α ごとの U の冪の範囲を、使う N のうち大きい二つでの r^α の部分の s の次数の傾きから読む。
     mode "alphaL"：mode "alpha" に加えて、使う最大の N での r^α の部分の s の次数の範囲にも収まる。
+    mode "alphaA"：mode "alpha" の U の冪の範囲に加えて、帯を N₀ での r^α の部分の s の次数の範囲にとる（N₀ で r^α の部分が無ければ解かない。続き 141）。
     mode "all"：さらに r の次数 α ごとに、c_j U^j の r^α の部分が R(N) の r^α の部分の s の次数の範囲に収まる。
   解が一意で、使わない N すべてで全係数一致すれば採用する。
 使い方：python rk_c_bounded_interp.py m λ Nmin Nmax_used [mode [Nstrip]]（例：1 111 4 9 alpha 4）"""
@@ -92,6 +93,10 @@ def _alpha_jrange(T, used, al, jmin, jmax):
 
 def _bounds(T, used, al, mode, Ns=None):
     """mode に応じた、各 N の帯 [lo_N, hi_N]（c_j U^j の s の次数 β + 2Nj が収まる範囲）のリスト。"""
+    if mode == "alphaA":
+        N0 = Ns or min(used)
+        bs = [b for a, b in T[N0] if a == al]
+        return [(N0, min(bs), max(bs))] if bs else None
     if mode in ("N0", "alpha", "alphaL"):
         N0 = Ns or min(used)
         out = [(N0, *s_range(T[N0]))]
@@ -109,18 +114,22 @@ def _bounds(T, used, al, mode, Ns=None):
     return out
 
 
-def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None, partial=False):
+def solve_bounded(T, used, jmin, jmax, mode="all", info=None, Ns=None, partial=False, alphas=None):
     """T：{N: R(N) の項}。used の N で解く。戻り値 ({j: {(α, β): 係数}} または None, 状態, 未知数の総数)。
     Ns：帯を取る N（既定は使う最小の N。小さい N は打ち消しで s の次数の範囲が狭く、帯の仮定が破れることがある）。
     partial = True なら、一意でないときも一意に決まった α の部分を返す。
-    info にリストを渡すと、α ごとに (α, U の冪の範囲, 未知数, 階数) を追記する。"""
-    alphas = sorted({a for N in used for a, _ in T[N]})
+    info にリストを渡すと、α ごとに (α, U の冪の範囲, 未知数, 階数) を追記する。alphas を渡すとその r の次数だけ解く（続き 141）。"""
+    if alphas is None:
+        alphas = sorted({a for N in used for a, _ in T[N]})
     sol = defaultdict(dict)
     unique, nvar = True, 0
     for al in alphas:
         bd = _bounds(T, used, al, mode, Ns)
+        if bd is None:
+            unique = False
+            continue
         N0, lo0, hi0 = bd[0]
-        ja, jb = _alpha_jrange(T, used, al, jmin, jmax) if mode in ("alpha", "alphaL") else (jmin, jmax)
+        ja, jb = _alpha_jrange(T, used, al, jmin, jmax) if mode in ("alpha", "alphaL", "alphaA") else (jmin, jmax)
         var = []
         for j in range(ja, jb + 1):
             for be in range(lo0 - UNIT * N0 * j, hi0 - UNIT * N0 * j + 1):

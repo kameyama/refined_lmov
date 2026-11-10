@@ -1,0 +1,12 @@
+T3_4：整数 True、t = q の c=1 が q↔1/q 対称 True、refined の c=1 が σ 対称 False
+== T(3,4) の [1] の c=1
+  ν^-10: σ 非対称。d_m（1 行）が (1−w²)×同符号で全行同じ符号: True（符号 −）； A⁻ の G 展開 +、A⁺ の G 展開 ±
+  ν^-8: σ 非対称。d_m（1 行）が (1−w²)×同符号で全行同じ符号: True（符号 +）； A⁻ の G 展開 −、A⁺ の G 展開 −
+  ν^-6: σ 対称。G 展開の符号 +
+== T(3,4) の [1] の c=2：(𝐚²−𝐪²)(𝐭²−1) で割り切れる True
+   商の全係数の符号 ±（7 項）
+   ν^-11: +（1 項）
+   ν^-9: −（6 項）
+T2_3：整数 True、t = q の c=1 が q↔1/q 対称 True、refined の c=1 が σ 対称 True
+K1：整数 True、t = q の c=1 が q↔1/q 対称 True、refined の c=1 が σ 対称 False
+K3：整数 True、t = q の c=1 が q↔1/q 対称 True、refined の c=1 が σ 対称 False

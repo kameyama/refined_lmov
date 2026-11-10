@@ -1,0 +1,68 @@
+\section{Higher representations at general $N$: integrality and the universal factor}\label{sec:generalN}
+
+\subsection{DAHA-Jones polynomials}\label{sec:daha}
+The multi-box values of refined $\SO(2N)$ theory cannot be obtained at general $N$ from the $\mathrm{SL}(2,\mathbb{Z})$ computation of \cite{AgSc12}. We therefore compute the DAHA-Jones polynomials of \cite{Cherednik11},
+\begin{equation}\label{eq:JD}
+JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k}),
+\end{equation}
+directly on the polynomial representations of the $D_N$ and $\GL_N$ DAHA at generic $t$. Here $P_b$ is the Macdonald polynomial of the weight $b$, $\hat\gamma_{r,s}$ the lift to the DAHA of an element of $\mathrm{SL}(2,\mathbb{Z})$ with first column $(r,s)$, and $\{H\} := (H\cdot 1)(q^{-\rho_k})$ the evaluation of the image of $1$ under $H$ at the point $X = q^{-\rho_k}$, $\rho_k$ being the deformed half-sum of positive roots. The conventions, the checks of the implementation and the interpolation in $N$ are described in Appendix \ref{app:code}; the composites $(\alpha;\bar\beta)$ of the cover are computed on the $\GL_N$ side, extending the DAHA computations of composite invariants of \cite{CE15} to general $N$ (by interpolation), to the uniform normalization, and to $|\alpha| = 3$.
+
+For a torus knot $T(2,n)$, $n = 2m+1$, set $F := rs = 2n$ and write the framing eigenvalue of a weight $b$ as $T_b = q^{(b,b)/2}t^{(b,\rho)}$. The $D_N$ value equals $T_R^{-F}$ times the mirror of the fixed-$N$ invariant $W_R$ in the uniform normalization; on the $\GL_N$ side
+\begin{equation}\label{eq:Mb}
+W_b = \mirror\bigl(JD_b/M_b\bigr),\qquad M_b := T_b^{-F}\, t^{\cK\,|b|(N-1)},
+\end{equation}
+with a knot-dependent constant $\cK$ ($\cK = m+1$ for $T(2,2m+1)$; for the cables see Result \ref{cr:cable-interp}). The factor $t^{\cK|b|(N-1)}$ was read off from the data of $(1), (2), (1,1)$ and predicted correctly for the other representations (Result \ref{cr:daha}); we have no derivation of it from the $\U(1)$ part of $\GL_N$. The reduced invariant $\Rred_R(N) = T_R^{-F}\,\mirror(JD(N))/K_R(t^\rho)$ is interpolated as a Laurent polynomial in $t^N$ and checked at values of $N$ not used in the interpolation (Appendix \ref{app:interp}, Table \ref{tab:interp}). This gives the refined $\SO(2N)$ invariants at general $N$ for the trefoil with two to four boxes, and for $T(2,5)$, $T(2,7)$, $T(2,9)$ with two and three boxes.
+
+\subsection{Crosscap part at large $N$}
+On the $\SO$ side with three boxes the kernel is converted to the $K$ basis with the inverse of the matrix of $D_N$ Koornwinder polynomials $K_R$ ($|R| \le 3$, $t^N$ formal). The cover is assembled from ordinary representations, the adjoint and composites.
+% [D5][D6]
+\begin{result}\label{cr:largeN}
+The crosscap parts at general $N$ have the following properties.
+\begin{enumerate}
+\item Two boxes (trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$, and $\Cab{13}$ in \S\ref{sec:cable}): the denominators of $g_{\ytwo}, g_{\yoneone}$ are $2\times$ monomial $\times(1+t)$; all $N$-dependent poles cancel. $g_{\ytwo} + g_{\yoneone}$ and $(1+t)(g_{\ytwo} - g_{\yoneone})$ are integer Laurent polynomials. The $(1+t)$ sits in the $p_2$ direction only, in agreement with $E_{\ytwo} = -E_{\yoneone}$ of Remark \ref{rem:Esector}. The hatted $\hat g_{\ytwo}$, $\hat g_{\yoneone}$ keep the denominator $2(1+t)\times$ monomial, while $\hat g_{\ytwo} + \hat g_{\yoneone}$ is an integer Laurent polynomial.
+\item Three boxes (trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$): $g_{\ythree}, g_{\ytwoone}, g_{\yoneoneone}$ are integer Laurent polynomials without $(1+t)$ poles, as predicted by Proposition \ref{prop:alld} (no $E$ in odd sectors). The hatted $\hat g_R$ is also an integer Laurent polynomial for generic $U$ (with three boxes the all-$d$ $g$ equals the odd-$d$ $g^{\mathrm{odd}}$ of \cite{Marino09}).
+\item Four boxes (trefoil): all $N$-dependent poles cancel; the $(1+t)$ poles sit only in the power-sum directions $p_4$ and $p_2^2$ (all parts even), as predicted by Proposition \ref{prop:alld}. The Schur components $g_R$, $|R| = 4$, have denominators $2\times$ monomial $\times(1+t)$ and $2(1+t)g_R$ is an integer Laurent polynomial. In the power-sum basis, $f_{(3,1)}$, $f_{(2,1,1)}$, $f_{(1^4)}$ are integer Laurent polynomials and $(1+t)f_{(4)}$, $(1+t)f_{(2,2)}$ are integer Laurent polynomials without the factor $2$; accordingly the Schur combinations in which the two $E$ directions cancel, such as $g_{(4)} + g_{(3,1)}$, $g_{(2,1,1)} + g_{(1^4)}$ and $g_{(4)} - g_{(2,2)} - g_{(2,1,1)}$, are integer Laurent polynomials (the analogue of $g_{\ytwo} + g_{\yoneone}$ for two boxes). As a power series in $t$ the individual $g_R$ are not integral; integrality as a series holds for $f$ and $f^{\cov}$ separately, not for their difference with the factor $\tfrac12$. The components of degree $\le 3$ agree with the three-box values.
+\item As a check, the two- and three-box values agree with the fixed-$N$ values at $t^N = t^2, t^3$ coefficient by coefficient. For four boxes the cover $f^{\cov}$ was checked independently: decomposing $P_\alpha(x)P_\beta(x^{-1})$ irreducibly as polynomials in $\U(5)$ ($t^N = t^3$) and evaluating each component with the uniformly normalized $\U(5)$ values (mostly constructed as in \cite{KN17}; the seven shapes not available there were computed with the $\GL_5$ DAHA) reproduces the large-$N$ $f^{\cov}$ to degree four. This checks the Pieri coefficients, the interpolation and the assembly independently of the DAHA.
+\item The hatted invariants of the $q$-side and the $t$-side of \cite{KN17} agree for the two-box $\SO$, cover and crosscap parts.
+\end{enumerate}
+\end{result}
+% [S6]
+\begin{result}[fixed $N$]\label{cr:fixedN}
+At fixed $N = 2, 3$, where the $\SO$ data are obtained from A-type data through $\SO(4) = \mathrm{SU}(2)^2$ and $\SO(6) = \mathrm{SU}(4)$, the hatted crosscap invariants of $T(2,2m+1)$, $m \le 3$, with $|R| \le 3$ are integer Laurent polynomials in all power-sum directions. The same holds at $N = 2$ for seven double-twist knots with $|R| \le 3$ (using the rectangular formulas of \cite{KNTZ19}), together with the uniform normalization of Result \ref{cr:uniform}. At fixed $N$ the universal factor and the sign property cannot be tested, since $\lambda$ is not a free variable.
+\end{result}
+
+\subsection{Dictionary with the unrefined theory at \texorpdfstring{$t = q$}{t = q}}
+% [D7]
+\begin{result}\label{cr:marino}
+At $t = q$ the following hold.
+\begin{enumerate}
+\item The $\SO$ invariants $W_R$ and the cover invariants $W_S$ agree exactly with the mirror images ($\lambda \to 1/\lambda$, $t_M \to 1/t_M$) of $G_R, H_S$ of \cite{Marino09} (standard framing), for $R, S \in \{(1), (2), (1,1)\}$.
+\item For the crosscap part, $g_{\yone} = -\mirror(g^{\mathrm{Mar}}_{\yone})$. With two boxes, $-\mirror(\hat g^{\mathrm{Mar}}_R)$ is obtained by converting the all-$d$ $g$ to odd $d$ by \eqref{eq:odd}, subtracting the unknot values $\mp\tfrac12$, and hatting with $M(q^{-1})^{-1}$.
+\item Our value of $\hat g_{\ytwo}$ for the trefoil differs from (4.8) of \cite{Marino09} in the $z^9$ term only; our computation gives $z^9(11\lambda^{12} - 78\lambda^{10} + 78\lambda^8 - 11\lambda^6)$, and the integrality of the BPS expansion is consistent with this value, so the printed coefficient appears to be a misprint (Appendix \ref{app:unref}).
+\end{enumerate}
+\end{result}
+The overall sign $-1$ is a consequence of the dual Cauchy (fermionic) kernel. The exchange $R \leftrightarrow R^T$ appears at the level of $g^{\mathrm{odd}}$ ($g^{\mathrm{odd}}_{\ytwo}$ corresponds to the mirror of $g^{\mathrm{Mar}}_{\yoneone}$) and cancels in the hatted invariants because the mirror maps $M(q^{-1}) \leftrightarrow M(q)$.
+
+\subsection{Universal factor}\label{sec:universal}
+For a (hatted) crosscap invariant $\hat g$ define its \emph{refined part}
+\begin{equation}\label{eq:X1}
+X_1 = \hat g - \hat g\big|_{t=q}(\lambda \to \tlam),\qquad \tlam = \lambda\qr .
+\end{equation}
+% [D9]
+\begin{result}\label{cr:universal}
+At the $\SO(2)$ point $\lambda^2 = t$ the invariant $\hat g$ is independent of $t$, i.e., $\hat g|_{\lambda^2 = t}$ equals $\hat g|_{t=q}$ at $\lambda^2 = q$. Equivalently, $X_1$ is divisible by $(q - t)(\lambda^2 - t)$ (divisibility by $(q - t)$ is automatic). This holds for the fundamental representation of $T(2,2m+1)$, $m \le 5$, for the two-box $\hat g_{\ytwo}, \hat g_{\yoneone}$ and their sum for $T(2,3)$, $T(2,5)$, $T(2,7)$, $T(2,9)$, for the three-box $\hat g_R$ of the trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$, and for $(1+t)\hat g_R$ of the four-box trefoil. In bold variables $(q - t)(\lambda^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$, the same factor as in the $c = 2$ part of the fundamental representation and in $\hat C_{R,S}$ of the Hopf link.
+\end{result}
+Since $\hat g|_{t=q}$ depends on $\lambda$, the shift in \eqref{eq:X1} is forced: among $X_k = \hat g - \hat g|_{t=q}(\lambda \to \lambda\qr^k)$, $-3 \le k \le 3$, only $k = +1$ is divisible by $(\lambda^2 - t)$ (checked for the fundamental representation and two boxes of $T(2,3)$, $T(2,5)$ and three boxes of the trefoil). At the $\SO(2)$ point the group is abelian and the unrefined invariant is trivial; whether the $t$-independence at this point can be derived (e.g., as a formal continuation to $N = 1$) has not been examined \open.
+
+\begin{conjecture}\label{conj:structure}
+Let $K$ be a knot and $R$ a Young diagram, and let $\hat g_R$ be its hatted refined crosscap invariant in the uniform normalization. If $|R|$ is odd, $\hat g_R$ is an integer Laurent polynomial and
+\begin{equation}\label{eq:structure}
+\hat g_R = \hat g_R\big|_{t=q}(\lambda \to \tlam) + (\bt^2 - 1)(\ba^2 - \bq^2)\cdot(\text{integer Laurent polynomial}).
+\end{equation}
+If $|R|$ is even, the same holds for $2(1+t)\hat g_R$ in place of $\hat g_R$ (so that $\hat g_R|_{t=q}$, which contains $\tfrac12\psi^2 g^{\mathrm{odd}}$, is half-integral, and the quotient by the universal factor has the denominator $2(1+t)$).
+\end{conjecture}
+The evidence is Result \ref{cr:universal} (up to four boxes for the trefoil, three boxes for $T(2,5)$, $T(2,7)$, $T(2,9)$) and Result \ref{cr:cable-largeN} for the cables.
+
+\begin{remark}\label{rem:shift}
+For closed strings the ratio of charges of frozen and oriented states is $x^2/Q_0 = \qr^{-1}$ (conventions of \cite{AgSc12}, Appendix \ref{app:closed}). For open strings the ratio of the crosscap variable $\tlam^2$ to the cover variable $\ba_{\mathrm{KN}}^2 = \lambda^2\qr^{-1}$ is $\qr^{3}$, so the two do not match. Since the correspondence of open and closed variables ($\lambda^2$ or $\lambda^{-2}$ with $Q$) and the open-string normalization are not yet fixed, we leave this comparison open.
+\end{remark}

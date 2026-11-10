@@ -1,0 +1,28 @@
+N=11 ν=(4,): 274.6s、最大 RSS 6.23 GB
+done
+N=11 ν=(3, 1): 274.4s、最大 RSS 6.11 GB
+done
+N=11 ν=(2, 2): 278.8s、最大 RSS 6.23 GB
+done
+N=11 K1 λ=(2,): 13.0s、最大 RSS 0.13 GB
+N=11 K1 λ=(1, 1): 8.2s、最大 RSS 0.15 GB
+done
+N=12 ν=(4,): 561.8s、最大 RSS 9.01 GB
+done
+N=12 ν=(3, 1): 536.8s、最大 RSS 10.44 GB
+done
+N=12 ν=(2, 2): 531.5s、最大 RSS 10.67 GB
+done
+N=12 K1 λ=(2,): 19.3s、最大 RSS 0.15 GB
+N=12 K1 λ=(1, 1): 12.5s、最大 RSS 0.17 GB
+done
+N=13 ν=(4,): 951.3s、最大 RSS 13.70 GB
+done
+N=13 ν=(3, 1): 999.6s、最大 RSS 14.53 GB
+done
+N=13 ν=(2, 2): 1010.0s、最大 RSS 14.65 GB
+done
+N=13 K1 λ=(2,): 28.1s、最大 RSS 0.17 GB
+N=13 K1 λ=(1, 1): 18.7s、最大 RSS 0.20 GB
+done
+scripts/refined_kauffman/run_cable_lp_K1.sh: line 11: cripts/refined_kauffman/rk_c_cable_lp.py: No such file or directory

@@ -1,0 +1,19 @@
+N=14 ν=(4,): 3871.4s、最大 RSS 14.52 GB
+done
+N=14 ν=(3, 1): 3812.3s、最大 RSS 15.22 GB
+done
+N=14 ν=(2, 2): 3932.7s、最大 RSS 15.35 GB
+done
+N=14 K1 λ=(2,): 38.4s、最大 RSS 0.21 GB
+N=14 K1 λ=(1, 1): 26.0s、最大 RSS 0.24 GB
+done
+N=15 ν=(4,): 7624.5s、最大 RSS 18.82 GB
+done
+N=15 ν=(3, 1): 8386.4s、最大 RSS 17.78 GB
+done
+N=15 ν=(2, 2): 8626.6s、最大 RSS 16.87 GB
+done
+N=15 K1 λ=(2,): 53.1s、最大 RSS 0.26 GB
+N=15 K1 λ=(1, 1): 38.6s、最大 RSS 0.29 GB
+done
+stopped before N=16

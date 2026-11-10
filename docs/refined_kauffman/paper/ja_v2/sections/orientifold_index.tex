@@ -48,6 +48,8 @@ g = f - \tfrac12 f^{\cov} = \tfrac12\,\mathrm{Tr}_{H_1^{\cov}}\bigl(\tilde I\cdo
 \begin{proof}
 $f = \mathrm{Tr}_{H_1^{\cov}}(P_+\cdot) + \sum_{\text{凍結}} m$ と、$\tilde I$ が不変な状態に $\varepsilon$、$z_2$ のモードに $(-1)^l$ で働くことから、$\mathrm{Tr}(\tilde I\cdot) = \sum_{\text{不変}}\varepsilon m\sum_l (-t)^l = E/(1+t)$。
 \end{proof}
+命題 \ref{prop:trace} は命題 \ref{prop:alld} の書き換えである。射影を $P_+ = \tfrac12(1 + \tilde I)$ と分けると、$\mathrm{Tr}(P_+\cdot)$ の第 1 項 $\tfrac12\mathrm{Tr}(\cdot) = \tfrac12 f^{\cov}$ が被覆の半分、第 2 項 $\tfrac12\mathrm{Tr}(\tilde I\cdot)$ が $\tfrac12 E/(1+t)$ であり、命題 \ref{prop:alld} の証明で状態の種類ごとに数えた和（対からは $m/(1-t)$、不変な状態からは $\tfrac12 m[1/(1-t) + \varepsilon/(1+t)]$）を、対の寄与が打ち消すトレースとしてまとめ直したものである。
+違いは $E$ の読み方にある。命題 \ref{prop:alld} では $E = \sum_{\text{不変}}\varepsilon m$ は不変な状態の符号付きの数え上げ、命題 \ref{prop:trace} では同じ量が被覆の状態空間の上の $\tilde I$ をひねったトレースである。
 $E$ は Witten の「$\zeta$ を挿入したトレース」の型、$C$ は商の理論にしかない状態の寄与である。命題 \ref{prop:EC} の不定性は、一つの数を二つの表示に分ける仕方の不定性と読める。
 
 \subsection{境界ゼロモードへの $\tilde I$ の作用}

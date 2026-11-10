@@ -1,0 +1,6 @@
+m=1 composite (1, 1, 1)：冪 -18〜-8、mode alpha、使う N = 4..12、N_s = 6：一意、未知数 1892、使わない N での照合 {13: True, 14: True}
+   保存：data/refined_kauffman/daha/Rcomp_A_m1_111.pkl（1 秒）
+m=1 composite (3,)：冪 -18〜-8、mode all、使う N = 3..8、N_s = None：一意、未知数 984、使わない N での照合 {2: True, 9: True, 10: True, 11: True, 12: True, 13: True, 14: True}
+   保存済み data/refined_kauffman/daha/Rcomp_A_m1_3.pkl と全係数一致：True
+m=1 composite (2, 1)：冪 -18〜-8、mode all、使う N = 5..11、N_s = None：一意、未知数 1452、使わない N での照合 {3: True, 4: True, 12: True, 13: True, 14: True}
+   保存済み data/refined_kauffman/daha/Rcomp_A_m1_21.pkl と全係数一致：True

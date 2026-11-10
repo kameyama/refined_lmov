@@ -1,0 +1,96 @@
+% English version of the refined Kauffman paper (hep-th style). Not a translation of paper/ja_v2.
+% Structure (after the second round of review, 2026-11-10): definition -> index -> Hopf -> fundamental representation
+% -> general N -> cables -> Sp -> cover -> multi-box obstructions -> open problems; computational details, closed strings,
+% further structure of the fixed sector and the generated data are appendices.
+% Claim grading: paper/claims.md (IDs in % [..] comments). Bibliography shared with ja_v2/refs.bib.
+% Compile: cd docs/refined_kauffman/paper/en && TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex && bibtex main && lualatex main.tex (twice)
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{booktabs,array,graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,decorations.pathreplacing}
+\usepackage{youngtab}
+\Yboxdim{5pt}
+\DeclareRobustCommand{\yone}{\yng(1)}
+\DeclareRobustCommand{\ytwo}{\yng(2)}
+\DeclareRobustCommand{\yoneone}{\yng(1,1)}
+\DeclareRobustCommand{\ythree}{\yng(3)}
+\DeclareRobustCommand{\ytwoone}{\yng(2,1)}
+\DeclareRobustCommand{\yoneoneone}{\yng(1,1,1)}
+\usepackage[margin=25mm]{geometry}
+\usepackage[backend=bibtex,style=alphabetic,maxalphanames=4,minalphanames=4,maxbibnames=10,doi=true,eprint=true]{biblatex}
+\addbibresource{../ja_v2/refs.bib}
+\usepackage[hidelinks,pdftitle={Refined crosscap invariants and the large N duality for colored Kauffman invariants},pdfauthor={Masaya Kameyama}]{hyperref}
+\allowdisplaybreaks
+\sloppy
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{result}[theorem]{Result}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\ba}{\bm{a}}
+\newcommand{\bq}{\bm{q}}
+\newcommand{\bt}{\bm{t}}
+\newcommand{\tlam}{\tilde\lambda}
+\newcommand{\ql}{q_\ell}
+\newcommand{\qr}{q_r}
+\newcommand{\Rred}{\mathcal{R}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\Sp}{\mathrm{Sp}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\DeclareMathOperator{\mirror}{mirror}
+\newcommand{\open}{\emph{(open)}}
+\newcommand{\Cab}[1]{\mathcal{C}_{#1}}        % algebraic cables of the trefoil
+\newcommand{\Nfix}{\mathcal{N}}               % generating function of the fixed sector (brane 1, image 1)
+\newcommand{\Bim}{\mathcal{B}}                 % brane--image sector of the cover
+\newcommand{\Phifix}{\Phi}                     % index of the fixed sector, (1-t) f^cov restricted to it
+\newcommand{\cK}{\mathsf{c}_K}                 % knot-dependent constant in the GL normalization
+
+\title{Refined crosscap invariants and the large $N$ duality\\ for colored Kauffman invariants}
+\author{Masaya Kameyama}
+\date{November 10, 2026 (draft)}
+
+\begin{document}
+\maketitle
+
+\input{sections/abstract}
+
+\tableofcontents
+
+\input{sections/intro}
+\input{sections/setup}
+\input{sections/index}
+\input{sections/hopf}
+\input{sections/torus}
+\input{sections/generalN}
+\input{sections/cables}
+\input{sections/sp}
+\input{sections/cover}
+\input{sections/multibox}
+\input{sections/discussion}
+
+\section*{Data and code availability}
+The invariants reported here were computed with the author's Python code (Appendix \ref{app:code}). The code and the computed data (the interpolated invariants at general $N$, the fixed-$N$ values and the logs of all checks) are available from the author; a public repository will accompany the final version. The generated tables of Appendix \ref{app:data} are produced automatically from these data.
+
+\appendix
+\input{sections/app_methods}
+\input{sections/app_closed}
+\input{sections/app_fixed}
+\input{sections/app_data}
+
+\printbibliography
+\end{document}

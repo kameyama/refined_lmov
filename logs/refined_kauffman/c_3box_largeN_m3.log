@@ -1,0 +1,8 @@
+composite (2;1)：Rcomp_A_m3_2.pkl を読んだ
+composite (11;1)：Rcomp_A_m3_11.pkl を読んだ
+N = 2：g_R（|R| = 3）が固定 N の g と一致 True
+N = 3：g_R（|R| = 3）が固定 N の g と一致 True
+g_(3,)：分母 r**38*u**42、整数 Laurent True
+g_(2, 1)：分母 r**66*u**42、整数 Laurent True
+g_(1, 1, 1)：分母 r**120*u**42、整数 Laurent True
+.venv/bin/python scripts/refined_kauffman/rk_c_3box_largeN.py 3  11390.10s user 32.07s system 99% cpu 3:10:32.15 total

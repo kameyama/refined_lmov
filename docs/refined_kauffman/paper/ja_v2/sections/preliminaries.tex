@@ -63,7 +63,11 @@ Koornwinder 多項式の双対 Cauchy 恒等式（\cite{Mimachi01}）
 
 \begin{definition}[refined クロスキャップ不変量]\label{def:crosscap}
 全 $d$ の定義で $g_R = f_R - \tfrac12 f^{\cov}_R$ と置く。
-hatted 不変量は $\hat g = M(q^{-1})^{-1} g$ である。ここで $M_{RS} = \sum_\mu \chi_R(\mu)\chi_S(\mu) z_\mu^{-1}\prod_i (t_M^{\mu_i} - t_M^{-\mu_i})/(t_M - t_M^{-1})$（$t_M = q^{1/2}$）は Mariño の $M$ で、\cite{KN17} の $M(x)$ の $x = q^{-1}$ に等しい。
+hatted 不変量は $\hat g = M(q^{-1})^{-1} g$ である。ここで
+\[
+M(x)_{RS} = \sum_{\mu \vdash |R|} \frac{\chi_R(\mu)\chi_S(\mu)}{z_\mu}\,\frac{\prod_i (x^{-\mu_i/2} - x^{\mu_i/2})}{x^{-1/2} - x^{1/2}}
+\]
+（分母は積全体に一つ）は \cite{KN17} の $M(x)$ で、冪和の基底では対角、$x = q^{-1}$ では $\mu = (1,1)$ に $z_q$、$\mu = (2)$ に $z_q^+$ を掛ける。Schur の基底 $(\ytwo, \yoneone)$ では $M(q^{-1}) = \begin{pmatrix} q^{1/2} & -q^{-1/2} \\ -q^{-1/2} & q^{1/2}\end{pmatrix}$ である。これは \cite{Marino09} の reformulation の行列を $t_M = x^{-1/2}$ で書き、1 箱の因子 $t_M - t_M^{-1}$ で割って $M_{\yone\yone} = 1$ と規格化したものである。
 \end{definition}
 
 % [S8]

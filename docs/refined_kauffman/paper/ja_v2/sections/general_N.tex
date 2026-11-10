@@ -15,13 +15,14 @@ JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
 \end{itemize}
 計算の高速化には、反自己同型 $\varphi$ で $X$ と $Y$ を入れ替え、軌道の対称化と $R$ の間の共有を使った。
 被覆の composite $(\alpha;1)$ は、$X^{-1}$ 側の対称化で作った $\hat\gamma'(p_1(Y))\cdot 1$ を $X$ 側の連鎖の出発点にして計算した。
+4 箱で要る $|\alpha| = 3$ では、既約分解 $P_\alpha(X)p_1(X^{-1}) = P_{(\alpha;1)}(X) + \sum_\mu c_{\alpha,\mu}P_\mu(X)$（$\mu = \alpha - \varepsilon_i$）の下の項が複数になる。係数は $p_1(X^{-1}) = e_{N-1}(X)/e_N(X)$ と縦帯の Pieri の公式から $c_{\alpha,\mu} = \psi'_{\lambda/\alpha}$（$\lambda = \alpha + 1^N - \varepsilon_i$）で、列 0 の脚だけが $N$ に依るので $t^N$ の閉じた形になる。小さな $N$ では多項式の分解と、すべての $N$ では主特殊化の恒等式と照合した。
 
 % [D1][D2][D3]
 \begin{compresult}[検証]\label{cr:daha}
 \begin{enumerate}
 \item D$_N$, GL$_N$（$N = 2, 3, 4$）で、DAHA の関係式（2 次、組紐、交差、$Y$ の可換性）が成り立つ。D$_N$ の Macdonald 多項式は Macdonald 作用素の固有関数である。
 \item D$_N$：$JD = T_R^{-2n}\times$ 鏡像（一様な規格化の固定 $N$ の $W_R$）。$T_R = q^{(R,R)/2}t^{(R,\rho)}$、$n = 2m+1$ で、確かめた範囲は $N = 2, 3$、$R \in \{(1), (1,1), (2)\}$、$m = 1, 2$ である。$N = 4, 5$ の表現 [1] は \cite{AgSc12} (6.15) の鏡像にちょうど一致する。
-\item GL$_N$：$W_b = $ 鏡像$(JD_b/M_b)$、$M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$。確かめた範囲は次のとおりである。$m = 1$ では表現 [1], 表現 [2], 表現 [1,1] から読み取り、表現 [3], 表現 [2,1], 表現 [1,1,1] と随伴（U(3), U(5)）で予言どおりになった。$m = 2$ では $N = 2, 3, 4$ の表現 [1], 表現 [2], 表現 [1,1]（9 例）と随伴（U(3), U(5)）で成り立つ。
+\item GL$_N$：$W_b = $ 鏡像$(JD_b/M_b)$、$M_b = q^{-n(b,b)}t^{-2n(b,\rho) + (m+1)|b|(N-1)}$。確かめた範囲は次のとおりである。$m = 1$ では表現 [1], 表現 [2], 表現 [1,1] から読み取り、表現 [3], 表現 [2,1], 表現 [1,1,1] と随伴（U(3), U(5)）で予言どおりになった。$m = 2$ では $N = 2, 3, 4$ の表現 [1], 表現 [2], 表現 [1,1]（9 例）と随伴（U(3), U(5)）で成り立つ。composite の $|\alpha| = 3$ でも、U(2) の $(3;1)$、U(4) の $(2,1;1)$, $(1,1,1;1)$ が表現 [4], 表現 [3,2,1], 表現 [2,2,2] の値に比 1 で一致する（$m = 1$）。
 \item 高速版と現行版は、保存した値で全係数一致する。
 \end{enumerate}
 \end{compresult}
@@ -29,11 +30,13 @@ JD_{r,s}(b) = \{\hat\gamma_{r,s}(P_b)\}/P_b(q^{-\rho_k})
 \subsection{一般の $N$ の補間}
 reduced 不変量 $\Rred_R(N) = T_R^{-2n}\times$ 鏡像$(JD(N))/K_R(t^\rho)$ を、$t^N$ の Laurent 多項式として補間した。
 補間する冪の範囲は推測しない。$\Rred_R(N)$ の $t^{1/2}$ の次数の最小値・最大値が大きな $N$ で $2Nj + $（定数）になることから冪の範囲を決め、大きな $N$ をノードにして Newton の差分商で補間し、残りの $N$ で照合した。
+冪の項数が多いもの（$T(2,5)$ 以上の 3 箱、4 箱、$m \ge 2$ の composite）では、$q^{1/2}$ の次数ごとに、各項 $c_j t^{Nj}$ の $t^{1/2}$ の次数が固定 $N$ の値の次数の範囲に収まると仮定して未知数を絞り、一次方程式を解いて必要な $N$ を減らした。この仮定は、解が一意であることと、補間に使わない $N$ での全係数一致で確かめる。
 % [D4]
 \begin{compresult}\label{cr:interp}
 次の表の範囲で、補間に使わない $N$ の値を全係数で予言した（冪の範囲は、SO 側は $t^N$、被覆は $\lambda = t^{N_A/2}$ の冪）。
 \begin{center}
-\footnotesize
+\scriptsize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{llll}
 \toprule
 結び目・表現 & 冪の範囲 & ノード & 照合 \\
@@ -46,12 +49,19 @@ $T(2,5)$ の (2), (1,1) & $-18$〜$-8$ & $N = 4$〜14 & $N = 2, 3$ \\
 被覆の随伴 $(1;1)$（trefoil） & $-10$〜$-4$ & $N_A = 2$〜11 のうち 7 点 & 残りの 3 点 \\
 被覆の随伴 $(1;1)$（$T(2,5)$） & $-18$〜$-8$ & $N_A = 14$〜24 & $N_A = 2$〜13 \\
 被覆の $(2;1), (1,1;1)$（trefoil） & $-14$〜$-6$ & $N_A = 12$〜20 & $N_A = 2$（$(1,1;1)$ は 3）〜11 \\
+\midrule
+$T(2,5)$ の 3 箱 & $-27$〜$-12$ & $N = 4$〜10、3〜10、5〜11 & 残りの $N \le 14$ \\
+$T(2,7)$ の 3 箱 & $-39$〜$-18$ & $N = 2$〜9、3〜12、5〜12 & 残りの $N \le 13$ \\
+$T(2,9)$ の 3 箱 & $-51$〜$-24$ & $N = 2$〜10、3〜13、5〜13 & 残りの $N \le 14$ \\
+trefoil の 4 箱（5 個の $R$） & $-20$〜$-8$ & $N \le 12$ のうち 7〜9 点 & 残りの $N \le 12$ \\
+被覆の $(2;1), (1,1;1)$（$m = 2, 3, 4$） & $-24$〜$-12$ など & $N_A \le 18$〜20 & 残りの $N_A$ \\
+被覆の $(3;1), (2,1;1), (1,1,1;1)$（trefoil） & $-18$〜$-8$ & $N_A = 3$〜8、5〜11、4〜12 & 残りの $N_A \le 14$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-3 箱を $t = q$ にすると、[3] は \cite{NRZ13} の表現 [3] 彩色の Kauffman 多項式の鏡像に比 1 で一致する。
+3 箱の行の「ノード」は $(3), (2,1), (1,1,1)$ の順で、区切りの線より下は冪の範囲を絞る方法による。3 箱を $t = q$ にすると、[3] は \cite{NRZ13} の表現 [3] 彩色の Kauffman 多項式の鏡像に比 1 で一致する。trefoil の 4 箱の (4) と (1,1,1,1) も $t = q$ で \cite{NRZ13} の値に一致する。
 \end{compresult}
-これで、refined SO$(2N)$ の trefoil の 2 箱・3 箱と $T(2,5)$ の 2 箱の不変量が一般の $N$ で得られた。
+これで、refined SO$(2N)$ の trefoil の 2〜4 箱、$T(2,5)$ の 2 箱・3 箱、$T(2,7)$ と $T(2,9)$ の 3 箱の不変量が一般の $N$ で得られた。
 trefoil の 2 箱の係数は\ref{app:daha} に載せた。
 
 \subsection{大きな $N$ のクロスキャップ部分}
@@ -60,8 +70,9 @@ trefoil の 2 箱の係数は\ref{app:daha} に載せた。
 \begin{compresult}\label{cr:largeN}
 \begin{enumerate}
 \item 2 箱（trefoil, $T(2,5)$）：$g_{\ytwo}, g_{\yoneone}$ の分母は $2\times$ 単項式 $\times(1+t)$ だけで、$N$ に依存する極はすべて消える。$g_{\ytwo} + g_{\yoneone}$ と $(1+t)(g_{\ytwo} - g_{\yoneone})$ は整数 Laurent である。$(1+t)$ は $p_2$ 方向だけにあり、命題 \ref{prop:alld} の $E_{\ytwo} = -E_{\yoneone}$ と一致する。
-\item 3 箱（trefoil）：$g_{\ythree}, g_{\ytwoone}, g_{\yoneoneone}$ は整数 Laurent で、$(1+t)$ の極は無い。奇数のセクターに $E$ が無いという命題 \ref{prop:alld} の予言どおりである。hatted の $\hat g_R = M(q^{-1})^{-1} g_R$ も $U$ 一般で整数 Laurent である（3 箱では全 $d$ の $g$ が Mariño の奇数 $d$ の $g^{\mathrm{odd}}$ に等しい）。
-\item 検算として、$t^N = t^2, t^3$ で固定 $N$ の値と全係数一致する。
+\item 3 箱（trefoil, $T(2,5)$, $T(2,7)$, $T(2,9)$）：$g_{\ythree}, g_{\ytwoone}, g_{\yoneoneone}$ は整数 Laurent で、$(1+t)$ の極は無い。奇数のセクターに $E$ が無いという命題 \ref{prop:alld} の予言どおりである。hatted の $\hat g_R = M(q^{-1})^{-1} g_R$ も $U$ 一般で整数 Laurent である（3 箱では全 $d$ の $g$ が Mariño の奇数 $d$ の $g^{\mathrm{odd}}$ に等しい）。
+\item 4 箱（trefoil）：$N$ に依存する極はすべて消える。$(1+t)$ の極は冪和の $p_4$ と $p_2^2$ の方向（部分がすべて偶数の方向）だけにあり、命題 \ref{prop:alld} の予言どおりである。Schur の成分 $g_R$（$|R| = 4$）の分母は $2\times$ 単項式 $\times(1+t)$ で、$2(1+t)g_R$ は整数 Laurent である。冪和の基底では $f_{(3,1)}, f_{(2,1,1)}, f_{(1^4)}$ が整数 Laurent、$(1+t)f_{(4)}, (1+t)f_{(2,2)}$ が（2 を掛けずに）整数 Laurent で、したがって $E$ の入る 2 方向が打ち消す Schur の組合せ $g_{(4)} + g_{(3,1)}$、$g_{(2,1,1)} + g_{(1^4)}$、$g_{(4)} - g_{(2,2)} - g_{(2,1,1)}$ などは整数 Laurent である（2 箱の $g_{\ytwo} + g_{\yoneone}$ に当たる）。$g_R$ 自身は $t$ の冪級数としても整数係数でない（級数としての整数性は $f$ と $f^{\cov}$ に別々に成り立ち、$\tfrac12$ の付いた差には成り立たない）。次数 3 以下の成分は 3 箱の値に一致する。
+\item 検算として、2 箱・3 箱は $t^N = t^2, t^3$ で固定 $N$ の値と全係数一致する。4 箱では被覆の $f^{\cov}$ を独立に確かめた：U(5)（$t^N = t^3$）で $P_\alpha(x)P_\beta(x^{-1})$ を多項式として既約に分解し、各成分を一様な規格化の U(5) の値（多くは \cite{KN17} と同じ方法で作った値、それの無い 7 つの形は GL$_5$ の DAHA の値）で評価すると、大きな $N$ の $f^{\cov}$ と次数 4 まで全係数一致する。これは Pieri の係数・補間・組み立てを DAHA と独立に確かめるものである。
 \end{enumerate}
 \end{compresult}
 
@@ -94,9 +105,10 @@ X_k = \hat g - \hat g\big|_{t=q}(\lambda \to \lambda \qr^k)
 が $(q - t)(\lambda^2 - t)$ で割り切れる $k$ を $-3 \le k \le 3$ で調べた。割り切れるのは $k = +1$（$\lambda \qr = \tlam$）だけである。
 対象は次のすべてである。
 \begin{itemize}
-\item 表現 [1]：$T(2,3)$, $T(2,5)$
+\item 表現 [1]：$T(2,3)$, $T(2,5)$（$k = +1$ での割り切れは $T(2,2m+1)$、$m \le 5$ で確認し、商の $\ba$ のブロックはすべてそろう）
 \item 2 箱の $\hat g_{\ytwo}, \hat g_{\yoneone}$ と和：$T(2,3)$, $T(2,5)$
 \item 3 箱の $\hat g_R$：trefoil
+\item $k = +1$ での割り切れは、さらに 3 箱の $T(2,5)$, $T(2,7)$, $T(2,9)$ と、trefoil の 4 箱の $(1+t)\hat g_R$ でも確かめた
 \end{itemize}
 太字では $(q - t)(\lambda^2 - t) = \bq^2\,(\bt^2 - 1)(\ba^2 - \bq^2)$ で、表現 [1] の $c = 2$ 部分と Hopf 絡み目の $\hat C_{R,S}$ の因子と同じである。
 \end{compresult}
@@ -114,3 +126,50 @@ $(\lambda^2 - t)$ で割り切れることは、「SO(2) の点 $\lambda^2 = t$ 
 閉弦の凍結した状態と向き付けられた状態の電荷の比は $x^2/Q_0 = \qr^{-1}$ である（\cite{AgSc12} の規約、§\ref{sec:index}）。開弦では、クロスキャップの変数 $\tlam^2$ と被覆の変数 $\ba_{\mathrm{KN}}^2 = \lambda^2w^{-1}$ の比が $w^3$ で、両者は一致しない。
 開弦と閉弦の変数の対応（$\lambda^2$ と $Q$ か、$\lambda^{-2}$ と $Q$ か）と開弦の規格化がまだ固定されていないので、この比較の結論は保留する。
 \end{remark}
+
+\subsection{代数的なケーブルへの拡張}\label{sec:cable}
+トーラス結び目の外では、refined SO$(2N)$ の値に定義が無かった（refined CS の $S, T$ 行列が使えない）。iterated torus 結び目については、\cite{CD14} が任意の被約な根系と重み $b$ に対して iterated DAHA-Jones 多項式
+\[
+JD_{\vec r,\vec s}(b) = \bigl\{\hat\gamma_1\bigl(\cdots\hat\gamma_{\ell-1}\bigl((\hat\gamma_\ell(P_b)/P_b(q^{-\rho_k}))\!\Downarrow\bigr)\!\Downarrow\cdots\bigr)\bigr\}_{\mathrm{ev}},\qquad H\!\Downarrow\, := H\cdot 1
+\]
+を定めている（$\gamma_\ell$ が最も内側の pattern、$\gamma_1$ が companion で、$\gamma_i$ は第 1 列が $(r_i, s_i)$ の SL$(2,\mathbb{Z})$ の元の持ち上げ）。本論文では、その D$_N$ の値を代数的なケーブルの refined SO$(2N)$ 不変量の定義として採る。
+対象は trefoil の $(2, q_2)$-ケーブル $C_{13}$（$q_2 = 13$）と $C_{15}$（$q_2 = 15$）である。$q_2$ は companion の Seifert framing で測り、pattern の語は第 1 列が $(2, q_2 - 12)$、すなわち $(2,1)$ の $\tau_+\tau_-$ と $(2,3)$ の $\tau_-\tau_+\tau_-$、companion は trefoil の $\tau_+\tau_-^2$ である（代数的 $\Leftrightarrow q_2 > 12$）。非代数的なケーブルは扱わない。
+companion の段は、pattern の段で得た多項式 $f_1 = \hat\gamma_{\mathrm{pat}}(P_b)\cdot 1$ を $f_1(\hat\gamma_{\mathrm{comp}}(X))\cdot 1$ として当てる。D$_N$ では $f_1$ が B$_N$ 対称なので $H_\nu$（$|\nu| \le \deg f_1$）に展開し、基底の値 $\{\hat\gamma_{\mathrm{comp}}(H_\nu)\}$（companion は共通なので $N$ ごとに一度計算して共有する）の一次結合にする。被覆の随伴は $H_\mu(X)H_\nu(X^{-1})$ で同様に展開する。
+
+% [D15]
+\begin{compresult}[ケーブルの規格化と一般の $N$]\label{cr:cable-interp}
+\begin{enumerate}
+\item GL$_N$ の値は、同じケーブルの A 型の値（著者の別の実装、U(2), U(3)、$|b| \le 2$）と単項式倍で一致する。
+\item D$_N$ の値は、SO(4) $=$ SU(2)$^2$・SO(6) $=$ SU(4) の同一視で作った一様な規格化の固定 $N$ の $W_R$ の鏡像と、$T_R^{-F}$（$F = p_2q_2$：$C_{13}$ で 26、$C_{15}$ で 30）だけ違う（$N = 2, 3$、表現 [1]）。トーラス結び目の規則 $T_R^{-2n}$ の $2n = rs$ を $p_2q_2$ に替えた形である。一様な規格化 \eqref{eq:uniform} の $\delta$ は、ケーブルでは $\delta \mapsto p\delta + (p-1)(q-1)/2$ で $8$（$C_{13}$）、$9$（$C_{15}$）になる。
+\item GL$_N$ では $W_b = $ 鏡像$(JD_b/M_b)$、$M_b = T_b^{-F}\,t^{c|b|(N-1)}$（$c = 10, 12$）が普通の表現 6 種（$N = 2$〜4）で成り立ち、$|b| = 0$ の随伴の規格化はこれで $T_{\mathrm{adj}}^{-F}$ に決まる。
+\item 一般の $N$ の補間は次の表の範囲で、補間に使わない $N$ の値を全係数で予言した。
+\begin{center}
+\footnotesize
+\begin{tabular}{llll}
+\toprule
+対象 & 冪の範囲 & ノード & 照合 \\
+\midrule
+$C_{13}$ の表現 [1] & $-25$〜$-16$ & $N = 3$〜8 & $N = 2, 9$〜16 \\
+$C_{15}$ の表現 [1] & $-29$〜$-18$ & $N = 4$〜10 & $N = 2, 3, 11$〜16 \\
+$C_{13}$ の (2) & $-50$〜$-32$ & $N = 3$〜11 & $N = 2, 12$〜15 \\
+$C_{13}$ の (1,1) & $-50$〜$-32$ & $N = 4$〜14 & $N = 2, 3, 15$ \\
+$C_{15}$ の (2) & $-58$〜$-36$ & $N = 2$〜9 & $N = 10$ \\
+被覆の随伴 $(1;1)$（$C_{13}$） & $-50$〜$-32$ & $N_A = 5$〜14 & $N_A = 2, 3, 4$ \\
+被覆の随伴 $(1;1)$（$C_{15}$） & $-58$〜$-36$ & $N_A = 5$〜14 & $N_A = 2, 3, 4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+2 箱は冪の範囲を絞る方法で、$q^{1/2}$ の次数ごとに帯の仮定を選んで解いた。(1,1) は小さな $N$ で打ち消しが強く、$N \le 13$ では 3 つの次数が決まらなかった。$C_{15}$ の (1,1) には $N \ge 13$ と最大の基底 $(1,1,1,1)$ が要り、計算量（60 GB 超の見込み）のため 2 箱は $C_{13}$ だけにした。
+\end{enumerate}
+\end{compresult}
+
+% [D16]
+\begin{compresult}[ケーブルの大きな $N$ のクロスキャップ部分]\label{cr:cable-largeN}
+\begin{enumerate}
+\item 表現 [1]（$C_{13}$, $C_{15}$）：$g_{\yone}$ は整数 Laurent で、refined だけの部分は普遍因子 $(q-t)(\lambda^2-t)$ で割り切れる。$t = q$ では $c = 1$ 部分が $q \leftrightarrow 1/q$ で対称である。
+\item 2 箱（$C_{13}$）：$g_{\ytwo}, g_{\yoneone}$ の分母は $2\times$ 単項式 $\times(1+t)$ だけで、$g_{\ytwo} + g_{\yoneone}$ と $(1+t)(g_{\ytwo} - g_{\yoneone})$ は整数 Laurent である（トーラス結び目と同じ型で、命題 \ref{prop:alld} の $E_{\ytwo} = -E_{\yoneone}$ と一致する）。hatted の $\hat g_{\yone}, \hat g_{\ytwo}, \hat g_{\yoneone}$ と和の refined だけの部分は、すべて普遍因子で割り切れる。
+\item 表現 [1] の判定式（予想 \ref{conj:criterion}）は成り立たない。($c{=}1$)：$c = 1$ 部分は $\sigma$ 対称でなく、対称なのは両端のブロック（$C_{13}$ の $\lambda^{-26}, \lambda^{-16}$、$C_{15}$ の $\lambda^{-30}, \lambda^{-28}, \lambda^{-18}$）だけで、そこでは $G$ 展開の符号がそろう。$\sigma$ 非対称部分を Lefschetz の重みで分けると、各ブロックで全行が同符号で、$\beta$ とともに符号が交互になる。($c{=}2$)：$c = 2$ 部分の refined だけの部分は普遍因子で割り切れるが、商の符号は $\ba$ のブロック内で混在する（$C_{13}$ は 4 ブロック中 3、$C_{15}$ は 5 ブロック中 3 が混在）。$c = 2$ 部分全体は $(\bt^2-1)$ で割り切れないが、これはケーブルの unrefined の $c = 2$ 不変量が 0 でないことの帰結で、判定式の破れではない。対照的に、$c = 1$ 部分の refined だけの部分の商は全ブロックでそろう（$C_{13}$ 5 ブロック、$C_{15}$ 6 ブロック）。
+\item 対照として、3 ストランドのトーラス結び目 $T(3,4)$ の表現 [1] でも $c = 1$ 部分は $\sigma$ 対称でない（$\lambda^{-10}, \lambda^{-8}$ が非対称で $\lambda^{-6}$ が対称。非対称部分の型はケーブルと同じ）ので ($c{=}1$) は成り立たない。$c = 2$ 部分は $t = q$ で消え、$(\ba^2-\bq^2)(\bt^2-1)$ で割り切れ、商は $\ba$ のブロックごとに同符号（$\ba^{-11}$ と $\ba^{-9}$ で符号が逆）なので ($c{=}2$) は成り立つ。$g_{\yone}$ 全体の refined だけの部分も普遍因子で割り切れ、その商の $\ba$ のブロックは 4 つともそろう。したがって $c = 1$ の $\sigma$ 非対称性はケーブルの実装によるものではなく、$T(2,2m+1)$ の外の結び目に共通する。
+\end{enumerate}
+\end{compresult}
+表現 [1] の判定式（予想 \ref{conj:criterion}）が成り立つのは 2 ストランドのトーラス結び目に限られ、一般の結び目で成り立つのは整数性と普遍因子（予想 \ref{conj:structure}）までである。符号のそろい方は §\ref{sec:positivity} にまとめる。

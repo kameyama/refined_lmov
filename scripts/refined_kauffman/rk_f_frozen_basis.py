@@ -10,7 +10,7 @@ r"""凍結した状態の多重項の基底の検査（theory §12、progress.md
   検査 2（c = 2 の部分）：(𝐚² − 𝐪²)(𝐭² − 1) で割った商の符号。
   検査 3（任意、--ilp）：基底 {G^g w^j, z_q² G^g w^j, z_t² G^g w^j}（一次従属）で同符号の展開が存在するかの整数計画。
   対象：[1]（T(2,3), T(2,5)）、framed unknot の 2 箱の p₁² 方向（𝖿 = 1..4）、結び目の 2 箱の p₁² 方向（T(2,3), T(2,5)）、
-        結び目の 3 箱の ĝ_R（T(2,3)）。"""
+        結び目の 3 箱の ĝ_R（T(2,3)。続き 139 で T(2,5)・T(2,7)・T(2,9)：引数 three:2 など）。"""
 import sys, io, contextlib
 sys.path.insert(0, "src"); sys.path.insert(0, "scripts/refined_kauffman")
 import numpy as np
@@ -226,9 +226,10 @@ def knot_two_box(m):
     return sp.cancel((sub(g["(2,)"]) + sub(g["(1, 1)"])) / zq)
 
 
-def knot_three_box():
-    """trefoil の 3 箱の hatted ĝ_R（E = 0 なので全体が凍結した状態）。"""
+def knot_three_box(m=1):
+    """T(2,2m+1) の 3 箱の hatted ĝ_R（E = 0 なので全体が凍結した状態）。m ≥ 2 は続き 139。"""
     import rk_b_3box_structure as B3
+    B3.M = m
     with contextlib.redirect_stdout(io.StringIO()):
         gh = B3.schur(B3.load("g"), 3, hat=True)
     sub = lambda e: sp.cancel(e.subs({B3.r: r, B3.s: s, B3.nu: nu}, simultaneous=True))
@@ -265,9 +266,12 @@ if __name__ == "__main__":
             test_c2(f"T(2,{2*m+1}) の 2 箱 p₁² hatted の c=2（ν 偶）", parity_split(X, True))
             if ilp:
                 test_ilp(f"T(2,{2*m+1}) の 2 箱 p₁² hatted の c=1", parity_split(X, False))
-    if "three" in which:
-        for lam, X in knot_three_box().items():
-            test_c1(f"T(2,3) の 3 箱 ĝ_{lam} の c=1（ν 偶）", parity_split(X, True), verbose)
-            test_c2(f"T(2,3) の 3 箱 ĝ_{lam} の c=2（ν 奇）", parity_split(X, False))
+    for a in which:                                   # "three"（trefoil）、"three:2"（T(2,5)）など
+        if not a.startswith("three"):
+            continue
+        m = int(a.split(":")[1]) if ":" in a else 1
+        for lam, X in knot_three_box(m).items():
+            test_c1(f"T(2,{2*m+1}) の 3 箱 ĝ_{lam} の c=1（ν 偶）", parity_split(X, True), verbose)
+            test_c2(f"T(2,{2*m+1}) の 3 箱 ĝ_{lam} の c=2（ν 奇）", parity_split(X, False))
             if ilp:
-                test_ilp(f"T(2,3) の 3 箱 ĝ_{lam} の c=1", parity_split(X, True))
+                test_ilp(f"T(2,{2*m+1}) の 3 箱 ĝ_{lam} の c=1", parity_split(X, True))
