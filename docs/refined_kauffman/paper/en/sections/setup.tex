@@ -54,10 +54,10 @@ in which the holonomy side carries the $D_n$-type parameters $(\pm1, \pm q^{1/2}
 \end{equation}
 Here $\langle F(x)\rangle_{\SO(2N)}$ is the linear map that expands a class function $F$ of the holonomy eigenvalues $x = (x_1, \dots, x_N)$ in Koornwinder polynomials $K_\mu(x; q, t; 1, -1, q^{1/2}, -q^{1/2})$ and replaces each term by the refined Chern--Simons knot invariant $W_\mu(K)$ (normalized as in \S\ref{sec:uniform}): $F = \sum_\mu c_\mu K_\mu(x)$ gives $\langle F\rangle := \sum_\mu c_\mu W_\mu(K)$. In the unrefined theory this is the path-integral expectation value of the Wilson loop, in which $x$ is integrated out. The sum in \eqref{eq:Z} runs over all $d$ (``all-$d$''), not only over odd $d$ as in \cite{Marino09}; the two are related in \eqref{eq:odd} below.
 
-Since $(1 - x_iy_j^{-1}) = -x_iy_j^{-1}(1 - y_jx_i^{-1})$, the right-hand side of \eqref{eq:mimachi} with $n = N$ equals $(-1)^{Nm}(\prod_j y_j)^{-N}\prod_{i,j}(1 - y_jx_i)(1 - y_jx_i^{-1})$. Reading the identity with $m$ probes on the $y$ side and $N$ holonomies on the $x$ side, the kernel of \eqref{eq:Z} is therefore
+Since $(1 - x_iy_j^{-1}) = -x_iy_j^{-1}(1 - y_jx_i^{-1})$, the right-hand side of \eqref{eq:mimachi} with $n = N$ equals $(-1)^{Nm}(\prod_j y_j)^{-N}\prod_{i,j}(1 - y_jx_i)(1 - y_jx_i^{-1})$. Reading the identity with $m$ probes on the $y$ side and $N$ holonomies on the $x$ side, and relabelling the summation by the partition $m^N - \mu$ on the holonomy side (so that $(-1)^{|\mu|}$ becomes $(-1)^{Nm - |\mu|}$, which cancels the sign $(-1)^{Nm}$), the kernel of \eqref{eq:Z} is therefore
 \begin{equation}\label{eq:Zexpand}
 \begin{aligned}
-\tilde Z(Y) &= \sum_{\mu \subseteq m^N} (-1)^{|\mu| + Nm}\, W_\mu(K)\, \hat K_{\mu'}(Y; t, q; U),\\
+\tilde Z(Y) &= \sum_{\mu \subseteq m^N} (-1)^{|\mu|}\, W_\mu(K)\, \hat K_{\mu'}(Y; t, q; U),\\
 \hat K_{\mu'}(Y; t, q; U) &:= \Bigl(\prod_\alpha y_\alpha\Bigr)^N K_{N^m - \mu'}(Y; t, q; 1, -1, q^{1/2}, -q^{1/2}),\qquad U = t^N.
 \end{aligned}
 \end{equation}
@@ -149,8 +149,8 @@ For the unknot, $f_{10} = (1 - t^N)(t^N + t)/(t^N(t-1))$ and $f_{a0} = 0$ for $a
 \begin{equation}\label{eq:f10}
 f_{10} = -1 - \frac{\lambda - \lambda^{-1}}{t^{1/2} - t^{-1/2}},
 \end{equation}
-the sum of the unknot of \cite{Marino09}, $(\lambda - \lambda^{-1})/z$, and the crosscap term $-1$. In our conventions $g_{\yone}$ is minus the mirror of the crosscap invariant of \cite{Marino09} (Result \ref{cr:marino}), so $-1$ corresponds to the value $g_{\yone} = 1$ of \cite{Marino09} for the unknot. The product formula is $\prod_j (y_j^{\pm}; t)_\infty / (U y_j^{\pm}; t)_\infty$; neither the factor $\tfrac12$ nor the restriction to odd $d$ is needed.
+the sum of the unknot of \cite{Marino09}, $(\lambda - \lambda^{-1})/z$, and the crosscap term $-1$. In our conventions $g_{\yone}$ is minus the mirror of the crosscap invariant of \cite{Marino09} (Result \ref{cr:marino}), so $-1$ corresponds to the value $g_{\yone} = 1$ of \cite{Marino09} for the unknot. The product formula is $\prod_j (y_j; t)_\infty (t y_j/U; t)_\infty / \bigl((U y_j; t)_\infty (t y_j; t)_\infty\bigr)$; neither the factor $\tfrac12$ nor the restriction to odd $d$ is needed.
 \end{proposition}
 \begin{proof}
-At $x = t^\rho$, $x_k = t^{N-k}$, the kernel is $\prod_j\prod_{k=1}^{N}(1 - t^{N-k}y_j)(1 - t^{N-k}y_j^{-1})$; take the logarithm and apply \eqref{eq:extract}.
+At $x = t^\rho$, $x_k = t^{N-k}$, the kernel is $\prod_j\prod_{k=1}^{N}(1 - t^{N-k}y_j)(1 - t^{k-N}y_j)$; take the logarithm and apply \eqref{eq:extract}.
 \end{proof}

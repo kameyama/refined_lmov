@@ -88,3 +88,21 @@
 ## 総合評価
 
 結果の中身（整数性、普遍因子、符号の性質の範囲）に関わる誤りは見つからなかった。見つかった誤りは A1〜A6 の式の書き方で、計算結果は変わらない。ただし A3（$g^{\mathrm{true}}$ の符号）は §2・§5・§8 をまたぐ規約の不整合で、読者が (5.2) を §2 の定義から再現しようとすると符号が合わない。A1・A2・A4 と合わせて、定義を追って再計算する読者が最初につまずく場所なので、投稿前に直す必要がある。
+
+---
+
+## G. 判定と対応（2026-11-10、続き 148）
+
+ユーザーの指示で A1〜A6 を本文に反映した。B・C・D は未対応。
+
+| 番号 | 対応 |
+|---|---|
+| A1 | setup.tex：(2.3) の符号を $(-1)^{|\mu|}$ にし、和の添字の置き直しで $(-1)^{Nm}$ が打ち消すことを 1 文で補った。 |
+| A2 | setup.tex：Proposition 2.7（unknot）の積公式を $\prod_j (y_j;t)_\infty(ty_j/U;t)_\infty/((Uy_j;t)_\infty(ty_j;t)_\infty)$ に、証明の核を $(1-t^{N-k}y_j)(1-t^{k-N}y_j)$ にした。 |
+| A3 | torus.tex：Hypothesis 5.1 を $f_{\yone} = -W_{\SO} = -\tfrac12 h_{\yone} + g_{\yone}$（$\tfrac12 f^{\cov}_{\yone} = -\tfrac12 h_{\yone}$）に、$g^{\mathrm{true}}_{\yone} = -(t/q)^{\delta/2}g_{\yone}$ にして、符号の取り方（$W_{\SO} - \tfrac12 h$、unknot で $+1$）を書いた。(5.2) と生成ファイルは変えていない。sp.tex：(8.2) を $\Delta = 1 - \mathrm{even}_{\ba}(g^{\SO}_{\yone})$ にし、$g^{\SO}_{\yone}$ が (5.2) の $g^{\mathrm{true}}$ であることと §2 の符号での形を注記した。 |
+| A4 | generalN.tex：非規格化の値 $Z := \{\hat\gamma(P_b)\}$ を (6.1) の後で定義し、§6.1 の 3 か所と (6.2) の $JD$ を $Z$ にした。app_methods.tex：Result A.1(2) と A.2 冒頭も $Z$ に。 |
+| A5 | multibox.tex：ハンドルの寄与は「our convention では $-G$」と書いた。 |
+| A6 | index.tex：「two pairs exchanged by $\tilde I$, one of charge $\omega$ and one of charge $\omega t$」にした。 |
+
+コンパイル：52 ページ、`!` のエラー・未定義の参照・Overfull なし。変更箇所（7, 9, 15, 17, 22 ページのうち 9 と 22）を画像で確認した。
+日本語版（ja_v2）に同じ箇所があるかは調べていない。
