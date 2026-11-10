@@ -106,3 +106,32 @@
 
 コンパイル：52 ページ、`!` のエラー・未定義の参照・Overfull なし。変更箇所（7, 9, 15, 17, 22 ページのうち 9 と 22）を画像で確認した。
 日本語版（ja_v2）に同じ箇所があるかは調べていない。
+
+---
+
+## H. B・C・D の判定と対応（2026-11-10、続き 149）
+
+| 番号 | 判定 | 対応 |
+|---|---|---|
+| B7 | 妥当 | trefoil の 2 箱で確かめた【計算】：$X_1[(1+t)\hat g_R]$ は普遍因子で割り切れ、商の分母は $2\times$ 単項式（$R = (2), (1,1)$）。$\hat g_R|_{t=q}$ の分母は $2(1+q)\times$ 単項式で、$\lambda^2 = q$ で $\hat g_R|_{t=q} = 0$。Conjecture 6.5 の偶数の場合を式 (6.5) で書き、Result 6.4 の形と同値になる条件を添えた。$T(2,5)$–$T(2,9)$・ケーブルの 2 箱で $\hat g_R|_{t=q}$ が $\lambda^2 = q$ で消えるかは調べていない。 |
+| B8 | 妥当 | Hypothesis 3.8 に「unknot の定数 $-1$ は Adams 補正に入れず、$g^{\mathrm{odd}}$ の unknot の値（$p_2$ 方向で $-\tfrac12$）を $C$ から引く」ことを書き、(E2) と本文の「$+1$」の説明を合わせた。 |
+| B9 | 妥当 | 「every block $n_k$ is a Laurent polynomial in $q, t$」に。 |
+| B10 | 妥当 | $g_\rho := \sum_R\chi_R(\rho)g_R$ を定義して $f_\rho$ を $g_\rho$ に。 |
+| B11 | 妥当 | $(1,1), (2,2), (2,3), (3,2)$ を実行して恒等式を確かめた【計算】（$(2,3)$・$(3,2)$ は各約 40 秒）。テストに $(1,1)$・$(2,2)$ を加え、本文は「4 組は自動テスト、$(2,3)$・$(3,2)$ は同じ検査の直接実行」と書いた。 |
+| B12 | 妥当 | progress.md の続き 88 以降の記録どおり、$T(2,7)$・$T(2,9)$ の 2 箱と adjoint は restricted-range。表 4 の 4 行を罫線の下に移し、付録 A.2 の列挙に加えた。 |
+| B13 | 妥当 | 要旨を「two-strand torus knots with up to three boxes (four for the trefoil), $T(3,4)$ in the fundamental representation」に。 |
+| B14 | 妥当 | Result 7.2(4) に、$\Cab{15}$ の $(2)$ と adjoint は補間したが使っていないことを書いた。 |
+| C15 | 妥当 | ケーブルのパラメータを $(\mathsf p, \mathsf q)$ に（cables.tex と表 2）。 |
+| C16 | 妥当 | (B.1) の Kähler 変数を $\mathsf Q$ にし、[AM22] の $(Q, T)$ との区別を書いた。「$q/t - t/q$ in the variables of [AM22]」は削った（原典の記号は【未確認】）。 |
+| C17 | 妥当 | Result C.3 に「$s = p < r$（本文の $T(3,4)$ は $r = 4$, $s = 3$）」と書いた。 |
+| C18 | 妥当 | 2 文を、過去の試行を指さない形に書き直した。 |
+| C19 | 妥当 | Remark 6.6 と付録 B への参照を付けた。 |
+| C20 | 妥当 | §2.2 の unknot を $K_\mu(t^\rho) = \dim_\mu$ に、§2.4 に $P_R(t^\rho)$（$\U(n)$）と $K_R(t^\rho)$（$D_N$）の区別と $\Rred_R = W_R/K_R(t^\rho)$ を書いた。 |
+| C21 | 見送り | 害が無く、第 1 回の対応（$\delta$ = 種数）で入れた説明なので残す。 |
+| C22 | 見送り | 草稿の間は残す。投稿時に消す。 |
+| C23 | 見送り | 軽微。 |
+| D25 | 対応 | Crossref で確認【確認済み】：KNTZ19 は Lett. Math. Phys. 110 (2020) 2573–2583。KN17 は article no. 2041001、オンライン 2020-07-08。**KN17 の巻は Crossref では 32（issue 06、印刷 2023-05）と出るが、論文番号 2041001 の形と合わないので refs.bib には巻を入れていない。著者（ユーザー）の確認が要る。** |
+| D26 | 対応 | Crossref で確認【確認済み】：Cherednik11 は IMRN 2013(23) 5366–5425、LM01 は J. Knot Theory Ramifications 11 (2002) 173–197、CE15 は Ann. Fac. Sci. Toulouse Math. 25 (2016) 433–471、Young16 は Commun. Math. Phys. 380 (2020) 273–322、Witten11 は Quantum Topol. 3, 1–137。AgSh11 は Commun. Math. Phys. 333 (2015) 187–228 だが、掲載版の題名は「Knot homology and refined Chern–Simons index」で arXiv の題名と違う（著者の一致からの同定で、arXiv 番号との対応は Crossref では確認できない）。Witten11 の年は Crossref では 2011-11-06（オンライン）で、refs.bib の 2012 は巻 3 の年としての記入【未確認】。GW05 は Crossref に掲載版が見つからず @misc のまま。 |
+
+refs.bib は ja_v2 と共有なので、日本語版の文献表も同じに変わる。
+コンパイル：53 ページ、`!` のエラー・未定義の参照・Overfull なし。21・33・52 ページを画像で確認した。tests/refined_kauffman/test_rk_koornwinder.py は 2 passed。

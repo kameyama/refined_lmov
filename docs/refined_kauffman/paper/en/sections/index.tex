@@ -92,12 +92,12 @@ where $(x^2)$ denotes the Adams operation $\psi^2$ on all variables and the seco
 Two conditions on $E$ are used throughout the paper:
 \begin{itemize}
 \item[(E1)] $E|_{t=-1} = [2(1+t)g]_{t=-1}$ [derived: Proposition \ref{prop:EC}];
-\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} [Hypothesis \ref{hyp:E2}].
+\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} with its unknot value subtracted [Hypothesis \ref{hyp:E2}].
 \end{itemize}
 \begin{hypothesis}\label{hyp:E2}
-At $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}.
+At $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}. The constant $-1$ of the unknot \eqref{eq:f10} is excluded from the Adams correction: for the unknot $g_{a0} = 0$ for $a \ge 2$, so $E = C = 0$ there, and the unknot value of $g^{\mathrm{odd}}$ ($-\tfrac12$ in the $p_2$ direction) is subtracted from $C$, as in the comparison with \cite{Marino09} in Result \ref{cr:marino}.
 \end{hypothesis}
-Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ removes the crosscap constant of the unknot \eqref{eq:f10}. When $E$ is determined by (E1) and (E2) in this paper, it is by solving these conditions, together with the parity and bound constraints of Appendix \ref{app:ilp}, as an integer linear program.
+Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ is the exclusion of the unknot constant stated in Hypothesis \ref{hyp:E2}. When $E$ is determined by (E1) and (E2) in this paper, it is by solving these conditions, together with the parity and bound constraints of Appendix \ref{app:ilp}, as an integer linear program.
 
 \subsection{Closed strings}
 For closed strings there are only two kinds of states, $\mathbb{P}^1$ (an invariant state with $\varepsilon = +1$) and $\mathbb{RP}^2$ (a frozen state), with no cancellation between them, so $E$ and $C$ are unique and \eqref{eq:alld} can be tested directly. The $D_N$ product formula of the partition function reproduces the three terms of the free energy of \cite{AgSc12}, which are the closed-string version of \eqref{eq:alld}, and the ``Klein bottle'' term of \cite{AM22} is a rearrangement of the frozen-state term; see Appendix \ref{app:closed}. The ambiguity of Proposition \ref{prop:EC} first arises for open strings.
