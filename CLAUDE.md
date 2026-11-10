@@ -5,13 +5,12 @@
 | テーマ | 内容 | 入口（最初に読む） | 進捗 | 規約 |
 |---|---|---|---|---|
 | framed_knot | Kameyama–Nawata（arXiv:1703.05408）の refined large N duality を、トーラス結び目以外の結び目と framed knot に拡張し、refined LMOV 不変量の正値性を検証する | docs/framed_knot/progress.md | 同左 | docs/framed_knot/conventions.md |
-| dgr_lmov | DGR・四重次数型の構造を refined LMOV 不変量で表し、unrefined のデータから refined の非長方形の彩色を構成する（2026-10-11 開始） | docs/dgr_lmov/README.md と CLAUDE.md | docs/dgr_lmov/progress.md | framed_knot と共通 |
+| dgr_lmov | DGR・四重次数型の構造を refined LMOV 不変量で表し、unrefined のデータから refined の非長方形の彩色を構成する（2026-10-11 開始） | docs/dgr_lmov/README.md | docs/dgr_lmov/progress.md | framed_knot と共通 |
 | refined_kauffman | refined Kauffman 多項式（SO/Sp 側）の large N duality（2026-10-14 開始） | docs/refined_kauffman/README.md | docs/refined_kauffman/progress.md | docs/refined_kauffman/conventions.md |
 
-- 古い文書では framed_knot を「本研究」、dgr_lmov を「別の研究」「第 2 の研究」、refined_kauffman を「第 3 の研究」と書いている。
-- テーマ固有の規則は次の場所にある。framed_knot は .claude/rules/framed_knot.md、dgr_lmov は docs/dgr_lmov/README.md と docs/dgr_lmov/CLAUDE.md、refined_kauffman は docs/refined_kauffman/README.md（論文の書き方は .claude/rules/refined_kauffman_paper.md）。
+- テーマ固有の規則は .claude/rules/ にテーマ名のファイルで置く。そのテーマのファイルを開くと読み込まれる。
 - 正値性の扱いはテーマごとに違う。あるテーマの規則（例：framed_knot の open_problems.md §F）を別のテーマに持ち込まない。
-- dgr_lmov の「unrefined から refined の [2,1]・[3,1] を一意に予想する」方向は、2026-10-14 にユーザーが打ち切りと判断した。この方向の計算は、ユーザーの指示なしに新しく始めない（理由は docs/dgr_lmov/CLAUDE.md）。
+- dgr_lmov の「unrefined から refined の [2,1]・[3,1] を一意に予想する」方向は、2026-10-14 にユーザーが打ち切りと判断した。この方向の計算は、ユーザーの指示なしに新しく始めない（理由は .claude/rules/dgr_lmov.md）。
 
 # 作業を始めるとき
 1. 依頼がどのテーマの作業かを判断する。判断できなければユーザーに尋ねる。

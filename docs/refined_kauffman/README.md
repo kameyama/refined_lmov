@@ -1,6 +1,6 @@
-# 第 3 の研究：refined Kauffman 多項式の large N duality（2026-10-14 開始）
+# refined_kauffman：refined Kauffman 多項式の large N duality（2026-10-14 開始）
 
-このディレクトリは、本研究（KN 1703.05408 の検証、docs/framed_knot/）とも、第 2 の研究（DGR・四重次数型の構造、docs/dgr_lmov/）とも**別の研究**の文書である。
+このディレクトリは、framed_knot（KN 1703.05408 の検証、docs/framed_knot/）とも、dgr_lmov（DGR・四重次数型の構造、docs/dgr_lmov/）とも別のテーマの文書である。
 ユーザーの指示（2026-10-14）：「3 つめの研究として Refined Kauffman の large N duality を研究せよ。ディレクトリは新しく分けよ。
 Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果がある。これはうまくいかなかったが同じ方向性で研究せよ。
 まずは unrefined の Kauffman の large N duality を調べ、そののち過去の試行錯誤にミスがないか調査せよ。」
@@ -10,13 +10,7 @@ Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果�
 - 過去の試行錯誤（2018 年 7〜10 月、Mathematica ノートブック 42 本。場所：`/Users/masaya/Library/CloudStorage/Dropbox/Mathematica/Refined Kauffman/`、git の外）と同じ方向で進める。まず unrefined の構造を固め、次に過去の計算のミスの有無を調べる。
 
 ## 規則
-共通の規則（CLAUDE.md の研究上のルール）はこの研究にも適用する：主張の分類（【導出】【計算（範囲）】【予想】【仮説】）、文献情報の原典確認、既知の結果を成果として書かないこと、場当たり的な調整の禁止、自動テスト、外部への送信の事前許可、停止点での報告。
-
-この研究に固有の点：
-- 対象は Kauffman（SO/Sp）側なので、本研究の docs/framed_knot/open_problems.md §F（rCS の正値性の扱い）や docs/framed_knot/conventions.md の U(N) 固有の規約はそのままは適用しない。規約はこのディレクトリの conventions.md に別に定める（unrefined は Mariño の規約を基準にする）。
-- unrefined の Kauffman の BPS 不変量（Mariño の \hat N_{R,g,c,β}）は整数だが正とは限らない。refined 版で何に正値性を課すかは、unrefined の構造を固めてから決める（研究計画 K2 以降）。
-- refined では正値性を期待する（2026-10-19、ユーザーの指示）。unrefined のクロスキャップの BPS 数の符号は β ごとに変わる（ε_β）ので、refined の正値性は「ブロックごとに ε_β と同じ符号にそろう」こととして判定する（report.md §8 の予想）。unrefined で符号が混在することを、refined で正値性を期待しない理由にしない。
-- 過去のノートブックは読むだけで書き換えない。再現はこのリポジトリの Python（src/rcsknots/）か Sage で行い、tests/ で照合する。
+共通の規則は CLAUDE.md、このテーマに固有の規則は .claude/rules/refined_kauffman.md、論文の書き方は .claude/rules/refined_kauffman_paper.md にある。
 
 ## ファイル
 | ファイル | 内容 |
@@ -41,4 +35,4 @@ Dropbox の『Mathematica/Refined Kauffman』に過去の試行錯誤の結果�
 1. progress.md の先頭「現在の状況（再開用）」を読む。§0 に別の PC・別のセッションで再開する手順（clone するブランチ、Python と TeX の環境、データ、文献、ユーザーとの取り決め）、§1 に論文の段階、§2 に研究の到達点と次の候補、§4 に試して失敗した方法がある。
 2. 論文の作業なら paper/ja_v2/（本体）と paper/claims.md（主張と根拠）を読む。書き方の規則は .claude/rules/refined_kauffman_paper.md。
 3. research_plan.md の状態の表と停止点は 2026-10-18 時点のもので、それ以降の進み方は progress.md に記録してある。
-4. 規約は conventions.md（この研究固有）。本研究の docs/framed_knot/conventions.md は U(N) 側の参照用。
+4. 規約は conventions.md（この研究固有）。docs/framed_knot/conventions.md は U(N) 側の参照用。

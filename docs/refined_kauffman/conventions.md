@@ -1,4 +1,4 @@
-# 規約（第 3 の研究：refined Kauffman）
+# 規約（refined_kauffman）
 
 作成 2026-10-14。unrefined は Mariño 0904.1088 の規約を基準にする（literature.md §1.1）。refined の規約は、計算に入る前（研究計画 K2）に確定する。
 
@@ -15,7 +15,7 @@
 | 基底変換 | \hat h = M^{−1} h、\hat g = M^{−1} g、M_{RS} = Σ_μ z_μ^{−1} χ_R(C_μ) χ_S(C_μ) Π_i (t^{μ_i} − t^{−μ_i})/(t − t^{−1}) |
 | 整数性 | \hat h_R = z^{−1} Σ N^{c=0} z^{2g} ν^Q、\hat g_R = Σ (N^{c=1} z^{2g} + N^{c=2} z^{2g+1}) ν^Q |
 
-KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = −1 で a ↔ ν、q ↔ t（Mariño の t は KN の q に当たる）。本研究の docs/conventions.md を参照。
+KN（framed_knot）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = −1 で a ↔ ν、q ↔ t（Mariño の t は KN の q に当たる）。docs/framed_knot/conventions.md を参照。
 
 ## refined（未確定）
 - 候補となる入力：AS 1202.4456 の SO(2N) refined CS（変数 q, t、N）、GW/NRZ の Kauffman 超多項式（λ, q, t）、Cherednik の B/C 型 hyperpolynomial、Cherednik–Elliot の composite 超多項式。
@@ -90,5 +90,5 @@ KN（本研究）の変数 (a, q, t) との対応：KN の unrefined は 𝐭 = 
 | 𝓡_R(N) | 簡約した不変量 | R_λ(N) | 記号 R の衝突を避ける |
 | 𝖿 | framed unknot の framing | x | brane–image のセクター x との衝突を避ける |
 - 判断：KN の被覆の 𝐚_KN をそのまま SO 側に使うと、c = 2 部分（λ の奇数冪）に 𝐭 の半整数冪が入るので、SO 側の 𝐚 は AgSc の 𝐚 = λ にした。KN との関係は 𝐚_KN = 𝐚 (t/q)^{1/4} の一本で済む。
-- 判断：G の符号は本研究の G = z_q z_t のままにした（KN の G 展開の変数とは (−1)^g だけ違う。ブロックの符号のそろい方の記述が G = z_q z_t に基づくため）。
+- 判断：G の符号はframed_knot の G = z_q z_t のままにした（KN の G 展開の変数とは (−1)^g だけ違う。ブロックの符号のそろい方の記述が G = z_q z_t に基づくため）。
 - 理論文書（theory_orientifold_index.md など）と progress.md は内部変数のままなので、論文と照合するときは上の表で読み替える。

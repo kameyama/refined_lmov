@@ -1,4 +1,4 @@
-# 研究計画：refined Kauffman 多項式の large N duality（第 3 の研究、2026-10-14 作成）
+# 研究計画：refined Kauffman 多項式の large N duality（refined_kauffman、2026-10-14 作成）
 
 規則は README.md。文献は literature.md、2018 年の試行の整理は past_attempt.md。
 

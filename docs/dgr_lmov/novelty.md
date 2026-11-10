@@ -1,6 +1,6 @@
-# 新規性と既知の結果：DGR・四重次数型の構造と refined LMOV（別の研究）
+# 新規性と既知の結果：DGR・四重次数型の構造と refined LMOV（dgr_lmov）
 
-2026-10-11 に docs/framed_knot/novelty_report.md の §11 から移した。本研究で既知とされた結果（novelty_report.md）は、この研究でも成果として書かない。
+2026-10-11 に docs/framed_knot/novelty_report.md の §11 から移した。framed_knotで既知とされた結果（novelty_report.md）は、この研究でも成果として書かない。
 
 ## 1. 文献との関係（2026-10-11、文献確認はサブエージェントによる）
 
@@ -31,7 +31,7 @@
 | 主張 | 判定 | 根拠 |
 |---|---|---|
 | G 展開が閉じる ⇔ \hat f の σ: (a,q,t) ↦ (a,1/t,1/q) 不変性 ⇔ KN の整合条件 f^{\bar t} = M(q^{−1})\hat f（GT1 と GT2 は σ で移り合う） | 新規と思われる（構成要素は KN の式） | KN (refined-GT1)(refined-GT2) と unreduced のミラー対称性から導出（report.md §11.2） |
-| [1] の既約表示（SU(2)_L の指標）の非負性 | 既知の定理の帰結（GHM 2103.01212 Cor. sl2 intro、Chandler–Gorsky 2209.13058 main.tex:198 の単峰性）。本研究の open_problems B1 にも記載済み | 成果として書かない。801 結び目での計算は確認 |
+| [1] の既約表示（SU(2)_L の指標）の非負性 | 既知の定理の帰結（GHM 2103.01212 Cor. sl2 intro、Chandler–Gorsky 2209.13058 main.tex:198 の単峰性）。framed_knotの open_problems B1 にも記載済み | 成果として書かない。801 結び目での計算は確認 |
 | 彩色の既約表示の非負性（予想 S、\|ρ\| ≤ 9 のトーラス結び目、\|ρ\| ≤ 3 の代数的なケーブルと 4_1） | 新規と思われる | 文献で「colored LMOV の unimodality」に当たる記述は未調査（要調査） |
 | 最大 genus の項 ＝ 最大スピンの項 | 小さな導出（成果として強調しない） | §12.1 |
 | a = t^N q^{−M} ＝ gl(N\|M) の切り詰め（DGR・GGS の微分の点の統一） | Macdonald の主特殊化の積公式の直接の帰結 | 新規とは主張しない（§1 の表の d_{±1} の既知の結果と同じ扱い） |

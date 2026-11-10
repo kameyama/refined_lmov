@@ -1,8 +1,8 @@
-# 研究計画：DGR・四重次数型の構造と refined LMOV（別の研究、2026-10-11 作成、同日 D7〜D11 と S0〜S6 を追加）
+# 研究計画：DGR・四重次数型の構造と refined LMOV（dgr_lmov、2026-10-11 作成、同日 D7〜D11 と S0〜S6 を追加）
 
-この研究の規則と、本研究（KN の検証）との違いは README.md。
+この研究の規則と、framed_knot（KN の検証）との違いは .claude/rules/dgr_lmov.md。
 
-本研究の計画（docs/framed_knot/research_plan*.md）とは独立の、別の研究の計画。ユーザーの指示：
+framed_knotの計画（docs/framed_knot/research_plan*.md）とは独立の、別の研究の計画。ユーザーの指示：
 - 「DGR や quadruply graded homology のような考え方を refined LMOV invariant の spin 表示や genus 表示でできるか研究せよ」
 - 「今回の研究について既存の計画とは別に計画を用意し成果を記録しながら進めよ」
 - 「見つけた構造と unrefined lmov のデータから refined lmov が構成できるか。refined large N の式を逆向きに解いて refined lmov のデータから rCS が計算できるか。それが既存の rCS に一致するか。まだ計算されたことのない値はどうなるか。以上を計画に加えよ」（D7〜D10）
@@ -90,7 +90,7 @@ docs/dgr_lmov/report.md §1〜§9 に記録した。主な内容：
   5. 2J_r の偶奇。
   6. 商 R_ρ（したがって \hat f_ρ）の両表示での非負性。
 - 手法：整数計画（既存の scripts/framed_knot/construct_superpolynomial.py, t4_ilp.py と同じ型）。解の数を数え、一意かどうか、一意でなければ解の空間の次元を記録する。
-- **rCS の正値性**（2026-10-11 改訂）：本研究の open_problems §F の規則（rCS の候補に正値性を課さない）は、この研究には適用しない（ユーザーの指示「今回は研究自体が異なるので衝突しない」）。Poincaré 多項式である対称表現などの rCS には正値性を課してよい。非長方形の rCS（[2,1] など）は負の係数をもつので、正値性は課さない（数学的な理由）。
+- **rCS の正値性**（2026-10-11 改訂）：framed_knotの open_problems §F の規則（rCS の候補に正値性を課さない）は、この研究には適用しない（ユーザーの指示「今回は研究自体が異なるので衝突しない」）。Poincaré 多項式である対称表現などの rCS には正値性を課してよい。非長方形の rCS（[2,1] など）は負の係数をもつので、正値性は課さない（数学的な理由）。
 - **LMOV の正値性（条件 6）は条件に使ってよい**（2026-10-11、ユーザーの指示「この計画では refined LMOV に正値性は課して良い。今回は KN の検証をする計画ではなく新しい研究である」）。
   - この計画の目的は、構造から refined LMOV と rCS を構成することで、KN の予想の検証ではない。
   - 条件 1〜6 を全て使ってよい。記録では、解を決めるのに効いた条件を書く（どの条件を外すと解が増えるか）。

@@ -1,7 +1,27 @@
-# docs/dgr_lmov/ で作業するときの指針
+---
+paths:
+  - "docs/dgr_lmov/**"
+  - "scripts/dgr_lmov/**"
+  - "tests/dgr_lmov/**"
+  - "data/dgr_lmov/**"
+  - "logs/dgr_lmov/**"
+  - "src/rcsknots/dgr_lmov/**"
+---
+# dgr_lmov の規則
 
-この指針は「unrefined の LMOV（t = q の彩色 HOMFLY-PT）から refined の非長方形の彩色（[2,1], [3,1]）を一意に予想する」研究について、
-2026-10-14 時点の結論を記録したものである（ユーザーの判断）。この研究の規則は README.md、記録は report.md・progress.md・open_problems.md・novelty.md にある。
+目的・文書・コードの一覧は docs/dgr_lmov/README.md。規約は framed_knot と共通（docs/framed_knot/conventions.md）。
+
+## framed_knot との違い
+| 項目 | framed_knot | dgr_lmov |
+|---|---|---|
+| 目的 | KN の正値性予想の検証 | 新しい構造の発見と、構造からの構成・予言 |
+| refined LMOV の正値性 | 検証の対象（予言として確かめる） | 構成の条件に使ってよい（2026-10-11、ユーザーの指示「この計画では refined LMOV に正値性は課して良い。今回は KN の検証をする計画ではなく新しい研究である」） |
+| rCS の正値性 | rCS の候補を選ぶ際に課さない（docs/framed_knot/open_problems.md §F） | §F は適用しない（2026-10-11、ユーザーの指示「今回は研究自体が異なるので衝突しない」）。Poincaré 多項式である rCS（対称表現など）には課してよい。非長方形の rCS は負の係数をもつので、数学的な理由で課さない |
+| 停止点 | docs/framed_knot/research_plan*.md | docs/dgr_lmov/research_plan.md の §3 |
+
+framed_knot の novelty_report.md で既知とされた結果は、このテーマでも成果として書かない。
+
+以下は「unrefined の LMOV（t = q の彩色 HOMFLY-PT）から refined の非長方形の彩色（[2,1], [3,1]）を一意に予想する」方向について、2026-10-14 時点の結論を記録したものである（ユーザーの判断）。記録は docs/dgr_lmov/ の report.md・progress.md・open_problems.md・novelty.md にある。
 
 ## 結論：この方向の研究は筋が悪い
 
@@ -36,7 +56,7 @@ unrefined のデータから refined の [2,1]・[3,1] を一意（高々 O(1) �
 - 仮説 H_u″（P 正規化の hook の Schur 係数の冪級数の非負性、代数的な結び目で 6 箱まで）。Mellit の定理の非長方形への拡張の予想。文献調査と導出が先。
 - 予想 S（彩色の既約表示の非負性）、framed の refined LMOV の正値性、予想 R（𝐭 の両端の線の規則）。
 - 【導出】G 展開が閉じる ⇔ σ 不変 ⇔ KN の整合条件。核 Φ·g による「unrefined が見ない自由度」の特徴づけ。
-- 本研究の側の命題 2（2 箱の Laurent 性 ⇒ dim H^{[2]} = (dim H^{[1]})²）と 9_42 の説明。
+- framed_knot の側の命題 2（2 箱の Laurent 性 ⇒ dim H^{[2]} = (dim H^{[1]})²）と 9_42 の説明。
 
 ## 作業上の注意
 

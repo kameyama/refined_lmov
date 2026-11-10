@@ -2,12 +2,12 @@
 
 ## 現在の状況（再開用、2026-10-09 更新）
 
-- **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中を本研究 `framed_knot/` と別の研究 `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
+- **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中をテーマ `framed_knot/` と `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
   文書・コード・テスト・ログ中のパス文字列は新しい配置に書き換えた。スクリプトの実行は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov`。
   git 管理外の途中結果（data/cache/ は共有のまま。本体のチェックアウトにある data/highbox/ と data/framing/ は data/framed_knot/ の下に手で移す）。
 
 **2026-10-09 時点の要約**（全体の整理は docs/framed_knot/REPORT_overview.md）
-- **別の研究：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：本研究（KN の検証）とは目的も規則も異なる別の研究として docs/dgr_lmov/ にまとめた（入口は docs/dgr_lmov/README.md、計画 research_plan.md、報告 report.md、進捗 progress.md、未解決 open_problems.md、新規性 novelty.md）。要点：普遍因子 D と商 R_ρ の正値性、σ ＝ SU(2)_L の Weyl 反転で G 展開が閉じる ⇔ KN の整合条件、既約表示の正値性（予想 S、[1] は定理）、非 refined のデータからの構成は 2 箱の thin な結び目（トーラス・ツイスト・ダブルツイスト）で一意、3 箱の [2,1] は三葉結び目・4_1 のみ一意で T(2,5) 以上は決まらない（停止中）。
+- **dgr_lmov：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：framed_knot（KN の検証）とは目的も規則も異なるテーマとして docs/dgr_lmov/ にまとめた（入口は docs/dgr_lmov/README.md、計画 research_plan.md、報告 report.md、進捗 progress.md、未解決 open_problems.md、新規性 novelty.md）。要点：普遍因子 D と商 R_ρ の正値性、σ ＝ SU(2)_L の Weyl 反転で G 展開が閉じる ⇔ KN の整合条件、既約表示の正値性（予想 S、[1] は定理）、非 refined のデータからの構成は 2 箱の thin な結び目（トーラス・ツイスト・ダブルツイスト）で一意、3 箱の [2,1] は三葉結び目・4_1 のみ一意で T(2,5) 以上は決まらない（停止中）。
 - **箱数を増やした検証（2026-10-10、ユーザーの指示「トーラス結び目は 9 箱程度まで（1 回 10 分以内）、4_1 は 4 箱まで」）**：下の「2026-10-10 箱数を増やした検証」。
   トーラス結び目は計算した全ての (結び目, 箱数, ρ) で G 展開の前後とも負の項 0【計算】（表は data/framed_knot/highbox_summary.md）。
   4_1 の 4 箱は [3,1] が未知のため弱い判定：σ = −1 は解なし、σ = +1 は前後の正値性を満たす有理数解が存在、整数解は 50 分の MILP で見つからず未決【計算】。

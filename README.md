@@ -8,7 +8,7 @@ refined Chern–Simons 不変量と refined BPS（LMOV）不変量について�
 | dgr_lmov | DGR・四重次数型の構造と refined LMOV 不変量 | [README.md](docs/dgr_lmov/README.md) |
 | refined_kauffman | refined Kauffman 多項式の large N duality | [README.md](docs/refined_kauffman/README.md) |
 
-古い文書では framed_knot を「本研究」、dgr_lmov を「別の研究」、refined_kauffman を「第 3 の研究」と書いている。作業の規則は [CLAUDE.md](CLAUDE.md)。
+作業の規則は [CLAUDE.md](CLAUDE.md) と .claude/rules/。
 
 ## 構成
 

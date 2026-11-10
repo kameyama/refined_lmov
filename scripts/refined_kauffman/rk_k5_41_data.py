@@ -1,4 +1,4 @@
-r"""二重ツイスト結び目 K_{m,n} の refined の reduced 不変量を、本研究の data と同じ形式（KN の小文字 (A, Q, T) の指数、framing 0、
+r"""二重ツイスト結び目 K_{m,n} の refined の reduced 不変量を、framed_knot の data と同じ形式（KN の小文字 (A, Q, T) の指数、framing 0、
 (N1)+(N2) の規格化）で data/refined_kauffman/torus/{名前}_{彩色}.json に書く。使い方：python scripts/rk_k5_41_data.py [名前 m n]（既定は 4_1 −1 1）。
 名前と (m, n) の対応は KNTZ 1902.02275 の図 1（Cyclotomic-Rectangular.tex :521-531 で確認）：3_1 = K_{1,1}, 4_1 = K_{−1,1}, 5_2 = K_{2,1},
 6_1 = K_{−2,1}, 7_2 = K_{3,1}, 7_4 = K_{2,2}, 8_1 = K_{−3,1}, 8_3 = K_{−2,2}。

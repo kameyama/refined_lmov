@@ -265,6 +265,6 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 書いてはいけないこと（追加）：refined の framing の因子の形（Taki・Cheng–Sułkowski）、単一ブレーンの refined open BPS の非負性、quiver の framing のシフト、非 refined の framed の整数性。
 未確認：Cheng–Sułkowski の掲載頁。KN の書誌（INSPIRE は J. Knot Theory Ramifications 32 (2023) 2041001、DOI 10.1142/S0218216520410011 は 2020 年の巻を示唆。§5 の記載とあわせて要再確認）。
 
-## 11. DGR 型の構造（別の研究、2026-10-11）
+## 11. DGR 型の構造（dgr_lmov、2026-10-11）
 
 docs/dgr_lmov/novelty.md に移した。
