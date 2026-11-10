@@ -1,76 +1,57 @@
-# プロジェクト概要
-Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は、主にトーラス結び目・トーラス絡み目について refined Chern–Simons（CS）不変量を resolved conifold 上の refined BPS 不変量 N̂_{R,g,β,J_r} に書き換え、正値性予想を検証した。本研究では、これをトーラス結び目以外の結び目クラスへ拡張する。
-現在の対象：iterated torus 結び目（トーラス結び目のケーブル）。最優先は [(2,3),(2,13)]（代数的）と [(2,3),(2,1)]（非代数的）。
-必要な彩色：|λ| ≤ 3 の全ヤング図形 [1], [2], [1,1], [3], [2,1], [1,1,1]。
-主眼：(1) 1703.05408 の結果の再現による規約の固定、(2) refined ケーブル公式（Rosso–Jones 型の Schur→Macdonald 持ち上げ）と DAHA（Cherednik–Danilenko）の照合、(3) 新しい結び目の refined BPS 不変量の正値性・整数性の判定（代数的 vs 非代数的、長方形 vs [2,1]）。
+# 3 つの研究テーマ
+このリポジトリでは、refined Chern–Simons 不変量と refined BPS 不変量について 3 つのテーマを扱う。コード（src/rcsknots/ 直下）と規約の大半は共有するが、目的と規則はテーマごとに異なる。
+テーマはディレクトリ名で呼ぶ。docs, scripts, tests, data, logs の各ディレクトリと src/rcsknots/ の下に、同じ名前のサブディレクトリがある（framed_knot だけは src/rcsknots/ 直下の共有コードを使う）。
 
-# リポジトリの構成（2026-10-14 に整理）
-docs, src/rcsknots, scripts, tests, data, logs の各ディレクトリの中で、本研究（framed knot への拡張と正値性の検証）のファイルは `framed_knot/`、別の研究（DGR・四重次数型の構造と refined LMOV）のファイルは `dgr_lmov/` に置く（一覧は README.md の「構成」）。
-src/rcsknots/ 直下は両方の研究で共有する計算コード、src/rcsknots/dgr_lmov/ は別の研究だけが使うモジュール。data/cache/ は共有のキャッシュ（追跡しない）。
-スクリプトは `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov` で実行する（dgr_lmov のスクリプトは framed_knot のスクリプトも import する）。
+| テーマ | 内容 | 入口（最初に読む） | 進捗 | 規約 |
+|---|---|---|---|---|
+| framed_knot | Kameyama–Nawata（arXiv:1703.05408）の refined large N duality を、トーラス結び目以外の結び目と framed knot に拡張し、refined LMOV 不変量の正値性を検証する | docs/framed_knot/progress.md | 同左 | docs/framed_knot/conventions.md |
+| dgr_lmov | DGR・四重次数型の構造を refined LMOV 不変量で表し、unrefined のデータから refined の非長方形の彩色を構成する（2026-10-11 開始） | docs/dgr_lmov/README.md と CLAUDE.md | docs/dgr_lmov/progress.md | framed_knot と共通 |
+| refined_kauffman | refined Kauffman 多項式（SO/Sp 側）の large N duality（2026-10-14 開始） | docs/refined_kauffman/README.md | docs/refined_kauffman/progress.md | docs/refined_kauffman/conventions.md |
 
-# セッション開始時に必ず行うこと
-1. docs/framed_knot/progress.md を読み、現在のステージと未完了の作業を把握する。
-2. 作業内容に応じて docs/framed_knot/research_plan.md（ステージ 0〜7 の計算計画）と docs/framed_knot/novelty_report.md（既知の結果と新規性の範囲）を参照する。
-3. 計算に入る前に docs/framed_knot/conventions.md の規約を確認する。
-4. 別の研究「DGR・四重次数型の構造と refined LMOV」（2026-10-11 開始）の作業では、docs/dgr_lmov/README.md を読み、そこに書いた規則に従う。正値性の扱いが本研究と異なり、この研究では open_problems.md §F は適用しない。その研究の進捗は docs/dgr_lmov/progress.md に書く。
-5. 第 3 の研究「refined Kauffman 多項式の large N duality」（2026-10-14 開始）の作業では、docs/refined_kauffman/README.md を読み、そこに書いた規則に従う。規約は docs/refined_kauffman/conventions.md、進捗は docs/refined_kauffman/progress.md に書く。過去の試行錯誤（Dropbox の Mathematica ノートブック）は読むだけで書き換えない。 この研究のファイルは docs/refined_kauffman/、scripts/refined_kauffman/、tests/refined_kauffman/、data/refined_kauffman/、logs/refined_kauffman/、src/rcsknots/refined_kauffman/（この研究だけが使うモジュール：Koornwinder・D_N/C_N の DAHA・flint の有理関数・Kauffman の各計算）に置く。スクリプトは `PYTHONPATH=src:scripts/refined_kauffman` で実行する。
+- 古い文書では framed_knot を「本研究」、dgr_lmov を「別の研究」「第 2 の研究」、refined_kauffman を「第 3 の研究」と書いている。
+- テーマ固有の規則は次の場所にある。framed_knot は .claude/rules/framed_knot.md、dgr_lmov は docs/dgr_lmov/README.md と docs/dgr_lmov/CLAUDE.md、refined_kauffman は docs/refined_kauffman/README.md（論文の書き方は .claude/rules/refined_kauffman_paper.md）。
+- 正値性の扱いはテーマごとに違う。あるテーマの規則（例：framed_knot の open_problems.md §F）を別のテーマに持ち込まない。
+- dgr_lmov の「unrefined から refined の [2,1]・[3,1] を一意に予想する」方向は、2026-10-14 にユーザーが打ち切りと判断した。この方向の計算は、ユーザーの指示なしに新しく始めない（理由は docs/dgr_lmov/CLAUDE.md）。
 
-# 規約
-- 変数 (a, q, t) の対応（AS・DGR・1703.05408）、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズムの規約、refined BPS 抽出式は docs/framed_knot/conventions.md に従う。
-- 規約を変更する場合は、conventions.md に変更内容と理由を記録し、影響を受けるコードとテストを更新する。
+# 作業を始めるとき
+1. 依頼がどのテーマの作業かを判断する。判断できなければユーザーに尋ねる。
+2. そのテーマの入口の文書と、進捗の先頭にある「現在の状況（再開用）」を読む。
+3. 計算に入る前に、そのテーマの規約を確認する。
 
-# 論文（docs/refined_kauffman/paper/ja、第 2 版は paper/ja_v2）の書き方
-- 第 1 版は paper/ja、第 2 版（2026-11-08 作成。肯定的な結果を本体にし、多箱の否定的な結果は 1 章、brane 2・image 2 の探索は付録）は paper/ja_v2。以後の推敲は ja_v2 で行い、ja は記録として残す。生成ファイル（tex/gen）は両版で共有する。
-- 英語版は paper/en（2026-11-10 作成。ja_v2 の翻訳ではなく、hep-th の論文の形に構成を変えたもの。refs.bib は ja_v2 と共有。同日の 2 回の査読・校正・レビューの指摘と判定は paper/en/review_20261110.md・review_20261110_round2.md）。生成ファイルは tex/gen_en で、`PYTHONPATH=src .venv/bin/python scripts/refined_kauffman/rk_report_tex_en.py` が tex/gen の見出しを英語に置き換えて作る（数式は同じ）。コンパイルは ja_v2 と同じ手順（lualatex → bibtex → lualatex 2 回）。
-- 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。本文に著者の略号や名前を書かない（「KN [KN17]」「AgSc の refined unknot」は誤り。「[KN17]」「[AgSc12] の refined unknot」と書く）。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
-- 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できないので書かない。
-- 数式の中の表現はヤング図で書く（main.tex の \yone, \ytwo, \yoneone, \ythree, \ytwoone, \yoneoneone。youngtab の \yng を \DeclareRobustCommand で包んだもので、caption や見出しでも使える）。例：$g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$。
-- 用語を無理に訳さない。日本語の専門文献で定着している訳語（規格化、被覆、商、鏡像、多重項、二重項、母関数、核、整数計画、Möbius の帯、法束など）だけ日本語にし、それ以外は原語かカタカナで書く（タワー、ハンドル、ツイスト、ストランド、reduced、composite、brane、image、framing、hook など）。「塔」「取っ手」「撚り」「簡約」「走査」「準位」「枠」のような訳語や、「移り目」のような造語は使わない。論文だけの用語は初出で定義する。
-- コンパイルは `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。コンパイル後は、ログに `!` のエラーと「undefined」がないことを確認し、変更した箇所のページを画像にして見る（`gs -sDEVICE=png16m`）。
+# コマンド
+- テスト：`.venv/bin/pytest`（既定は機能テストだけ）。1 ファイルだけなら `.venv/bin/pytest tests/<テーマ>/test_xxx.py`。保存済みの結果の再判定は `-m results`。
+- スクリプト：framed_knot と dgr_lmov は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python scripts/<テーマ>/xxx.py`、refined_kauffman は `PYTHONPATH=src:scripts/refined_kauffman .venv/bin/python scripts/refined_kauffman/xxx.py`。
+- SageMath：`DOT_SAGE=$TMPDIR/dotsage /opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage`（サンドボックス内で動く）。
+- サンドボックス外で動かすもの：`just setup`（環境の再構築）、`just fetch-refs`（論文の取得）、`just wolfram <file.wls>`（Wolfram Engine）。`just` は単独で呼ぶ。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
+- ツールのバージョンと動作確認の詳細は README.md の「環境」節。
 
-# 研究上のルール
+# 研究上のルール（全テーマ共通）
 - 報告とコメントは日本語で書く。
-- 主張はすべて「解析的に導出」「計算機で確認（範囲を明記）」「予想」のいずれかに分類して書く。文献から直接取れなかった式（特に refined ケーブル公式）には「仮説」と明記し、どの検証で裏付けたかを書く。
+- 主張はすべて【導出】【計算（範囲を明記）】【予想】【仮説】のいずれかに分類して書く。文献から直接取れなかった式には【仮説】と明記し、どの検証で裏付けたかを書く。
 - 文献情報（arXiv 番号、DOI、巻・頁）は原典で確認したものだけを書き、確認できないものは「未確認」と明記する。
-- novelty_report.md で既知とされた結果（トーラス結び目の refined 不変量、4_1 の [1]/[2]/[1,1] の BPS 不変量、DAHA による iterated torus の定義など）を、本研究の成果として書かない。
-- 既知の結果と合わせるために係数や符号を場当たり的に調整しない。不一致は原因を特定して conventions.md と progress.md に記録し、特定できない場合は「未解決」と明記する。
-- 照合は tests/ の自動テストにする。対象は、1703.05408 の値の再現、t=q での colored HOMFLY との一致、ブレイドから計算した HOMFLY との一致、DAHA の明示例との一致、R↔Rᵀ の対称性。多項式は全係数を厳密に比較し、数値補間で得たものは補間に使っていない点で検証する。
-- tests/ は機能テストとする。コードが正しく動くことを、小さな入力（数秒程度）で確かめる。主要な結果は、コードとテストが信頼できることによって正しいと判断する。
-  - 保存済みの大きな計算結果を判定し直すテストには `results` の印を付け、既定の実行から外す（pyproject.toml）。内容や理論に問題が出たときだけ `-m results` で実行する。
-  - 主要な結果は、計算時の判定とログを一次の記録として docs/framed_knot/RESULTS.md に整理する。
-- 正値性の判定で重視するのは、\hat f_ρ から得る refined LMOV 不変量の、G 展開の前（太字の係数 \hat𝐍_{ρ;i,j,k}）と後（\hat N_{ρ,g,β,J_r}）の両方での正整数係数性である。f^q, f^{\bar t} の係数は refined LMOV 不変量ではなく、補足にとどめる。
-- ヤング図 [1] は特別に扱う。
-  - [1] では \hat f_{[1]} は原理的に rCS_{[1]} と同一になる（\hat f_{[1]} = (a^{1/2} − a^{−1/2}) rCS_{[1]}）。
-  - したがって [1] の場合に限り、homological な不変量（ホモロジーの Poincaré 多項式として解釈される量）はすべて正整数係数でなければならない。
-  - KN のアプローチに肯定的な立場をとるなら、G 展開ができるかどうか（展開が閉じ、正整数係数になるか）も [1] で確認できなければならない。
-  - 新しい結び目では、まず [1] で G 展開の前と後の両方の正整数係数性を確認し、その結果を彩色付きの判定より先に報告する。
-- 長時間の計算は途中結果を data/ に保存して再開できるようにし、実行時間とメモリを logs/ に記録する。
-- 長時間（目安：1 件 30 分以上）が予想される計算は、実行する前に次の準備を済ませる。準備の内容は実行前に progress.md に書く。
-  - 見積もり：小さい例で時間とメモリを測り、対象の規模から外挿する。見積もりが 24 時間を超えるなら、実行前に報告して確認を求める。
-  - 高速化：重い部分（評価点の数、補間の次数、記号計算の約分など）を特定し、アルゴリズム・キャッシュ・不要な計算の削除で減らせないかを先に検討する。
-  - 再開：停止しても途中から再開できるようにする。彩色ごと・ρ ごと・素数ごと・評価点のまとまりごとなど細かい単位で結果を保存し、保存済みの単位は読み込んで飛ばす。
-  - 分割と並列：独立な単位（結び目、彩色、ρ、素数、評価点のまとまり）に分け、CPU のコア数とメモリの範囲で並列に実行する。
-  - 実行方法：ツールの背景実行の制限時間（最大 2 時間）を超える見込みなら、nohup などの独立プロセスで実行し、ログと完了の目印（最後の行など）を決めておく。
-- 非代数的なケーブルについて、DAHA の値を入力とする正値性の計算（3 箱への拡張や破れ方の分類を含む）は計画に入れない。理由は docs/framed_knot/open_problems.md D5。
-- 作業の区切りごとに docs/framed_knot/progress.md を更新する（日付、やったこと、結果、次にやること、未解決の問題）。
-- 停止点では、必ず作業を止めて報告し、確認を求める。停止点は次のとおり。
-  - ステージ 0 の後（規約表の確定）
-  - ステージ 2 の後（トーラス結び目での 1703.05408 の再現）
-  - ステージ 5 の後（refined ケーブル公式と DAHA の照合。本計算に入る前）
-  - research_plan.md の停止条件に当たったとき
+- 既知の結果を成果として書かない。既知の範囲は各テーマの文献調査（docs/framed_knot/novelty_report.md、docs/dgr_lmov/novelty.md、docs/refined_kauffman/literature.md）にある。
+- 既知の結果と合わせるために係数や符号を場当たり的に調整しない。不一致は原因を特定して、そのテーマの規約と進捗に記録する。特定できない場合は「未解決」と明記する。
+- 規約を変更する場合は、そのテーマの規約の文書に変更内容と理由を記録し、影響を受けるコードとテストを更新する。
+- 照合は tests/ の自動テストにする。多項式は全係数を厳密に比較し、数値補間で得たものは補間に使っていない点で検証する。
+- tests/ は機能テストとし、小さな入力（数秒程度）でコードが正しく動くことを確かめる。保存済みの大きな計算結果を判定し直すテストには `results` の印を付ける。
+- 作業の区切りごとに、そのテーマの進捗を更新する（日付、やったこと、結果、次にやること、未解決の問題）。
+- 各テーマの研究計画に書いた停止点と停止条件では、作業を止めて報告し、確認を求める。
 
-# 外部への送信
-- 計算結果、コード、文書を外部サービス（GitHub などへの push、メール、Slack、共有ドキュメントなど）に送信・公開する場合は、事前に意図と内容を説明して明示的な許可を得る。論文と補助ファイルのダウンロードは許可なしで行ってよい。
+# 長時間の計算（目安：1 件 30 分以上）
+実行する前に次の準備を済ませ、その内容を進捗に書く。
+- 見積もり：小さい例で時間とメモリを測り、対象の規模から外挿する。24 時間を超える見積もりなら、実行前に報告して確認を求める。
+- 高速化：重い部分（評価点の数、補間の次数、記号計算の約分など）を特定し、アルゴリズム・キャッシュ・不要な計算の削除で減らせないかを先に検討する。
+- 再開と分割：独立な単位（結び目、彩色、ρ、素数、評価点のまとまり）ごとに結果を data/ に保存し、保存済みの単位は読み込んで飛ばす。CPU のコア数とメモリの範囲で並列に実行する。
+- 実行方法：背景実行の制限時間（最大 2 時間）を超える見込みなら、nohup などの独立プロセスで実行し、ログと完了の目印を決めておく。実行時間とメモリは logs/ に記録する。
+
+# git と外部への送信
 - ローカルでの git commit は許可なしで行ってよい。意味のある単位でこまめに commit する。
-- **main ブランチへの直接の commit とローカルでのマージは禁止する。main は GitHub の PR を経由してのみ変更する**（2026-10-08、ユーザーの指示）。
-  作業は main 以外のブランチで行い、ブランチを push して PR を作る。PR のマージはユーザーが行うか、ユーザーの指示を受けてから行う。ブランチの push と PR の作成も外部への送信なので、事前に許可を得る。
+- main ブランチへの直接の commit とローカルでのマージは禁止する（2026-10-08、ユーザーの指示）。main は GitHub の PR を経由してのみ変更する。PR のマージはユーザーが行うか、ユーザーの指示を受けてから行う。
+- 計算結果、コード、文書を外部サービスに送信・公開する場合（ブランチの push、PR の作成、メール、Slack、共有ドキュメントなど）は、毎回、事前に意図と内容を説明して明示的な許可を得る。論文と補助ファイルのダウンロードは許可なしで行ってよい。
+- リモートは origin = https://github.com/kameyama/refined_lmov。
 
-# 環境
-- Python：.venv（Python 3.14.8、rcsknots は editable インストール）。テストは `.venv/bin/pytest` で実行する。
-- 環境の再構築は `just setup`、論文の取得は `just fetch-refs`、Wolfram スクリプトの実行は `just wolfram <file.wls>`（どちらもネットワークが要るのでサンドボックス外で動く just レシピ）。`just` は単独で呼ぶこと。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
-- SageMath 10.9：conda 環境 `sage`。`/opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage` で実行する（`DOT_SAGE=$TMPDIR/dotsage` を付ける）。サンドボックス内で動く。
-- Wolfram Engine 15.0.0：`wolframscript` で使える。ただしサンドボックス内ではライセンスを読めず失敗するので、サンドボックス外で実行する。1703.05408 のノートブックは `NotebookImport[file, "Input" -> "HeldExpression"]` で入力セルを取り出して実行できる。読むだけなら `scripts/framed_knot/nb2txt.py` でテキスト化してもよい。
-- サンドボックスは `.git` への書き込みを拒否するので、git の書き込み操作はサンドボックス外で行う（`git -C <repo> ...`）。リモートは GitHub の https://github.com/kameyama/refined_lmov（origin、2026-10-07 にユーザーの指示で設定）。push は外部への送信なので、毎回事前に許可を得る。
-- リポジトリ直下に `refs/`（git の内部ディレクトリと同名）を作ると、サンドボックスの保護機能に作成を拒否され、後で削除される。文献は `references/` に置く。
-- ツールのバージョンと確認内容の詳細は README.md の「環境」節を参照。
+# 環境の注意
+- サンドボックスは `.git` への書き込みを拒否する。git の書き込み操作はサンドボックス外で行う。
+- Wolfram Engine はサンドボックス内ではライセンスを読めず失敗する。サンドボックス外で実行する。
+- リポジトリ直下に `refs/` を作らない（git の内部ディレクトリと同名で、サンドボックスに作成を拒否される）。文献は `references/` に置く。
+- data/cache/ と 4 箱以上の結果（data/framed_knot/highbox/）は git で追跡していない。worktree には無いので、本体のチェックアウトのものを読む。
