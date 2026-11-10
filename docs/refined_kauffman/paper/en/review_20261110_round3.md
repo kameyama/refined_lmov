@@ -135,3 +135,22 @@
 
 refs.bib は ja_v2 と共有なので、日本語版の文献表も同じに変わる。
 コンパイル：53 ページ、`!` のエラー・未定義の参照・Overfull なし。21・33・52 ページを画像で確認した。tests/refined_kauffman/test_rk_koornwinder.py は 2 passed。
+
+---
+
+## I. 文献表を INSPIRE の BibTeX に置き換え（2026-11-10、続き 150、ユーザーの指示）
+
+ユーザーの指示「文献は INSPIRE で調べてそこ記載の bibtex を使え」「調べ方と作り方を skill にしてそれを使え」により、.claude/skills/inspire-bibtex を作り、その手順で ja_v2/refs.bib（英語版と共有）の 37 件を作り直した。§H の D25・D26 の手入力はこれで置き換わった。
+
+- INSPIRE の BibTeX をそのまま使ったもの（23 件）：Marino09、BFM04、BFM05、NRZ13、AgSh11、KN17、AgSc12、AM22、PU14、CD14、GV98、OV99、LM00、LMV00、PBR10、Stevan10、GS11、MV10、GN13、Young16、KNTZ19、SV00、GW05（最後の 2 件は arXiv のみで、型を @misc に替えて month を除いた）。
+- INSPIRE の記録に掲載誌が無く、Crossref で補ったもの（6 件）：DGR05、Cherednik11、LM01、CE15、Witten11、ORS12。
+- INSPIRE に記録が無く、手入力のエントリを Crossref（DOI）で確認して残したもの（6 件）：Mimachi01、Rains05、RW21、vD96、Sahi99、Koornwinder92。
+- 書籍で未確認のまま残したもの（2 件）：Macdonald95、Cvitanovic08。
+
+INSPIRE の記載で以前の refs.bib と違った点：
+- KN17 は J. Knot Theor. Ramifications 32 (2023) 06, 2041001（Crossref と同じ値）。§H で保留にした巻は INSPIRE の記載に従った。
+- SV00 の著者は「Sinha, Shishir」（以前は Sanjib と誤っていた）。
+- AgSh11 の題名は掲載版の「Knot Homology and Refined Chern-Simons Index」。
+- 著者名は INSPIRE の表記で、アクセント記号が無いものがある（Marino、Stosic など）。CD14 は INSPIRE の記録に arXiv 番号が無い。
+
+コンパイル：英語版 53 ページ、日本語版（ja_v2）50 ページ。どちらも `!` のエラーと未定義の参照なし。

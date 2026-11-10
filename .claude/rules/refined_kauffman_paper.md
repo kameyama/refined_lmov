@@ -12,6 +12,7 @@ paths:
 - 主張と根拠は paper/claims.md。
 
 ## 引用と記法
+- refs.bib のエントリは skill `inspire-bibtex` で作る（INSPIRE の BibTeX をそのまま使い、キーと shorthand だけ替える。INSPIRE に無い情報を補ったエントリには出典をコメントで書く）。
 - 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。
 - 本文に著者の略号や名前を書かない。「KN [KN17]」「AgSc の refined unknot」は誤りで、「[KN17]」「[AgSc12] の refined unknot」と書く。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
 - 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できない。

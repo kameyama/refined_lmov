@@ -17,7 +17,7 @@
 4. **データ**：計算結果の pkl は `data/refined_kauffman/`（約 48 MB、1320 ファイル）に commit してあり、clone で付いてくる。
    - `data/cache/` は追跡しない。無ければ初回の実行で作り直される（数分）。
    - この Mac にだけある未追跡のファイル（`data/refined_kauffman/daha/Z_N*_m1k4_*.pkl`：T(4,5) の D_N、`Z_N17_T3_5_1.pkl`）は打ち切った計算の途中結果で、再開には要らない。
-5. **文献**：`references/` は追跡しない。`just fetch-refs`（justfile の papers に一覧）で取得する。書誌の確認は arXiv API（export.arxiv.org）と Crossref（api.crossref.org、DOI）で行う。
+5. **文献**：`references/` は追跡しない。`just fetch-refs`（justfile の papers に一覧）で取得する。書誌の確認と BibTeX の作成は skill `inspire-bibtex`（INSPIRE-HEP。無い情報だけ Crossref で補う）で行う（2026-11-10 から）。
 6. **TeX**：TeX Live（lualatex、ltjsarticle、biblatex、youngtab）と ghostscript（ページを画像にするため）が要る。論文のコンパイルは各版のディレクトリで
    `TEXMFVAR=$TMPDIR/texmfvar lualatex main.tex` → `bibtex main` → `lualatex main.tex` を 2 回。biber はこの Mac のサンドボックス内で動かないので backend=bibtex にしてある。
 7. **ユーザーとの取り決め（この Mac のメモリにもあるが、別の PC では読めないのでここに書く）**：
@@ -2343,3 +2343,9 @@
   - refs.bib（ja_v2 と共有）に Crossref で確認した掲載誌・巻・頁を入れた（AgSh11、Cherednik11、LM01、CE15、Witten11、Young16、KNTZ19、KN17）。
 - 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。$T(2,5)$–$T(2,9)$・ケーブルの 2 箱で $\hat g_R|_{t=q}$ が $\lambda^2 = q$ で消えるかの確認（Conjecture 6.5 の式の検証範囲を広げる）。
 - 未解決の問題：KN17 の巻（Crossref は 32 と返すが論文番号 2041001 と合わない。ユーザーに確認）。Witten11 の年、AgSh11 の掲載版と arXiv 版の対応、GW05 の掲載の有無は未確認。
+
+## 2026-11-10（続き 150）文献表を INSPIRE の BibTeX に置き換え、調べ方を skill にした（ユーザーの指示）
+- やったこと：.claude/skills/inspire-bibtex（SKILL.md と inspire_bibtex.py）を作り、その手順で paper/ja_v2/refs.bib（英語版と共有）の 37 件を作り直した。CLAUDE.md と .claude/rules/refined_kauffman_paper.md に、文献はこの skill で調べることを書いた。
+- 結果：23 件は INSPIRE の BibTeX そのまま、6 件は INSPIRE に掲載誌が無く Crossref で補完、6 件は INSPIRE に記録が無く Crossref で確認した手入力、書籍 2 件は未確認（内訳は paper/en/review_20261110_round3.md §I）。SV00 の著者名の誤り（Sanjib → Shishir）が直った。KN17 は INSPIRE の記載（32 巻、2023 年）にした。英語版 53 ページ・ja_v2 50 ページでコンパイルが通る。
+- 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。paper/ja（第 1 版）の refs.bib は触っていない。
+- 未解決の問題：INSPIRE の著者名にアクセント記号が無いもの（Marino、Stosic など）と、CD14 の arXiv 番号が INSPIRE の記録に無いことは、INSPIRE の記載のままにしてある。
