@@ -6,7 +6,23 @@
   - docs/framed_knot/ の文書をサブディレクトリに分けた：reports/（REPORT*.md、RESULTS.md）、plans/（research_plan*.md）、categorification/、paper/phase1_draft/（第 1 期の旧草稿）。直下には progress.md、conventions.md、open_problems.md、novelty_report.md と、一覧の README.md を置く。リポジトリ内の参照は新しいパスに書き換えた（.claude/skills/progress-report/SKILL.md の 1 か所も、ユーザーの指示を受けて修正済み）。
   - 英語版の論文を docs/framed_knot/paper/en/ に新しく書き起こした（初稿、29 ページ、pdflatex でビルドでき、未定義の参照と overfull は無い）。主張と数値は ja/ の準備稿と claims.md のものだけを使い、新しい計算はしていない。
   - 準備稿から変えた点【判断】：(1) 予想 A を「トーラス結び目、全ての x、全ての ρ」に、予想 B を「代数的な iterated torus 結び目、(N1)(N2′) の下、全ての x、全ての ρ」に限った（review_2026-10-10.md の 1 番の指摘への対応。9_42 が反例になる書き方を避けた。ホモロジーを入力とする一般の結び目については予想を立てず、[1] は定理、2 箱は指数増大性が必要、と本文に書いた）。(2) 命題（[1] の正値性、指数増大性の必要条件、(N2′) と framing の関係）を、使う節に移した。(3) framing の走査を §7.2 にまとめた。
-  - 未了：Franks–Williams、Carlsson–Mellit、Rosso–Jones は references.bib に無いので、本文では名前だけで引用していない（書誌は原典で未確認）。データとコードの公開先は未定のまま（付録 D）。図は無い。英語の校閲と、ユーザーによる予想の範囲の確認が要る。
+  - 未了：Franks–Williams、Carlsson–Mellit、Rosso–Jones は references.bib に無いので、本文では名前だけで引用していない（書誌は原典で未確認）。（2026-11-11 追記：Franks–Williams と Rosso–Jones は追加済み。下の「英語版の文献の追加と書誌の確認」。）データとコードの公開先は未定のまま（付録 D）。図は無い。英語の校閲と、ユーザーによる予想の範囲の確認が要る。
+
+- **英語版の査読の指摘への対応（2026-11-11）**：
+  - やったこと：独立査読の指摘（paper/en/review_20261111.md、重大 8 件・それ以外 15 件）のうち、数式と主張の格付けに触れないものを原稿に反映し、全指摘の判定を同じファイルの「判定と対応（2026-11-11）」に記録した。
+  - 結果：abstract と introduction を Prop x-indep の範囲（Laurent 性は 2 箱）に合わせた。ケーブルの彩色付きの結果が仮説 (N2') に依存することを abstract・introduction・three_boxes・discussion に明記した。Acknowledgments と AI 使用の開示文の案を置いた（文面は著者が確定する）。探索の記録と実行時間を付録 A に移した。
+    件数の調査【計算の記録との照合】：696 件は全符号の件数で逆符号は 336 件（framing_twist.py の範囲から）。144 件は比較の回数で [1] を 2 通りに数えている。tilde 正規化の Remark の「非負の保存値 19 個（ケーブル 10）」は誤りで、保存値を数えると 17 個（トーラス 9、ケーブル 8：K1, K3, K5b, K6a, K7, K8, K9, K10）。上の 2026-10-09 の要約と claims.md §7 の 5、ja/sections/inputs.tex の「19 個」は未訂正。T(2,7) の 3 箱の framing 0 は framing_batch.log にあるが Table 3 には無い。
+    重大 4 の符号：原稿の (2.5)・(2.6) は KN の原典（refined-integrality.tex:884, :864-866, :870）と同じ形で、変数変換の符号は (−1)^{2S_R} だけが残る【導出】。査読者の手計算の誤り。
+    検査：check_tells.py は hard 0 件、latexmk は `!`・undefined なし。機能テストは実行していない（worktree に .venv が無い）。
+  - 次にやること：見送った指摘（重大 1・2・8、それ以外 1・5〜8・10〜12 と 14・15 の一部）の著者の判断。文献の追加と書誌の確認（skill inspire-bibtex）。claims.md・ja/ の「19 個」の訂正。
+  - 未解決：重大 1・2（証明の完全化か格下げか）、T(2,7) を Table 3 に加えるか。
+
+- **英語版の文献の追加と書誌の確認（2026-11-11、査読の「それ以外」10・12）**：
+  - やったこと：skill inspire-bibtex で INSPIRE-HEP の BibTeX を取り、paper/references.bib に 6 件を足して本文（paper/en/）に \cite を入れた。既存の 71 エントリも arXiv 番号で INSPIRE に引いた。問い合わせ先は inspirehep.net だけ。
+  - 結果：足したのは Witten89・Gopakumar98（introduction 冒頭）、Rosso93（inputs）、Khovanov05（three_boxes の stable Khovanov–Rozansky polynomial）、Mironov16（discussion の arborescent calculus）、Franks87（inputs・appendix。INSPIRE に無く、AMS の PDF で確認して手で作った）。既存の 40 エントリを INSPIRE の BibTeX に置き換えた（うち 12 個は @misc から掲載誌つきになった。Kameyama19 は Lett. Math. Phys. 110 (2020) 2573、Marino01 は Contemp. Math. 310 (2002) 185）。一覧は paper/en/review_20261111.md の判定 10・12。
+    検査：latexmk は `!`・undefined なし（bibtex の警告は、置き換えていないエントリの "missing pages" 9 件）。check_tells.py は hard 0 件。ja/ はコンパイルし直していない。
+  - 次にやること：INSPIRE に無い Carlsson–Mellit（1508.06239）、Rasmussen（math/0607544）、KnotInfo を別の方法（Crossref、arXiv のメタデータ）で足す。Gorsky21 と Cherednik11 の掲載誌の確認。
+  - 未解決：one_box.tex の「𝐪 の指数が偶数」の出典（候補は Khovanov–Rozansky II と Rasmussen。原典で未確認）。Gukov11 の掲載誌（既存は GTM 18、INSPIRE は Proc. Symp. Pure Math. 85）と Morozov12 の著者名の食い違い。INSPIRE の Khovanov05 の誌名 "Geom. Topol. Monographs"（DOI は Geom. Topol.）。置き換えたエントリは文献表に arXiv 番号が出ない。
 
 - **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中をテーマ `framed_knot/` と `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
   文書・コード・テスト・ログ中のパス文字列は新しい配置に書き換えた。スクリプトの実行は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov`。
@@ -193,6 +209,18 @@
 4. A1 を進めるなら：kr-calc（Rust の導入にユーザーの許可が要る）で 4_1 の [2,1] 彩色ホモロジー（Elias–Hogancamp の射影子）を計算できるかの見積もり。
 
 ## 完了した作業
+
+### 2026-11-11 英語版の原稿（paper/en）の体裁と文体の推敲（スキル hep-th-paper）
+- やったこと：docs/framed_knot/paper/en の sections/*.tex を、式・数値・主張の格付け・定理環境の種類・\label を変えずに書き直した。
+  - Abstract を 1 段落にした（(i)〜(iv) の列挙をやめた。数値は同じ）。
+  - Introduction の小節 4 つと \paragraph・箇条書きをやめ、文脈 → KN のデータ → 目的 → 結果 → 関連研究 → 主張の種別 → 構成、の順の散文にした。
+  - 本文の箇条書き・\paragraph・Remark を散文にした。Remark は 9 個から 2 個（rem:Taki、rem:tilde。本文から番号で参照している）。Mellit の系の正規化の注意は付録 B に移した。
+  - 見出しのコロン構文 3 か所を直した（6.1、7.4、8.3。\label は同じ）。
+  - Discussion の \paragraph 6 個を、見出しなしの段落 5 つにまとめた。付録 A・B の \paragraph も散文にした。
+- 結果：検査スクリプト（.claude/skills/hep-th-paper/scripts/check_tells.py）は hard 0 件、soft 15 件（overall sign の "overall" 11 件、範囲つきの計算に対応する verified / verification 3 件、表の「---」1 件）。latexmk は通り、27 ページ、`!` エラーと undefined なし。
+  - `% tells-ok` を付けた箇所：(N1)(N2)(N2′) の一覧（inputs.tex）、4_1 の 4 箱の線形条件の一覧（higher_boxes.tex）、表の \checkmark の行（tables/summary_table_main.tex、summary_table_nonalg.tex。表の中身は変えていない）。
+- 次にやること：著者が全文と全数式を読む。Acknowledgments と AI の使用の開示文が無い（著者が確定する）。独立した査読（スキルの手順 7）は未実施。
+- 未解決：式番号が通し番号（節ごとでない）、表 3・4・付録の表が \hline（booktabs でない）のままである。プリアンブルと表は変えない指示なので直していない。
 
 ### 2026-10-10 4_1 の [3,1]：KN の方法の分析と延長の試み（ユーザーの指示「PR を出してから 4_1 の解を探せ、別のアイデアを検討せよ」→ 方針 2）
 

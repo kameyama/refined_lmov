@@ -1,8 +1,7 @@
 \section{Introduction}\label{sec:intro}
 
-\subsection{Refined large $N$ duality and the positivity conjecture}
-The large $N$ limit of $U(N)$ Chern--Simons theory on $S^3$ is equivalent to topological string theory on the resolved conifold
-$X=\mathcal{O}(-1)\oplus\mathcal{O}(-1)\to\mathbb{P}^1$.
+The large $N$ limit of $U(N)$ Chern--Simons theory \cite{Witten89} on $S^3$ is equivalent to topological string theory on the resolved conifold
+$X=\mathcal{O}(-1)\oplus\mathcal{O}(-1)\to\mathbb{P}^1$ \cite{Gopakumar98}.
 When a knot $K$ is included, the coloured HOMFLY-PT polynomials are expressed through the numbers of BPS states of M2-branes ending on a Lagrangian
 submanifold $L_K\subset X$, the LMOV invariants \cite{Ooguri99,Labastida01}.
 Kameyama and Nawata \cite{Kameyama17} (KN in what follows) extended this picture to refined Chern--Simons theory \cite{Aganagic11}.
@@ -23,13 +22,11 @@ KN also made two observations. First, the refined Chern--Simons invariants of no
 Second, the thick knot $\mathbf{9_{42}}$ does not fit into the conjectured form, which is related to the failure of the exponential growth property for thick homology \cite{Gukov11}.
 In this paper the reproduction of the KN data serves only to fix conventions; phenomena already observed by KN are not claimed as results.
 
-\subsection{Results}
 The aim of this paper is to extend the KN framework to framed knots and to test the positivity of both forms of the refined LMOV invariants
 beyond the KN data in two directions.
 In the direction of knots we pass from torus knots and thin knots to algebraic iterated torus knots, to all knots in the knot table, to the families of twist and double twist knots, and to thick knots.
 In the direction of framings we pass from $x=0$ to finite ranges of $x$ and, in some cases, to all integers $x$.
 
-\paragraph{Framed knots (\S\ref{sec:framing}).}
 We define the invariant at framing $x\in\Z$ by $\brCS^{(x)}_\lambda=\theta_\lambda^x\,\brCS_\lambda$ with
 \[
 \theta_\lambda=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)} .
@@ -37,41 +34,38 @@ We define the invariant at framing $x\in\Z$ by $\brCS^{(x)}_\lambda=\theta_\lamb
 This factor is exactly the inverse of the framing factor of the refined topological vertex in the form of Taki \cite{Taki07},
 and at $t=q$ it reduces to the rule $W_R\mapsto(-1)^{|R|p}q^{p\kappa_R/2}W_R$ of Mari\~no and Vafa \cite{Marino01} with $x=p$.
 In the variables $(\ba,\bq,\bt)$ it becomes the sign-free monomial $\bt^{|\lambda|+2n(\lambda')}\bq^{2(n(\lambda')-n(\lambda))}$, so framing acts as a shift of homological degrees.
-The structural results are as follows.
-\begin{itemize}
-\item $\bt^{-|\rho|x}\hf^{(x)}_\rho$ is an exponential polynomial in $x$ (Proposition~\ref{prop:expsum}).
-\item The transposition symmetry, the Laurent property and the condition for the genus expansion to close do not depend on $x$ (Proposition~\ref{prop:x-indep}).
-\item If the Mari\~no--Vafa sign $(-1)^{|\lambda|x}$ is dropped, the two-box $\hf$ fails to be a Laurent polynomial for odd $x$ (Proposition~\ref{prop:sign}).
-\item The representation-dependent part of the monomial normalisation needed in the KN framework is exactly a change of framing by the Seifert framing (Proposition~\ref{prop:N2-framing}).
-\end{itemize}
+In \S\ref{sec:framing} we show that $\bt^{-|\rho|x}\hf^{(x)}_\rho$ is an exponential polynomial in $x$ (Proposition~\ref{prop:expsum}),
+that the transposition symmetry and the invariance under \eqref{eq:sigma}, which the genus expansion needs in order to close, do not depend on $x$,
+and that for two boxes the Laurent property does not depend on $x$ either (Proposition~\ref{prop:x-indep}).
+The sign in $\theta_\lambda$ cannot be omitted: if the Mari\~no--Vafa sign $(-1)^{|\lambda|x}$ is dropped, the two-box $\hf$ fails to be a Laurent polynomial for odd $x$ (Proposition~\ref{prop:sign}).
+Framing also clarifies the monomial normalisation needed in the KN framework, whose representation-dependent part is exactly a change of framing by $mn$ units, both for a torus knot $T_{m,n}$ and for an outermost cabling $C_{m,n}$ (Proposition~\ref{prop:N2-framing}).
 
-\paragraph{Tests of positivity (\S\ref{sec:one}--\S\ref{sec:higher}).}
+The tests of positivity are the subject of \S\ref{sec:one}--\S\ref{sec:higher}.
 The reliability of the input depends on the class of knots (Table~\ref{tab:overview}), and we state our results accordingly.
-\begin{itemize}
-\item \emph{Fundamental representation.}
-If the input has non-negative coefficients and the symmetry \eqref{eq:sigma}, the genus expansion closes over the integers and both forms are non-negative (Proposition~\ref{prop:one}).
+For the fundamental representation, if the input has non-negative coefficients and the symmetry \eqref{eq:sigma}, the genus expansion closes over the integers and both forms are non-negative (Proposition~\ref{prop:one}).
 The symmetry is a theorem of Gorsky, Hogancamp and Mellit \cite{Gorsky21} for reduced HOMFLY-PT homology, so with homological input the case $\rho=\yng(1)$ holds for every knot and every framing.
-We confirm this for all $801$ prime knots with at most $11$ crossings and show that the parity condition on the spin $2J_r$ in the KN conjecture is equivalent,
-for $\yng(1)$, to the parity condition of Chandler and Gorsky \cite{Chandler22}; it holds for only nine of the $801$ knots.
-\item \emph{Two boxes.}
-We prove that the relation between $\mathbf{9_{42}}$ and exponential growth noted by KN is a necessary condition:
+We show that the parity condition on the spin $2J_r$ in the KN conjecture is equivalent,
+for $\yng(1)$, to the parity condition of Chandler and Gorsky \cite{Chandler22}, and we determine the knots that satisfy it among the $801$ prime knots with at most $11$ crossings: there are only nine (Computational Result~\ref{cr:parity}).
+
+For two boxes, we prove that the relation between $\mathbf{9_{42}}$ and exponential growth noted by KN is a necessary condition:
 if $\hf_{\yng(2)}$ is a Laurent polynomial then $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ (Proposition~\ref{prop:two-necessary}).
 With the refined formulae of Kameyama, Nawata, Tao and Zhang (KNTZ) \cite{Kameyama19} as input (they agree with the conjectural formulae of GNSSS),
 the two-box invariants are positive for all twist knots (Theorem~\ref{thm:twist}) and for a large region of double twist knots (Theorem~\ref{thm:pretzel}).
 For eight knots, positivity holds for all integer framings (Theorem~\ref{thm:two-all-x}).
 Two thick non-torus knots, $\mathbf{10_{139}}$ and $\mathbf{10_{152}}$, are also positive (Computational Result~\ref{cr:thick}).
-\item \emph{Three boxes.}
-For seven torus knots and seven algebraic iterated torus knots, with the normalisation (N1)(N2$'$) of \S\ref{sec:normalization},
+
+For three boxes, we consider seven torus knots and seven algebraic iterated torus knots. With the normalisation (N1)(N2$'$) of \S\ref{sec:normalization},
 $\hf_\rho$ is positive in both forms for all $\rho$ with $|\rho|\le3$ (Computational Result~\ref{cr:three}).
+For the cables the rule (N2$'$) is a hypothesis (Hypothesis~\ref{hyp:N2}), and our results for cables with two and three boxes depend on it.
 For the cables the input is the refined invariant defined through the double affine Hecke algebra (DAHA) by Cherednik and Danilenko \cite{Cherednik14};
-the list includes a three-strand cable $K7$ and a two-step iteration $K10$, for which the three-box invariants have about $1.8$ million terms (the names are fixed in Table~\ref{tab:cables}).
+the list includes a three-strand cable $K7$ and a two-step iteration $K10$ (the names are fixed in Table~\ref{tab:cables}).
 As KN observed for torus knots, the input $\rCS_{\yng(2,1)}$ itself has negative coefficients while the refined LMOV invariants are positive; we extend this phenomenon to algebraic iterated torus knots.
 Positivity persists when the framing is varied: all $1821$ cases examined are positive (Computational Result~\ref{cr:framing-batch}).
-\item \emph{Four boxes and beyond.}
-We diagonalise the matrix $M(t)$ of KN by the characters of the symmetric group (Lemma~\ref{lem:M-diag}), which gives $\hf_\rho$ for any number of boxes.
+
+To go beyond three boxes, we diagonalise the matrix $M(t)$ of KN by the characters of the symmetric group (Lemma~\ref{lem:M-diag}), which gives $\hf_\rho$ for any number of boxes.
 For eight torus knots, all $\rho$ with $4\le|\rho|\le9$ in the ranges of Table~\ref{tab:higher} are positive ($340$ pairs $(K,\rho)$; Computational Result~\ref{cr:higher}).
 For $\mathbf{4_1}$ with four boxes we only obtain a weak test in which the unknown invariant for $\yng(3,1)$ is constrained (Computational Result~\ref{cr:fig8-four}).
-\end{itemize}
+
 On this basis we state the positivity of the framed refined LMOV invariants of torus knots as Conjecture~\ref{conj:A} and of algebraic iterated torus knots as Conjecture~\ref{conj:B}.
 For hyperbolic knots there is no definition-based refined invariant for the non-rectangular colour $\yng(2,1)$, and we explain in \S\ref{sec:21} that structural conditions do not determine it uniquely.
 The KN candidate for $\mathbf{4_1}$ coloured by $\yng(2,1)$ can be written as the $Z$-factor expansion of Anokhina et al.\ \cite{Anokhina12} with one coefficient replaced (\S\ref{sec:fig8-21}).
@@ -110,7 +104,6 @@ Note 3: positive for all $(m,n)$ of the same sign; for opposite signs, proved fo
 Four boxes and beyond (framing zero): eight torus knots are positive (Table~\ref{tab:higher}); $\mathbf{4_1}$ admits only a weak test (\S\ref{sec:fig8-four}).
 \end{table}
 
-\subsection{Related work}
 Integrality of LMOV-type invariants of framed knots in the unrefined setting goes back to Mari\~no and Vafa \cite{Marino01} and has been studied in \cite{Zhu21,Luo16,Luo21,Wang25,Zhu25}.
 The ``refined LMOV conjecture'' of \cite{Zhu21} is a refinement in a different sense from the $t\neq q$ refinement of KN, as remarked there, and concerns different objects.
 Non-negativity of refined open BPS invariants for a single brane and symmetric representations is discussed by Cheng and Su\l{}kowski \cite{Cheng21} at fixed framing and by Banerjee, Ishtiaque and Jeong \cite{Banerjee26}.
@@ -120,17 +113,17 @@ To the best of our knowledge, the generating functions $\hf_\rho$ of KN have not
 The refined invariants of cables are due to Cherednik and Danilenko \cite{Cherednik14,Cherednik15};
 their explicit examples are limited to a few colours such as $\yng(1)$ and $\yng(2)$ for $K1$, and we are not aware of values for $|\lambda|=3$ or of refined BPS invariants of cables in the literature.
 
-\subsection{Organisation and conventions on claims}
-In \S\ref{sec:prelim} we recall the variables and the refined LMOV invariants of KN.
-In \S\ref{sec:framing} we define the framed invariants and establish their structure in $x$.
-In \S\ref{sec:inputs} we describe the inputs (torus knots, cables, homology, conjectural formulae), the monomial normalisation, and the method of computation.
-Sections \ref{sec:one}, \ref{sec:two}, \ref{sec:three} and \ref{sec:higher} contain the tests for $\yng(1)$, two boxes, three boxes, and four or more boxes, respectively.
-Open problems are discussed in \S\ref{sec:discussion}.
-The appendices contain details of the computation, the derivation of the normalisation, the non-algebraic cables, and the data and code.
-
 To separate claims of different strength, statements derived analytically are called theorems, propositions or lemmas,
 and statements checked by computer are called \emph{computational results} and are stated with their range.
 A proof that contains a finite number of exact computer calculations (sign checks of the coefficients of explicit polynomials, or the verification of linear-programming certificates in rational arithmetic)
 is marked ``computer-assisted'' in the heading of the theorem.
 Assumptions that we could not derive are stated as \emph{hypotheses}.
 Whenever a statement takes a conjectural formula as input, this is said explicitly.
+
+The paper is organised as follows.
+In \S\ref{sec:prelim} we recall the variables and the refined LMOV invariants of KN.
+In \S\ref{sec:framing} we define the framed invariants and derive their structure in $x$.
+In \S\ref{sec:inputs} we describe the inputs (torus knots, cables, homology, conjectural formulae), the monomial normalisation, and the method of computation.
+Sections \ref{sec:one}, \ref{sec:two}, \ref{sec:three} and \ref{sec:higher} contain the tests for $\yng(1)$, two boxes, three boxes, and four or more boxes, respectively.
+Open problems are discussed in \S\ref{sec:discussion}.
+The appendices contain details of the computation, the derivation of the normalisation, the non-algebraic cables, and the data and code.

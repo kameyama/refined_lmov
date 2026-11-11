@@ -19,7 +19,7 @@ For the outermost step $C_{m,n}$ we expand
 $\Phi_\lambda=P_\lambda[p_k\mapsto P_{k(m,-s')}]\cdot1=\sum_\mu c_{\lambda\mu}(s')P_\mu$,
 where $s'$ is the last component of $s$, $p_k$ are power sums and $P_{k(m,-s')}$ are the generators of slope $(m,-s')$,
 and take the linear combination with the values $\rCS_\mu(K)$ of the companion.
-It is known that the naive $t$-deformation of the Rosso--Jones formula is incorrect \cite{Danilenko14,Morozov18}; the form used here follows directly from the definition.
+It is known that the naive $t$-deformation of the Rosso--Jones formula \cite{Rosso93} is incorrect \cite{Danilenko14,Morozov18}; the form used here follows directly from the definition.
 \begin{compresult}\label{cr:daha}
 The values so computed agree, in all coefficients and up to a monomial, with the ten explicit examples of Cherednik and Danilenko:
 $K1$ with $\yng(1)$ and $\yng(2)$, and $K2,K3,K4,K5a,K5b,K5c,K7,K8$ with $\yng(1)$ (the non-algebraic cables are named in Appendix~\ref{app:nonalg}).
@@ -46,7 +46,7 @@ $K10$ & $(2,53)$-cable of $K1$ & 8 & 42 \\
 
 \subsection{Monomial normalisation}\label{sec:normalization}
 The DAHA and the elliptic Hall algebra determine the invariants only up to a monomial, but the extraction of BPS invariants depends on it. We normalise by the following rules.
-\begin{itemize}
+\begin{itemize} % tells-ok (labelled normalisation rules, referred to throughout)
 \item[(N1)] The limit $t=q$ is the reduced coloured HOMFLY-PT polynomial at framing zero in the conventions of DGR.
 \item[(N2)] For $\yng(1)$, the lowest $\bt$-degree in bold variables is $0$.
 \item[(N2$'$)] The monomial for the colour $\lambda$ is $M_\lambda=M_\square^{|\lambda|}\,T_\lambda^{F}$, where $M_\square$ is the monomial for $\yng(1)$ fixed by (N1)(N2)
@@ -54,7 +54,7 @@ and $F=mn$ both for a torus knot $T_{m,n}$ and for an outermost cabling $C_{m,n}
 \end{itemize}
 For torus knots these rules reproduce the $27$ values of KN in all coefficients.
 Rule (N2) fixes only a power of $(q/t)$ per box, which by Lemma~\ref{lem:adams} does not affect positivity.
-For a coloured invariant the monomial is $\pm a^\alpha q^\beta t^\gamma$; the limit $t=q$ determines the sign, $\alpha$ and $\beta+\gamma$ (we checked (N1) for the coloured cases as a test).
+For a coloured invariant the monomial is $\pm a^\alpha q^\beta t^\gamma$; the limit $t=q$ determines the sign, $\alpha$ and $\beta+\gamma$ (for the coloured cases (N1) then serves as a check, which we carried out).
 What $t=q$ does not determine is a power $(q/t)^{c_\lambda}$ for each colour.
 
 % [I4]
@@ -80,7 +80,7 @@ Shifting by an odd integer without the Mari\~no--Vafa sign destroys the Laurent 
 \begin{proof}
 $T_\lambda=\theta_\lambda\,(-(q/t)^{1/2})^{-|\lambda|}$ by Definition~\ref{def:framed}.
 \end{proof}
-Hypothesis~\ref{hyp:N2} can therefore be rephrased: the colour-dependent part of the normalisation is a framing by the Seifert framing $F$.
+Hypothesis~\ref{hyp:N2} can therefore be rephrased: the colour-dependent part of the normalisation is $F$ units of framing, with $F=mn$ for the outermost cabling $C_{m,n}$.
 In particular, a positivity statement for all $x\in\Z$ does not depend on where $x=0$ is placed.
 The remark of Aganagic and Shakirov \cite{Aganagic11} that their value for the trefoil differs from the superpolynomial of DGR by ``$-6$ units of framing and $\sqrt{q/t}$'' matches $F=mn=6$ in absolute value;
 the sign depends on the choice of the positive direction of framing.
@@ -123,22 +123,15 @@ For the cabling step, Computational Result~\ref{cr:tau} says that the framing op
 Together with Hypothesis~\ref{hyp:sat} this gives $M_{C_{m,n}K}=M_K^{\,m}\,M_{T_{m,n}}$ and $F=mn$.
 For torus knots four facts are used:
 (I) the lowest coefficient in $a$ of the unnormalised value of Gorsky and Negu\c{t} is a rational $q,t$-Catalan number, which was conjectured in \cite{Gorsky13b} and follows from the theorem of Mellit \cite{Mellit16};
-(II) the lowest $a$-degree is given by the theorem of Franks and Williams for positive braids;
+(II) the lowest $a$-degree is given by the theorem of Franks and Williams for positive braids \cite{Franks87};
 (III) the sign and the power of $q$ at $t=q$ follow from the symmetry $q\leftrightarrow q^{-1}$;
 (IV) the exponent of $(q/t)$ follows from the Dyck-path form of Mellit (Computational Result~\ref{cr:mellit}).
 Details are given in Appendix~\ref{app:normalization}.
 \end{proof}
-\begin{remark}[Normalisation in the corollary of Mellit]
-Mellit \cite[Cor.~3.4]{Mellit17} writes $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\delta\frac{1}{1-t}\frac{P_{m,n}(1)[a-1]}{a-1}$ with $P_{m,n}$ ``the corresponding generator of the elliptic Hall algebra''.
-By Thm.~3.3 of the same paper this holds if $P_{m,n}(1)$ is read as $-d_-B_{c_{m,n}}d_+(1)$ in terms of the operators $d_\pm$ of Carlsson and Mellit.
-If instead it is read as the element in the standard normalisation ($Q_{m,n}$ of \cite{Bergeron14} or $\widetilde P$ of \cite{Gorsky13b}), the formula with the substitution $[a-1]$ does not hold;
-among the variants we tried, only the form of Computational Result~\ref{cr:mellit} holds.
-Since (IV) only fixes the exponent of $(q/t)$ in $M_\square$, this point does not affect any positivity result (Lemma~\ref{lem:adams}).
-\end{remark}
 \begin{remark}[Relation to the tilde normalisation]\label{rem:tilde}
 Cherednik and Danilenko \cite{Cherednik14} normalise the DAHA superpolynomial by dividing by the lowest power of $a$ and by a monomial in $q,t$ so that the constant term of the part of $a$-degree zero is $1$ (tilde normalisation);
 their standard variables $(q_{st},t_{st},a_{st})$ are the bold variables.
-For the $19$ computed values with non-negative coefficients ($9$ torus knots and $10$ cables), our $P=\rCS_{\yng(1)}$ in bold variables equals
+For the $17$ computed values with non-negative coefficients (the $9$ torus knots and $8$ of the $13$ cables of Computational Result~\ref{cr:M}: the seven of Table~\ref{tab:cables} and $K5b$), our $P=\rCS_{\yng(1)}$ in bold variables equals
 $\ba^{2\delta}\bq^{-2\delta}$ times the tilde-normalised polynomial.
 All these $P$ are $\sigma$-invariant with even exponents of $\bq$.
 \end{remark}
@@ -149,20 +142,21 @@ The conversion to the conventions of DGR was checked by $\sigma$-invariance, by 
 
 \subsection{Conjectural formulae for two boxes}\label{sec:conj-inputs}
 For hyperbolic knots, refined invariants for $\yng(2)$ and $\yng(1,1)$ are not available from a definition, and we use conjectural formulae from the literature.
-\begin{itemize}
-\item \emph{Double twist knots $K_{m,n}$ and twist knots $K_p=K_{p,1}$.}
-We use the formulae of KNTZ \cite{Kameyama19} for the Poincar\'e polynomials of HOMFLY-PT homology coloured by rectangular Young diagrams (refined version, conjectural).
+
+For the double twist knots $K_{m,n}$ and the twist knots $K_p=K_{p,1}$
+we use the formulae of KNTZ \cite{Kameyama19} for the Poincar\'e polynomials of HOMFLY-PT homology coloured by rectangular Young diagrams (refined version, conjectural).
 The knot $K_{m,n}$ of KNTZ is the $(2m-1,1,2n-1)$-pretzel knot of GNSSS \cite{Gukov15}.
 At $t=q$ the KNTZ formulae are proved by Fang and Zhou \cite{Fang26}.
 The conversion to the $t_c$-grading of KN uses the relation of gradings of Gorsky, Gukov and Sto\v{s}i\'c \cite{Gorsky13}, $\mathbf{Q}\mapsto\bq^R$, $\mathbf{t}_r\mapsto\bq^{-1}$, $\mathbf{t}_c\mapsto\bt\bq$,
 where $R$ is the number of rows of the rectangle. It was calibrated by the agreement, in all coefficients, of the trefoil $K_{1,1}=T_{2,3}$ coloured by $\yng(1)$, $\yng(2)$, $\yng(1,1)$, $\yng(2,2)$ with the elliptic Hall algebra values (see also \cite{Nawata12}).
-\item \emph{The thick knots $\mathbf{10_{139}}$ and $\mathbf{10_{152}}$.}
-We use the quiver form of Sto\v{s}i\'c \cite{Stosic24} and the conjectural formula of Kucharski, Reineke, Sto\v{s}i\'c and Su\l{}kowski (KRSS) \cite{Kucharski17b} to construct the $t_c$-grading.
+
+For the thick knots $\mathbf{10_{139}}$ and $\mathbf{10_{152}}$
+we use the quiver form of Sto\v{s}i\'c \cite{Stosic24} and the conjectural formula of Kucharski, Reineke, Sto\v{s}i\'c and Su\l{}kowski (KRSS) \cite{Kucharski17b} to construct the $t_c$-grading.
 For $\mathbf{8_{19}}=T_{3,4}$ this procedure reproduces the elliptic Hall algebra values for all colours from $\yng(2)$ to $\yng(1,1,1)$.
-\end{itemize}
 \begin{compresult}\label{cr:kntz}
 The refined formulae of KNTZ and the quadruply-graded formulae of GNSSS agree in all coefficients for $K_{m,n}$ with $\yng(1)$, $\yng(2)$, and, through the mirror symmetry $\mathbf{t}_r\leftrightarrow\mathbf{t}_c$, $\yng(1,1)$,
-for $|m|,|n|\in\{1,2,3\}$ in each of the four quadrants of signs ($144$ cases).
+for $|m|,|n|\in\{1,2,3\}$ in each of the four quadrants of signs
+($144$ comparisons: at each of the $36$ points the symmetric colours $[r]$ and, through the mirror symmetry, the antisymmetric colours $[1^r]$ are compared for $r=1,2$, so that $\yng(1)$ is compared in both ways).
 Our implementation of the KNTZ formulae agrees with the values in the ancillary files of KNTZ.
 \end{compresult}
 \begin{corollary}
@@ -176,6 +170,6 @@ Statements with these inputs are statements of positivity \emph{given the conjec
 \subsection{Exact computation}\label{sec:exact}
 $\brCS_\lambda$ and $\hf_\rho$ are obtained by evaluation modulo $31$-bit primes followed by interpolation in each variable, not by symbolic manipulation.
 When coefficients are large, two or three primes and the Chinese remainder theorem are used.
-Every polynomial obtained is verified at points not used in the interpolation.
+Every polynomial obtained is checked at points not used in the interpolation.
 The largest example, $K10$ with three boxes, has about $1.83$ million terms in the spin form, with coefficients up to about $1.1\times10^{19}$.
 Running times and memory are given in Appendix~\ref{app:computation}.

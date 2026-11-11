@@ -1,0 +1,51 @@
+% JHEP 体裁の骨格。jheppub.sty を同じディレクトリに置く（references/latex-conventions.md）。
+% jheppub を使わない場合は \usepackage{jheppub} を外し、\abstract{...} を abstract 環境に、
+% \affiliation・\emailAdd・\keywords・\preprint を通常の article の書き方に直す。
+\documentclass[a4paper,11pt]{article}
+\usepackage{jheppub}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+
+% 定理環境は、証明のある主張と主要な予想にだけ使う。
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{conjecture}[proposition]{Conjecture}
+
+\title{Title of the paper}
+\author{First Author}
+\affiliation{Institute, Address}
+\emailAdd{author@example.org}
+
+% 1 段落。引用・ディスプレイ式なし。定式化したこと、予想、確かめた範囲を書き分ける。
+\abstract{We formulate ... We conjecture that ... We show that, for ..., ...}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+% 文脈 -> 未解決点 -> この論文の寄与（散文）-> 既知の結果との境界 -> 構成の段落。
+
+The paper is organized as follows. In section~\ref{sec:review} we review ...
+
+\section{Review and conventions}\label{sec:review}
+% 標準的な定義は引用で済ませる。固有の記法と規約はここで 1 回だけ定義する。
+
+\section{Main results}\label{sec:main}
+
+\section{Examples}\label{sec:examples}
+% 計算による確認は、範囲を明記した 1〜2 文と付録の表への参照にとどめる。
+
+\section{Discussion}\label{sec:discussion}
+
+\acknowledgments
+% 議論の相手、グラント。AI の使用の開示（文面は著者が確定する）。
+% The author used Claude (Anthropic) for computations, literature search and drafting.
+% All results, references and text were checked by the author, who takes full responsibility
+% for the content.
+
+\appendix
+\section{Conventions}\label{app:conventions}
+\section{Tables}\label{app:data}
+
+\bibliographystyle{JHEP}
+\bibliography{refs}
+\end{document}

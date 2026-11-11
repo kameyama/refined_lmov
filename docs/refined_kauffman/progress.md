@@ -2360,3 +2360,42 @@
   - コンパイルは通り、54 ページ。Remark の追加で §3 以降の番号が 1 つずれた（本文は \ref なので整合）。
 - 次にやること：ja_v2 に A1〜A6 と同じ誤りがあるかの確認。この 3 点の追記は英語版だけとし、ja_v2 には反映しない（2026-11-10、ユーザーの判断）。
 - 未解決の問題：unrefined の $q^{1/2} \to -q^{-1/2}$ の不変性が量子群不変量の転置の対称性から一般に従う、という説明は、このリポジトリの規約での符号まで確かめていない。論文には「[Marino09] の不変量で成り立つ」とだけ書いた。$f$ の分母は 3 箱以上と他の結び目では未確認。
+
+## 2026-11-11（続き 152）英語版の体裁と文体を skill `hep-th-paper` に従って直した
+- やったこと：paper/en の sections/*.tex を、式・数値・規約・主張の格付け・定理環境の種類を変えずに、構成と文体だけ直した。
+  - 箇条書き 26 か所を散文にした（Result の中の列挙は段落に分け、項目番号での参照「Result 6.1(1)」「item 2」は言葉での参照に替えた）。残したのは Result 5.4（cr:torus）の (N)・(P)・($c{=}2$)・($c{=}1$) の 1 か所だけで、`% tells-ok` を付けた（式つきの性質の一覧で、本文がラベルで参照している）。
+  - 序論：問い (Q1)〜(Q5) と主結果の箇条書きを散文の段落にし、「Organization」の小節を "The paper is organized as follows." の段落にした。
+  - 見出しのコロン構文 7 か所を言い換えた（§5、§5.4、§6、§9、§9.3、§10、付録 D.2）。§3.5 Closed strings（1 段落だけの小節）は §3.4 の末尾に入れた。
+  - Discussion：\paragraph の小見出し 3 つを外し、未解決問題の太字ラベルつきの列挙を段落にした。格付けの表は残した。
+  - Remark を 11 個から 4 個にした。散文にしたもの：$M(q^{-1})$ の選び方（§2.3）、「なぜ $g$ か」（§3.2、参照は新しいラベル sec:alld）、[Marino09] の整数性の refined での状況（§6.4 の末尾）、Kähler 変数のシフトの比（§4.1 の本文に統合）、strong integrality（§10.4 の末尾）、付録 B の規約の対応と handle 因子。残したもの：Remark 3.3（rem:Esector）、3.4（trace form）、§8 の末尾、付録 C（rem:pairblind）。
+  - 実行ログ調の記述：ケーブルの補間の経過（§7）を結果の形に縮め、メモリの見積もり（60 GB）と、付録 A の「automated tests／direct runs」の区別を除いた。
+- 結果：検査スクリプトは hard 0 件、soft 19 件（「overall sign」、表の「---」、範囲つきの verified／confirmed で、どれも直す必要なしと判断）。コンパイルは通り 52 ページ（前は 54）、`!` と undefined なし。数式・数値・\cite・\ref・\label を変更前後で機械的に比べ、差は意図したもの（上の言い換えと、削った \label 5 個：rem:whyg, rem:marino-status, rem:shift, rem:AMconv, rem:handle）だけであることを確かめた。
+- 次にやること：著者が全文を読む。skill の手順 7（文脈を持たない査読）は未実施。Acknowledgments と AI の使用の開示は著者が決める（未追加のまま）。
+- 未解決の問題：要旨に \cite が 4 つある（skill は要旨に引用を入れないとするが、著者名を書かない規則と第 1 回の校正 B2 の判定に従って残した）。本文の節は 11 個のまま（skill の目安は 5〜8。第 2 回のレビューで決めた目次なので変えていない）。bibtex が ../ja_v2/refs.bib の 251 行と 290 行のコメント（「@misc」を含む）でエラーを 2 件出す（以前からあり、文献表には影響しない。refs.bib は触っていない）。
+
+## 2026-11-11（続き 153）英語版の独立査読（review_20261111.md）の判定と、式に触れない範囲の対応
+- やったこと：paper/en/review_20261111.md の指摘（重大 M1〜M10、それ以外 O1〜O15）を判定し、数式・表の数値・定理環境の種類・`\label`・`\cite`・refs.bib・tex/gen_en・主張の格付けに触れずに直せるものだけ原稿に反映した。判定の表は同じファイルの末尾「判定と対応（2026-11-11）」。
+  - 対応：M1（abstract に範囲と "we conjecture"、"by interpolation in $N$"）、M9（付録 A.2 に補間の 2 つの仮定を文で明示、検証点が 1 つの行を明記）、O3（[Marino09] (4.8) の $z^9$ の印刷値と根拠の 1 文）、O5（Prop. 2.6 の中の解釈の文を命題の外へ）。
+  - 一部対応：M3（付録 A の検証ログ調の文を縮めた、cables.tex:15 の言い換え、Acknowledgments と AI 使用の開示文の案を main.tex に追加）、M4（index.tex:47 を "consistent with"）、M8（$J_2$・$S_R$・strong integrality・Lefschetz weight・$X^{\Sp}$・reweighting の $\sigma$ の定義か参照）、M10（[KN17] の正値性を予想として書く、"to our knowledge" を 3 か所）、O10（sp.tex:10 の言い回し、検証範囲）、O13（intro の重複と Prop. 9.3／Result 9.4 の書き分け）、O15（列挙と括弧の長い文）。
+  - 見送り：M2、M5、M6、M7、O1、O2、O4、O6〜O9、O11、O12、O14（理由は判定の表）。
+- 結果：
+  - 【原典で確認】[KN17]（references/1703.05408/src/refined-integrality.tex）の正値性は証明ではなく予想（要旨 "a positivity conjecture"、§4.1 の囲みの予想、"we observe ... always non-negative integers"）。原稿の "it was shown in [KN17] that ... are positive integers" を直した。
+  - 【検算】Prop. 2.6 の後の文「[Marino09] の unknot $(\lambda-\lambda^{-1})/z$ と crosscap の項 $-1$ の和」は (2.9) と符号が合わない（(2.9) は [Marino09] の unknot $1 + (\lambda-\lambda^{-1})/z$ の $-1$ 倍）。文は直していない。
+  - 【記録との食い違い】原稿は δ を Seifert 種数と定義するが、conventions.md と progress.md（二重ツイスト結び目）は「δ は超多項式の δ 次数で、種数ではない（δ 次数は 0 か 1、種数はすべて 1）」とする。原稿は直していない。
+  - 【確認】tex/gen_en/daha.tex の随伴のラベルは $\lambda^2$ の冪（$[\lambda^{-5}]$ は $[\lambda^{-10}]$ と書くべき）、cover_split.tex に $s^2$ と $(qt)^{4/4}$、未使用の生成ファイル 4 つ、sign_table.tex に Unicode の「−」。生成スクリプトは直していない。
+  - 検査スクリプトは hard 0 件、soft 16 件。コンパイルは 52 ページ、`!` と undefined なし。ディスプレイ式・表・図・`\label`・定理環境・`\cite` は変更前と同じ（スクリプトで比較）。
+- 次にやること：著者が abstract、Acknowledgments の開示文、intro の [KN17] の説明、sp.tex:10 の「単項式が一意」の読み、O3 の印刷値の文を確かめる。見送った M2・M4〜M7・O1・O5 の符号を著者が判断する。O2 は rk_report_tex_en.py を直して tex/gen_en を作り直す。
+- 未解決の問題：[Marino09] (4.8) の印刷値は原典と照合していない（TeX が references/ に無い。progress.md の 2026-10-14 の記録と計算値の $z^8$ の係数による）。文献の中の節・式番号と、追加すべき先行研究は「要確認・要追加」の一覧に残した。$T(3,4)$ の $c = 1$ のブロック（claims T7 は「両端だけ対称」、原稿は "only $\lambda^{-6}$"）はデータで確かめていない。
+
+## 2026-11-11（続き 154）英語版の文献まわりの査読の指摘への対応（先行研究の追加、出典、refs.bib）
+- やったこと：paper/en/review_20261111.md の「要確認・要追加」のうち文献まわりに対応した。INSPIRE-HEP（skill `inspire-bibtex`、問い合わせ先は inspirehep.net だけ）で識別子・BibTeX・抄録を取り、抄録が本文で述べる 1 文と合うものだけを paper/ja_v2/refs.bib に足した。判定は review_20261111.md の「文献まわりの対応」。
+  - 足した文献 12 本（キー＝識別子）：BR05＝hep-th/0505008、CC10＝arXiv:1007.1656、MMMRSS17＝arXiv:1702.06316、Walcher07＝arXiv:0712.2775、KW09＝arXiv:0902.0616、IKV07＝hep-th/0701156、GIKV07＝arXiv:0705.1368、IK11＝arXiv:1111.0525、MM20＝arXiv:2003.07836、GSV04＝hep-th/0412243、DMMSS11＝arXiv:1106.4305、GORS12＝arXiv:1207.4523。
+  - 本文：intro.tex §1.1 に 4 文（Kauffman 側の整数性の定式化と検証、real topological string、superpolynomial と torus knot の構成、Hopf link の refined vertex）。torus.tex の Hypothesis 5.1 に `\cite{AgSh11}`。式・数値・既存の文は変えていない。
+  - refs.bib：SV00 と GW05 の直前のコメントの「@misc」を「misc」に直した（bibtex のエラー 2 件の原因）。CD14 は INSPIRE の記録に arXiv 番号が無く、変更なし。
+- 結果：
+  - 【INSPIRE で確認】[AgSh11] の抄録に、基本表現のトーラス結び目で refined Chern–Simons の指数が HOMFLY を圏化するホモロジーの Poincaré 多項式に等しいとある。torus.tex の同一視の出典とした。
+  - 英語版のコンパイルは 53 ページ、`!`・undefined・bibtex のエラーなし、文献表は 49 件で新しい 12 件のラベルはキーと同じ（.bbl で確認）。検査スクリプトは hard 0 件、soft 16 件、引用 49 本。日本語版 ja_v2 も 50 ページで `!`・undefined・bibtex のエラーなし（ja_v2/main.pdf は元に戻した。en/main.pdf は新しい版）。
+  - 「この論文が最初」の主張と矛盾する文献は、INSPIRE の題名検索の範囲では見つからなかった（網羅的ではない）。
+- 次にやること：著者が intro.tex の追加した 4 文と、足さなかった候補（review_20261111.md に一覧）を見る。
+- 未解決の問題：[CC10]・[KW09] の掲載誌は未確認（INSPIRE に情報なし、Crossref には接続していない）。$\SO(2N)$ Kauffman 多項式の圏化の数学の論文は INSPIRE に記録が無く、足していない。CD14 の arXiv 番号は INSPIRE に無い。intro.tex の "the refined $\Sp(2N)$ invariants of \cite{AM22}" は literature.md §4 の記録（[AM22] に結び目は無い）と合わない（直していない）。[Marino09] (4.8) の印刷値、[GS11] の説明、文献の中の節・式番号（O14）は未確認のまま。
+
