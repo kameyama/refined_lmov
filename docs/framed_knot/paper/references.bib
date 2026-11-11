@@ -1,17 +1,22 @@
 % 論文の文献データベース。確認のメモは標準のスタイルが無視する verification 欄に書く（2026-10-09 作成、docs/framed_knot/paper/）。arXiv API（export.arxiv.org）のメタデータから生成。
 % 掲載誌（journal）は arXiv の journal_ref（著者の記載）。KN 1703.05408 は Crossref と INSPIRE でも確認済み（claims.md §7 の 8）。
 % 掲載誌が無い項目は「未確認」として扱い、投稿前に INSPIRE / Crossref で確認する。
+% 2026-11-11：shorthand 欄のあるエントリは INSPIRE-HEP の BibTeX をそのまま使ったもの（skill inspire-bibtex。キーだけ差し替え、フィールドは書き換えていない）。
+% それ以外は上の方法（arXiv API）のままで、INSPIRE に記録が無いか掲載誌の情報が無いか、INSPIRE と既存の記載が食い違うもの（Gukov11、Morozov12）。
 
 @article{Taki07,
-  author = {Masato Taki},
-  title = {{Refined Topological Vertex and Instanton Counting}},
-  year = {2007},
-  eprint = {0710.1776},
-  archivePrefix = {arXiv},
-  note = {arXiv:0710.1776},
-  journal = {JHEP 0803:048,2008},
-  doi = {10.1088/1126-6708/2008/03/048},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Taki07},
+    author = "Taki, Masato",
+    title = "{Refined Topological Vertex and Instanton Counting}",
+    eprint = "0710.1776",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "UT-07-32",
+    doi = "10.1088/1126-6708/2008/03/048",
+    journal = "JHEP",
+    volume = "03",
+    pages = "048",
+    year = "2008"
 }
 
 @article{Schiffmann09,
@@ -27,37 +32,47 @@
 }
 
 @article{Oblomkov10,
-  author = {Alexei Oblomkov and Vivek Shende},
-  title = {{The Hilbert scheme of a plane curve singularity and the HOMFLY polynomial of its link}},
-  year = {2010},
-  eprint = {1003.1568},
-  archivePrefix = {arXiv},
-  note = {arXiv:1003.1568},
-  journal = {Duke Math. J. 161, no. 7 (2012), 1277-1303},
-  doi = {10.1215/00127094-1593281},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Oblomkov10},
+    author = "Oblomkov, Alexei and Shende, Vivek",
+    title = "{The Hilbert scheme of a plane curve singularity and the HOMFLY polynomial of its link}",
+    eprint = "1003.1568",
+    archivePrefix = "arXiv",
+    primaryClass = "math.AG",
+    doi = "10.1215/00127094-1593281",
+    journal = "Duke Math. J.",
+    volume = "161",
+    pages = "1277--1303",
+    year = "2012"
 }
 
-@misc{Aganagic11,
-  author = {Mina Aganagic and Shamil Shakirov},
-  title = {{Knot Homology from Refined Chern-Simons Theory}},
-  year = {2011},
-  eprint = {1105.5117},
-  archivePrefix = {arXiv},
-  note = {arXiv:1105.5117},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Aganagic11,
+    shorthand = {Aganagic11},
+    author = "Aganagic, Mina and Shakirov, Shamil",
+    title = "{Knot Homology and Refined Chern-Simons Index}",
+    eprint = "1105.5117",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1007/s00220-014-2197-4",
+    journal = "Commun. Math. Phys.",
+    volume = "333",
+    number = "1",
+    pages = "187--228",
+    year = "2015"
 }
 
 @article{DuninBarkowski11,
-  author = {P. Dunin-Barkowski and A. Mironov and A. Morozov and A. Sleptsov and A. Smirnov},
-  title = {{Superpolynomials for toric knots from evolution induced by cut-and-join operators}},
-  year = {2011},
-  eprint = {1106.4305},
-  archivePrefix = {arXiv},
-  note = {arXiv:1106.4305},
-  journal = {JHEP 03 (2013) 021},
-  doi = {10.1007/JHEP03(2013)021},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {DuninBarkowski11},
+    author = "Dunin-Barkowski, P. and Mironov, A. and Morozov, A. and Sleptsov, A. and Smirnov, A.",
+    title = "{Superpolynomials for toric knots from evolution induced by cut-and-join operators}",
+    eprint = "1106.4305",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-10-11, ITEP-TH-21-11",
+    doi = "10.1007/JHEP03(2013)021",
+    journal = "JHEP",
+    volume = "03",
+    pages = "021",
+    year = "2013"
 }
 
 @misc{Cherednik11,
@@ -95,61 +110,77 @@
 }
 
 @article{Mironov12,
-  author = {A. Mironov and A. Morozov and Sh. Shakirov and A. Sleptsov},
-  title = {{Interplay between MacDonald and Hall-Littlewood expansions of extended torus superpolynomials}},
-  year = {2012},
-  eprint = {1201.3339},
-  archivePrefix = {arXiv},
-  note = {arXiv:1201.3339},
-  journal = {JHEP 2012 (2012) 70},
-  doi = {10.1007/JHEP05(2012)070},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Mironov12},
+    author = "Mironov, A. and Morozov, A. and Shakirov, Sh. and Sleptsov, A.",
+    title = "{Interplay between MacDonald and Hall-Littlewood expansions of extended torus superpolynomials}",
+    eprint = "1201.3339",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-22-11, ITEP-TH-01-12",
+    doi = "10.1007/JHEP05(2012)070",
+    journal = "JHEP",
+    volume = "05",
+    pages = "070",
+    year = "2012"
 }
 
-@misc{Aganagic12,
-  author = {Mina Aganagic and Shamil Shakirov},
-  title = {{Refined Chern-Simons Theory and Knot Homology}},
-  year = {2012},
-  eprint = {1202.2489},
-  archivePrefix = {arXiv},
-  note = {arXiv:1202.2489},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Aganagic12,
+    shorthand = {Aganagic12},
+    author = "Aganagic, Mina and Shakirov, Shamil",
+    editor = "Block, Jonathan and Distler, Jacques and Donagi, Ron and Sharpe, Eric",
+    title = "{Refined Chern-Simons Theory and Knot Homology}",
+    eprint = "1202.2489",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1090/pspum/085/1372",
+    journal = "Proc. Symp. Pure Math.",
+    volume = "85",
+    pages = "3--32",
+    year = "2012"
 }
 
 @article{Itoyama12,
-  author = {H. Itoyama and A. Mironov and A. Morozov and An. Morozov},
-  title = {{HOMFLY and superpolynomials for figure eight knot in all symmetric and antisymmetric representations}},
-  year = {2012},
-  eprint = {1203.5978},
-  archivePrefix = {arXiv},
-  note = {arXiv:1203.5978},
-  journal = {Journal of High Energy Physics Volume 2012, Number 7 (2012), 131},
-  doi = {10.1007/JHEP07(2012)131},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Itoyama12},
+    author = "Itoyama, H. and Mironov, A. and Morozov, A. and Morozov, An.",
+    title = "{HOMFLY and superpolynomials for figure eight knot in all symmetric and antisymmetric representations}",
+    eprint = "1203.5978",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-04-12, ITEP-TH-14-12, OCU-PHYS-364",
+    doi = "10.1007/JHEP07(2012)131",
+    journal = "JHEP",
+    volume = "07",
+    pages = "131",
+    year = "2012"
 }
 
 @article{Fuji12,
-  author = {Hiroyuki Fuji and Sergei Gukov and Piotr Sułkowski},
-  title = {{Super-A-polynomial for knots and BPS states}},
-  year = {2012},
-  eprint = {1205.1515},
-  archivePrefix = {arXiv},
-  note = {arXiv:1205.1515},
-  journal = {Nucl. Phys. B867 (2013) 506},
-  doi = {10.1016/j.nuclphysb.2012.10.005},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Fuji12},
+    author = "Fuji, Hiroyuki and Gukov, Sergei and Sulkowski, Piotr",
+    title = "{Super-A-polynomial for knots and BPS states}",
+    eprint = "1205.1515",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "CALT-68-2870",
+    doi = "10.1016/j.nuclphysb.2012.10.005",
+    journal = "Nucl. Phys. B",
+    volume = "867",
+    pages = "506--546",
+    year = "2013"
 }
 
 @article{Nawata12,
-  author = {Satoshi Nawata and P. Ramadevi and Zodinmawia and Xinyu Sun},
-  title = {{Super-A-polynomials for Twist Knots}},
-  year = {2012},
-  eprint = {1209.1409},
-  archivePrefix = {arXiv},
-  note = {arXiv:1209.1409},
-  journal = {JHEP 1211 (2012) 157},
-  doi = {10.1007/JHEP11(2012)157},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Nawata12},
+    author = "Nawata, Satoshi and Ramadevi, P. and Zodinmawia and Sun, Xinyu",
+    title = "{Super-A-polynomials for Twist Knots}",
+    eprint = "1209.1409",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1007/JHEP11(2012)157",
+    journal = "JHEP",
+    volume = "11",
+    pages = "157",
+    year = "2012"
 }
 
 @article{Morozov12,
@@ -165,60 +196,79 @@
 }
 
 @article{Anokhina12,
-  author = {A. Anokhina and A. Mironov and A. Morozov and An. Morozov},
-  title = {{Knot polynomials in the first non-symmetric representation}},
-  year = {2012},
-  eprint = {1211.6375},
-  archivePrefix = {arXiv},
-  note = {arXiv:1211.6375},
-  journal = {Nuclear Physics, Section B 882C (2014), pp. 171-194},
-  doi = {10.1016/j.nuclphysb.2014.03.002},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Anokhina12},
+    author = "Anokhina, A. and Mironov, A. and Morozov, A. and Morozov, An.",
+    title = "{Knot polynomials in the first non-symmetric representation}",
+    eprint = "1211.6375",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-28-12, ITEP-TH-52-12, IIP-TH-29-12",
+    doi = "10.1016/j.nuclphysb.2014.03.002",
+    journal = "Nucl. Phys. B",
+    volume = "882",
+    pages = "171--194",
+    year = "2014"
 }
 
 @article{Gorsky13b,
-  author = {Eugene Gorsky and Andrei Neguţ},
-  title = {{Refined knot invariants and Hilbert schemes}},
-  year = {2013},
-  eprint = {1304.3328},
-  archivePrefix = {arXiv},
-  note = {arXiv:1304.3328},
-  journal = {Journal de mathématiques pures et appliquées 104 (2015), pp. 403-435},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Gorsky13b},
+    author = "Gorsky, Eugene and Negut, Andrei",
+    title = "{Refined knot invariants and Hilbert schemes}",
+    eprint = "1304.3328",
+    archivePrefix = "arXiv",
+    primaryClass = "math.RT",
+    journal = "J. Math. Pure. Appl.",
+    volume = "104",
+    pages = "403--435",
+    year = "2015"
 }
 
-@misc{Gorsky13,
-  author = {Eugene Gorsky and Sergei Gukov and Marko Stosic},
-  title = {{Quadruply-graded colored homology of knots}},
-  year = {2013},
-  eprint = {1304.3481},
-  archivePrefix = {arXiv},
-  note = {arXiv:1304.3481},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Gorsky13,
+    shorthand = {Gorsky13},
+    author = "Gorsky, Eugene and Gukov, Sergei and Stosic, Marko",
+    title = "{Quadruply-graded colored homology of knots.}",
+    eprint = "1304.3481",
+    archivePrefix = "arXiv",
+    primaryClass = "math.QA",
+    reportNumber = "CALT-68-2903",
+    doi = "10.4064/fm30-11-2017",
+    journal = "Fundam.  Math.",
+    volume = "243",
+    number = "3",
+    pages = "209--299",
+    year = "2018"
 }
 
 @article{Mironov13,
-  author = {A. Mironov and A. Morozov and An. Morozov},
-  title = {{Evolution method and "differential hierarchy" of colored knot polynomials}},
-  year = {2013},
-  eprint = {1306.3197},
-  archivePrefix = {arXiv},
-  note = {arXiv:1306.3197},
-  journal = {AIP Conf. Proc. 1562 (2013) 123},
-  doi = {10.1063/1.4828688},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Mironov13},
+    author = "Mironov, A. and Morozov, A. and Morozov, An.",
+    editor = "Ma, Wen-Xiu and Kaup, David",
+    title = "{Evolution method and {\textquotedblleft}differential hierarchy{\textquotedblright} of colored knot polynomials}",
+    eprint = "1306.3197",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-08-13, ITEP-TH-17-13",
+    doi = "10.1063/1.4828688",
+    journal = "AIP Conf. Proc.",
+    volume = "1562",
+    number = "1",
+    pages = "123--155",
+    year = "2013"
 }
 
 @article{Anokhina13,
-  author = {A. Anokhina and An. Morozov},
-  title = {{Cabling procedure for the colored HOMFLY polynomials}},
-  year = {2013},
-  eprint = {1307.2216},
-  archivePrefix = {arXiv},
-  note = {arXiv:1307.2216},
-  journal = {Teor.Mat.Fiz. 178 (2014) 3-68; Theor.Math.Phys. 178 (2014) 1-58},
-  doi = {10.4213/tmf8588},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Anokhina13},
+    author = "Anokhina, A. and Morozov, An.",
+    title = "{Cabling procedure for the colored HOMFLY polynomials}",
+    eprint = "1307.2216",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "ITEP-TH-23-13",
+    doi = "10.1007/s11232-014-0129-2",
+    journal = "Teor. Mat. Fiz.",
+    volume = "178",
+    pages = "3--68",
+    year = "2014"
 }
 
 @misc{Shakirov13,
@@ -232,15 +282,18 @@
 }
 
 @article{Nawata13,
-  author = {Satoshi Nawata and P. Ramadevi and Zodinmawia},
-  title = {{Colored Kauffman Homology and Super-A-polynomials}},
-  year = {2013},
-  eprint = {1310.2240},
-  archivePrefix = {arXiv},
-  note = {arXiv:1310.2240},
-  journal = {JHEP 1401 (2014) 126},
-  doi = {10.1007/JHEP01(2014)126},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Nawata13},
+    author = "Nawata, Satoshi and Ramadevi, P. and Zodinmawia",
+    title = "{Colored Kauffman Homology and Super-A-polynomials}",
+    eprint = "1310.2240",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "NIKHEF-2013-025",
+    doi = "10.1007/JHEP01(2014)126",
+    journal = "JHEP",
+    volume = "01",
+    pages = "126",
+    year = "2014"
 }
 
 @misc{Chen14,
@@ -284,27 +337,35 @@
 }
 
 @article{Gu14,
-  author = {Jie Gu and Hans Jockers},
-  title = {{A note on colored HOMFLY polynomials for hyperbolic knots from WZW models}},
-  year = {2014},
-  eprint = {1407.5643},
-  archivePrefix = {arXiv},
-  note = {arXiv:1407.5643},
-  journal = {Commun.Math.Phys. 338 (2015) 393-456},
-  doi = {10.1007/s00220-015-2322-z},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Gu14},
+    author = "Gu, Jie and Jockers, Hans",
+    title = "{A note on colored HOMFLY polynomials for hyperbolic knots from WZW models}",
+    eprint = "1407.5643",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "BONN-TH-2014-12",
+    doi = "10.1007/s00220-015-2322-z",
+    journal = "Commun. Math. Phys.",
+    volume = "338",
+    number = "1",
+    pages = "393--456",
+    year = "2015"
 }
 
 @article{Mironov14,
-  author = {A. Mironov and A. Morozov and An. Morozov},
-  title = {{On colored HOMFLY polynomials for twist knots}},
-  year = {2014},
-  eprint = {1408.3076},
-  archivePrefix = {arXiv},
-  note = {arXiv:1408.3076},
-  journal = {Mod. Phys. Lett. A 29 (2014) 1450183},
-  doi = {10.1142/S0217732314501831},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Mironov14},
+    author = "Mironov, Andrei and Morozov, Alexei and Morozov, Andrey",
+    title = "{On colored HOMFLY polynomials for twist knots}",
+    eprint = "1408.3076",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-13-14, ITEP-TH-25-14",
+    doi = "10.1142/S0217732314501831",
+    journal = "Mod. Phys. Lett. A",
+    volume = "29",
+    number = "34",
+    pages = "1450183",
+    year = "2014"
 }
 
 @article{Cherednik14,
@@ -332,15 +393,19 @@
 }
 
 @article{Arthamonov15,
-  author = {Semeon Arthamonov and Shamil Shakirov},
-  title = {{Refined Chern-Simons Theory in Genus Two}},
-  year = {2015},
-  eprint = {1504.02620},
-  archivePrefix = {arXiv},
-  note = {arXiv:1504.02620},
-  journal = {Journal of Knot Theory and Its Ramifications Vol. 29, No. 07, 2050044 (2020)},
-  doi = {10.1142/S0218216520500443},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Arthamonov15},
+    author = "Arthamonov, Semeon and Shakirov, Shamil",
+    title = "{Refined Chern{\textendash}Simons theory in genus two}",
+    eprint = "1504.02620",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "ITEP-TH-07-15, ITEP/TH-07/15",
+    doi = "10.1142/S0218216520500443",
+    journal = "J. Knot Theor. Ramifications",
+    volume = "29",
+    number = "07",
+    pages = "2050044",
+    year = "2020"
 }
 
 @misc{Cherednik15,
@@ -354,15 +419,18 @@
 }
 
 @article{Gukov15,
-  author = {Sergei Gukov and Satoshi Nawata and Ingmar Saberi and Marko Stosic and Piotr Sułkowski},
-  title = {{Sequencing BPS Spectra}},
-  year = {2015},
-  eprint = {1512.07883},
-  archivePrefix = {arXiv},
-  note = {arXiv:1512.07883},
-  journal = {JHEP 1603 (2016) 004},
-  doi = {10.1007/JHEP03(2016)004},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Gukov15},
+    author = "Gukov, Sergei and Nawata, Satoshi and Saberi, Ingmar and Sto{\v{s}}i{\'c}, Marko and Su{\l}kowski, Piotr",
+    title = "{Sequencing BPS Spectra}",
+    eprint = "1512.07883",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "CALT-2015-063",
+    doi = "10.1007/JHEP03(2016)004",
+    journal = "JHEP",
+    volume = "03",
+    pages = "004",
+    year = "2016"
 }
 
 @misc{Chen15,
@@ -412,15 +480,19 @@
 }
 
 @article{Kononov16,
-  author = {Ya. Kononov and A. Morozov},
-  title = {{Rectangular superpolynomials for the figure-eight knot}},
-  year = {2016},
-  eprint = {1609.00143},
-  archivePrefix = {arXiv},
-  note = {arXiv:1609.00143},
-  journal = {Theoretical and Mathematical Physics 193 (2017) 1630-1646},
-  doi = {10.1134/S0040577917110058},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Kononov16},
+    author = "Kononov, Ya. and Morozov, A.",
+    title = "{Rectangular superpolynomials for the figure-eight knot 4$_{1}$}",
+    eprint = "1609.00143",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "ITEP-TH-21-16",
+    doi = "10.1134/S0040577917110058",
+    journal = "Theor. Math. Phys.",
+    volume = "193",
+    number = "2",
+    pages = "1630--1646",
+    year = "2017"
 }
 
 @misc{Luo16,
@@ -434,39 +506,50 @@
 }
 
 @article{Morozov16,
-  author = {A. Morozov},
-  title = {{Factorization of differential expansion for non-rectangular representations}},
-  year = {2016},
-  eprint = {1612.00422},
-  archivePrefix = {arXiv},
-  note = {arXiv:1612.00422},
-  journal = {MPLA 33 No. 12 (2018) 1850062},
-  doi = {10.1142/S0217732318500621},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Morozov16},
+    author = "Morozov, A.",
+    title = "{Factorization of differential expansion for non-rectangular representations}",
+    eprint = "1612.00422",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "IITP-TH-20-16, IITP/TH-20/16",
+    doi = "10.1142/S0217732318500621",
+    journal = "Mod. Phys. Lett. A",
+    volume = "33",
+    number = "12",
+    pages = "1850062",
+    year = "2018"
 }
 
 @article{Kameyama17,
-  author = {Masaya Kameyama and Satoshi Nawata},
-  title = {{Refined large N duality for knots}},
-  year = {2017},
-  eprint = {1703.05408},
-  archivePrefix = {arXiv},
-  note = {arXiv:1703.05408},
-  doi = {10.1142/S0218216520410011},
-  journal = {J. Knot Theory Ramifications 32 (2023) no. 06, 2041001},
-  verification2 = {Crossref・INSPIRE で確認（オンライン公開 2020-07-08）},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Kameyama17},
+    author = "Kameyama, Masaya and Nawata, Satoshi",
+    title = "{Refined large N duality for knots}",
+    eprint = "1703.05408",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "CALT-2017-010",
+    doi = "10.1142/S0218216520410011",
+    journal = "J. Knot Theor. Ramifications",
+    volume = "32",
+    number = "06",
+    pages = "2041001",
+    year = "2023"
 }
 
-@misc{Diaconescu17,
-  author = {Duiliu-Emanuel Diaconescu and Ron Donagi and Tony Pantev},
-  title = {{BPS states, torus links and wild character varieties}},
-  year = {2017},
-  eprint = {1704.07412},
-  archivePrefix = {arXiv},
-  note = {arXiv:1704.07412},
-  doi = {10.1007/s00220-018-3097-9},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Diaconescu17,
+    shorthand = {Diaconescu17},
+    author = "Diaconescu, Duiliu-Emanuel and Donagi, Ron and Pantev, Tony",
+    title = "{BPS states, torus links and wild character varieties}",
+    eprint = "1704.07412",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1007/s00220-018-3097-9",
+    journal = "Commun. Math. Phys.",
+    volume = "359",
+    number = "3",
+    pages = "1027--1078",
+    year = "2018"
 }
 
 @article{Mellit17,
@@ -482,27 +565,35 @@
 }
 
 @article{Kucharski17,
-  author = {Piotr Kucharski and Markus Reineke and Marko Stosic and Piotr Sułkowski},
-  title = {{BPS states, knots and quivers}},
-  year = {2017},
-  eprint = {1707.02991},
-  archivePrefix = {arXiv},
-  note = {arXiv:1707.02991},
-  journal = {Phys. Rev. D 96, 121902 (2017)},
-  doi = {10.1103/PhysRevD.96.121902},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Kucharski17},
+    author = "Kucharski, Piotr and Reineke, Markus and Stosic, Marko and Su{\l}kowski, Piotr",
+    title = "{BPS states, knots and quivers}",
+    eprint = "1707.02991",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "CALT-2017-039",
+    doi = "10.1103/PhysRevD.96.121902",
+    journal = "Phys. Rev. D",
+    volume = "96",
+    number = "12",
+    pages = "121902",
+    year = "2017"
 }
 
 @article{Kucharski17b,
-  author = {Piotr Kucharski and Markus Reineke and Marko Stosic and Piotr Sułkowski},
-  title = {{Knots-quivers correspondence}},
-  year = {2017},
-  eprint = {1707.04017},
-  archivePrefix = {arXiv},
-  note = {arXiv:1707.04017},
-  journal = {Adv. Theor. Math. Phys. 23 (2019), no. 7 1849-1902},
-  doi = {10.4310/ATMP.2019.v23.n7.a4},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Kucharski17b},
+    author = "Kucharski, Piotr and Reineke, Markus and Stosic, Marko and Su{\l}kowski, Piotr",
+    title = "{Knots-quivers correspondence}",
+    eprint = "1707.04017",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "CALT-2017-040",
+    doi = "10.4310/ATMP.2019.v23.n7.a4",
+    journal = "Adv. Theor. Math. Phys.",
+    volume = "23",
+    number = "7",
+    pages = "1849--1902",
+    year = "2019"
 }
 
 @article{Cherednik17,
@@ -517,59 +608,78 @@
 }
 
 @article{Morozov18,
-  author = {A. Morozov},
-  title = {{Knot polynomials for twist satellites}},
-  year = {2018},
-  eprint = {1801.02407},
-  archivePrefix = {arXiv},
-  note = {arXiv:1801.02407},
-  journal = {Phys.Lett. B782 (2018) 104-111},
-  doi = {10.1016/j.physletb.2018.05.031},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Morozov18},
+    author = "Morozov, A.",
+    title = "{Knot polynomials for twist satellites}",
+    eprint = "1801.02407",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "ITEP-TH-01-18",
+    doi = "10.1016/j.physletb.2018.05.031",
+    journal = "Phys. Lett. B",
+    volume = "782",
+    pages = "104--111",
+    year = "2018"
 }
 
-@misc{Chuang18,
-  author = {Wu-yen Chuang and Duiliu-Emanuel Diaconescu and Ron Donagi and Satoshi Nawata and Tony Pantev},
-  title = {{Twisted spectral correspondence and torus knots}},
-  year = {2018},
-  eprint = {1804.08364},
-  archivePrefix = {arXiv},
-  note = {arXiv:1804.08364},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Chuang18,
+    shorthand = {Chuang18},
+    author = "Chuang, Wu-yen and Diaconescu, Duiliu-Emanuel and Donagi, Ron and Nawata, Satoshi and Pantev, Tony",
+    title = "{Twisted spectral correspondence and torus knots}",
+    eprint = "1804.08364",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1142/S0218216520500406",
+    journal = "J. Knot Theor. Ramifications",
+    volume = "29",
+    number = "06",
+    pages = "2050040",
+    year = "2020"
 }
 
 @article{Ekholm18,
-  author = {Tobias Ekholm and Piotr Kucharski and Pietro Longhi},
-  title = {{Physics and geometry of knots-quivers correspondence}},
-  year = {2018},
-  eprint = {1811.03110},
-  archivePrefix = {arXiv},
-  note = {arXiv:1811.03110},
-  journal = {Commun. Math. Phys. 379 (2020) no. 2, 361-415},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Ekholm18},
+    author = "Ekholm, Tobias and Kucharski, Piotr and Longhi, Pietro",
+    title = "{Physics and geometry of knots-quivers correspondence}",
+    eprint = "1811.03110",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    doi = "10.1007/s00220-020-03840-y",
+    journal = "Commun. Math. Phys.",
+    volume = "379",
+    number = "2",
+    pages = "361--415",
+    year = "2020"
 }
 
-@misc{Kameyama19,
-  author = {Masaya Kameyama and Satoshi Nawata and Runkai Tao and Hao Derrick Zhang},
-  title = {{Cyclotomic expansions of HOMFLY-PT colored by rectangular Young diagrams}},
-  year = {2019},
-  eprint = {1902.02275},
-  archivePrefix = {arXiv},
-  note = {arXiv:1902.02275},
-  doi = {10.1007/s11005-020-01318-5},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Kameyama19,
+    shorthand = {Kameyama19},
+    author = "Kameyama, Masaya and Nawata, Satoshi and Tao, Runkai and Zhang, Hao Derrick",
+    title = "{Cyclotomic expansions of HOMFLY-PT colored by rectangular Young diagrams}",
+    eprint = "1902.02275",
+    archivePrefix = "arXiv",
+    primaryClass = "math.GT",
+    doi = "10.1007/s11005-020-01318-5",
+    journal = "Lett. Math. Phys.",
+    volume = "110",
+    number = "10",
+    pages = "2573--2583",
+    year = "2020"
 }
 
 @article{Morozov19,
-  author = {A. Morozov},
-  title = {{Extension of KNTZ trick to non-rectangular representations}},
-  year = {2019},
-  eprint = {1903.00259},
-  archivePrefix = {arXiv},
-  note = {arXiv:1903.00259},
-  journal = {Phys.Lett. B793 (2019) 464-468},
-  doi = {10.1016/j.physletb.2019.05.016},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Morozov19},
+    author = "Morozov, A.",
+    title = "{Extension of KNTZ trick to non-rectangular representations}",
+    eprint = "1903.00259",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "ITEP/TH-04/19, IITP/TH-04/19",
+    doi = "10.1016/j.physletb.2019.05.016",
+    journal = "Phys. Lett. B",
+    volume = "793",
+    pages = "464--468",
+    year = "2019"
 }
 
 @misc{Hogancamp19,
@@ -592,36 +702,49 @@
   verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
 }
 
-@misc{Cheng21,
-  author = {Shi Cheng and Piotr Sułkowski},
-  title = {{Refined open topological strings revisited}},
-  year = {2021},
-  eprint = {2104.00713},
-  archivePrefix = {arXiv},
-  note = {arXiv:2104.00713},
-  doi = {10.1103/PhysRevD.104.106012},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Cheng21,
+    shorthand = {Cheng21},
+    author = "Cheng, Shi and Su{\l}kowski, Piotr",
+    title = "{Refined open topological strings revisited}",
+    eprint = "2104.00713",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "Phys. Rev. D 104, 106012 (2021)",
+    doi = "10.1103/PhysRevD.104.106012",
+    journal = "Phys. Rev. D",
+    volume = "104",
+    number = "10",
+    pages = "106012",
+    year = "2021"
 }
 
-@misc{Zhu21,
-  author = {Shengmao Zhu},
-  title = {{New structures for colored HOMFLY-PT invariants}},
-  year = {2021},
-  eprint = {2105.02037},
-  archivePrefix = {arXiv},
-  note = {arXiv:2105.02037},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Zhu21,
+    shorthand = {Zhu21},
+    author = "Zhu, Shengmao",
+    title = "{New structures for colored HOMFLY-PT invariants}",
+    eprint = "2105.02037",
+    archivePrefix = "arXiv",
+    primaryClass = "math.GT",
+    doi = "10.1007/s11425-021-1951-7",
+    journal = "Sci. China Math.",
+    volume = "66",
+    number = "2",
+    pages = "341--392",
+    year = "2023"
 }
 
 @article{Luo21,
-  author = {Wei Luo and Shengmao Zhu},
-  title = {{Integrality of the LMOV invariants for framed unknot}},
-  year = {2021},
-  eprint = {2106.02882},
-  archivePrefix = {arXiv},
-  note = {arXiv:2106.02882},
-  journal = {Communications in Number Theory and Physics, Volume 13, Number 1, 81-100, 2019},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Luo21},
+    author = "Luo, Wei and Zhu, Shengmao",
+    title = "{Integrality of the LMOV invariants for framed unknot}",
+    eprint = "2106.02882",
+    archivePrefix = "arXiv",
+    primaryClass = "math.GT",
+    doi = "10.4310/CNTP.2019.v13.n1.a3",
+    journal = "Commun. Num. Theor. Phys.",
+    volume = "13",
+    pages = "81--100",
+    year = "2019"
 }
 
 @article{Nakagane21,
@@ -658,14 +781,19 @@
   verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
 }
 
-@misc{Stosic24,
-  author = {Marko Stošić},
-  title = {{Generalized knots-quivers correspondence}},
-  year = {2024},
-  eprint = {2402.03066},
-  archivePrefix = {arXiv},
-  note = {arXiv:2402.03066},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Stosic24,
+    shorthand = {Stosic24},
+    author = "Sto{\v{s}}i{\'c}, Marko",
+    title = "{Generalized knots{\textendash}quivers correspondence}",
+    eprint = "2402.03066",
+    archivePrefix = "arXiv",
+    primaryClass = "math.QA",
+    doi = "10.1142/S0218216525500531",
+    journal = "J. Knot Theor. Ramifications",
+    volume = "34",
+    number = "11",
+    pages = "2550053",
+    year = "2025"
 }
 
 @misc{Caprau24,
@@ -689,24 +817,33 @@
   verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
 }
 
-@misc{Wang25,
-  author = {Kai Wang and Shengmao Zhu},
-  title = {{BPS invariants from framed links}},
-  year = {2025},
-  eprint = {2502.16609},
-  archivePrefix = {arXiv},
-  note = {arXiv:2502.16609},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Wang25,
+    shorthand = {Wang25},
+    author = "Wang, Kai and Zhu, Shengmao",
+    title = "{BPS invariants from framed links}",
+    eprint = "2502.16609",
+    archivePrefix = "arXiv",
+    primaryClass = "math.GT",
+    doi = "10.1007/JHEP06(2025)123",
+    journal = "JHEP",
+    volume = "06",
+    pages = "123",
+    year = "2025"
 }
 
-@misc{Zhu25,
-  author = {Shengmao Zhu},
-  title = {{On Hecke lifting conjecture for framed knots}},
-  year = {2025},
-  eprint = {2510.15692},
-  archivePrefix = {arXiv},
-  note = {arXiv:2510.15692},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Zhu25,
+    shorthand = {Zhu25},
+    author = "Zhu, Shengmao",
+    title = "{On Hecke lifting conjecture for framed knots}",
+    eprint = "2510.15692",
+    archivePrefix = "arXiv",
+    primaryClass = "math.GT",
+    doi = "10.1140/epjc/s10052-025-15222-6",
+    journal = "Eur. Phys. J. C",
+    volume = "85",
+    number = "12",
+    pages = "1478",
+    year = "2025"
 }
 
 @misc{Banerjee26,
@@ -739,26 +876,30 @@
   verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
 }
 
-@misc{Marino01,
-  author = {Marcos Marino and Cumrun Vafa},
-  title = {{Framed knots at large N}},
-  year = {2001},
-  eprint = {hep-th/0108064},
-  archivePrefix = {arXiv},
-  note = {arXiv:hep-th/0108064},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+@article{Marino01,
+    shorthand = {Marino01},
+    author = "Marino, Marcos and Vafa, Cumrun",
+    title = "{Framed knots at large N}",
+    eprint = "hep-th/0108064",
+    archivePrefix = "arXiv",
+    reportNumber = "RUNHETC-2001-23, HUTP-01-A039",
+    journal = "Contemp. Math.",
+    volume = "310",
+    pages = "185--204",
+    year = "2002"
 }
 
 @article{Iqbal07,
-  author = {Amer Iqbal and Can Kozcaz and Cumrun Vafa},
-  title = {{The Refined Topological Vertex}},
-  year = {2007},
-  eprint = {hep-th/0701156},
-  archivePrefix = {arXiv},
-  note = {arXiv:hep-th/0701156},
-  journal = {JHEP 0910:069,2009},
-  doi = {10.1088/1126-6708/2009/10/069},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの。無いものは掲載誌未確認}
+    shorthand = {Iqbal07},
+    author = "Iqbal, Amer and Kozcaz, Can and Vafa, Cumrun",
+    title = "{The Refined topological vertex}",
+    eprint = "hep-th/0701156",
+    archivePrefix = "arXiv",
+    doi = "10.1088/1126-6708/2009/10/069",
+    journal = "JHEP",
+    volume = "10",
+    pages = "069",
+    year = "2009"
 }
 
 @article{Dunfield05,
@@ -773,23 +914,109 @@
 }
 
 @article{Ooguri99,
-  author = {Hirosi Ooguri and Cumrun Vafa},
-  title = {{Knot invariants and topological strings}},
-  year = {1999},
-  eprint = {hep-th/9912123},
-  archivePrefix = {arXiv},
-  note = {arXiv:hep-th/9912123},
-  journal = {Nucl.Phys.B577:419-438,2000},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの}
+    shorthand = {Ooguri99},
+    author = "Ooguri, Hirosi and Vafa, Cumrun",
+    title = "{Knot invariants and topological strings}",
+    eprint = "hep-th/9912123",
+    archivePrefix = "arXiv",
+    reportNumber = "CALT-68-2251, CITUSC-99-008, HUTP-99-A070, LBNL-44695, UCB-PTH-99-54, LBL-44695",
+    doi = "10.1016/S0550-3213(00)00118-8",
+    journal = "Nucl. Phys. B",
+    volume = "577",
+    pages = "419--438",
+    year = "2000"
 }
 
 @article{Labastida01,
-  author = {Jos\'e M. F. Labastida and Marcos Mari\~no and Cumrun Vafa},
-  title = {{Knots, links and branes at large N}},
-  year = {2000},
-  eprint = {hep-th/0010102},
-  archivePrefix = {arXiv},
-  note = {arXiv:hep-th/0010102},
-  journal = {JHEP0011:007,2000},
-  verification = {書誌は arXiv API で確認（2026-10-09）。journal は著者が arXiv に記載したもの}
+    shorthand = {Labastida01},
+    author = "Labastida, J. M. F. and Marino, Marcos and Vafa, Cumrun",
+    title = "{Knots, links and branes at large N}",
+    eprint = "hep-th/0010102",
+    archivePrefix = "arXiv",
+    reportNumber = "US-FT-17-00, RUNHETC-2000-38, HUTP-00-A042",
+    doi = "10.1088/1126-6708/2000/11/007",
+    journal = "JHEP",
+    volume = "11",
+    pages = "007",
+    year = "2000"
+}
+
+@article{Witten89,
+    shorthand = {Witten89},
+    author = "Witten, Edward",
+    editor = "Mitra, Asoke N.",
+    title = "{Quantum Field Theory and the Jones Polynomial}",
+    reportNumber = "IASSNS-HEP-88-33",
+    doi = "10.1007/BF01217730",
+    journal = "Commun. Math. Phys.",
+    volume = "121",
+    pages = "351--399",
+    year = "1989"
+}
+
+@article{Gopakumar98,
+    shorthand = {Gopakumar98},
+    author = "Gopakumar, Rajesh and Vafa, Cumrun",
+    editor = "Vafa, Cumrun and Yau, S. -T.",
+    title = "{On the gauge theory / geometry correspondence}",
+    eprint = "hep-th/9811131",
+    archivePrefix = "arXiv",
+    reportNumber = "HUTP-98-A078",
+    doi = "10.4310/ATMP.1999.v3.n5.a5",
+    journal = "Adv. Theor. Math. Phys.",
+    volume = "3",
+    pages = "1415--1443",
+    year = "1999"
+}
+
+@article{Rosso93,
+    shorthand = {Rosso93},
+    author = "Rosso, Marc and Jones, Vaughan",
+    title = "{On the invariants of torus knots derived from quantum groups}",
+    doi = "10.1142/S0218216593000064",
+    journal = "J. Knot Theor. Ramifications",
+    volume = "2",
+    pages = "97",
+    year = "1993"
+}
+
+@article{Khovanov05,
+    shorthand = {Khovanov05},
+    author = "Khovanov, Mikhail and Rozansky, Lev",
+    title = "{Matrix factorizations and link homology II}",
+    eprint = "math/0505056",
+    archivePrefix = "arXiv",
+    doi = "10.2140/gt.2008.12.1387",
+    journal = "Geom. Topol. Monographs",
+    volume = "12",
+    number = "3",
+    pages = "1387--1425",
+    year = "2008"
+}
+
+@article{Mironov16,
+    shorthand = {Mironov16},
+    author = "Mironov, A. and Morozov, A. and Morozov, An. and Ramadevi, P. and Singh, Vivek Kumar and Sleptsov, A.",
+    title = "{Tabulating knot polynomials for arborescent knots}",
+    eprint = "1601.04199",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "FIAN-TD-01-16, IITP-TH-01-16, ITEP-TH-01-16, ITEP-TH-02-16",
+    doi = "10.1088/1751-8121/aa5574",
+    journal = "J. Phys. A",
+    volume = "50",
+    number = "8",
+    pages = "085201",
+    year = "2017"
+}
+
+% source: AMS の PDF（references/FranksWilliams1987）で確認
+@article{Franks87,
+  author = {John Franks and R. F. Williams},
+  title = {{Braids and the Jones polynomial}},
+  journal = {Trans. Amer. Math. Soc.},
+  volume = {303},
+  number = {1},
+  pages = {97--108},
+  year = {1987}
 }

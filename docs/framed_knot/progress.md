@@ -6,7 +6,7 @@
   - docs/framed_knot/ の文書をサブディレクトリに分けた：reports/（REPORT*.md、RESULTS.md）、plans/（research_plan*.md）、categorification/、paper/phase1_draft/（第 1 期の旧草稿）。直下には progress.md、conventions.md、open_problems.md、novelty_report.md と、一覧の README.md を置く。リポジトリ内の参照は新しいパスに書き換えた（.claude/skills/progress-report/SKILL.md の 1 か所も、ユーザーの指示を受けて修正済み）。
   - 英語版の論文を docs/framed_knot/paper/en/ に新しく書き起こした（初稿、29 ページ、pdflatex でビルドでき、未定義の参照と overfull は無い）。主張と数値は ja/ の準備稿と claims.md のものだけを使い、新しい計算はしていない。
   - 準備稿から変えた点【判断】：(1) 予想 A を「トーラス結び目、全ての x、全ての ρ」に、予想 B を「代数的な iterated torus 結び目、(N1)(N2′) の下、全ての x、全ての ρ」に限った（review_2026-10-10.md の 1 番の指摘への対応。9_42 が反例になる書き方を避けた。ホモロジーを入力とする一般の結び目については予想を立てず、[1] は定理、2 箱は指数増大性が必要、と本文に書いた）。(2) 命題（[1] の正値性、指数増大性の必要条件、(N2′) と framing の関係）を、使う節に移した。(3) framing の走査を §7.2 にまとめた。
-  - 未了：Franks–Williams、Carlsson–Mellit、Rosso–Jones は references.bib に無いので、本文では名前だけで引用していない（書誌は原典で未確認）。データとコードの公開先は未定のまま（付録 D）。図は無い。英語の校閲と、ユーザーによる予想の範囲の確認が要る。
+  - 未了：Franks–Williams、Carlsson–Mellit、Rosso–Jones は references.bib に無いので、本文では名前だけで引用していない（書誌は原典で未確認）。（2026-11-11 追記：Franks–Williams と Rosso–Jones は追加済み。下の「英語版の文献の追加と書誌の確認」。）データとコードの公開先は未定のまま（付録 D）。図は無い。英語の校閲と、ユーザーによる予想の範囲の確認が要る。
 
 - **英語版の査読の指摘への対応（2026-11-11）**：
   - やったこと：独立査読の指摘（paper/en/review_20261111.md、重大 8 件・それ以外 15 件）のうち、数式と主張の格付けに触れないものを原稿に反映し、全指摘の判定を同じファイルの「判定と対応（2026-11-11）」に記録した。
@@ -16,6 +16,13 @@
     検査：check_tells.py は hard 0 件、latexmk は `!`・undefined なし。機能テストは実行していない（worktree に .venv が無い）。
   - 次にやること：見送った指摘（重大 1・2・8、それ以外 1・5〜8・10〜12 と 14・15 の一部）の著者の判断。文献の追加と書誌の確認（skill inspire-bibtex）。claims.md・ja/ の「19 個」の訂正。
   - 未解決：重大 1・2（証明の完全化か格下げか）、T(2,7) を Table 3 に加えるか。
+
+- **英語版の文献の追加と書誌の確認（2026-11-11、査読の「それ以外」10・12）**：
+  - やったこと：skill inspire-bibtex で INSPIRE-HEP の BibTeX を取り、paper/references.bib に 6 件を足して本文（paper/en/）に \cite を入れた。既存の 71 エントリも arXiv 番号で INSPIRE に引いた。問い合わせ先は inspirehep.net だけ。
+  - 結果：足したのは Witten89・Gopakumar98（introduction 冒頭）、Rosso93（inputs）、Khovanov05（three_boxes の stable Khovanov–Rozansky polynomial）、Mironov16（discussion の arborescent calculus）、Franks87（inputs・appendix。INSPIRE に無く、AMS の PDF で確認して手で作った）。既存の 40 エントリを INSPIRE の BibTeX に置き換えた（うち 12 個は @misc から掲載誌つきになった。Kameyama19 は Lett. Math. Phys. 110 (2020) 2573、Marino01 は Contemp. Math. 310 (2002) 185）。一覧は paper/en/review_20261111.md の判定 10・12。
+    検査：latexmk は `!`・undefined なし（bibtex の警告は、置き換えていないエントリの "missing pages" 9 件）。check_tells.py は hard 0 件。ja/ はコンパイルし直していない。
+  - 次にやること：INSPIRE に無い Carlsson–Mellit（1508.06239）、Rasmussen（math/0607544）、KnotInfo を別の方法（Crossref、arXiv のメタデータ）で足す。Gorsky21 と Cherednik11 の掲載誌の確認。
+  - 未解決：one_box.tex の「𝐪 の指数が偶数」の出典（候補は Khovanov–Rozansky II と Rasmussen。原典で未確認）。Gukov11 の掲載誌（既存は GTM 18、INSPIRE は Proc. Symp. Pure Math. 85）と Morozov12 の著者名の食い違い。INSPIRE の Khovanov05 の誌名 "Geom. Topol. Monographs"（DOI は Geom. Topol.）。置き換えたエントリは文献表に arXiv 番号が出ない。
 
 - **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中をテーマ `framed_knot/` と `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
   文書・コード・テスト・ログ中のパス文字列は新しい配置に書き換えた。スクリプトの実行は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov`。
