@@ -2372,3 +2372,17 @@
 - 結果：検査スクリプトは hard 0 件、soft 19 件（「overall sign」、表の「---」、範囲つきの verified／confirmed で、どれも直す必要なしと判断）。コンパイルは通り 52 ページ（前は 54）、`!` と undefined なし。数式・数値・\cite・\ref・\label を変更前後で機械的に比べ、差は意図したもの（上の言い換えと、削った \label 5 個：rem:whyg, rem:marino-status, rem:shift, rem:AMconv, rem:handle）だけであることを確かめた。
 - 次にやること：著者が全文を読む。skill の手順 7（文脈を持たない査読）は未実施。Acknowledgments と AI の使用の開示は著者が決める（未追加のまま）。
 - 未解決の問題：要旨に \cite が 4 つある（skill は要旨に引用を入れないとするが、著者名を書かない規則と第 1 回の校正 B2 の判定に従って残した）。本文の節は 11 個のまま（skill の目安は 5〜8。第 2 回のレビューで決めた目次なので変えていない）。bibtex が ../ja_v2/refs.bib の 251 行と 290 行のコメント（「@misc」を含む）でエラーを 2 件出す（以前からあり、文献表には影響しない。refs.bib は触っていない）。
+
+## 2026-11-11（続き 153）英語版の独立査読（review_20261111.md）の判定と、式に触れない範囲の対応
+- やったこと：paper/en/review_20261111.md の指摘（重大 M1〜M10、それ以外 O1〜O15）を判定し、数式・表の数値・定理環境の種類・`\label`・`\cite`・refs.bib・tex/gen_en・主張の格付けに触れずに直せるものだけ原稿に反映した。判定の表は同じファイルの末尾「判定と対応（2026-11-11）」。
+  - 対応：M1（abstract に範囲と "we conjecture"、"by interpolation in $N$"）、M9（付録 A.2 に補間の 2 つの仮定を文で明示、検証点が 1 つの行を明記）、O3（[Marino09] (4.8) の $z^9$ の印刷値と根拠の 1 文）、O5（Prop. 2.6 の中の解釈の文を命題の外へ）。
+  - 一部対応：M3（付録 A の検証ログ調の文を縮めた、cables.tex:15 の言い換え、Acknowledgments と AI 使用の開示文の案を main.tex に追加）、M4（index.tex:47 を "consistent with"）、M8（$J_2$・$S_R$・strong integrality・Lefschetz weight・$X^{\Sp}$・reweighting の $\sigma$ の定義か参照）、M10（[KN17] の正値性を予想として書く、"to our knowledge" を 3 か所）、O10（sp.tex:10 の言い回し、検証範囲）、O13（intro の重複と Prop. 9.3／Result 9.4 の書き分け）、O15（列挙と括弧の長い文）。
+  - 見送り：M2、M5、M6、M7、O1、O2、O4、O6〜O9、O11、O12、O14（理由は判定の表）。
+- 結果：
+  - 【原典で確認】[KN17]（references/1703.05408/src/refined-integrality.tex）の正値性は証明ではなく予想（要旨 "a positivity conjecture"、§4.1 の囲みの予想、"we observe ... always non-negative integers"）。原稿の "it was shown in [KN17] that ... are positive integers" を直した。
+  - 【検算】Prop. 2.6 の後の文「[Marino09] の unknot $(\lambda-\lambda^{-1})/z$ と crosscap の項 $-1$ の和」は (2.9) と符号が合わない（(2.9) は [Marino09] の unknot $1 + (\lambda-\lambda^{-1})/z$ の $-1$ 倍）。文は直していない。
+  - 【記録との食い違い】原稿は δ を Seifert 種数と定義するが、conventions.md と progress.md（二重ツイスト結び目）は「δ は超多項式の δ 次数で、種数ではない（δ 次数は 0 か 1、種数はすべて 1）」とする。原稿は直していない。
+  - 【確認】tex/gen_en/daha.tex の随伴のラベルは $\lambda^2$ の冪（$[\lambda^{-5}]$ は $[\lambda^{-10}]$ と書くべき）、cover_split.tex に $s^2$ と $(qt)^{4/4}$、未使用の生成ファイル 4 つ、sign_table.tex に Unicode の「−」。生成スクリプトは直していない。
+  - 検査スクリプトは hard 0 件、soft 16 件。コンパイルは 52 ページ、`!` と undefined なし。ディスプレイ式・表・図・`\label`・定理環境・`\cite` は変更前と同じ（スクリプトで比較）。
+- 次にやること：著者が abstract、Acknowledgments の開示文、intro の [KN17] の説明、sp.tex:10 の「単項式が一意」の読み、O3 の印刷値の文を確かめる。見送った M2・M4〜M7・O1・O5 の符号を著者が判断する。O2 は rk_report_tex_en.py を直して tex/gen_en を作り直す。
+- 未解決の問題：[Marino09] (4.8) の印刷値は原典と照合していない（TeX が references/ に無い。progress.md の 2026-10-14 の記録と計算値の $z^8$ の係数による）。文献の中の節・式番号と、追加すべき先行研究は「要確認・要追加」の一覧に残した。$T(3,4)$ の $c = 1$ のブロック（claims T7 は「両端だけ対称」、原稿は "only $\lambda^{-6}$"）はデータで確かめていない。
