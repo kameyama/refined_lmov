@@ -194,6 +194,18 @@
 
 ## 完了した作業
 
+### 2026-11-11 英語版の原稿（paper/en）の体裁と文体の推敲（スキル hep-th-paper）
+- やったこと：docs/framed_knot/paper/en の sections/*.tex を、式・数値・主張の格付け・定理環境の種類・\label を変えずに書き直した。
+  - Abstract を 1 段落にした（(i)〜(iv) の列挙をやめた。数値は同じ）。
+  - Introduction の小節 4 つと \paragraph・箇条書きをやめ、文脈 → KN のデータ → 目的 → 結果 → 関連研究 → 主張の種別 → 構成、の順の散文にした。
+  - 本文の箇条書き・\paragraph・Remark を散文にした。Remark は 9 個から 2 個（rem:Taki、rem:tilde。本文から番号で参照している）。Mellit の系の正規化の注意は付録 B に移した。
+  - 見出しのコロン構文 3 か所を直した（6.1、7.4、8.3。\label は同じ）。
+  - Discussion の \paragraph 6 個を、見出しなしの段落 5 つにまとめた。付録 A・B の \paragraph も散文にした。
+- 結果：検査スクリプト（.claude/skills/hep-th-paper/scripts/check_tells.py）は hard 0 件、soft 15 件（overall sign の "overall" 11 件、範囲つきの計算に対応する verified / verification 3 件、表の「---」1 件）。latexmk は通り、27 ページ、`!` エラーと undefined なし。
+  - `% tells-ok` を付けた箇所：(N1)(N2)(N2′) の一覧（inputs.tex）、4_1 の 4 箱の線形条件の一覧（higher_boxes.tex）、表の \checkmark の行（tables/summary_table_main.tex、summary_table_nonalg.tex。表の中身は変えていない）。
+- 次にやること：著者が全文と全数式を読む。Acknowledgments と AI の使用の開示文が無い（著者が確定する）。独立した査読（スキルの手順 7）は未実施。
+- 未解決：式番号が通し番号（節ごとでない）、表 3・4・付録の表が \hline（booktabs でない）のままである。プリアンブルと表は変えない指示なので直していない。
+
 ### 2026-10-10 4_1 の [3,1]：KN の方法の分析と延長の試み（ユーザーの指示「PR を出してから 4_1 の解を探せ、別のアイデアを検討せよ」→ 方針 2）
 
 - PR #8（https://github.com/kameyama/refined_lmov/pull/8）を作成。

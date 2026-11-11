@@ -1,6 +1,6 @@
 \section{Four boxes and beyond}\label{sec:higher}
 
-The tables of KN stop at three boxes. In this section we test all $\rho$ with $4\le|\rho|\le9$, in ranges depending on the knot, for torus knots, for which the refined invariants are defined.
+The tables of KN stop at three boxes. For torus knots, for which the refined invariants are defined, we test all $\rho$ with $4\le|\rho|\le9$, in ranges depending on the knot.
 We also describe a weak test for $\mathbf{4_1}$ with four boxes in which the unknown $\rCS_{\yng(3,1)}$ is constrained, and analyse the structure of the KN candidate for $\yng(2,1)$.
 Everything in this section is at framing zero.
 
@@ -57,19 +57,17 @@ At four boxes the non-hook colour $\yng(2,2)$ and the Adams images $(a,q,t)\maps
 At six boxes the Adams operations with $d=2,3,6$ have appeared for all colours with at most three boxes.
 From seven boxes on no new type of term appears and only the size grows.
 The knots were chosen by the number of strands, i.e.\ the width in the $a$-degree: $T_{2,2k+1}$ are thin, $T_{3,n}$ are thick of width $2$, and $T_{4,5}$ has width $3$.
-\begin{remark}
 The overall sign was $-1$ for $|\rho|\equiv2\pmod4$ and $+1$ otherwise, uniformly for all $\rho$ with the same number of boxes.
 For odd $|\rho|$ the half-integer shift of the $a$-degree is the periodic continuation of the convention of KN for $|\rho|=1,3$; it shifts $\beta$ uniformly and does not affect positivity.
 The coefficients of the genus form grow rapidly with the number of boxes: up to about $10^{30}$ for $T_{2,3}$ with nine boxes, and already about $10^{21}$ for $T_{4,5}$ with three boxes.
-\end{remark}
 
-\subsection{The figure-eight knot with four boxes: a weak test}\label{sec:fig8-four}
+\subsection{A weak test for the figure-eight knot with four boxes}\label{sec:fig8-four}
 For $\mathbf{4_1}$ with four boxes the rectangular inputs $\yng(4)$, $\yng(2,2)$, $\yng(1,1,1,1)$ come from the refined formulae of KNTZ \cite{Kameyama19};
 they agree in all coefficients with the values of KN for $\yng(1)$ to $\yng(1,1,1)$ and with the GNSSS formulae for the symmetric colours $[r]$, $r\le4$.
 For $\yng(2,1)$ we use the KN candidate.
 The refined value for $\yng(3,1)$, and for its transpose $\yng(2,1,1)$, is not in the literature.
 We therefore treat the coefficients of $\rCS_{\yng(3,1)}$ as unknowns subject to the following linear conditions:
-\begin{itemize}
+\begin{itemize} % tells-ok (short list of conditions stated by formulae)
 \item at $t=q$ it equals the differential expansion of Morozov \cite{Morozov16} for $\yng(3,1)$ (for $\mathbf{4_1}$, a sum of $Z$-factors);
 \item transposition, $\rCS_{\yng(2,1,1)}(a,q,t)=\rCS_{\yng(3,1)}(a,t^{-1},q^{-1})$, and amphichirality;
 \item exponential growth: it equals $\rCS_{\yng(1,1)}\rCS_{\yng(1)}^2$ at $q=1$ and $\rCS_{\yng(3)}\rCS_{\yng(1)}$ at $t=1$;
@@ -80,11 +78,9 @@ Since $\hf_\rho$ is linear in $\rCS_{\yng(3,1)}$, with a denominator depending o
 % [R19]
 \begin{compresult}\label{cr:fig8-four}
 With the unknowns restricted to $2367$ monomials determined from the values at the specialisations, the following hold.
-\begin{itemize}
-\item With overall sign $-1$ the problem is infeasible, already with positivity of the spin form alone.
-\item With overall sign $+1$ there exists a rational solution for which both forms are non-negative.
-\item No integral solution was found by mixed integer programming within $50$ minutes; its existence is undecided.
-\end{itemize}
+With overall sign $-1$ the problem is infeasible, already with positivity of the spin form alone.
+With overall sign $+1$ there exists a rational solution for which both forms are non-negative.
+No integral solution was found by mixed integer programming within $50$ minutes; its existence is undecided.
 \end{compresult}
 This is not a test of the conjecture; it only shows that, over the rationals, an $\rCS_{\yng(3,1)}$ compatible with the conjecture exists at four boxes.
 The conclusion depends on the KN candidate for $\yng(2,1)$, on the $U(2)$ hypothesis, and on the range of unknowns.

@@ -19,23 +19,21 @@ The rows $T_{2,3}$, $T_{2,5}$ and $\mathbf{4_1}$ reproduce tables of KN; for $\m
 \sbox\tabbox{\input{tables/summary_table_main}}\resizebox{\textwidth}{!}{\usebox\tabbox}
 \end{table}
 The rows $T_{2,3}$, $T_{2,5}$ and $\mathbf{4_1}$ reproduce KN.
-The five torus knots not in the tables of KN ($T_{3,4}$ with three boxes, $T_{3,5}$, $T_{2,11}$, $T_{3,7}$, $T_{4,5}$) are new tables, but since KN conjecture positivity for all torus knots they are confirmations of that conjecture.
+The five torus knots not in the tables of KN ($T_{3,4}$ with three boxes, $T_{3,5}$, $T_{2,11}$, $T_{3,7}$, $T_{4,5}$) are new tables, but since KN conjecture positivity for all torus knots they are further checks of that conjecture.
 The three-box results for the seven algebraic iterated torus knots are, to our knowledge, not in the literature.
 For the three-strand cable $K7$ and the two-step iteration $K10$ even the refined invariants with $|\lambda|=3$ seem to be new;
 Cherednik and Danilenko \cite{Cherednik14} give $\yng(1)$ for $K7$ and the DAHA--Betti polynomial for $K10$.
 
-\begin{remark}[Dependence on the normalisation]
+These tests depend on the normalisation.
 Since the DAHA and the elliptic Hall algebra determine the values only up to a monomial, the tests for knots not in the KN data depend on the normalisation (N2$'$).
 The dependence is confined to the single point of Hypothesis~\ref{hyp:N2}, the colour-dependent power $(q/t)^{c_\lambda}$ not determined at $t=q$.
 Shifting the reference framing by an even integer is a shift of $x$ (Proposition~\ref{prop:N2-framing}), and such shifts are covered by the framing scans of \S\ref{sec:three-x}.
 Other assignments destroy the Laurent property and the transposition symmetry in the example $K5c$.
-\end{remark}
+
 % [R12]
-\begin{remark}[Negative input, positive output]
 The input $\rCS_{\yng(2,1)}$ has negative coefficients, while $\hf_{\yng(2,1)}$ is positive.
 For torus knots this was pointed out by KN \cite{Kameyama17} (see also the examples of Cherednik \cite{Cherednik11}); our results show that it persists for algebraic iterated torus knots.
 Positivity for three boxes does not follow directly from positivity of the input; it appears only after the extraction of KN (plethystic logarithm and the matrix $M$).
-\end{remark}
 
 \subsection{Framing scans}\label{sec:three-x}
 % [R13]
@@ -73,42 +71,38 @@ for two boxes the knot must satisfy the exponential growth property (Proposition
 and for non-rectangular $\rho$ there is no homological input to speak of.
 For the twist and double twist knots, Theorems~\ref{thm:twist}--\ref{thm:twist-x} support positivity of two boxes at all framings, given the conjectural input.
 
-\paragraph{Motivation for Conjecture~\ref{conj:B}.}
+The motivation for Conjecture~\ref{conj:B} is different from that for torus knots.
 The physical argument of KN obtains the additional $U(1)_R$ symmetry from the Seifert structure.
 The complement of an algebraic iterated torus knot is in general not a Seifert manifold, so the argument does not apply directly.
-The motivation comes instead from two conjectures of Cherednik and Danilenko \cite{Cherednik14}:
-\begin{itemize}
-\item the positivity conjecture: for algebraic knots and rectangular Young diagrams all coefficients of the DAHA superpolynomial are positive;
-\item the Connection Conjecture (ii): for uncoloured knots with this positivity property (called pseudo-algebraic) the DAHA superpolynomial coincides with the tilde-normalised reduced stable Khovanov--Rozansky polynomial.
-\end{itemize}
-Their relation to our results is as follows.
-\begin{itemize}
-\item $\yng(1)$. Under the Connection Conjecture (ii), the DAHA value for $\yng(1)$ is a monomial multiple $m\,P_{\mathrm{KhR}}$ of the Poincar\'e polynomial of Khovanov--Rozansky homology.
+The motivation comes instead from two conjectures of Cherednik and Danilenko \cite{Cherednik14}.
+Their positivity conjecture states that for algebraic knots and rectangular Young diagrams all coefficients of the DAHA superpolynomial are positive.
+Their Connection Conjecture (ii) states that for uncoloured knots with this positivity property (called pseudo-algebraic) the DAHA superpolynomial coincides with the tilde-normalised reduced stable Khovanov--Rozansky polynomial.
+
+For $\yng(1)$, positivity follows from the Connection Conjecture (ii) and Proposition~\ref{prop:one}.
+Indeed, under this conjecture the DAHA value for $\yng(1)$ is a monomial multiple $m\,P_{\mathrm{KhR}}$ of the Poincar\'e polynomial of Khovanov--Rozansky homology.
 By (N1) both give the same reduced HOMFLY-PT polynomial at $\bt=-1$, so $m=\pm\bt^k$ with $\pm(-1)^k=1$; since both have non-negative coefficients, $m=\bt^{2l}$.
 As $\bt^{2l}$ is $\sigma$-invariant, Proposition~\ref{prop:one} applies and positivity for $\yng(1)$ follows.
-\item Rectangular colours. Cherednik and Danilenko conjecture positivity of the DAHA values and expect agreement with homology. The rectangular part of Conjecture~\ref{conj:B} transfers this to the level of BPS invariants.
-\item $\yng(2,1)$. Cherednik and Danilenko make no positivity claim for non-rectangular colours, and indeed $\rCS_{\yng(2,1)}$ has negative coefficients. Positivity at the level of BPS invariants lies outside their conjectures.
-\item Non-algebraic cables. Cherednik and Danilenko note that there are non-algebraic iterated torus knots without positivity.
-For most of the non-algebraic cables that we computed, negative coefficients appear already in the DAHA value for $\yng(1)$ (Appendix~\ref{app:nonalg}).
-\end{itemize}
+For rectangular colours, Cherednik and Danilenko conjecture positivity of the DAHA values and expect agreement with homology; the rectangular part of Conjecture~\ref{conj:B} transfers this to the level of BPS invariants.
+For $\yng(2,1)$, on the other hand, Cherednik and Danilenko make no positivity claim, and indeed $\rCS_{\yng(2,1)}$ has negative coefficients, so that positivity at the level of BPS invariants lies outside their conjectures.
+As for the restriction to algebraic knots, Cherednik and Danilenko note that there are non-algebraic iterated torus knots without positivity,
+and for most of the non-algebraic cables that we computed, negative coefficients appear already in the DAHA value for $\yng(1)$ (Appendix~\ref{app:nonalg}).
 
-\subsection{Towards hyperbolic knots: the problem of non-rectangular colours}\label{sec:21}
+\subsection{Non-rectangular colours for hyperbolic knots}\label{sec:21}
 For hyperbolic knots there is no definition-based refined invariant for $\yng(2,1)$, either in the literature or in software.
 We examined whether structural conditions can determine it.
 % [R15, R16, R17]
-\begin{itemize}
-\item \emph{Knot by knot.}
-We imposed the coloured HOMFLY-PT polynomial for $\yng(2,1)$ at $t=q$ (obtained from three-strand cables), the mirror symmetry, exponential growth, the reduction to $U(2)$,
+
+Working knot by knot, we imposed the coloured HOMFLY-PT polynomial for $\yng(2,1)$ at $t=q$ (obtained from three-strand cables), the mirror symmetry, exponential growth, the reduction to $U(2)$,
 the Laurent property of the three-box $\hf$, and the closure of the genus expansion.
 These conditions do not determine $\rCS_{\yng(2,1)}$ uniquely: the difference of two solutions has the form of a knot-independent factor times a free polynomial.
 The existence of an ambiguity was already noted by Anokhina et al.\ \cite{Anokhina12}.
-\item \emph{Weak tests.}
+One can still ask whether the conditions admit a solution compatible with positivity.
 An integral $\rCS_{\yng(2,1)}$ satisfying positivity exists for $\mathbf{4_1}$ (the KN candidate) and for $\mathbf{6_1}$ (a solution with $813$ terms).
 For $\mathbf{5_2}$ we found only rational solutions; the existence of an integral solution is undecided.
 This is not a test of the conjecture, only a check that it is not contradicted.
-\item \emph{Families.}
+
+We also considered families of knots.
 At $t=q$, the formula of Morozov \cite{Morozov16,Morozov19} for double twist knots coloured by $\yng(2,1)$ agrees with the values from cables; this is a check of a known formula.
 For refined rectangular colours we implemented the KNTZ formulae and compared them with the GNSSS formulae and with the elliptic Hall algebra values for the trefoil up to $\yng(2,2)$.
 The refined $\yng(2,1)$, however, is not determined uniquely even under assumptions on the structure of the family.
-\end{itemize}
 Three boxes for hyperbolic knots therefore require a definition of the refined invariant for $\yng(2,1)$; candidates are discussed in \S\ref{sec:discussion}.

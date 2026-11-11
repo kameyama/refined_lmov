@@ -5,7 +5,7 @@ KN \cite{Kameyama17} computed the two-box invariants for several twist and pretz
 What is new in Theorems~\ref{thm:twist} and~\ref{thm:pretzel} is the proof of positivity for whole families.
 For torus knots and algebraic cables the inputs are the defined refined invariants.
 
-\subsection{A necessary condition: exponential growth}
+\subsection{Exponential growth as a necessary condition}
 % [F15]
 \begin{proposition}\label{prop:two-necessary}
 Let the inputs $\rCS_{\yng(1)}$ and $\rCS_{\yng(2)}$ have non-negative coefficients and only even exponents of $\bq$ in bold variables.
@@ -24,12 +24,10 @@ Now $Q=1$ means $\bt=-\bq^{-1}$, under which $\ba^i\bq^j\bt^k\mapsto(-1)^k\ba^i\
 If $j$ is even then $(-1)^k=(-1)^{j-k}$, so after the further substitution $\bq\mapsto-\bq$ all coefficients are non-negative and no cancellation occurs.
 Setting $\ba=\bq=1$ gives the equality of dimensions. Independence of $x$ is Proposition~\ref{prop:x-indep}.
 \end{proof}
-\begin{remark}
 For $\mathbf{9_{42}}$ one has $\dim H^{\yng(1)}=9$ and $\dim H^{\yng(2)}=401\neq81$ \cite{Gorsky13}, so it cannot fit the KN form for any choice of the $t_c$-grading.
 That $\mathbf{9_{42}}$ does not fit was pointed out by KN and related there to the failure of exponential growth for thick homology (\cite{Gukov11}, Appendix~B);
 exponential growth itself is discussed in \cite{Gukov11,Fuji12}.
 Proposition~\ref{prop:two-necessary} shows that it is a necessary condition for the Laurent property.
-\end{remark}
 
 \subsection{Twist knots}
 Let $K_p=K_{p,1}$ be the twist knots in the convention of KNTZ \cite{Kameyama19}, which is also that of GNSSS \cite{Gukov15}:
@@ -65,20 +63,17 @@ the certificate was found by linear programming and verified in exact rational a
 For $|p|\le30$ ($120$ cases) there are no negative terms in either form.
 The closed form agrees in all coefficients with the direct computation at $|p|=6,\dots,12,15,20,30$, which were not used in its construction.
 \end{compresult}
-\begin{remark}[Unimodality]
+The closed form also exhibits unimodality.
 In terms of $v=\bq^2\bt$, the coefficients $c_3$ and $c_4$ are positive for structural reasons, and $\hf(K_p)$ is for all $p$ a positive combination of $\mathfrak{sl}_2$ characters in $v$, hence unimodal
 (for $c_0,c_1,c_2$ this is a finite check).
 For $\yng(1)$ unimodality follows for all knots from the hard Lefschetz property of \cite{Gorsky21}. We do not know a structural reason for two boxes.
-\end{remark}
 
 \subsection{Double twist knots}
 % [R4]
 \begin{theorem}[computer-assisted]\label{thm:pretzel}
 With the refined formulae of KNTZ as input, the two-box invariants of the double twist knots $K_{m,n}$ are positive
-\begin{enumerate}
-\item for all $(m,n)$ with $m$ and $n$ of the same sign;
-\item for all $(m,n)$ with $m<0<n$ and $\min(|m|,n)\le20$.
-\end{enumerate}
+{\rm(i)} for all $(m,n)$ with $m$ and $n$ of the same sign, and
+{\rm(ii)} for all $(m,n)$ with $m<0<n$ and $\min(|m|,n)\le20$.
 \end{theorem}
 \begin{proof}[Sketch of proof]
 With $\epsilon=(\mathrm{sign}\,m+\mathrm{sign}\,n)/2$ write $\hf(K_{m,n})=\bt^{2(1-\epsilon)}F(m,n)$; then $F$ is a single exponential polynomial on all of $\Z^2$.
@@ -101,10 +96,8 @@ At $t=q$ the inputs agree with the coloured HOMFLY-PT polynomials for $\yng(2)$ 
 These are thick non-torus knots that satisfy the necessary condition and are positive.
 This does not follow from the positivity of the DT invariants in the knots--quivers correspondence:
 the quiver series involves only symmetric representations, whereas $\hf_{\yng(2)}$ and $\hf_{\yng(1,1)}$ require the input for $\yng(1,1)$.
-\begin{remark}[Positivity is not automatic]
+Nor is positivity automatic for a given knot: it depends on the fine gradings of the input.
 For $\mathbf{5_2}$, each of twelve alternative assignments of the $t_c$-grading that we tried produces negative terms.
-Positivity depends on the fine gradings of the input.
-\end{remark}
 
 \subsection{All framings}
 % [R7]
