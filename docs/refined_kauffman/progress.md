@@ -2386,3 +2386,16 @@
   - 検査スクリプトは hard 0 件、soft 16 件。コンパイルは 52 ページ、`!` と undefined なし。ディスプレイ式・表・図・`\label`・定理環境・`\cite` は変更前と同じ（スクリプトで比較）。
 - 次にやること：著者が abstract、Acknowledgments の開示文、intro の [KN17] の説明、sp.tex:10 の「単項式が一意」の読み、O3 の印刷値の文を確かめる。見送った M2・M4〜M7・O1・O5 の符号を著者が判断する。O2 は rk_report_tex_en.py を直して tex/gen_en を作り直す。
 - 未解決の問題：[Marino09] (4.8) の印刷値は原典と照合していない（TeX が references/ に無い。progress.md の 2026-10-14 の記録と計算値の $z^8$ の係数による）。文献の中の節・式番号と、追加すべき先行研究は「要確認・要追加」の一覧に残した。$T(3,4)$ の $c = 1$ のブロック（claims T7 は「両端だけ対称」、原稿は "only $\lambda^{-6}$"）はデータで確かめていない。
+
+## 2026-11-11（続き 154）英語版の文献まわりの査読の指摘への対応（先行研究の追加、出典、refs.bib）
+- やったこと：paper/en/review_20261111.md の「要確認・要追加」のうち文献まわりに対応した。INSPIRE-HEP（skill `inspire-bibtex`、問い合わせ先は inspirehep.net だけ）で識別子・BibTeX・抄録を取り、抄録が本文で述べる 1 文と合うものだけを paper/ja_v2/refs.bib に足した。判定は review_20261111.md の「文献まわりの対応」。
+  - 足した文献 12 本（キー＝識別子）：BR05＝hep-th/0505008、CC10＝arXiv:1007.1656、MMMRSS17＝arXiv:1702.06316、Walcher07＝arXiv:0712.2775、KW09＝arXiv:0902.0616、IKV07＝hep-th/0701156、GIKV07＝arXiv:0705.1368、IK11＝arXiv:1111.0525、MM20＝arXiv:2003.07836、GSV04＝hep-th/0412243、DMMSS11＝arXiv:1106.4305、GORS12＝arXiv:1207.4523。
+  - 本文：intro.tex §1.1 に 4 文（Kauffman 側の整数性の定式化と検証、real topological string、superpolynomial と torus knot の構成、Hopf link の refined vertex）。torus.tex の Hypothesis 5.1 に `\cite{AgSh11}`。式・数値・既存の文は変えていない。
+  - refs.bib：SV00 と GW05 の直前のコメントの「@misc」を「misc」に直した（bibtex のエラー 2 件の原因）。CD14 は INSPIRE の記録に arXiv 番号が無く、変更なし。
+- 結果：
+  - 【INSPIRE で確認】[AgSh11] の抄録に、基本表現のトーラス結び目で refined Chern–Simons の指数が HOMFLY を圏化するホモロジーの Poincaré 多項式に等しいとある。torus.tex の同一視の出典とした。
+  - 英語版のコンパイルは 53 ページ、`!`・undefined・bibtex のエラーなし、文献表は 49 件で新しい 12 件のラベルはキーと同じ（.bbl で確認）。検査スクリプトは hard 0 件、soft 16 件、引用 49 本。日本語版 ja_v2 も 50 ページで `!`・undefined・bibtex のエラーなし（ja_v2/main.pdf は元に戻した。en/main.pdf は新しい版）。
+  - 「この論文が最初」の主張と矛盾する文献は、INSPIRE の題名検索の範囲では見つからなかった（網羅的ではない）。
+- 次にやること：著者が intro.tex の追加した 4 文と、足さなかった候補（review_20261111.md に一覧）を見る。
+- 未解決の問題：[CC10]・[KW09] の掲載誌は未確認（INSPIRE に情報なし、Crossref には接続していない）。$\SO(2N)$ Kauffman 多項式の圏化の数学の論文は INSPIRE に記録が無く、足していない。CD14 の arXiv 番号は INSPIRE に無い。intro.tex の "the refined $\Sp(2N)$ invariants of \cite{AM22}" は literature.md §4 の記録（[AM22] に結び目は無い）と合わない（直していない）。[Marino09] (4.8) の印刷値、[GS11] の説明、文献の中の節・式番号（O14）は未確認のまま。
+
