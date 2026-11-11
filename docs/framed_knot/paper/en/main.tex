@@ -9,6 +9,11 @@
 \usepackage{booktabs,array,graphicx}
 \usepackage[margin=25mm]{geometry}
 \usepackage{youngtab}
+% References: biblatex (numeric) so that arXiv numbers are printed; shorthand fields of the INSPIRE entries are not used as labels.
+\usepackage[backend=bibtex,style=numeric,sorting=nyt,maxbibnames=10,doi=false,url=false,isbn=false,eprint=true]{biblatex}
+\addbibresource{../references.bib}
+\DeclareFieldInputHandler{shorthand}{\def\NewValue{}}
+\AtEveryBibitem{\iffieldundef{eprint}{}{\clearfield{note}}}
 \usepackage[hidelinks]{hyperref}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -64,6 +69,5 @@ All results, references and text were checked by the author, who takes full resp
 \appendix
 \input{sections/appendix}
 
-\bibliographystyle{amsplain}
-\bibliography{../references}
+\printbibliography
 \end{document}

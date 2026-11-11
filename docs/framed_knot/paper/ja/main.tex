@@ -7,6 +7,11 @@
 \usepackage[margin=25mm]{geometry}
 \usepackage{youngtab}
 \usepackage{tcolorbox}
+% References: biblatex (numeric) so that arXiv numbers are printed; shorthand fields of the INSPIRE entries are not used as labels.
+\usepackage[backend=bibtex,style=numeric,sorting=nyt,maxbibnames=10,doi=false,url=false,isbn=false,eprint=true]{biblatex}
+\addbibresource{../references.bib}
+\DeclareFieldInputHandler{shorthand}{\def\NewValue{}}
+\AtEveryBibitem{\iffieldundef{eprint}{}{\clearfield{note}}}
 \usepackage[hidelinks]{hyperref}
 
 \newtheorem{theorem}{定理}[section]
@@ -58,6 +63,5 @@
 \appendix
 \input{sections/appendix}
 
-\bibliographystyle{amsplain}
-\bibliography{../references}
+\printbibliography
 \end{document}

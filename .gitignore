@@ -93,3 +93,7 @@ docs/refined_kauffman/paper/ja_v2/*.aux
 docs/refined_kauffman/paper/ja_v2/*.log
 docs/refined_kauffman/paper/ja_v2/*.out
 docs/refined_kauffman/paper/ja_v2/*.toc
+
+# framed_knot の論文：biblatex の中間ファイル
+docs/framed_knot/paper/*/main-blx.bib
+docs/framed_knot/paper/*/*.run.xml
