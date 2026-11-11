@@ -11,7 +11,7 @@
   空の data/cache から実行して確認【計算】：v4_roots.py の特性根は v4_fit.py の m_j と一致、v4_fit.py は ρ = [2] で p = 6..12 が成立（ρ = [1,1] の出力は確認していない）、4_1 の dK は再読み込みで一致。v5_round.py と u3_calibrate.py は整数計画が長いので実行していない。
   pretzel の d_1 の列生成の途中結果（約 14 時間分、git に入れてある）はキャッシュではないので、data/cache/ から data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl に移し、v4_pretzel_np2.py の保存先と文書の記述を合わせた。
 
-**2026-10-09 時点の要約**（全体の整理は docs/framed_knot/REPORT_overview.md）
+**2026-10-09 時点の要約**（全体の整理は docs/framed_knot/reports/REPORT_overview.md）
 - **dgr_lmov：DGR・四重次数型の構造と refined LMOV（2026-10-11 開始）**：framed_knot（KN の検証）とは目的も規則も異なるテーマとして docs/dgr_lmov/ にまとめた（入口は docs/dgr_lmov/README.md、計画 research_plan.md、報告 report.md、進捗 progress.md、未解決 open_problems.md、新規性 novelty.md）。要点：普遍因子 D と商 R_ρ の正値性、σ ＝ SU(2)_L の Weyl 反転で G 展開が閉じる ⇔ KN の整合条件、既約表示の正値性（予想 S、[1] は定理）、非 refined のデータからの構成は 2 箱の thin な結び目（トーラス・ツイスト・ダブルツイスト）で一意、3 箱の [2,1] は三葉結び目・4_1 のみ一意で T(2,5) 以上は決まらない（停止中）。
 - **箱数を増やした検証（2026-10-10、ユーザーの指示「トーラス結び目は 9 箱程度まで（1 回 10 分以内）、4_1 は 4 箱まで」）**：下の「2026-10-10 箱数を増やした検証」。
   トーラス結び目は計算した全ての (結び目, 箱数, ρ) で G 展開の前後とも負の項 0【計算】（表は data/framed_knot/highbox_summary.md）。
@@ -27,9 +27,9 @@
 - **主張の格付け表（2026-10-09）**：docs/framed_knot/paper/claims.md。
 - **格付けで見つかった 8 点の検証（2026-10-09）**：claims.md §7。(1) Mellit の未了の部分は (q/t) の冪だけに効き、正値性に影響しない。(2) (N2') の仮説の中身は「t = q で決まらない (q/t)^{c_λ} が framing の固有値に従う」の一点。(3) **pretzel の異符号の確認範囲の誤記を訂正**（「|s|, t ≤ 40、264 点」→「|s| ≤ 30・t ≤ 40、200 点」）。(4) parity knot は CG の定義と同値（台に隙間なし、801 個で一致）。(5) CS 側の U(1)_R は framing で保たれる（AS）。弦側は仮定。予想 B（ケーブル）は KN の U(1)_R の議論が直接は当てはまらないので、動機を DAHA とホモロジーの関係で述べる必要がある。(7) Zhu の用語は確認。(8) KN の書誌に食い違いは無い（JKTR 32 (2023) 2041001、オンライン 2020）。
 - **2 箱の入力の基礎を KNTZ に（2026-10-10、ユーザーの指示）**：ツイスト・ダブルツイスト結び目の 2 箱の入力を KNTZ（1902.02275）の refined の式とし、GNSSS（1512.07883）と両方を引用する。KNTZ と GNSSS の式は K_{m,n} の [1], [2], [1,1] で、4 象限の |m|,|n| ≤ 3 の格子 144 件で全係数一致【計算】し、両方とも各変数について根 3 個以下の指数和なので全ての (m, n) で一致【導出】（scripts/framed_knot/kntz_vs_gnsss.py、tests/framed_knot/test_x1_refined.py::test_kntz_equals_gnsss_on_grids）。したがって 2 箱の証明はそのまま KNTZ を入力とした主張になる。準備稿の記号も KNTZ に合わせた（ダブルツイスト K_{m,n}、ツイスト K_p = K_{p,1}）。t = q では Fang–Zhou（2610.00303）が証明済み。
-- **main の取り込みと検証の範囲の更新（2026-10-09、ユーザーの指示）**：origin/main（PR #6、framing の拡張）をこのブランチに取り込んだ（アプリの同期ツールは origin の登録の食い違いで使えず、git で fetch と merge。tests/framed_knot/test_framing.py の衝突は両方の追加を残した）。PR #6 の「計 1167 件」は誤りで、data/framed_knot/framed/ を数えると 1083 件（ほかに K1 の測定用 6 件）。framing_batch の 732 件と合わせて 1821 件、全て G 展開の前後とも負の項 0。RESULTS.md・REPORT_overview.md・progress.md の件数を訂正し、準備稿（序論の表、計算結果、表 tab:framing、要旨）と outline・claims の範囲を更新した。
+- **main の取り込みと検証の範囲の更新（2026-10-09、ユーザーの指示）**：origin/main（PR #6、framing の拡張）をこのブランチに取り込んだ（アプリの同期ツールは origin の登録の食い違いで使えず、git で fetch と merge。tests/framed_knot/test_framing.py の衝突は両方の追加を残した）。PR #6 の「計 1167 件」は誤りで、data/framed_knot/framed/ を数えると 1083 件（ほかに K1 の測定用 6 件）。framing_batch の 732 件と合わせて 1821 件、全て G 展開の前後とも負の項 0。reports/RESULTS.md・reports/REPORT_overview.md・progress.md の件数を訂正し、準備稿（序論の表、計算結果、表 tab:framing、要旨）と outline・claims の範囲を更新した。
 - **著者（2026-10-09、ユーザーの指示）**：亀山昌也（KN の K、単著）。以前の計算（2017-2018 年、未発表）は著者自身のもの。
-- **本文の執筆を開始（2026-10-09、ユーザーの指示）**：docs/framed_knot/paper/ja/（日本語の準備稿、全 9 節と付録の初稿。lualatex でコンパイル可）。執筆中の確認で、第 1 期の framing の走査（scripts/framed_knot/framing_scan.py）の「δ = 2 が framing 1 単位」は誤りで 1 単位は δ = 1、δ が奇数で閉じなかったのは MV の符号が無いため、と分かった（REPORT.md §5.2 に追記）。残りの TODO：付録の計算時間の表、旧草稿の圏化の比較の移植、誤植の原典の箇所、Aganagic–Shakirov などの掲載誌。
+- **本文の執筆を開始（2026-10-09、ユーザーの指示）**：docs/framed_knot/paper/ja/（日本語の準備稿、全 9 節と付録の初稿。lualatex でコンパイル可）。執筆中の確認で、第 1 期の framing の走査（scripts/framed_knot/framing_scan.py）の「δ = 2 が framing 1 単位」は誤りで 1 単位は δ = 1、δ が奇数で閉じなかったのは MV の符号が無いため、と分かった（reports/REPORT.md §5.2 に追記）。残りの TODO：付録の計算時間の表、旧草稿の圏化の比較の移植、誤植の原典の箇所、Aganagic–Shakirov などの掲載誌。
 - **CD14 の確認（2026-10-09）**：代数的な結び目・長方形の DAHA の値の正値性予想（cable.tex:1072-1076）と Connection Conjecture（:1488-1550、(ii) は無彩色の pseudo-algebraic 結び目で DAHA ＝ KhR）。予想 B の動機に使う。[1] は CD14 (ii) ＋ 命題 1 から従う。[2,1] は CD14 の範囲外。claims.md §7 の 5。
 - **(N1)(N2) と CD14 の tilde 正規化（2026-10-09）**：非負の保存値 19 個で、本研究の P ＝ 𝐚^{2δ}𝐪^{−2δ} × tilde 正規化（CD14 の明示例 5 個とも比は 𝐚^{2δ}𝐪^{−2δ}）。CD14 (ii) の下では P ＝ 𝐭^{2l}·P_KhR となり、命題 1 が適用できる【導出】。tests/framed_knot/test_normalization_formula.py::test_n1n2_is_cd14_tilde_times_corner。
 - **Mellit の Cor (daha) の正規化（2026-10-09、原典で確認）**：文面の符号 (−1)^n と [a−1] は、生成元を Carlsson–Mellit の d_± の表現の元 −d_-B_{c}d_+(1) と読めば Thm (daha) と整合する【導出】。標準の正規化（BGLX の Q、GN の \tilde P）では、総当たりで唯一 𝒫 = −(a(qt)^{−1/2})^δ(1/(1−t))(Q·1)[a/q−1]/(a/q−1) が成り立つ【計算】。残り：d_± の元と BGLX の Q の対応の具体的な照合（1604.07456）。conventions.md §13.1、scripts/framed_knot/d1_mellit_cor.py。表の空欄を埋める計算は、このセッションでは行わない（ユーザーの指示）。
@@ -50,7 +50,7 @@
      （N は性能コアの数とメモリで決める。評価のまとまり 2048 点で 1 プロセス約 1.2 GB。係数が大きいので 2 つ目の素数での評価も自動で行われる。格子は [3] と同程度の約 5 万点の見込み）。
   2. （済み）[1,1,1] は両方の PC で計算し、多項式・単項式とも全係数一致（2026-10-08 のマージで確認。保存値は別の PC の版、381 秒）。
   3. 全ての彩色がそろったら：`scripts/framed_knot/v0_K10_lmov.py --workers N`（3 箱の \hat f と判定。1・2 箱は計算済みなので飛ばす）。
-  4. 結果を RESULTS.md §1 と REPORT_phase4.md §9 に記録し、tests/framed_knot/test_phase3.py の U4 に K10 を results の印付きで加える。
+  4. 結果を reports/RESULTS.md §1 と reports/REPORT_phase4.md §9 に記録し、tests/framed_knot/test_phase3.py の U4 に K10 を results の印付きで加える。
 - **pretzel の d_1 の LP**（一時停止中）：`PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python -u scripts/framed_knot/v4_pretzel_np2.py cert 1 2 [SMIN PER_ROUND [METHOD]]`。
   途中結果 data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl から再開する。停止時は第 7 ラウンドで残差 2136（logs/framed_knot/v4_pretzel_np2_cert_1_2_smin1.log）。
   ρ = [1,1] と、対角線（e_0）も同じ方法で。証明書は data/framed_knot/v4/ に保存し、`verify` で検証する。
@@ -74,7 +74,7 @@
   - **結果（2026-10-08 15:37）**：素数 2 つでも検証に失敗し、3 つ目の素数で復元・検証できた（12315885 項、最後の実行 4050 秒、最大 RSS 17.6 GB）。係数の最大は 1.13×10¹⁹（ρ = [2,1]）で、推定した原因（2 素数の範囲 2.3×10¹⁸ を超える）を確認。
     **ρ = [3], [2,1], [1,1,1] の \hat f は G 展開の前も後も負の係数 0**。K10 は |ρ| ≤ 3 の全 6 つの ρ で非負。
     data/framed_knot/lmov/K10_3.json（363 MB）は GitHub の 1 ファイルの上限を超えるので、xz で圧縮した K10_3.json.xz（66 MB）を git に入れ、元の JSON は .gitignore に入れた。
-    tests/framed_knot/test_phase3.py の U4 に K10 を results の印付きで追加（.json.xz を読む）し、`-m results -k K10` で通過（6 分 10 秒）。RESULTS.md §1、REPORT_phase4.md §1.1・§9・§10・§11、novelty_report.md を更新。
+    tests/framed_knot/test_phase3.py の U4 に K10 を results の印付きで追加（.json.xz を読む）し、`-m results -k K10` で通過（6 分 10 秒）。reports/RESULTS.md §1、reports/REPORT_phase4.md §1.1・§9・§10・§11、novelty_report.md を更新。
 - メモリ 8 GB の PC では、K10 の 3 並列とほかの計算を同時に動かすとスワップで大きく遅れた（2026-10-07）。並列の数はメモリで決める。
 
 ### 作業環境
@@ -88,11 +88,11 @@
 ### 各期の状態
 | 期 | 内容 | 状態 | 文書 |
 |---|---|---|---|
-| 第 1 期 | ケーブル結び目（DAHA/EHA を入力）、ステージ 0〜7 | 完了 | docs/framed_knot/REPORT.md、docs/framed_knot/paper/ |
-| 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/framed_knot/REPORT_knot_table.md、docs/framed_knot/research_plan_knot_table.md |
-| 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 も 2026-10-07 に完了。残りの項目は第 4 期へ） | docs/framed_knot/REPORT_phase3.md、docs/framed_knot/research_plan_phase3.md |
-| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 も完了） | docs/framed_knot/REPORT_phase4.md、docs/framed_knot/research_plan_phase4.md |
-| 第 5 期 | 2 箱の証明、thick な結び目、K7・K10 の 3 箱、正規化の導出（計画なし、項目ごと） | 完了（2026-10-08。d_1 の LP は打ち切り） | docs/framed_knot/REPORT_phase5.md、docs/framed_knot/RESULTS.md |
+| 第 1 期 | ケーブル結び目（DAHA/EHA を入力）、ステージ 0〜7 | 完了 | docs/framed_knot/reports/REPORT.md、docs/framed_knot/paper/ |
+| 第 2 期 | 結び目表（HOMFLY-PT ホモロジーを入力）、T0〜T6 | 完了 | docs/framed_knot/reports/REPORT_knot_table.md、docs/framed_knot/plans/research_plan_knot_table.md |
+| 第 3 期 | 3 箱の正整数性、U0〜U6 | 完了（K8・K7 も 2026-10-07 に完了。残りの項目は第 4 期へ） | docs/framed_knot/reports/REPORT_phase3.md、docs/framed_knot/plans/research_plan_phase3.md |
+| 第 4 期 | [2,1] を決める原理と 3 箱の検証の拡張、V0〜V6 | 完了（2026-10-07。K7 も完了） | docs/framed_knot/reports/REPORT_phase4.md、docs/framed_knot/plans/research_plan_phase4.md |
+| 第 5 期 | 2 箱の証明、thick な結び目、K7・K10 の 3 箱、正規化の導出（計画なし、項目ごと） | 完了（2026-10-08。d_1 の LP は打ち切り） | docs/framed_knot/reports/REPORT_phase5.md、docs/framed_knot/reports/RESULTS.md |
 
 未解決の問題は docs/framed_knot/open_problems.md、新規性の範囲は docs/framed_knot/novelty_report.md §5〜§8、規約は docs/framed_knot/conventions.md §11, §12。
 非代数的なケーブルの DAHA の値による計算はしない（CLAUDE.md、open_problems.md D5）。
@@ -104,9 +104,9 @@
 | V1 | 削除（非代数的なケーブル） |
 | V2 [2,1] の原理 | 完了・停止点 1 で報告済み。現在の条件では [2,1] は決まらない（解の差の因数分解）。V2-4, V2-5 はユーザーの判断で省略 |
 | V3 導出 | U(2) の恒等式は既知と判明（CD14, AMMM）。(N1)(N2') の導出（open_problems D1）は未着手 |
-| V4 2 箱の証明 | 完了（2026-10-07）：ツイスト結び目は全ての p、pretzel は同符号の領域で全て・異符号は min(\|s\|, t) ≤ 20 まで、G 展開の前後とも正（GNSSS の予想式の下、REPORT_phase4.md §5.1, §5.2）。残りは異符号で \|s\|, t > 20 |
+| V4 2 箱の証明 | 完了（2026-10-07）：ツイスト結び目は全ての p、pretzel は同符号の領域で全て・異符号は min(\|s\|, t) ≤ 20 まで、G 展開の前後とも正（GNSSS の予想式の下、reports/REPORT_phase4.md §5.1, §5.2）。残りは異符号で \|s\|, t > 20 |
 | V5 双曲結び目の 3 箱（弱い判定） | 完了（停止点 2 で報告、5_2 は追加の探索でも未決のまま打ち切り）。4_1：KN の候補が全条件を満たす（σ = +1、較正）。5_2：σ = +1 は LP 緩和が実行可能・整数解は 30 分で見つからず（未決）。6_1：σ = +1 で正値性を満たす整数解あり（813 項、独立に再計算して確認）。σ = −1 は 3 結び目とも解なし |
-| V6 まとめ | 完了（2026-10-07、docs/framed_knot/REPORT_phase4.md）。K7 の結果も追記済み |
+| V6 まとめ | 完了（2026-10-07、docs/framed_knot/reports/REPORT_phase4.md）。K7 の結果も追記済み |
 | B2, C2（並行） | 完了（pretzel の thick さ、parity knot との対応） |
 
 ### 実行中のプロセス（2026-10-07 18:45 から：K10 の 3 箱。以下は K10 と、以前の K7 の記録）
@@ -115,7 +115,7 @@
 | K10 の [3], [2,1], [1,1,1] の rCS と 3 箱の \hat f | `nohup scripts/framed_knot/run_k10_3box.sh > logs/framed_knot/v0_K10_3.log 2>&1 &` | `logs/framed_knot/v0_K10_3.log` | 「K10 の 3 箱：完了」の行 | 同じコマンドを再実行（rCS は data/framed_knot/cables/K10_*、評価のまとまりは data/cache/rcs/K10_*・data/cache/lmov/K10_3 から再利用。ログは別名にする） |
 | K7 の rCS と \|ρ\| ≤ 3 の \hat f | `nohup env PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov /usr/bin/time -l .venv/bin/python scripts/framed_knot/u4_run.py --workers 3 K7 >> logs/framed_knot/u4_cables3.log 2>&1 &` | `logs/framed_knot/u4_cables3.log` | 「K8: … 最大 RSS」「K7: … 最大 RSS」の行 | 同じコマンドを再実行。彩色ごとの rCS は data/framed_knot/cables/、評価のまとまりは data/cache/rcs/・data/cache/lmov/ から再利用 |
 
-- K8 は完了（2026-10-06、22853 秒、最大 RSS 1756 MB）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負（REPORT_phase3.md に反映済み）。
+- K8 は完了（2026-10-06、22853 秒、最大 RSS 1756 MB）：|ρ| ≤ 3 の全 ρ で G 展開の前後とも非負（reports/REPORT_phase3.md に反映済み）。
 - K7（3 本ケーブル）の途中経過（2026-10-07 01:00 時点）：rCS の [1], [2], [1,1], [3]（41369 項、7598 秒）は完了、[1,1,1] は評価のまとまり 24 個中 6 個を保存済み。残りは [1,1,1]、[2,1]、3 箱の \hat f で約 10 時間の見込み。
 - **K7 の高速化と置き換え（2026-10-07 01:30 頃、ユーザーの指示）**：
   - 見直し：(i) 補間を常に 2 素数で行っていたが、K7 の係数は最大 3.1×10⁷ で素数 1 つ（P31/2 ≈ 10⁹）に収まる → 素数 1 つで復元し独立な素数 P31C の点で検証、失敗したときだけ 2 つ目の素数（CRT）に切り替える（`src/rcsknots/exact.py`、テスト `tests/framed_knot/test_speedup.py::test_single_prime_then_crt_fallback`）。
@@ -130,11 +130,11 @@
 - プロセスの確認（サンドボックス外）：`ps -Ao pid,etime,%cpu,rss,command | grep -E "u4_run|v5_weak" | grep -v grep`。
 
 ### 完了したときにやること（2026-10-07 実施済み）
-- K7：docs/framed_knot/REPORT_phase3.md §3 の表、docs/framed_knot/REPORT_phase4.md §9 を更新。`tests/framed_knot/test_phase3.py`（u4 の 3 箱の正値性）と `tests/framed_knot/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/framed_knot/cables/K7_*, K8_*, data/framed_knot/lmov/K7_*, K8_*）を commit。
+- K7：docs/framed_knot/reports/REPORT_phase3.md §3 の表、docs/framed_knot/reports/REPORT_phase4.md §9 を更新。`tests/framed_knot/test_phase3.py`（u4 の 3 箱の正値性）と `tests/framed_knot/test_stage5_cables.py -k daha_example`（K7 の CD14 (3) との照合）を実行。データ（data/framed_knot/cables/K7_*, K8_*, data/framed_knot/lmov/K7_*, K8_*）を commit。
 
 ### 並行調査（2026-10-07、ユーザーの指示：D1・B2・A1）
 - **B2 解決（同日に原因を訂正）**：〔撤回〕GNSSS の式は 19 個の K_{s,t}（次元が二乗でない 16 個と K_{±4,±4} の 3 個）で special polynomial の性質を破る（式の不備）。→ 正しくは入力スクリプトの浮動小数点のバグ（下の「V4 の pretzel への拡張」）。GGS の予想への反例ではない。
-  〔撤回〕第 2 期 T3 の正の数を 39 → 36（有効な入力）に訂正（`scripts/framed_knot/b2_special_poly.py`、REPORT_knot_table.md、REPORT_phase4.md §8）。
+  〔撤回〕第 2 期 T3 の正の数を 39 → 36（有効な入力）に訂正（`scripts/framed_knot/b2_special_poly.py`、reports/REPORT_knot_table.md、reports/REPORT_phase4.md §8）。
 - **D1 前進**：正規化の単項式 M_□ = (−q/t)^{b−1}·(a(q/t)^{1/2})^{δ}（b はブレイドの本数、δ は種数型の量）が全 22 結び目で成立（`tests/framed_knot/test_normalization_formula.py`、conventions.md §13）。
   Markov 跡の正規化の refined 版と解釈できる。EHA/DAHA からの導出は未完。
 - **A1 文献調査完了**（docs/framed_knot/literature/a1_21_constructions.md）：双曲結び目の [2,1] の refined 不変量を定義に基づいて与える枠組みは無い。
@@ -154,9 +154,9 @@
 - 別研究 [2,1] の X1 完了（2026-10-08）。詳細は下の「別研究 [2,1] X1」の節。
 - 別研究 [2,1] の X0 完了（2026-10-08）。詳細は下の「別研究 [2,1] X0」の節。
 - **git の運用の変更（2026-10-08、ユーザーの指示）**：main への直接の commit とローカルでのマージを禁止し、main は GitHub の PR 経由でのみ変更する（CLAUDE.md）。以前は作業用のブランチを main にローカルで早送りマージしていた。
-- **別研究 [2,1] の計画を改訂（2026-10-08、ユーザーの指示）**：別の AI の調査（docs/framed_knot/literature/w0_21_D_external_survey.md）と追加調査 E（w0_21_E_exercise_feasibility.md）を踏まえ、docs/framed_knot/research_plan_21.md を全面改訂。判断：[2,1] は既存文献の拡張となる練習問題として挑戦できる。主軸 X は Morozov 1903.00259 の 𝓑^{[2,1]} の Macdonald 変形（原著者が未着手の課題と明記）。X0（t = q の再現）から始め、X2 の後が停止点 1。
+- **別研究 [2,1] の計画を改訂（2026-10-08、ユーザーの指示）**：別の AI の調査（docs/framed_knot/literature/w0_21_D_external_survey.md）と追加調査 E（w0_21_E_exercise_feasibility.md）を踏まえ、docs/framed_knot/plans/research_plan_21.md を全面改訂。判断：[2,1] は既存文献の拡張となる練習問題として挑戦できる。主軸 X は Morozov 1903.00259 の 𝓑^{[2,1]} の Macdonald 変形（原著者が未着手の課題と明記）。X0（t = q の再現）から始め、X2 の後が停止点 1。
 - **別研究 [2,1] の W0 完了（2026-10-08）**：docs/framed_knot/literature/w0_21_survey.md（詳細は w0_21_A/B/C）。定義に基づく双曲結び目の [2,1] は文献に無い。停止点 0：主軸の候補は (1) W3 の安い比較（三葉結び目の [2,1] の index とホモロジーの予想）、(2) DAHA/EHA 型の構成の [2,1] への拡張（新しい候補）。
-- **第 5 期のまとめ（2026-10-08、ユーザーの指示）**：d_1 の LP は打ち切り、docs/framed_knot/REPORT_phase5.md にまとめた。本研究はこれで区切り。次は別研究 docs/framed_knot/research_plan_21.md（[2,1]、W0 から）に移るかの判断待ち。
+- **第 5 期のまとめ（2026-10-08、ユーザーの指示）**：d_1 の LP は打ち切り、docs/framed_knot/reports/REPORT_phase5.md にまとめた。本研究はこれで区切り。次は別研究 docs/framed_knot/plans/research_plan_21.md（[2,1]、W0 から）に移るかの判断待ち。
 - **d_1 の LP を停止（2026-10-08 13 時頃、ユーザーの指示）**：再開から約 14 時間、第 19 ラウンドで残差 2414 → 60.291（logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log）。選んだ部分集合 361 個は data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl（git に入れてある）。同じコマンドで再開できる。証明書は未取得。
 - **方針（2026-10-08、ユーザーの判断）**：d_1 の LP は、別の PC で K10 の [2,1] と 3 箱の \hat f を計算し終えるまで継続する。その時点で収束していなければ、扱いを改めて判断する（打ち切る場合のまとめ方：同符号は全て、異符号は min(|s|, t) ≤ 20 で証明、|s|, t ≤ 40 で確認）。
 - **pretzel の d_1 の LP を再開（2026-10-07 23:10 頃、この PC、ユーザーの指示）**：`nohup env PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python -u scripts/framed_knot/v4_pretzel_np2.py cert 1 2 1 20 > logs/framed_knot/v4_pretzel_np2_cert_1_2_resume.log 2>&1 &`。選んだ部分集合（69 個）を data/framed_knot/v4/v4_pretzel_np2_cg_1_2_0.pkl から読み、各ラウンドの後に保存する（止めても同じコマンドで再開）。1 プロセス約 0.5 GB、1 ラウンド数分。収束までの時間は見積もれない（停止時の残差 2136）。
@@ -167,14 +167,14 @@
     K10 の評価：[2] の 256 点 58.8 → 4.4 秒、[3] の 8 点 1400 → 98 秒。[3] は 256 点で 157 秒、1024 点で 293 秒（固定約 111 秒 ＋ 1 点約 0.18 秒）、1024 点で最大 RSS 620 MB。
   - 見積もり：[3]・[2,1] の rCS は各約 5 万点（K7 の [2]→[3] の比 3.4 倍から推定）× 約 0.23 秒 ÷ 3 並列で各約 1 時間、範囲の探索 約 10 分、[1,1,1] は転置対称性、正規化 30 分以内、3 箱の \hat f 1.5〜2 時間。合計約 4〜5 時間（格子が 2 倍でも約 10 時間）。
   - 実行方法：まとまりを 2048 点に抑えて 3 並列（約 1.2 GB × 3）。まとまりごとに data/cache/ に保存し、同じコマンドで再開。nohup の独立プロセスで実行し、ログは logs/framed_knot/v0_K10_3.log。ユーザーの確認待ち。
-- **B4（2026-10-07、ユーザーの指示）**：文献調査で、S² が知られた thick な非トーラス結び目は 9_42, 10_132 のみ（KN の形に乗らない）。Stošić の quiver と KRSS の予想式で t_c 次数を作る方法が 8_19 で EHA と全項一致し、10_139, 10_152 の 2 箱が G 展開の前後とも正（予想式に基づく）。open_problems B4、RESULTS.md §3。
+- **B4（2026-10-07、ユーザーの指示）**：文献調査で、S² が知られた thick な非トーラス結び目は 9_42, 10_132 のみ（KN の形に乗らない）。Stošić の quiver と KRSS の予想式で t_c 次数を作る方法が 8_19 で EHA と全項一致し、10_139, 10_152 の 2 箱が G 展開の前後とも正（予想式に基づく）。open_problems B4、reports/RESULTS.md §3。
 - **D1・B3（2026-10-07、ユーザーの判断）**：D1 は Mellit の Cor (daha) の正規化の原典での確定を残して止める。B3（9_42 の S² ホモロジー）は KN の形に乗らないので打ち切り（open_problems.md B3）。
-- **テストの整理（2026-10-07、ユーザーの指示）**：tests/ は機能テスト（小さな入力）とし、保存済みの大きな結果の再検証 18 件に `results` の印を付けて既定の実行から外した（pyproject.toml、CLAUDE.md）。既定の実行は 521 件で 3 分 41 秒（以前は全体で 8〜77 分）。主要な結果は docs/framed_knot/RESULTS.md に、データ・ログ・コード・機能テストとあわせて整理した。
-- **A1（2026-10-07）**：yui-kr は彩色なしのホモロジーだけで [2,1] に対応しない。ユーザーの判断で、本研究では [2,1] を打ち切り、別研究として計画した（docs/framed_knot/research_plan_21.md、W0〜W5。主軸の候補は refined evolution 法）。
+- **テストの整理（2026-10-07、ユーザーの指示）**：tests/ は機能テスト（小さな入力）とし、保存済みの大きな結果の再検証 18 件に `results` の印を付けて既定の実行から外した（pyproject.toml、CLAUDE.md）。既定の実行は 521 件で 3 分 41 秒（以前は全体で 8〜77 分）。主要な結果は docs/framed_knot/reports/RESULTS.md に、データ・ログ・コード・機能テストとあわせて整理した。
+- **A1（2026-10-07）**：yui-kr は彩色なしのホモロジーだけで [2,1] に対応しない。ユーザーの判断で、本研究では [2,1] を打ち切り、別研究として計画した（docs/framed_knot/plans/research_plan_21.md、W0〜W5。主軸の候補は refined evolution 法）。
 - **V4 の pretzel への拡張（2026-10-07 完了、ユーザーの指示）**：サブエージェントが実施し、親セッションで確認。
   - B2 の「不備」は `scripts/framed_knot/t3_pretzel.py` の浮動小数点のバグ（qp の初期値が int の 1 で qbinom(0,0) = 1.0）だった。1 行修正し、55 個全てで次元が二乗・special polynomial の性質が成立（7 点を独立に再現）。B2 の結論と第 2 期 T3 の「39 → 36」を撤回し、55 個全てが 2 箱で正と訂正。
     V5 の 4_1, 5_2, 6_1 の入力（[3] まで）は修正の前後で一致（親セッションで確認）。7_2 の [3] は変わるが未使用。
-  - 証明（予想式の下）：同符号の領域は全て、異符号の領域は min(|s|, t) ≤ 20（REPORT_phase4.md §5.2）。|s|, |t| ≤ 20 の 820 点で確認。
+  - 証明（予想式の下）：同符号の領域は全て、異符号の領域は min(|s|, t) ≤ 20（reports/REPORT_phase4.md §5.2）。|s|, |t| ≤ 20 の 820 点で確認。
 0. **3 箱の判定の高速化（2026-10-07 完了）**：判定の時間のほぼ全部が G 展開（`rcsknots.bps.g_expand`、Python の辞書操作）だった（K8 の ρ 1 件で 564 秒）。
    w = 𝐪²𝐭, s = 𝐭 + 𝐭⁻¹ として G = w + w⁻¹ − s と書き、各 𝐚 の行を (i) y = w + w⁻¹ の多項式に直し（二項係数で引く）、(ii) y = G + s の Horner 法で G の冪に展開する（python-flint の 𝐭 の多項式）。
    閉じる条件は「𝐪 の指数が偶数で w ↔ w⁻¹ で対称」（旧来と同値）。K8 の ρ 1 件は 564 秒 → 約 5 秒。
@@ -372,7 +372,7 @@
     構造的な規則 (N2') M_λ = M_□^{|λ|} T_λ^{p₂q₂} に修正（conventions.md §5）。トーラス結び目 27 件と K1〜K5b の全データでは (N2) と (N2') は同じ結果。
     一時的に「K5c で \hat f が多項式でない」と判断したが、正規化の誤りによるもので撤回した。
   - K6a の |ρ|=3 で係数が約 10⁹ を超え、1 素数の持ち上げがあふれた（独立な素数での検証が検出）。2 素数の CRT と 3 つ目の素数での検証に変更。
-- 結果（計算機で確認）：判定表は `data/framed_knot/bps_summary.md` と docs/framed_knot/REPORT.md §4。
+- 結果（計算機で確認）：判定表は `data/framed_knot/bps_summary.md` と docs/framed_knot/reports/REPORT.md §4。
   - 代数的（K1, K3, K6a）：全 6 彩色で \hat N ≥ 0。superpolynomial 自体は [2,1] で負の係数をもつ。
   - 非代数的（K2, K4, K5a, K5b, K5c, K6b）：いずれも正値性が破れる（K5b は [1] のみ非負、K5c は [3], [2,1] 以外は非負）。
   - 全ケーブルで整数性と、(ρ,g,β) ごとの 2J_r の偶奇の一致が成り立つ。
@@ -380,12 +380,12 @@
 
 ### 2026-10-05 ステージ 7：解析とレポート
 
-- docs/framed_knot/REPORT.md を作成（規約、検証結果、計算結果、判定表、代数的 vs 非代数的、長方形 vs [2,1]、未解決点）。
+- docs/framed_knot/reports/REPORT.md を作成（規約、検証結果、計算結果、判定表、代数的 vs 非代数的、長方形 vs [2,1]、未解決点）。
 - `.venv/bin/pytest`：257 件パス、2 件スキップ。
 
 ### 2026-10-05 論文の作成（ユーザーの依頼）
 
-- これまでの内容を日本語の論文にまとめた：`docs/framed_knot/paper/main.tex`（LuaLaTeX、ltjsarticle）、`docs/framed_knot/paper/main.pdf`（14 ページ）。
+- これまでの内容を日本語の論文にまとめた：`docs/framed_knot/paper/phase1_draft/main.tex`（LuaLaTeX、ltjsarticle）、`docs/framed_knot/paper/phase1_draft/main.pdf`（14 ページ）。
 - 表は data/ から `scripts/framed_knot/paper_tables.py` で自動生成（`docs/framed_knot/paper/generated/`）。
 - コンパイル：`cd docs/framed_knot/paper && TEXMFVAR=$TMPDIR/texmf-var TEXMFCACHE=$TMPDIR/texmf-var latexmk -lualatex main.tex`（サンドボックス内ではフォントキャッシュの場所を変える必要がある）。
 - 文献情報は stage0_bibliography.md で確認したものだけを使い、式番号は確認できたもの以外は節番号にした。題名未確認の 2 件はその旨を明記。著者名は空欄。
@@ -472,7 +472,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
     ただし 2J_r の偶奇はそろわない（KN の 4_1 と同じ型）。型 I（K4, K5a）で予想した「偶奇がそろわない」と整合。
   - 結論：[1] で「DAHA（ケーブルの refined 不変量）の計算と同じ結果になるか」→ ならない。DGR 型の superpolynomial では [1] の正値性は G 展開の前後とも成り立ち、負は DAHA の構成に固有【計算＋DGR の仮定】。
 
-## ステージ T0：結び目表のデータと規約（2026-10-05、docs/framed_knot/research_plan_knot_table.md）
+## ステージ T0：結び目表のデータと規約（2026-10-05、docs/framed_knot/plans/research_plan_knot_table.md）
 
 - やったこと
   - yui-kr（Nakagane–Sano arXiv:2111.00388）のコミット 0a07fbf の計算結果を取得した（GitHub の tarball、MIT ライセンス）。
@@ -536,7 +536,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 
 ## まとめと新規性の文献確認（2026-10-06）
 
-- 第 2 期の結果を docs/framed_knot/REPORT_knot_table.md にまとめた。novelty_report.md §6 に新規性の範囲を追記した。
+- 第 2 期の結果を docs/framed_knot/reports/REPORT_knot_table.md にまとめた。novelty_report.md §6 に新規性の範囲を追記した。
 - 文献確認（サブエージェント、KN の引用論文 23 件と主要論文の本文）の要点
   - 命題 1、命題 2 の導出、結び目表の [1]、族の 2 箱：先行研究は見つからなかった。
   - 9_42 の S² の次元 401 は GGS 1304.3481 に明記（GS の誤植は GGS で暗黙に修正済み。明示的な指摘は無い）。
@@ -548,11 +548,11 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 
 - 未解決の問題を背景とともに docs/framed_knot/open_problems.md にまとめた（A：3 箱、B：2 箱、C：[1] と偶奇、D：ケーブル、E：その他）。
 - ユーザーの指示：本来の目的は、KN を超えた 3 箱の refined LMOV の正整数性の検証。3 箱には |λ| ≤ 3 の全ての rCS、特に [2,1] が要る。
-- 第 3 期の計画を docs/framed_knot/research_plan_phase3.md に作成した（ステージ U0〜U6、停止点 2 つ）。
+- 第 3 期の計画を docs/framed_knot/plans/research_plan_phase3.md に作成した（ステージ U0〜U6、停止点 2 つ）。
   [2,1] の候補：トーラス結び目（較正）、代数的な iterated torus、thin な双曲結び目（[2,1] を t = q の [2,1] 彩色 HOMFLY-PT・ミラー対称性・EGP・Laurent 性から決める。[2,1] 彩色 HOMFLY-PT は 3 本ケーブルから）、文献の refined [2,1]。
   ユーザーの承認を待つ。
 
-## 第 3 期 U0〜U3（2026-10-06、docs/framed_knot/research_plan_phase3.md）
+## 第 3 期 U0〜U3（2026-10-06、docs/framed_knot/plans/research_plan_phase3.md）
 
 - U0：第 1 期の 3 箱のパイプラインが、第 2 期の入力の形（太字 ↔ 小文字の往復）でも KN の T(2,3), 4_1 の 3 箱の表 6 個を全項で再現【計算】。
   3 箱の \hat f_ρ は C_{[2,1]} について一次で、係数は α_ρ =（単項式）·(T² − 1)/((Q² − 1)(Q⁴T² − 1))（記号計算、ρ ごとに単項式が違う）。
@@ -582,13 +582,13 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 
 ## 第 3 期のまとめ（U6、2026-10-06）
 
-- ユーザーの指示で、K8・K7 の完了を待たずに docs/framed_knot/REPORT_phase3.md にまとめた。novelty_report.md §7、open_problems.md（A1〜A3）を更新。
-- K8・K7 は nohup の独立プロセスで計算を続けている（`logs/framed_knot/u4_cables2.log`）。終わったら REPORT_phase3.md §3 の表と tests/framed_knot/test_phase3.py の結果に反映する。
+- ユーザーの指示で、K8・K7 の完了を待たずに docs/framed_knot/reports/REPORT_phase3.md にまとめた。novelty_report.md §7、open_problems.md（A1〜A3）を更新。
+- K8・K7 は nohup の独立プロセスで計算を続けている（`logs/framed_knot/u4_cables2.log`）。終わったら reports/REPORT_phase3.md §3 の表と tests/framed_knot/test_phase3.py の結果に反映する。
 
 ## 第 4 期の計画（2026-10-06）
 
 - ユーザーの指示：K8・K7 は計算を続け、次の計画へ進む。長時間の計算の事前準備（見積もり、高速化、再開、分割と並列、独立プロセス）を CLAUDE.md に追記した。
-- 第 4 期の計画を docs/framed_knot/research_plan_phase4.md に作成（V0 高速化、V1 非代数的なケーブルの 3 箱、V2 [2,1] を決める原理、V3 導出、V4 2 箱の証明、V5 双曲結び目の 3 箱、V6 まとめ）。
+- 第 4 期の計画を docs/framed_knot/plans/research_plan_phase4.md に作成（V0 高速化、V1 非代数的なケーブルの 3 箱、V2 [2,1] を決める原理、V3 導出、V4 2 箱の証明、V5 双曲結び目の 3 箱、V6 まとめ）。
 - 計算機：8 コア（性能 4、効率 4）、メモリ 8 GB。ユーザーの承認を待つ。
 
 ## 第 4 期の計画の修正（2026-10-06）
@@ -654,7 +654,7 @@ yui-kr（Nakagane–Sano, arXiv:2111.00388、HOMFLY-PT ホモロジーの直接�
 ## 第 4 期 V4（2026-10-06）
 
 - ツイスト結び目 K_p（p > 0）の \hat f_{[2]}, \hat f_{[1,1]} は p について次数 5 の漸化式を満たし、特性根は 1, 𝐚²𝐭², 𝐚⁴𝐭⁴, 𝐚⁴𝐪⁴𝐭⁸, 𝐚⁴𝐪⁻⁴𝐭⁴【計算：p = 1〜12】。
-  分解 Σ A_j m_j^p の A_j は個々には Laurent でなく、ブロックごとの正値性による証明はそのままでは成立しない。証明は未解決（REPORT_phase4.md §5）。
+  分解 Σ A_j m_j^p の A_j は個々には Laurent でなく、ブロックごとの正値性による証明はそのままでは成立しない。証明は未解決（reports/REPORT_phase4.md §5）。
 - 途中の誤り：最初の分解の検証で、有理関数の差を `sp.expand` で 0 と比べていたため誤って「不成立」と出た。厳密な点での評価に直した。
 
 ## 第 4 期 C2・新規性の文献確認（2026-10-06）
@@ -775,7 +775,7 @@ framing を付けた自明な結び目はこの型に当たる可能性がある
 
 **次にやること（指示待ち）**：これらの結び目での 2 箱の全ての framing の証明書（scripts/framed_knot/framing_newton.py、K1・K3 と同じ方法）。
 
-## 別研究 [2,1] X2：未知数と条件の数え上げ（2026-10-08、docs/framed_knot/research_plan_21.md §3、停止点 1）
+## 別研究 [2,1] X2：未知数と条件の数え上げ（2026-10-08、docs/framed_knot/plans/research_plan_21.md §3、停止点 1）
 
 **枠組み（conventions.md §16）**
 - KNTZ の refined 式は、置換を合成すると KN の変数 (A, Q, T) で直接書ける（σ → 1、Tw の中の 𝐚 = A(T/Q)^{1/2}）【計算】。長方形の行数 R に依らない。
@@ -815,7 +815,7 @@ framing を付けた自明な結び目はこの型に当たる可能性がある
 
 **テスト**：tests/framed_knot/test_x2_family.py（14 件、10 秒）。
 
-## 別研究 [2,1] X1：KNTZ の refined 𝐁 の実装（2026-10-08、docs/framed_knot/research_plan_21.md §3、Y6 を含む）
+## 別研究 [2,1] X1：KNTZ の refined 𝐁 の実装（2026-10-08、docs/framed_knot/plans/research_plan_21.md §3、Y6 を含む）
 
 **やったこと**
 - KNTZ 1902.02275 の refined 版（補間 Macdonald 多項式 P*、𝐁、𝐃、𝐅、𝐓𝐰、Poincaré 多項式 𝒫_{[r^s]}(K_{m,n})）を `src/rcsknots/double_twist_refined.py` に実装。
@@ -839,7 +839,7 @@ framing を付けた自明な結び目はこの型に当たる可能性がある
 
 **未解決**：[2,1] は長方形でないので、GGS の四重次数と t_c 次数の規則（𝐐 → 𝐪^R）はそのままでは定義されない。
 
-## 別研究 [2,1] X0：t = q の再現と規約の固定（2026-10-08、docs/framed_knot/research_plan_21.md §3）
+## 別研究 [2,1] X0：t = q の再現と規約の固定（2026-10-08、docs/framed_knot/plans/research_plan_21.md §3）
 
 **やったこと**
 - 文献の式の実装（`src/rcsknots/double_twist.py`、出典の行番号つき）：KNTZ 1902.02275 の長方形の式（B, F, Tw, H）、Morozov 1903.00259 の 𝓑^{[2,1]}（6×6）と Z 因子、Morozov 1612.00422 の (H21de)・(Zf21)・(Ftwist21)。
@@ -875,8 +875,8 @@ framing を付けた自明な結び目はこの型に当たる可能性がある
 
 ## 次にやること（第 1・2 期の履歴。現在の予定は冒頭の「現在の状況」）
 
-1. （済）docs/framed_knot/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/framed_knot/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
-   研究計画 §3 のディレクトリ構成（refined_cables/…、REPORT.md、LOG.md）は現在の構成（docs/、src/rcsknots/、references/ など）と違う。現在の構成に読み替える。
+1. （済）docs/framed_knot/novelty_report.md がユーザーにより配置された（2026-10-05）。docs/framed_knot/plans/research_plan.md は、元の指示書 CLAUDE_TASK_refined_cable_knots.md を移して配置した（2026-10-05）。
+   研究計画 §3 のディレクトリ構成（refined_cables/…、reports/REPORT.md、LOG.md）は現在の構成（docs/、src/rcsknots/、references/ など）と違う。現在の構成に読み替える。
 2. （済）ステージ 0。ユーザーの確認を待つ。
 3. （済）ステージ 2。ユーザーの確認を待つ。
 4. （済）ステージ 3：BPS 抽出コード（M 行列、f^q、\hat f、g 展開）を実装し、T(2,3) の表と 4_1 の表を再現する。ノートブックの \hat f の出力も Wolfram で書き出して照合に使う。
@@ -886,9 +886,9 @@ framing を付けた自明な結び目はこの型に当たる可能性がある
 7. （済）ステージ 6：K1 → K2 → K3 → K4 → K5 → K6 の順に、全 6 彩色の refined CS 不変量（K1, K2 は計算済み）と refined BPS 不変量を計算する。
 
 8. ユーザーにレポートの確認を求める。今後の候補：K7（3 本ケーブル）、3 段以上の反復、正規化 (N1)(N2') の理論的な導出。
-9. （2026-10-05）第 2 期の研究計画を docs/framed_knot/research_plan_phase2.md に作成した（ステージ 8〜14、停止点 A・B）。
+9. （2026-10-05）第 2 期の研究計画を docs/framed_knot/plans/research_plan_phase2.md に作成した（ステージ 8〜14、停止点 A・B）。
    次はステージ 8（非代数的なケーブルの走査、[1] から）とステージ 9（代数的な iterated torus への拡張、[1] から）。ユーザーの承認を待つ。
-10. （2026-10-05）ユーザーの依頼で、ケーブル以外の方針の計画を docs/framed_knot/research_plan_knot_table.md に作成した
+10. （2026-10-05）ユーザーの依頼で、ケーブル以外の方針の計画を docs/framed_knot/plans/research_plan_knot_table.md に作成した
     （Nakagane–Sano の 11 交点以下の HOMFLY-PT ホモロジーを入力に、結び目表の [1] の refined LMOV を判定する。ステージ T0〜T6）。
     ユーザーの指示でこの案を進める。T0, T1 は済み。T1 の後、ユーザーの選択で T4 → T3 の順に 2 箱へ進んだ。T4 は済み（命題 2）。次の方針はユーザーと相談する。
 

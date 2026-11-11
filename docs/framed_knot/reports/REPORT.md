@@ -1,6 +1,6 @@
 # REPORT：iterated torus（ケーブル）結び目の refined CS 不変量と refined BPS 不変量
 
-作成：2026-10-05。研究計画は docs/framed_knot/research_plan.md、規約は docs/framed_knot/conventions.md、作業記録は docs/framed_knot/progress.md。
+作成：2026-10-05。研究計画は docs/framed_knot/plans/research_plan.md、規約は docs/framed_knot/conventions.md、作業記録は docs/framed_knot/progress.md。
 
 用語：superpolynomial は Gukov らの原典（DGR math/0505662 など）の意味、すなわち彩色 HOMFLY-PT ホモロジーの Poincaré 多項式として構造的な性質から組み合わせ的に構成される正整数係数の多項式に限って使う。本研究で計算した refined CS 不変量（DAHA の不変量と一致）は superpolynomial とは呼ばない。
 
@@ -225,7 +225,7 @@ G 展開の前と後の両方が同じ全体の符号で全彩色非負：T2_3, 
 
 ### 5.3 [1] での圏化との比較（K2, K4, K5a, K5c, K6b）
 
-詳細は `docs/framed_knot/categorification_status.md` と `docs/framed_knot/literature/notes_GGS_1304.3481.md`。
+詳細は `docs/framed_knot/categorification/categorification_status.md` と `docs/framed_knot/literature/notes_GGS_1304.3481.md`。
 スクリプト：`scripts/framed_knot/homology_invariants.py`、`scripts/framed_knot/compare_khovanov.py`、`scripts/framed_knot/construct_superpolynomial.py`、`scripts/framed_knot/superpoly_lmov.py`。
 データ：`data/framed_knot/homology/`、`data/framed_knot/superpoly/`。
 .venv に khoca 1.5（Sage の conda 環境の pari を参照してビルド）、py、snappy 3.3.2、scipy 1.18.1 を追加した。

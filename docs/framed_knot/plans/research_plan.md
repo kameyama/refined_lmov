@@ -82,7 +82,7 @@ refined 版の作業仮説は、これを次のように置き換えたもので
     src/             # 実装
     tests/           # 検証（pytest）
     data/            # 計算結果（JSON + 人が読める .txt/.tex 表）
-    REPORT.md        # 最終レポート
+    reports/REPORT.md        # 最終レポート
     LOG.md           # 作業ログ（規約の決定・不一致・未解決点）
   ```
 - **データ形式**：各結果を `data/{knot_id}_{lambda}.json` に保存する。中身は多項式の係数辞書と、使った規約のメタデータ（変数対応、framing、reduced/unreduced）。
@@ -148,7 +148,7 @@ refined 版の作業仮説は、これを次のように置き換えたもので
 - 各計算の実行時間とメモリを `LOG.md` に記録する。
 
 ### Stage 7：解析とレポート
-`REPORT.md` に次をまとめる。
+`reports/REPORT.md` に次をまとめる。
 1. 規約表（Stage 0）
 2. 各検証の結果（パス／不一致とその解決）
 3. 各結び目・各 λ の refined CS 不変量（係数表）と refined BPS 不変量の表（1703.05408 の Table と同形式）
@@ -169,4 +169,4 @@ refined 版の作業仮説は、これを次のように置き換えたもので
   - Stage 5 で refined ケーブル公式と DAHA が一致せず、DAHA の直接実装もできない
   - 計算量が見積もりを大きく超える（1つの λ に24時間以上かかる見込み）
   
-  これらの場合は、それまでの成果と問題点を `REPORT.md` にまとめて止まる。
+  これらの場合は、それまでの成果と問題点を `reports/REPORT.md` にまとめて止まる。

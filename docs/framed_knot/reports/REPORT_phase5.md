@@ -1,7 +1,7 @@
 # REPORT（第 5 期）：2 箱の証明、thick な結び目、3 箱の完了、正規化の導出
 
 作成：2026-10-08。期間は 2026-10-07〜08（第 4 期のまとめの後）。計画を立てずに、ユーザーの指示で項目ごとに進めた。
-主要な結果の一覧は docs/framed_knot/RESULTS.md、未解決の問題は docs/framed_knot/open_problems.md、作業記録は docs/framed_knot/progress.md、既知の結果との区別は docs/framed_knot/novelty_report.md §9。
+主要な結果の一覧は docs/framed_knot/reports/RESULTS.md、未解決の問題は docs/framed_knot/open_problems.md、作業記録は docs/framed_knot/progress.md、既知の結果との区別は docs/framed_knot/novelty_report.md §9。
 
 主張の印：【導出】【計算】（範囲を明記）【予想】【仮説】（裏付けを併記）。既知の結果は成果として書かない。
 多くの項目はサブエージェントが計算・文献確認を行い、親セッションでスクリプトの再実行と原典の該当箇所の確認をしてから記録した。
@@ -25,15 +25,15 @@
 
 | 結び目 | 種類 | 3 箱の \hat f の項数 | 判定 | 記録 |
 |---|---|---|---|---|
-| K7 = T(2,3) の (3,19)-ケーブル | 代数的、3 本ケーブル | 各約 34 万 | 全 6 つの ρ で G 展開の前後とも非負【計算】 | REPORT_phase3.md §3、logs/framed_knot/u4_cables3.log |
-| K10 = K1 の (2,53)-ケーブル | 代数的、2 段の反復 | 各約 181〜183 万（係数の最大 1.13×10¹⁹、素数 3 つで復元） | 同上【計算】 | REPORT_phase4.md §1.1、logs/framed_knot/v0_K10_lmov3b.log |
+| K7 = T(2,3) の (3,19)-ケーブル | 代数的、3 本ケーブル | 各約 34 万 | 全 6 つの ρ で G 展開の前後とも非負【計算】 | reports/REPORT_phase3.md §3、logs/framed_knot/u4_cables3.log |
+| K10 = K1 の (2,53)-ケーブル | 代数的、2 段の反復 | 各約 181〜183 万（係数の最大 1.13×10¹⁹、素数 3 つで復元） | 同上【計算】 | reports/REPORT_phase4.md §1.1、logs/framed_knot/v0_K10_lmov3b.log |
 
 - K7 の [1,1,1] と K10 の [1,1,1] は [3] から転置対称性で作り、計算に使っていない素数の 16 点で GN の値と照合した。全ての彩色で正規化の単項式は (N2') の予測と一致。
 - K10 は 2 台の計算機で分担した（[3] は Mac mini M1、[2,1] と \hat f は M3 Pro・36 GB）。
 - これで、定義どおりに [2,1] が得られる範囲（トーラス結び目と代数的な iterated torus 結び目）では、調べた全ての結び目で 3 箱まで正。
   ホモロジーではない DAHA/EHA の入力（[2,1] の rCS 自体は負の係数をもつ）で、BPS 不変量の段の正値性が成り立つ。
 
-## 2. 2 箱の正値性の証明（REPORT_phase4.md §5.1, §5.2）
+## 2. 2 箱の正値性の証明（reports/REPORT_phase4.md §5.1, §5.2）
 
 前提：入力は GNSSS 1512.07883 の四重次数の予想式と、t_c 次数 δ' = −S（第 2 期）。
 
@@ -66,7 +66,7 @@
   最低 a 次数は Franks–Williams 1987、「𝐭⁰ の項は 1 つだけ」は Mellit 1704.07630 の Dyck 路の式から。
 - 残り：Mellit の Cor (daha) の正規化（符号と a → a/q）の原典での確定（数値では確定、ここで止めた）。H_sat は DAHA/EHA からは導けない物理的な仮説として残る。
 
-## 5. 訂正（REPORT_phase4.md §8）
+## 5. 訂正（reports/REPORT_phase4.md §8）
 
 - 第 2 期 T3 の「次元が二乗にならない pretzel 16 個は Laurent でない」と、第 4 期 B2 の「GNSSS の式は 19 個で special polynomial の性質を破る（式の不備）」は、どちらも入力スクリプト scripts/framed_knot/t3_pretzel.py の浮動小数点のバグ（q-Pochhammer の初期値が Python の int で qbinom(0,0) = 1.0）による。
 - 修正後は s, t ∈ [−5, 5] の 55 個全てで次元が二乗、special polynomial の性質が成立し、全て 2 箱で正。V5 で使った 4_1, 5_2, 6_1 の入力は修正の前後で一致し、V5 の結論は変わらない。修正前のログは logs/framed_knot/*_float_bug.log。
@@ -81,7 +81,7 @@
 | ε の評価を閉じた式 H̃_μ[1−a] = Π(1 − a q^c t_w^r) に、EHA の演算子を全ての λ をまとめた動的計画法に | K10 の評価が約 14 倍 | 旧実装と一致（tests/framed_knot/test_speedup.py） |
 | 補間を a の係数のまとまりで並列化、行列積を BLAS に（別の PC） | K10 の 3 箱の補間（13 GB の配列）が可能に | tests/framed_knot/test_speedup.py |
 
-- tests/ は機能テスト（小さな入力）に整理し、保存済みの大きな結果の再検証には results の印を付けて既定の実行から外した（CLAUDE.md、pyproject.toml）。既定の実行は約 3〜4 分。主要な結果は docs/framed_knot/RESULTS.md に、データ・ログ・コード・機能テストとあわせて整理した。
+- tests/ は機能テスト（小さな入力）に整理し、保存済みの大きな結果の再検証には results の印を付けて既定の実行から外した（CLAUDE.md、pyproject.toml）。既定の実行は約 3〜4 分。主要な結果は docs/framed_knot/reports/RESULTS.md に、データ・ログ・コード・機能テストとあわせて整理した。
 
 ## 7. 打ち切り・保留・別研究
 
@@ -91,7 +91,7 @@
 | V4 の理論（c_2 の構造的な説明、2 箱の単峰性の理由） | 保留 | 具体的な方法が無い |
 | D1 の最後の 1 点（Mellit の正規化の原典での確定） | 止めた | 数値では確定している |
 | B3（9_42 の S² ホモロジーの確定） | 打ち切り | どの候補でも KN の形に乗らない |
-| 双曲結び目の [2,1] | 別研究 docs/framed_knot/research_plan_21.md | 定義に基づく構成が文献にもソフトにも無い。kr-calc（yui-kr）は彩色なしのホモロジーだけ |
+| 双曲結び目の [2,1] | 別研究 docs/framed_knot/plans/research_plan_21.md | 定義に基づく構成が文献にもソフトにも無い。kr-calc（yui-kr）は彩色なしのホモロジーだけ |
 
 ## 8. 本研究（第 1〜5 期）を通した描像
 
@@ -107,7 +107,7 @@
 
 ## 9. 未解決点と次の段階
 
-- 双曲結び目の 3 箱：[2,1] を定義に基づいて得る構成（別研究 docs/framed_knot/research_plan_21.md。W0 の調査項目に、ホモロジーを作らない構成として 3d–3d・Ẑ の refined 版と Cherednik の motivic superpolynomial を追加済み）。
+- 双曲結び目の 3 箱：[2,1] を定義に基づいて得る構成（別研究 docs/framed_knot/plans/research_plan_21.md。W0 の調査項目に、ホモロジーを作らない構成として 3d–3d・Ẑ の refined 版と Cherednik の motivic superpolynomial を追加済み）。
 - 2 箱の証明の入力（GNSSS の予想式、δ' = −S）そのもの。
 - 保留した理論の 2 つ（§7）。
 - 一覧は docs/framed_knot/open_problems.md。

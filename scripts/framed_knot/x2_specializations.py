@@ -5,7 +5,7 @@
   τ_X は KNTZ の refined の正則な行（X1）。W は反常チャネル X̃₂ の寄与（固有値 ẽ = A⁴(Q/T)^k、係数は未知）。
 条件（どちらも全ての (m, n) で）：
   EGP：Q = 1 で rCS_{[2,1]} = rCS_{[1]}·rCS_{[1,1]}（KN (EGP)、conventions.md §10）
-  U(2)：A² = T⁴ で rCS_{[2,1]} = rCS_{[1]}·rCS_{[1,1]}（REPORT_phase4.md §4）
+  U(2)：A² = T⁴ で rCS_{[2,1]} = rCS_{[1]}·rCS_{[1,1]}（reports/REPORT_phase4.md §4）
   右辺の rCS_{[1]}, rCS_{[1,1]} は KNTZ の refined の長方形の式（X1 で GNSSS・EHA と照合済み）。
 固有値の組 (e_Y^m, e_{Y'}^n) ごとに係数を比べる（特殊化で固有値が一致するものはまとめる）。
 未知数 z_X = Z̃_X（その特殊化での値）について線形な連立方程式を作り、解けるか（整合性）と解を出す。

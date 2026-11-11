@@ -2,15 +2,15 @@
 
 > **注（2026-10-06）**：この案は採用しなかった。特にステージ 8（非代数的なケーブルの走査）は行わない（CLAUDE.md、open_problems.md D5）。
 
-作成：2026-10-05。第 1 期（ステージ 0〜7）の計画は docs/framed_knot/research_plan.md、結果は docs/framed_knot/REPORT.md、作業記録は docs/framed_knot/progress.md。
-文献の状況は docs/framed_knot/categorification_literature_map.md（以下「文献地図」）と docs/framed_knot/categorification_status.md、DAHA の明示例は docs/framed_knot/literature/notes_DAHA.md。
+作成：2026-10-05。第 1 期（ステージ 0〜7）の計画は docs/framed_knot/plans/research_plan.md、結果は docs/framed_knot/reports/REPORT.md、作業記録は docs/framed_knot/progress.md。
+文献の状況は docs/framed_knot/categorification/categorification_literature_map.md（以下「文献地図」）と docs/framed_knot/categorification/categorification_status.md、DAHA の明示例は docs/framed_knot/literature/notes_DAHA.md。
 規約は docs/framed_knot/conventions.md に従う。ステージ番号は第 1 期から続けて 8 から振る。
 
 ---
 
 ## 0. 出発点
 
-### 0.1 第 1 期で得たもの（詳細は REPORT.md）
+### 0.1 第 1 期で得たもの（詳細は reports/REPORT.md）
 
 - 計算法：Gorsky–Negut の楕円 Hall 代数でケーブルの refined CS 不変量を計算し、KN（1703.05408）の手順で refined LMOV 不変量を読む。
   トーラス結び目 27 件・KN の 13 表・CD14 の 8 例と全係数で一致【計算】。
@@ -40,7 +40,7 @@
 1. Q1, Q2 によって、「refined LMOV 不変量の正値性は代数的な iterated torus 結び目で成り立ち、非代数的なものでは型 I/II/III のどれかで破れる」という描像を、より広いクラスで確かめるか反証する。
 2. Q3 によって、[1] での判定（CLAUDE.md の方針：[1] では homological な不変量は全て正整数係数であるべき）の根拠を、予想に基づく候補から定理に基づく計算に置き換える。
 3. Q4, Q5 は、非代数的なケーブルで「正しい入力」と「正しい正規化」が何かを問う。結果によっては、KN の枠組みの適用範囲を明示的に述べる。
-4. 成果物：REPORT.md の第 2 版、論文（docs/framed_knot/paper/）の改訂、各ステージの data/・tests/・logs/。
+4. 成果物：reports/REPORT.md の第 2 版、論文（docs/framed_knot/paper/）の改訂、各ステージの data/・tests/・logs/。
 
 ---
 
@@ -131,8 +131,8 @@ KN §6 が 4_1 に対して行ったことを、ケーブルで試す。
 
 ### ステージ 14：レポートと論文の改訂
 
-- REPORT.md 第 2 版：判定表を全結び目に拡張し、正値性の境界と型の分類をまとめる。
-- 論文（docs/framed_knot/paper/main.tex）を改訂し、表を `scripts/framed_knot/paper_tables.py` で再生成する。
+- reports/REPORT.md 第 2 版：判定表を全結び目に拡張し、正値性の境界と型の分類をまとめる。
+- 論文（docs/framed_knot/paper/phase1_draft/main.tex）を改訂し、表を `scripts/framed_knot/paper_tables.py` で再生成する。
 - novelty_report.md に、第 2 期で新しく得た結果の範囲を追記する。
 
 ---
@@ -152,7 +152,7 @@ KN §6 が 4_1 に対して行ったことを、ケーブルで試す。
 | 7 | 14（まとめ） | 全て | |
 
 - 第 1 期の停止点（ステージ 0, 2, 5 の後）は済んでいる。第 2 期の停止点は A, B と、各ステージの停止条件。
-- 1 彩色の計算が 24 時間を超える見込みになったら、そこで止めて報告する（第 1 期の research_plan.md と同じ）。
+- 1 彩色の計算が 24 時間を超える見込みになったら、そこで止めて報告する（第 1 期の plans/research_plan.md と同じ）。
 - 長時間の計算は data/ に途中結果を保存し、logs/ に時間とメモリを記録する。区切りごとに progress.md を更新し、commit する。
 
 ## 4. 新規性の扱い

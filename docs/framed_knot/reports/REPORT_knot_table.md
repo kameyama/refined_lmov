@@ -1,7 +1,7 @@
 # REPORT（第 2 期・結び目表の方針）：HOMFLY-PT ホモロジーを入力とする refined LMOV 不変量の正値性
 
-作成：2026-10-06。計画は docs/framed_knot/research_plan_knot_table.md、作業記録は docs/framed_knot/progress.md（ステージ T0〜T4）、規約は docs/framed_knot/conventions.md §11, §12。
-第 1 期（ケーブル結び目、DAHA/EHA を入力とする）の結果は docs/framed_knot/REPORT.md。
+作成：2026-10-06。計画は docs/framed_knot/plans/research_plan_knot_table.md、作業記録は docs/framed_knot/progress.md（ステージ T0〜T4）、規約は docs/framed_knot/conventions.md §11, §12。
+第 1 期（ケーブル結び目、DAHA/EHA を入力とする）の結果は docs/framed_knot/reports/REPORT.md。
 
 主張には次の印を付ける。
 - 【導出】解析的に導出した（証明を conventions.md に書いた）。
@@ -29,7 +29,7 @@ KN（Kameyama–Nawata、arXiv:1703.05408）は、非トーラス結び目では
    除いた後の次元 401 は GGS の値と一致するので、GGS では暗黙に修正されている（誤植の明示的な指摘は見つからなかった、§6）。命題 2 により、9_42 の結論は誤植にも、S² ホモロジーの候補の違い（§3.3）にもよらない。
 5. **t_c 次数の決め方【計算】。** thick な結び目では、t_r 次数のデータから t_c 次数は決まらない（8_19 で較正）。thin な族では δ' = −S（一定）で決まり、二つの独立な方法で一致した。
 6. **thin な族の 2 箱【計算、予想式に基づく】。** ツイスト結び目 K_p（p = −12〜12）の 24 個と、(2s−1,1,2t−1)-pretzel の 55 個（s, t ∈ [−5, 5]）の全てで、[2], [1,1] の \hat f が G 展開の前後とも非負。
-   （2026-10-07 訂正：当初「次元が二乗にならない 16 個は Laurent にならない」としたのは、入力スクリプトの浮動小数点のバグによる。修正後は 55 個全てで次元が二乗。REPORT_phase4.md §8）
+   （2026-10-07 訂正：当初「次元が二乗にならない 16 個は Laurent にならない」としたのは、入力スクリプトの浮動小数点のバグによる。修正後は 55 個全てで次元が二乗。reports/REPORT_phase4.md §8）
    **2 箱の正値性は自動的ではない**：5_2 で t_c 次数の別の割り当て（正の入力、Laurent、G 展開が閉じる）を 12 通り試すと、全て G 展開の前か後に負の項が出た。
 
 ---
@@ -117,7 +117,7 @@ KN（Kameyama–Nawata、arXiv:1703.05408）は、非トーラス結び目では
 | K_p、p = −12〜12 | 24 | 全て G 展開の前後とも非負 |
 | K_{s,t}、s, t ∈ [−5, 5]、dim H^{[2]} = (dim H^{[1]})² | 39 → 55（訂正） | 全て G 展開の前後とも非負 |
 
-（2026-10-07 再訂正：「二乗にならない 16 個」と、いったん書いた「GNSSS の式は 19 個で special polynomial の性質を破る（有効な入力は 36 個）」は、どちらも入力スクリプト `scripts/framed_knot/t3_pretzel.py` の浮動小数点のバグによる。修正後は 55 個全てで次元が二乗、special polynomial の性質が成り立ち、全て 2 箱で G 展開の前後とも正。`logs/framed_knot/v4_pretzel_table.log`、REPORT_phase4.md §8）
+（2026-10-07 再訂正：「二乗にならない 16 個」と、いったん書いた「GNSSS の式は 19 個で special polynomial の性質を破る（有効な入力は 36 個）」は、どちらも入力スクリプト `scripts/framed_knot/t3_pretzel.py` の浮動小数点のバグによる。修正後は 55 個全てで次元が二乗、special polynomial の性質が成り立ち、全て 2 箱で G 展開の前後とも正。`logs/framed_knot/v4_pretzel_table.log`、reports/REPORT_phase4.md §8）
 
 | 同上、二乗にならないもの | 16 → 0（訂正） | 当初は Laurent でないとしたが、入力のバグによる。修正後は上の行に含まれ 55 個全てが正 |
 

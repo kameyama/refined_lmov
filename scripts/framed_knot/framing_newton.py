@@ -11,7 +11,7 @@ framing[3] = 𝐪⁶𝐭⁹、framing[2,1] = 𝐭⁵、framing[1,1,1] = 𝐪⁻�
 ニュートン形 S(ε + 2δy) = Σ_k c_k h_{y−k}(根_0..根_k)（δ = ±1）。h は単項式の完全斉次対称式で非負係数なので、
 c_k が全て同じ符号なら、その (ε, δ) の全ての y で \\hat f^{(x)} は G 展開の前で一様な符号【導出】。
 σ（G 展開が閉じる条件の対称性）は根の集合を保つので、根の個数の点で σ 不変なら全ての y で σ 不変【導出】。
-すると命題 1 の補題により \\hat N も非負（REPORT_phase4.md §5.1）。
+すると命題 1 の補題により \\hat N も非負（reports/REPORT_phase4.md §5.1）。
 使い方：python scripts/framed_knot/framing_newton.py 結び目 N [起点のずらしの上限]（値は data/framed_knot/framing/ に保存して再利用）
 """
 import json

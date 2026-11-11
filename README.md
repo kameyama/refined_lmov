@@ -4,7 +4,7 @@ refined Chern–Simons 不変量と refined BPS（LMOV）不変量について�
 
 | テーマ | 内容 | 入口 |
 |---|---|---|
-| framed_knot | Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）を、トーラス結び目以外の結び目と framed knot に拡張し、refined LMOV 不変量の正値性を検証する | [progress.md](docs/framed_knot/progress.md)、[REPORT.md](docs/framed_knot/REPORT.md)、[conventions.md](docs/framed_knot/conventions.md) |
+| framed_knot | Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）を、トーラス結び目以外の結び目と framed knot に拡張し、refined LMOV 不変量の正値性を検証する | [progress.md](docs/framed_knot/progress.md)、[REPORT.md](docs/framed_knot/reports/REPORT.md)、[conventions.md](docs/framed_knot/conventions.md) |
 | dgr_lmov | DGR・四重次数型の構造と refined LMOV 不変量 | [README.md](docs/dgr_lmov/README.md) |
 | refined_kauffman | refined Kauffman 多項式の large N duality | [README.md](docs/refined_kauffman/README.md) |
 
