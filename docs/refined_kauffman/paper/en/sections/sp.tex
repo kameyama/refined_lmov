@@ -1,30 +1,25 @@
 \section{Refined \texorpdfstring{$\Sp(2N)$}{Sp(2N)} and the \texorpdfstring{$\SO(-N)$}{SO(-N)} correspondence}\label{sec:sp}
-The refined Chern--Simons theory of \cite{AM22} is defined for any root system by taking $k_\alpha = y$ uniformly and $q_\alpha = q^{(\alpha,\alpha)/2}$; for $C_N$ the parameter of the long roots becomes $u = t_{\mathrm{lng}} = t^2$. We implemented the $C_N$ DAHA of \cite{Cherednik11} ($t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$) on the polynomial representation (checks in Appendix \ref{app:code}). In this section the conventions are those of the DAHA side, in which $g^{\mathrm{true}}_{\yone} = W_{\SO} - W^{\cov}_{\yone}$ with $W^{\cov}_{\yone}$ the mirror image of $\tfrac12 h_{\yone}$ of \eqref{eq:hg} in the uniform normalization; the relation to the sign conventions of \S\ref{sec:torus} is the mirror of Result \ref{cr:marino}(2).
+The refined Chern--Simons theory of \cite{AM22} is defined for any root system by taking $k_\alpha = y$ uniformly and $q_\alpha = q^{(\alpha,\alpha)/2}$; for $C_N$ the parameter of the long roots becomes $u = t_{\mathrm{lng}} = t^2$. We implemented the $C_N$ DAHA of \cite{Cherednik11} ($t = t_{\mathrm{sht}}$, $u = t_{\mathrm{lng}}$) on the polynomial representation (checks in Appendix \ref{app:code}). In this section the conventions are those of the DAHA side, in which $g^{\mathrm{true}}_{\yone} = W_{\SO} - W^{\cov}_{\yone}$ with $W^{\cov}_{\yone}$ the mirror image of $\tfrac12 h_{\yone}$ of \eqref{eq:hg} in the uniform normalization; the relation to the sign conventions of \S\ref{sec:torus} is the mirror of the relation for the crosscap part in Result \ref{cr:marino}.
 \begin{hypothesis}\label{hyp:spcover}
 The cover of the refined $\Sp(2N)$ theory is the same function of $\lambda$ as for $\SO(2N)$, with $\lambda = t^{N+1/2}$ ($a = \lambda^2 = t^{2N+1}$).
 \end{hypothesis}
 % [D11][D12]
 \begin{result}\label{cr:cn}
-For the $C_N$ DAHA and the refined $\Sp(2N)$ invariants the following hold.
-\begin{enumerate}
-\item At $u = 1$ the values agree exactly with the $D_N$ DAHA-Jones polynomials in the fundamental representation ($N = 2, 3$; $T(2,3)$, $T(2,5)$). They agree with $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a_{\mathrm{C}})$ of \cite{Cherednik11} at $a_{\mathrm{C}} = -t^{N-1}$ up to a monomial (rank $N = 2, 3, 4$). From the values at $N = 2, \dots, 8$ we reconstructed the hyper-polynomials $\mathcal{H}^C_{2m+1,2}(\omega_1)$ as polynomials in $a_{\mathrm{C}}$; the formula for $T(2,5)$ does not appear in \cite{Cherednik11} or \cite{CE15}.
-\item $\SO$ convention: $W_{\SO} = \mirror[\mathcal{H}^C(u{=}1, a_{\mathrm{C}}{=}-\lambda/t^{1/2})]\cdot\dim_V^{\SO}(\lambda)\cdot(t^{1/2}/\lambda)^{2m}$ reproduces $g^{\mathrm{true}}_{\yone}$ of Result \ref{cr:torus} (uniquely).
-\item $\Sp$: with $a_{\mathrm{C}} = -t^{N-1}$, $u = t^2$ and Hypothesis \ref{hyp:spcover}, the monomial is fixed to the same $(t^{1/2}/\lambda)^{2m}$ as for $\SO$ by the cancellation of the pole at $t = 1$ and the Kauffman form at $t = q$, and for $T(2,3)$, $T(2,5)$
+For the $C_N$ DAHA and the refined $\Sp(2N)$ invariants the following hold. At $u = 1$ the values agree exactly with the $D_N$ DAHA-Jones polynomials in the fundamental representation ($N = 2, 3$; $T(2,3)$, $T(2,5)$). They agree with $\mathcal{H}^C_{3,2}(\omega_1; q, t, u, a_{\mathrm{C}})$ of \cite{Cherednik11} at $a_{\mathrm{C}} = -t^{N-1}$ up to a monomial (rank $N = 2, 3, 4$). From the values at $N = 2, \dots, 8$ we reconstructed the hyper-polynomials $\mathcal{H}^C_{2m+1,2}(\omega_1)$ as polynomials in $a_{\mathrm{C}}$; the formula for $T(2,5)$ does not appear in \cite{Cherednik11} or \cite{CE15}.
+
+In the $\SO$ convention, $W_{\SO} = \mirror[\mathcal{H}^C(u{=}1, a_{\mathrm{C}}{=}-\lambda/t^{1/2})]\cdot\dim_V^{\SO}(\lambda)\cdot(t^{1/2}/\lambda)^{2m}$ reproduces $g^{\mathrm{true}}_{\yone}$ of Result \ref{cr:torus} (uniquely).
+For $\Sp$, with $a_{\mathrm{C}} = -t^{N-1}$, $u = t^2$ and Hypothesis \ref{hyp:spcover}, the monomial is fixed to the same $(t^{1/2}/\lambda)^{2m}$ as for $\SO$ by the cancellation of the pole at $t = 1$ and the Kauffman form at $t = q$, and for $T(2,3)$, $T(2,5)$
 \begin{equation}\label{eq:sp1}
 g^{\Sp}_{\yone}(\ba, \bq, \bt) = -\,g^{\SO}_{\yone}(-\ba, \bq, \bt)
 \end{equation}
 holds coefficient by coefficient.
-\end{enumerate}
 \end{result}
 Since $c = 1$ is assigned to even and $c = 2$ to odd powers of $\ba$, \eqref{eq:sp1} says $C^{\Sp} = -C_{c=1} + C_{c=2}$: the rule of \cite{Marino09} that $\SO$ and $\Sp$ differ by the sign of the $c = 1$ terms survives refinement. This independently supports the assignment of $c$, and is the first check that the refined $\Sp(2N)$ theory of \cite{AM22} is consistent for open strings.
 
 The same structure holds with two boxes. The $C_N$ Macdonald polynomials $P_{2\varepsilon_1}$, $P_{\varepsilon_1+\varepsilon_2}$ were obtained from the triangular matrix of the Macdonald operator, and the values at $N = 2, \dots, 9$ were interpolated as rational functions of $t^N$ (at $u = 1$ they agree with the $D_N$ two-box values and with $\mathcal{H}^C_{3,2}(\omega_2)$ of \cite{Cherednik11} up to a monomial).
 % [D13][D14]
 \begin{result}\label{cr:sp2}
-For the refined $\Sp(2N)$ trefoil with two boxes the following hold.
-\begin{enumerate}
-\item $g^{\Sp}_{\ytwo} + g^{\Sp}_{\yoneone}$ and $(1+t)(g^{\Sp}_{\ytwo} - g^{\Sp}_{\yoneone})$ are integer Laurent polynomials, with the same all-$d$ structure as for $\SO$ (Proposition \ref{prop:alld}), and $E^{\Sp}(t{=}-1) = E^{\SO}(t{=}-1)$ coefficient by coefficient.
-\item At the level of colored invariants $W_R^{\Sp}(\ba) = (-1)^{|R|}\,W_R^{\SO}(-\ba)$ holds exactly. For the crosscap parts
+For the refined $\Sp(2N)$ trefoil with two boxes, $g^{\Sp}_{\ytwo} + g^{\Sp}_{\yoneone}$ and $(1+t)(g^{\Sp}_{\ytwo} - g^{\Sp}_{\yoneone})$ are integer Laurent polynomials, with the same all-$d$ structure as for $\SO$ (Proposition \ref{prop:alld}), and $E^{\Sp}(t{=}-1) = E^{\SO}(t{=}-1)$ coefficient by coefficient. At the level of colored invariants $W_R^{\Sp}(\ba) = (-1)^{|R|}\,W_R^{\SO}(-\ba)$ holds exactly. For the crosscap parts
 \begin{equation}\label{eq:sp2}
 \begin{aligned}
 f^{\Sp}_{\ytwo}(\ba) - f^{\SO}_{\ytwo}(-\ba) &= \psi^2[\Delta], \qquad f^{\Sp}_{\yoneone}(\ba) - f^{\SO}_{\yoneone}(-\ba) = -\psi^2[\Delta], \\
@@ -32,7 +27,6 @@ f^{\Sp}_{\ytwo}(\ba) - f^{\SO}_{\ytwo}(-\ba) &= \psi^2[\Delta], \qquad f^{\Sp}_{
 \end{aligned}
 \end{equation}
 the same for $g$, where $\psi^2$ is the Adams operation squaring $q, t, \ba^2$ and $\mathrm{even}_{\ba}$ denotes the part with even powers of $\ba$ ($g^{\SO}_{\yone}$ is the $g^{\mathrm{true}}_{\yone}$ of \eqref{eq:trefoil1}; in the sign convention of \S\ref{sec:setup}, $\Delta = \mathrm{even}_{\ba}(g_{\yone}) + 1$ up to the factor of the uniform normalization). The hatted $p_1^2$ component $(g_{\ytwo} + g_{\yoneone})/z_q$ satisfies $X^{\Sp}(\ba) = +X^{\SO}(-\ba)$, whereas for the fundamental representation the sign is $-$, cf.\ \eqref{eq:sp1}.
-\end{enumerate}
 \end{result}
 Relations \eqref{eq:sp1} and \eqref{eq:sp2} are refined versions of the classical correspondence $\Sp(N) = \SO(-N)$ with $R \to R^T$ \cite{Cvitanovic08,MV10}. Whether they follow from a duality of the $C_N$ and $D_N$ DAHA at the level of Koornwinder polynomials has not been examined \open. The two-box computation is restricted to the trefoil ($T(2,5)$ would need the values for all $N \le 13$ for the interpolation, beyond the current implementation).
 \begin{remark}

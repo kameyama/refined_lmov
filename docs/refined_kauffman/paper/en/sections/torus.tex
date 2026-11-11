@@ -1,4 +1,4 @@
-\section{Torus knots in the fundamental representation: the sign property}\label{sec:torus}
+\section{The sign property for torus knots in the fundamental representation}\label{sec:torus}
 
 \subsection{Input and the $h/g$ decomposition}
 The input is the general formula of \S6 of \cite{AgSc12} for $T(2,2m+1)$ in the fundamental representation (normalized by the unknot); for $m = 1$ it is (6.15) there.
@@ -51,8 +51,8 @@ For the fundamental representation the $c = 2$ part of $g^{\mathrm{true}}_{\yone
 
 % [T3][T4]
 \begin{result}\label{cr:torus}
-For $m = 1, \dots, 5$, $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynomial (with 11, 27, 49, 77, 111 terms) and:
-\begin{enumerate}
+For $m = 1, \dots, 5$, $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynomial (with 11, 27, 49, 77, 111 terms) with the following properties.
+\begin{enumerate} % tells-ok (labelled properties (N), (P), (c=2), (c=1) with formulas, referred to by label)
 \item[(N)] $g^{\mathrm{true}}_{\yone} = 1$ at the $\SO(2)$ point $\ba^2 = \bq^2$ ($\lambda^2 = t$).
 \item[(P)] It is invariant under $\bt \to -\bt$.
 \item[($c{=}2$)] The $c = 2$ part is
@@ -61,13 +61,7 @@ For $m = 1, \dots, 5$, $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynom
 \Pi_m = \sum_{j=0}^{m-1}\ba^{2j}\bq^{2(m-1-j)}\bt^{2j}\sum_{i=0}^{j}(\bq^4\bt^2)^i ,
 \end{equation}
 where $\Pi_m$ has $m(m+1)/2$ terms, all with coefficient $+1$.
-\item[($c{=}1$)] The $c = 1$ part is $\sigma$-symmetric and is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1}]$. Each $\lambda^\beta$ block is one of
-  \begin{itemize}
-  \item $\lambda^{-(4m+2)}$: a positive monomial;
-  \item $\lambda^{-4m}, \dots, \lambda^{-(2m+4)}$ (absent for $m = 1$): $(\bt^2 - 1)\times$ a block with positive coefficients;
-  \item $\lambda^{-(2m+2)}$: all coefficients negative;
-  \item $\lambda^{-2m}$: all coefficients positive.
-  \end{itemize}
+\item[($c{=}1$)] The $c = 1$ part is $\sigma$-symmetric and is a polynomial in $G$ with coefficients in $\mathbb{Z}[\qr^{\pm1}]$. Each $\lambda^\beta$ block is of one of four kinds: the block $\lambda^{-(4m+2)}$ is a positive monomial; the blocks $\lambda^{-4m}, \dots, \lambda^{-(2m+4)}$ (absent for $m = 1$) are $(\bt^2 - 1)\times$ a block with positive coefficients; the block $\lambda^{-(2m+2)}$ has all coefficients negative; and the block $\lambda^{-2m}$ has all coefficients positive.
 \end{enumerate}
 \end{result}
 \begin{conjecture}\label{conj:Pim}
@@ -76,7 +70,7 @@ The closed form \eqref{eq:Pim} of the $c = 2$ part holds for all $m$. (It was gu
 At $t = q$ the $c = 2$ part vanishes, consistent with the vanishing of the unrefined $c = 2$ invariants for torus knots in the fundamental representation. The values for $m = 1, 2, 3$ are listed in Appendix \ref{app:torus}.
 
 \subsection{The sign property}\label{sec:criterion}
-The unrefined crosscap BPS numbers are integers whose sign depends on $\beta$ (e.g., $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ for the Hopf link in \cite{Marino09}). After refinement one expects positivity, which we formulate as follows: in each $\lambda^\beta$ block the coefficients have a common sign, equal to the unrefined sign $\varepsilon_\beta$ whenever the block survives at $t = q$. The expansion in $G$ used below exists only when the $c = 1$ part is $\sigma$-symmetric (\S\ref{sec:variables}); this is a property of the knot and the representation, not a general one (Remark \ref{rem:marino-status}).
+The unrefined crosscap BPS numbers are integers whose sign depends on $\beta$ (e.g., $\hat g_{\yone,\yone} = z(\lambda - \lambda^{-1})$ for the Hopf link in \cite{Marino09}). After refinement one expects positivity, which we formulate as follows: in each $\lambda^\beta$ block the coefficients have a common sign, equal to the unrefined sign $\varepsilon_\beta$ whenever the block survives at $t = q$. The expansion in $G$ used below exists only when the $c = 1$ part is $\sigma$-symmetric (\S\ref{sec:variables}); this is a property of the knot and the representation, not a general one (see the end of \S\ref{sec:universal}).
 
 \begin{definition}\label{def:c1}
 Expand the $c = 1$ part of the crosscap invariant in the fundamental representation as
@@ -88,11 +82,7 @@ At $t = q$, $\sum_J N^{c=1}_{g,\beta,J}$ reduces to the $N^{c=1}_{g,\beta}$ of \
 For a knot whose unrefined $c = 2$ invariants vanish, such as a torus knot in the fundamental representation, the whole $c = 2$ part is its own refined part in the sense of \S\ref{sec:universal}; in general only the refined part $X_1^{c=2} = g^{c=2} - g^{c=2}|_{t=q}(\lambda \to \tlam)$ can be expected to carry the universal factor.
 
 \begin{definition}[sign property]\label{def:signprop}
-We say that a knot $K$ has the \emph{sign property} in the fundamental representation if
-\begin{enumerate}
-\item[($c{=}1$)] the $c = 1$ part is $\sigma$-symmetric, and in its $G$-expansion \eqref{eq:Gexp} each $\lambda^\beta$ block has a common sign, equal to $\varepsilon_\beta$ when the block does not vanish at $t = q$, or is $(\bt^2 - 1)\times$ a block with a common sign;
-\item[($c{=}2$)] the refined part of the $c = 2$ part is $(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a polynomial whose coefficients have a common sign in each $\ba$ block.
-\end{enumerate}
+We say that a knot $K$ has the \emph{sign property} in the fundamental representation if the following two conditions hold. Condition ($c{=}1$): the $c = 1$ part is $\sigma$-symmetric, and in its $G$-expansion \eqref{eq:Gexp} each $\lambda^\beta$ block has a common sign, equal to $\varepsilon_\beta$ when the block does not vanish at $t = q$, or is $(\bt^2 - 1)\times$ a block with a common sign. Condition ($c{=}2$): the refined part of the $c = 2$ part is $(\ba^2 - \bq^2)(\bt^2 - 1)\times$ a polynomial whose coefficients have a common sign in each $\ba$ block.
 \end{definition}
 % [T6]
 \begin{conjecture}\label{conj:criterion}
@@ -100,7 +90,7 @@ Every two-strand torus knot $T(2,2m+1)$ has the sign property in the fundamental
 \end{conjecture}
 The evidence is Result \ref{cr:torus} ($m \le 5$); items (N) and (P) of Result \ref{cr:torus} are checks of the normalization, and the content on positivity is in ($c{=}1$) and ($c{=}2$). The factor $(\ba^2 - \bq^2)$ vanishes at the $\SO(2)$ point, where knot invariants of an abelian group become trivial; $(\bt^2 - 1)$ follows from vanishing at $t = q$ together with the parity (P). The sign property is not a property of all knots: it fails for $T(3,4)$ (\S\ref{sec:t34}) and for the algebraic cables of \S\ref{sec:cable}. Whether the Kauffman superpolynomials of \cite{GW05} for two-strand torus knots, which are positive, are related to our $c = 1$ part is not examined here \open; we note that the refined $\SO(2N)$ invariant $\Rred_{\yone}$ itself is not positive in bold variables (\S\ref{sec:positivity}), so it is not a Poincar\'e polynomial of a Kauffman homology in these variables.
 
-\subsection{\texorpdfstring{$T(3,4)$}{T(3,4)}: failure of \texorpdfstring{($c{=}1$)}{(c=1)}}\label{sec:t34}
+\subsection{Failure of \texorpdfstring{($c{=}1$)}{(c=1)} for \texorpdfstring{$T(3,4)$}{T(3,4)}}\label{sec:t34}
 % [T7]
 \begin{result}\label{cr:t34sign}
 For the three-strand torus knot $T(3,4)$ in the fundamental representation ($\delta = 3$, $F = 12$; the general-$N$ invariant is obtained from the $D_N$ DAHA as in \S\ref{sec:generalN}), $g^{\mathrm{true}}_{\yone}$ is an integer Laurent polynomial, its $c = 1$ part is symmetric under $q \leftrightarrow 1/q$ at $t = q$, and the refined part of the whole $g^{\mathrm{true}}_{\yone}$ is divisible by the universal factor with all four $\ba$ blocks of the quotient aligned. However, the $c = 1$ part is not $\sigma$-symmetric: the blocks $\lambda^{-10}$ and $\lambda^{-8}$ are asymmetric and only $\lambda^{-6}$ is symmetric, so ($c{=}1$) fails. The $c = 2$ part vanishes at $t = q$, is divisible by $(\ba^2-\bq^2)(\bt^2-1)$, and the quotient has a common sign in each $\ba$ block ($\ba^{-11}$ and $\ba^{-9}$ with opposite signs), so ($c{=}2$) holds. Splitting the $\sigma$-asymmetric part of the $c = 1$ part by Lefschetz weight (\S\ref{sec:sigmaorigin}), each block has a common sign in all rows, alternating with $\beta$; the same pattern occurs for the cables (Result \ref{cr:cable-largeN}).

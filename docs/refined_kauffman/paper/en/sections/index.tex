@@ -26,16 +26,10 @@ The space of one-particle states on the cover is $H_1 = H_{\mathrm{int}} \otimes
 \end{figure}
 
 \begin{hypothesis}[classification of one-particle states]\label{hyp:classes}
-The one-particle states of the quotient are the $\tilde I$-orbits on the cover and fall into three classes:
-\begin{enumerate}
-\item pairs $\{\psi, \tilde I\psi\}$ exchanged by $\tilde I$, carrying the full tower of modes;
-\item invariant states $\tilde I\psi = \varepsilon\psi$ ($\varepsilon = \pm 1$), carrying only the modes with $(-1)^l\varepsilon = 1$;
-\item frozen states, carrying no tower of modes.
-\end{enumerate}
-This is the classification underlying the product formula (3.13) of \cite{AgSc12} for closed strings, extrapolated to open strings.
+The one-particle states of the quotient are the $\tilde I$-orbits on the cover and fall into three classes: (a) pairs $\{\psi, \tilde I\psi\}$ exchanged by $\tilde I$, carrying the full tower of modes; (b) invariant states $\tilde I\psi = \varepsilon\psi$ ($\varepsilon = \pm 1$), carrying only the modes with $(-1)^l\varepsilon = 1$; and (c) frozen states, carrying no tower of modes. This is the classification underlying the product formula (3.13) of \cite{AgSc12} for closed strings, extrapolated to open strings.
 \end{hypothesis}
 
-\subsection{All-$d$ structure}
+\subsection{All-$d$ structure}\label{sec:alld}
 % [O1][O2]
 \begin{proposition}\label{prop:alld}
 Under Hypothesis \ref{hyp:classes}, writing $\omega_\psi$ for the charge (the monomial in $q, t, \lambda$) of a state $\psi$,
@@ -47,9 +41,7 @@ g = f - \tfrac12 f^{\cov} = \frac12\,\frac{E}{1+t} + C,\qquad E = \sum_{\text{in
 The index of the cover is $f^{\cov} = \sum_{\text{pairs}} 2\omega/(1-t) + \sum_{\text{invariant}} \omega/(1-t)$, that of the quotient is $f = \sum_{\text{pairs}} \omega/(1-t) + \sum_{\text{invariant}} \omega \sum_{(-1)^l\varepsilon = 1} t^l + \sum_{\text{frozen}} \omega$. Substitute $\sum_{(-1)^l\varepsilon = 1} t^l = \tfrac12[1/(1-t) + \varepsilon/(1+t)]$.
 \end{proof}
 
-\begin{remark}[why $g$ and not $f$]\label{rem:whyg}
 The proof shows why the $\SO$ free energy $f$ itself is not the object to expand in BPS numbers. It is a superposition of three kinds of states whose towers of modes differ: pairs carry the full tower $1/(1-t)$, invariant states only the modes of one parity, and frozen states no tower. No single prefactor turns $f$ into a count of states; accordingly $f_R$ has no $N$-dependent poles but is not a Laurent polynomial: its denominator is a monomial times $(1-t)$ for one box and $(1-t)(1+t)$ for two boxes, with integer numerator (computed for the trefoil and $T(2,5)$). Subtracting $\tfrac12 f^{\cov}$ removes the pairs and the $1/(1-t)$ half of the invariant states, which belong to the oriented theory and contain no new information (the brane--brane part is the invariant of \cite{KN17}, \S\ref{sec:split}), and leaves the two terms of \eqref{eq:alld}, each with a definite meaning. At $t = q$ this is the subtraction of \cite{Marino09}, whose integrality conjecture concerns $g$ and not the Kauffman invariant itself.
-\end{remark}
 
 \begin{remark}\label{rem:Esector}
 Invariant states exist only in fixed sectors; hence $E$ appears only there. If $\tilde I$ acts as the exchange of brane and image, its trace enters the power-sum basis in the $p_2$-type direction (the Adams operation $\psi^2$), and $E_{\ytwo} = -E_{\yoneone}$. The latter is verified for the Hopf link (Result \ref{cr:E22}) and for knots with two boxes (Result \ref{cr:largeN}).
@@ -93,15 +85,10 @@ g_{ab} = g^{\mathrm{odd}}_{ab} - \tfrac12 g^{\mathrm{odd}}_{a/2, b/2}(x^2),
 \end{equation}
 where $(x^2)$ denotes the Adams operation $\psi^2$ on all variables and the second term is present only when $a, b$ are both even (for a knot, only in the $p_2$-type directions). The factor $4(1+t)(1+t^2)$ appearing in the denominators of the $\sum_{d\,\mathrm{odd}}$ definition for the Hopf link cancels in the all-$d$ definition (Result \ref{cr:hopfdenom}).
 
-Two conditions on $E$ are used throughout the paper:
-\begin{itemize}
-\item[(E1)] $E|_{t=-1} = [2(1+t)g]_{t=-1}$ [derived: Proposition \ref{prop:EC}];
-\item[(E2)] at $t = q$, the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} with its unknot value subtracted [Hypothesis \ref{hyp:E2}].
-\end{itemize}
+Two conditions on $E$ are used throughout the paper. The first, which we call (E1), is $E|_{t=-1} = [2(1+t)g]_{t=-1}$; it is derived in Proposition \ref{prop:EC}. The second, (E2), states that at $t = q$ the frozen sum $C$ equals the odd-$d$ crosscap invariant $g^{\mathrm{odd}}$ of \cite{Marino09} with its unknot value subtracted; it is stated as Hypothesis \ref{hyp:E2}.
 \begin{hypothesis}\label{hyp:E2}
 At $t = q$ the frozen states reproduce the crosscap BPS invariants of \cite{Marino09}, and the $\tilde I$-invariant states account for the Adams correction in \eqref{eq:odd}. The constant $-1$ of the unknot \eqref{eq:f10} is excluded from the Adams correction: for the unknot $g_{a0} = 0$ for $a \ge 2$, so $E = C = 0$ there, and the unknot value of $g^{\mathrm{odd}}$ ($-\tfrac12$ in the $p_2$ direction) is subtracted from $C$, as in the comparison with \cite{Marino09} in Result \ref{cr:marino}.
 \end{hypothesis}
 Hypothesis \ref{hyp:E2} fixes the ambiguity of Proposition \ref{prop:EC} at $t = q$. By \eqref{eq:alld} and \eqref{eq:odd}, in a sector $(a,b)$ with $a, b$ even it reads $E|_{t=q} = -(1+q)\,\psi^2 g^{\mathrm{odd}}_{a/2,b/2}$; for the two-box $p_2$ direction of a knot, $E|_{t=q} = -(1+q)\,\psi^2(g_{\yone} + 1)$, where $+1$ is the exclusion of the unknot constant stated in Hypothesis \ref{hyp:E2}. When $E$ is determined by (E1) and (E2) in this paper, it is by solving these conditions, together with the parity and bound constraints of Appendix \ref{app:ilp}, as an integer linear program.
 
-\subsection{Closed strings}
-For closed strings there are only two kinds of states, $\mathbb{P}^1$ (an invariant state with $\varepsilon = +1$) and $\mathbb{RP}^2$ (a frozen state), with no cancellation between them, so $E$ and $C$ are unique and \eqref{eq:alld} can be tested directly. The $D_N$ product formula of the partition function reproduces the three terms of the free energy of \cite{AgSc12}, which are the closed-string version of \eqref{eq:alld}, and the ``Klein bottle'' term of \cite{AM22} is a rearrangement of the frozen-state term; see Appendix \ref{app:closed}. The ambiguity of Proposition \ref{prop:EC} first arises for open strings.
+For closed strings the situation is simpler. There are only two kinds of states, $\mathbb{P}^1$ (an invariant state with $\varepsilon = +1$) and $\mathbb{RP}^2$ (a frozen state), with no cancellation between them, so $E$ and $C$ are unique and \eqref{eq:alld} can be tested directly. The $D_N$ product formula of the partition function reproduces the three terms of the free energy of \cite{AgSc12}, which are the closed-string version of \eqref{eq:alld}, and the ``Klein bottle'' term of \cite{AM22} is a rearrangement of the frozen-state term; see Appendix \ref{app:closed}. The ambiguity of Proposition \ref{prop:EC} first arises for open strings.
