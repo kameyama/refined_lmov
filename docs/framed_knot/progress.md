@@ -2,6 +2,12 @@
 
 ## 現在の状況（再開用、2026-10-09 更新）
 
+- **文書の整理と英語版の論文（2026-11-11、ユーザーの指示）**：
+  - docs/framed_knot/ の文書をサブディレクトリに分けた：reports/（REPORT*.md、RESULTS.md）、plans/（research_plan*.md）、categorification/、paper/phase1_draft/（第 1 期の旧草稿）。直下には progress.md、conventions.md、open_problems.md、novelty_report.md と、一覧の README.md を置く。リポジトリ内の参照は新しいパスに書き換えた。.claude/skills/progress-report/SKILL.md の 1 か所（docs/framed_knot/RESULTS.md）だけは、サンドボックスが書き込みを拒否するので未修正。
+  - 英語版の論文を docs/framed_knot/paper/en/ に新しく書き起こした（初稿、29 ページ、pdflatex でビルドでき、未定義の参照と overfull は無い）。主張と数値は ja/ の準備稿と claims.md のものだけを使い、新しい計算はしていない。
+  - 準備稿から変えた点【判断】：(1) 予想 A を「トーラス結び目、全ての x、全ての ρ」に、予想 B を「代数的な iterated torus 結び目、(N1)(N2′) の下、全ての x、全ての ρ」に限った（review_2026-10-10.md の 1 番の指摘への対応。9_42 が反例になる書き方を避けた。ホモロジーを入力とする一般の結び目については予想を立てず、[1] は定理、2 箱は指数増大性が必要、と本文に書いた）。(2) 命題（[1] の正値性、指数増大性の必要条件、(N2′) と framing の関係）を、使う節に移した。(3) framing の走査を §7.2 にまとめた。
+  - 未了：Franks–Williams、Carlsson–Mellit、Rosso–Jones は references.bib に無いので、本文では名前だけで引用していない（書誌は原典で未確認）。データとコードの公開先は未定のまま（付録 D）。図は無い。英語の校閲と、ユーザーによる予想の範囲の確認が要る。
+
 - **リポジトリの整理（2026-10-14、ユーザーの指示）**：docs, src/rcsknots, scripts, tests, data, logs の中をテーマ `framed_knot/` と `dgr_lmov/` に分けた（README.md「構成」、CLAUDE.md「リポジトリの構成」）。
   文書・コード・テスト・ログ中のパス文字列は新しい配置に書き換えた。スクリプトの実行は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov`。
   git 管理外の途中結果（data/cache/ は共有のまま。本体のチェックアウトにある data/highbox/ と data/framing/ は data/framed_knot/ の下に手で移す）。

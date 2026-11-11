@@ -1,0 +1,135 @@
+\section{Refined LMOV invariants}\label{sec:prelim}
+
+\subsection{Variables and orientation}
+Following KN \cite{Kameyama17}, $q=e^{i\epsilon_1}$ and $t=e^{i\epsilon_2}$ are the parameters of the $\Omega$-background $(z_1,z_2)\mapsto(qz_1,t^{-1}z_2)$,
+and the large $N$ limit of the $SU(N)$ invariants is taken with $a=t^N$.
+The bold variables $(\ba,\bq,\bt)$ are defined by
+\begin{equation}\label{eq:cov}
+a=-\ba^2\bt,\qquad q^{1/2}=-\bq\bt,\qquad t^{1/2}=\bq .
+\end{equation}
+They are the variables of the superpolynomial of DGR \cite{Dunfield05} and of Aganagic and Shakirov \cite{Aganagic11}; the unrefined limit $t=q$ corresponds to $\bt=-1$.
+The DAHA variables $(q,t,a)$ of Cherednik and Danilenko \cite{Cherednik14} agree with the $(q,t)$ of KN, and $a_{\mathrm{DAHA}}=-a$.
+Branches of half-integer powers are fixed by \eqref{eq:cov}.
+The overall sign of $\hf_\rho$ is a convention; positivity statements are always understood for one choice of overall sign (Definition~\ref{def:positivity}).
+
+The orientation (choice of mirror image) follows DGR.
+The torus knot $T_{m,n}$ with $m,n>0$ is the one for which the reduced superpolynomial of the trefoil $T_{2,3}$ is $\ba^2\bq^{-2}+\ba^2\bq^2\bt^2+\ba^4\bt^3$; with this choice all crossings are negative.
+In the elliptic Hall algebra $T_{m,n}$ corresponds to the element of slope $(m,-n)$.
+Knots of the knot table are taken with the braid representatives of KnotInfo, and twist and double twist knots follow the conventions of KNTZ \cite{Kameyama19} ($K_{1,1}=\mathbf{3_1}$ and so on).
+The superpolynomial of the mirror image is obtained by inverting $\ba,\bq,\bt$, up to a monomial.
+Positive framing $x>0$ corresponds to $p>0$ of Mari\~no and Vafa (Proposition~\ref{prop:MV}).
+
+\subsection{Macdonald polynomials}
+Let $P_\lambda(u;q,t)$ be the monic Macdonald polynomial, where $u=(u_1,u_2,\dots)$ are the variables of symmetric functions, and put
+\[
+g_\lambda=\frac{(q/t)^{|\lambda|}}{\langle P_\lambda,P_\lambda\rangle_{q,t}},\qquad
+\langle p_\lambda,p_\mu\rangle_{q,t}=\delta_{\lambda\mu}\,z_\lambda\prod_i\frac{1-q^{\lambda_i}}{1-t^{\lambda_i}} .
+\]
+The invariant of the unknot is a symmetrised form of the principal specialisation
+\[
+P_\lambda(1,t,\dots,t^{N-1})=\prod_{s\in\lambda}\frac{t^{l'(s)}-a\,q^{a'(s)}}{1-q^{a(s)}t^{l(s)+1}}\qquad(a=t^N),
+\]
+where $a(s),l(s)$ are the arm and leg lengths and $a'(s),l'(s)$ the co-arm and co-leg lengths of the box $s$.
+With $n(\lambda)=\sum_i(i-1)\lambda_i$ and $\lambda'$ the transposed partition (also written $\lambda^T$), we put
+\[
+T_\lambda=q^{n(\lambda')}\,t^{-n(\lambda)}
+\]
+and call it the refined twist eigenvalue. At $t=q$ it becomes $q^{\sum_{s\in\lambda}c(s)}$, where $c(s)$ is the content.
+
+\subsection{Refined Chern--Simons invariants}
+As in KN we write $\brCS_\lambda(K;a,q,t)$ for the unreduced and $\rCS_\lambda(K;a,q,t)$ for the reduced refined Chern--Simons invariant; they are related by
+\[
+\brCS_\lambda(K;a,q,t)=\brCS_\lambda(\bigcirc;a,q,t)\,\rCS_\lambda(K;a,q,t),
+\]
+where $\bigcirc$ is the unknot.
+For torus knots there are three equivalent descriptions: the $S$ and $T$ matrices of Aganagic and Shakirov \cite{Aganagic11}, the DAHA construction of Cherednik \cite{Cherednik11},
+and the elliptic Hall algebra formula of Gorsky and Negu\c{t} \cite{Gorsky13b}. We compute with the last one (\S\ref{sec:inputs}).
+These definitions determine the invariants only up to a monomial factor, whereas the extraction of BPS invariants is sensitive to such factors; the monomial normalisation is fixed in \S\ref{sec:normalization}.
+The difference between $U(N)$ and $SU(N)$ is a correction of framing type and is not distinguished here, as in KN.
+
+\subsection{Refined reformulated invariants}
+KN proposed the following two identities of geometric transition, for the $q$-brane and the $\bar t$-brane respectively:
+\begin{align}
+\sum_\lambda \brCS_\lambda(K;a,q,t)\,g_\lambda(q,t)\,P_\lambda(u;q,t)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^q_\mu(K;a^d,q^d,t^d)}{q^{\frac d2}-q^{-\frac d2}}\,s_\mu(u^d)\Bigr),\label{eq:GT1}\\
+\sum_\lambda \brCS_\lambda(K;a,q,t)\,P_{\lambda^T}(-u;t,q)
+&=\exp\Bigl(\sum_{d=1}^\infty\sum_\mu \frac1d\,\frac{f^{\bar t}_\mu(K;a^d,q^d,t^d)}{t^{-\frac d2}-t^{\frac d2}}\,s_\mu(u^d)\Bigr).\label{eq:GT2}
+\end{align}
+The refined reformulated invariants $f^q_\mu$ and $f^{\bar t}_\mu$ defined by these identities are related to a single family $\hf_\rho$ by a matrix $M_{\mu\rho}(t)$, $|\mu|=|\rho|$, which depends only on $t$:
+\begin{equation}\label{eq:f-to-hatf}
+f^q_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(t)\,\hf_\rho(K;a,q,t),\qquad f^{\bar t}_\mu(K;a,q,t)=\sum_\rho M_{\mu\rho}(q^{-1})\,\hf_\rho(K;a,q,t).
+\end{equation}
+That the two identities give the same $\hf_\rho$ is a consistency condition of the framework.
+We normalise $f^q_\mu$ as in Appendix~B of KN, which differs from the literal expansion of \eqref{eq:GT1} by the factor $(q/t)^{|\mu|/2}$ (a rescaling $u\mapsto(t/q)^{1/2}u$); there is no such difference for $f^{\bar t}_\mu$.
+
+The KN conjecture states that, after a shift of the $a$-degree by $\pm\frac12$, $\hf_\rho$ has the form
+\begin{equation}\label{eq:hat-f-2}
+\hf_\rho(K;a,q,t)=\sum_{g,\beta,J_r}(-1)^{2J_r}\,\hN_{\rho,g,\beta,J_r}(K)\,(q^{\frac12}-q^{-\frac12})^{g}(t^{-\frac12}-t^{\frac12})^{g}\Bigl(\frac qt\Bigr)^{J_r-\frac\beta2}a^{\beta}
+\end{equation}
+with non-negative integers $\hN_{\rho,g,\beta,J_r}(K)$.
+Here $g$ is the genus of the M2-brane curve, $\beta$ is the degree in $\mathbb{P}^1$, and $J_r$ is the right spin on the cohomology of the moduli space of M2-branes.
+In the argument of KN the BPS states carry, besides $J_r$, the charge $S_R$ of an additional $U(1)_R$ symmetry, and $\hN_{\rho,g,\beta,J_r}$ is the degeneracy under the conjecture that $S_R$ acts trivially.
+The shift of the $a$-degree is $a^{-1/2}$ for $|\rho|=1$ and $a^{1/2}$ for $|\rho|=3$.
+In the variables \eqref{eq:cov},
+\begin{equation}\label{eq:bold-form}
+\hf_\rho=\sum_{g,\beta,F}\hbN_{\rho,g,\beta,F}\,(\bq\bt-\bq^{-1}\bt^{-1})^{g}(\bq-\bq^{-1})^{g}\,\ba^{2\beta}\,\bt^{F} .
+\end{equation}
+In the counting of BPS states of KN one has $\hbN_{\rho,g,\beta,F}=\sum_{2(J_r-S_R)=F}(-1)^{2S_R}\hN_{\rho,g,\beta,J_r,S_R}$,
+and $\hbN_{\rho,g,\beta,F}=\hN_{\rho,g,\beta,J_r}$ with $F=2J_r$ holds only under the conjecture on $S_R$.
+What we compute and test in this paper is $\hbN_{\rho,g,\beta,F}$.
+We write $G=(\bq\bt-\bq^{-1}\bt^{-1})(\bq-\bq^{-1})$ and call \eqref{eq:bold-form} the genus expansion.
+
+Let $\sigma$ be the involution on monomials $\ba^{e_\ba}\bq^{e_\bq}\bt^{e_\bt}$ given by
+\begin{equation}\label{eq:sigma}
+\sigma:\ (e_\ba,e_\bq,e_\bt)\mapsto(e_\ba,\,-e_\bq,\,e_\bt-e_\bq).
+\end{equation}
+In terms of $v=\bq^2\bt$ it exchanges $v$ and $v^{-1}$ at fixed $\ba$ and $\bt$. Since $G=v+v^{-1}-\bt-\bt^{-1}$,
+the genus expansion closes with integer coefficients exactly when $\hf_\rho$ is $\sigma$-invariant and all exponents of $\bq$ are even.
+KN also observed that the coefficients before the genus expansion,
+\[
+\hf_\rho(K;a=-\ba^2\bt,\,q=\bq^2\bt^2,\,t=\bq^2)=\sum_{i,j,k}\hbN_{\rho;i,j,k}(K)\,\ba^{2i}\bq^{2j}\bt^{k},
+\]
+are non-negative integers.
+We distinguish the two families as two forms of the refined LMOV invariants:
+$\hbN_{\rho;i,j,k}$ is the \emph{spin form} and $\hbN_{\rho,g,\beta,F}$ is the \emph{genus form} (the symbols are those of KN).
+The names come from the construction of the BPS states in KN.
+\begin{itemize}
+\item Genus form. KN decompose the space of BPS states as $\bigoplus C_{\mu\sigma\rho}\,\mathcal{H}_{\sigma,g}\otimes A_{\rho,g,\beta,J_r,S_R}$ and set $\hN_{\rho,g,\beta,J_r,S_R}=\dim A_{\rho,g,\beta,J_r,S_R}$.
+The factor $G^g$ is the contribution of the Jacobian $H^*((T^2)^g)$ of the bulk of the M2-brane curve $\Sigma_{g,h}$, and $g$ is its genus.
+This is the refined counterpart of $\hN_{R,g,Q}$ of Labastida, Mari\~no and Vafa \cite{Labastida01}.
+\item Spin form. A monomial of the refined index $\mathrm{Tr}\,(-1)^Fq^{J_1-S_R}t^{S_R-J_2}$, where $J_1,J_2$ generate the rotations of the two planes of the $\Omega$-background,
+becomes $\pm\bq^{2(J_1-J_2)}\bt^{2(J_1-S_R)}$ under \eqref{eq:cov}.
+Hence $\hbN_{\rho;i,j,k}$ is a signed count of BPS states with $\beta=i$ and fixed eigenvalues $J_1-J_2=j$ and $2(J_1-S_R)=k$.
+The quantity $J_1-J_2$ is the exponent in the unrefined index and is what Ooguri and Vafa \cite{Ooguri99} call the spin $s$ of $N_{R,Q,s}$.
+\end{itemize}
+The spin form is labelled by weights rather than by irreducible representations and is a signed count, so its non-negativity is not automatic.
+In the literature on the knots--quivers correspondence \cite{Ekholm18} the invariants without genus expansion are called LMOV invariants; following KN we reserve the name for the genus form when a distinction is needed.
+The coefficients of $f^q$ and $f^{\bar t}$ are not refined LMOV invariants and are not used in the positivity statements.
+
+\begin{definition}[Positivity]\label{def:positivity}
+We say that $\hf_\rho$ is \emph{positive} if it is a Laurent polynomial for which the genus expansion closes over the integers and,
+for one choice of overall sign, all coefficients of the spin form $\hbN_{\rho;i,j,k}$ and of the genus form $\hbN_{\rho,g,\beta,F}$ are non-negative integers.
+\end{definition}
+The KN conjecture contains, in addition, the statement that the parity of $2J_r$ is constant for fixed $(\rho,g,\beta)$.
+Definition~\ref{def:positivity} does not include this parity condition; it is studied separately in \S\ref{sec:one}.
+
+\subsection{From the spin form to the genus form}
+The two forms are not independent: non-negativity of the spin form together with $\sigma$-invariance implies non-negativity of the genus form.
+\begin{lemma}[Genus expansion]\label{lem:G}
+Suppose that $\hf_\rho$ is $\sigma$-invariant with even exponents of $\bq$, and that the spin form is non-negative.
+Then the genus form consists of non-negative integers. The converse does not hold.
+\end{lemma}
+\begin{proof}
+Fix the power of $\ba$. By assumption the coefficient is a non-negative integer combination of $\bt^l\chi_k$ with $\chi_0=1$ and $\chi_k=v^k+v^{-k}$ for $k\ge1$.
+Regard $\chi_k$ as a polynomial in $w=v+v^{-1}$ and expand around $w_0=\bt+\bt^{-1}$, so that $G=w-w_0$.
+Since $d\chi_k/dw=k\,U_{k-1}(w/2)$ with $U_k$ the Chebyshev polynomial of the second kind, the Taylor coefficients are, up to positive factors, derivatives of $U_{k-1}(w/2)$ at $w_0$.
+These are non-negative Laurent polynomials in $\bt$ by the generating function
+\[
+\frac{1}{1-w\xi+\xi^2}=\sum_{g\ge0}\frac{G^g\,\xi^g}{\bigl((1-\bt \xi)(1-\xi/\bt)\bigr)^{g+1}} .
+\]
+An example in which the genus form is non-negative while the spin form is not is the non-algebraic cable $K5c$ of Appendix~\ref{app:nonalg}.
+\end{proof}
+
+For the fundamental representation, $\hf_{\yng(1)}=(a^{1/2}-a^{-1/2})\rCS_{\yng(1)}$.
+Thus if $P$ denotes $\rCS_{\yng(1)}$ in bold variables, then after the shift of the $a$-degree $\hf_{\yng(1)}$ equals $(1+\ba^2\bt)\,\ba^{-2}\bt^{-1}P$ up to sign.
+When $P$ is the Poincar\'e polynomial of a homology theory, positivity of $\yng(1)$ is therefore natural; this is made precise in \S\ref{sec:one}.

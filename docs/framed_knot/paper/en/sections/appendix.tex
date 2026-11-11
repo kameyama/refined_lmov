@@ -1,0 +1,58 @@
+\section{Details of the computation}\label{app:computation}
+\paragraph{Evaluation and interpolation.}
+$\brCS_\lambda$ and $\hf_\rho$ are evaluated modulo a $31$-bit prime $p$ on a grid and interpolated in each of the variables $(A,Q,T)=(a,q,t)^{1/2}$.
+When coefficients exceed $p/2$, two or three primes are used and the result is reconstructed by the Chinese remainder theorem (Garner's algorithm).
+The polynomials obtained are verified at points not used in the interpolation.
+Evaluation points are stored in blocks so that a computation can be resumed.
+\paragraph{Genus expansion.}
+As in Lemma~\ref{lem:G}, with $v=\bq^2\bt$, $w=v+v^{-1}$ and $w_0=\bt+\bt^{-1}$ we have $G=w-w_0$.
+Each coefficient of a power of $\ba$ is rewritten as a polynomial in $w$ and expanded in powers of $G$ by Horner's scheme.
+\paragraph{Four boxes and beyond.}
+For $|\rho|\ge4$, $\hf_\rho$ is computed directly at each evaluation point (\S\ref{sec:higher}).
+The variable $A$ is also evaluated numerically and interpolated as a polynomial in $a=A^2$, with a check at one point outside the range.
+For torus knots the parities of the exponents of $Q$ and $T$ are uniform, so we interpolate in $q=Q^2$, $t=T^2$, which reduces the number of evaluation points by a factor of four.
+In the elliptic Hall algebra computation, the action of the operators corresponding to the power sums and its evaluation are shared across the colours $\lambda$.
+The running times are those of Table~\ref{tab:higher}, with eight parallel processes.
+\paragraph{Running time.}
+The computations were done on an Apple M3 Pro with $36$\,GB of memory and a Mac mini M1 with $8$\,GB.
+The heaviest case is $K10$: $\rCS_{\yng(3)}$ took about four hours ($14440$\,s) with two primes and $\rCS_{\yng(2,1)}$ about two hours ($7387$\,s).
+The three-box $\hf_\rho$ required three primes, $4050$\,s and at most $17.6$\,GB of memory.
+For $K7$ and $K8$ all colours with $|\rho|\le3$ took $12275$\,s and $22853$\,s, with less than $2$\,GB of memory.
+\paragraph{Verification of the implementation.}
+The implementation is verified by automated tests on small inputs for each stage:
+the reproduction of the values of KN, the explicit examples of Cherednik and Danilenko, HOMFLY-PT polynomials computed from braids,
+the interpolation and the Chinese remainder theorem, and the agreement of two independent implementations of the genus expansion.
+
+\section{Derivation of the normalisation}\label{app:normalization}
+\paragraph{(A) Cables.}
+The framing operator $\tau:P_\mu\mapsto T_\mu P_\mu$ satisfies $\tau^jP_\lambda[p_k\mapsto P_{k(m,n)}]\cdot1=P_\lambda[p_k\mapsto P_{k(m,n+jm)}]\cdot1$ (Computational Result~\ref{cr:tau}).
+The cable construction is linear in the companion. Applying (N2$'$) to the companion shifts the slope of the pattern from $(m,-s')$ to $(m,-n)$, i.e.\ to the Seifert framing.
+Together with Hypothesis~\ref{hyp:sat} this gives $M_{C_{m,n}K}=M_K^{\,m}M_{T_{m,n}}$ and $F=mn$.
+\paragraph{(B) Torus knots.}
+(I) The coefficient of $a^0$ in the unnormalised reduced value of Gorsky and Negu\c{t} is $(-t/q)^{m-1}C_{m,n}(1/q,t)$, where $C_{m,n}$ is the rational $q,t$-Catalan number.
+This was conjectured by Gorsky and Negu\c{t} and follows from the theorem of Mellit \cite{Mellit16} through the operators $Q_{m,n}$ of Bergeron, Garsia, Leven and Xin.
+(II) The lowest $a$-degree $\delta$ follows from the theorem of Franks and Williams on positive braids.
+(III) The sign and the power of $q$ at $t=q$ follow from the $q,t$-symmetry of $C_{m,n}$.
+(IV) The exponent of $(q/t)$ follows from the Dyck-path form of Mellit \cite{Mellit17} and Computational Result~\ref{cr:mellit}.
+Together these give $M_{T_{m,n}}=(-q/t)^{m-1}\bigl(a(q/t)^{1/2}\bigr)^{\delta}$.
+
+\section{Non-algebraic cables}\label{app:nonalg}
+The non-algebraic cables that we computed are the $(2,1)$-, $(2,3)$-, $(2,5)$-, $(2,7)$- and $(2,-1)$-cables of $T_{2,3}$, named $K2$, $K4$, $K5a$, $K5b$, $K5c$ in this order,
+and the $(2,1)$-cable $K6b$ of $T_{2,5}$.
+These knots have $n_2<m_1n_1m_2$. For the five cables other than $K5b$ the DAHA value for $\yng(1)$ does not satisfy the necessary conditions coming from spectral sequences and is therefore not the Poincar\'e polynomial of HOMFLY-PT homology,
+so the premise of the KN positivity is not satisfied. Table~\ref{tab:nonalg} shows the outcome of the tests.
+\begin{table}[h]
+\centering
+\caption{Non-algebraic cables at framing zero. Each entry reads ``negative terms/terms of the spin form; negative terms/terms of the genus form'', with the better overall sign in each case.}\label{tab:nonalg}
+\sbox\tabbox{\input{tables/summary_table_nonalg}}\resizebox{\textwidth}{!}{\usebox\tabbox}
+\end{table}
+The failures are of three types.
+(I) For the $(2,3)$- and $(2,5)$-cables of $T_{2,3}$ ($K4$, $K5a$), positivity with a refinement of uniform parity is impossible already at the level of the uncoloured HOMFLY-PT polynomial.
+(II) For the $(2,1)$-cables ($K2$, $K6b$) and the $(2,-1)$-cable ($K5c$) the HOMFLY-PT polynomial is compatible with positivity, but the DAHA value $\rCS_{\yng(1)}$ itself has negative coefficients.
+(III) For the $(2,7)$-cable of $T_{2,3}$ ($K5b$) the failure in the coloured case depends on the framing:
+among even framings $|x|\le24$, both forms are positive for two boxes when $x\le-12$ and for three boxes when $x\le-14$.
+The cable $K5c$ is an example in which the genus form is (almost) non-negative while the spin form is not, showing that the converse of Lemma~\ref{lem:G} fails.
+
+\section{Data and code}\label{app:data}
+The values of $\brCS_\lambda$, $\hf_\rho$, the spin form and the genus form for all cases reported here,
+the certificates used in the computer-assisted proofs, and the code and tests used for the computation will be made available with the final version of this paper.

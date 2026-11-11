@@ -1,0 +1,152 @@
+\section{Framed knots}\label{sec:framing}
+
+\subsection{Definition}
+% [F1]
+\begin{definition}\label{def:framed}
+For a partition $\lambda$ the refined framing factor is
+\[
+\theta_\lambda(q,t)=\bigl(-(q/t)^{1/2}\bigr)^{|\lambda|}\,q^{n(\lambda')}\,t^{-n(\lambda)}
+=(-1)^{|\lambda|}\prod_{s\in\lambda}q^{a(s)+\frac12}\,t^{-l(s)-\frac12} .
+\]
+The refined Chern--Simons invariant at framing $x\in\Z$ is $\brCS^{(x)}_\lambda=\theta_\lambda^x\,\brCS_\lambda$, and likewise $\rCS^{(x)}_\lambda=\theta_\lambda^x\,\rCS_\lambda$.
+The quantities obtained by inserting $\brCS^{(x)}_\lambda$ into \eqref{eq:GT1} and \eqref{eq:GT2} are denoted by
+$f^{q,(x)}_\mu$, $f^{\bar t,(x)}_\mu$, $\hf^{(x)}_\rho$, $\hbN^{(x)}_{\rho;i,j,k}$ and $\hbN^{(x)}_{\rho,g,\beta,F}$.
+The case $x=0$ is that of KN.
+\end{definition}
+
+The factor $\theta_\lambda$ is a monomial with coefficient $\pm1$.
+Under the Adams operation $\brCS_\lambda\mapsto\brCS_\lambda(a^k,q^k,t^k)$ inside the plethystic logarithm it is replaced by $\theta_\lambda(q^k,t^k)^x$; the sign $(-1)^{|\lambda|}$ is \emph{not} raised to the power $k$.
+This is the same treatment as in the example
+$f^{(p)}_{\yng(2)}=q^pW_{\yng(2)}-\tfrac12\bigl(W_{\yng(1)}^2+(-1)^pW_{\yng(1)}(q^2,a^2)\bigr)$ of Mari\~no and Vafa \cite{Marino01}
+(we write $a$ for their variable $\lambda$).
+
+\subsection{Origin of the framing factor}
+% [F2]
+\begin{proposition}\label{prop:MV}
+At $t=q$ one has $\theta_\lambda^x=(-1)^{|\lambda|x}q^{x\kappa_\lambda/2}$, where $\kappa_\lambda=|\lambda|+\sum_i(\lambda_i^2-2i\lambda_i)=2\sum_{s\in\lambda}c(s)$.
+Hence the limit $t=q$ of $\brCS^{(x)}_\lambda$ is the framed invariant $W^{(p)}_R=(-1)^{|R|p}q^{p\kappa_R/2}W_R$ of Mari\~no and Vafa \cite{Marino01} with $p=x$.
+\end{proposition}
+\begin{proof}
+At $t=q$ we have $(q/t)^{1/2}=1$ and $n(\lambda')-n(\lambda)=\sum_s c(s)=\kappa_\lambda/2$.
+The direction of the variable ($q$ versus $q^{-1}$) is fixed by comparing the principal specialisation for the unknot with the quantum dimension of Mari\~no and Vafa:
+they agree up to a monomial with $q$ identified with $q$, and do not agree with $q\mapsto q^{-1}$ when $\lambda\neq\lambda^T$.
+\end{proof}
+
+\begin{remark}[Refined topological vertex and the $T$-matrix]\label{rem:Taki}
+The framing factor of the refined topological vertex in the form of Taki \cite{Taki07} is
+$f_\mu(t,q)=(-1)^{|\mu|}t^{\|\mu^T\|^2/2}q^{-\|\mu\|^2/2}$.
+Using $\|\mu\|^2=2n(\mu')+|\mu|$ one finds $f_\mu(t,q)=\theta_\mu(q,t)^{-1}$:
+the factor of Taki is exactly the inverse of that of Definition~\ref{def:framed}, the only difference being the choice of the positive direction of framing.
+Taki showed that multiplying the factor $(-1)^{|\nu|}t^{n(\nu)}q^{-n(\nu^T)}$ of Iqbal, Koz\c{c}az and Vafa \cite{Iqbal07} by $(t/q)^{|\nu|/2}$ is necessary for agreement with the K-theoretic Nekrasov partition function.
+On the Chern--Simons side, the eigenvalues $T_i=c_T\,q^{(\lambda_{R_i}+\beta\rho)^2/2}$ ($t=q^\beta$) of the refined $T$-matrix of Aganagic and Shakirov satisfy,
+up to the $SU(N)$ correction, $T_\lambda/T_\emptyset=(a^{1/2}(q/t)^{1/2})^{|\lambda|}\,q^{n(\lambda')}t^{-n(\lambda)}$.
+Thus, apart from a monomial per box, one unit of framing is the action of the refined $T$-matrix.
+We use the symbol $\theta_\lambda$ rather than Taki's $f_\mu$ to avoid confusion with $f^q_\mu$, $f^{\bar t}_\mu$ and $\hf_\rho$.
+\end{remark}
+
+% [F6]
+\begin{proposition}\label{prop:bold}
+In the bold variables,
+\[
+\theta_\lambda=\bt^{\,|\lambda|+2n(\lambda')}\,\bq^{\,2(n(\lambda')-n(\lambda))},
+\]
+which contains no sign. For example $\theta_{\yng(1)}=\bt$, $\theta_{\yng(2)}=\bq^2\bt^4$, $\theta_{\yng(1,1)}=\bq^{-2}\bt^2$ and $\theta_{\yng(2,1)}=\bt^5$.
+\end{proposition}
+\begin{proof}
+By \eqref{eq:cov}, $-(q/t)^{1/2}=\bt$, $q=\bq^2\bt^2$ and $t=\bq^2$.
+\end{proof}
+Proposition~\ref{prop:bold} shows that a change of framing shifts the degrees of (coloured) HOMFLY-PT homology without signs.
+In the unrefined limit $\bt=-1$ one gets $\theta_\lambda^x\to(-1)^{|\lambda|x}$:
+the Mari\~no--Vafa sign is the shadow of the refined degree shift $\bt^{|\lambda|x}$.
+
+\subsection{Structure in the framing}
+% [F5]
+\begin{lemma}\label{lem:adams}
+Let $c$ be a monomial with coefficient $1$ on which the Adams operations act by $c\mapsto c^k$ (for instance $c=a^{1/2}$ or $(q/t)^{1/2}$).
+Replacing $\brCS_\lambda$ by $c^{|\lambda|}\brCS_\lambda$ for all $\lambda$ replaces $\hf_\rho$ by $c^{|\rho|}\hf_\rho$.
+\end{lemma}
+\begin{proof}
+The factor $c^{|\lambda|}$ amounts to the substitution $u\mapsto cu$ of the symmetric-function variables, which commutes with the plethystic logarithm because $c$ is compatible with the Adams operations.
+\end{proof}
+For $c=(q/t)^{1/2}=-\bt$ this shifts the $\bt$-degree of both forms uniformly and changes the overall sign, so it does not affect positivity.
+
+% [F7]
+\begin{proposition}\label{prop:expsum}
+Let $|\rho|=n$. Then $\bt^{-nx}\hf^{(x)}_\rho$ is an exponential polynomial in $x$, that is, a finite sum $\sum_i c_i\,r_i^{\,x}$ with $c_i$ independent of $x$.
+The bases $r_i$ are $\{\bq^2\bt^2,\bq^{-2},1,-1\}$ for $n=2$ and $\{\bq^6\bt^6,\bq^{-6},\bq^2\bt^2,\bq^{-2},\bt^2,1,-1\}$ for $n=3$.
+After separating even and odd $x$, the bases are monomials with coefficient $1$.
+\end{proposition}
+\begin{proof}
+$\hf_\rho$ is a linear combination, with fixed rational functions as coefficients, of products of the $\brCS_\lambda$ and their Adams images.
+With framing, each term acquires the factor $\prod_i\theta_{\lambda_i}(q^{k_i},t^{k_i})^x$.
+For $n=2$ the factors are $\theta_{\yng(2)}=\bq^2\bt^4$, $\theta_{\yng(1,1)}=\bq^{-2}\bt^2$, $\theta_{\yng(1)}^2=\bt^2$ and $\theta_{\yng(1)}(q^2,t^2)=-\bt^2$;
+multiplying by $\bt^{-2x}$ gives the stated bases. The case $n=3$ is the same.
+\end{proof}
+In terms of $v=\bq^2\bt$ the bases $\bq^2\bt^2=v\bt$ and $\bq^{-2}=\bt/v$ form a pair exchanged by $\sigma$.
+The dependence on $x$ is of the same type as the dependence of twist knots on the number of twists (\S\ref{sec:two}): framing behaves like one more twist variable.
+
+% [F8, F9]
+\begin{proposition}\label{prop:x-indep}
+For every $x\in\Z$ the following hold.
+\begin{enumerate}
+\item $\theta_\lambda(1/t,1/q)=\theta_{\lambda^T}(q,t)$. Consequently the transposition symmetry of $\rCS_\lambda$, the equality of the $\hf$ obtained from \eqref{eq:GT1} and from \eqref{eq:GT2},
+and the $\sigma$-invariance of $\hf_\rho$ hold for $\hf^{(x)}$ if and only if they hold for $\hf^{(0)}$.
+\item For $|\rho|=2$, $\hf^{(x)}_\rho$ is a Laurent polynomial if and only if $\hf^{(0)}_\rho$ is.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(1) follows from the definition.
+(2) For $|\rho|=2$, $\hf_\rho$ is a linear combination of the four inputs $\rCS_{\yng(2)}$, $\rCS_{\yng(1,1)}$, $\rCS_{\yng(1)}^2$ and $\rCS_{\yng(1)}(a^2,q^2,t^2)$
+divided by the common denominator $2A^2(Q^4-1)(T^4-1)(Q^2T^2-1)$, where $(A,Q,T)=(a,q,t)^{1/2}$.
+On the zero locus of each irreducible factor of the denominator exactly two of the inputs survive in the numerator, and their framing factors coincide on that locus (a symbolic computation).
+Hence the vanishing of the numerator on the locus does not depend on $x$.
+\end{proof}
+
+% [F10]
+\begin{proposition}[Necessity of the sign]\label{prop:sign}
+Suppose that the sign $(-1)^{|\lambda|x}$ in Definition~\ref{def:framed} is omitted. If $x$ is odd, then on the loci $Q=i$ and $T=i$ (that is, $q=-1$ and $t=-1$)
+the framing factors of the two surviving inputs differ, and for generic input $\hf_{\yng(2)}$ and $\hf_{\yng(1,1)}$ are not Laurent polynomials.
+For even $x$ the sign has no effect. Omitting the factor $(q/t)^{1/2}$ per box preserves the Laurent property.
+\end{proposition}
+\begin{proof}
+Omitting the sign changes only the factor of the Adams image $\rCS_{\yng(1)}(a^2,q^2,t^2)$, by $(-1)^x$; the coincidence fails on the loci where this term survives.
+The last statement is Lemma~\ref{lem:adams}.
+\end{proof}
+\begin{compresult}
+For the trefoil at $x=1$ without the sign, the factor $(1+q)(1+t)$ remains in the denominators of $\hf_{\yng(2)}$ and $\hf_{\yng(1,1)}$.
+At $x=2$, and at $x=1$ with the sign, they are Laurent polynomials.
+\end{compresult}
+
+Proposition~\ref{prop:sign} is the refined version of the observation of Mari\~no and Vafa \cite{Marino01} that the sign is essential for integrality.
+They explained the sign by a change of the flat open-string coordinate, $\hat u\mapsto\hat u+i\pi p$, i.e.\ $V\mapsto(-1)^pV$,
+which re-expands the generating function $\sum_RW_R\,\mathrm{Tr}_RV$ and multiplies $W_R$ by the constant sign $(-1)^{|R|p}$.
+A constant sign is not raised to the $d$-th power in the Adams image $W_R(q^d,a^d)$, so this is not a trivial replacement of the type of Lemma~\ref{lem:adams}:
+on the BPS side the $d$-fold cover terms acquire $(-1)^{d|R|}$. The sign in Definition~\ref{def:framed} is treated in the same way.
+The remaining part $(q/t)^{|\lambda|/2}q^{n(\lambda')}t^{-n(\lambda)}$ of $\theta_\lambda$ comes from the eigenvalues of the refined $T$-matrix (Remark~\ref{rem:Taki}), which contain no sign.
+Aganagic and Shakirov \cite{Aganagic11} remark that the prefactor $\sqrt{q/t}$ for the trefoil should also be related to a change of flat coordinates.
+We do not derive the refined change of flat coordinates from geometry.
+
+\subsection{A criterion for all framings}\label{sec:newton}
+Proposition~\ref{prop:expsum} reduces positivity for all $x$, for a fixed knot, to finitely many checks.
+Split $x$ by parity and direction ($x\ge x_0$ or $x\le x_0$), write $x=x_0\pm2y$ with $y\ge0$, order the bases of the resulting exponential polynomial in $y$ as $(r_0,r_1,\dots)$ (they are the monomials $r_i^{\pm2}$ of Proposition~\ref{prop:expsum}) and form the Newton (divided-difference) expansion
+\[
+\bt^{-nx}\hf^{(x)}_\rho=\sum_{k}c_k\,h_{y-k}(r_0,\dots,r_k),
+\]
+where $h_j$ is the complete homogeneous symmetric polynomial ($h_j=0$ for $j<0$).
+If all $c_k$ are Laurent polynomials whose coefficients have one common sign, then, since the $h_j$ of monomials with coefficient $1$ have non-negative coefficients,
+the spin form is non-negative for all $y\ge0$.
+$\sigma$-invariance for all $x$ follows from Proposition~\ref{prop:x-indep}, and Lemma~\ref{lem:G} then gives non-negativity of the genus form.
+The finitely many $x$ between the starting point $x_0$ and $0$ are checked directly.
+We refer to this as the \emph{Newton criterion}; it is used in \S\ref{sec:two} both for the framing and for the number of twists.
+
+\subsection{Physical picture}\label{sec:physics}
+The refined large $N$ duality for framed knots can be assembled from two ingredients.
+On the Chern--Simons side, $\theta_\lambda$ without its sign is the action of the $T$-matrix of refined Chern--Simons theory (Remark~\ref{rem:Taki}).
+In the construction of Aganagic and Shakirov the $U(1)_R$ symmetry exists because the three-manifold admits a semi-free $U(1)$ action (it is a Seifert manifold),
+and a change of framing of a torus knot stays within the same formalism of $S$ and $T$ matrices.
+On the string side, in the argument of Mari\~no and Vafa the framing integer corresponds to the choice of the flat coordinate of $L_K$ (the boundary condition at infinity), and the sign $(-1)^{|\lambda|x}$ comes from this change of coordinate.
+
+Two points are not derived in this paper:
+(i) that the Schwinger computation of KN and the extraction formulae \eqref{eq:GT1}, \eqref{eq:GT2} apply unchanged for all $x$;
+(ii) that the action of $U(1)_R$ on the string side remains trivial.
+Under these assumptions positivity is expected for all framings. The precise conjectures are stated in \S\ref{sec:conj} after the evidence has been presented.

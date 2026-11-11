@@ -1,0 +1,131 @@
+\section{Two boxes}\label{sec:two}
+
+For hyperbolic knots the inputs of this section are the conjectural formulae of \S\ref{sec:conj-inputs}, and all statements about them are statements given these formulae.
+KN \cite{Kameyama17} computed the two-box invariants for several twist and pretzel knots with the GNSSS formulae and observed that they fit the form \eqref{eq:hat-f-2}.
+What is new in Theorems~\ref{thm:twist} and~\ref{thm:pretzel} is the proof of positivity for whole families.
+For torus knots and algebraic cables the inputs are the defined refined invariants.
+
+\subsection{A necessary condition: exponential growth}
+% [F15]
+\begin{proposition}\label{prop:two-necessary}
+Let the inputs $\rCS_{\yng(1)}$ and $\rCS_{\yng(2)}$ have non-negative coefficients and only even exponents of $\bq$ in bold variables.
+If $\hf_{\yng(2)}$ is a Laurent polynomial, then $\rCS_{\yng(2)}|_{q=1}=\bigl(\rCS_{\yng(1)}|_{q=1}\bigr)^2$.
+In particular, if the inputs are Poincar\'e polynomials of homology groups $H^{\yng(1)}$ and $H^{\yng(2)}$, then $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$.
+The same holds for $\yng(1,1)$ at $t=1$. The condition does not depend on the framing $x$.
+\end{proposition}
+\begin{proof}
+Write $(A,Q,T)=(a,q,t)^{1/2}$. Restricted to $Q=1$, the numerator of the two-box formula is, for both $\rho=\yng(2)$ and $\rho=\yng(1,1)$,
+\[
+2T(A^2-1)^2(T^4-1)\bigl(\rCS_{\yng(1)}^2-\rCS_{\yng(2)}\bigr);
+\]
+the terms with $\rCS_{\yng(1,1)}$ and with the Adams image $\rCS_{\yng(1)}(a^2,q^2,t^2)$ drop out (at $T=1$ the roles of $\yng(2)$ and $\yng(1,1)$ are exchanged).
+The denominator vanishes at $Q=1$, so the Laurent property requires $\rCS_{\yng(2)}=\rCS_{\yng(1)}^2$ at $Q=1$.
+Now $Q=1$ means $\bt=-\bq^{-1}$, under which $\ba^i\bq^j\bt^k\mapsto(-1)^k\ba^i\bq^{j-k}$.
+If $j$ is even then $(-1)^k=(-1)^{j-k}$, so after the further substitution $\bq\mapsto-\bq$ all coefficients are non-negative and no cancellation occurs.
+Setting $\ba=\bq=1$ gives the equality of dimensions. Independence of $x$ is Proposition~\ref{prop:x-indep}.
+\end{proof}
+\begin{remark}
+For $\mathbf{9_{42}}$ one has $\dim H^{\yng(1)}=9$ and $\dim H^{\yng(2)}=401\neq81$ \cite{Gorsky13}, so it cannot fit the KN form for any choice of the $t_c$-grading.
+That $\mathbf{9_{42}}$ does not fit was pointed out by KN and related there to the failure of exponential growth for thick homology (\cite{Gukov11}, Appendix~B);
+exponential growth itself is discussed in \cite{Gukov11,Fuji12}.
+Proposition~\ref{prop:two-necessary} shows that it is a necessary condition for the Laurent property.
+\end{remark}
+
+\subsection{Twist knots}
+Let $K_p=K_{p,1}$ be the twist knots in the convention of KNTZ \cite{Kameyama19}, which is also that of GNSSS \cite{Gukov15}:
+$K_1=\mathbf{3_1}$, $K_2=\mathbf{5_2}$, $K_{-1}=\mathbf{4_1}$, $K_{-2}=\mathbf{6_1}$.
+Put $X=\ba^2\bt^2$, $Y=\ba^4\bq^4\bt^8$ and $\bar Y=\ba^4\bq^{-4}\bt^4$.
+\begin{lemma}\label{lem:twist-expsum}
+For $|\rho|=2$, $\hf_\rho(K_p)$ is an exponential polynomial in $p$ with bases $\{1,X,X^2,Y,\bar Y\}$ for $p>0$;
+for $p<0$ the bases are inverted and there is an overall factor $\bt^2$.
+\end{lemma}
+\begin{proof}
+In the KNTZ formulae $p$ enters only through the twist factors $\mathbf{Tw}^{(p)}_\lambda$ with $\lambda\subseteq\yng(2)$ or $\lambda\subseteq\yng(1,1)$, as the $p$-th power of an eigenvalue,
+which in bold variables is $\bigl((\ba\bt)^{2j}(\bt\bq)^{2j(j-1)}\bigr)^p$ with $j=0,1,2$ (the GNSSS formulae have the same form).
+Thus the bases of the inputs are $\{1,X\}$ for $\yng(1)$, $\{1,X,Y\}$ for $\yng(2)$ and $\{1,X,\bar Y\}$ for $\yng(1,1)$,
+and $\hf$ is a linear combination of products and Adams images of the inputs divided by a denominator independent of $p$.
+\end{proof}
+% [R2]
+\begin{theorem}[computer-assisted]\label{thm:twist}
+With the refined formulae of KNTZ as input, $\hf_{\yng(2)}(K_p)$ and $\hf_{\yng(1,1)}(K_p)$ are positive for all $p\neq0$.
+\end{theorem}
+\begin{proof}[Sketch of proof]
+We apply the Newton criterion of \S\ref{sec:newton} in the variable $n=|p|-1$ with the ordering $(m_0,\dots,m_4)=(1,X,X^2,Y,\bar Y)$:
+$s_{1+n}=\sum_{k=0}^{4}c_k\,h_{n-k}(m_0,\dots,m_k)$, where $s_{|p|}$ denotes the value at $p$.
+The $c_k$ are integer linear combinations of $s_1,\dots,s_5$ and hence Laurent polynomials.
+For both $\rho$ and both signs of $p$, an exact computation shows that all coefficients of $c_0,\dots,c_4$ have a common sign.
+Since the coefficients of $h$ are non-negative, the spin form has a uniform sign for all $p$.
+The involution $\sigma$ preserves the set of bases (it exchanges $Y$ and $\bar Y$), so $\sigma$-invariance for $|p|\le5$ implies it for all $p$, and Lemma~\ref{lem:G} gives the genus form.
+The coefficients $c_k$ and the data of the checks are part of the accompanying data (Appendix~\ref{app:data}).
+
+A second proof expresses $-\hf_\rho(K_{\pm n})$ as a non-negative combination of complete homogeneous symmetric polynomials of subsets of the bases;
+the certificate was found by linear programming and verified in exact rational arithmetic. This proof does not use the sign of $c_2$, for which we have no structural explanation.
+\end{proof}
+\begin{compresult}
+For $|p|\le30$ ($120$ cases) there are no negative terms in either form.
+The closed form agrees in all coefficients with the direct computation at $|p|=6,\dots,12,15,20,30$, which were not used in its construction.
+\end{compresult}
+\begin{remark}[Unimodality]
+In terms of $v=\bq^2\bt$, the coefficients $c_3$ and $c_4$ are positive for structural reasons, and $\hf(K_p)$ is for all $p$ a positive combination of $\mathfrak{sl}_2$ characters in $v$, hence unimodal
+(for $c_0,c_1,c_2$ this is a finite check).
+For $\yng(1)$ unimodality follows for all knots from the hard Lefschetz property of \cite{Gorsky21}. We do not know a structural reason for two boxes.
+\end{remark}
+
+\subsection{Double twist knots}
+% [R4]
+\begin{theorem}[computer-assisted]\label{thm:pretzel}
+With the refined formulae of KNTZ as input, the two-box invariants of the double twist knots $K_{m,n}$ are positive
+\begin{enumerate}
+\item for all $(m,n)$ with $m$ and $n$ of the same sign;
+\item for all $(m,n)$ with $m<0<n$ and $\min(|m|,n)\le20$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}[Sketch of proof]
+With $\epsilon=(\mathrm{sign}\,m+\mathrm{sign}\,n)/2$ write $\hf(K_{m,n})=\bt^{2(1-\epsilon)}F(m,n)$; then $F$ is a single exponential polynomial on all of $\Z^2$.
+In the same-sign quadrants all coefficients of the two-variable Newton expansion have a common sign.
+In the opposite-sign quadrant the two-variable expansion is not uniform, and we use the one-variable Newton criterion along each line with $\min(|m|,n)\le20$.
+\end{proof}
+\begin{compresult}
+At the $820$ points with $|m|,|n|\le20$ and at $200$ points with $21\le|m|\le30$, $21\le n\le40$, there are no negative terms in either form, for both $\rho$.
+\end{compresult}
+For the remaining opposite-sign region $|m|,n>20$ we have a partial reduction (a decomposition into wedges and a mirror-type identity, with linear-programming certificates for the Newton coefficients in the wedge direction).
+It leaves the non-positivity of three one-variable sequences (the diagonal $F(-u,u)$ and one Newton coefficient $d_1(u)$ for each $\rho$), which holds for $u\le25$ but is not proved in general.
+
+\subsection{Thick non-torus knots}
+% [R5]
+\begin{compresult}\label{cr:thick}
+With the inputs for $\yng(2)$ and $\yng(1,1)$ constructed from the quiver of Sto\v{s}i\'c and the KRSS formula, the two-box invariants of $\mathbf{10_{139}}$ and $\mathbf{10_{152}}$ are positive.
+The dimensions are $441=21^2$ and $841=29^2$, in accordance with Proposition~\ref{prop:two-necessary}.
+At $t=q$ the inputs agree with the coloured HOMFLY-PT polynomials for $\yng(2)$ and $\yng(1,1)$ obtained by solving from the $(2,s)$-cables.
+\end{compresult}
+These are thick non-torus knots that satisfy the necessary condition and are positive.
+This does not follow from the positivity of the DT invariants in the knots--quivers correspondence:
+the quiver series involves only symmetric representations, whereas $\hf_{\yng(2)}$ and $\hf_{\yng(1,1)}$ require the input for $\yng(1,1)$.
+\begin{remark}[Positivity is not automatic]
+For $\mathbf{5_2}$, each of twelve alternative assignments of the $t_c$-grading that we tried produces negative terms.
+Positivity depends on the fine gradings of the input.
+\end{remark}
+
+\subsection{All framings}
+% [R7]
+\begin{theorem}[computer-assisted]\label{thm:two-all-x}
+For the unknot, $T_{2,3}$, $T_{2,5}$, $T_{2,7}$, $T_{3,4}$, $\mathbf{4_1}$, $K1$ and $K3$, the two-box invariants $\hf^{(x)}_{\yng(2)}$ and $\hf^{(x)}_{\yng(1,1)}$ are positive for all $x\in\Z$.
+The input for $\mathbf{4_1}$ is the KN data.
+\end{theorem}
+\begin{proof}
+By the Newton criterion of \S\ref{sec:newton}. For each knot, each $\rho$ and each of the four combinations of parity and direction of $x$ there is a starting point $x_0$ from which the Newton coefficients have a common sign;
+the $x$ between $x_0$ and $0$ were checked directly.
+\end{proof}
+The starting point in the negative direction moves away from $0$ as the knot becomes more complicated ($-(2k+2)$ for $T_{2,2k+1}$, $-20$ for $K1$, $-22$ for $K3$). We do not know the meaning of this.
+% [R8]
+\begin{theorem}[computer-assisted]\label{thm:twist-x}
+With the refined formulae of KNTZ as input, the two-box invariants of the twist knots are positive for all $(p,x)$ with $p>0$, $x\ge0$ or $p<0$, $x\le0$.
+\end{theorem}
+\begin{proof}[Sketch of proof]
+$\bt^{-2x}\hf^{(x)}_\rho(K_p)$ is an exponential polynomial in both $p$ and $x$ (Lemma~\ref{lem:twist-expsum}, Proposition~\ref{prop:expsum}).
+The coefficients of the tensor-product Newton expansion, built from $|p|=1,\dots,5$ and three values of $x$, have a common sign in these directions.
+\end{proof}
+\begin{compresult}
+In the opposite-sign region, the $696$ cases with $|p|\le6$, $|x|\le14$ have no negative terms. We have no certificate for this region.
+\end{compresult}
+Direct checks over ranges of framings for knots with up to three boxes are collected in \S\ref{sec:three-x}.
