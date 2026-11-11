@@ -18,15 +18,13 @@ The list consists of seven torus knots, seven algebraic iterated torus knots, an
 The rows $T_{2,3}$, $T_{2,5}$ and $\mathbf{4_1}$ reproduce tables of KN; for $\mathbf{4_1}$ with $\protect\yng(2,1)$ the KN candidate is used.}\label{tab:three}
 \sbox\tabbox{\input{tables/summary_table_main}}\resizebox{\textwidth}{!}{\usebox\tabbox}
 \end{table}
-The rows $T_{2,3}$, $T_{2,5}$ and $\mathbf{4_1}$ reproduce KN.
 The five torus knots not in the tables of KN ($T_{3,4}$ with three boxes, $T_{3,5}$, $T_{2,11}$, $T_{3,7}$, $T_{4,5}$) are new tables, but since KN conjecture positivity for all torus knots they are further checks of that conjecture.
 The three-box results for the seven algebraic iterated torus knots are, to our knowledge, not in the literature.
 For the three-strand cable $K7$ and the two-step iteration $K10$ even the refined invariants with $|\lambda|=3$ seem to be new;
 Cherednik and Danilenko \cite{Cherednik14} give $\yng(1)$ for $K7$ and the DAHA--Betti polynomial for $K10$.
 
-These tests depend on the normalisation.
 Since the DAHA and the elliptic Hall algebra determine the values only up to a monomial, the tests for knots not in the KN data depend on the normalisation (N2$'$).
-The dependence is confined to the single point of Hypothesis~\ref{hyp:N2}, the colour-dependent power $(q/t)^{c_\lambda}$ not determined at $t=q$.
+For the cables this rule is Hypothesis~\ref{hyp:N2}, and the dependence is confined to its single point, the colour-dependent power $(q/t)^{c_\lambda}$ not determined at $t=q$.
 Shifting the reference framing by an even integer is a shift of $x$ (Proposition~\ref{prop:N2-framing}), and such shifts are covered by the framing scans of \S\ref{sec:three-x}.
 Other assignments destroy the Laurent property and the transposition symmetry in the example $K5c$.
 
@@ -48,6 +46,8 @@ the case $x=0$ of $K10$ with three boxes belongs to Table~\ref{tab:three} and is
 \sbox\tabbox{\input{tables/framing_table}}\resizebox{\textwidth}{!}{\usebox\tabbox}
 \end{table}
 In particular, for all knots of Table~\ref{tab:three} the three-box invariants remain positive for $x\neq0$ in the ranges shown.
+The torus knot $T_{2,7}$ does not appear in Table~\ref{tab:three}; its test at framing zero for $|\rho|\le3$ is part of the scan of Table~\ref{tab:framing}, which includes $x=0$.
+For the cables the scans assume Hypothesis~\ref{hyp:N2}, as does Computational Result~\ref{cr:three}.
 The number of terms grows with positive $x$ and decreases with negative $x$ (for $K10$ with $\rho=\yng(3)$, about $1.75$ million terms at $x=-2$ and about $1.86$ million at $x=2$).
 For three boxes $\bt^{-3x}\hf^{(x)}_\rho$ is an exponential polynomial with seven bases (Proposition~\ref{prop:expsum}),
 but we did not find an ordering of the bases for which the Newton coefficients have a uniform sign, so we have no proof for all $x$.
@@ -83,7 +83,7 @@ Indeed, under this conjecture the DAHA value for $\yng(1)$ is a monomial multipl
 By (N1) both give the same reduced HOMFLY-PT polynomial at $\bt=-1$, so $m=\pm\bt^k$ with $\pm(-1)^k=1$; since both have non-negative coefficients, $m=\bt^{2l}$.
 As $\bt^{2l}$ is $\sigma$-invariant, Proposition~\ref{prop:one} applies and positivity for $\yng(1)$ follows.
 For rectangular colours, Cherednik and Danilenko conjecture positivity of the DAHA values and expect agreement with homology; the rectangular part of Conjecture~\ref{conj:B} transfers this to the level of BPS invariants.
-For $\yng(2,1)$, on the other hand, Cherednik and Danilenko make no positivity claim, and indeed $\rCS_{\yng(2,1)}$ has negative coefficients, so that positivity at the level of BPS invariants lies outside their conjectures.
+For $\yng(2,1)$, on the other hand, Cherednik and Danilenko make no positivity claim, so that positivity at the level of BPS invariants lies outside their conjectures.
 As for the restriction to algebraic knots, Cherednik and Danilenko note that there are non-algebraic iterated torus knots without positivity,
 and for most of the non-algebraic cables that we computed, negative coefficients appear already in the DAHA value for $\yng(1)$ (Appendix~\ref{app:nonalg}).
 

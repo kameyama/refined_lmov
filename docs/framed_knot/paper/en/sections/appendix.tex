@@ -11,7 +11,10 @@ For $|\rho|\ge4$, $\hf_\rho$ is computed directly at each evaluation point (\S\r
 The variable $A$ is also evaluated numerically and interpolated as a polynomial in $a=A^2$, with a check at one point outside the range.
 For torus knots the parities of the exponents of $Q$ and $T$ are uniform, so we interpolate in $q=Q^2$, $t=T^2$, which reduces the number of evaluation points by a factor of four.
 In the elliptic Hall algebra computation, the action of the operators corresponding to the power sums and its evaluation are shared across the colours $\lambda$.
-The running times are those of Table~\ref{tab:higher}, with eight parallel processes.
+With eight parallel processes, the running times for the largest number of boxes of each knot in Table~\ref{tab:higher} were
+$428$\,s for $T_{2,3}$, $299$\,s for $T_{2,5}$, $1260$\,s for $T_{2,7}$, $2036$\,s for $T_{2,9}$,
+$280$\,s for $T_{3,4}$, $322$\,s for $T_{3,5}$, $64$\,s for $T_{3,7}$ and $474$\,s for $T_{4,5}$.
+In the weak test of \S\ref{sec:fig8-four}, the mixed integer programme with overall sign $+1$ was stopped after $50$ minutes without an integral solution, which leaves its existence undecided.
 
 The computations were done on an Apple M3 Pro with $36$\,GB of memory and a Mac mini M1 with $8$\,GB.
 The heaviest case is $K10$: $\rCS_{\yng(3)}$ took about four hours ($14440$\,s) with two primes and $\rCS_{\yng(2,1)}$ about two hours ($7387$\,s).
@@ -40,7 +43,9 @@ The formula of Computational Result~\ref{cr:mellit} used in (IV) differs in form
 Mellit \cite[Cor.~3.4]{Mellit17} writes $\mathcal{P}_{m,n}=(-1)^n(a(qt)^{-1/2})^\delta\frac{1}{1-t}\frac{P_{m,n}(1)[a-1]}{a-1}$ with $P_{m,n}$ ``the corresponding generator of the elliptic Hall algebra''.
 By Thm.~3.3 of the same paper this holds if $P_{m,n}(1)$ is read as $-d_-B_{c_{m,n}}d_+(1)$ in terms of the operators $d_\pm$ of Carlsson and Mellit.
 If instead it is read as the element in the standard normalisation ($Q_{m,n}$ of \cite{Bergeron14} or $\widetilde P$ of \cite{Gorsky13b}), the formula with the substitution $[a-1]$ does not hold;
-among the variants we tried, only the form of Computational Result~\ref{cr:mellit} holds.
+in a comparison over four choices of the element ($Q_{m,n}\cdot1$ and $\widetilde P\cdot1$, each with both orders of the indices), eight choices of the variables
+($q$ and $t$ exchanged or inverted) and the five substitutions $[a-1]$, $[a/q-1]$, $[aq-1]$, $[a/t-1]$, $[at-1]$, for $(m,n)=(2,3),(3,2),(2,5),(3,4),(4,3)$,
+only the form of Computational Result~\ref{cr:mellit} agrees with the Dyck-path form up to a monomial.
 Since (IV) only fixes the exponent of $(q/t)$ in $M_\square$, this point does not affect any positivity result (Lemma~\ref{lem:adams}).
 
 \section{Non-algebraic cables}\label{app:nonalg}
@@ -58,7 +63,7 @@ The failures are of three types.
 (II) For the $(2,1)$-cables ($K2$, $K6b$) and the $(2,-1)$-cable ($K5c$) the HOMFLY-PT polynomial is compatible with positivity, but the DAHA value $\rCS_{\yng(1)}$ itself has negative coefficients.
 (III) For the $(2,7)$-cable of $T_{2,3}$ ($K5b$) the failure in the coloured case depends on the framing:
 among even framings $|x|\le24$, both forms are positive for two boxes when $x\le-12$ and for three boxes when $x\le-14$.
-The cable $K5c$ is an example in which the genus form is (almost) non-negative while the spin form is not, showing that the converse of Lemma~\ref{lem:G} fails.
+For the cable $K5c$ with $\rho=\yng(1)$ the genus form is non-negative while the spin form has $5$ negative terms among $57$, and the same happens for $\yng(2)$, $\yng(1,1)$ and $\yng(1,1,1)$ (Table~\ref{tab:nonalg}); this shows that the converse of Lemma~\ref{lem:G} fails.
 
 \section{Data and code}\label{app:data}
 The values of $\brCS_\lambda$, $\hf_\rho$, the spin form and the genus form for all cases reported here,

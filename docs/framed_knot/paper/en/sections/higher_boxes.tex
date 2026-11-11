@@ -37,18 +37,18 @@ The number of pairs $(K,\rho)$ with $|\rho|\ge4$ tested is $340$.
 \centering
 \caption{Tests with four or more boxes at framing zero. ``Cases'' is the total number of $\rho$ tested; ``terms'' is the sum over $\rho$ of the numbers of terms of the spin form at the largest number of boxes.
 There are no negative terms in the spin form or in the genus form.}\label{tab:higher}
-\begin{tabular}{lcrrr}
+\begin{tabular}{lcrr}
 \toprule
-Knot & $|\rho|$ & cases & terms (largest $|\rho|$) & time for the largest $|\rho|$ (s) \\
+Knot & $|\rho|$ & cases & terms (largest $|\rho|$) \\
 \midrule
-$T_{2,3}$ & $4$--$9$ & 90 & 1786668 & 428 \\
-$T_{2,5}$ & $4$--$8$ & 60 & 2880410 & 299 \\
-$T_{2,7}$ & $4$--$8$ & 60 & 6556642 & 1260 \\
-$T_{2,9}$ & $4$--$8$ & 60 & 11740842 & 2036 \\
-$T_{3,4}$ & $4$--$6$ & 23 & 1358553 & 280 \\
-$T_{3,5}$ & $4$--$6$ & 23 & 2336943 & 322 \\
-$T_{3,7}$ & $4$--$5$ & 12 & 1307758 & 64 \\
-$T_{4,5}$ & $4$--$5$ & 12 & 1848265 & 474 \\
+$T_{2,3}$ & $4$--$9$ & 90 & 1786668 \\
+$T_{2,5}$ & $4$--$8$ & 60 & 2880410 \\
+$T_{2,7}$ & $4$--$8$ & 60 & 6556642 \\
+$T_{2,9}$ & $4$--$8$ & 60 & 11740842 \\
+$T_{3,4}$ & $4$--$6$ & 23 & 1358553 \\
+$T_{3,5}$ & $4$--$6$ & 23 & 2336943 \\
+$T_{3,7}$ & $4$--$5$ & 12 & 1307758 \\
+$T_{4,5}$ & $4$--$5$ & 12 & 1848265 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -80,7 +80,7 @@ Since $\hf_\rho$ is linear in $\rCS_{\yng(3,1)}$, with a denominator depending o
 With the unknowns restricted to $2367$ monomials determined from the values at the specialisations, the following hold.
 With overall sign $-1$ the problem is infeasible, already with positivity of the spin form alone.
 With overall sign $+1$ there exists a rational solution for which both forms are non-negative.
-No integral solution was found by mixed integer programming within $50$ minutes; its existence is undecided.
+The existence of an integral solution is undecided (Appendix~\ref{app:computation}).
 \end{compresult}
 This is not a test of the conjecture; it only shows that, over the rationals, an $\rCS_{\yng(3,1)}$ compatible with the conjecture exists at four boxes.
 The conclusion depends on the KN candidate for $\yng(2,1)$, on the $U(2)$ hypothesis, and on the range of unknowns.
@@ -120,5 +120,5 @@ Condition \eqref{eq:HF} is a linear condition that was not included in the linea
 Finally, we tried to extend the method of KN to $\yng(3,1)$ by decomposing the value of Morozov at $t=q$ into the form of Anokhina et al.:
 one product of shifted $Z$-factors for each subset of boxes, with corrections of the coefficients only for disconnected subsets.
 For $\yng(2,1)$ this search reproduces the expansion of Anokhina et al.\ as the unique solution.
-For $\yng(3,1)$ no decomposition of this form was found (the integer programme with shifts $|k|\le2$ is infeasible, and there is no solution when the shifts are sums of contributions of pairs of boxes).
+For $\yng(3,1)$ there is no decomposition of this form with shifts $|k|\le2$, and none in which the shifts are sums of contributions of pairs of boxes.
 The colour $\yng(3,1)$ seems to require structure beyond products over subsets.

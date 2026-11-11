@@ -80,7 +80,7 @@ Shifting by an odd integer without the Mari\~no--Vafa sign destroys the Laurent 
 \begin{proof}
 $T_\lambda=\theta_\lambda\,(-(q/t)^{1/2})^{-|\lambda|}$ by Definition~\ref{def:framed}.
 \end{proof}
-Hypothesis~\ref{hyp:N2} can therefore be rephrased: the colour-dependent part of the normalisation is a framing by the Seifert framing $F$.
+Hypothesis~\ref{hyp:N2} can therefore be rephrased: the colour-dependent part of the normalisation is $F$ units of framing, with $F=mn$ for the outermost cabling $C_{m,n}$.
 In particular, a positivity statement for all $x\in\Z$ does not depend on where $x=0$ is placed.
 The remark of Aganagic and Shakirov \cite{Aganagic11} that their value for the trefoil differs from the superpolynomial of DGR by ``$-6$ units of framing and $\sqrt{q/t}$'' matches $F=mn=6$ in absolute value;
 the sign depends on the choice of the positive direction of framing.
@@ -131,7 +131,7 @@ Details are given in Appendix~\ref{app:normalization}.
 \begin{remark}[Relation to the tilde normalisation]\label{rem:tilde}
 Cherednik and Danilenko \cite{Cherednik14} normalise the DAHA superpolynomial by dividing by the lowest power of $a$ and by a monomial in $q,t$ so that the constant term of the part of $a$-degree zero is $1$ (tilde normalisation);
 their standard variables $(q_{st},t_{st},a_{st})$ are the bold variables.
-For the $19$ computed values with non-negative coefficients ($9$ torus knots and $10$ cables), our $P=\rCS_{\yng(1)}$ in bold variables equals
+For the $17$ computed values with non-negative coefficients (the $9$ torus knots and $8$ of the $13$ cables of Computational Result~\ref{cr:M}: the seven of Table~\ref{tab:cables} and $K5b$), our $P=\rCS_{\yng(1)}$ in bold variables equals
 $\ba^{2\delta}\bq^{-2\delta}$ times the tilde-normalised polynomial.
 All these $P$ are $\sigma$-invariant with even exponents of $\bq$.
 \end{remark}
@@ -155,7 +155,8 @@ we use the quiver form of Sto\v{s}i\'c \cite{Stosic24} and the conjectural formu
 For $\mathbf{8_{19}}=T_{3,4}$ this procedure reproduces the elliptic Hall algebra values for all colours from $\yng(2)$ to $\yng(1,1,1)$.
 \begin{compresult}\label{cr:kntz}
 The refined formulae of KNTZ and the quadruply-graded formulae of GNSSS agree in all coefficients for $K_{m,n}$ with $\yng(1)$, $\yng(2)$, and, through the mirror symmetry $\mathbf{t}_r\leftrightarrow\mathbf{t}_c$, $\yng(1,1)$,
-for $|m|,|n|\in\{1,2,3\}$ in each of the four quadrants of signs ($144$ cases).
+for $|m|,|n|\in\{1,2,3\}$ in each of the four quadrants of signs
+($144$ comparisons: at each of the $36$ points the symmetric colours $[r]$ and, through the mirror symmetry, the antisymmetric colours $[1^r]$ are compared for $r=1,2$, so that $\yng(1)$ is compared in both ways).
 Our implementation of the KNTZ formulae agrees with the values in the ancillary files of KNTZ.
 \end{compresult}
 \begin{corollary}

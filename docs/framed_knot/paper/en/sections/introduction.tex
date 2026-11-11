@@ -35,16 +35,17 @@ This factor is exactly the inverse of the framing factor of the refined topologi
 and at $t=q$ it reduces to the rule $W_R\mapsto(-1)^{|R|p}q^{p\kappa_R/2}W_R$ of Mari\~no and Vafa \cite{Marino01} with $x=p$.
 In the variables $(\ba,\bq,\bt)$ it becomes the sign-free monomial $\bt^{|\lambda|+2n(\lambda')}\bq^{2(n(\lambda')-n(\lambda))}$, so framing acts as a shift of homological degrees.
 In \S\ref{sec:framing} we show that $\bt^{-|\rho|x}\hf^{(x)}_\rho$ is an exponential polynomial in $x$ (Proposition~\ref{prop:expsum}),
-and that the transposition symmetry, the Laurent property and the condition for the genus expansion to close do not depend on $x$ (Proposition~\ref{prop:x-indep}).
+that the transposition symmetry and the invariance under \eqref{eq:sigma}, which the genus expansion needs in order to close, do not depend on $x$,
+and that for two boxes the Laurent property does not depend on $x$ either (Proposition~\ref{prop:x-indep}).
 The sign in $\theta_\lambda$ cannot be omitted: if the Mari\~no--Vafa sign $(-1)^{|\lambda|x}$ is dropped, the two-box $\hf$ fails to be a Laurent polynomial for odd $x$ (Proposition~\ref{prop:sign}).
-Framing also clarifies the monomial normalisation needed in the KN framework, whose representation-dependent part is exactly a change of framing by the Seifert framing (Proposition~\ref{prop:N2-framing}).
+Framing also clarifies the monomial normalisation needed in the KN framework, whose representation-dependent part is exactly a change of framing by $mn$ units, both for a torus knot $T_{m,n}$ and for an outermost cabling $C_{m,n}$ (Proposition~\ref{prop:N2-framing}).
 
 The tests of positivity are the subject of \S\ref{sec:one}--\S\ref{sec:higher}.
 The reliability of the input depends on the class of knots (Table~\ref{tab:overview}), and we state our results accordingly.
 For the fundamental representation, if the input has non-negative coefficients and the symmetry \eqref{eq:sigma}, the genus expansion closes over the integers and both forms are non-negative (Proposition~\ref{prop:one}).
 The symmetry is a theorem of Gorsky, Hogancamp and Mellit \cite{Gorsky21} for reduced HOMFLY-PT homology, so with homological input the case $\rho=\yng(1)$ holds for every knot and every framing.
-We confirm this for all $801$ prime knots with at most $11$ crossings and show that the parity condition on the spin $2J_r$ in the KN conjecture is equivalent,
-for $\yng(1)$, to the parity condition of Chandler and Gorsky \cite{Chandler22}; it holds for only nine of the $801$ knots.
+We show that the parity condition on the spin $2J_r$ in the KN conjecture is equivalent,
+for $\yng(1)$, to the parity condition of Chandler and Gorsky \cite{Chandler22}, and we determine the knots that satisfy it among the $801$ prime knots with at most $11$ crossings: there are only nine (Computational Result~\ref{cr:parity}).
 
 For two boxes, we prove that the relation between $\mathbf{9_{42}}$ and exponential growth noted by KN is a necessary condition:
 if $\hf_{\yng(2)}$ is a Laurent polynomial then $\dim H^{\yng(2)}=(\dim H^{\yng(1)})^2$ (Proposition~\ref{prop:two-necessary}).
@@ -55,8 +56,9 @@ Two thick non-torus knots, $\mathbf{10_{139}}$ and $\mathbf{10_{152}}$, are also
 
 For three boxes, we consider seven torus knots and seven algebraic iterated torus knots. With the normalisation (N1)(N2$'$) of \S\ref{sec:normalization},
 $\hf_\rho$ is positive in both forms for all $\rho$ with $|\rho|\le3$ (Computational Result~\ref{cr:three}).
+For the cables the rule (N2$'$) is a hypothesis (Hypothesis~\ref{hyp:N2}), and our results for cables with two and three boxes depend on it.
 For the cables the input is the refined invariant defined through the double affine Hecke algebra (DAHA) by Cherednik and Danilenko \cite{Cherednik14};
-the list includes a three-strand cable $K7$ and a two-step iteration $K10$, for which the three-box invariants have about $1.8$ million terms (the names are fixed in Table~\ref{tab:cables}).
+the list includes a three-strand cable $K7$ and a two-step iteration $K10$ (the names are fixed in Table~\ref{tab:cables}).
 As KN observed for torus knots, the input $\rCS_{\yng(2,1)}$ itself has negative coefficients while the refined LMOV invariants are positive; we extend this phenomenon to algebraic iterated torus knots.
 Positivity persists when the framing is varied: all $1821$ cases examined are positive (Computational Result~\ref{cr:framing-batch}).
 

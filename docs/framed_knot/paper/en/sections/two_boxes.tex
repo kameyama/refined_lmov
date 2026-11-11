@@ -61,9 +61,9 @@ the certificate was found by linear programming and verified in exact rational a
 \end{proof}
 \begin{compresult}
 For $|p|\le30$ ($120$ cases) there are no negative terms in either form.
-The closed form agrees in all coefficients with the direct computation at $|p|=6,\dots,12,15,20,30$, which were not used in its construction.
+The Newton expansion in the proof of Theorem~\ref{thm:twist}, whose coefficients $c_k$ are built from $|p|\le5$, agrees in all coefficients with the direct computation at $|p|=6,\dots,12,15,20,30$, which were not used in its construction.
 \end{compresult}
-The closed form also exhibits unimodality.
+This Newton expansion also exhibits unimodality.
 In terms of $v=\bq^2\bt$, the coefficients $c_3$ and $c_4$ are positive for structural reasons, and $\hf(K_p)$ is for all $p$ a positive combination of $\mathfrak{sl}_2$ characters in $v$, hence unimodal
 (for $c_0,c_1,c_2$ this is a finite check).
 For $\yng(1)$ unimodality follows for all knots from the hard Lefschetz property of \cite{Gorsky21}. We do not know a structural reason for two boxes.
@@ -97,7 +97,7 @@ These are thick non-torus knots that satisfy the necessary condition and are pos
 This does not follow from the positivity of the DT invariants in the knots--quivers correspondence:
 the quiver series involves only symmetric representations, whereas $\hf_{\yng(2)}$ and $\hf_{\yng(1,1)}$ require the input for $\yng(1,1)$.
 Nor is positivity automatic for a given knot: it depends on the fine gradings of the input.
-For $\mathbf{5_2}$, each of twelve alternative assignments of the $t_c$-grading that we tried produces negative terms.
+For $\mathbf{5_2}$, we generated twelve alternative assignments of the $t_c$-grading for which the input is non-negative, $\hf$ is a Laurent polynomial and the genus expansion closes; each of them produces negative terms.
 
 \subsection{All framings}
 % [R7]
@@ -119,6 +119,7 @@ $\bt^{-2x}\hf^{(x)}_\rho(K_p)$ is an exponential polynomial in both $p$ and $x$ 
 The coefficients of the tensor-product Newton expansion, built from $|p|=1,\dots,5$ and three values of $x$, have a common sign in these directions.
 \end{proof}
 \begin{compresult}
-In the opposite-sign region, the $696$ cases with $|p|\le6$, $|x|\le14$ have no negative terms. We have no certificate for this region.
+The $696$ cases with $|p|\le6$, $|x|\le14$ (both $\rho$ and all signs of $p$ and $x$) have no negative terms.
+Of these, $336$ lie in the opposite-sign region, for which we have no certificate.
 \end{compresult}
 Direct checks over ranges of framings for knots with up to three boxes are collected in \S\ref{sec:three-x}.
