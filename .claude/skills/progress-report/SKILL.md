@@ -12,7 +12,7 @@ description: この研究プロジェクトの進捗を「完了したタスク�
 推測で書かない。次を実際に確認してから書く。
 
 - `docs/framed_knot/progress.md` の「現在の状況（再開用）」と「判断待ち・次の候補」
-- `docs/framed_knot/RESULTS.md`（主要な結果）と `docs/framed_knot/open_problems.md`（未解決の問題）
+- `docs/framed_knot/reports/RESULTS.md`（主要な結果）と `docs/framed_knot/open_problems.md`（未解決の問題）
 - `git log --oneline -10` と `git status --short`（commit の有無、未 commit の変更）
 - 動いている計算：`ps -Ao pid,etime,%cpu,rss,command | grep -E "python|pytest" | grep -v grep`（サンドボックス外で実行する）と、そのログの最後の行
 - このセッションで起動したサブエージェントや背景タスクのうち、まだ通知が来ていないもの（結果を予想して書かない。「実行中」とだけ書く）
