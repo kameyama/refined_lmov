@@ -1,5 +1,5 @@
 % iterated torus 結び目の refined BPS 不変量と正値性
-% コンパイル：cd docs/framed_knot/paper && latexmk -lualatex main.tex
+% コンパイル：cd docs/framed_knot/paper/phase1_draft && latexmk -lualatex main.tex
 \documentclass[11pt,a4paper]{ltjsarticle}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs,array,longtable}
@@ -388,7 +388,7 @@ $f^q_\mu=\sum_\rho M_{\mu\rho}(t)\hf_\rho$ は，正の $\hf_\rho$ に符号の�
 \begin{table}[h]
 \centering
 \caption{$G$ 展開の前の正値性：$\hbN_{\rho;i,j,k}$（太字の変数での $\hf_\rho$ の係数）．記号は表 \ref{tab:bps} と同じ．}\label{tab:before}
-\input{generated/bps_before_table.tex}
+\input{../generated/bps_before_table.tex}
 \end{table}
 
 \begin{table}[h]
@@ -398,7 +398,7 @@ $f^q_\mu=\sum_\rho M_{\mu\rho}(t)\hf_\rho$ は，正の $\hf_\rho$ に符号の�
 $m/N$ は，全 $N$ 項のうち，全体の符号を選び直しても $m$ 項が負であることを表す．
 $\dagger$ は，$(g,\beta)$ を固定したとき $2J_r$ の偶奇がそろわない組があることを表す．
 上の 3 行は \cite{KN} の再現である．}\label{tab:bps}
-\input{generated/bps_table.tex}
+\input{../generated/bps_table.tex}
 \end{table}
 
 \subsection{例}
@@ -411,7 +411,7 @@ K1 の $[1]$ は付録 \ref{app:K1} に示す．
 \centering
 \caption{K2（$T(2,3)$ の $(2,1)$-ケーブル），$\rho=[1]$ の $\sum_{2J_r}\hN_{[1],g,\beta,J_r}\bt^{2J_r}$．}\label{tab:K2}
 \small
-\input{generated/K2_1_poly.tex}
+\input{../generated/K2_1_poly.tex}
 \end{table}
 
 \subsection{負の項の位置}
@@ -422,7 +422,7 @@ K1 の $[1]$ は付録 \ref{app:K1} に示す．
 \centering
 \caption{少数派の符号の項（$(g,\beta,2J_r)\!:\hN$）と，それらの $2J_r-\beta-g$ の値．}\label{tab:minority}
 \footnotesize
-\input{generated/minority.tex}
+\input{../generated/minority.tex}
 \end{table}
 
 %======================================================================
@@ -744,20 +744,20 @@ $\mathbf{N}^q$ と $\mathbf{N}^{\bar t}$ の負の項の数は全ての場合で
 \begin{table}[h]
 \centering
 \caption{$\mathbf{N}^q_{\mu;i,j,k}$（$f^q_\mu$ の係数）．refined LMOV 不変量ではない．記号は表 \ref{tab:bps} と同じ．}\label{tab:Nq}
-\input{generated/N_q_table.tex}
+\input{../generated/N_q_table.tex}
 \end{table}
 
 \begin{table}[h]
 \centering
 \caption{$\mathbf{N}^{\bar t}_{\mu;i,j,k}$（$f^{\bar t}_\mu$ の係数）．refined LMOV 不変量ではない．}\label{tab:Nt}
-\input{generated/N_t_table.tex}
+\input{../generated/N_t_table.tex}
 \end{table}
 
 \begin{landscape}
 \section{K1 の $\rho=[1]$}\label{app:K1}
 \begin{center}
 \tiny
-\input{generated/K1_1_poly.tex}
+\input{../generated/K1_1_poly.tex}
 \end{center}
 各 $(g,\beta)$ について $\sum_{2J_r}\hN_{[1],g,\beta,J_r}(\mathrm{K1})\,\bt^{2J_r}$．$g$ の最大値 8 は K1 の種数と一致する．
 \end{landscape}

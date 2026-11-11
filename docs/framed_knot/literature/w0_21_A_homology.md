@@ -1,7 +1,7 @@
 # W0（別研究 [2,1]）A：ホモロジー側の構成と計算ソフトの調査（2026-10-08）
 
 担当範囲：非長方形（特に [2,1]、sl(3) の随伴表現 = ω₁+ω₂）の彩色ホモロジーの構成、計算ソフト、既知の値。
-計画は docs/framed_knot/research_plan_21.md（W0, W2, W3）。以前の調査は docs/framed_knot/literature/a1_21_constructions.md、phase3_21_survey.md。
+計画は docs/framed_knot/plans/research_plan_21.md（W0, W2, W3）。以前の調査は docs/framed_knot/literature/a1_21_constructions.md、phase3_21_survey.md。
 
 **記号**
 - 確認方法：**A** = arXiv API で題名・著者・概要を確認、**T** = TeX ソースを取得して本文を確認（`references/<id>/src/<file>:行番号`）、**W** = ウェブページで確認。
@@ -67,7 +67,7 @@
 | **khoca**（Lewark–Lobb） | W（GitHub README）、T（1501.07138 `compu.tex:16`） | sl(2) は任意の絡み目、**sl(N)（N>2）は bipartite な結び目だけ**（ブレイドや PD 入力では sl(2) 以外は無意味な出力と README に明記）。同変版・スペクトル系列 | なし | colored-kh データベース（sl(2) のケーブル）の計算に使用（2505.03916 `:386`） | C++＋Python。pip・Docker・Linux バイナリあり |
 | kr-calc / yui-kr（Nakagane–Sano） | A, T（2111.00388 `4.tex:33`） | 彩色なしの HOMFLY-PT ホモロジー | なし（2026-10-07 確認済み） | 11 交点以下の全素結び目。**家庭用の計算機でブレイド長 13 まで**、それ以上は 64 コア・3 TB の計算機 | Rust |
 | colored-kh データベース | T（2505.03916 `:149`） | sl(2) の n 彩色 Khovanov の Poincaré 多項式 | sl(2) のみ | あり（ウェブのデータベース） | 計算済みデータ |
-| Colored-Torus-Knot-Homology（Conners） | 文献地図（docs/framed_knot/categorification_literature_map.md）による | 彩色トーラス結び目の HOMFLY ホモロジーの再帰公式 | 列・行のみ | トーラス結び目のみ | — |
+| Colored-Torus-Knot-Homology（Conners） | 文献地図（docs/framed_knot/categorification/categorification_literature_map.md）による | 彩色トーラス結び目の HOMFLY ホモロジーの再帰公式 | 列・行のみ | トーラス結び目のみ | — |
 | KnotTheory`（Bar-Natan、Mathematica） | W（Knot Atlas） | 多項式不変量（Knot Atlas の量子群不変量の表など）、JavaKh（sl(2)） | ホモロジーは sl(2) のみ。**多項式**としては A2 の (1,1)（sl(3) 随伴）が Knot Atlas の 4_1 のページに載っている | — | Mathematica（Wolfram Engine は手元にある。パッケージの導入は許可が要る）。量子群不変量の計算プログラム名は Knot Atlas のページに書かれておらず**未確認** |
 
 **sl(3) の射影子や [2,1] の Young 冪等元を実装した公開ソフトは見つからなかった**（GitHub README・作者ページ・論文の範囲）。

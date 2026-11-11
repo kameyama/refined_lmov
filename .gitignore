@@ -17,13 +17,13 @@ references/*
 !references/README.md
 
 
-# LaTeX の中間ファイル（docs/framed_knot/paper）
-docs/framed_knot/paper/*.aux
-docs/framed_knot/paper/*.log
-docs/framed_knot/paper/*.out
-docs/framed_knot/paper/*.toc
-docs/framed_knot/paper/*.fls
-docs/framed_knot/paper/*.fdb_latexmk
+# LaTeX の中間ファイル（docs/framed_knot/paper/phase1_draft、ja、en）
+docs/framed_knot/paper/phase1_draft/*.aux
+docs/framed_knot/paper/phase1_draft/*.log
+docs/framed_knot/paper/phase1_draft/*.out
+docs/framed_knot/paper/phase1_draft/*.toc
+docs/framed_knot/paper/phase1_draft/*.fls
+docs/framed_knot/paper/phase1_draft/*.fdb_latexmk
 
 # K10 の 3 箱の \hat f（363 MB）は xz で圧縮した data/framed_knot/lmov/K10_3.json.xz だけを git に入れる
 data/framed_knot/lmov/K10_3.json
@@ -53,6 +53,14 @@ docs/framed_knot/paper/ja/*.out
 docs/framed_knot/paper/ja/*.toc
 docs/framed_knot/paper/ja/*.bbl
 docs/framed_knot/paper/ja/*.blg
+docs/framed_knot/paper/en/*.aux
+docs/framed_knot/paper/en/*.log
+docs/framed_knot/paper/en/*.fdb_latexmk
+docs/framed_knot/paper/en/*.fls
+docs/framed_knot/paper/en/*.out
+docs/framed_knot/paper/en/*.toc
+docs/framed_knot/paper/en/*.bbl
+docs/framed_knot/paper/en/*.blg
 
 # 4 箱以上の計算結果（約 1.2 GB、scripts/framed_knot/highbox_torus.py で再計算できる。判定は data/framed_knot/highbox_summary.md とログ）
 data/framed_knot/highbox/

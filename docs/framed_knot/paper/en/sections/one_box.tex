@@ -1,0 +1,51 @@
+\section{The fundamental representation}\label{sec:one}
+
+\subsection{Positivity for all knots and all framings}
+% [F12, F13]
+\begin{proposition}\label{prop:one}
+Let $P\in\Z_{\ge0}[\ba^{\pm1},\bq^{\pm1},\bt^{\pm1}]$ have only even exponents of $\bq$ and be invariant under $\sigma$ of \eqref{eq:sigma}.
+If $\rCS_{\yng(1)}=P$, then for every $x\in\Z$ the genus expansion of $\hf^{(x)}_{\yng(1)}$ closes over the integers, and both the spin form and the genus form are non-negative.
+\end{proposition}
+\begin{proof}
+For $x=0$, $\hf_{\yng(1)}=(1+\ba^2\bt)\,\ba^{-2}\bt^{-1}P$ is again non-negative and $\sigma$-invariant, and Lemma~\ref{lem:G} applies.
+For general $x$, $\theta_{\yng(1)}^x=\bt^x$, so $\hf^{(x)}_{\yng(1)}=\bt^x\hf_{\yng(1)}$, which shifts $F$ in the genus form by $x$.
+\end{proof}
+\begin{corollary}\label{cor:one}
+If $\rCS_{\yng(1)}(K)$ is the Poincar\'e polynomial of the reduced HOMFLY-PT homology of $K$ in the normalisation of DGR, then $\hf^{(x)}_{\yng(1)}(K)$ is positive for every knot $K$ and every $x$.
+\end{corollary}
+\begin{proof}
+The coefficients are dimensions and hence non-negative. $\sigma$-invariance is the symmetry theorem of Gorsky, Hogancamp and Mellit \cite{Gorsky21}.
+Evenness of the exponents of $\bq$ follows from the parity of the gradings of the homology of a knot.
+\end{proof}
+
+% [R1]
+\begin{compresult}\label{cr:table}
+For all $801$ prime knots with at most $11$ crossings, the genus expansion of $\hf_{\yng(1)}$ closes over the integers and both forms are non-negative.
+Calling a knot thin if its reduced HOMFLY-PT homology is supported in a single $\delta$-grading and thick otherwise,
+the list consists of $562$ thin alternating, $143$ thin non-alternating and $96$ thick knots.
+\end{compresult}
+For the cables of Table~\ref{tab:cables} the computed $\rCS_{\yng(1)}$ is non-negative and $\sigma$-invariant (Remark~\ref{rem:tilde}), so Proposition~\ref{prop:one} applies directly.
+For general algebraic iterated torus knots the same conclusion follows from the conjectures of Cherednik and Danilenko (\S\ref{sec:conj}).
+
+\subsection{Parity of the spin and parity knots}
+KN observed that for torus knots the parity of $2J_r$ is constant for fixed $(\rho,g,\beta)$ and regarded this as evidence for the trivial action of $S_R$.
+For $\yng(1)$ this condition can be expressed in terms of the input.
+% [F14]
+\begin{proposition}\label{prop:parity}
+Under the assumptions of Proposition~\ref{prop:one}, the parity of $F$ in the genus form $\hbN_{\yng(1),g,\beta,F}$ is constant for each $(g,\beta)$ if and only if
+the parity of $e_\bt+e_\ba/2$ is constant on each maximal range of consecutive $\ba$-degrees of $P$.
+If the support of $P$ in the $\ba$-degree has no gaps, this is the condition defining the parity knots of Chandler and Gorsky \cite{Chandler22}:
+the parity of the difference between the $t$-degree of DGR and half of the $a$-degree is constant on the whole HOMFLY-PT homology.
+\end{proposition}
+\begin{proof}
+The coefficient of $\ba^{2\beta}$ in $\hf_{\yng(1)}$ involves only two adjacent $\ba$-degrees of $P$.
+In the expansion of $\bt^l\chi_k$ (Lemma~\ref{lem:G}) the exponents of $\bt$ in the coefficient of $G^g$ have the parity of $l+k-g$, so $F\equiv e_\bt-g \pmod 2$ along each term.
+Since the $\ba$-degrees are even, $\pm e_\ba/2$ have the same parity.
+\end{proof}
+\begin{compresult}\label{cr:parity}
+For all $801$ knots the support in the $\ba$-degree has no gaps, and the parity of $F$ is constant for exactly nine knots:
+the torus knots $\mathbf{3_1},\mathbf{5_1},\mathbf{7_1},\mathbf{9_1},\mathbf{11a_{367}},\mathbf{8_{19}},\mathbf{10_{124}}$, the thick knot $\mathbf{10_{125}}$ and the thin knot $\mathbf{10_{140}}$.
+These are exactly the knots in this range that are parity knots in the sense of Chandler and Gorsky.
+\end{compresult}
+Hence the constancy of the parity of $2J_r$ reflects the parity property of the homology rather than the triviality of the action of $S_R$ itself, and it also occurs for non-torus knots.
+The notion of parity knot is due to Chandler and Gorsky; what is new here is its equivalence with the parity of the refined BPS invariants and the list up to $11$ crossings.

@@ -1,7 +1,7 @@
 # 主要な結果（2026-10-07 時点）
 
 本研究（KN arXiv:1703.05408 の refined large-N 双対性の、トーラス結び目以外への拡張）の主要な結果の一覧。
-詳しい議論は各期の REPORT（第 5 期のまとめは docs/framed_knot/REPORT_phase5.md）、規約は docs/framed_knot/conventions.md、未解決の問題は docs/framed_knot/open_problems.md。
+詳しい議論は各期の REPORT（第 5 期のまとめは docs/framed_knot/reports/REPORT_phase5.md）、規約は docs/framed_knot/conventions.md、未解決の問題は docs/framed_knot/open_problems.md。
 
 **結果の信頼性の根拠**：結果はコードで計算し、計算時に判定した値をデータとログに保存している。
 結果が正しいと判断する根拠は、コードと機能テスト（tests/、既定の実行）が信頼できること。
@@ -30,9 +30,9 @@
 | K10 = K1 の (2,53)-ケーブル | 代数的（2 段の反復） | 約 183 万 | data/framed_knot/cables/K10_*, data/framed_knot/lmov/K10_*（3 箱は K10_3.json.xz） | logs/framed_knot/v0_K10_*.log |
 
 - G 展開の後の \hat N_{ρ,g,β,J_r} は data/framed_knot/bps/{K}_{ρ}.json（\hat f も同梱）。T(3,4)〜T(4,5), K7, K8, K9 の分は 2026-10-09 に保存済みの \hat f から `scripts/framed_knot/export_bps.py` で書き出した（K7〜K9 の 3 箱は .json.xz のみ。計算時の判定 48 件と項数・負の数が一致、tests/framed_knot/test_phase3.py::test_u4_bps_saved）。K10 も 2026-10-09 に書き出した（同じ方法、全 6 ρ で負の項 0、計算時の判定と項数が一致、196 秒）。K10 の 2・3 箱は .json.xz のみ（3 箱は各 87〜90 MB）。
-- 代数的な iterated torus 結び目への KN の正値性予想の拡張を支持する【予想】。K10 も |ρ| ≤ 3 の全 6 つの ρ で G 展開の前後とも非負【計算】（2026-10-08、REPORT_phase4.md §1.1）。
+- 代数的な iterated torus 結び目への KN の正値性予想の拡張を支持する【予想】。K10 も |ρ| ≤ 3 の全 6 つの ρ で G 展開の前後とも非負【計算】（2026-10-08、reports/REPORT_phase4.md §1.1）。
 - 4_1（KN が [2,1] の候補を構成、付録 C）の 3 箱までの表は全項で再現した（既知の結果の再現で、本研究の成果ではない。data/framed_knot/bps/4_1_*）。
-- 非代数的なケーブル（DAHA の値を入力）では [1] またはそれ以降で破れる。破れ方は 3 つの型に分かれる（docs/framed_knot/REPORT.md §5.2）。
+- 非代数的なケーブル（DAHA の値を入力）では [1] またはそれ以降で破れる。破れ方は 3 つの型に分かれる（docs/framed_knot/reports/REPORT.md §5.2）。
   DAHA の値は非代数的なケーブルではホモロジーではないので、これ以上は扱わない（CLAUDE.md、open_problems.md D5）。
 
 ## 1.2 トーラス結び目の 4 箱以上と 4_1 の 4 箱（2026-10-10）
@@ -51,9 +51,9 @@
 
 ## 3. 2 箱：必要条件と、thin な族での証明
 
-- **命題 2【導出】**：\hat f_{[2]} が Laurent 多項式なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要。9_42（401 ≠ 81）が KN の形に乗らない原因（docs/framed_knot/REPORT_knot_table.md §3）。
-- **ツイスト結び目 K_p**：全ての p ≠ 0 で 2 箱は G 展開の前後とも正【導出（入力は GNSSS の予想式）】（docs/framed_knot/REPORT_phase4.md §5.1、`scripts/framed_knot/v4_closed.py`, `scripts/framed_knot/v4_newton.py`）。
-- **pretzel K_{s,t}**：s, t が同符号なら全て正【導出（同上）】。異符号では min(|s|, t) ≤ 20 で正【導出 ＋ 有限個の判定】。|s|, t > 20 は 1 変数の 3 系列の非正値性に帰着し（u ≤ 25 で成立。d_1 と対角線の LP 証明書は打ち切り、2026-10-08）、|s| ≤ 30 かつ t ≤ 40 の範囲で直接確認【計算】（|s|, t > 20 の 200 点。2026-10-09 に範囲の記述を訂正）（REPORT_phase4.md §5.2、REPORT_phase5.md §2、`scripts/framed_knot/v4_pretzel*.py`、証明書 `data/framed_knot/v4/`）。
+- **命題 2【導出】**：\hat f_{[2]} が Laurent 多項式なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要。9_42（401 ≠ 81）が KN の形に乗らない原因（docs/framed_knot/reports/REPORT_knot_table.md §3）。
+- **ツイスト結び目 K_p**：全ての p ≠ 0 で 2 箱は G 展開の前後とも正【導出（入力は GNSSS の予想式）】（docs/framed_knot/reports/REPORT_phase4.md §5.1、`scripts/framed_knot/v4_closed.py`, `scripts/framed_knot/v4_newton.py`）。
+- **pretzel K_{s,t}**：s, t が同符号なら全て正【導出（同上）】。異符号では min(|s|, t) ≤ 20 で正【導出 ＋ 有限個の判定】。|s|, t > 20 は 1 変数の 3 系列の非正値性に帰着し（u ≤ 25 で成立。d_1 と対角線の LP 証明書は打ち切り、2026-10-08）、|s| ≤ 30 かつ t ≤ 40 の範囲で直接確認【計算】（|s|, t > 20 の 200 点。2026-10-09 に範囲の記述を訂正）（reports/REPORT_phase4.md §5.2、reports/REPORT_phase5.md §2、`scripts/framed_knot/v4_pretzel*.py`、証明書 `data/framed_knot/v4/`）。
 - 証明の要点：\hat f は撚りの数の指数多項式（根 1, 𝐚²𝐭², 𝐚⁴𝐭⁴, 𝐚⁴𝐪⁴𝐭⁸, 𝐚⁴𝐪⁻⁴𝐭⁴）。差分商（ニュートン形）の係数が一様な符号をもち、G 展開の後は「展開が閉じる ＋ 展開前に非負 ⇒ \hat N ≥ 0」から従う。
 - **thick な非トーラス結び目 10_139, 10_152**（2026-10-07）：2 箱の \hat f_{[2]}, \hat f_{[1,1]} は G 展開の前後とも正【計算、予想式に基づく】。
   - 入力：Stošić 2402.03066 の quiver 型の式を展開し、KRSS 1707.04017 の予想式 (quad-C) で S²（t_c 次数）を作った。この方法は 8_19 で EHA の正解（[2] から [1,1,1] まで）と全項一致することを確かめてある（open_problems.md B4）。
@@ -84,7 +84,7 @@
 
 - 双曲結び目の [2,1] は、構造的な条件では決まらない（解の差は結び目によらない因子 × 自由な多項式）【計算＋導出】。
 - 弱い判定：正値性を満たす [2,1] は 4_1 と 6_1 に存在、5_2 は有理数解のみ【計算】。
-- 定義に基づく構成は文献にもソフトにも無い。別研究の計画：docs/framed_knot/research_plan_21.md。
+- 定義に基づく構成は文献にもソフトにも無い。別研究の計画：docs/framed_knot/plans/research_plan_21.md。
 - 別研究 X0（2026-10-08）：t = q では、ダブルツイスト結び目の [2,1] の Morozov の式（1612.00422、1903.00259 の 𝓑^{[2,1]}）が、ツイスト結び目 |p| ≤ 10 と K_{±2,2}, K_{±3,2} の 3 本ケーブルの逆解きと全係数一致【計算】。
   長方形は KNTZ の式と一致（[2,2] は 3_1, 4_1, 5_2, 6_1）。データ data/framed_knot/x0/colored_t_eq_q.txt、ログ logs/framed_knot/x0_check_*.log、テスト tests/framed_knot/test_x0_double_twist.py。
 - 別研究 X2（2026-10-08、停止点 1）：[2,1] の族の仮定（Morozov の構造、正則な行は KNTZ の refined の 𝐓𝐰）の下で、EGP・U(2) とは矛盾しないが、t = q・EHA の三葉結び目・Laurent 性・転置・ミラーを加えても一意に決まらない【計算＋導出】。
@@ -106,4 +106,4 @@
 | 2 箱の入力（GNSSS の式） | scripts/framed_knot/t3_pretzel.py | tests/framed_knot/test_v4_twist.py, tests/framed_knot/test_v4_pretzel.py |
 | 任意の箱数の \hat f | src/rcsknots/bpsgen.py, scripts/framed_knot/highbox_torus.py | tests/framed_knot/test_bpsgen.py, tests/framed_knot/test_f41_box4.py |
 
-訂正の履歴：pretzel の入力スクリプトの浮動小数点のバグ（2026-10-07 修正、REPORT_phase4.md §8）。修正前のログは logs/framed_knot/*_float_bug.log。
+訂正の履歴：pretzel の入力スクリプトの浮動小数点のバグ（2026-10-07 修正、reports/REPORT_phase4.md §8）。修正前のログは logs/framed_knot/*_float_bug.log。

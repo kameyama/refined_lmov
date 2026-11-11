@@ -1,7 +1,7 @@
 # 研究計画（ケーブル以外の方針）：結び目表の非トーラス結び目での refined LMOV 正値性
 
-作成：2026-10-05。ケーブルを続ける案は docs/framed_knot/research_plan_phase2.md。この文書はそれに代わる別の方針である。
-第 1 期の結果は docs/framed_knot/REPORT.md、文献の状況は docs/framed_knot/categorification_literature_map.md（以下「文献地図」）、規約は docs/framed_knot/conventions.md。
+作成：2026-10-05。ケーブルを続ける案は docs/framed_knot/plans/research_plan_phase2.md。この文書はそれに代わる別の方針である。
+第 1 期の結果は docs/framed_knot/reports/REPORT.md、文献の状況は docs/framed_knot/categorification/categorification_literature_map.md（以下「文献地図」）、規約は docs/framed_knot/conventions.md。
 ステージ記号は第 1 期・ケーブル案と区別するため T0〜T6 とする。
 
 > **2026-10-05 追記（T1 の結果）**：T1 で、[1] の正値性（G 展開の前後）は「P が非負係数で DGR の対称性をもつ」ことから一般に従うことが分かった（conventions.md §11 の命題）。
@@ -95,14 +95,14 @@
 
 ### ステージ T5：thin な結び目の 3 箱（P5、探索的）
 
-- |ρ| = 3 の \hat f には [2,1] の入力が要る。双曲結び目の [2,1] の refined 不変量は S, T 行列からは得られない（research_plan.md の対象外の項目）。
+- |ρ| = 3 の \hat f には [2,1] の入力が要る。双曲結び目の [2,1] の refined 不変量は S, T 行列からは得られない（plans/research_plan.md の対象外の項目）。
 - KN が 4_1 で行ったように、ミラー対称性・指数増大性と t = q での [2,1] 彩色 HOMFLY-PT から候補を作り、全ての |ρ| = 3 で正値性を満たすものが存在するかを調べる。
 - 先に文献で確認すること：ツイスト結び目の [2,1] 彩色 HOMFLY-PT の明示式があるか（4_1 は Anokhina–Mironov–Morozov–Morozov arXiv:1211.6375 にある。他は未確認）。無ければこのステージは行わない。
 - 4_1 は両手型性を使えたが、他の結び目では使えないので候補が一意に決まらない可能性が高い。その場合は「正の候補が存在するか」だけを報告する。
 
 ### ステージ T6：レポートと論文
 
-- REPORT.md に新しい章を立てる（または別のレポートにする。ユーザーと相談する）。
+- reports/REPORT.md に新しい章を立てる（または別のレポートにする。ユーザーと相談する）。
 - novelty_report.md に新しい範囲を追記する。
 
 ---
@@ -137,5 +137,5 @@
 ## 4. ユーザーの判断が要る点
 
 1. yui-kr の `results` の取得方法（`just fetch-refs` にデータの取得を加えるか、手で取るか）。
-2. この案とケーブル案（research_plan_phase2.md）のどちらを進めるか、または両方か。
+2. この案とケーブル案（plans/research_plan_phase2.md）のどちらを進めるか、または両方か。
 3. T5（3 箱）を行うかどうか（T1〜T3 の結果を見て決める）。

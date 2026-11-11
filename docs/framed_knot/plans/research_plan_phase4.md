@@ -1,10 +1,10 @@
 # 研究計画（第 4 期）：非トーラス結び目の [2,1] を決める原理と、3 箱の検証の拡張
 
-作成：2026-10-06。背景は docs/framed_knot/REPORT_phase3.md と docs/framed_knot/open_problems.md。ステージ記号は V0〜V6。
+作成：2026-10-06。背景は docs/framed_knot/reports/REPORT_phase3.md と docs/framed_knot/open_problems.md。ステージ記号は V0〜V6。
 長時間の計算は CLAUDE.md の規則（見積もり、高速化、再開、分割と並列、独立プロセス）に従い、準備の内容を実行前に progress.md に書く。
 
-> **状況（2026-10-07）**：結果は docs/framed_knot/REPORT_phase4.md。V0 完了（K10 は 2 箱まで、[3] 以降は見送り）、V1 削除、V2 完了（[2,1] は決まらない）、V3 は U(2) の恒等式が既知と判明（D1 は未着手）、
-> V4 は p の構造まで（証明は未完）、V5 完了（弱い判定：4_1, 6_1 は正の [2,1] あり、5_2 は未決）、V6 完了。K7 は計算中（結果は REPORT_phase3.md §3 と REPORT_phase4.md §9 に追記する）。
+> **状況（2026-10-07）**：結果は docs/framed_knot/reports/REPORT_phase4.md。V0 完了（K10 は 2 箱まで、[3] 以降は見送り）、V1 削除、V2 完了（[2,1] は決まらない）、V3 は U(2) の恒等式が既知と判明（D1 は未着手）、
+> V4 は p の構造まで（証明は未完）、V5 完了（弱い判定：4_1, 6_1 は正の [2,1] あり、5_2 は未決）、V6 完了。K7 は計算中（結果は reports/REPORT_phase3.md §3 と reports/REPORT_phase4.md §9 に追記する）。
 
 ---
 
@@ -77,7 +77,7 @@
 
 ### V6：まとめ
 
-- REPORT（第 4 期）、novelty_report、open_problems の更新。K8・K7 の結果（第 3 期 U4 の残り）を docs/framed_knot/REPORT_phase3.md §3 の表に追記する。
+- REPORT（第 4 期）、novelty_report、open_problems の更新。K8・K7 の結果（第 3 期 U4 の残り）を docs/framed_knot/reports/REPORT_phase3.md §3 の表に追記する。
 
 ---
 

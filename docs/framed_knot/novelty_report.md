@@ -188,7 +188,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 
 ## 6. 第 2 期（結び目表の方針）の新規性（2026-10-06 追記）
 
-詳細は docs/framed_knot/REPORT_knot_table.md §6。文献確認は KN の引用論文（INSPIRE 14 件、Semantic Scholar 9 件）と主要論文の本文で行った。
+詳細は docs/framed_knot/reports/REPORT_knot_table.md §6。文献確認は KN の引用論文（INSPIRE 14 件、Semantic Scholar 9 件）と主要論文の本文で行った。
 
 | 項目 | 判断 |
 |---|---|
@@ -205,7 +205,7 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408【確�
 
 ## 7. 第 3 期（3 箱）の新規性（2026-10-06 追記）
 
-詳細は docs/framed_knot/REPORT_phase3.md §6、文献は docs/framed_knot/literature/phase3_21_survey.md。
+詳細は docs/framed_knot/reports/REPORT_phase3.md §6、文献は docs/framed_knot/literature/phase3_21_survey.md。
 
 | 項目 | 判断 |
 |---|---|

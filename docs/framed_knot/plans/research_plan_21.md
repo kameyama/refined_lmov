@@ -14,9 +14,9 @@
   \hat f_ρ（|ρ| = 3）は |λ| ≤ 3 の全ての rCS_λ を使い、非長方形の [2,1] が欠けている。
 - **本研究で分かったこと**：
   - 定義どおりに [2,1] が得られる範囲（トーラス結び目、代数的な iterated torus 結び目 K1, K3, K6a, K7, K8, K9, K10）では、3 箱まで全て正【計算】。入力の rCS_{[2,1]} 自体は負の係数をもつが、BPS 不変量の段で正になる。
-  - 双曲結び目の [2,1] は構造的な条件では決まらない：解の差は δ = A⁴(A²−T⁴)(A²Q⁴−1)(Q²−1)(T²−1)(Q−T)(Q²T⁴−1)(Q⁴T²−1)·u/(Q⁵T¹¹) で u は自由（REPORT_phase4.md §3）。
-  - 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1 に存在、5_2 は有理数解のみ（REPORT_phase4.md §6）。
-  - 2 箱はツイスト結び目・pretzel で証明済み（予想式の下）、thick な 10_139・10_152 で正（REPORT_phase5.md）。
+  - 双曲結び目の [2,1] は構造的な条件では決まらない：解の差は δ = A⁴(A²−T⁴)(A²Q⁴−1)(Q²−1)(T²−1)(Q−T)(Q²T⁴−1)(Q⁴T²−1)·u/(Q⁵T¹¹) で u は自由（reports/REPORT_phase4.md §3）。
+  - 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1 に存在、5_2 は有理数解のみ（reports/REPORT_phase4.md §6）。
+  - 2 箱はツイスト結び目・pretzel で証明済み（予想式の下）、thick な 10_139・10_152 で正（reports/REPORT_phase5.md）。
 - **W0 の文献調査の結論**（docs/framed_knot/literature/w0_21_survey.md、A〜E）：
   - 双曲結び目の [2,1] を a と t の両方つきで定義に基づいて計算した構成は、どの系統（ホモロジー、物理・表現論、ホモロジーを作らない構成）にも無い。
   - t = q の [2,1] 彩色 HOMFLY-PT は多くの双曲結び目で既知（ツイスト結び目の全族 MMM 1408.3076、8 交点以下の 2 橋結び目 Gu–Jockers 1407.5643、3 本ブレイド、pretzel など）。
@@ -113,5 +113,5 @@
 
 ## 9. 本研究との関係
 
-- 本研究の結果（docs/framed_knot/REPORT*.md、docs/framed_knot/RESULTS.md）、規約（docs/framed_knot/conventions.md）、コード（src/rcsknots/）をそのまま使う。規約を変えるときは conventions.md に記録する。
+- 本研究の結果（docs/framed_knot/REPORT*.md、docs/framed_knot/reports/RESULTS.md）、規約（docs/framed_knot/conventions.md）、コード（src/rcsknots/）をそのまま使う。規約を変えるときは conventions.md に記録する。
 - 本研究の open_problems.md A1 はこの別研究に移した。

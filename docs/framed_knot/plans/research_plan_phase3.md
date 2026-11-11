@@ -1,9 +1,9 @@
 # 研究計画（第 3 期）：3 箱の refined LMOV 不変量の正整数性の検証
 
-作成：2026-10-06。背景と未解決の問題は docs/framed_knot/open_problems.md、これまでの結果は docs/framed_knot/REPORT.md（第 1 期）と docs/framed_knot/REPORT_knot_table.md（第 2 期）。
+作成：2026-10-06。背景と未解決の問題は docs/framed_knot/open_problems.md、これまでの結果は docs/framed_knot/reports/REPORT.md（第 1 期）と docs/framed_knot/reports/REPORT_knot_table.md（第 2 期）。
 ステージ記号は U0〜U6 とする。
 
-> **状況（2026-10-06）**：結果は docs/framed_knot/REPORT_phase3.md。
+> **状況（2026-10-06）**：結果は docs/framed_knot/reports/REPORT_phase3.md。
 >
 > | ステージ | 状況 |
 > |---|---|

@@ -1,6 +1,6 @@
 # REPORT（第 4 期）：非トーラス結び目の [2,1] を決める原理と、3 箱の検証の拡張
 
-作成：2026-10-06、完成：2026-10-07（K7 は同日完了、§9）。計画は docs/framed_knot/research_plan_phase4.md、作業記録は docs/framed_knot/progress.md、未解決の問題は docs/framed_knot/open_problems.md。
+作成：2026-10-06、完成：2026-10-07（K7 は同日完了、§9）。計画は docs/framed_knot/plans/research_plan_phase4.md、作業記録は docs/framed_knot/progress.md、未解決の問題は docs/framed_knot/open_problems.md。
 主張の印：【導出】【計算】（範囲を明記）【予想】【仮説】（裏付けを併記）。既知の結果は成果として書かない（§11、novelty_report.md §8）。
 
 ---

@@ -1,6 +1,6 @@
 # 論文の構成案（2026-10-09、執筆前の準備）
 
-もとにした文書：docs/framed_knot/REPORT_overview.md、docs/framed_knot/RESULTS.md、docs/framed_knot/novelty_report.md §5〜§9、docs/framed_knot/open_problems.md（特に §G）、docs/framed_knot/progress.md の framing の 2 節、conventions.md §17、既存の草稿 docs/framed_knot/paper/main.tex（第 1 期のみ）。
+もとにした文書：docs/framed_knot/reports/REPORT_overview.md、docs/framed_knot/reports/RESULTS.md、docs/framed_knot/novelty_report.md §5〜§9、docs/framed_knot/open_problems.md（特に §G）、docs/framed_knot/progress.md の framing の 2 節、conventions.md §17、既存の草稿 docs/framed_knot/paper/phase1_draft/main.tex（第 1 期のみ）。
 印は【導出】【計算】【予想】【仮説】（CLAUDE.md の分類）。
 
 **決定事項（2026-10-09、ユーザーの指示）**
@@ -190,5 +190,5 @@
    - 3 箱の x ≠ 0：K6a, K7, K8, K9 を x = ±1, ±2 で計算する。1 framing あたり数十分〜数時間の見込み（progress.md）。K10 は 1 framing あたり数時間かかり、メモリも 17 GB 程度要るので、除外する案を推す。
    - 実行する場合は、CLAUDE.md の手順（見積もり・再開・並列）に従って、先に progress.md に準備を書く。
 6. **（済み、2026-10-09、conventions.md §13.1 (IV)。一部は計算で確認）Mellit の Cor (daha) の正規化**：原典で確定させる（open_problems.md D1）。確定できなければ、本文に「未確認」と書く。
-7. **（一部済み、2026-10-09）表と図**：主結果の表の原型は generated/summary_table.tex（scripts/framed_knot/paper_summary.py、data/framed_knot/bps/ の保存値から生成、REPORT.md の値と一致を確認）。framing の表と §0 の検証の全体像の表は、執筆時に logs/framed_knot/framing_*.log から作る。docs/framed_knot/paper/generated の生成スクリプトを広げる。対象は §0 の表、3 箱の結び目ごとの表、framing の表。
+7. **（一部済み、2026-10-09）表と図**：主結果の表の原型は generated/summary_table.tex（scripts/framed_knot/paper_summary.py、data/framed_knot/bps/ の保存値から生成、reports/REPORT.md の値と一致を確認）。framing の表と §0 の検証の全体像の表は、執筆時に logs/framed_knot/framing_*.log から作る。docs/framed_knot/paper/generated の生成スクリプトを広げる。対象は §0 の表、3 箱の結び目ごとの表、framing の表。
 8. **（準備済み、公開は未実施）データの公開**：docs/framed_knot/paper/data_availability.md に一覧と選択肢。data/framed_knot/bps を arXiv の補助ファイルにするか、外部のリポジトリに置くか。外部への送信になるので、許可が要る。

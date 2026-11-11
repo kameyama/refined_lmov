@@ -5,7 +5,7 @@
   B^{(r)}_j = (−𝐭)^{−r} Σ_{i=j}^{r} ϖ(1, i) V(i, j) W^{(r)}_i
 （ϖ(p, i) = Σ_j V(i, j) M_j^p、V, W は q-Pochhammer と q 二項係数の積、ϖ(1, i) は単項式）。p < 0 は前因子 (−t_r t_c)^{−r·sgn} だけが変わる。
 \\hat f_ρ = Σ_k π_{ρ,k} R_k（R = (P_[2], P_[1,1], P_[1]², P_[1](x²))、π_{ρ,k} は 2 箱の公式の有理関数）なので
-  \\hat f_ρ(K_p) = ε Σ_j A_j m_j^p,   A_j = Σ_k π_{ρ,k} B^{R_k}_j    （ε = 1（p > 0）、𝐭²（p < 0）、REPORT_phase4.md §5.1）
+  \\hat f_ρ(K_p) = ε Σ_j A_j m_j^p,   A_j = Σ_k π_{ρ,k} B^{R_k}_j    （ε = 1（p > 0）、𝐭²（p < 0）、reports/REPORT_phase4.md §5.1）
 ニュートン形（並び μ = (1, X, X², Y, Ȳ)^{±1}、n0 = 1）の係数は
   c_k = ε Σ_{j ≥ k} A_j μ_j Π_{i<k} (μ_j − μ_i) = Σ_{j≥k} F_j / Π_{k≤i≠j}(μ_j − μ_i)   （F_j は residues() の留数）。
 main() は、この閉じた式が直接計算と一致すること、c_4 = F_Ȳ、F_Ȳ = σ(F_Y)、c_3 の q 整数（sl_2 指標）による表示、

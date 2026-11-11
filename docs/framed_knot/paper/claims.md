@@ -31,11 +31,11 @@
 | F8 | framing[λ](1/t, 1/q) = framing[λ^T](q, t)。転置対称性、σ 不変性（G 展開が閉じる条件）、q-brane と \bar t-brane の整合性は x によらない | 命題 | — | test_framing_factor_transposition。計算でも全ての判定で f^{\bar t} = M(q^{−1})\hat f（framing_check の検査） | 新規 |
 | F9 | 2 箱の公式の分母の各既約因子の零点で、残る 2 入力の framing の因子は一致する。したがって Laurent 性は x によらない（framing 0 で Laurent ⇔ 全ての x で Laurent） | 命題 | — | test_two_box_denominator_loci_framing_factors_agree | 新規 |
 | F10 | MV の符号 (−1)^{\|λ\|x} を外すと、x が奇数のとき、一般の入力で 2 箱の \hat f が Laurent でなくなる（零点 q = −1, t = −1）。符号は KN の形に必要 | 命題 ＋ 計算結果（三葉結び目 x = 1 で分母 (1+q)(1+t)） | — | test_marino_vafa_sign_is_needed_for_laurent、framing_large_n.md §2.5 | 新規（MV の「符号は整数性に不可欠」の refined 版） |
-| F11 | G 展開の補題：G 展開が閉じ（各 𝐚 行が σ 不変で 𝐪 の指数が偶数）、展開の前が非負係数なら、\hat N も非負整数。逆は成り立たない（K5c） | 補題 | — | REPORT_knot_table.md §2、REPORT_phase4.md §5.1。test_lemma_chebyshev_expansion_is_positive、test_K5c_before_and_after_G_differ | 新規と思われる（構成要素は初等的） |
-| F12 | 命題 1：入力が非負係数で DGR の対称性をもてば、\hat f_{[1]} の G 展開は整数で閉じ、前後とも非負。全ての x で成り立つ（framing[□]^x = 𝐭^x なので 2J_r が x ずれるだけ） | 命題 | DGR の対称性は Gorsky–Hogancamp–Mellit 2103.01212 の定理（ホモロジーを入力とする場合） | REPORT_knot_table.md §2。test_positive_symmetric_polynomials_give_positive_bps、test_fundamental_framing_is_t_shift | 新規（構成要素は既知、§6） |
+| F11 | G 展開の補題：G 展開が閉じ（各 𝐚 行が σ 不変で 𝐪 の指数が偶数）、展開の前が非負係数なら、\hat N も非負整数。逆は成り立たない（K5c） | 補題 | — | reports/REPORT_knot_table.md §2、reports/REPORT_phase4.md §5.1。test_lemma_chebyshev_expansion_is_positive、test_K5c_before_and_after_G_differ | 新規と思われる（構成要素は初等的） |
+| F12 | 命題 1：入力が非負係数で DGR の対称性をもてば、\hat f_{[1]} の G 展開は整数で閉じ、前後とも非負。全ての x で成り立つ（framing[□]^x = 𝐭^x なので 2J_r が x ずれるだけ） | 命題 | DGR の対称性は Gorsky–Hogancamp–Mellit 2103.01212 の定理（ホモロジーを入力とする場合） | reports/REPORT_knot_table.md §2。test_positive_symmetric_polynomials_give_positive_bps、test_fundamental_framing_is_t_shift | 新規（構成要素は既知、§6） |
 | F13 | 系：HOMFLY-PT ホモロジーの Poincaré 多項式を入力とする限り、任意の結び目・任意の x で [1] は正 | 系 | F12 と同じ | 同上 | 新規 |
-| F14 | [1] の 2J_r の偶奇が (g, β) ごとにそろう ⇔ 𝐚 の次数が連続する範囲ごとに e_𝐭 + e_𝐚/2 の偶奇が一定（parity knot の条件） | 命題 ＋ 計算結果（801 個中 9 個） | 𝐚 次数の台に隙間が無いこと（801 個すべてで成立）。CG の定義と同値（§7 の 4） | REPORT_knot_table.md §2、REPORT_phase4.md §7。test_knot_table_all_positive_and_parity_criterion | 条件自体は既知（Chandler–Gorsky 2209.13058）。BPS との同値性と、11 交点以下の一覧は新規 |
-| F15 | 命題 2：\hat f_{[2]} が Laurent なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要（[1,1] も同様）。この条件は x によらない | 命題 | — | REPORT_knot_table.md §3.3、F9 | 導出は新規。9_42 の次元 401（GGS）と、9_42 が KN の形に乗らないこと（KN）は既知 |
+| F14 | [1] の 2J_r の偶奇が (g, β) ごとにそろう ⇔ 𝐚 の次数が連続する範囲ごとに e_𝐭 + e_𝐚/2 の偶奇が一定（parity knot の条件） | 命題 ＋ 計算結果（801 個中 9 個） | 𝐚 次数の台に隙間が無いこと（801 個すべてで成立）。CG の定義と同値（§7 の 4） | reports/REPORT_knot_table.md §2、reports/REPORT_phase4.md §7。test_knot_table_all_positive_and_parity_criterion | 条件自体は既知（Chandler–Gorsky 2209.13058）。BPS との同値性と、11 交点以下の一覧は新規 |
+| F15 | 命題 2：\hat f_{[2]} が Laurent なら、非負の入力では dim H^{[2]} = (dim H^{[1]})² が必要（[1,1] も同様）。この条件は x によらない | 命題 | — | reports/REPORT_knot_table.md §3.3、F9 | 導出は新規。9_42 の次元 401（GGS）と、9_42 が KN の形に乗らないこと（KN）は既知 |
 | F16 | 全ての x の判定法：x の偶奇・向きごとにニュートン形を作り、係数の一様な符号と、起点と 0 の間の直接判定で、全ての x を有限個の判定に帰着する | 方法（補題としての正しさは導出） | — | scripts/framed_knot/framing_newton.py、test_trefoil_two_box_all_framings_newton | 方法。V4 のツイスト結び目の方法の転用 |
 | F17 | (N2') の彩色依存部分はちょうど F（= pq）単位の framing：M_λ = (M_□(−(q/t)^{1/2})^{−F})^{\|λ\|}framing[λ]^F。基準の framing を偶数ずらすのは x のずれに吸収され、奇数ずらすと F10 により Laurent 性が壊れる | 命題 | — | framing_large_n.md §2.6、conventions.md §17 | 新規（正規化の意味づけ） |
 | F18 | framed knot の refined large N 双対の物理的な説明：MV（平坦座標と framing）＋ KN（refined index、Schwinger、S_R）＋ AS の T 行列 ＋ Taki の framing の因子。抽出式（refined-GT1, GT2）は全ての x でそのまま適用できる | 注意（解釈） | 仮定：framing を変えても U(1)_R が保たれる。符号の幾何的な導出（V → −(q/t)^{1/2}V）はしていない | framing_large_n.md §3 | 新規（議論として） |
@@ -46,7 +46,7 @@
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
 | I1 | KN のノートブックの 27 件（トーラス結び目 \|λ\| ≤ 3）を EHA（GN の構成）から全係数で再現し、BPS の表 13 個も再現した（規約の固定） | 既知の再現 | — | test_gn_reproduces_notebook、test_saved_tables_match_paper、test_kn_tables_reproduced | 既知。成果として書かない |
-| I2 | ケーブルの refined 不変量：DAHA の定義を companion の段で分解した計算法が、CD14 の明示例 10 件（第 1 期の 8 件に K7, K8 を追加）と全係数一致する。素朴な Rosso–Jones の t 変形は誤り | 計算結果（方法の検証） | — | REPORT.md §2、conventions.md §7。test_matches_daha_example | 素朴な形の失敗は既知。正しい形は定義から従うので、新規性は弱い（novelty_report §5 (N4)）。「計算法として明示し検証した」と書く |
+| I2 | ケーブルの refined 不変量：DAHA の定義を companion の段で分解した計算法が、CD14 の明示例 10 件（第 1 期の 8 件に K7, K8 を追加）と全係数一致する。素朴な Rosso–Jones の t 変形は誤り | 計算結果（方法の検証） | — | reports/REPORT.md §2、conventions.md §7。test_matches_daha_example | 素朴な形の失敗は既知。正しい形は定義から従うので、新規性は弱い（novelty_report §5 (N4)）。「計算法として明示し検証した」と書く |
 | I3 | ケーブルの t = q の極限が、ブレイドから計算した彩色 HOMFLY-PT と一致する | 計算結果 | — | test_cable_formula_matches_braid、test_t_equals_q_is_homfly | 照合 |
 | I4 | 正規化 (N1)(N2')：[1] は t = q で HOMFLY-PT に一致し最低 𝐭 次数 0。彩色付きは [1] の単項式と framing の固有値の積 | 仮説（ケーブル）。仮説の中身は「t = q で決まらない彩色ごとの (q/t)^{c_λ} が framing の固有値に従う」の一点（§7 の 2） | — | conventions.md §5。トーラス結び目では確定（27 件）。ケーブルでは K5c で (N2) が破れ (N2') で回復（転置・Laurent 性）。test_normalization_N2prime | 新規（規則の提案） |
 | I5 | M_□ = (−q/t)^{b−1}(a(q/t)^{1/2})^δ が保存済みの 22 結び目で成立する | 計算結果 | — | conventions.md §13。test_box_monomial_formula | 新規 |
@@ -66,11 +66,11 @@
 
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
-| R2 | ツイスト結び目 K_p：全ての p ≠ 0 で、2 箱は G 展開の前後とも正（x = 0） | 定理（導出 ＋ 有限個の厳密な判定） | **予想式（KNTZ の refined の式＝GNSSS）**、t_c 次数 δ' = −S | REPORT_phase4.md §5.1。c_2 を使わない LP 証明書あり（data/framed_knot/v4/v4_ck5_cert_*）。test_v4_twist.py（7 件）、logs/framed_knot/v4_closed.log, v4_newton_*.log | 新規（\hat f の段階） |
-| R3 | ツイスト結び目の 2 箱は、全ての p で sl_2 指標の正係数の和（単峰） | 命題（導出 ＋ 有限個の判定） | 予想式 | REPORT_phase4.md §5.1（c_0..c_2 は計算） | 新規。注意として載せる |
-| R4 | ダブルツイスト K_{m,n}（GNSSS の pretzel K_{s,t}）：m, n が同符号なら全て正。異符号は min(\|m\|, n) ≤ 20 で証明、\|m\| ≤ 30 かつ n ≤ 40 の範囲で直接確認（\|m\|, n > 20 の 200 点。閉じた形での判定で、閉じた形は 54 点で直接計算と一致）。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（KNTZ の refined の式＝GNSSS）** | REPORT_phase4.md §5.2、REPORT_phase5.md §2。data/framed_knot/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
-| R5 | thick な非トーラス結び目 10_139, 10_152 の 2 箱は G 展開の前後とも正（次元 441 = 21², 841 = 29²） | 計算結果 | **予想式（Stošić ＋ KRSS）** | RESULTS.md §3、logs/framed_knot/b4_s2_thick.log、data/framed_knot/b4/ | 新規（knots–quivers の正値性からは従わない、novelty_report §9） |
-| R6 | 正値性は自動的でない：5_2 で t_c 次数の別の割り当て 12 通りは全て負の項をもつ | 計算結果 | 予想式 | REPORT_knot_table.md §4、logs/framed_knot/t3_nonunique.log | 新規。注意として載せる |
+| R2 | ツイスト結び目 K_p：全ての p ≠ 0 で、2 箱は G 展開の前後とも正（x = 0） | 定理（導出 ＋ 有限個の厳密な判定） | **予想式（KNTZ の refined の式＝GNSSS）**、t_c 次数 δ' = −S | reports/REPORT_phase4.md §5.1。c_2 を使わない LP 証明書あり（data/framed_knot/v4/v4_ck5_cert_*）。test_v4_twist.py（7 件）、logs/framed_knot/v4_closed.log, v4_newton_*.log | 新規（\hat f の段階） |
+| R3 | ツイスト結び目の 2 箱は、全ての p で sl_2 指標の正係数の和（単峰） | 命題（導出 ＋ 有限個の判定） | 予想式 | reports/REPORT_phase4.md §5.1（c_0..c_2 は計算） | 新規。注意として載せる |
+| R4 | ダブルツイスト K_{m,n}（GNSSS の pretzel K_{s,t}）：m, n が同符号なら全て正。異符号は min(\|m\|, n) ≤ 20 で証明、\|m\| ≤ 30 かつ n ≤ 40 の範囲で直接確認（\|m\|, n > 20 の 200 点。閉じた形での判定で、閉じた形は 54 点で直接計算と一致）。残りは 1 変数の 3 系列の非正値性に帰着（u ≤ 25 で成立） | 定理（同符号）＋ 定理（異符号の一部）＋ 計算結果 | **予想式（KNTZ の refined の式＝GNSSS）** | reports/REPORT_phase4.md §5.2、reports/REPORT_phase5.md §2。data/framed_knot/v4/ の証明書。test_v4_pretzel.py | 新規。**残りが未証明であることを定理の文に明記**（d_1 の LP は打ち切り、対角線は未着手） |
+| R5 | thick な非トーラス結び目 10_139, 10_152 の 2 箱は G 展開の前後とも正（次元 441 = 21², 841 = 29²） | 計算結果 | **予想式（Stošić ＋ KRSS）** | reports/RESULTS.md §3、logs/framed_knot/b4_s2_thick.log、data/framed_knot/b4/ | 新規（knots–quivers の正値性からは従わない、novelty_report §9） |
+| R6 | 正値性は自動的でない：5_2 で t_c 次数の別の割り当て 12 通りは全て負の項をもつ | 計算結果 | 予想式 | reports/REPORT_knot_table.md §4、logs/framed_knot/t3_nonunique.log | 新規。注意として載せる |
 | R7 | 2 箱は、全ての整数 x で G 展開の前後とも正。対象は自明な結び目、T(2,3), T(2,5), T(2,7), T(3,4), 4_1, K1, K3 | 定理（導出 ＋ 有限個の厳密な判定） | 入力：EHA/DAHA、4_1 は KN のデータ（ホモロジー由来） | logs/framed_knot/framing_newton.log、F16、test_trefoil_two_box_all_framings_newton | 新規 |
 | R8 | ツイスト結び目の (p, x)：p と x が同符号の向きでは全て正。逆符号は \|p\| ≤ 6、\|x\| ≤ 14 の直接計算で全て正（696 件） | 定理（同符号）＋ 計算結果（逆符号） | 予想式 | logs/framed_knot/framing_twist.log, framing_twist_direct.log | 新規。**逆符号は証明書なし**と明記 |
 | R9 | framing を振った直接の判定：計 1821 件（(x, ρ) の組）で G 展開の前後とも負の項 0（9 件は \hat f = 0）。3 箱まで：自明な結び目と T(2,3) は \|x\| ≤ 6、T(2,5) と 4_1 は ≤ 4、T(2,7) と T(3,4) は ≤ 3、T(3,5), T(2,11), T(3,7), T(4,5) と K6a, K7, K8, K9 は ≤ 10、K3 は ≤ 2、K1 は ≤ 2 と ±6。K10 は 2 箱まで ≤ 10、3 箱は ≤ 2。ツイスト結び目 12 個は 2 箱まで ≤ 4 | 計算結果 | 入力は R7・R8 と同じ | logs/framed_knot/framing_batch.log（732 件）、data/framed_knot/framed/ と data/framed_knot/framed_summary.md（1083 件 ＋ K1 の 6 件、main の PR #6）、docs/framed_knot/paper/generated/framing_table.tex（scripts/framed_knot/paper_framing_table.py）、test_framing_big_matches_framing_check。以前の計算（未発表）の出力 9 件と全係数一致 | 新規 |
@@ -79,21 +79,21 @@
 
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
-| R10 | トーラス結び目 T(3,4), T(3,5), T(2,11), T(3,7), T(4,5) の \|ρ\| ≤ 3 は G 展開の前後とも正（x = 0）。T(2,3), T(2,5) は KN の表の再現 | 計算結果 | — | RESULTS.md §1、logs/framed_knot/u4_torus.log, u4_T3_4.log、data/framed_knot/lmov/ | KN の予想の確認（新しい表だが、主張の新規性は弱い） |
-| R11 | 代数的な iterated torus 結び目 7 個（K1, K3, K6a, K7, K8, K9, K10）の \|ρ\| ≤ 3 の全 6 ρ で、G 展開の前後とも正（x = 0）。K7 は 3 本ケーブル、K10 は 2 段の反復（3 箱は約 183 万項、係数の最大 1.1×10¹⁹） | 計算結果 | 入力は DAHA の定義どおり。正規化は I4（仮説） | RESULTS.md §1、data/framed_knot/cables/, data/framed_knot/lmov/, data/framed_knot/bps/、logs/framed_knot/u4_cables*.log, v0_K10_*.log。test_u4_three_box_positivity（results）、test_u4_bps_saved、test_positive_before_and_after_G | 新規（K7, K10 の \|λ\| = 3 の値自体も文献に無い、novelty_report §10） |
-| R12 | 入力の rCS_{[2,1]} 自体は負の係数をもつのに、BPS の段で正になる | 注意（計算での観察） | — | REPORT_phase3.md §3 | 観察 |
+| R10 | トーラス結び目 T(3,4), T(3,5), T(2,11), T(3,7), T(4,5) の \|ρ\| ≤ 3 は G 展開の前後とも正（x = 0）。T(2,3), T(2,5) は KN の表の再現 | 計算結果 | — | reports/RESULTS.md §1、logs/framed_knot/u4_torus.log, u4_T3_4.log、data/framed_knot/lmov/ | KN の予想の確認（新しい表だが、主張の新規性は弱い） |
+| R11 | 代数的な iterated torus 結び目 7 個（K1, K3, K6a, K7, K8, K9, K10）の \|ρ\| ≤ 3 の全 6 ρ で、G 展開の前後とも正（x = 0）。K7 は 3 本ケーブル、K10 は 2 段の反復（3 箱は約 183 万項、係数の最大 1.1×10¹⁹） | 計算結果 | 入力は DAHA の定義どおり。正規化は I4（仮説） | reports/RESULTS.md §1、data/framed_knot/cables/, data/framed_knot/lmov/, data/framed_knot/bps/、logs/framed_knot/u4_cables*.log, v0_K10_*.log。test_u4_three_box_positivity（results）、test_u4_bps_saved、test_positive_before_and_after_G | 新規（K7, K10 の \|λ\| = 3 の値自体も文献に無い、novelty_report §10） |
+| R12 | 入力の rCS_{[2,1]} 自体は負の係数をもつのに、BPS の段で正になる | 注意（計算での観察） | — | reports/REPORT_phase3.md §3 | 観察 |
 | R13 | 3 箱を x ≠ 0 で判定：R9 の範囲で全て正。最大は K10 の 3 箱 x = 2（G 展開の前に約 189 万項）。全ての x の証明書は未取得（6 根のニュートン形では見つからない） | 計算結果 | 4_1 の [2,1] は KN の候補 | R9 と同じ | 新規 |
 | R14 | **予想 B**：代数的な iterated torus 結び目は、全ての ρ について KN の正値性を満たす（予想 A の x = 0、結び目のクラスを明示した版） | 予想 | KN の U(1)_R の議論は直接は当てはまらない（補空間が Seifert でない）。動機は CD14 の正値性予想（代数的な結び目・長方形の DAHA の値は正）と Connection Conjecture (ii)（無彩色では KhR と一致）。[1] は CD14 (ii) ＋ 命題 1 から従う。[2,1] は CD14 の範囲外（§7 の 5） | R10, R11 | 新規の予想（KN の予想のクラスの拡張） |
-| R15 | 双曲結び目の [2,1]：構造的な条件では決まらない。解の差は「結び目によらない因子 × 自由な多項式」 | 命題（計算 ＋ 導出） | — | REPORT_phase3.md §2、REPORT_phase4.md §3 | 曖昧さ自体は既知（AMMM 1211.6375）。解の空間の構造の明示は新規 |
-| R16 | 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1（813 項の整数解）に存在し、5_2 は有理数解のみ（整数は未決）。σ = −1 は 3 結び目とも解なし | 計算結果 | 入力の [1]〜[3] は予想式（GNSSS） | REPORT_phase4.md §6、logs/framed_knot/v5_weak.log | 新規。**予想の検証ではなく「矛盾しない」ことの確認**と明記 |
-| R17 | 族として：t = q ではダブルツイスト結び目の [2,1] の Morozov の式がケーブルの値と一致する。refined の長方形は KNTZ の式を実装して照合した。refined の [2,1] は、族の仮定を置いても一意に決まらない | 計算結果 ＋ 命題 | 族の仮定（Morozov の構造、KNTZ の正則な行） | REPORT_overview.md §6、tests/framed_knot/test_x0_double_twist.py, test_x1_refined.py, test_x2_family.py | t = q は既知の式の検証。refined の否定的な結果は新規。要点だけ書く |
+| R15 | 双曲結び目の [2,1]：構造的な条件では決まらない。解の差は「結び目によらない因子 × 自由な多項式」 | 命題（計算 ＋ 導出） | — | reports/REPORT_phase3.md §2、reports/REPORT_phase4.md §3 | 曖昧さ自体は既知（AMMM 1211.6375）。解の空間の構造の明示は新規 |
+| R16 | 弱い判定：正値性を満たす [2,1] は 4_1（KN の候補）と 6_1（813 項の整数解）に存在し、5_2 は有理数解のみ（整数は未決）。σ = −1 は 3 結び目とも解なし | 計算結果 | 入力の [1]〜[3] は予想式（GNSSS） | reports/REPORT_phase4.md §6、logs/framed_knot/v5_weak.log | 新規。**予想の検証ではなく「矛盾しない」ことの確認**と明記 |
+| R17 | 族として：t = q ではダブルツイスト結び目の [2,1] の Morozov の式がケーブルの値と一致する。refined の長方形は KNTZ の式を実装して照合した。refined の [2,1] は、族の仮定を置いても一意に決まらない | 計算結果 ＋ 命題 | 族の仮定（Morozov の構造、KNTZ の正則な行） | reports/REPORT_overview.md §6、tests/framed_knot/test_x0_double_twist.py, test_x1_refined.py, test_x2_family.py | t = q は既知の式の検証。refined の否定的な結果は新規。要点だけ書く |
 
 ## 5.5 検証 IV：4 箱以上（2026-10-10 追加）
 
 | ID | 主張 | 種別 | 前提 | 根拠 | 新規性 |
 |---|---|---|---|---|---|
 | M1 | KN の M(t) は B(t) との Kronecker 積で、指標の基底で対角：Σ_μ M_{μρ}χ_μ(κ) = B(κ)χ_ρ(κ)、B(κ) = t^{−(n−1)/2}Π(1−t^{κ_i})/(1−t) | 補題（導出） | — | conventions.md §18、tests/framed_knot/test_bpsgen.py（n ≤ 4 で記号的に一致） | 計算法（手順として新しい。数学的には初等的） |
-| R18 | トーラス結び目 8 個で \|ρ\| = 4〜9（T(2,3) は 9、T(2,5), T(2,7), T(2,9) は 8、T(3,4), T(3,5) は 6、T(3,7), T(4,5) は 5）、計 340 個の (K, ρ) で G 展開の前後とも正（x = 0） | 計算結果 | 正規化 (N2') の閉じた式（I4） | data/framed_knot/highbox_summary.md、logs/framed_knot/highbox_torus.log、RESULTS.md §1.2 | KN の予想の確認（KN の表は 3 箱まで）。範囲は新しい |
+| R18 | トーラス結び目 8 個で \|ρ\| = 4〜9（T(2,3) は 9、T(2,5), T(2,7), T(2,9) は 8、T(3,4), T(3,5) は 6、T(3,7), T(4,5) は 5）、計 340 個の (K, ρ) で G 展開の前後とも正（x = 0） | 計算結果 | 正規化 (N2') の閉じた式（I4） | data/framed_knot/highbox_summary.md、logs/framed_knot/highbox_torus.log、reports/RESULTS.md §1.2 | KN の予想の確認（KN の表は 3 箱まで）。範囲は新しい |
 | R19 | 4_1 の 4 箱の弱い判定：未知の rCS_[3,1] に t = q、転置、両手型、指数増大、U(2)、Laurent、G 展開、正値性を課すと、σ = −1 は解なし、σ = +1 は有理数解あり、整数解は 50 分の MILP で未決 | 計算結果 | KN の [2,1] の候補、U(2) の仮説、未知数の窓 | logs/framed_knot/f41_box4*.log、tests/framed_knot/test_f41_box4.py（T(2,3) で定式化を検査） | 新規。**予想の検証ではなく「矛盾しない」ことの確認** |
 | R20 | KN の 4_1 の [2,1] の候補 = AMMM 1211.6375 の Z 因子展開で α = 1 − {Q}{T}（AMMM は 1 − (Q − T⁻¹)(T − Q⁻¹)）。KN の候補は太字で 10/69 項が負、𝐚 = 𝐪 = 𝐭 = 1 で 125 = 5³、AMMM は全て正で 189 | 計算結果（恒等式） | — | progress.md 2026-10-10（ユーザーの以前のノートブック fig8.nb と照合） | 候補の出所の明示（KN 本文には書かれていない） |
 | R21 | AMMM の Heegaard–Floer 型の条件 (E) は 4_1 の [2,1]（KN・AMMM）で成立し、T(2,3), T(2,5), T(3,4) の EHA の [2,1], [3,1] では単項式 (T/Q)^{δ(\|λ\|−1)} を除いて成立 | 計算結果 | — | progress.md 2026-10-10 | rCS（EHA）での成立の確認は新規と思われる（未確認） |
@@ -102,11 +102,11 @@
 
 | ID | 主張 | 種別 | 根拠 | 扱い |
 |---|---|---|---|---|
-| A1 | 非代数的なケーブル（DAHA の値）では正値性が破れ、破れ方は 3 つの型に分かれる。DAHA の値はスペクトル系列の必要条件を満たさず、ホモロジーではない | 計算結果 ＋ 命題 | REPORT.md §5.2, §5.3、test_negativity_cause.py | 付録 B。CLAUDE.md・open_problems D5 により深追いしない |
-| A2 | 非代数的なケーブルの [1] で、DGR 型の superpolynomial の候補からは前後とも正の refined LMOV が得られる | 計算結果 | REPORT.md §5.3、test_constructed_superpolynomial_constraints | 付録 B（候補であって定義ではない） |
+| A1 | 非代数的なケーブル（DAHA の値）では正値性が破れ、破れ方は 3 つの型に分かれる。DAHA の値はスペクトル系列の必要条件を満たさず、ホモロジーではない | 計算結果 ＋ 命題 | reports/REPORT.md §5.2, §5.3、test_negativity_cause.py | 付録 B。CLAUDE.md・open_problems D5 により深追いしない |
+| A2 | 非代数的なケーブルの [1] で、DGR 型の superpolynomial の候補からは前後とも正の refined LMOV が得られる | 計算結果 | reports/REPORT.md §5.3、test_constructed_superpolynomial_constraints | 付録 B（候補であって定義ではない） |
 | A3 | 文献の誤植と読み方：GS 1112.0030 の 9_42 の S²、1612.00422 の分母、1903.00259 の正規化、KNTZ の P*、KN 付録 B の f^t、BGLX (5.26) の内積 | 注意 | test_gs_942_s2_misprint、test_ft111_matches_notebook など | 付録 C。著者への連絡は別途判断 |
-| A4 | f^q, f^{\bar t} の係数 | 計算結果（補足） | REPORT.md §4 | 付録 D（refined LMOV ではない） |
-| A5 | 2J_r の偶奇の一致は、rCS の指数の偶奇の一様性から自動的に従う（ケーブル） | 命題 | REPORT.md §5.5、test_uniform_parity | 付録または脚注 |
+| A4 | f^q, f^{\bar t} の係数 | 計算結果（補足） | reports/REPORT.md §4 | 付録 D（refined LMOV ではない） |
+| A5 | 2J_r の偶奇の一致は、rCS の指数の偶奇の一様性から自動的に従う（ケーブル） | 命題 | reports/REPORT.md §5.5、test_uniform_parity | 付録または脚注 |
 
 ---
 
@@ -127,7 +127,7 @@
    - R8：ログと一致する。p と x が同符号の 2 象限は、テンソル積のニュートン形と、起点と 0 の間の判定で全て正。逆符号は |p| ≤ 6、|x| ≤ 14 の直接判定 696 件で負の項 0（logs/framed_knot/framing_twist_direct.log）。
      ログの「符号 0（一様でない）」は、x を固定したときの p のニュートン形の係数が一様でないこと（証明法が使えない）を表す。負の項ではない。
    - R4：**範囲の記述に誤りがあった**。|s|, t > 20 で直接判定したのは 21 ≤ |s| ≤ 30・21 ≤ t ≤ 40 の 200 点だけである（logs/framed_knot/v4_pretzel_np2_check_a.log。「264 点」は、その中の 21..28 の正方形 64 点を重ねて数えていた）。
-     正しくは「min(|s|, t) ≤ 20 で証明、|s| ≤ 30 かつ t ≤ 40 で確認」。RESULTS.md、REPORT_overview.md、REPORT_phase5.md、outline.md、R4 を訂正した。
+     正しくは「min(|s|, t) ≤ 20 で証明、|s| ≤ 30 かつ t ≤ 40 で確認」。reports/RESULTS.md、reports/REPORT_overview.md、reports/REPORT_phase5.md、outline.md、R4 を訂正した。
      この直接判定は閉じた形を使っている。閉じた形は、作るのに使っていない 54 点で直接計算と全係数一致している。
 4. **F14 の parity knot**【解決：同値】
    - Chandler–Gorsky（2209.13058、main.tex:334-336）の定義は「HHH(K) 全体で t/2 の偶奇が一定（Nakagane–Sano の次数）」で、同値な言い換えは「t_DGR − a/2 の偶奇が一定」。大域的な条件である。
@@ -157,7 +157,7 @@
          - 計算した結び目については CD14 (ii) を使わずに済む：保存値の P が非負で対称であることを直接確かめてあるので、命題 1 が直接適用できる。CD14 (ii) が要るのは「全ての代数的な iterated torus 結び目で [1] が正」という一般の主張だけ。
        - 長方形（[2], [1,1], [3], [1,1,1]）：CD14 は、代数的な結び目の長方形の DAHA の値が正であることを予想し、ホモロジーとの一致を期待している（予想としては述べていない）。予想 B の長方形の部分は、この期待を KN の BPS の段に移したものと位置づけられる。
        - [2,1]：CD14 は、長方形でない weight の正値性を主張していない。本研究の観察 R12（rCS_{[2,1]} は負の係数をもつが BPS の段で正）は、CD14 の範囲の外での新しい現象である。
-       - 非代数的なケーブル（付録 A1）：CD14 は、正値性の無い非代数的な結び目（non-pseudo-algebraic、:1638, :3068）があることを認めている。本研究で DAHA の値の [1] に負の係数が出た型 II（REPORT.md §5.2）は、これに当たる。
+       - 非代数的なケーブル（付録 A1）：CD14 は、正値性の無い非代数的な結び目（non-pseudo-algebraic、:1638, :3068）があることを認めている。本研究で DAHA の値の [1] に負の係数が出た型 II（reports/REPORT.md §5.2）は、これに当たる。
 6. **R11 の正規化の依存**【解決】
    - 2 により、x = 0 の判定が依存するのは「彩色ごとの (q/t)^{c_λ} が framing の固有値に従う」という一点の仮説だけである。符号と t = q の部分は HOMFLY-PT から決まる。F17 により、この仮説の下で正値性の主張は「F 単位の framing を基準にした列」の 1 点についてのものと書ける。
    - K6a〜K10 の x ≠ 0 は未計算（表の空欄。このセッションでは計算しない）。

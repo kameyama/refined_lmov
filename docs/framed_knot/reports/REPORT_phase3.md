@@ -1,7 +1,7 @@
 # REPORT（第 3 期）：3 箱の refined LMOV 不変量の正整数性
 
-作成：2026-10-06。計画は docs/framed_knot/research_plan_phase3.md、作業記録は docs/framed_knot/progress.md、未解決の問題は docs/framed_knot/open_problems.md。
-第 1 期（ケーブル）は docs/framed_knot/REPORT.md、第 2 期（結び目表）は docs/framed_knot/REPORT_knot_table.md。
+作成：2026-10-06。計画は docs/framed_knot/plans/research_plan_phase3.md、作業記録は docs/framed_knot/progress.md、未解決の問題は docs/framed_knot/open_problems.md。
+第 1 期（ケーブル）は docs/framed_knot/reports/REPORT.md、第 2 期（結び目表）は docs/framed_knot/reports/REPORT_knot_table.md。
 
 主張の印：【導出】【計算】（範囲を明記）【予想】【仮説】（裏付けを併記）。既知の結果は成果として書かない（§6）。
 K8・K7 は第 4 期の間に完了し、§3 の表に追記した（2026-10-07）。

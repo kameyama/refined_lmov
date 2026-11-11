@@ -17,7 +17,7 @@ paths:
 | 目的 | KN の正値性予想の検証 | 新しい構造の発見と、構造からの構成・予言 |
 | refined LMOV の正値性 | 検証の対象（予言として確かめる） | 構成の条件に使ってよい（2026-10-11、ユーザーの指示「この計画では refined LMOV に正値性は課して良い。今回は KN の検証をする計画ではなく新しい研究である」） |
 | rCS の正値性 | rCS の候補を選ぶ際に課さない（docs/framed_knot/open_problems.md §F） | §F は適用しない（2026-10-11、ユーザーの指示「今回は研究自体が異なるので衝突しない」）。Poincaré 多項式である rCS（対称表現など）には課してよい。非長方形の rCS は負の係数をもつので、数学的な理由で課さない |
-| 停止点 | docs/framed_knot/research_plan*.md | docs/dgr_lmov/research_plan.md の §3 |
+| 停止点 | docs/framed_knot/plans/research_plan*.md | docs/dgr_lmov/research_plan.md の §3 |
 
 framed_knot の novelty_report.md で既知とされた結果は、このテーマでも成果として書かない。
 

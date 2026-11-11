@@ -12,10 +12,11 @@ paths:
 Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は、主にトーラス結び目・トーラス絡み目について refined Chern–Simons 不変量を resolved conifold 上の refined BPS 不変量 \hat N_{R,g,β,J_r} に書き換え、正値性予想を検証した。このテーマでは、これをトーラス結び目以外の結び目と framed knot に拡張し、G 展開の前後の正整数係数性を検証する。
 
 ## 文書
-- 進捗：docs/framed_knot/progress.md。主要な結果：RESULTS.md（計算時の判定とログを一次の記録として整理する）。全体の整理：REPORT_overview.md。
-- 計画と停止条件：research_plan.md と research_plan_*.md。既知の結果と新規性の範囲：novelty_report.md。未解決：open_problems.md。
+- 場所は docs/framed_knot/ の下。一覧は docs/framed_knot/README.md。
+- 進捗：progress.md。主要な結果：reports/RESULTS.md（計算時の判定とログを一次の記録として整理する）。全体の整理：reports/REPORT_overview.md。
+- 計画と停止条件：plans/research_plan.md と plans/research_plan_*.md。既知の結果と新規性の範囲：novelty_report.md。未解決：open_problems.md。
 - 規約：conventions.md。変数 (a, q, t) の対応、Macdonald 多項式の正規化、S・T 行列と γ 因子、framing（ケーブルの q は companion の Seifert framing で測る）、reduced/unreduced と U(N)/SU(N)、プレシズム、refined BPS の抽出式を定めている。
-- 論文の準備：paper/（構成案 outline.md、主張の格付け claims.md、記号 notation.md）。
+- 論文：paper/（英語版 en/、日本語の準備稿 ja/、構成案 outline.md、主張の格付け claims.md、記号 notation.md）。
 
 ## 正値性の判定
 - 重視するのは、\hat f_ρ から得る refined LMOV 不変量の、G 展開の前（太字の係数 \hat𝐍_{ρ;i,j,k}）と後（\hat N_{ρ,g,β,J_r}）の両方での正整数係数性である。f^q, f^{\bar t} の係数は refined LMOV 不変量ではなく、補足にとどめる。
@@ -31,4 +32,4 @@ Kameyama–Nawata "Refined large N duality for knots"（arXiv:1703.05408）は�
 - novelty_report.md で既知とされた結果（トーラス結び目の refined 不変量、4_1 の [1]/[2]/[1,1] の BPS 不変量、DAHA による iterated torus の定義など）を、このテーマの成果として書かない。
 
 ## 停止点
-ステージ 0 の後（規約表の確定）、ステージ 2 の後（トーラス結び目での 1703.05408 の再現）、ステージ 5 の後（refined ケーブル公式と DAHA の照合）、research_plan*.md の停止条件に当たったとき。
+ステージ 0 の後（規約表の確定）、ステージ 2 の後（トーラス結び目での 1703.05408 の再現）、ステージ 5 の後（refined ケーブル公式と DAHA の照合）、plans/research_plan*.md の停止条件に当たったとき。
