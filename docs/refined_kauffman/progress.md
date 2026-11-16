@@ -2399,3 +2399,9 @@
 - 次にやること：著者が intro.tex の追加した 4 文と、足さなかった候補（review_20261111.md に一覧）を見る。
 - 未解決の問題：[CC10]・[KW09] の掲載誌は未確認（INSPIRE に情報なし、Crossref には接続していない）。$\SO(2N)$ Kauffman 多項式の圏化の数学の論文は INSPIRE に記録が無く、足していない。CD14 の arXiv 番号は INSPIRE に無い。intro.tex の "the refined $\Sp(2N)$ invariants of \cite{AM22}" は literature.md §4 の記録（[AM22] に結び目は無い）と合わない（直していない）。[Marino09] (4.8) の印刷値、[GS11] の説明、文献の中の節・式番号（O14）は未確認のまま。
 
+
+## 2026-11-16（続き 155）論文の引用の書き方の規則を hep-th の慣習に改めた（ユーザーの指示）
+- やったこと：.claude/rules/refined_kauffman_paper.md の「本文に著者の略号や名前を書かない」を改めた。新しい規則は、(1) 文の主語として文献に触れるときは著者名を書いて \cite を添える、(2) 引用ラベルを文の主語にしない、(3) 前置詞のあとの引用（"as shown in \cite{...}"）と文末の引用は著者名なしでよい、(4) abstract には \cite を書かず著者名だけを書く、(5) 「KN」「AgSc」のような略号は書かない（これは変えていない）。skill `hep-th-paper` の references/latex-conventions.md にあった「refined_kauffman は著者名を書かない」という例外の記述も外した。
+- 結果：原稿は直していない。古い規則のまま残っている箇所は、英語版の abstract の \cite 6 か所、日本語版 ja_v2 の abstract の \cite 4 か所と、「\cite{...} は／が／では」の形 10 か所（grep で数えた）。英語版の本文には、文頭が \cite の文は無い（同じ grep）。
+- 次にやること：abstract の書き直し案（引用を著者名に替える）をユーザーが見て、反映するかを決める。ja_v2 の 10 か所を新しい規則に合わせる。
+- 未解決の問題：英語版の abstract は引用を外しても約 2,040 文字で、arXiv の abstract 欄の上限（1,920 文字。この値は記憶によるもので、arXiv の案内では確かめていない）を超える。

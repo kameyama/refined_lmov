@@ -13,8 +13,10 @@ paths:
 
 ## 引用と記法
 - refs.bib のエントリは skill `inspire-bibtex` で作る（INSPIRE の BibTeX をそのまま使い、キーと shorthand だけ替える。INSPIRE に無い情報を補ったエントリには出典をコメントで書く）。
-- 引用は \cite{キー} だけで書く。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。
-- 本文に著者の略号や名前を書かない。「KN [KN17]」「AgSc の refined unknot」は誤りで、「[KN17]」「[AgSc12] の refined unknot」と書く。見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
+- 引用のラベルは手で書かず、\cite{キー} で出す。参考文献は refs.bib と biblatex（style=alphabetic、backend=bibtex）で組み、各エントリに `shorthand = {キー}` を付けてラベルを bib のキーと同じにする（[KN17]、[AgSc12]、[Marino09] など）。
+- 文の主語として文献に触れるときは、著者名を書いて \cite を添える（"Aganagic and Schaeffer \cite{AgSc12} formulated ..."、日本語版なら「Aganagic–Schaeffer \cite{AgSc12} は…」）。引用ラベルを文の主語にしない（「\cite{AgSc12} は…」は誤り）。"as shown in \cite{KN17}"、"the refined unknot of \cite{AgSc12}"、"see e.g. \cite{...}" のように前置詞のあとに置く引用と、文末にまとめて置く引用は、著者名なしでよい。「KN」「AgSc」のような著者の略号は書かない。（2026-11-16 に、著者名を書かない規則から hep-th の慣習に改めた。それ以前に書いた原稿は古い規則のままである。）
+- abstract には \cite を書かない。文献に触れるときは著者名だけを書く（"the refined LMOV invariants of Kameyama and Nawata"）。
+- 見出しで引用するときは \texorpdfstring{\cite{KN17}}{[KN17]} を使う。
 - 表現（ヤング図）を文中に書くときは「表現 [1]」「R = [1]」のように、何の [1] かが分かる語を添える。裸の「[1]」は引用ラベルと区別できない。
 - 数式の中の表現はヤング図で書く（main.tex の \yone, \ytwo, \yoneone, \ythree, \ytwoone, \yoneoneone。caption や見出しでも使える）。例：$g^{\mathrm{true}}_{\yone} = (t/q)^{\delta/2} g_{\yone}$。
 
