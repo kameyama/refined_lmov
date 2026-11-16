@@ -2,6 +2,11 @@
 
 ## 現在の状況（再開用、2026-10-09 更新）
 
+- **コードの公開の準備（2026-11-16、ユーザーの指示）**：
+  - やったこと：論文の付録「Data and code」（paper/en/sections/appendix.tex）と日本語の準備稿（paper/ja/sections/appendix.tex）に、リポジトリのリンク https://github.com/kameyama/refined_lmov を入れた。「最終版で公開する」という文を「公開している」に替え、リポジトリに無いもの（4 箱以上の値。大きいので追跡しておらず、コードで再計算できる）を明記した。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。
+  - 結果：英語版 28 ページ、日本語版 31 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
+  - 未了：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。LICENSE のファイルが無い。「値がリポジトリにある」と書いた範囲（3 箱以下）は .gitignore の記述から判断したもので、報告した全ケースのファイルがあることを 1 件ずつは確かめていない。
+
 - **文書の整理と英語版の論文（2026-11-11、ユーザーの指示）**：
   - docs/framed_knot/ の文書をサブディレクトリに分けた：reports/（REPORT*.md、RESULTS.md）、plans/（research_plan*.md）、categorification/、paper/phase1_draft/（第 1 期の旧草稿）。直下には progress.md、conventions.md、open_problems.md、novelty_report.md と、一覧の README.md を置く。リポジトリ内の参照は新しいパスに書き換えた（.claude/skills/progress-report/SKILL.md の 1 か所も、ユーザーの指示を受けて修正済み）。
   - 英語版の論文を docs/framed_knot/paper/en/ に新しく書き起こした（初稿、29 ページ、pdflatex でビルドでき、未定義の参照と overfull は無い）。主張と数値は ja/ の準備稿と claims.md のものだけを使い、新しい計算はしていない。

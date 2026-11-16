@@ -22,7 +22,7 @@
 - スクリプト：framed_knot と dgr_lmov は `PYTHONPATH=src:scripts/framed_knot:scripts/dgr_lmov .venv/bin/python scripts/<テーマ>/xxx.py`、refined_kauffman は `PYTHONPATH=src:scripts/refined_kauffman .venv/bin/python scripts/refined_kauffman/xxx.py`。
 - SageMath：`DOT_SAGE=$TMPDIR/dotsage /opt/homebrew/Caskroom/miniforge/base/envs/sage/bin/sage script.sage`（サンドボックス内で動く）。
 - サンドボックス外で動かすもの：`just setup`（環境の再構築）、`just fetch-refs`（論文の取得）、`just wolfram <file.wls>`（Wolfram Engine）。`just` は単独で呼ぶ。パイプや `&&` でつなぐとサンドボックス内で動いて失敗する。
-- ツールのバージョンと動作確認の詳細は README.md の「環境」節。
+- ツールのバージョンと動作確認の詳細は README.md（英語、本体）の Environment 節と README.ja.md（日本語版）の「環境」節。README を変えるときは 2 つを同じ内容に保つ。
 
 # 研究上のルール（全テーマ共通）
 - 報告とコメントは日本語で書く。

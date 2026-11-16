@@ -2409,3 +2409,9 @@
   - 検出スクリプト：英語版は hard 0 件。abstract の中の \cite を hard、1,920 文字を超える abstract を soft として拾うようにした。
 - 次にやること：英語版の abstract を 1,920 文字以内に縮める（今は 2,180 文字）。どの結果を abstract から外すかは著者が決める。
 - 未解決の問題：なし。arXiv の abstract 欄の上限 1,920 文字は https://info.arxiv.org/help/prep.html で確認した（2026-11-16）。
+
+## 2026-11-16（続き 156）コードの公開の準備：論文にリポジトリのリンク、README の英語版（ユーザーの指示）
+- やったこと：英語版の "Data and code availability"（paper/en/main.tex）の「著者から入手できる。最終版で公開のリポジトリを付ける」を、リポジトリのリンク https://github.com/kameyama/refined_lmov に替えた。日本語版（paper/ja_v2/sections/appendix.tex）の「計算の方法」にも同じリンクを入れた。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。CLAUDE.md の README への参照を合わせた。
+- 結果：英語版 53 ページ、日本語版 50 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
+- 次にやること：リポジトリを公開する（ユーザーの作業）。
+- 未解決の問題：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。LICENSE のファイルが無い。
