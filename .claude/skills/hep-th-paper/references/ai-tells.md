@@ -43,6 +43,8 @@
 - ✔ hard：tcolorbox、mdframed、framed、`\fbox` による「まとめ箱」「要点の囲み」。
 - ✔ hard："Key insight"、"Key idea"、"Main takeaway"、"Takeaway"、"Summary:"、"TL;DR"。
 - ✔ hard：検証ログ。PASS / FAIL、スクリプトのファイル名（`.py`、`.sage`、`.wls`）、コードの出力の貼り付け、実行時間の羅列、"Verified numerically for N=2,...,8 ✓"。
+- ✔ hard：abstract の中の `\cite`。文献に触れるときは著者名だけを書く。
+- ✔ soft：abstract が 1,920 文字を超える。arXiv の abstract 欄はこれより長いものを受け付けない（https://info.arxiv.org/help/prep.html で 2026-11-16 に確認）。文字数は TeX の記法ごと数えている。
 - ✔ soft：内容のない導入（"In recent years, X has attracted significant attention"）。未解決の具体的な問題から書き始める。
 - ✔ soft：寄与の列挙（"Our main contributions are ..."、番号つきの寄与）。結果を散文で述べる。
 - ✔ soft：節の冒頭の "In this section, we ..." が 3 回以上。
@@ -92,6 +94,7 @@
 
 - landscape（string landscape、landscape of vacua）、swampland、threefold（Calabi–Yau threefold）、enhance（symmetry enhancement。一覧には入れていない）。
 - robust（変形に対して robust という技術的な意味）、crucial（"crucial for anomaly cancellation" のように論理的に必須の場合）、novel（既存の名称の一部）、rich（"rich structure"）。
+- 人名と重なる語（Garner's algorithm）。
 - overall が形容詞の場合（overall sign、overall factor、overall normalization）。
 - "it is easy to see"、"one finds"、"we note that"、"let us"、"we shall"、"To this end"、"It is known that" に引用が付いたもの、"This completes the proof."。
 - 単著でも "we"。計算と手順の説明の受動態。

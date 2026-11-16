@@ -55,10 +55,22 @@ WORDS = [
     r"it is worth noting|it is important to note|it should be noted|worth mentioning", r"comprehensive\w*", r"novel",
     r"robust\w*", r"seamless\w*", r"intricate\w*", r"elegant\w*", r"striking\w*", r"powerful", r"groundbreaking",
     r"(?<!string )landscape(?! of (string |flux )?vacua)", r"tapestry", r"realm", r"multifaceted", r"meticulous\w*",
-    r"garner\w*", r"shed(s|ding)? light", r"pav(e|es|ed|ing) the way", r"underscor\w+", r"showcas\w+", r"leverag\w+",
+    r"garner(s|ed|ing)?(?!')", r"shed(s|ding)? light", r"pav(e|es|ed|ing) the way", r"underscor\w+", r"showcas\w+", r"leverag\w+",
     r"testament", r"plays? an? (key|crucial|pivotal|central) role", r"deep connections?",
 ]
 WORD_RES = [re.compile(rf"(?i)\b({w})\b") for w in WORDS]
+
+
+def abstracts(text):
+    """abstract 環境と \\abstract{...} の (開始位置, 中身) を返す。"""
+    for m in re.finditer(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", text, re.S):
+        yield m.start(1), m.group(1)
+    for m in re.finditer(r"\\abstract\s*\{", text):
+        depth, i = 1, m.end()
+        while i < len(text) and depth:
+            depth += {"{": 1, "}": -1}.get(text[i], 0)
+            i += 1
+        yield m.end(), text[m.end():i - 1]
 
 
 def read(paths):
@@ -77,6 +89,12 @@ def read(paths):
             for key in m.group(1).split(","):
                 r["cited"].setdefault(key.strip(), (path, text.count("\n", 0, m.start()) + 1))
         r["remarks"] += len(re.findall(r"\\begin\{remark\}", text))
+        for start, body in abstracts(text):
+            for m in CITE.finditer(body):
+                add(path, text.count("\n", 0, start + m.start()) + 1, "hard", "構造", f"abstract の中の \\cite（著者名だけを書く）: {m.group(1)}")
+            size = len(re.sub(r"\s+", " ", body).strip())
+            if size > 1920:
+                add(path, text.count("\n", 0, start) + 1, "soft", "構造", f"abstract が {size} 文字（arXiv の abstract 欄は 1,920 文字まで）")
         for n, (raw_line, line) in enumerate(zip(raw.splitlines(), text.splitlines()), 1):
             for layer, pat, msg in HARD:
                 m = re.search(pat, line)

@@ -46,6 +46,17 @@ def test_voice_removes_the_authors_usual_words(tmp_path):
     assert "同じ段落に 8 語" in r.stdout  # 12 語から delve 2、novel 1、robust 1 が外れる
 
 
+def test_abstract_checks_and_proper_names(tmp_path):
+    long_sentence = "We compute the invariants of torus knots. " * 50
+    (tmp_path / "a.tex").write_text(
+        "\\begin{abstract}\nWe refine the duality of \\cite{KN17}. " + long_sentence + "\n\\end{abstract}\n"
+        "The result is reconstructed by Garner's algorithm, a pivotal step.\n", encoding="utf-8")
+    r = run("check_tells.py", tmp_path / "a.tex", "--all")
+    assert "[hard 構造] abstract の中の \\cite（著者名だけを書く）: KN17" in r.stdout
+    assert "arXiv の abstract 欄は 1,920 文字まで" in r.stdout
+    assert "単発: pivotal" in r.stdout and "garner" not in r.stdout.lower()  # 人名の Garner は語彙に数えない
+
+
 def test_invariants_pass_for_a_prose_only_fix():
     r = run("check_invariants.py", "--before", "fixture_ai.tex", "fixture_fixed.tex")
     assert r.returncode == 0, r.stdout
