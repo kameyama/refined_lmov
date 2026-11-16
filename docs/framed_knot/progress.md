@@ -2,6 +2,12 @@
 
 ## 現在の状況（再開用、2026-10-09 更新）
 
+- **履歴の書き換えと、論文の abstract・日付（2026-11-16〜17、ユーザーの指示）**：
+  - main の履歴は 2026-11-16 に書き換えた（KnotInfo のデータ data/framed_knot/reference/yui_kr/braid.csv・homfly.csv と旧パス data/reference/yui_kr/ の同名ファイルを全 commit から除いた。ユーザーの指示。書き換え前後で commit は 545 件のまま、著者・日時・親の数は同じで、ツリーの違いはこの 4 パスだけ）。このため、main の commit 番号はすべて変わっている。これより前の記録にある commit 番号は新しい main では引けない。古い履歴の上にあるブランチを main にマージしない（除いたデータが履歴に戻る）。
+  - 英語版の abstract を 1744 文字に縮めた（arXiv の abstract 欄の上限は 1,920 文字）。主張の格付けの語は変えていない。abstract から外した内容（本文には残る）：801 個の結び目のパリティと Chandler–Gorsky の parity knots、2 箱の exponential growth property の必要性と double twist knots の領域、3 本撚りのケーブルと約 180 万項の例、件数（1,821 と 340）と箱の数の上限（5〜9）、θ_λ が t = q で Mariño–Vafa の規則に戻ること、入力が楕円 Hall 代数と DAHA であること、双曲結び目の障害の議論と 4_1 の (2,1) の候補。
+  - 英語版の日付から "(draft)" を取った。日本語の準備稿の「（準備稿）」はそのまま。
+  - 検査：28 ページでコンパイルが通る（`!` と undefined なし）。check_tells.py は hard 0 件。check_invariants.py の差分は abstract から外した数値と式だけ。
+
 - **コードの公開の準備（2026-11-16、ユーザーの指示）**：
   - やったこと：論文の付録「Data and code」（paper/en/sections/appendix.tex）と日本語の準備稿（paper/ja/sections/appendix.tex）に、リポジトリのリンク https://github.com/kameyama/refined_lmov を入れた。「最終版で公開する」という文を「公開している」に替え、リポジトリに無いもの（4 箱以上の値。大きいので追跡しておらず、コードで再計算できる）を明記した。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。
   - 結果：英語版 28 ページ、日本語版 31 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
