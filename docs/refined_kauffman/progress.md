@@ -2399,3 +2399,20 @@
 - 次にやること：著者が intro.tex の追加した 4 文と、足さなかった候補（review_20261111.md に一覧）を見る。
 - 未解決の問題：[CC10]・[KW09] の掲載誌は未確認（INSPIRE に情報なし、Crossref には接続していない）。$\SO(2N)$ Kauffman 多項式の圏化の数学の論文は INSPIRE に記録が無く、足していない。CD14 の arXiv 番号は INSPIRE に無い。intro.tex の "the refined $\Sp(2N)$ invariants of \cite{AM22}" は literature.md §4 の記録（[AM22] に結び目は無い）と合わない（直していない）。[Marino09] (4.8) の印刷値、[GS11] の説明、文献の中の節・式番号（O14）は未確認のまま。
 
+
+## 2026-11-16（続き 155）論文の引用の書き方の規則を hep-th の慣習に改めた（ユーザーの指示）
+- やったこと：.claude/rules/refined_kauffman_paper.md の「本文に著者の略号や名前を書かない」を改めた。新しい規則は、(1) 文の主語として文献に触れるときは著者名を書いて \cite を添える、(2) 引用ラベルを文の主語にしない、(3) 前置詞のあとの引用（"as shown in \cite{...}"）と文末の引用は著者名なしでよい、(4) abstract には \cite を書かず著者名だけを書く、(5) 「KN」「AgSc」のような略号は書かない（これは変えていない）。skill `hep-th-paper` の references/latex-conventions.md にあった「refined_kauffman は著者名を書かない」という例外の記述も外した。
+- 結果：原稿を新しい規則に合わせた（数式は変えていない。scripts/check_invariants.py の差分は abstract から外した引用だけ）。
+  - 英語版 paper/en/sections/abstract.tex：\cite 6 か所を著者名に替えた（Mariño、Aganagic and Schaeffer、Cherednik and Danilenko、Kameyama and Nawata、Avetisyan and Mkrtchyan。著者名は refs.bib のエントリで確かめた）。内容は削っていない。本文には、引用ラベルが主語の文は無かった（"of \cite{...}" の形は新しい規則で認めている）。
+  - 日本語版 paper/ja_v2：abstract の \cite 4 か所を著者名に替え、引用ラベルが主語の 11 か所（introduction.tex 6、multibox.tex 2、orientifold_index.tex 2、general_N.tex 1）に著者名を添えた（例：「Ooguri--Vafa \cite{OV99} は」）。
+  - コンパイル：英語版 53 ページ、日本語版 50 ページ。どちらも `!` と undefined なし。abstract のページを画像で見た。
+  - 検出スクリプト：英語版は hard 0 件。abstract の中の \cite を hard、1,920 文字を超える abstract を soft として拾うようにした。
+- 次にやること：英語版の abstract を 1,920 文字以内に縮める（今は 2,180 文字）。どの結果を abstract から外すかは著者が決める。
+- 未解決の問題：なし。arXiv の abstract 欄の上限 1,920 文字は https://info.arxiv.org/help/prep.html で確認した（2026-11-16）。
+
+## 2026-11-16（続き 156）コードの公開の準備：論文にリポジトリのリンク、README の英語版（ユーザーの指示）
+- やったこと：英語版の "Data and code availability"（paper/en/main.tex）の「著者から入手できる。最終版で公開のリポジトリを付ける」を、リポジトリのリンク https://github.com/kameyama/refined_lmov に替えた。日本語版（paper/ja_v2/sections/appendix.tex）の「計算の方法」にも同じリンクを入れた。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。CLAUDE.md の README への参照を合わせた。
+- 結果：英語版 53 ページ、日本語版 50 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
+- 次にやること：リポジトリを公開する（ユーザーの作業）。
+- 未解決の問題：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。
+- 追記（同日）：ライセンスを決めた（ユーザーの判断）。コードは MIT（LICENSE）、計算結果と文書は CC BY 4.0。論文の原稿（paper/ と tex/）は対象外で、arXiv の版のライセンスに従う。適用範囲は NOTICE.md、引用の依頼は CITATION.cff と README。data/refined_kauffman の中身と、tests/refined_kauffman に書き写した文献の値は、第三者由来かどうかを 1 件ずつは調べていない。

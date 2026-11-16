@@ -1,6 +1,6 @@
 \section{計算の方法}\label{app:code}
 \begin{itemize}
-\item 計算は著者の Python のコードで行った。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。項数の多いものは、$q^{1/2}$ の次数ごとに冪の範囲を絞った一次方程式で解いた。トーラス結び目で最も重い計算は $T(2,9)$ の 3 箱の D$_{14}$ の DAHA で、1 件 90 分、16 GB である。
+\item 計算は著者の Python のコードで行った。コードと計算結果は \url{https://github.com/kameyama/refined_lmov} で公開している。Koornwinder 多項式と D$_N$・C$_N$・GL$_N$ 型の DAHA の多項式表現を実装し、有理関数の演算には FLINT を用いた。一般の $N$ の値は、固定 $N$ の値を $t^N$ の Laurent 多項式として補間し、補間に使わない $N$ で照合した（§\ref{sec:generalN}）。項数の多いものは、$q^{1/2}$ の次数ごとに冪の範囲を絞った一次方程式で解いた。トーラス結び目で最も重い計算は $T(2,9)$ の 3 箱の D$_{14}$ の DAHA で、1 件 90 分、16 GB である。
 \item iterated torus 結び目（§\ref{sec:cable}）では、pattern の段で得た多項式を companion の段の $H_\nu$ の基底の値の一次結合にし、基底の値は係数を約分しない形で計算した。最も重い計算は $(2,13)$-ケーブルの D$_{15}$ の基底 1 個で、約 2 時間、19 GB である。
 \item 本文の計算結果は、それぞれ自動テストで照合している。照合の内容は、\cite{Marino09} の値の再現、$t = q$ での Kauffman 多項式との一致、固定 $N$ の直接計算との一致、\cite{KN17} の不変量との一致、$R \leftrightarrow R^T$ の対称性である。
 \item 以下の式は、保存済みのデータから機械的に生成した（手で写していない）。

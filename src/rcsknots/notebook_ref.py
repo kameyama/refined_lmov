@@ -1,4 +1,6 @@
-"""Reference formulas transcribed from the ancillary notebook of 1703.05408 (refined-LMOV-*.nb).
+"""Reference formulas transcribed from the ancillary notebooks (refined-LMOV-*.nb) of
+M. Kameyama and S. Nawata, "Refined large N duality for knots", arXiv:1703.05408.
+The notebooks are available from arXiv; cite that paper when using these formulas.
 
 torusknotsym[n,p] / torusknotanti[n,p]: unreduced invariants of T(2,2p+1) colored by [n] / [1^n],
 with the symmetric unknot normalization a^{-n/2} t^{n/2} (a;q)_n/(t;q)_n.

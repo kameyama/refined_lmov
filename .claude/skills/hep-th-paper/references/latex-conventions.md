@@ -28,7 +28,7 @@
 ## 引用
 
 - `\cite{a,b,c}` でまとめて引用する。数字のスタイルなら [1–5] のように範囲にまとめる（`cite` パッケージか、natbib・biblatex の sort&compress）。
-- 文の主語に引用を使うときは著者名を添えるのが普通である（"Aganagic and Shakirov [3] formulated ..."）。ただし refined_kauffman の原稿は本文に著者名を書かない規則なので、テーマの規則に従う。
+- 文の主語に引用を使うときは著者名を添える（"Aganagic and Shakirov [3] formulated ..."）。引用ラベルを文の主語にしない。abstract には `\cite` を書かず、著者名だけを書く。
 - "see e.g. [12–15] and references therein"、"as shown in [7]" は普通の言い回しである。
 - 引用する層：原典、レビュー、最近の関連研究。研究論文の引用は数十本が普通で、20 本に満たないときは、先行研究の扱いが薄くないかを確かめる。水増しはしない。
 - 予想・公式・データを借りた箇所には、その場で出典を書く。
