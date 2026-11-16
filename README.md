@@ -25,6 +25,16 @@ This research was carried out in dialogue with an AI assistant (Claude, Anthropi
 
 This English README is the primary version. [README.ja.md](README.ja.md) is its Japanese counterpart, and the two are kept in step.
 
+## License and citation
+
+The code and the data are free to use.
+
+- Code (`src/`, `scripts/`, `tests/`): MIT, see [LICENSE](LICENSE).
+- Computed data and documents (`data/`, `logs/`, `docs/`): CC BY 4.0.
+- Not covered by either license: the manuscripts of the papers, and material from other works that is kept here for verification. [NOTICE.md](NOTICE.md) lists them.
+
+If you use the code or the data in published work, please cite them as you would cite a paper: the paper of the theme concerned (see Papers above; arXiv numbers will be added here once the papers are posted) and this repository ([CITATION.cff](CITATION.cff)). If you use the knot-table data in `data/framed_knot/reference/yui_kr/`, please also cite KnotInfo and Nakagane–Sano (arXiv:2111.00388), as described in NOTICE.md.
+
 ## Layout
 
 The files of each theme are placed in a subdirectory named after the theme inside each top-level directory.
@@ -94,7 +104,7 @@ Minimal checks of SageMath (all of them worked; about 12 seconds in total):
 
 Wolfram Engine (activated by the author on 2026-10-05):
 
-- Inside the sandbox it cannot read its configuration and licence and fails with "A WolframKernel location could not be determined". Run it outside the sandbox.
+- Inside the sandbox it cannot read its configuration and license and fails with "A WolframKernel location could not be determined". Run it outside the sandbox.
 - The notebooks of arXiv:1703.05408 can be run by extracting the input cells with `NotebookImport[file, "Input" -> "HeldExpression"]`.
   Example: after evaluating the definition cells of the non-torus notebook, `FunctionExpand[torusknotsym[1,1,a,q,t]/torusknotsym[1,0,a,q,t]]` gives
   a(1 + qt − aq)/√(qt) (the reduced value for the trefoil). It also agrees with the formula ported to Python (`src/rcsknots/notebook_ref.py`).

@@ -5,7 +5,9 @@
 - **コードの公開の準備（2026-11-16、ユーザーの指示）**：
   - やったこと：論文の付録「Data and code」（paper/en/sections/appendix.tex）と日本語の準備稿（paper/ja/sections/appendix.tex）に、リポジトリのリンク https://github.com/kameyama/refined_lmov を入れた。「最終版で公開する」という文を「公開している」に替え、リポジトリに無いもの（4 箱以上の値。大きいので追跡しておらず、コードで再計算できる）を明記した。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。
   - 結果：英語版 28 ページ、日本語版 31 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
-  - 未了：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。LICENSE のファイルが無い。「値がリポジトリにある」と書いた範囲（3 箱以下）は .gitignore の記述から判断したもので、報告した全ケースのファイルがあることを 1 件ずつは確かめていない。
+  - ライセンス（2026-11-16、ユーザーの判断）：コードは MIT（LICENSE）、計算結果と文書は CC BY 4.0。適用範囲と対象外の一覧は NOTICE.md、引用の依頼は CITATION.cff と README。対象外にしたのは、論文の原稿（paper/。arXiv の版のライセンスに従う）と、他の研究に由来するもの（data/framed_knot/reference/ の yui-kr・KnotInfo・Gukov–Stošić・Stošić・Cherednik–Danilenko・KN・KNTZ 由来のファイル、src/rcsknots/notebook_ref.py、double_twist_refined.py）。依存ライブラリは同梱しておらず、MIT での公開を妨げるものは無い（khoca・SnapPy・SageMath は GPL で、スクリプトから呼ぶだけ）。
+  - 公開の前にユーザーが決めること：(1) KN・KNTZ の補助ファイルに由来するコードと値（共著者がいる）を公開してよいか。(2) KnotInfo のデータ（ライセンスの記載が無い）をそのまま置くか。(3) tests/framed_knot/test_framing.py に書き写した未発表ノートブックの出力 9 件が単独の計算か。(4) 英語版の本文は KnotInfo に触れているが、参考文献に KnotInfo が無い（KnotInfo は引用を求めている）。
+  - 未了：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。「値がリポジトリにある」と書いた範囲（3 箱以下）は .gitignore の記述から判断したもので、報告した全ケースのファイルがあることを 1 件ずつは確かめていない。
 
 - **文書の整理と英語版の論文（2026-11-11、ユーザーの指示）**：
   - docs/framed_knot/ の文書をサブディレクトリに分けた：reports/（REPORT*.md、RESULTS.md）、plans/（research_plan*.md）、categorification/、paper/phase1_draft/（第 1 期の旧草稿）。直下には progress.md、conventions.md、open_problems.md、novelty_report.md と、一覧の README.md を置く。リポジトリ内の参照は新しいパスに書き換えた（.claude/skills/progress-report/SKILL.md の 1 か所も、ユーザーの指示を受けて修正済み）。

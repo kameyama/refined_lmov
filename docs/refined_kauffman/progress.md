@@ -2414,4 +2414,5 @@
 - やったこと：英語版の "Data and code availability"（paper/en/main.tex）の「著者から入手できる。最終版で公開のリポジトリを付ける」を、リポジトリのリンク https://github.com/kameyama/refined_lmov に替えた。日本語版（paper/ja_v2/sections/appendix.tex）の「計算の方法」にも同じリンクを入れた。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。CLAUDE.md の README への参照を合わせた。
 - 結果：英語版 53 ページ、日本語版 50 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
 - 次にやること：リポジトリを公開する（ユーザーの作業）。
-- 未解決の問題：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。LICENSE のファイルが無い。
+- 未解決の問題：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。
+- 追記（同日）：ライセンスを決めた（ユーザーの判断）。コードは MIT（LICENSE）、計算結果と文書は CC BY 4.0。論文の原稿（paper/ と tex/）は対象外で、arXiv の版のライセンスに従う。適用範囲は NOTICE.md、引用の依頼は CITATION.cff と README。data/refined_kauffman の中身と、tests/refined_kauffman に書き写した文献の値は、第三者由来かどうかを 1 件ずつは調べていない。
