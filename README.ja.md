@@ -33,7 +33,7 @@
 - 計算結果と文書（`data/`、`logs/`、`docs/`）：CC BY 4.0。
 - どちらのライセンスの対象でもないもの：論文の原稿と、照合のために置いてある他の研究の成果。一覧は [NOTICE.md](NOTICE.md)。
 
-コードやデータを使った成果を発表するときは、論文と同じように引用してほしい。引用するのは、該当するテーマの論文（上の「論文」の表。arXiv に出したら番号をここに書く）と、このリポジトリ（[CITATION.cff](CITATION.cff)）である。`data/framed_knot/reference/yui_kr/` の結び目表のデータを使う場合は、KnotInfo と Nakagane–Sano（arXiv:2111.00388）も引用する（NOTICE.md に書式がある）。
+コードやデータを使った成果を発表するときは、論文と同じように引用してほしい。引用するのは、該当するテーマの論文（上の「論文」の表。arXiv に出したら番号をここに書く）と、このリポジトリ（[CITATION.cff](CITATION.cff)）である。文献に由来するファイルを使う場合は、その文献も引用する。ファイルと文献の一覧は NOTICE.md にある（結び目表のデータなら KnotInfo と Nakagane–Sano、arXiv:2111.00388）。
 
 ## 構成
 
@@ -73,6 +73,12 @@ just setup
 
 ```bash
 just fetch-refs
+```
+
+結び目表のブレイドを使うスクリプトには KnotInfo のデータが要る。このデータはリポジトリに置いていない（NOTICE.md）。次で取得する。
+
+```bash
+python3 scripts/framed_knot/fetch_knot_table.py
 ```
 
 ```bash

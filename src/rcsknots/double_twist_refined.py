@@ -1,5 +1,8 @@
 """KNTZ 1902.02275 の refined 版：ダブルツイスト結び目 K_{m,n} の長方形 [r^s] の Poincaré 多項式（別研究 [2,1] の X1）。
 
+出典：M. Kameyama, S. Nawata, R. Tao and H. D. Zhang, "Cyclotomic expansions of HOMFLY-PT colored by rectangular Young diagrams",
+arXiv:1902.02275 と、その補助ファイル HOMFLYPTinvariants.m（arXiv で公開）。このモジュールの式を使うときは、この論文を引用する。
+
 基準は本文（Cyclotomic-Rectangular.tex :706-761、付録 A :779-）ではなく、著者の補助ファイル
 references/1902.02275/src/anc/HOMFLYPTinvariants.m（以下「パッケージ」。行番号は CR を改行に直した HOMFLYPTinvariants.lf.m の行：
 補間 Macdonald :443-460、BinomialFormulaqt :487、reprefactor :511、RefinedFFactor :565、reFtrefoil :569、RefinedTwFactor :573、Poincaré の DoubleBraidPolynomial :665）。本文との違い：

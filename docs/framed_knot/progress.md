@@ -6,7 +6,12 @@
   - やったこと：論文の付録「Data and code」（paper/en/sections/appendix.tex）と日本語の準備稿（paper/ja/sections/appendix.tex）に、リポジトリのリンク https://github.com/kameyama/refined_lmov を入れた。「最終版で公開する」という文を「公開している」に替え、リポジトリに無いもの（4 箱以上の値。大きいので追跡しておらず、コードで再計算できる）を明記した。リポジトリ直下の README を英語版（README.md、本体）と日本語版（README.ja.md）に分け、相互にリンクし、AI との対話を日本語で行ったことを書いた。
   - 結果：英語版 28 ページ、日本語版 31 ページでコンパイルが通る（`!` と undefined なし）。数式・引用・数値は変えていない（check_invariants.py で一致）。
   - ライセンス（2026-11-16、ユーザーの判断）：コードは MIT（LICENSE）、計算結果と文書は CC BY 4.0。適用範囲と対象外の一覧は NOTICE.md、引用の依頼は CITATION.cff と README。対象外にしたのは、論文の原稿（paper/。arXiv の版のライセンスに従う）と、他の研究に由来するもの（data/framed_knot/reference/ の yui-kr・KnotInfo・Gukov–Stošić・Stošić・Cherednik–Danilenko・KN・KNTZ 由来のファイル、src/rcsknots/notebook_ref.py、double_twist_refined.py）。依存ライブラリは同梱しておらず、MIT での公開を妨げるものは無い（khoca・SnapPy・SageMath は GPL で、スクリプトから呼ぶだけ）。
-  - 公開の前にユーザーが決めること：(1) KN・KNTZ の補助ファイルに由来するコードと値（共著者がいる）を公開してよいか。(2) KnotInfo のデータ（ライセンスの記載が無い）をそのまま置くか。(3) tests/framed_knot/test_framing.py に書き写した未発表ノートブックの出力 9 件が単独の計算か。(4) 英語版の本文は KnotInfo に触れているが、参考文献に KnotInfo が無い（KnotInfo は引用を求めている）。
+  - 公開の前の 4 点へのユーザーの判断と対応（2026-11-16）：
+    - (1) KN・KNTZ の補助ファイルは arXiv で公開されているものなので、引用を明記して置く。src/rcsknots/notebook_ref.py と double_twist_refined.py の冒頭に出典を書き、data/framed_knot/reference/SOURCES.md に各ファイルの出典と作り方をまとめた。論文（en・ja）の「KN の補助ファイル」「KNTZ の補助ファイル」に \cite を付けた。
+    - (2) KnotInfo のデータ（yui_kr/braid.csv、homfly.csv）は git の追跡から外し、scripts/framed_knot/fetch_knot_table.py で取得する形にした（yui-kr のリポジトリの固定コミットから取り、sha256 を照合する。取得したファイルが元のファイルと一致することを確かめた）。この 2 ファイルは過去の commit には残っている。
+    - (3) tests/framed_knot/test_framing.py に書き写した未発表ノートブックの出力 9 件は、ユーザー単独の計算。対応は不要。
+    - (4) 参考文献に KnotInfo を足した（references.bib のキー KnotInfo。書式は KnotInfo の指定のもので、INSPIRE には記録が無い）。en・ja の preliminaries の「KnotInfo のブレイド」に \cite を付けた。
+    - 検査：en 28 ページ、ja 31 ページでコンパイルが通る（`!` と undefined なし）。check_invariants.py の差分は足した引用 3 件だけ。tests/framed_knot の test_knot_table・test_x1_refined・test_stage2_torus は 126 passed、2 skipped。
   - 未了：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。「値がリポジトリにある」と書いた範囲（3 箱以下）は .gitignore の記述から判断したもので、報告した全ケースのファイルがあることを 1 件ずつは確かめていない。
 
 - **文書の整理と英語版の論文（2026-11-11、ユーザーの指示）**：

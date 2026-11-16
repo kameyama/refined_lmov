@@ -97,3 +97,7 @@ docs/refined_kauffman/paper/ja_v2/*.toc
 # framed_knot の論文：biblatex の中間ファイル
 docs/framed_knot/paper/*/main-blx.bib
 docs/framed_knot/paper/*/*.run.xml
+
+# KnotInfo のデータ（再配布の条件が示されていないので置かない。scripts/framed_knot/fetch_knot_table.py で取得する）
+data/framed_knot/reference/yui_kr/braid.csv
+data/framed_knot/reference/yui_kr/homfly.csv

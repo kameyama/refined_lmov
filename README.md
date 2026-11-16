@@ -33,7 +33,7 @@ The code and the data are free to use.
 - Computed data and documents (`data/`, `logs/`, `docs/`): CC BY 4.0.
 - Not covered by either license: the manuscripts of the papers, and material from other works that is kept here for verification. [NOTICE.md](NOTICE.md) lists them.
 
-If you use the code or the data in published work, please cite them as you would cite a paper: the paper of the theme concerned (see Papers above; arXiv numbers will be added here once the papers are posted) and this repository ([CITATION.cff](CITATION.cff)). If you use the knot-table data in `data/framed_knot/reference/yui_kr/`, please also cite KnotInfo and Nakagane–Sano (arXiv:2111.00388), as described in NOTICE.md.
+If you use the code or the data in published work, please cite them as you would cite a paper: the paper of the theme concerned (see Papers above; arXiv numbers will be added here once the papers are posted) and this repository ([CITATION.cff](CITATION.cff)). Files derived from published work carry their own sources: if you use them, cite those works too. NOTICE.md lists the files and the works, including KnotInfo and Nakagane–Sano (arXiv:2111.00388) for the knot-table data.
 
 ## Layout
 
@@ -73,6 +73,12 @@ just setup
 
 ```bash
 just fetch-refs
+```
+
+The scripts that use the braids of the knot table need the KnotInfo data, which is not kept in the repository (see NOTICE.md):
+
+```bash
+python3 scripts/framed_knot/fetch_knot_table.py
 ```
 
 ```bash
