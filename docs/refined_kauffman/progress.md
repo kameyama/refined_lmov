@@ -2416,3 +2416,10 @@
 - 次にやること：リポジトリを公開する（ユーザーの作業）。
 - 未解決の問題：リポジトリは 2026-11-16 の時点で非公開（gh で確認）なので、公開するまでリンクは開けない。
 - 追記（同日）：ライセンスを決めた（ユーザーの判断）。コードは MIT（LICENSE）、計算結果と文書は CC BY 4.0。論文の原稿（paper/ と tex/）は対象外で、arXiv の版のライセンスに従う。適用範囲は NOTICE.md、引用の依頼は CITATION.cff と README。data/refined_kauffman の中身と、tests/refined_kauffman に書き写した文献の値は、第三者由来かどうかを 1 件ずつは調べていない。
+
+## 2026-11-17（続き 157）履歴の書き換えの記録、英語版の abstract の長さと日付（ユーザーの指示）
+- 履歴：main の履歴は 2026-11-16 に書き換えた（KnotInfo のデータ data/framed_knot/reference/yui_kr/braid.csv・homfly.csv と旧パス data/reference/yui_kr/ の同名ファイルを全 commit から除いた。ユーザーの指示。書き換え前後で commit は 545 件のまま、著者・日時・親の数は同じで、ツリーの違いはこの 4 パスだけ）。このため、main の commit 番号はすべて変わっている。これより前の記録にある commit 番号は新しい main では引けない。古い履歴の上にあるブランチを main にマージしない（除いたデータが履歴に戻る）。
+- やったこと：英語版の abstract（paper/en/sections/abstract.tex）を 2,180 文字から 1838 文字に縮めた（arXiv の abstract 欄の上限は 1,920 文字。マクロを展開して数えても 1,885 文字）。符号の性質を述べる文など、査読で文面を詰めた文は変えていない。外したのは 4 か所：「双対 Cauchy 核（Koornwinder 多項式）で組む」の句、「Cherednik–Danilenko の iterated DAHA-Jones 多項式を通して」の句、「一般の t で、N の補間で」の句、refined Sp(2N) の文（g^Sp(a) = −g^SO(−a)）。どれも本文には残る。英語版の日付から "(draft)" を取った（日本語版の「（準備稿）」はそのまま）。
+- 結果：53 ページでコンパイルが通る（`!` と undefined なし）。check_tells.py は hard 0 件で、abstract の長さの指摘が消えた。check_invariants.py の差分は abstract から外した式だけ。
+- 次にやること：abstract から外した 4 か所（とくに Sp の結果）がそれでよいかを著者が見る。arXiv の欄に入れるときはマクロを展開する。
+- 未解決の問題：なし。
